@@ -2,5 +2,13 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>EasyKey Updates</title>
+        <item>
+            <title>Version 0.0.1</title>
+            <pubDate>Fri, 17 Jul 2026 20:32:28 +0000</pubDate>
+            <sparkle:version>0.0.1</sparkle:version>
+            <sparkle:shortVersionString>0.0.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/jonaskahn/EasyKey/releases/download/v0.0.1/EasyKey-0.0.1-universal.dmg" length="3574873" type="application/octet-stream" sparkle:edSignature="UyBpolTmJAR1DAC3hid5zBNakW+S2bp56bfyGPC6ajEtfV2EK6MXVWIdXZIkWHI6GbLuXKnP85T3eXJY9xXTDQ==" />
+        </item>
     </channel>
 </rss>
