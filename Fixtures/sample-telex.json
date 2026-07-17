@@ -1,0 +1,30 @@
+[
+  {
+    "inputMethod": "telex",
+    "encoding": "unicode",
+    "keystrokes": ["v", "i", "e", "t", "s"],
+    "expectedBuffer": "viét",
+    "description": "Basic vietnamese word in telex with diacritic on first vowel"
+  },
+  {
+    "inputMethod": "telex",
+    "encoding": "unicode",
+    "keystrokes": ["a", "s"],
+    "expectedBuffer": "á",
+    "description": "Telex s -> acute on vowel"
+  },
+  {
+    "inputMethod": "telex",
+    "encoding": "unicode",
+    "keystrokes": ["v", "i", "e", "t"],
+    "expectedBuffer": "viet",
+    "description": "Plain letters without diacritic"
+  },
+  {
+    "inputMethod": "vni",
+    "encoding": "unicode",
+    "keystrokes": ["v", "i", "e", "t", "6"],
+    "expectedBuffer": "viêt",
+    "description": "VNI: number 6 adds circumflex on first vowel"
+  }
+]

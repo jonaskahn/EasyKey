@@ -1,0 +1,16 @@
+EasyKey — Independent Implementation Notice
+
+EasyKey is an independent, clean-room implementation of a Vietnamese input
+method for macOS. It is NOT derived from, endorsed by, or affiliated with any
+other Vietnamese input method application.
+
+EasyKey reimplements Vietnamese input behavior from:
+- Public typing-method definitions (Telex, VNI, Simple Telex conventions)
+- Public character standards (Unicode, TCVN3, VNI-Windows, CP1258 code charts)
+- Observed black-box behavior of released applications (input/output fixtures)
+
+No source code, data tables, comments, or translated logic from any legacy
+application has been copied, ported, or reproduced in EasyKey. All code is
+original work authored from public specifications and behavioral observations.
+
+EasyKey is licensed under the MIT License. See LICENSE for details.

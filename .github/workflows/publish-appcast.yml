@@ -1,0 +1,84 @@
+name: Publish Appcast
+
+# Fires only once a release is actually public (draft -> published), so the
+# Sparkle enclosure URL below always resolves for end users.
+on:
+  release:
+    types:
+      - released
+
+permissions:
+  contents: write
+
+jobs:
+  publish-appcast:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download release DMG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: gh release download "$TAG_NAME" --pattern "EasyKey-*-universal.dmg" --dir /tmp/dmg
+
+      - name: Locate DMG
+        id: dmg
+        run: |
+          dmg_path=$(ls /tmp/dmg/EasyKey-*-universal.dmg | head -n1)
+          echo "path=$dmg_path" >> "$GITHUB_OUTPUT"
+          echo "length=$(stat -f%z "$dmg_path")" >> "$GITHUB_OUTPUT"
+
+      - name: Download Sparkle tools
+        run: |
+          curl -fsSL -o /tmp/sparkle.tar.xz \
+            "https://github.com/sparkle-project/Sparkle/releases/download/2.9.4/Sparkle-2.9.4.tar.xz"
+          mkdir -p /tmp/sparkle-tools
+          tar -xf /tmp/sparkle.tar.xz -C /tmp/sparkle-tools
+
+      - name: Sign DMG
+        id: sign
+        env:
+          SPARKLE_PRIVATE_ED_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
+        run: |
+          signature=$(echo "$SPARKLE_PRIVATE_ED_KEY" | /tmp/sparkle-tools/bin/sign_update "${{ steps.dmg.outputs.path }}" --ed-key-file - -p)
+          echo "signature=$signature" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v5
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Update appcast
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          REPOSITORY: ${{ github.repository }}
+          DMG_PATH: ${{ steps.dmg.outputs.path }}
+          DMG_LENGTH: ${{ steps.dmg.outputs.length }}
+          SIGNATURE: ${{ steps.sign.outputs.signature }}
+        run: |
+          version="${TAG_NAME#v}"
+          pub_date=$(date -R)
+          dmg_url="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/$(basename "$DMG_PATH")"
+          python3 Scripts/generate-appcast.py \
+            gh-pages/appcast.xml \
+            "$version" \
+            "$version" \
+            "$dmg_url" \
+            "$DMG_LENGTH" \
+            "$SIGNATURE" \
+            "13.0" \
+            "$pub_date"
+
+      - name: Commit and push appcast
+        working-directory: gh-pages
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add appcast.xml
+          git commit -m "chore: publish appcast for $TAG_NAME"
+          git push

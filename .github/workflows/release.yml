@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v5
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build DMG (ad-hoc, universal)
+        env:
+          SPARKLE_FEED_URL: ${{ vars.SPARKLE_FEED_URL }}
+          SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
+          EASYKEY_SUPPORT_URL: ${{ vars.EASYKEY_SUPPORT_URL }}
+          EASYKEY_PRIVACY_POLICY_URL: ${{ vars.EASYKEY_PRIVACY_POLICY_URL }}
+        run: make local-dmg
+
+      - name: Locate DMG
+        id: dmg
+        run: |
+          dmg_path=$(ls build/EasyKey-*-universal.dmg | head -n1)
+          echo "path=$dmg_path" >> "$GITHUB_OUTPUT"
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: EasyKey-dmg
+          path: ${{ steps.dmg.outputs.path }}
+          retention-days: 30
+
+      - name: Create GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          DMG_PATH: ${{ steps.dmg.outputs.path }}
+        run: |
+          gh release create "$TAG_NAME" "$DMG_PATH" \
+            --title "$TAG_NAME" \
+            --generate-notes \
+            --draft

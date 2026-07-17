@@ -1,0 +1,51 @@
+@testable import EasyKey
+import XCTest
+
+@MainActor
+final class LogExporterTests: XCTestCase {
+    func testWriteExport_CreatesLogFileWithHeader() throws {
+        let url = try LogExporter.writeExport()
+        defer { try? FileManager.default.removeItem(at: url) }
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+        XCTAssertTrue(url.lastPathComponent.hasPrefix("easykey-"))
+        XCTAssertTrue(url.pathExtension == "log")
+
+        let contents = try String(contentsOf: url, encoding: .utf8)
+        XCTAssertTrue(contents.contains("EasyKey log export"))
+        XCTAssertTrue(contents.contains("subsystem=one.ifelse.easykey"))
+    }
+
+    func testExportAndReveal_InvokesRevealCallback() {
+        var revealed: URL?
+        LogExporter.exportAndReveal { url in
+            revealed = url
+        }
+        XCTAssertNotNil(revealed)
+        if let revealed {
+            XCTAssertTrue(FileManager.default.fileExists(atPath: revealed.path))
+            try? FileManager.default.removeItem(at: revealed)
+        }
+    }
+
+    func testPresentExportFailure_InTests_DoesNotCrash() {
+        LogExporter.presentExportFailure(message: "probe")
+    }
+
+    func testWriteExport_NoMatchingEntries_AppendsEmptyMarker() throws {
+        let url = try LogExporter.writeExport(now: Date())
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+
+        let contents = try String(contentsOf: url, encoding: .utf8)
+        XCTAssertTrue(contents.contains("EasyKey log export"))
+    }
+
+    func testWriteExport_PastTimestamp_SkipsAllEntries() throws {
+        let distantPast = Date(timeIntervalSince1970: 0)
+        let url = try LogExporter.writeExport(now: distantPast)
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+
+        let contents = try String(contentsOf: url, encoding: .utf8)
+        XCTAssertTrue(contents.contains("EasyKey log export"))
+    }
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+  <!-- Letter V -->
+  <path d="M 3.5,5 L 8.5,17 L 13.5,5" 
+        stroke="#1E1F22" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" />
+  <!-- Dot -->
+  <circle cx="17.5" cy="5.0" r="2.0" fill="#0A5CFF" />
+</svg>
