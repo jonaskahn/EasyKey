@@ -42,6 +42,18 @@ final class KeySynthesizerPostingTests: XCTestCase {
         XCTAssertGreaterThan(synthesizer.encodedUnitCount, 0)
     }
 
+    func testPostUnicodeText_EventCreationFailureDoesNotTrackUnits() {
+        let synthesizer = KeySynthesizer(
+            focusedTextReplacer: { _, _ in .failed },
+            eventFactory: { _, _ in nil }
+        )
+
+        let posted = synthesizer.postUnicodeText(proxy: fakeProxy(), "hoa")
+
+        XCTAssertFalse(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 0)
+    }
+
     func testPostPhysicalKey_WithModifiers_DoesNotCrash() {
         let synthesizer = KeySynthesizer()
         synthesizer.postPhysicalKey(proxy: fakeProxy(), keyCode: 0, modifiers: .maskShift)
