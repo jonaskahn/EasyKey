@@ -20,6 +20,7 @@ final class AppCoordinator: ObservableObject {
     let workspaceObserver: WorkspaceObserver
     let smartSwitchController: SmartSwitchController
     let updateService: UpdateService
+    let clipboard: ClipboardServices
 
     @Published var keyboardHealth: KeyboardService.Health = .stopped
     @Published var keyboardPaused = false
@@ -34,6 +35,7 @@ final class AppCoordinator: ObservableObject {
     var localizationObserver: AnyCancellable?
     var launchAtLoginSetting: Bool?
     var ignoredApplicationsSetting: [String]?
+    var clipboardOptionsSetting: ClipboardOptions?
     private(set) var updateWindow: NSWindow?
 
     /// Composition-root initializer. Production uses `AppCoordinator.shared` defaults;
@@ -76,6 +78,11 @@ final class AppCoordinator: ObservableObject {
         self.loginItemController = loginItemController ?? LoginItemController()
         self.workspaceObserver = workspaceObserver ?? WorkspaceObserver()
         self.updateService = updateService ?? UpdateService()
+        clipboard = ClipboardServices(
+            options: settingsStore.settings.clipboard,
+            applicationSupportDirectory: SettingsStore.defaultFileURL.deletingLastPathComponent(),
+            localization: localization
+        )
         currentApplicationName = localization.string(.smartSwitchNoActiveApp)
         currentAppSmartSwitchStatus = localization.string(.smartSwitchOff)
         smartSwitchController.onPublishedStateChange = { [weak self] in
@@ -84,6 +91,19 @@ final class AppCoordinator: ObservableObject {
         configureKeyboardService()
         configureStatusItemController()
         configureWorkspaceObserver()
+        clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
+    }
+
+    func showClipboardPanel() {
+        clipboard.showPanel()
+    }
+
+    func clipboardClearUnpinned() {
+        clipboard.model.clearUnpinned()
+    }
+
+    func clipboardClearAll() async {
+        await clipboard.model.clearAll()
     }
 
     static func isOnlyInstanceForCurrentUser(
@@ -110,6 +130,8 @@ final class AppCoordinator: ObservableObject {
         }
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         keyboardService.start()
+        clipboardOptionsSetting = settingsStore.settings.clipboard
+        clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
         if settingsStore.settings.system.showSettingsAtLaunch {
             showSettings()
         }
@@ -123,6 +145,7 @@ final class AppCoordinator: ObservableObject {
         statusItemController.teardown()
         keyboardService.stop()
         settingsWindowPresenter.close()
+        Task { await clipboard.stop() }
     }
 
     func showLogs() {
@@ -310,11 +333,7 @@ final class AppCoordinator: ObservableObject {
             )
         )
         let html = pasteboard.data(forType: .html)
-        pasteboard.clearContents()
-        pasteboard.setString(converted, forType: .string)
-        if let html {
-            pasteboard.setData(html, forType: .html)
-        }
+        clipboard.writer.copyConvertedText(converted, preservingHTML: html)
     }
 
     func refreshMacros() {

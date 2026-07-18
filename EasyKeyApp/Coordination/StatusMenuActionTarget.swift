@@ -39,6 +39,10 @@ final class StatusMenuActionTarget: NSObject {
         coordinator?.convertClipboard()
     }
 
+    @objc func clipboardHistoryAction(_: Any?) {
+        coordinator?.showClipboardPanel()
+    }
+
     @objc func openSettings(_: Any?) {
         coordinator?.showSettings()
     }

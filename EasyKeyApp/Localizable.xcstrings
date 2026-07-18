@@ -3919,6 +3919,314 @@
         "en": { "stringUnit": { "state": "translated", "value": "%1$@ · %2$@" } },
         "vi": { "stringUnit": { "state": "translated", "value": "%1$@ · %2$@" } }
       }
+    },
+    "settings.section.clipboard": {
+      "comment": "Settings section",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clipboard" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Bảng nhớ tạm" } }
+      }
+    },
+    "menu.clipboardHistory": {
+      "comment": "Menu",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clipboard History…" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử bảng nhớ tạm…" } }
+      }
+    },
+    "clipboard.capture.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clipboard History" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử bảng nhớ tạm" } }
+      }
+    },
+    "clipboard.capture.enable": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Capture clipboard" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Ghi lại bảng nhớ tạm" } }
+      }
+    },
+    "clipboard.capture.description": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "When on, EasyKey keeps a private, local history of what you copy. Off by default." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Khi bật, EasyKey lưu lịch sử sao chép riêng tư, cục bộ. Mặc định tắt." } }
+      }
+    },
+    "clipboard.access.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Access" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Truy cập" } }
+      }
+    },
+    "clipboard.access.shortcut": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Show history shortcut" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt mở lịch sử" } }
+      }
+    },
+    "clipboard.access.shortcutDescription": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Open the clipboard panel beside the pointer." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Mở bảng lịch sử cạnh con trỏ." } }
+      }
+    },
+    "clipboard.selectionAction": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "On selection" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Khi chọn" } }
+      }
+    },
+    "clipboard.selectionAction.paste": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Paste immediately" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dán ngay" } }
+      }
+    },
+    "clipboard.selectionAction.copy": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Copy only" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ sao chép" } }
+      }
+    },
+    "clipboard.content.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Content" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Nội dung" } }
+      }
+    },
+    "clipboard.content.text": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Text" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Văn bản" } }
+      }
+    },
+    "clipboard.content.urls": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "URLs" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Liên kết" } }
+      }
+    },
+    "clipboard.content.images": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Images" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Hình ảnh" } }
+      }
+    },
+    "clipboard.content.files": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Files and videos" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tập tin và video" } }
+      }
+    },
+    "clipboard.retention.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Retention" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Lưu giữ" } }
+      }
+    },
+    "clipboard.retention.count": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Maximum entries" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Số mục tối đa" } }
+      }
+    },
+    "clipboard.retention.age": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Maximum age (days)" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Thời gian tối đa (ngày)" } }
+      }
+    },
+    "clipboard.retention.pinNote": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Pinned entries are kept beyond these limits, up to 25." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Mục ghim được giữ vượt các giới hạn này, tối đa 25." } }
+      }
+    },
+    "clipboard.privacy.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Privacy" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Riêng tư" } }
+      }
+    },
+    "clipboard.privacy.persist": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Keep history after restart" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Giữ lịch sử sau khi khởi động lại" } }
+      }
+    },
+    "clipboard.privacy.persistDescription": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "History is encrypted on this device. Turning this off deletes stored history." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử được mã hóa trên thiết bị này. Tắt sẽ xóa lịch sử đã lưu." } }
+      }
+    },
+    "clipboard.privacy.ignoredApps": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Ignored applications" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Ứng dụng bỏ qua" } }
+      }
+    },
+    "clipboard.privacy.ignoredAppsHint": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Best-effort only; macOS does not report the source app, so this is not a security boundary." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ ở mức nỗ lực; macOS không báo ứng dụng nguồn nên đây không phải ranh giới bảo mật." } }
+      }
+    },
+    "clipboard.data.title": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Data" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dữ liệu" } }
+      }
+    },
+    "clipboard.data.entries": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Entries" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Số mục" } }
+      }
+    },
+    "clipboard.data.storage": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Storage used" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dung lượng đã dùng" } }
+      }
+    },
+    "clipboard.data.clearUnpinned": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clear Unpinned" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Xóa mục chưa ghim" } }
+      }
+    },
+    "clipboard.data.clearAll": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clear All History" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Xóa toàn bộ lịch sử" } }
+      }
+    },
+    "clipboard.data.limits": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Limits: 25 pins, 10 MB per item, 100 MB stored." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Giới hạn: 25 ghim, 10 MB mỗi mục, 100 MB lưu trữ." } }
+      }
+    },
+    "clipboard.confirm.clearAllTitle": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clear all clipboard history?" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Xóa toàn bộ lịch sử bảng nhớ tạm?" } }
+      }
+    },
+    "clipboard.confirm.clearAllMessage": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "This deletes all entries, including pinned ones, and any stored data." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Thao tác này xóa mọi mục, kể cả mục đã ghim, và mọi dữ liệu đã lưu." } }
+      }
+    },
+    "clipboard.confirm.clear": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Clear" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Xóa" } }
+      }
+    },
+    "clipboard.confirm.persistOffTitle": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Turn off saved history?" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tắt lịch sử đã lưu?" } }
+      }
+    },
+    "clipboard.confirm.persistOffMessage": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Stored history on disk will be deleted. The current session stays until cleared." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử trên đĩa sẽ bị xóa. Phiên hiện tại vẫn giữ đến khi xóa." } }
+      }
+    },
+    "clipboard.confirm.turnOff": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Turn Off" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tắt" } }
+      }
+    },
+    "clipboard.search.placeholder": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Search" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tìm kiếm" } }
+      }
+    },
+    "clipboard.section.pinned": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Pinned" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Đã ghim" } }
+      }
+    },
+    "clipboard.section.recent": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Recent" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gần đây" } }
+      }
+    },
+    "clipboard.empty": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "No clipboard history yet" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Chưa có lịch sử bảng nhớ tạm" } }
+      }
+    },
+    "clipboard.noResults": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "No matching entries" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Không có mục phù hợp" } }
+      }
+    },
+    "clipboard.action.paste": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Paste" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dán" } }
+      }
+    },
+    "clipboard.action.copy": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Copy" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Sao chép" } }
+      }
+    },
+    "clipboard.action.pin": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Pin" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Ghim" } }
+      }
+    },
+    "clipboard.action.unpin": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Unpin" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Bỏ ghim" } }
+      }
+    },
+    "clipboard.action.delete": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Delete" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Xóa" } }
+      }
+    },
+    "clipboard.action.reveal": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Reveal in Finder" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Hiện trong Finder" } }
+      }
+    },
+    "clipboard.action.settings": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Cài đặt" } }
+      }
+    },
+    "clipboard.unavailable": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Unavailable" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Không khả dụng" } }
+      }
+    },
+    "clipboard.hint": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Return to use · ⌘C to copy" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Enter để dùng · ⌘C để sao chép" } }
+      }
     }
   },
   "version": "1.0"

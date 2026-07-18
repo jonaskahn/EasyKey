@@ -104,6 +104,13 @@ enum StatusMenuBuilder {
             target: target
         ))
         menu.addItem(menuItem(
+            title: localization.string(.menuClipboardHistory),
+            action: actions.clipboardHistory,
+            keyEquivalent: "",
+            systemImageName: "list.clipboard",
+            target: target
+        ))
+        menu.addItem(menuItem(
             title: localization.string(.menuSettings),
             action: actions.openSettings,
             keyEquivalent: ",",
@@ -150,6 +157,7 @@ enum StatusMenuBuilder {
         var toggleKeyboardPause: Selector
         var restartKeyboardService: Selector
         var convertClipboard: Selector
+        var clipboardHistory: Selector
         var openSettings: Selector
         var openMacros: Selector
         var showAbout: Selector
