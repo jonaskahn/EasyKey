@@ -149,9 +149,6 @@ actor ClipboardPersistence {
     }
 
     private func writeAtomically(_ data: Data, to url: URL) throws {
-        let temp = url.appendingPathExtension("tmp")
-        try data.write(to: temp, options: .atomic)
-        _ = try? FileManager.default.removeItem(at: url)
-        try FileManager.default.moveItem(at: temp, to: url)
+        try data.write(to: url, options: .atomic)
     }
 }

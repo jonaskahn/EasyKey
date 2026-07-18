@@ -145,14 +145,10 @@ public final class SettingsRepository {
             AppLog.error(.settings, "Failed to create settings parent directory: \(error.localizedDescription)")
             return
         }
-        let tempURL = url.appendingPathExtension("tmp")
         do {
-            try encoded.write(to: tempURL, options: .atomic)
-            _ = try? FileManager.default.removeItem(at: url)
-            try FileManager.default.moveItem(at: tempURL, to: url)
+            try encoded.write(to: url, options: .atomic)
         } catch {
             AppLog.error(.settings, "Failed to write settings: \(error.localizedDescription)")
-            try? FileManager.default.removeItem(at: tempURL)
         }
     }
 
