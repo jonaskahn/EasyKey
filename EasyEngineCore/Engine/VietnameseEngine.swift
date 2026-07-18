@@ -112,14 +112,6 @@ public struct VietnameseEngine {
            state.isEmpty || !state.atoms.last.hasBase(base) || state.atoms.last?.mark != .circumflex {
             return fallbackPassThrough(character, previousLength: previousLength)
         }
-        if case let .transformHorn(base) = intent {
-            guard let vowelIdx = state.lastVowelIndex,
-                  state.atoms[vowelIdx].hasBase(base),
-                  state.atoms[vowelIdx].mark != .horn
-            else {
-                return fallbackPassThrough(character, previousLength: previousLength)
-            }
-        }
         if case .transformW = intent {
             guard quickWVowelIndex != nil else {
                 return fallbackPassThrough(character, previousLength: previousLength)

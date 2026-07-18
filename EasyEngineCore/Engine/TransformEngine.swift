@@ -51,11 +51,6 @@ public enum TransformEngine {
                 state.atoms[state.count - 1].mark = .none
             }
 
-        case let .transformHorn(base):
-            if let vowelIdx = state.lastVowelIndex, state.atoms[vowelIdx].base == base {
-                state.atoms[vowelIdx].mark = .horn
-            }
-
         case .transformW:
             applyTransformW(to: &state)
 

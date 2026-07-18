@@ -7,7 +7,6 @@ public enum TransformIntent: Equatable, Sendable {
     case revertDStroke
     case transformDoubleVowel(base: Character, mark: DiacriticalMark)
     case revertDoubleVowel(base: Character)
-    case transformHorn(base: Character)
     case transformW
     case passThrough(Character)
 }

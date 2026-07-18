@@ -31,6 +31,7 @@
 		CB0000000000000000000103 /* ClipboardHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000003 /* ClipboardHistory.swift */; };
 		CB0000000000000000000111 /* ClipboardOptionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000011 /* ClipboardOptionsTests.swift */; };
 		CB0000000000000000000112 /* ClipboardHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000012 /* ClipboardHistoryTests.swift */; };
+		CB00000000000000000000A2 /* EngineCoreCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */; };
 		CB0000000000000000000113 /* PasteboardClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000013 /* PasteboardClassifierTests.swift */; };
 		CB0000000000000000000114 /* ClipboardMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000014 /* ClipboardMonitorTests.swift */; };
 		CB0000000000000000000115 /* ClipboardPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000015 /* ClipboardPersistenceTests.swift */; };
@@ -291,6 +292,7 @@
 		CB0000000000000000000003 /* ClipboardHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistory.swift; sourceTree = "<group>"; };
 		CB0000000000000000000011 /* ClipboardOptionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardOptionsTests.swift; sourceTree = "<group>"; };
 		CB0000000000000000000012 /* ClipboardHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistoryTests.swift; sourceTree = "<group>"; };
+		CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineCoreCoverageTests.swift; sourceTree = "<group>"; };
 		CB0000000000000000000013 /* PasteboardClassifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardClassifierTests.swift; sourceTree = "<group>"; };
 		CB0000000000000000000014 /* ClipboardMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardMonitorTests.swift; sourceTree = "<group>"; };
 		CB0000000000000000000015 /* ClipboardPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardPersistenceTests.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 				DC3B5721A27DF22E8BFA82AA /* StatusMenuBuilderTests.swift */,
 				CB0000000000000000000011 /* ClipboardOptionsTests.swift */,
 				CB0000000000000000000012 /* ClipboardHistoryTests.swift */,
+				CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */,
 				CB0000000000000000000013 /* PasteboardClassifierTests.swift */,
 				CB0000000000000000000014 /* ClipboardMonitorTests.swift */,
 				CB0000000000000000000015 /* ClipboardPersistenceTests.swift */,
@@ -1218,6 +1221,7 @@
 				F0067873CB7B99377CAEF239 /* StatusMenuBuilderTests.swift in Sources */,
 				CB0000000000000000000111 /* ClipboardOptionsTests.swift in Sources */,
 				CB0000000000000000000112 /* ClipboardHistoryTests.swift in Sources */,
+				CB00000000000000000000A2 /* EngineCoreCoverageTests.swift in Sources */,
 				CB0000000000000000000113 /* PasteboardClassifierTests.swift in Sources */,
 				CB0000000000000000000114 /* ClipboardMonitorTests.swift in Sources */,
 				CB0000000000000000000115 /* ClipboardPersistenceTests.swift in Sources */,
