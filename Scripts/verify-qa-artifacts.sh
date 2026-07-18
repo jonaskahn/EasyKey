@@ -29,7 +29,7 @@ if [[ ! -f "$project_root/EasyKeyUITests/SettingsWorkflowTests.swift" ]]; then
     exit_status=1
 fi
 
-if [[ ! -f "$project_root/EasyEngineCore/SettingsImporter.swift" ]]; then
+if [[ ! -f "$project_root/EasyEngineCore/Settings/SettingsImporter.swift" ]]; then
     print -u2 "Missing legacy settings importer."
     exit_status=1
 fi

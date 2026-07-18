@@ -402,4 +402,53 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
             _ = engine.process(event: .char(character))
         }
     }
+
+    func testProcess_WhenDisabled_PassesThrough() {
+        var engine = VietnameseEngine()
+        engine.state = SessionState(isDisabled: true)
+        let result = engine.process(event: .char("a"))
+        XCTAssertEqual(result, .passThrough)
+    }
+
+    func testProcessBackspace_RemovingMarkWhenToneExists_RemovesMarkOnly() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
+        typeKeys(&engine, "aa")  // â
+        typeKeys(&engine, "s")   // ấ
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "")
+    }
+
+    func testProcessBackspace_RemovingToneWithoutMark_KeepsAtom() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "as")  // á
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+    }
+
+    func testRevertDoubleVowel_OnNonCircumflexMark_PassThrough() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "aa")  // â, mark is circumflex
+        _ = engine.process(event: .char("a")) // revertDoubleVowel: base "a", mark is circumflex → removes mark
+        XCTAssertEqual(engine.currentBuffer, "a")
+    }
+
+    func testRevertDStroke_OnBaseWithoutStroke_PassThrough() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "dd")  // đ
+        _ = engine.process(event: .char("d")) // now it should revert
+        XCTAssertEqual(engine.currentBuffer, "d")
+    }
+
+    func testProcessBackspace_ToneAfterRemoveLast_IsCleared() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "as")  // á
+        // First backspace removes tone
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+        // Second backspace removes atom "a"
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "")
+    }
 }

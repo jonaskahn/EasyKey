@@ -102,4 +102,65 @@ final class ClipboardHistoryModelTests: XCTestCase {
         let entry = ClipboardEntry(fingerprint: fingerprint, capturedAt: now, items: [item])
         return ClassifiedClipboard(entry: entry, payloads: [reference: Data(repeating: 0xAB, count: bytes)])
     }
+
+    func testModel_Remove_DropsEntry() {
+        let model = ClipboardHistoryModel(options: ClipboardOptions(maximumEntryCount: 100), persistence: nil)
+        model.capture(textClassified(fingerprint: "f1", text: "a"))
+        model.capture(textClassified(fingerprint: "f2", text: "b"))
+        XCTAssertEqual(model.entryCount, 2)
+        let snapshot = model.history.entries
+        guard let id = snapshot.first(where: { $0.fingerprint == "f1" })?.id else {
+            XCTFail("Entry not found")
+            return
+        }
+        model.remove(entryID: id)
+        XCTAssertEqual(model.entryCount, 1)
+    }
+
+    func testModel_ClearUnpinned_KeepsPinned() {
+        let model = ClipboardHistoryModel(options: ClipboardOptions(maximumEntryCount: 100), persistence: nil)
+        model.capture(textClassified(fingerprint: "f1", text: "a"))
+        model.capture(textClassified(fingerprint: "f2", text: "b"))
+        let snapshot = model.history.entries
+        guard let id = snapshot.first(where: { $0.fingerprint == "f1" })?.id else {
+            XCTFail("Entry not found")
+            return
+        }
+        model.setPinned(true, entryID: id)
+        model.clearUnpinned()
+        XCTAssertEqual(model.entryCount, 1)
+    }
+
+    func testModel_Apply_RePrunesHistory() {
+        let model = ClipboardHistoryModel(options: ClipboardOptions(maximumEntryCount: 1), persistence: nil)
+        model.capture(textClassified(fingerprint: "f1", text: "a"))
+        model.capture(textClassified(fingerprint: "f2", text: "b"))
+        model.apply(ClipboardOptions(maximumEntryCount: 0))
+        XCTAssertEqual(model.entryCount, 0)
+    }
+
+    func testModel_AcknowledgeLimitNotice_DoesNotCrash() {
+        var options = ClipboardOptions(maximumEntryCount: 1)
+        options.persistsHistory = true
+        let model = ClipboardHistoryModel(options: options, persistence: nil)
+        model.acknowledgeLimitNotice()
+    }
+
+    func testModel_DisabledPersistence_DoesNotSave() async {
+        var options = ClipboardOptions(maximumEntryCount: 100)
+        options.persistsHistory = false
+        let model = ClipboardHistoryModel(options: options, persistence: nil)
+        model.capture(textClassified(fingerprint: "f1", text: "a"))
+        await model.flushPendingSave()
+    }
+
+    private func textClassified(fingerprint: String, text: String) -> ClassifiedClipboard {
+        let item = ClipboardItem(
+            kind: .text,
+            preview: ClipboardItemPreview(primaryText: text),
+            representations: [.string(typeIdentifier: "public.utf8-plain-text", value: text)]
+        )
+        let entry = ClipboardEntry(fingerprint: fingerprint, capturedAt: now, items: [item])
+        return ClassifiedClipboard(entry: entry, payloads: [:])
+    }
 }

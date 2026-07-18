@@ -188,11 +188,12 @@ public enum VietnameseCharacters {
     ]
 
     public static func isVowel(_ character: Character) -> Bool {
-        vowels.contains(character.lowercased().first ?? character)
+        let lower = Character(character.lowercased())
+        return vowels.contains(lower)
     }
 
     public static func baseVowel(_ character: Character) -> Character? {
-        let lower = character.lowercased().first ?? character
+        let lower = Character(character.lowercased())
         switch lower {
         case "a", "â", "ă": return Character("a")
         case "e", "ê": return Character("e")
@@ -205,7 +206,7 @@ public enum VietnameseCharacters {
     }
 
     public static func mark(forVowel character: Character) -> DiacriticalMark {
-        let lower = character.lowercased().first ?? character
+        let lower = Character(character.lowercased())
         switch lower {
         case "â": return .circumflex
         case "ă": return .breve

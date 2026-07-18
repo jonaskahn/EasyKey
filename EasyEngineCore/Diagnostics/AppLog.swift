@@ -25,7 +25,7 @@ public enum AppLog {
     }()
 
     public static func logger(_ category: Category) -> Logger {
-        loggers[category] ?? Logger(subsystem: subsystem, category: category.rawValue)
+        loggers[category]!
     }
 
     public static func debug(_ category: Category, _ message: String) {

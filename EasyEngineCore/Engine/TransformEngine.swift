@@ -56,7 +56,7 @@ public enum TransformEngine {
 
         case let .passThrough(character):
             let uppercase = character.isUppercase
-            let base = character.lowercased().first ?? character
+            let base = Character(character.lowercased())
             let atom = BufferAtom(base: base, uppercase: uppercase)
             state.append(atom)
         }
@@ -77,13 +77,11 @@ public enum TransformEngine {
     private static func applyTransformW(to state: inout SessionState) {
         guard let vowelIdx = state.wTransformVowelIndex else { return }
 
-        switch state.atoms[vowelIdx].base.lowercased().first ?? state.atoms[vowelIdx].base {
-        case "u", "o":
+        let loweredBase = Character(state.atoms[vowelIdx].base.lowercased())
+        if loweredBase == "u" || loweredBase == "o" {
             state.atoms[vowelIdx].mark = .horn
-        case "a":
+        } else if loweredBase == "a" {
             state.atoms[vowelIdx].mark = .breve
-        default:
-            break
         }
     }
 

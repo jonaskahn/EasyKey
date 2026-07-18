@@ -31,12 +31,16 @@ public final class SettingsRepository {
 
     public static var defaultFileURL: URL {
         let fileManager = FileManager.default
-        let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-        let preferredParent = appSupport
-            ?? fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
-            ?? fileManager.temporaryDirectory
-        if appSupport == nil {
-            AppLog.error(.settings, "Application Support unavailable; falling back to \(preferredParent.path)")
+        let preferredParent: URL
+        if let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            preferredParent = appSupport
+        } else if let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            AppLog.error(.settings, "Application Support unavailable; falling back to \(caches.path)")
+            preferredParent = caches
+        } else {
+            let temp = fileManager.temporaryDirectory
+            AppLog.error(.settings, "Application Support and Caches unavailable; falling back to \(temp.path)")
+            preferredParent = temp
         }
         let dir = preferredParent.appendingPathComponent("EasyKey", isDirectory: true)
         do {

@@ -15,7 +15,7 @@ public struct BufferAtom: Equatable, Sendable {
         if VietnameseCharacters.isVowel(base) {
             return VietnameseCharacters.vowel(
                 base: base, mark: mark, tone: .none, uppercase: uppercase
-            ) ?? base
+            )!
         }
         if base.lowercased().first == "d" && mark == .stroke {
             return VietnameseCharacters.d(withStroke: true, uppercase: uppercase)
@@ -106,9 +106,10 @@ public struct SessionState: Equatable, Sendable {
 
         let wBases: Set<Character> = ["u", "o", "a"]
         for index in stride(from: atoms.count - 1, through: onsetEndIndex, by: -1) {
-            let base = atoms[index].base.lowercased().first ?? atoms[index].base
-            guard VietnameseCharacters.isVowel(base) else { return nil }
-            if wBases.contains(base), atoms[index].mark == .none {
+            let rawBase = atoms[index].base
+            let baseChar = Character(rawBase.lowercased())
+            if !VietnameseCharacters.isVowel(baseChar) { return nil }
+            if wBases.contains(baseChar), atoms[index].mark == .none {
                 return index
             }
         }

@@ -1,4 +1,5 @@
 import CoreGraphics
+@testable import EasyEngineCore
 @testable import EasyKeyKit
 import XCTest
 
@@ -165,5 +166,77 @@ final class KeySynthesizerPostingTests: XCTestCase {
             return
         }
         XCTAssertFalse(KeySynthesizer.isSelfPosted(event))
+    }
+
+    func testPostPhysicalKey_NoModifiers_DoesNotCrash() {
+        let synthesizer = KeySynthesizer()
+        synthesizer.postPhysicalKey(proxy: fakeProxy(), keyCode: 6)
+    }
+
+    func testUtf16Chunks_BoundaryAlignment() {
+        let synthesizer = KeySynthesizer()
+        let text = String(repeating: "a", count: 32)
+        synthesizer.postUnicodeText(proxy: fakeProxy(), text)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 32)
+    }
+}
+
+final class MacroExpanderCoverageTests: XCTestCase {
+    func testWithModifiers_ResetsTriggerAndReturnsNil() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
+        let result = expander.consume(character: "b", keyCode: 49, modifiers: [.shift], options: MacroOptions(enabled: true), language: .vietnamese)
+        XCTAssertNil(result)
+    }
+
+    func testWhitespaceCharacter_ResetsTrigger() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
+        _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        let result = expander.consume(character: " ", keyCode: 49, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        XCTAssertNil(result)
+    }
+
+    func testTriggerExceedsMaxLength_Trims() {
+        var expander = MacroExpander()
+        let longTrigger = String(repeating: "x", count: MacroStore.maximumTriggerLength + 10)
+        expander.update(macros: [Macro(trigger: longTrigger, expansion: "test")])
+        for ch in longTrigger {
+            _ = expander.consume(character: ch, keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        }
+    }
+
+    func testDisabledMacro_NoMatch() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way", isEnabled: false)])
+        for ch in "btw" {
+            _ = expander.consume(character: ch, keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        }
+        let result = expander.consume(character: "\n", keyCode: 36, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        XCTAssertNil(result)
+    }
+
+    func testAutoCapitalize_AppliesCapitalization() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
+        for ch in "Btw" {
+            _ = expander.consume(character: ch, keyCode: 0, modifiers: [], options: MacroOptions(enabled: true, autoCapitalize: true), language: .vietnamese)
+        }
+        let result = expander.consume(character: "\n", keyCode: 36, modifiers: [], options: MacroOptions(enabled: true, autoCapitalize: true), language: .vietnamese)
+        XCTAssertEqual(result?.text, "By the way")
+    }
+
+    func testNotEnabled_ReturnsNil() {
+        var expander = MacroExpander()
+        expander.update(macros: [])
+        let result = expander.consume(character: "b", keyCode: 49, modifiers: [], options: MacroOptions(enabled: false), language: .vietnamese)
+        XCTAssertNil(result)
+    }
+
+    func testReset_ClearsTrigger() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
+        _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        expander.reset()
     }
 }

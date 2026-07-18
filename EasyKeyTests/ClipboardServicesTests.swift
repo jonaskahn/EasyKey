@@ -52,6 +52,15 @@ final class ClipboardServicesTests: XCTestCase {
         XCTAssertFalse(services.hotKey.isRegistered)
     }
 
+    func testApplyReturnsOptions() async {
+        let registrar = FakeHotKeyRegistrar()
+        let services = makeServices(enabled: true, registrar: registrar, reader: FakePasteboardReader())
+        await services.start(loadPersisted: false)
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.ignoredApplicationBundleIdentifiers = ["com.example.test"]
+        services.apply(options)
+    }
+
     private func makeServices(
         enabled: Bool,
         registrar: FakeHotKeyRegistrar,
