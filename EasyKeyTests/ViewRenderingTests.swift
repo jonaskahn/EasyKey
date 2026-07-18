@@ -327,6 +327,15 @@ final class ViewRenderingTests: XCTestCase {
         render { MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
     }
 
+    func testMacroSettingsView_EnabledBindingUpdatesMacro() throws {
+        let macro = try coordinator.macroStore.add(trigger: "btw", expansion: "by the way", isEnabled: true)
+        let view = MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+
+        view.enabledBinding(for: macro).wrappedValue = false
+
+        XCTAssertFalse(try XCTUnwrap(coordinator.macroStore.macros.first { $0.id == macro.id }).isEnabled)
+    }
+
     func testMacroEditorSheet_SaveEmptyTrigger_SetsError() {
         let view = MacroEditorSheet(macro: nil, coordinator: coordinator)
         view.save()

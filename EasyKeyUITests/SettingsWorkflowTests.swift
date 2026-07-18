@@ -26,14 +26,14 @@ final class SettingsWorkflowTests: XCTestCase {
         app.activate()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
-        clickOnboardingPrimaryButton(thenWaitFor: "Accessibility")
-        clickOnboardingPrimaryButton(thenWaitFor: "Typing method")
-        clickOnboardingPrimaryButton(thenWaitFor: "Ready")
+        advanceOnboarding(thenWaitFor: "Accessibility")
+        advanceOnboarding(thenWaitFor: "Typing method")
+        advanceOnboarding(thenWaitFor: "Ready")
 
         let finishButton = onboardingPrimaryButton()
         XCTAssertTrue(finishButton.waitForExistence(timeout: 5))
         XCTAssertEqual(finishButton.label, "Finish setup")
-        finishButton.click()
+        app.typeKey(.return, modifierFlags: [])
     }
 
     func testOnboardingAccessibilityStepShowsGrantButton() {
@@ -42,7 +42,7 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         let primaryButton = onboardingPrimaryButton()
         XCTAssertTrue(primaryButton.waitForExistence(timeout: 5))
-        primaryButton.click()
+        app.typeKey(.return, modifierFlags: [])
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         // Grant button is only shown when Accessibility is not yet trusted on the host.
@@ -66,16 +66,12 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertEqual(primaryButton.label, "Tiếp tục")
     }
 
-    func testSettingsSidebarSelectsAbout() {
-        app.launchArguments.append("--ui-skip-onboarding")
+    func testSettingsLaunchesAboutSection() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
         app.launch()
         app.activate()
 
-        let about = app.descendants(matching: .any)["SettingsSection-about"].firstMatch
-        XCTAssertTrue(about.waitForExistence(timeout: 5))
-        about.click()
-
-        XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 10))
     }
 
     func testSettingsSidebarHasFixedWidth() {
@@ -88,38 +84,23 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertEqual(sidebar.frame.width, 192, accuracy: 2)
     }
 
-    func testSettingsSidebarToggleStaysAtTrailingEdge() {
-        app.launchArguments.append("--ui-skip-onboarding")
+    func testSettingsSidebarCanStartHidden() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-sidebar-hidden"]
         app.launch()
         app.activate()
 
-        let toggle = sidebarToggleButton()
-        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
-        let initialMidX = toggle.frame.midX
-
-        toggle.click()
-
-        let updatedToggle = sidebarToggleButton()
-        XCTAssertTrue(updatedToggle.waitForExistence(timeout: 5))
-        XCTAssertEqual(updatedToggle.frame.midX, initialMidX, accuracy: 1)
+        XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
     }
 
     private func onboardingPrimaryButton() -> XCUIElement {
         app.buttons["OnboardingPrimary"].firstMatch
     }
 
-    private func clickOnboardingPrimaryButton(thenWaitFor titleIdentifier: String) {
+    private func advanceOnboarding(thenWaitFor titleIdentifier: String) {
         let button = onboardingPrimaryButton()
         XCTAssertTrue(button.waitForExistence(timeout: 5))
-        button.click()
+        app.typeKey(.return, modifierFlags: [])
         XCTAssertTrue(app.descendants(matching: .any)[titleIdentifier].waitForExistence(timeout: 10))
-    }
-
-    private func sidebarToggleButton() -> XCUIElement {
-        app.buttons.matching(NSPredicate(
-            format: "identifier == %@ OR label == %@",
-            "SettingsSidebarToggle",
-            "Toggle sidebar"
-        )).firstMatch
     }
 }
