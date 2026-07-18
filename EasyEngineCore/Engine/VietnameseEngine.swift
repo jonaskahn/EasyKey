@@ -64,10 +64,8 @@ public struct VietnameseEngine {
 
     private mutating func processCharacter(_ character: Character, event: KeyEvent) -> EngineOutput {
         if event.hasModifiers {
-            let boundary = processWordBoundaryIfNeeded()
-            if let boundary {
-                return boundary
-            }
+            state.reset()
+            quickWState = .none
             return .passThrough
         }
 
@@ -210,18 +208,6 @@ public struct VietnameseEngine {
             disposition: .suppress,
             edits: [.replaceBackward(deleteCount: previousLength, insert: result.newContent)],
             sessionEffect: .continueSession
-        )
-    }
-
-    private mutating func processWordBoundaryIfNeeded() -> EngineOutput? {
-        guard !state.isEmpty else { return nil }
-        let encoded = TransformEngine.encode(state, encoding: configuration.outputEncoding)
-        state.reset()
-        quickWState = .none
-        return EngineOutput(
-            disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: encoded.count, insert: encoded)],
-            sessionEffect: .resetSession
         )
     }
 

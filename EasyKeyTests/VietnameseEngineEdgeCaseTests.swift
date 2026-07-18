@@ -112,13 +112,23 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         XCTAssertEqual(result.disposition, .pass)
     }
 
-    func testModifierKeyWithNonEmptyBuffer() {
-        var engine = VietnameseEngine()
-        _ = engine.process(event: .char("t"))
-        _ = engine.process(event: .char("a"))
-        let result = engine.process(event: KeyEvent(kind: .character("b"), control: true))
-        XCTAssertEqual(result.disposition, .suppress)
-        XCTAssertEqual(engine.currentBuffer, "")
+    func testModifiedCharactersPassThroughAndResetNonEmptyBuffer() {
+        let events = [
+            KeyEvent(kind: .character("b"), control: true),
+            KeyEvent(kind: .character("b"), option: true),
+            KeyEvent(kind: .character("b"), command: true),
+        ]
+
+        for event in events {
+            var engine = VietnameseEngine()
+            _ = engine.process(event: .char("t"))
+            _ = engine.process(event: .char("a"))
+
+            let result = engine.process(event: event)
+
+            XCTAssertEqual(result, .passThrough)
+            XCTAssertEqual(engine.currentBuffer, "")
+        }
     }
 
     func testWordBoundarySpaceWithEmptyBuffer() {
