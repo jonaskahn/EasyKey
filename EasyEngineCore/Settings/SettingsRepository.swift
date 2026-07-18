@@ -82,10 +82,8 @@ public final class SettingsRepository {
         do {
             decoded = try JSONDecoder().decode(EasyKeySettings.self, from: data)
         } catch {
-            let message = "Decode failed, using defaults: \(error.localizedDescription)"
+            let message = "Decode failed; current settings preserved: \(error.localizedDescription)"
             diagnostic.entries.append(.init(severity: .warning, message: message))
-            settings = .defaults
-            scheduleSave()
             AppLog.error(.settings, message)
             return diagnostic
         }

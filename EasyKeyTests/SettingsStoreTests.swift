@@ -137,17 +137,23 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertFalse(snapshot.autoRestoreKeys)
     }
 
-    func testImportInvalidFileFallsToDefaults() throws {
+    func testImportInvalidFilePreservesCurrentSettings() async throws {
         let tempDir = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
         let badURL = tempDir.appendingPathComponent("bad.json")
+        let settingsURL = tempDir.appendingPathComponent("s.json")
         try "not valid json".write(to: badURL, atomically: true, encoding: .utf8)
 
-        let store = SettingsRepository(fileURL: tempDir.appendingPathComponent("s.json"))
+        let store = SettingsRepository(fileURL: settingsURL)
         store.update { $0.input.inputMethod = .vni }
+        await store.saveNow()
+        let persistedSettings = try Data(contentsOf: settingsURL)
+
         let diagnostic = try store.import(from: badURL)
-        XCTAssertEqual(store.settings, .defaults)
+
+        XCTAssertEqual(store.settings.input.inputMethod, .vni)
+        XCTAssertEqual(try Data(contentsOf: settingsURL), persistedSettings)
         XCTAssertTrue(diagnostic.entries.contains { $0.severity == .warning })
 
         try FileManager.default.removeItem(at: tempDir)
