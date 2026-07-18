@@ -29,7 +29,6 @@ final class KeyboardDiagnosticsRecorder {
 
     func record(
         typeRawValue: UInt32,
-        keyCode: UInt16?,
         disposition: KeyboardService.Diagnostic.Disposition,
         outputCount: Int,
         bundleIdentifier: String?,
@@ -38,7 +37,6 @@ final class KeyboardDiagnosticsRecorder {
         guard enabled else { return }
         let diagnostic = KeyboardService.Diagnostic(
             eventType: typeRawValue,
-            keyCode: keyCode,
             disposition: disposition,
             outputCount: outputCount,
             bundleIdentifier: bundleIdentifier,
