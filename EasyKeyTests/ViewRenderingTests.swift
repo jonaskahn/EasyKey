@@ -40,6 +40,19 @@ final class ViewRenderingTests: XCTestCase {
         render { TypingSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
     }
 
+    func testClipboardPersistenceRemainsEnabledUntilDisableIsConfirmed() {
+        coordinator.settingsStore.update { $0.clipboard.persistsHistory = true }
+        let view = ClipboardSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+
+        view.persistBinding.wrappedValue = false
+
+        XCTAssertTrue(coordinator.settingsStore.settings.clipboard.persistsHistory)
+
+        view.confirmDisablePersistence()
+
+        XCTAssertFalse(coordinator.settingsStore.settings.clipboard.persistsHistory)
+    }
+
     func testEncodingSettingsView_Renders() {
         render { EncodingSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
     }
