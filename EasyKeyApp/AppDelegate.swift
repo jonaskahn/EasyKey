@@ -33,6 +33,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
         let coordinator = AppCoordinator.shared
         self.coordinator = coordinator
+        if isUITesting,
+           let sectionIndex = ProcessInfo.processInfo.arguments.firstIndex(of: "--ui-settings-section"),
+           ProcessInfo.processInfo.arguments.indices.contains(sectionIndex + 1),
+           let section = SettingsSection(rawValue: ProcessInfo.processInfo.arguments[sectionIndex + 1]) {
+            coordinator.selectedSettingsSection = section
+        }
         coordinator.start()
         if isUITesting {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

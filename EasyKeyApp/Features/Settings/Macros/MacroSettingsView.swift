@@ -104,7 +104,7 @@ struct MacroSettingsView: View {
         coordinator.macroStore.search(search)
     }
 
-    private func enabledBinding(for macro: Macro) -> Binding<Bool> {
+    func enabledBinding(for macro: Macro) -> Binding<Bool> {
         Binding(get: { macro.isEnabled }, set: { enabled in
             do {
                 _ = try coordinator.macroStore.edit(id: macro.id, trigger: macro.trigger, expansion: macro.expansion, isEnabled: enabled)

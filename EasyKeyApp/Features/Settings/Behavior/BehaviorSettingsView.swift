@@ -5,7 +5,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct BehaviorSettingsView: View {
-    private enum ApplicationList {
+    enum ApplicationList {
         case compatibilityMode
         case ignored
     }
@@ -182,7 +182,7 @@ struct BehaviorSettingsView: View {
         addApplications(at: panel.urls, to: list)
     }
 
-    private func acceptDrop(_ providers: [NSItemProvider], into list: ApplicationList) -> Bool {
+    func acceptDrop(_ providers: [NSItemProvider], into list: ApplicationList) -> Bool {
         let matchingProviders = providers.filter { $0.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) }
         guard !matchingProviders.isEmpty else { return false }
 
@@ -213,7 +213,7 @@ struct BehaviorSettingsView: View {
         return true
     }
 
-    private func addApplications(at urls: [URL], to list: ApplicationList) {
+    func addApplications(at urls: [URL], to list: ApplicationList) {
         var bundleIdentifiers: [String] = []
         var invalidNames: [String] = []
         for url in urls {
@@ -242,13 +242,13 @@ struct BehaviorSettingsView: View {
         }
     }
 
-    private func appendUnique(_ additions: [String], to values: inout [String]) {
+    func appendUnique(_ additions: [String], to values: inout [String]) {
         for value in additions where !values.contains(value) {
             values.append(value)
         }
     }
 
-    private func forget(_ bundleIdentifier: String, from list: ApplicationList) {
+    func forget(_ bundleIdentifier: String, from list: ApplicationList) {
         settingsStore.update { settings in
             switch list {
             case .compatibilityMode:
@@ -259,7 +259,7 @@ struct BehaviorSettingsView: View {
         }
     }
 
-    private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
+    func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
         Binding(
             get: { settingsStore.settings[keyPath: keyPath] },
             set: { value in settingsStore.update { $0[keyPath: keyPath] = value } }

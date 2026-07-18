@@ -15,13 +15,21 @@ struct SettingsShell: View {
         )
     }
 
-    @State private var columnVisibility = NavigationSplitViewVisibility.all
+    @State private var columnVisibility: NavigationSplitViewVisibility
+
+    init(settingsStore: SettingsStore, coordinator: AppCoordinator) {
+        self.settingsStore = settingsStore
+        self.coordinator = coordinator
+        _columnVisibility = State(initialValue:
+            ProcessInfo.processInfo.arguments.contains("--ui-sidebar-hidden") ? .detailOnly : .all)
+    }
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             List(SettingsSection.allCases, selection: selection) { section in
                 Label(localization.sectionTitle(section), systemImage: section.symbol)
                     .tag(section)
+                    .accessibilityIdentifier("SettingsSection-\(section.rawValue)")
             }
             .listStyle(.sidebar)
             .frame(width: 192)
@@ -31,6 +39,7 @@ struct SettingsShell: View {
         } detail: {
             detail
                 .navigationTitle(localization.sectionTitle(coordinator.selectedSettingsSection))
+                .accessibilityIdentifier("SettingsDetail")
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {

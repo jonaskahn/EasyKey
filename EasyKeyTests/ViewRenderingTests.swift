@@ -2,6 +2,7 @@ import AppKit
 import EasyEngineCore
 @testable import EasyKey
 import SwiftUI
+import UniformTypeIdentifiers
 import XCTest
 
 @MainActor
@@ -51,6 +52,96 @@ final class ViewRenderingTests: XCTestCase {
 
     func testBehaviorSettingsView_Renders() {
         render { BehaviorSettingsView(settingsStore: coordinator.settingsStore) }
+    }
+
+    func testBehaviorSettingsView_AddsUniqueApplicationsToBothLists() throws {
+        let firstApp = try makeApplicationBundle(name: "First", bundleIdentifier: "dev.example.First")
+        let secondApp = try makeApplicationBundle(name: "Second", bundleIdentifier: "dev.example.Second")
+        let invalidURL = tempDirectory.appendingPathComponent("Invalid.txt")
+        try Data().write(to: invalidURL)
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+
+        view.addApplications(at: [firstApp, firstApp, invalidURL], to: .compatibilityMode)
+        view.addApplications(at: [secondApp], to: .ignored)
+
+        let compatibilityIdentifiers = coordinator.settingsStore.settings.compatibility
+            .compatibilityModeApplicationBundleIdentifiers
+        let ignoredIdentifiers = coordinator.settingsStore.settings.compatibility
+            .ignoredApplicationBundleIdentifiers
+        XCTAssertEqual(compatibilityIdentifiers.filter { $0 == "dev.example.First" }.count, 1)
+        XCTAssertTrue(ignoredIdentifiers.contains("dev.example.Second"))
+    }
+
+    func testBehaviorSettingsView_ForgetsApplicationsFromBothLists() {
+        coordinator.settingsStore.update {
+            $0.compatibility.compatibilityModeApplicationBundleIdentifiers = ["dev.example.First", "dev.example.Keep"]
+            $0.compatibility.ignoredApplicationBundleIdentifiers = ["dev.example.Second", "dev.example.Keep"]
+        }
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+
+        view.forget("dev.example.First", from: .compatibilityMode)
+        view.forget("dev.example.Second", from: .ignored)
+
+        XCTAssertEqual(
+            coordinator.settingsStore.settings.compatibility.compatibilityModeApplicationBundleIdentifiers,
+            ["dev.example.Keep"]
+        )
+        XCTAssertEqual(
+            coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers,
+            ["dev.example.Keep"]
+        )
+    }
+
+    func testBehaviorSettingsView_SettingBindingReadsAndWrites() {
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+        let binding = view.setting(\.compatibility.stepByStepSend)
+
+        XCTAssertFalse(binding.wrappedValue)
+        binding.wrappedValue = true
+
+        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.stepByStepSend)
+    }
+
+    func testBehaviorSettingsView_AppendUniquePreservesOrder() {
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+        var values = ["first", "second"]
+
+        view.appendUnique(["second", "third", "first", "fourth"], to: &values)
+
+        XCTAssertEqual(values, ["first", "second", "third", "fourth"])
+    }
+
+    func testBehaviorSettingsView_RejectsDropWithoutFileProvider() {
+        let provider = NSItemProvider(object: "not a file" as NSString)
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+
+        XCTAssertFalse(view.acceptDrop([provider], into: .ignored))
+    }
+
+    func testBehaviorSettingsView_AcceptsFileURLDrop() throws {
+        let appURL = try makeApplicationBundle(name: "Dropped", bundleIdentifier: "dev.example.Dropped")
+        let dataAppURL = try makeApplicationBundle(name: "DataDropped", bundleIdentifier: "dev.example.DataDropped")
+        let urlProvider = NSItemProvider(
+            item: appURL as NSURL,
+            typeIdentifier: UTType.fileURL.identifier
+        )
+        let dataProvider = NSItemProvider(
+            item: dataAppURL.dataRepresentation as NSData,
+            typeIdentifier: UTType.fileURL.identifier
+        )
+        let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
+        let added = expectation(description: "Dropped applications added")
+
+        XCTAssertTrue(view.acceptDrop([urlProvider, dataProvider], into: .ignored))
+        waitUntil(timeout: 2) {
+            let identifiers = coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers
+            if identifiers.contains("dev.example.Dropped"), identifiers.contains("dev.example.DataDropped") {
+                added.fulfill()
+                return true
+            }
+            return false
+        }
+        wait(for: [added], timeout: 0.1)
     }
 
     func testMacroSettingsView_Renders() {
@@ -157,22 +248,8 @@ final class ViewRenderingTests: XCTestCase {
     }
 
     func testApplicationBundleSelection_ValidatesApplicationBundle() throws {
-        let appURL = tempDirectory.appendingPathComponent("Example.app", isDirectory: true)
+        let appURL = try makeApplicationBundle(name: "Example", bundleIdentifier: "dev.example.Application")
         let contentsURL = appURL.appendingPathComponent("Contents", isDirectory: true)
-        try FileManager.default.createDirectory(at: contentsURL, withIntermediateDirectories: true)
-        let plist: [String: Any] = [
-            "CFBundleIdentifier": "dev.example.Application",
-            "CFBundlePackageType": "APPL",
-            "CFBundleExecutable": "Example",
-        ]
-        let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-        try data.write(to: contentsURL.appendingPathComponent("Info.plist"))
-        let executableURL = contentsURL.appendingPathComponent("MacOS/Example")
-        try FileManager.default.createDirectory(
-            at: executableURL.deletingLastPathComponent(),
-            withIntermediateDirectories: true
-        )
-        try Data().write(to: executableURL)
 
         XCTAssertEqual(
             ApplicationBundleSelection.bundleIdentifier(at: appURL),
@@ -250,6 +327,15 @@ final class ViewRenderingTests: XCTestCase {
         render { MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
     }
 
+    func testMacroSettingsView_EnabledBindingUpdatesMacro() throws {
+        let macro = try coordinator.macroStore.add(trigger: "btw", expansion: "by the way", isEnabled: true)
+        let view = MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+
+        view.enabledBinding(for: macro).wrappedValue = false
+
+        XCTAssertFalse(try XCTUnwrap(coordinator.macroStore.macros.first { $0.id == macro.id }).isEnabled)
+    }
+
     func testMacroEditorSheet_SaveEmptyTrigger_SetsError() {
         let view = MacroEditorSheet(macro: nil, coordinator: coordinator)
         view.save()
@@ -280,5 +366,30 @@ final class ViewRenderingTests: XCTestCase {
             host.layoutSubtreeIfNeeded()
             XCTAssertEqual(coordinator.selectedSettingsSection, section)
         }
+    }
+
+    private func makeApplicationBundle(name: String, bundleIdentifier: String) throws -> URL {
+        let appURL = tempDirectory.appendingPathComponent("\(name).app", isDirectory: true)
+        let contentsURL = appURL.appendingPathComponent("Contents", isDirectory: true)
+        try FileManager.default.createDirectory(at: contentsURL, withIntermediateDirectories: true)
+        let plist: [String: Any] = [
+            "CFBundleIdentifier": bundleIdentifier,
+            "CFBundlePackageType": "APPL",
+            "CFBundleExecutable": name,
+        ]
+        let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+        try data.write(to: contentsURL.appendingPathComponent("Info.plist"))
+        let executableURL = contentsURL.appendingPathComponent("MacOS/\(name)")
+        try FileManager.default.createDirectory(
+            at: executableURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try Data().write(to: executableURL)
+        return appURL
+    }
+
+    private func waitUntil(timeout: TimeInterval, condition: () -> Bool) {
+        let deadline = Date().addingTimeInterval(timeout)
+        while !condition(), RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01)), Date() < deadline {}
     }
 }

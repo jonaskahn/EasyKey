@@ -127,6 +127,16 @@ final class StatusMenuBuilderTests: XCTestCase {
         target.openMacros(nil)
     }
 
+    func testStatusMenuActionTarget_ShowAbout_PresentsAboutPanel() {
+        let windowsBefore = Set(NSApp.windows.map(ObjectIdentifier.init))
+
+        target.showAbout(nil)
+
+        let aboutPanel = NSApp.windows.first { !windowsBefore.contains(ObjectIdentifier($0)) }
+        XCTAssertNotNil(aboutPanel)
+        aboutPanel?.close()
+    }
+
     func testStatusMenuActionTarget_NilCoordinator_AllActionsNoOp() {
         let orphanTarget = StatusMenuActionTarget()
         orphanTarget.selectVietnamese(nil)

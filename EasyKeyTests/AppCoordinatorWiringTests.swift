@@ -102,4 +102,10 @@ final class AppCoordinatorWiringTests: XCTestCase {
     func testConfigureStatusItemController_OnAppearanceChange_InvokesUpdateStatusItem() {
         coordinator.statusItemController.onAppearanceChange?()
     }
+
+    func testAppDelegate_ApplicationWillTerminateWithoutLaunch_DoesNotCrash() {
+        let delegate = AppDelegate()
+
+        delegate.applicationWillTerminate(Notification(name: NSApplication.willTerminateNotification))
+    }
 }
