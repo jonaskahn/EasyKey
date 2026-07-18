@@ -19,6 +19,7 @@ final class ClipboardPanelPresenter {
     private var panel: ClipboardPanel?
     private var globalClickMonitor: Any?
     private var localKeyMonitor: Any?
+    private var keepOnTop = false
     private(set) var previousApplication: NSRunningApplication?
 
     /// Supplies the SwiftUI content. Set by the coordinator once the history model
@@ -44,6 +45,7 @@ final class ClipboardPanelPresenter {
         panel.contentView = NSHostingView(rootView: makeContent())
         panel.setFrameOrigin(originForCurrentPointer())
 
+        keepOnTop = false
         NSApp.activate(ignoringOtherApps: true)
         panel.makeKeyAndOrderFront(nil)
         installMonitors()
@@ -52,6 +54,17 @@ final class ClipboardPanelPresenter {
     func close() {
         removeMonitors()
         panel?.orderOut(nil)
+    }
+
+    /// Toggles "keep on top": when on, the panel stays open on outside clicks
+    /// (the global click monitor is suppressed); Escape still closes it.
+    func setKeepOnTop(_ on: Bool) {
+        keepOnTop = on
+        if on {
+            removeGlobalClickMonitor()
+        } else {
+            installGlobalClickMonitor()
+        }
     }
 
     // MARK: - Private
@@ -90,8 +103,8 @@ final class ClipboardPanelPresenter {
 
     private func installMonitors() {
         removeMonitors()
-        globalClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
-            MainActor.assumeIsolated { self?.close() }
+        if !keepOnTop {
+            installGlobalClickMonitor()
         }
         localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown]) { [weak self] event in
             if event.keyCode == 53 {
@@ -102,11 +115,22 @@ final class ClipboardPanelPresenter {
         }
     }
 
-    private func removeMonitors() {
+    private func installGlobalClickMonitor() {
+        guard globalClickMonitor == nil else { return }
+        globalClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            MainActor.assumeIsolated { self?.close() }
+        }
+    }
+
+    private func removeGlobalClickMonitor() {
         if let globalClickMonitor {
             NSEvent.removeMonitor(globalClickMonitor)
             self.globalClickMonitor = nil
         }
+    }
+
+    private func removeMonitors() {
+        removeGlobalClickMonitor()
         if let localKeyMonitor {
             NSEvent.removeMonitor(localKeyMonitor)
             self.localKeyMonitor = nil

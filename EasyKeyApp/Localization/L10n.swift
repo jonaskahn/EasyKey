@@ -64,6 +64,8 @@ enum L10nKey: String, CaseIterable, Sendable {
     case clipboardActionPin = "clipboard.action.pin"
     case clipboardActionReveal = "clipboard.action.reveal"
     case clipboardActionSettings = "clipboard.action.settings"
+    case clipboardActionKeepOnTop = "clipboard.action.keepOnTop"
+    case clipboardActionUnkeepOnTop = "clipboard.action.unkeepOnTop"
     case clipboardActionUnpin = "clipboard.action.unpin"
     case clipboardCaptureDescription = "clipboard.capture.description"
     case clipboardCaptureEnable = "clipboard.capture.enable"

@@ -42,7 +42,7 @@ struct ClipboardEntryRow: View {
             .help(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
             .accessibilityLabel(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
     }

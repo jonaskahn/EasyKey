@@ -107,6 +107,7 @@ final class ClipboardServices: ObservableObject {
                     delete: { entry in model.remove(entryID: entry.id) },
                     reveal: { entry in ClipboardServices.reveal(entry) },
                     clearUnpinned: { model.clearUnpinned() },
+                    setKeepOnTop: { [weak self] on in self?.presenter.setKeepOnTop(on) },
                     openSettings: {
                         self?.presenter.close()
                         self?.openSettings()

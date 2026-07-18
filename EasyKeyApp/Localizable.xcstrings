@@ -4216,6 +4216,18 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Cài đặt" } }
       }
     },
+    "clipboard.action.keepOnTop": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Keep on top" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Giữ trên cùng" } }
+      }
+    },
+    "clipboard.action.unkeepOnTop": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Stop keeping on top" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Bỏ giữ trên cùng" } }
+      }
+    },
     "clipboard.unavailable": {
       "localizations": {
         "en": { "stringUnit": { "state": "translated", "value": "Unavailable" } },
