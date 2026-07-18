@@ -131,7 +131,7 @@ final class AppCoordinator: ObservableObject {
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         keyboardService.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
-        clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
+        Task { await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory) }
         if settingsStore.settings.system.showSettingsAtLaunch {
             showSettings()
         }
