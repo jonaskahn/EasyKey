@@ -455,7 +455,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bộ gõ tiếng Việt gọn nhẹ cho macOS. Mọi thay đổi đều được lưu tự động."
+            "value": "Bộ gõ tiếng Việt gọn nhẹ cho macOS. Mọi thay đổi đều tự động lưu."
           }
         }
       }
@@ -472,7 +472,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey cần quyền Trợ năng để xử lý thao tác gõ trong các ứng dụng khác."
+            "value": "EasyKey cần quyền Trợ năng để có thể gõ trong các ứng dụng khác."
           }
         }
       }
@@ -2247,8 +2247,8 @@
     "help.behavior.advanced": {
       "comment": "Settings section help",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Step-by-step sending and keyboard-layout compatibility are saved for troubleshooting; they do not yet change runtime behavior." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gửi từng bước và tương thích bố cục được lưu để khắc phục lỗi; hiện chưa thay đổi hoạt động khi gõ." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Step-by-step sending and keyboard-layout compatibility help typing stay reliable in apps that mishandle fast or non-standard input." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gửi từng bước và tương thích bố cục bàn phím giúp việc gõ ổn định hơn ở những ứng dụng xử lý kém khi nhập nhanh hoặc bố cục khác thường." } }
       }
     },
     "help.behavior.appCompatibility": {
@@ -2352,15 +2352,15 @@
     "help.typing.advanced": {
       "comment": "Settings section help",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Quick consonants and temporary spell/engine shortcuts are saved preferences; their complete runtime behavior is not implemented yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Phụ âm nhanh và các phím tắt chính tả/bộ gõ tạm thời đã được lưu, nhưng hành vi đầy đủ khi gõ vẫn chưa được triển khai." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Quick consonants speed up common consonants, while the temporary shortcuts let you pause spelling or the engine without leaving Vietnamese." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gõ nhanh phụ âm giúp nhập các phụ âm quen thuộc nhanh hơn, còn các phím tắt tạm thời cho bạn tạm dừng chính tả hoặc bộ gõ mà vẫn ở tiếng Việt." } }
       }
     },
     "help.typing.options": {
       "comment": "Settings section help",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Quick Telex controls W transforms and cycling. Modern spelling, free tones, invalid-word restore, Z/F/W/J, and capitalization are saved but only partly supported." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Telex nhanh điều khiển biến đổi và chu kỳ W. Chính tả mới, dấu tự do, khôi phục từ, Z/F/W/J và viết hoa được lưu nhưng mới hỗ trợ một phần." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Quick Telex controls how W transforms and cycles. Modern spelling, free tone placement, invalid-word restore, Z/F/W/J, and auto-capitalization each refine how Vietnamese is typed." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Telex nhanh quyết định cách phím W biến đổi và luân phiên. Chính tả hiện đại, bỏ dấu tự do, trả lại từ gõ sai, Z/F/W/J và tự viết hoa đều tinh chỉnh cách gõ tiếng Việt." } }
       }
     },
     "system.health": {
@@ -3727,15 +3727,15 @@
     "typing.spellingModernization.description": {
       "comment": "Modern spelling setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; currently does not change typing." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; hiện chưa thay đổi cách gõ." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Apply modern spelling rules, such as writing \"hòa\" instead of \"hoà\"." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Áp dụng quy tắc chính tả hiện đại, chẳng hạn viết \"hòa\" thay vì \"hoà\"." } }
       }
     },
     "typing.freeToneMarking.description": {
       "comment": "Free tone placement setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; currently does not change tone placement." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; hiện chưa thay đổi vị trí đặt dấu." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Place the tone mark at any point in a word instead of only after the vowels." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Cho phép bỏ dấu ở bất cứ đâu trong từ, không cần đợi gõ xong nguyên âm." } }
       }
     },
     "typing.quickTelex.description": {
@@ -3748,15 +3748,15 @@
     "typing.restoreInvalidWord.description": {
       "comment": "Invalid word restoration setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; invalid-word restoration is not implemented." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; tính năng trả lại từ gốc chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Bring back the original keystrokes when a word is not valid Vietnamese." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tự trả lại đúng các phím bạn đã gõ khi từ đó không phải tiếng Việt." } }
       }
     },
     "typing.allowZFWJ.description": {
       "comment": "Z F W J setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; currently does not change key handling." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; hiện chưa thay đổi cách xử lý các phím này." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Type Z, F, W, and J directly instead of using them as transformation keys." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gõ thẳng các chữ Z, F, W, J thay vì dùng chúng làm phím biến đổi." } }
       }
     },
     "typing.uppercaseFirstCharacter.description": {
@@ -3769,22 +3769,22 @@
     "typing.quickStartEndConsonant.description": {
       "comment": "Quick consonants setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; quick consonants are not implemented." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; cách gõ nhanh phụ âm chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Type common leading and trailing consonants with fewer keystrokes." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gõ các phụ âm đầu và cuối quen thuộc bằng ít phím hơn." } }
       }
     },
     "typing.temporarySpellToggle.description": {
       "comment": "Temporary spelling shortcut description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; this shortcut is not handled yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; phím tắt này chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Pause or resume spelling checks with a shortcut while you keep typing." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tạm tắt hoặc bật lại kiểm tra chính tả bằng phím tắt ngay khi đang gõ." } }
       }
     },
     "typing.temporaryEngineToggle.description": {
       "comment": "Temporary engine shortcut description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; this shortcut is not handled yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; phím tắt này chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Pause or resume the typing engine with a shortcut without switching language." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tạm tắt hoặc bật lại bộ gõ bằng phím tắt mà không phải đổi ngôn ngữ." } }
       }
     },
     "encoding.defaultEncoding.description": {
@@ -3811,29 +3811,29 @@
     "encoding.clipboardShortcut.description": {
       "comment": "Clipboard shortcut setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; this shortcut is not handled yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; phím tắt này chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Convert the encoding of clipboard text with a single shortcut." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Chuyển mã văn bản trong bảng nhớ tạm chỉ với một phím tắt." } }
       }
     },
     "macros.enable.description": {
       "comment": "Macro enable setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; typing does not expand macros yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; tính năng gõ tắt chưa hoạt động khi gõ." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Replace short triggers with longer text automatically as you type." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Tự thay từ gõ tắt ngắn thành đoạn văn bản dài hơn ngay khi bạn gõ." } }
       }
     },
     "macros.enabledInEnglish.description": {
       "comment": "English macro setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; English macro expansion is not connected." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; gõ tắt bằng tiếng Anh chưa hoạt động." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Expand triggers while typing English, not only Vietnamese." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Thay từ gõ tắt cả khi bạn gõ tiếng Anh, chứ không riêng tiếng Việt." } }
       }
     },
     "macros.autoCapitalize.description": {
       "comment": "Macro capitalization setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; typed triggers are not expanded yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; nội dung thay thế chưa áp dụng kiểu viết hoa." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Match the replacement to how you capitalize the trigger you type." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Cho nội dung thay thế viết hoa theo đúng cách bạn gõ từ gõ tắt." } }
       }
     },
     "smartSwitch.rememberPerApp.description": {
@@ -3860,15 +3860,15 @@
     "behavior.stepByStepSend.description": {
       "comment": "Step-by-step sending setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; text is not sent step by step yet." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; văn bản hiện chưa được gửi từng ký tự." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Send replacement text one character at a time for apps that drop fast input." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Gửi văn bản từng ký tự một cho các ứng dụng hay bỏ sót khi gõ nhanh." } }
       }
     },
     "behavior.keyboardLayoutCompatibility.description": {
       "comment": "Keyboard layout compatibility setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Saved for future use; keyboard layout handling is unchanged." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu để dùng sau; hiện chưa thay đổi cách xử lý bố cục bàn phím." } }
+        "en": { "stringUnit": { "state": "translated", "value": "Adjust output for non-standard keyboard layouts so characters land correctly." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Điều chỉnh kết quả cho bố cục bàn phím khác thường để ký tự hiện đúng." } }
       }
     },
     "system.launchAtLogin.description": {
@@ -3949,7 +3949,7 @@
     "clipboard.capture.description": {
       "localizations": {
         "en": { "stringUnit": { "state": "translated", "value": "When on, EasyKey keeps a private, local history of what you copy. Off by default." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khi bật, EasyKey lưu lịch sử sao chép riêng tư, cục bộ. Mặc định tắt." } }
+        "vi": { "stringUnit": { "state": "translated", "value": "Khi bật, EasyKey lưu lại lịch sử những gì bạn sao chép, riêng tư và chỉ nằm trên máy của bạn. Mặc định tắt sẵn." } }
       }
     },
     "clipboard.access.title": {
@@ -4069,7 +4069,7 @@
     "clipboard.privacy.ignoredAppsHint": {
       "localizations": {
         "en": { "stringUnit": { "state": "translated", "value": "Best-effort only; macOS does not report the source app, so this is not a security boundary." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ ở mức nỗ lực; macOS không báo ứng dụng nguồn nên đây không phải ranh giới bảo mật." } }
+        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ mang tính tương đối: macOS không cho biết ứng dụng nguồn, nên đây không phải một lớp bảo mật." } }
       }
     },
     "clipboard.data.title": {
@@ -4214,6 +4214,18 @@
       "localizations": {
         "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
         "vi": { "stringUnit": { "state": "translated", "value": "Cài đặt" } }
+      }
+    },
+    "clipboard.action.keepOnTop": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Keep on top" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Giữ trên cùng" } }
+      }
+    },
+    "clipboard.action.unkeepOnTop": {
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Stop keeping on top" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Bỏ giữ trên cùng" } }
       }
     },
     "clipboard.unavailable": {

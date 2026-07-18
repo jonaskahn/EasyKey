@@ -10,6 +10,7 @@ struct ClipboardPanelActions {
     var delete: (ClipboardEntry) -> Void
     var reveal: (ClipboardEntry) -> Void
     var clearUnpinned: () -> Void
+    var setKeepOnTop: (Bool) -> Void
     var openSettings: () -> Void
 }
 
@@ -21,6 +22,7 @@ struct ClipboardPanelView: View {
 
     @State private var query = ""
     @State private var selection: UUID?
+    @State private var keepOnTop = false
 
     init(
         model: ClipboardHistoryModel,
@@ -54,7 +56,7 @@ struct ClipboardPanelView: View {
             Divider()
             footer
         }
-        .frame(minWidth: 380, minHeight: 420)
+        .frame(minWidth: 380, minHeight: 440)
     }
 
     private var searchField: some View {
@@ -63,8 +65,26 @@ struct ClipboardPanelView: View {
             TextField(localization.string(.clipboardSearchPlaceholder), text: $query)
                 .textFieldStyle(.plain)
                 .accessibilityIdentifier("ClipboardSearchField")
+            keepOnTopButton
         }
         .padding(12)
+    }
+
+    private var keepOnTopButton: some View {
+        let label = localization.string(keepOnTop ? .clipboardActionUnkeepOnTop : .clipboardActionKeepOnTop)
+        return Button {
+            keepOnTop.toggle()
+            actions.setKeepOnTop(keepOnTop)
+        } label: {
+            Image(systemName: keepOnTop ? "pin.fill" : "pin")
+                .foregroundStyle(keepOnTop ? Color.accentColor : .secondary)
+                .frame(width: 28, height: 28)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.borderless)
+        .help(label)
+        .accessibilityLabel(label)
+        .accessibilityIdentifier("ClipboardKeepOnTopButton")
     }
 
     @ViewBuilder private var content: some View {
@@ -134,7 +154,7 @@ struct ClipboardPanelView: View {
                 .buttonStyle(.link)
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
     }
 
     private func canReveal(_ entry: ClipboardEntry) -> Bool {
