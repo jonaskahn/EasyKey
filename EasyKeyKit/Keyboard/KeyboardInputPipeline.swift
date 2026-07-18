@@ -33,6 +33,7 @@ final class KeyboardInputPipeline {
     private let synthesizer = KeySynthesizer()
     private var engine: VietnameseEngine
     private var settings: EasyKeySettings
+    private var macroExpander = MacroExpander()
     private var activeBundleIdentifier: String?
     private var usesForeignInputSource = false
     private var cachedIsChromiumAddressBar: Bool?
@@ -63,6 +64,10 @@ final class KeyboardInputPipeline {
         resetSession()
     }
 
+    func update(macros: [Macro]) {
+        macroExpander.update(macros: macros)
+    }
+
     func setActiveApplication(_ bundleIdentifier: String?) {
         activeBundleIdentifier = bundleIdentifier
         engine.configuration = Self.engineConfiguration(for: settings, rule: currentCompatibilityRule())
@@ -79,6 +84,7 @@ final class KeyboardInputPipeline {
     func resetSession() {
         engine.reset()
         synthesizer.resetEncodedUnits()
+        macroExpander.reset()
     }
 
     var activeBundleIdentifierSnapshot: String? {
@@ -128,6 +134,10 @@ final class KeyboardInputPipeline {
             return .suppressed
         }
 
+        if let macroResult = processMacro(proxy: proxy, keyCode: keyCode, event: event) {
+            return macroResult
+        }
+
         guard settings.input.language == .vietnamese,
               settings.compatibility.otherLanguageSupport || !usesForeignInputSource
         else {
@@ -146,6 +156,24 @@ final class KeyboardInputPipeline {
 
         apply(proxy: proxy, output)
         return KeyboardProcessResult(suppressesOriginal: true, outputCount: output.edits.count, disposition: .suppressed)
+    }
+
+    private func processMacro(proxy: CGEventTapProxy, keyCode: UInt16, event: CGEvent) -> KeyboardProcessResult? {
+        guard let character = Self.character(from: event),
+              let expansion = macroExpander.consume(
+                  character: character,
+                  keyCode: keyCode,
+                  modifiers: Self.modifiers(from: event),
+                  options: settings.macro,
+                  language: settings.input.language
+              )
+        else { return nil }
+        engine.reset()
+        synthesizer.postBackspace(proxy: proxy, count: expansion.triggerLength)
+        synthesizer.insert(proxy: proxy, expansion.text)
+        synthesizer.postPhysicalKey(proxy: proxy, keyCode: keyCode)
+        synthesizer.resetEncodedUnits()
+        return KeyboardProcessResult(suppressesOriginal: true, outputCount: 2, disposition: .suppressed)
     }
 
     private func apply(proxy: CGEventTapProxy, _ output: EngineOutput) {

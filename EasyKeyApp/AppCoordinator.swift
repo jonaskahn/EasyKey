@@ -92,6 +92,7 @@ final class AppCoordinator: ObservableObject {
         configureKeyboardService()
         configureStatusItemController()
         configureWorkspaceObserver()
+        self.keyboardService.update(macros: self.macroStore.macros)
         clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
     }
 
@@ -348,6 +349,7 @@ final class AppCoordinator: ObservableObject {
 
     func refreshMacros() {
         macroStore.changeActiveEncoding(to: settingsStore.settings.input.encoding)
+        keyboardService.update(macros: macroStore.macros)
         macroRevision &+= 1
     }
 

@@ -119,6 +119,12 @@ public final class KeyboardService {
         }
     }
 
+    public func update(macros: [Macro]) {
+        processingQueue.sync {
+            pipeline.update(macros: macros)
+        }
+    }
+
     public func setActiveApplication(_ bundleIdentifier: String?) {
         processingQueue.sync {
             pipeline.setActiveApplication(bundleIdentifier)
