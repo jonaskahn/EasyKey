@@ -13,6 +13,7 @@ struct ShortcutKeyCapture: NSViewRepresentable {
             self.shortcut = shortcut
             isRecording = false
         }
+        view.cancel = { isRecording = false }
         return view
     }
 
@@ -21,6 +22,7 @@ struct ShortcutKeyCapture: NSViewRepresentable {
             self.shortcut = shortcut
             isRecording = false
         }
+        view.cancel = { isRecording = false }
         if isRecording {
             DispatchQueue.main.async { view.window?.makeFirstResponder(view) }
         }
@@ -29,16 +31,33 @@ struct ShortcutKeyCapture: NSViewRepresentable {
 
 final class KeyCaptureView: NSView {
     var capture: ((Shortcut) -> Void)?
+    var cancel: (() -> Void)?
     override var acceptsFirstResponder: Bool {
         true
     }
 
+    private static let escapeKeyCode: UInt16 = 53
+
     override func keyDown(with event: NSEvent) {
-        capture?(Shortcut(keyCode: UInt16(event.keyCode), modifiers: modifiers(from: event)))
+        _ = record(event)
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        keyDown(with: event)
+        record(event)
+    }
+
+    /// Records a shortcut from a key event. A valid shortcut requires at least one
+    /// modifier, so bare key presses are rejected to prevent accidental assignment.
+    /// Escape cancels recording. Returns whether the event was consumed.
+    @discardableResult
+    private func record(_ event: NSEvent) -> Bool {
+        let modifiers = modifiers(from: event)
+        if event.keyCode == Self.escapeKeyCode, modifiers.isEmpty {
+            cancel?()
+            return true
+        }
+        guard !modifiers.isEmpty else { return false }
+        capture?(Shortcut(keyCode: UInt16(event.keyCode), modifiers: modifiers))
         return true
     }
 

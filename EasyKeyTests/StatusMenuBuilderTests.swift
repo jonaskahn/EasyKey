@@ -41,6 +41,7 @@ final class StatusMenuBuilderTests: XCTestCase {
             toggleKeyboardPause: #selector(StatusMenuActionTarget.toggleKeyboardPause(_:)),
             restartKeyboardService: #selector(StatusMenuActionTarget.restartKeyboardService(_:)),
             convertClipboard: #selector(StatusMenuActionTarget.convertClipboardAction(_:)),
+            clipboardHistory: #selector(StatusMenuActionTarget.clipboardHistoryAction(_:)),
             openSettings: #selector(StatusMenuActionTarget.openSettings(_:)),
             openMacros: #selector(StatusMenuActionTarget.openMacros(_:)),
             showAbout: #selector(StatusMenuActionTarget.showAbout(_:)),

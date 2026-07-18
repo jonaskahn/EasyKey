@@ -325,8 +325,10 @@ This repository follows the hybrid in §5.4:
 
 | Concern | Location |
 | --- | --- |
-| Domain (no AppKit / SwiftUI / Combine) | `EasyEngineCore/` soft-grouped: `Engine/`, `Settings/`, `Macros/`, `SmartSwitch/`, `Converter/`, `Diagnostics/` |
-| Shared logging | `EasyEngineCore/Diagnostics/AppLog` (os.Logger; never logs keystroke content) |
+| Domain (no AppKit / SwiftUI / Combine) | `EasyEngineCore/` soft-grouped: `Engine/`, `Settings/`, `Macros/`, `SmartSwitch/`, `Converter/`, `Clipboard/`, `Diagnostics/` |
+| Clipboard domain (models, history/retention policy) | `EasyEngineCore/Clipboard/` (`ClipboardOptions`, `ClipboardEntry`, `ClipboardHistory`) |
+| Clipboard platform slice (capture, persistence, panel, hotkey) | `EasyKeyApp/Features/Clipboard/` (NSPasteboard, CryptoKit/Keychain, NSPanel, Carbon hotkey composed by `ClipboardServices`) |
+| Shared logging | `EasyEngineCore/Diagnostics/AppLog` (os.Logger; never logs keystroke or clipboard content) |
 | Settings persistence | `EasyEngineCore/Settings/SettingsRepository` |
 | Settings UI observation | `EasyKeyApp/Settings/ObservableSettingsStore` |
 | Infrastructure (keyboard, synthesis, compatibility) | `EasyKeyKit/` (`Keyboard/` for event-tap pipeline) |

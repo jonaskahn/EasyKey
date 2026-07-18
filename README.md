@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/assets/logo.png" width="128" height="128" alt="EasyKey logo"><br>
   <strong>EasyKey</strong><br><br>
-  <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/version-0.0.1-0969da?style=flat-square" alt="Latest version"></a>
+  <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/version-0.0.2-0969da?style=flat-square" alt="Latest version"></a>
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-95%25-brightgreen?style=flat-square" alt="95% coverage gate"></a>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/download-Releases-111111?style=flat-square" alt="Download EasyKey"></a>
@@ -26,6 +26,7 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 - 🧩 **Powerful macros** — Create, search, enable, import, and export trigger-based expansions
 - 🔀 **Smart Switch** — Remember language and optional encoding choices for each application
 - 🔄 **Text converter** — Preview, copy, or transform clipboard text across supported encodings
+- 📋 **Clipboard manager** — Opt-in, private, searchable clipboard history opened with Control-Option-V; optional AES-GCM encrypted persistence
 - 🛠️ **Application compatibility** — Dedicated compatibility and ignore lists, including Chromium-oriented controls
 - ⌨️ **Custom shortcuts** — Switch languages, control the engine, and convert clipboard content from the keyboard
 - 🚀 **Secure updates** — Sparkle 2 update delivery with EdDSA signature verification
@@ -36,6 +37,8 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 EasyKey performs keyboard transformation and preference storage on the Mac. No typed content is uploaded, and no usage data is collected. Network access is limited to update checks when updates are configured and enabled.
 
 Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
+
+The **clipboard manager is off by default** and must be explicitly enabled. When enabled it keeps a local history of copied text, URLs, images, and file references. Content marked concealed, transient, or auto-generated (used by password managers) is always rejected and never recorded. History lives only in memory unless you turn on **Keep history after restart**, which stores it AES-GCM encrypted on the device with a Keychain key (unlocked-this-device-only, never synchronized); disabling that option deletes the stored data. The ignored-applications list is a best-effort convenience — macOS does not report the source application of a clipboard change, so it is not a security boundary. Clipboard content is never written to logs and never leaves the device.
 
 ## 📸 Screenshots
 

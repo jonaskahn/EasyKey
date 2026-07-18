@@ -37,6 +37,87 @@ final class ShortcutKeyCaptureTests: XCTestCase {
         XCTAssertTrue(captured?.modifiers.contains(.shift) ?? false)
     }
 
+    func testKeyDown_BareKeyWithoutModifiers_IsRejected() {
+        let view = KeyCaptureView()
+        var captured: Shortcut?
+        view.capture = { captured = $0 }
+
+        guard let event = NSEvent.keyEvent(
+            with: .keyDown,
+            location: .zero,
+            modifierFlags: [],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            characters: "a",
+            charactersIgnoringModifiers: "a",
+            isARepeat: false,
+            keyCode: 0
+        )
+        else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        view.keyDown(with: event)
+        XCTAssertNil(captured)
+    }
+
+    func testPerformKeyEquivalent_BareKey_ReturnsFalseAndDoesNotCapture() {
+        let view = KeyCaptureView()
+        var captureCount = 0
+        view.capture = { _ in captureCount += 1 }
+
+        guard let event = NSEvent.keyEvent(
+            with: .keyDown,
+            location: .zero,
+            modifierFlags: [],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            characters: "b",
+            charactersIgnoringModifiers: "b",
+            isARepeat: false,
+            keyCode: 11
+        )
+        else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        XCTAssertFalse(view.performKeyEquivalent(with: event))
+        XCTAssertEqual(captureCount, 0)
+    }
+
+    func testKeyDown_Escape_CancelsWithoutCapturing() {
+        let view = KeyCaptureView()
+        var captured: Shortcut?
+        var cancelled = false
+        view.capture = { captured = $0 }
+        view.cancel = { cancelled = true }
+
+        guard let event = NSEvent.keyEvent(
+            with: .keyDown,
+            location: .zero,
+            modifierFlags: [],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            characters: "\u{1B}",
+            charactersIgnoringModifiers: "\u{1B}",
+            isARepeat: false,
+            keyCode: 53
+        )
+        else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        view.keyDown(with: event)
+        XCTAssertNil(captured)
+        XCTAssertTrue(cancelled)
+    }
+
     func testPerformKeyEquivalent_InvokesCaptureAndReturnsTrue() {
         let view = KeyCaptureView()
         var captureCount = 0

@@ -4,7 +4,7 @@ import EasyKeyKit
 import SwiftUI
 
 enum SettingsSection: String, CaseIterable, Identifiable {
-    case typing, encoding, macros, smartSwitch, behavior, system, about
+    case typing, encoding, clipboard, macros, smartSwitch, behavior, system, about
 
     var id: String {
         rawValue
@@ -14,6 +14,7 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         switch self {
         case .typing: "keyboard"
         case .encoding: "character.book.closed"
+        case .clipboard: "doc.on.clipboard"
         case .macros: "text.badge.plus"
         case .smartSwitch: "arrow.triangle.2.circlepath"
         case .behavior: "slider.horizontal.3"

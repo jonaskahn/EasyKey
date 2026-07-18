@@ -61,6 +61,8 @@ struct SettingsShell: View {
             TypingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .encoding:
             EncodingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
+        case .clipboard:
+            ClipboardSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .macros:
             MacroSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .smartSwitch:

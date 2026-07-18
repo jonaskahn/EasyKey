@@ -50,6 +50,7 @@ extension AppCoordinator {
         workspaceObserver.onWake = { [weak self] in
             self?.keyboardService.resetSession()
             self?.keyboardService.refreshPermission()
+            self?.clipboard.handleWake()
         }
     }
 
@@ -106,6 +107,10 @@ extension AppCoordinator {
             if ignoredApplicationsSetting != settings.compatibility.ignoredApplicationBundleIdentifiers {
                 ignoredApplicationsSetting = settings.compatibility.ignoredApplicationBundleIdentifiers
                 smartSwitchController.handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
+            }
+            if clipboardOptionsSetting != settings.clipboard {
+                clipboardOptionsSetting = settings.clipboard
+                clipboard.apply(settings.clipboard)
             }
         }
     }
