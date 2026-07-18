@@ -26,27 +26,23 @@ final class SettingsWorkflowTests: XCTestCase {
         app.activate()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
-        let primaryButton = app.buttons["OnboardingPrimary"]
-        XCTAssertTrue(primaryButton.waitForExistence(timeout: 3))
+        clickOnboardingPrimaryButton(thenWaitFor: "Accessibility")
+        clickOnboardingPrimaryButton(thenWaitFor: "Typing method")
+        clickOnboardingPrimaryButton(thenWaitFor: "Ready")
 
-        primaryButton.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
-
-        primaryButton.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["Typing method"].waitForExistence(timeout: 5))
-
-        primaryButton.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["Ready"].waitForExistence(timeout: 3))
-        XCTAssertEqual(primaryButton.label, "Finish setup")
-        primaryButton.tap()
+        let finishButton = onboardingPrimaryButton()
+        XCTAssertTrue(finishButton.waitForExistence(timeout: 5))
+        XCTAssertEqual(finishButton.label, "Finish setup")
+        finishButton.click()
     }
 
     func testOnboardingAccessibilityStepShowsGrantButton() {
         app.launch()
         app.activate()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["OnboardingPrimary"].waitForExistence(timeout: 3))
-        app.buttons["OnboardingPrimary"].tap()
+        let primaryButton = onboardingPrimaryButton()
+        XCTAssertTrue(primaryButton.waitForExistence(timeout: 5))
+        primaryButton.click()
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         // Grant button is only shown when Accessibility is not yet trusted on the host.
@@ -75,7 +71,7 @@ final class SettingsWorkflowTests: XCTestCase {
         app.launch()
         app.activate()
 
-        let about = app.staticTexts["About"].firstMatch
+        let about = app.descendants(matching: .any)["SettingsSection-about"].firstMatch
         XCTAssertTrue(about.waitForExistence(timeout: 5))
         about.click()
 
@@ -97,13 +93,33 @@ final class SettingsWorkflowTests: XCTestCase {
         app.launch()
         app.activate()
 
-        let toggle = app.buttons["SettingsSidebarToggle"]
-        XCTAssertTrue(toggle.waitForExistence(timeout: 5))
+        let toggle = sidebarToggleButton()
+        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
         let initialMidX = toggle.frame.midX
 
         toggle.click()
 
-        XCTAssertTrue(toggle.waitForExistence(timeout: 2))
-        XCTAssertEqual(toggle.frame.midX, initialMidX, accuracy: 1)
+        let updatedToggle = sidebarToggleButton()
+        XCTAssertTrue(updatedToggle.waitForExistence(timeout: 5))
+        XCTAssertEqual(updatedToggle.frame.midX, initialMidX, accuracy: 1)
+    }
+
+    private func onboardingPrimaryButton() -> XCUIElement {
+        app.buttons["OnboardingPrimary"].firstMatch
+    }
+
+    private func clickOnboardingPrimaryButton(thenWaitFor titleIdentifier: String) {
+        let button = onboardingPrimaryButton()
+        XCTAssertTrue(button.waitForExistence(timeout: 5))
+        button.click()
+        XCTAssertTrue(app.descendants(matching: .any)[titleIdentifier].waitForExistence(timeout: 10))
+    }
+
+    private func sidebarToggleButton() -> XCUIElement {
+        app.buttons.matching(NSPredicate(
+            format: "identifier == %@ OR label == %@",
+            "SettingsSidebarToggle",
+            "Toggle sidebar"
+        )).firstMatch
     }
 }

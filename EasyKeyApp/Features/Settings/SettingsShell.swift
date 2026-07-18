@@ -22,6 +22,7 @@ struct SettingsShell: View {
             List(SettingsSection.allCases, selection: selection) { section in
                 Label(localization.sectionTitle(section), systemImage: section.symbol)
                     .tag(section)
+                    .accessibilityIdentifier("SettingsSection-\(section.rawValue)")
             }
             .listStyle(.sidebar)
             .frame(width: 192)
