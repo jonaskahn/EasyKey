@@ -5,6 +5,7 @@ struct ClipboardEntryRow: View {
     let entry: ClipboardEntry
     @ObservedObject var thumbnailLoader: ClipboardThumbnailLoader
     @ObservedObject var localization: LocalizationStore
+    var togglePin: () -> Void = {}
 
     private var isUnavailable: Bool {
         ClipboardRowPresenter.isUnavailable(entry)
@@ -30,9 +31,16 @@ struct ClipboardEntryRow: View {
                 .lineLimit(1)
             }
             Spacer(minLength: 0)
-            if entry.isPinned {
-                Image(systemName: "pin.fill").font(.caption).foregroundStyle(.secondary)
+            Button(action: togglePin) {
+                Image(systemName: entry.isPinned ? "pin.fill" : "pin")
+                    .font(.title3)
+                    .foregroundStyle(entry.isPinned ? Color.accentColor : .secondary)
+                    .frame(width: 28, height: 28)
+                    .contentShape(Rectangle())
             }
+            .buttonStyle(.borderless)
+            .help(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
+            .accessibilityLabel(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)

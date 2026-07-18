@@ -112,7 +112,7 @@ struct MenuPopoverView: View {
             Divider()
 
             HStack(spacing: 12) {
-                Button(localization.string(.menuMacros)) { coordinator.showSettings(section: .macros) }
+                Button(localization.string(.settingsSectionClipboard)) { coordinator.showSettings(section: .clipboard) }
                     .buttonStyle(.bordered)
                 Spacer()
                 Button(localization.string(.menuSettingsShort)) { coordinator.showSettings() }

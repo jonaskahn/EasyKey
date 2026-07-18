@@ -88,11 +88,16 @@ struct ClipboardPanelView: View {
     }
 
     private func row(for entry: ClipboardEntry) -> some View {
-        ClipboardEntryRow(entry: entry, thumbnailLoader: thumbnailLoader, localization: localization)
-            .tag(entry.id)
-            .contentShape(Rectangle())
-            .onTapGesture { actions.primary(entry) }
-            .contextMenu { contextMenu(for: entry) }
+        ClipboardEntryRow(
+            entry: entry,
+            thumbnailLoader: thumbnailLoader,
+            localization: localization,
+            togglePin: { actions.togglePin(entry) }
+        )
+        .tag(entry.id)
+        .contentShape(Rectangle())
+        .onTapGesture { actions.primary(entry) }
+        .contextMenu { contextMenu(for: entry) }
     }
 
     @ViewBuilder private func contextMenu(for entry: ClipboardEntry) -> some View {
