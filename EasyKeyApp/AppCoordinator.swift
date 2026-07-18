@@ -37,6 +37,7 @@ final class AppCoordinator: ObservableObject {
     var ignoredApplicationsSetting: [String]?
     var clipboardOptionsSetting: ClipboardOptions?
     private(set) var updateWindow: NSWindow?
+    private var clipboardStartTask: Task<Void, Never>?
 
     /// Composition-root initializer. Production uses `AppCoordinator.shared` defaults;
     /// tests may inject stores and collaborators.
@@ -131,7 +132,10 @@ final class AppCoordinator: ObservableObject {
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         keyboardService.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
-        Task { await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory) }
+        clipboardStartTask?.cancel()
+        clipboardStartTask = Task { [clipboard] in
+            await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
+        }
         if settingsStore.settings.system.showSettingsAtLaunch {
             showSettings()
         }
@@ -145,7 +149,13 @@ final class AppCoordinator: ObservableObject {
         statusItemController.teardown()
         keyboardService.stop()
         settingsWindowPresenter.close()
-        Task { await clipboard.stop() }
+        let clipboardStartTask = clipboardStartTask
+        self.clipboardStartTask = nil
+        clipboardStartTask?.cancel()
+        Task { [clipboard] in
+            await clipboardStartTask?.value
+            await clipboard.stop()
+        }
     }
 
     func showLogs() {

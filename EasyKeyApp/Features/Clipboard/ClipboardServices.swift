@@ -124,9 +124,8 @@ final class ClipboardServices: ObservableObject {
         if loadPersisted {
             await model.loadPersistedHistory()
         }
-        if options.isCaptureEnabled {
-            monitor.start()
-        }
+        guard !Task.isCancelled, options.isCaptureEnabled else { return }
+        monitor.start()
     }
 
     func apply(_ options: ClipboardOptions) {
