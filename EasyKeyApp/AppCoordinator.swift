@@ -126,7 +126,8 @@ final class AppCoordinator: ObservableObject {
         observeSettings()
         observeLocalizationChanges()
         workspaceObserver.start()
-        if !ProcessInfo.processInfo.arguments.contains("--uitesting") {
+        if !ProcessInfo.processInfo.arguments.contains("--uitesting"),
+           settingsStore.settings.system.checkForUpdates {
             updateService.start()
             performStartupUpdateCheck()
         }
