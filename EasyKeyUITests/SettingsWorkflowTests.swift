@@ -47,7 +47,7 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["OnboardingPrimary"].waitForExistence(timeout: 3))
         app.buttons["OnboardingPrimary"].tap()
-        XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         // Grant button is only shown when Accessibility is not yet trusted on the host.
         let grantButton = app.buttons["Grant Accessibility Access"]

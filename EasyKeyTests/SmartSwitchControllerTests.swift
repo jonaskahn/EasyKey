@@ -62,6 +62,94 @@ final class SmartSwitchControllerTests: XCTestCase {
         XCTAssertFalse(controller.currentAppSmartSwitchStatus.isEmpty)
     }
 
+    func testHandleApplicationActivation_SelfApplication_ShowsSelfStatus() {
+        var changeCount = 0
+        controller.onPublishedStateChange = { changeCount += 1 }
+
+        controller.handleApplicationActivation(.current)
+
+        XCTAssertEqual(controller.currentAppSmartSwitchStatus, localization.string(.smartSwitchSelfApp))
+        XCTAssertEqual(changeCount, 1)
+    }
+
+    func testHandleApplicationActivation_IgnoredApplication_DoesNotRecordPreference() throws {
+        let application = try externalRunningApplication()
+        let bundleIdentifier = try XCTUnwrap(application.bundleIdentifier)
+        settingsStore.update {
+            $0.smartSwitch.enabled = true
+            $0.compatibility.ignoredApplicationBundleIdentifiers = [bundleIdentifier]
+        }
+
+        controller.handleApplicationActivation(application)
+
+        XCTAssertEqual(controller.currentAppSmartSwitchStatus, localization.string(.smartSwitchIgnored))
+        XCTAssertTrue(controller.preferences.isEmpty)
+    }
+
+    func testHandleApplicationActivation_NewApplication_RecordsCurrentChoice() throws {
+        let application = try externalRunningApplication()
+        settingsStore.update {
+            $0.smartSwitch.enabled = true
+            $0.smartSwitch.rememberEncoding = true
+            $0.input.language = .english
+            $0.input.encoding = .tcvn3
+        }
+
+        controller.handleApplicationActivation(application)
+
+        let preference = try XCTUnwrap(controller.preferences.first)
+        XCTAssertEqual(preference.choice.language, .english)
+        XCTAssertEqual(preference.choice.encoding, .tcvn3)
+        XCTAssertEqual(
+            controller.currentAppSmartSwitchStatus,
+            localization.format(.smartSwitchSaved, localization.displayName(for: .english))
+        )
+    }
+
+    func testHandleApplicationActivation_KnownApplication_AppliesLanguageOnly() throws {
+        let application = try externalRunningApplication()
+        let identity = identity(for: application)
+        _ = try smartSwitchStore.handleAppFocus(
+            identity,
+            currentChoice: SmartSwitchChoice(language: .vietnamese)
+        )
+        settingsStore.update {
+            $0.smartSwitch.enabled = true
+            $0.smartSwitch.rememberEncoding = false
+            $0.input.language = .english
+            $0.input.encoding = .tcvn3
+        }
+
+        controller.handleApplicationActivation(application)
+
+        XCTAssertEqual(settingsStore.settings.input.language, .vietnamese)
+        XCTAssertEqual(settingsStore.settings.input.encoding, .tcvn3)
+        XCTAssertEqual(
+            controller.currentAppSmartSwitchStatus,
+            localization.format(.smartSwitchApplied, localization.displayName(for: .vietnamese))
+        )
+    }
+
+    func testHandleApplicationActivation_KnownApplication_AppliesLanguageAndEncoding() throws {
+        let application = try externalRunningApplication()
+        let identity = identity(for: application)
+        _ = try smartSwitchStore.handleAppFocus(
+            identity,
+            currentChoice: SmartSwitchChoice(language: .vietnamese, encoding: .vniWindows)
+        )
+        settingsStore.update {
+            $0.smartSwitch.enabled = true
+            $0.smartSwitch.rememberEncoding = true
+            $0.input.language = .english
+            $0.input.encoding = .unicode
+        }
+
+        controller.handleApplicationActivation(application)
+
+        XCTAssertEqual(settingsStore.settings.input.language, .vietnamese)
+        XCTAssertEqual(settingsStore.settings.input.encoding, .vniWindows)
+    }
+
     func testResetPreference_RemovesStoredChoice() {
         let identity = ApplicationIdentity(bundleIdentifier: "com.example.App", path: nil, name: "App")
         let choice = SmartSwitchChoice(language: .english, encoding: .unicode)
@@ -220,5 +308,23 @@ final class SmartSwitchControllerTests: XCTestCase {
         controller.applyLanguageAndEncoding(from: SmartSwitchChoice(language: .vietnamese, encoding: nil))
         XCTAssertEqual(settingsStore.settings.input.language, .vietnamese)
         XCTAssertEqual(settingsStore.settings.input.encoding, .unicode)
+    }
+
+    private func externalRunningApplication() throws -> NSRunningApplication {
+        let bundleIdentifiers = ["com.apple.finder", "com.apple.dock", "com.apple.SystemUIServer"]
+        for bundleIdentifier in bundleIdentifiers {
+            if let application = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).first {
+                return application
+            }
+        }
+        throw XCTSkip("No stable system application is running")
+    }
+
+    private func identity(for application: NSRunningApplication) -> ApplicationIdentity {
+        ApplicationIdentity(
+            bundleIdentifier: application.bundleIdentifier,
+            path: application.bundleURL?.path,
+            name: application.localizedName
+        )
     }
 }

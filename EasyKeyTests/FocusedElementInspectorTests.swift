@@ -44,6 +44,54 @@ final class FocusedElementInspectorTests: XCTestCase {
         ))
     }
 
+    func testReplacement_RejectsNegativeSelectionLocation() {
+        XCTAssertNil(FocusedElementInspector.replacement(
+            value: "abc",
+            selectedRange: NSRange(location: -1, length: 0),
+            deletedUnitLengths: [],
+            replacement: "x"
+        ))
+    }
+
+    func testReplacement_RejectsNegativeSelectionLength() {
+        XCTAssertNil(FocusedElementInspector.replacement(
+            value: "abc",
+            selectedRange: NSRange(location: 0, length: -1),
+            deletedUnitLengths: [],
+            replacement: "x"
+        ))
+    }
+
+    func testReplacement_RejectsSelectionStartingPastEnd() {
+        XCTAssertNil(FocusedElementInspector.replacement(
+            value: "abc",
+            selectedRange: NSRange(location: 4, length: 0),
+            deletedUnitLengths: [],
+            replacement: "x"
+        ))
+    }
+
+    func testReplacement_RejectsNegativeDeletedUnitLength() {
+        XCTAssertNil(FocusedElementInspector.replacement(
+            value: "abc",
+            selectedRange: NSRange(location: 2, length: 0),
+            deletedUnitLengths: [1, -1],
+            replacement: "x"
+        ))
+    }
+
+    func testReplacement_InsertsAtCaretWithoutDeletion() {
+        let result = FocusedElementInspector.replacement(
+            value: "abc",
+            selectedRange: NSRange(location: 1, length: 0),
+            deletedUnitLengths: [],
+            replacement: "😀"
+        )
+
+        XCTAssertEqual(result?.value, "a😀bc")
+        XCTAssertEqual(result?.caretRange, NSRange(location: 3, length: 0))
+    }
+
     func testIsChromiumAddressBar_DoesNotCrash() {
         _ = FocusedElementInspector.isChromiumAddressBar()
     }
