@@ -86,9 +86,11 @@ public final class MacroStore {
     public func add(trigger: String, expansion: String, isEnabled: Bool = true, now: Date = Date()) throws -> Macro {
         let macro = Macro(trigger: trigger, expansion: expansion, isEnabled: isEnabled, createdAt: now, updatedAt: now)
         try validate(macro)
-        macrosByID[macro.id] = macro
-        encodedExpansions[macro.id] = EncodingCodec.encode(macro.expansion, as: activeEncoding)
-        try save()
+        var candidate = macrosByID
+        candidate[macro.id] = macro
+        try save(candidate)
+        macrosByID = candidate
+        refreshEncodedExpansions()
         return macro
     }
 
@@ -106,16 +108,20 @@ public final class MacroStore {
         macro.isEnabled = isEnabled
         macro.updatedAt = now
         try validate(macro, excluding: id)
-        macrosByID[id] = macro
-        encodedExpansions[id] = EncodingCodec.encode(expansion, as: activeEncoding)
-        try save()
+        var candidate = macrosByID
+        candidate[id] = macro
+        try save(candidate)
+        macrosByID = candidate
+        refreshEncodedExpansions()
         return macro
     }
 
     public func delete(id: UUID) throws {
-        guard macrosByID.removeValue(forKey: id) != nil else { throw MacroStoreError.unknownMacro }
-        encodedExpansions.removeValue(forKey: id)
-        try save()
+        var candidate = macrosByID
+        guard candidate.removeValue(forKey: id) != nil else { throw MacroStoreError.unknownMacro }
+        try save(candidate)
+        macrosByID = candidate
+        refreshEncodedExpansions()
     }
 
     public func replaceAll(_ replacements: [Macro]) throws {
@@ -124,9 +130,9 @@ public final class MacroStore {
             try validate(macro, among: candidate.values)
             candidate[macro.id] = macro
         }
+        try save(candidate)
         macrosByID = candidate
         refreshEncodedExpansions()
-        try save()
     }
 
     public func changeActiveEncoding(to encoding: EncodingTable) {
@@ -288,12 +294,15 @@ public final class MacroStore {
         })
     }
 
-    private func save() throws {
+    private func save(_ macrosByID: [UUID: Macro]) throws {
         guard let fileURL else { return }
         let parent = fileURL.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let macros = macrosByID.values.sorted { lhs, rhs in
+            lhs.trigger.localizedCaseInsensitiveCompare(rhs.trigger) == .orderedAscending
+        }
         try encoder.encode(macros).write(to: fileURL, options: .atomic)
     }
 

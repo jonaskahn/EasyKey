@@ -3,6 +3,15 @@ name: CI
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -18,12 +27,21 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Install static-analysis tools
+        run: brew install swiftformat swiftlint
+
       - name: Resolve SPM dependencies
         run: |
           xcodebuild \
             -project EasyKey.xcodeproj \
             -scheme EasyKeyApp \
             -resolvePackageDependencies
+
+      - name: Check formatting
+        run: swiftformat --lint .
+
+      - name: Lint
+        run: swiftlint lint
 
       - name: Run tests with coverage
         run: |

@@ -119,14 +119,13 @@ final class ClipboardServices: ObservableObject {
 
     // MARK: - Lifecycle
 
-    func start(loadPersisted: Bool) {
-        if loadPersisted {
-            Task { await model.loadPersistedHistory() }
-        }
+    func start(loadPersisted: Bool) async {
         hotkeyConflict = !hotKey.apply(options.shortcut)
-        if options.isCaptureEnabled {
-            monitor.start()
+        if loadPersisted {
+            await model.loadPersistedHistory()
         }
+        guard !Task.isCancelled, options.isCaptureEnabled else { return }
+        monitor.start()
     }
 
     func apply(_ options: ClipboardOptions) {

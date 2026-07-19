@@ -25,22 +25,22 @@ public enum AppLog {
     }()
 
     public static func logger(_ category: Category) -> Logger {
-        loggers[category] ?? Logger(subsystem: subsystem, category: category.rawValue)
+        loggers[category]!
     }
 
     public static func debug(_ category: Category, _ message: String) {
-        logger(category).debug("\(message, privacy: .public)")
+        logger(category).debug("\(message, privacy: .private)")
     }
 
     public static func info(_ category: Category, _ message: String) {
-        logger(category).info("\(message, privacy: .public)")
+        logger(category).info("\(message, privacy: .private)")
     }
 
     public static func notice(_ category: Category, _ message: String) {
-        logger(category).notice("\(message, privacy: .public)")
+        logger(category).notice("\(message, privacy: .private)")
     }
 
     public static func error(_ category: Category, _ message: String) {
-        logger(category).error("\(message, privacy: .public)")
+        logger(category).error("\(message, privacy: .private)")
     }
 }

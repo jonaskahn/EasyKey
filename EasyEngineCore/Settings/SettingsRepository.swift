@@ -31,12 +31,16 @@ public final class SettingsRepository {
 
     public static var defaultFileURL: URL {
         let fileManager = FileManager.default
-        let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-        let preferredParent = appSupport
-            ?? fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
-            ?? fileManager.temporaryDirectory
-        if appSupport == nil {
-            AppLog.error(.settings, "Application Support unavailable; falling back to \(preferredParent.path)")
+        let preferredParent: URL
+        if let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            preferredParent = appSupport
+        } else if let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            AppLog.error(.settings, "Application Support unavailable; falling back to \(caches.path)")
+            preferredParent = caches
+        } else {
+            let temp = fileManager.temporaryDirectory
+            AppLog.error(.settings, "Application Support and Caches unavailable; falling back to \(temp.path)")
+            preferredParent = temp
         }
         let dir = preferredParent.appendingPathComponent("EasyKey", isDirectory: true)
         do {
@@ -82,10 +86,8 @@ public final class SettingsRepository {
         do {
             decoded = try JSONDecoder().decode(EasyKeySettings.self, from: data)
         } catch {
-            let message = "Decode failed, using defaults: \(error.localizedDescription)"
+            let message = "Decode failed; current settings preserved: \(error.localizedDescription)"
             diagnostic.entries.append(.init(severity: .warning, message: message))
-            settings = .defaults
-            scheduleSave()
             AppLog.error(.settings, message)
             return diagnostic
         }
@@ -147,14 +149,10 @@ public final class SettingsRepository {
             AppLog.error(.settings, "Failed to create settings parent directory: \(error.localizedDescription)")
             return
         }
-        let tempURL = url.appendingPathExtension("tmp")
         do {
-            try encoded.write(to: tempURL, options: .atomic)
-            _ = try? FileManager.default.removeItem(at: url)
-            try FileManager.default.moveItem(at: tempURL, to: url)
+            try encoded.write(to: url, options: .atomic)
         } catch {
             AppLog.error(.settings, "Failed to write settings: \(error.localizedDescription)")
-            try? FileManager.default.removeItem(at: tempURL)
         }
     }
 

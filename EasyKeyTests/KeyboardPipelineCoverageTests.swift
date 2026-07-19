@@ -4,6 +4,18 @@ import CoreGraphics
 import XCTest
 
 final class KeyboardPipelineCoverageTests: XCTestCase {
+    private func fakeProxy() -> CGEventTapProxy {
+        unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+    }
+
+    private func makeKeyDown(keyCode: Int64 = 0) -> CGEvent? {
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else {
+            return nil
+        }
+        event.setIntegerValueField(.keyboardEventKeycode, value: keyCode)
+        return event
+    }
+
     func testEngineConfigurationAllInputMethods() {
         for method in InputMethod.allCases {
             var settings = EasyKeySettings.defaults
@@ -119,5 +131,130 @@ final class KeyboardPipelineCoverageTests: XCTestCase {
         let mask = KeyboardInputPipeline.makeEventMask()
         let keyDownBit = CGEventMask(1) << CGEventType.keyDown.rawValue
         XCTAssertEqual(mask & keyDownBit, keyDownBit)
+    }
+
+    func testProcess_IgnoredApplication_Bypasses() {
+        var settings = EasyKeySettings.defaults
+        let bundleID = "com.example.ignored"
+        settings.compatibility.ignoredApplicationBundleIdentifiers = [bundleID]
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        pipeline.setActiveApplication(bundleID)
+        guard let event = makeKeyDown() else { XCTFail("Failed to create key down event"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 0)
+        XCTAssertEqual(result.disposition, .bypassed)
+    }
+
+    func testProcess_KeyUp_PassesThrough() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: false)
+        else { XCTFail("key up event"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyUp, event: event, keyCode: nil)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_KeyDownNilKeyCode_PassesThrough() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = makeKeyDown() else { XCTFail("Failed to create key event for nil keyCode test"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: nil)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_MouseEvent_ResetsAndPasses() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = makeKeyDown() else { XCTFail("Failed to create mouse event"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .leftMouseDown, event: event, keyCode: 0)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_FlagsChangedNoShortcut_ResetsAndPasses() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 100, keyDown: true)
+        else { XCTFail("flags changed event"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 100)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_FlagsChangedEmergencyShortcut_PassesThrough() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 35, keyDown: true)
+        else { XCTFail("emergency flagsChanged"); return }
+        event.flags = [.maskControl, .maskAlternate, .maskCommand]
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 35)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_FlagsChangedSwitchShortcut_PassesThrough() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 6, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 6, keyDown: true)
+        else { XCTFail("switch flagsChanged"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 6)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_KeyDownEmergencyShortcut_Suppresses() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 35, keyDown: true)
+        else { XCTFail("emergency suppress"); return }
+        event.flags = [.maskControl, .maskAlternate, .maskCommand]
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 35)
+        XCTAssertEqual(result.disposition, .suppressed)
+    }
+
+    func testProcess_KeyDownSwitchShortcut_Suppresses() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 6, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 6, keyDown: true)
+        else { XCTFail("switch suppress"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 6)
+        XCTAssertEqual(result.disposition, .suppressed)
+    }
+
+    func testIsChromiumAddressBar_NotChromium_DoesNotCrash() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        pipeline.setActiveApplication("com.example.notchromium")
+    }
+
+    func testIsCurrentInputSourceForeign_DoesNotCrash() {
+        let result = KeyboardInputPipeline.isCurrentInputSourceForeign()
+        _ = result
+    }
+
+    func testUpdateMacros_DoesNotCrash() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        pipeline.update(macros: [])
+    }
+
+    func testResetSession_DoesNotCrash() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        pipeline.resetSession()
+    }
+
+    func testShouldBreakAutocomplete_InChromiumNotSpotlight_WithDelete() {
+        XCTAssertTrue(KeyboardInputPipeline.shouldBreakAutocomplete(inChromiumAddressBar: true, isSpotlight: false, deleteCount: 3))
+    }
+
+    func testShouldBreakAutocomplete_InChromiumZeroDelete_ReturnsFalse() {
+        XCTAssertFalse(KeyboardInputPipeline.shouldBreakAutocomplete(inChromiumAddressBar: true, isSpotlight: false, deleteCount: 0))
+    }
+
+    func testShouldBreakAutocomplete_NotChromium_ReturnsFalse() {
+        XCTAssertFalse(KeyboardInputPipeline.shouldBreakAutocomplete(inChromiumAddressBar: false, isSpotlight: false, deleteCount: 5))
+    }
+
+    func testShouldBreakAutocomplete_InSpotlight_ReturnsTrue() {
+        XCTAssertTrue(KeyboardInputPipeline.shouldBreakAutocomplete(inChromiumAddressBar: true, isSpotlight: true, deleteCount: 3))
+    }
+
+    func testNormalize_WithCommandModifier_HasModifiers() {
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("normalize event"); return }
+        event.flags = .maskCommand
+        let normalized = KeyboardInputPipeline.normalize(event: event, keyCode: 0)
+        XCTAssertTrue(normalized.hasModifiers)
     }
 }

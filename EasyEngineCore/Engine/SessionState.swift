@@ -1,5 +1,3 @@
-import Foundation
-
 public struct BufferAtom: Equatable, Sendable {
     public var base: Character
     public var mark: DiacriticalMark
@@ -15,7 +13,7 @@ public struct BufferAtom: Equatable, Sendable {
         if VietnameseCharacters.isVowel(base) {
             return VietnameseCharacters.vowel(
                 base: base, mark: mark, tone: .none, uppercase: uppercase
-            ) ?? base
+            )!
         }
         if base.lowercased().first == "d" && mark == .stroke {
             return VietnameseCharacters.d(withStroke: true, uppercase: uppercase)
@@ -39,22 +37,16 @@ public extension BufferAtom? {
 public struct SessionState: Equatable, Sendable {
     public var atoms: [BufferAtom]
     public var tone: Tone
-    public var wordStartIndex: Int
     public var isDisabled: Bool
-    public var isSpellDisabled: Bool
 
     public init(
         atoms: [BufferAtom] = [],
         tone: Tone = .none,
-        wordStartIndex: Int = 0,
-        isDisabled: Bool = false,
-        isSpellDisabled: Bool = false
+        isDisabled: Bool = false
     ) {
         self.atoms = atoms
         self.tone = tone
-        self.wordStartIndex = wordStartIndex
         self.isDisabled = isDisabled
-        self.isSpellDisabled = isSpellDisabled
     }
 
     public var isEmpty: Bool {
@@ -71,10 +63,6 @@ public struct SessionState: Equatable, Sendable {
 
     public mutating func removeLast() {
         atoms.removeLast()
-    }
-
-    public mutating func removeLast(_ count: Int) {
-        atoms.removeLast(count)
     }
 
     public var lastAtom: BufferAtom? {
@@ -106,9 +94,12 @@ public struct SessionState: Equatable, Sendable {
 
         let wBases: Set<Character> = ["u", "o", "a"]
         for index in stride(from: atoms.count - 1, through: onsetEndIndex, by: -1) {
-            let base = atoms[index].base.lowercased().first ?? atoms[index].base
-            guard VietnameseCharacters.isVowel(base) else { return nil }
-            if wBases.contains(base), atoms[index].mark == .none {
+            let rawBase = atoms[index].base
+            let baseChar = Character(rawBase.lowercased())
+            if !VietnameseCharacters.isVowel(baseChar) {
+                return nil
+            }
+            if wBases.contains(baseChar), atoms[index].mark == .none {
                 return index
             }
         }
@@ -118,6 +109,5 @@ public struct SessionState: Equatable, Sendable {
     public mutating func reset() {
         atoms = []
         tone = .none
-        wordStartIndex = 0
     }
 }

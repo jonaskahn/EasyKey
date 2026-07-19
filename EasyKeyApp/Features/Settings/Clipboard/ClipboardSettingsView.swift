@@ -32,10 +32,10 @@ struct ClipboardSettingsView: View {
             Text(localization.string(.clipboardConfirmClearAllMessage))
         }
         .alert(localization.string(.clipboardConfirmPersistOffTitle), isPresented: $showPersistOffConfirm) {
-            Button(localization.string(.commonCancel), role: .cancel) {
-                settingsStore.update { $0.clipboard.persistsHistory = true }
+            Button(localization.string(.commonCancel), role: .cancel) {}
+            Button(localization.string(.clipboardConfirmTurnOff), role: .destructive) {
+                confirmDisablePersistence()
             }
-            Button(localization.string(.clipboardConfirmTurnOff), role: .destructive) {}
         } message: {
             Text(localization.string(.clipboardConfirmPersistOffMessage))
         }
@@ -145,18 +145,21 @@ struct ClipboardSettingsView: View {
 
     // MARK: - Bindings
 
-    private var persistBinding: Binding<Bool> {
+    var persistBinding: Binding<Bool> {
         Binding(
             get: { settingsStore.settings.clipboard.persistsHistory },
             set: { newValue in
                 if newValue {
                     settingsStore.update { $0.clipboard.persistsHistory = true }
                 } else {
-                    settingsStore.update { $0.clipboard.persistsHistory = false }
                     showPersistOffConfirm = true
                 }
             }
         )
+    }
+
+    func confirmDisablePersistence() {
+        settingsStore.update { $0.clipboard.persistsHistory = false }
     }
 
     private func kindBinding(_ kind: ClipboardContentKind) -> Binding<Bool> {

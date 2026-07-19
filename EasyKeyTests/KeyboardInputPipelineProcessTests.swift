@@ -41,6 +41,41 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         XCTAssertEqual(result.disposition, .bypassed)
     }
 
+    func testProcess_MacroExpandsWhenSpaceFollowsTrigger() {
+        var settings = EasyKeySettings.defaults
+        settings.macro.enabled = true
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "Best regards")])
+
+        for (character, keyCode) in [("s", UInt16(1)), ("i", 34), ("g", 5)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let delimiter = keyEvent(character: " ", keyCode: 49)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: delimiter, keyCode: 49)
+
+        XCTAssertTrue(result.suppressesOriginal)
+        XCTAssertEqual(result.disposition, .suppressed)
+    }
+
+    func testProcess_MacroDoesNotExpandInEnglishUnlessEnabled() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.macro.enabled = true
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "Best regards")])
+
+        for (character, keyCode) in [("s", UInt16(1)), ("i", 34), ("g", 5)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let delimiter = keyEvent(character: " ", keyCode: 49)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: delimiter, keyCode: 49)
+
+        XCTAssertFalse(result.suppressesOriginal)
+        XCTAssertEqual(result.disposition, .bypassed)
+    }
+
     func testProcess_IgnoredApplicationBypassesEmergencyShortcut() {
         var settings = EasyKeySettings.defaults
         settings.compatibility.ignoredApplicationBundleIdentifiers = ["dev.example.Ignored"]
@@ -106,6 +141,22 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
         let event = keyEvent(character: "", keyCode: 49, flags: [.maskControl, .maskCommand])
         let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 49)
+        XCTAssertEqual(result.disposition, .suppressed)
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func testProcess_ModifierOnlySwitchShortcut_OnFlagsChanged_TogglesLanguage() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 0, modifiers: [.control, .command])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        let expectation = expectation(description: "toggle language via flagsChanged")
+        pipeline.onLanguageToggled = { language in
+            XCTAssertEqual(language, .english)
+            expectation.fulfill()
+        }
+
+        let event = keyEvent(character: "", keyCode: 0, flags: [.maskControl, .maskCommand])
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: nil)
         XCTAssertEqual(result.disposition, .suppressed)
         wait(for: [expectation], timeout: 1.0)
     }

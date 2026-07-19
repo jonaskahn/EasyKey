@@ -178,7 +178,7 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("a"))
         let result = engine.process(event: KeyEvent(kind: .character("a"), control: true))
-        XCTAssertEqual(result.disposition, .suppress)
+        XCTAssertEqual(result, .passThrough)
         XCTAssertEqual(engine.currentBuffer, "")
     }
 

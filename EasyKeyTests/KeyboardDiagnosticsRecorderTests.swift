@@ -16,7 +16,6 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
         let recorder = KeyboardDiagnosticsRecorder()
         recorder.record(
             typeRawValue: 10,
-            keyCode: 0,
             disposition: .passed,
             outputCount: 0,
             bundleIdentifier: nil,
@@ -30,7 +29,6 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
         recorder.setEnabled(true)
         recorder.record(
             typeRawValue: 10,
-            keyCode: 0,
             disposition: .passed,
             outputCount: 1,
             bundleIdentifier: "com.example.test",
@@ -54,7 +52,6 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
         recorder.setEnabled(true)
         recorder.record(
             typeRawValue: 10,
-            keyCode: 0,
             disposition: .passed,
             outputCount: 0,
             bundleIdentifier: nil,
@@ -68,7 +65,6 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
         recorder.setEnabled(true)
         recorder.record(
             typeRawValue: 10,
-            keyCode: 0,
             disposition: .passed,
             outputCount: 0,
             bundleIdentifier: nil,
@@ -84,7 +80,6 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
         for i in 0 ..< 10 {
             recorder.record(
                 typeRawValue: UInt32(i),
-                keyCode: 0,
                 disposition: .passed,
                 outputCount: i,
                 bundleIdentifier: nil,

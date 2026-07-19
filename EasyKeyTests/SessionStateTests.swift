@@ -25,7 +25,8 @@ final class SessionStateTests: XCTestCase {
             BufferAtom(base: "c"),
             BufferAtom(base: "d"),
         ])
-        state.removeLast(2)
+        state.removeLast()
+        state.removeLast()
         XCTAssertEqual(state.count, 2)
         XCTAssertEqual(state.atoms.map(\.base), ["a", "b"])
     }
@@ -102,14 +103,11 @@ final class SessionStateTests: XCTestCase {
         var state = SessionState(
             atoms: [BufferAtom(base: "a")],
             tone: .acute,
-            wordStartIndex: 2,
-            isDisabled: true,
-            isSpellDisabled: true
+            isDisabled: true
         )
         state.reset()
         XCTAssertTrue(state.atoms.isEmpty)
         XCTAssertEqual(state.tone, .none)
-        XCTAssertEqual(state.wordStartIndex, 0)
     }
 
     func testIsDisabledFlag() {

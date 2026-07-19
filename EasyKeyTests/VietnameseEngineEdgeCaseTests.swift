@@ -112,13 +112,23 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         XCTAssertEqual(result.disposition, .pass)
     }
 
-    func testModifierKeyWithNonEmptyBuffer() {
-        var engine = VietnameseEngine()
-        _ = engine.process(event: .char("t"))
-        _ = engine.process(event: .char("a"))
-        let result = engine.process(event: KeyEvent(kind: .character("b"), control: true))
-        XCTAssertEqual(result.disposition, .suppress)
-        XCTAssertEqual(engine.currentBuffer, "")
+    func testModifiedCharactersPassThroughAndResetNonEmptyBuffer() {
+        let events = [
+            KeyEvent(kind: .character("b"), control: true),
+            KeyEvent(kind: .character("b"), option: true),
+            KeyEvent(kind: .character("b"), command: true),
+        ]
+
+        for event in events {
+            var engine = VietnameseEngine()
+            _ = engine.process(event: .char("t"))
+            _ = engine.process(event: .char("a"))
+
+            let result = engine.process(event: event)
+
+            XCTAssertEqual(result, .passThrough)
+            XCTAssertEqual(engine.currentBuffer, "")
+        }
     }
 
     func testWordBoundarySpaceWithEmptyBuffer() {
@@ -391,5 +401,54 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         for character in keys {
             _ = engine.process(event: .char(character))
         }
+    }
+
+    func testProcess_WhenDisabled_PassesThrough() {
+        var engine = VietnameseEngine()
+        engine.state = SessionState(isDisabled: true)
+        let result = engine.process(event: .char("a"))
+        XCTAssertEqual(result, .passThrough)
+    }
+
+    func testProcessBackspace_RemovingMarkWhenToneExists_RemovesMarkOnly() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
+        typeKeys(&engine, "aa") // â
+        typeKeys(&engine, "s") // ấ
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "")
+    }
+
+    func testProcessBackspace_RemovingToneWithoutMark_KeepsAtom() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "as") // á
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+    }
+
+    func testRevertDoubleVowel_OnNonCircumflexMark_PassThrough() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "aa") // â, mark is circumflex
+        _ = engine.process(event: .char("a")) // revertDoubleVowel: base "a", mark is circumflex → removes mark
+        XCTAssertEqual(engine.currentBuffer, "a")
+    }
+
+    func testRevertDStroke_OnBaseWithoutStroke_PassThrough() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "dd") // đ
+        _ = engine.process(event: .char("d")) // now it should revert
+        XCTAssertEqual(engine.currentBuffer, "d")
+    }
+
+    func testProcessBackspace_ToneAfterRemoveLast_IsCleared() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "as") // á
+        // First backspace removes tone
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "a")
+        // Second backspace removes atom "a"
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "")
     }
 }

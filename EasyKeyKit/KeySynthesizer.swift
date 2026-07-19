@@ -3,6 +3,8 @@ import EasyEngineCore
 import Foundation
 
 public final class KeySynthesizer {
+    typealias EventFactory = (UInt16, Bool) -> CGEvent?
+
     enum ReplacementStrategy: Equatable {
         case atomicFocusedText
         case atomicFocusedTextCaretUnknown
@@ -16,23 +18,40 @@ public final class KeySynthesizer {
         let graphemes: Int
     }
 
+    private struct UnicodeEventPair {
+        let chunk: String
+        let keyDown: CGEvent
+        let keyUp: CGEvent
+    }
+
     private static let selfPostedEventMarker: Int64 = 0x45_4153_594B_4559
 
-    private let eventSource: CGEventSource?
     private let focusedTextReplacer: ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult
+    private let eventFactory: EventFactory
     private var encodedUnitStack: [EncodedUnit] = []
     private var pendingEmptyCharacter = false
 
     public init() {
-        eventSource = CGEventSource(stateID: .privateState)
+        let eventSource = CGEventSource(stateID: .privateState)
         focusedTextReplacer = FocusedElementInspector.replaceFocusedText
+        eventFactory = { keyCode, keyDown in
+            CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(keyCode), keyDown: keyDown)
+        }
     }
 
     init(
-        focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult
+        focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult,
+        eventFactory: EventFactory? = nil
     ) {
-        eventSource = CGEventSource(stateID: .privateState)
         self.focusedTextReplacer = focusedTextReplacer
+        if let eventFactory {
+            self.eventFactory = eventFactory
+        } else {
+            let eventSource = CGEventSource(stateID: .privateState)
+            self.eventFactory = { keyCode, keyDown in
+                CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(keyCode), keyDown: keyDown)
+            }
+        }
     }
 
     public func postBackspace(proxy: CGEventTapProxy, count: Int = 1) {
@@ -42,7 +61,8 @@ public final class KeySynthesizer {
         }
     }
 
-    public func postUnicodeText(proxy: CGEventTapProxy, _ text: String) {
+    @discardableResult
+    public func postUnicodeText(proxy: CGEventTapProxy, _ text: String) -> Bool {
         postUnicodeText(proxy: proxy, text, encodedUnits: text.map(String.init))
     }
 
@@ -182,19 +202,29 @@ public final class KeySynthesizer {
         pendingEmptyCharacter = false
     }
 
-    private func postUnicodeText(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]) {
-        guard !text.isEmpty else { return }
+    @discardableResult
+    private func postUnicodeText(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]) -> Bool {
+        guard !text.isEmpty else { return true }
 
-        for chunk in utf16Chunks(in: text) {
-            guard let keyDown = CGEvent(keyboardEventSource: eventSource, virtualKey: 0, keyDown: true),
-                  let keyUp = CGEvent(keyboardEventSource: eventSource, virtualKey: 0, keyDown: false)
+        let chunks = utf16Chunks(in: text)
+        var events: [UnicodeEventPair] = []
+        events.reserveCapacity(chunks.count)
+        for chunk in chunks {
+            guard let keyDown = eventFactory(0, true),
+                  let keyUp = eventFactory(0, false)
             else {
                 AppLog.error(.synth, "Failed to create unicode key events")
-                continue
+                return false
             }
+            events.append(UnicodeEventPair(chunk: chunk, keyDown: keyDown, keyUp: keyUp))
+        }
+
+        for event in events {
+            let keyDown = event.keyDown
+            let keyUp = event.keyUp
             markAsSelfPosted(keyDown)
             markAsSelfPosted(keyUp)
-            let units = Array(chunk.utf16)
+            let units = Array(event.chunk.utf16)
             units.withUnsafeBufferPointer { buffer in
                 keyDown.keyboardSetUnicodeString(stringLength: buffer.count, unicodeString: buffer.baseAddress)
             }
@@ -205,6 +235,7 @@ public final class KeySynthesizer {
         encodedUnitStack.append(contentsOf: encodedUnits.map {
             EncodedUnit(utf16: $0.utf16.count, graphemes: $0.count)
         })
+        return true
     }
 
     private func removeEncodedUnits(_ logicalCount: Int) -> Int {
@@ -228,7 +259,7 @@ public final class KeySynthesizer {
     }
 
     private func postKeyEvent(proxy: CGEventTapProxy, keyCode: UInt16, modifiers: CGEventFlags, keyDown: Bool) {
-        guard let event = CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(keyCode), keyDown: keyDown) else {
+        guard let event = eventFactory(keyCode, keyDown) else {
             AppLog.error(.synth, "Failed to create physical key event keyCode=\(keyCode)")
             return
         }
@@ -256,5 +287,66 @@ public final class KeySynthesizer {
         }
 
         return chunks
+    }
+}
+
+struct MacroExpansion {
+    let triggerLength: Int
+    let text: String
+}
+
+struct MacroExpander {
+    private static let delimiterKeyCodes: Set<UInt16> = [36, 48, 49]
+
+    private var macros: [Macro] = []
+    private var trigger = ""
+
+    mutating func update(macros: [Macro]) {
+        self.macros = macros
+        trigger = ""
+    }
+
+    mutating func reset() {
+        trigger = ""
+    }
+
+    mutating func consume(
+        character: Character,
+        keyCode: UInt16,
+        modifiers: Shortcut.ModifierFlags,
+        options: MacroOptions,
+        language: InputLanguage
+    ) -> MacroExpansion? {
+        guard options.enabled,
+              language == .vietnamese || options.enabledInEnglish,
+              modifiers.isEmpty
+        else {
+            trigger = ""
+            return nil
+        }
+
+        guard Self.delimiterKeyCodes.contains(keyCode) else {
+            guard !character.isWhitespace else {
+                trigger = ""
+                return nil
+            }
+            trigger.append(character)
+            if trigger.count > MacroStore.maximumTriggerLength {
+                trigger.removeFirst(trigger.count - MacroStore.maximumTriggerLength)
+            }
+            return nil
+        }
+
+        defer { trigger = "" }
+        guard let macro = macros.first(where: {
+            $0.isEnabled && $0.trigger.compare(trigger, options: .caseInsensitive) == .orderedSame
+        })
+        else {
+            return nil
+        }
+        let text = options.autoCapitalize
+            ? MacroStore.matchCapitalization(of: trigger, in: macro.expansion)
+            : macro.expansion
+        return MacroExpansion(triggerLength: trigger.count, text: text)
     }
 }

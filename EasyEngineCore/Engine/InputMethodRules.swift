@@ -7,7 +7,6 @@ public enum TransformIntent: Equatable, Sendable {
     case revertDStroke
     case transformDoubleVowel(base: Character, mark: DiacriticalMark)
     case revertDoubleVowel(base: Character)
-    case transformHorn(base: Character)
     case transformW
     case passThrough(Character)
 }
@@ -20,7 +19,7 @@ public enum TelexRules {
     private static let doubleVowelKeys: Set<Character> = ["a", "e", "o"]
 
     public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent? {
-        let lower = character.lowercased().first ?? character
+        let lower = Character(character.lowercased())
 
         if let tone = toneKeys[lower] {
             return .addTone(tone)
@@ -72,8 +71,7 @@ public enum SimpleTelexRules {
     ]
 
     public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent? {
-        let lower = character.lowercased().first ?? character
-
+        let lower = Character(character.lowercased())
         if let tone = toneKeys[lower] {
             return .addTone(tone)
         }

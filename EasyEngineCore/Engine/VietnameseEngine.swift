@@ -11,7 +11,7 @@ public struct VietnameseEngine {
 
     private static let sentenceTerminators: Set<String> = [".", "!", "?", "\n"]
 
-    public private(set) var state: SessionState
+    public internal(set) var state: SessionState
     public var configuration: EngineConfiguration
     private var quickWState: QuickWState = .none
     private var atSentenceStart = true
@@ -64,10 +64,8 @@ public struct VietnameseEngine {
 
     private mutating func processCharacter(_ character: Character, event: KeyEvent) -> EngineOutput {
         if event.hasModifiers {
-            let boundary = processWordBoundaryIfNeeded()
-            if let boundary {
-                return boundary
-            }
+            state.reset()
+            quickWState = .none
             return .passThrough
         }
 
@@ -84,7 +82,7 @@ public struct VietnameseEngine {
         }
 
         let previousLength = state.count
-        let lower = character.lowercased().first ?? character
+        let lower = Character(character.lowercased())
         if configuration.quickTelex,
            lower == "w",
            configuration.inputMethod == .telex || configuration.inputMethod == .simpleTelex {
@@ -112,14 +110,6 @@ public struct VietnameseEngine {
            state.isEmpty || !state.atoms.last.hasBase(base) || state.atoms.last?.mark != .circumflex {
             return fallbackPassThrough(character, previousLength: previousLength)
         }
-        if case let .transformHorn(base) = intent {
-            guard let vowelIdx = state.lastVowelIndex,
-                  state.atoms[vowelIdx].hasBase(base),
-                  state.atoms[vowelIdx].mark != .horn
-            else {
-                return fallbackPassThrough(character, previousLength: previousLength)
-            }
-        }
         if case .transformW = intent {
             guard quickWVowelIndex != nil else {
                 return fallbackPassThrough(character, previousLength: previousLength)
@@ -144,43 +134,26 @@ public struct VietnameseEngine {
     private mutating func processQuickW(_ character: Character, previousLength: Int) -> EngineOutput {
         switch quickWState {
         case let .transformedVowel(index):
-            if state.atoms.indices.contains(index), state.atoms[index].mark != .none {
+            if state.atoms[index].mark != .none {
                 state.atoms[index].mark = .none
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-            } else {
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
             }
+            state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
             quickWState = .none
 
         case let .standaloneU(index):
-            if state.atoms.indices.contains(index) {
-                let uppercase = state.atoms[index].uppercase
-                state.atoms[index] = BufferAtom(base: "o", mark: .horn, uppercase: uppercase)
-                quickWState = .standaloneO(index)
-            } else {
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-                quickWState = .none
-            }
+            let uppercase = state.atoms[index].uppercase
+            state.atoms[index] = BufferAtom(base: "o", mark: .horn, uppercase: uppercase)
+            quickWState = .standaloneO(index)
 
         case let .standaloneO(index):
-            if state.atoms.indices.contains(index) {
-                let uppercase = state.atoms[index].uppercase
-                state.atoms[index] = BufferAtom(base: "w", uppercase: uppercase)
-                quickWState = .standaloneW(index)
-            } else {
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-                quickWState = .none
-            }
+            let uppercase = state.atoms[index].uppercase
+            state.atoms[index] = BufferAtom(base: "w", uppercase: uppercase)
+            quickWState = .standaloneW(index)
 
         case let .standaloneW(index):
-            if state.atoms.indices.contains(index) {
-                let uppercase = state.atoms[index].uppercase
-                state.atoms[index] = BufferAtom(base: "u", mark: .horn, uppercase: uppercase)
-                quickWState = .standaloneU(index)
-            } else {
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-                quickWState = .none
-            }
+            let uppercase = state.atoms[index].uppercase
+            state.atoms[index] = BufferAtom(base: "u", mark: .horn, uppercase: uppercase)
+            quickWState = .standaloneU(index)
 
         case .none:
             if let eligibleIndex = quickWVowelIndex {
@@ -221,18 +194,6 @@ public struct VietnameseEngine {
         )
     }
 
-    private mutating func processWordBoundaryIfNeeded() -> EngineOutput? {
-        guard !state.isEmpty else { return nil }
-        let encoded = TransformEngine.encode(state, encoding: configuration.outputEncoding)
-        state.reset()
-        quickWState = .none
-        return EngineOutput(
-            disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: encoded.count, insert: encoded)],
-            sessionEffect: .resetSession
-        )
-    }
-
     private func isWordBreakCharacter(_ character: Character) -> Bool {
         if character.isWhitespace {
             return true
@@ -250,11 +211,11 @@ public struct VietnameseEngine {
 
         switch configuration.inputMethod {
         case .telex:
-            return TelexRules.intent(forCharacter: character, previousChar: previousChar) ?? .passThrough(character)
+            return TelexRules.intent(forCharacter: character, previousChar: previousChar)!
         case .vni:
-            return VNIRules.intent(forCharacter: character) ?? .passThrough(character)
+            return VNIRules.intent(forCharacter: character)!
         case .simpleTelex:
-            return SimpleTelexRules.intent(forCharacter: character, previousChar: previousChar) ?? .passThrough(character)
+            return SimpleTelexRules.intent(forCharacter: character, previousChar: previousChar)!
         }
     }
 
@@ -289,9 +250,6 @@ public struct VietnameseEngine {
         }
 
         state.removeLast()
-        if state.tone != .none {
-            state.tone = .none
-        }
 
         if state.isEmpty {
             return EngineOutput(

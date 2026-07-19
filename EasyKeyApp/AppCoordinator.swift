@@ -37,6 +37,7 @@ final class AppCoordinator: ObservableObject {
     var ignoredApplicationsSetting: [String]?
     var clipboardOptionsSetting: ClipboardOptions?
     private(set) var updateWindow: NSWindow?
+    private var clipboardStartTask: Task<Void, Never>?
 
     /// Composition-root initializer. Production uses `AppCoordinator.shared` defaults;
     /// tests may inject stores and collaborators.
@@ -91,6 +92,7 @@ final class AppCoordinator: ObservableObject {
         configureKeyboardService()
         configureStatusItemController()
         configureWorkspaceObserver()
+        self.keyboardService.update(macros: self.macroStore.macros)
         clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
     }
 
@@ -124,14 +126,18 @@ final class AppCoordinator: ObservableObject {
         observeSettings()
         observeLocalizationChanges()
         workspaceObserver.start()
-        if !ProcessInfo.processInfo.arguments.contains("--uitesting") {
+        if !ProcessInfo.processInfo.arguments.contains("--uitesting"),
+           settingsStore.settings.system.checkForUpdates {
             updateService.start()
             performStartupUpdateCheck()
         }
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         keyboardService.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
-        clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
+        clipboardStartTask?.cancel()
+        clipboardStartTask = Task { [clipboard] in
+            await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
+        }
         if settingsStore.settings.system.showSettingsAtLaunch {
             showSettings()
         }
@@ -145,7 +151,13 @@ final class AppCoordinator: ObservableObject {
         statusItemController.teardown()
         keyboardService.stop()
         settingsWindowPresenter.close()
-        Task { await clipboard.stop() }
+        let clipboardStartTask = clipboardStartTask
+        self.clipboardStartTask = nil
+        clipboardStartTask?.cancel()
+        Task { [clipboard] in
+            await clipboardStartTask?.value
+            await clipboard.stop()
+        }
     }
 
     func showLogs() {
@@ -338,6 +350,7 @@ final class AppCoordinator: ObservableObject {
 
     func refreshMacros() {
         macroStore.changeActiveEncoding(to: settingsStore.settings.input.encoding)
+        keyboardService.update(macros: macroStore.macros)
         macroRevision &+= 1
     }
 

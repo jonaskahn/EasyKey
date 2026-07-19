@@ -107,8 +107,10 @@ public final class SmartSwitchStore {
         guard let key = application.stableKey else { throw SmartSwitchStoreError.missingApplicationIdentity }
         if var preference = preferencesByKey[key] {
             preference.lastUsedAt = now
-            preferencesByKey[key] = preference
-            try save()
+            var candidate = preferencesByKey
+            candidate[key] = preference
+            try save(candidate)
+            preferencesByKey = candidate
             return .applied(preference.choice)
         }
         let preference = SmartSwitchPreference(
@@ -117,8 +119,10 @@ public final class SmartSwitchStore {
             choice: currentChoice,
             lastUsedAt: now
         )
-        preferencesByKey[key] = preference
-        try save()
+        var candidate = preferencesByKey
+        candidate[key] = preference
+        try save(candidate)
+        preferencesByKey = candidate
         return .recorded(currentChoice)
     }
 
@@ -126,8 +130,10 @@ public final class SmartSwitchStore {
         guard var preference = preferencesByKey[key] else { throw SmartSwitchStoreError.unknownPreference }
         preference.choice = choice
         preference.lastUsedAt = now
-        preferencesByKey[key] = preference
-        try save()
+        var candidate = preferencesByKey
+        candidate[key] = preference
+        try save(candidate)
+        preferencesByKey = candidate
     }
 
     /// Updates the saved choice for an app when the user changes language/encoding
@@ -143,28 +149,35 @@ public final class SmartSwitchStore {
         guard preference.choice != choice else { return false }
         preference.choice = choice
         preference.lastUsedAt = now
-        preferencesByKey[key] = preference
-        try save()
+        var candidate = preferencesByKey
+        candidate[key] = preference
+        try save(candidate)
+        preferencesByKey = candidate
         return true
     }
 
     public func reset(key: String) throws {
-        guard preferencesByKey.removeValue(forKey: key) != nil else { throw SmartSwitchStoreError.unknownPreference }
-        try save()
+        var candidate = preferencesByKey
+        guard candidate.removeValue(forKey: key) != nil else { throw SmartSwitchStoreError.unknownPreference }
+        try save(candidate)
+        preferencesByKey = candidate
     }
 
     public func clearAll() throws {
-        preferencesByKey = [:]
-        try save()
+        let candidate: [String: SmartSwitchPreference] = [:]
+        try save(candidate)
+        preferencesByKey = candidate
     }
 
-    private func save() throws {
+    private func save(_ preferencesByKey: [String: SmartSwitchPreference]) throws {
         guard let fileURL else { return }
         let parent = fileURL.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
         let document = SmartSwitchDocument(
             schemaVersion: SmartSwitchDocument.currentSchemaVersion,
-            preferences: preferences
+            preferences: preferencesByKey.values.sorted {
+                $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending
+            }
         )
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]

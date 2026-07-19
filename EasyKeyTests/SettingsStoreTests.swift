@@ -137,20 +137,86 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertFalse(snapshot.autoRestoreKeys)
     }
 
-    func testImportInvalidFileFallsToDefaults() throws {
+    func testImportInvalidFilePreservesCurrentSettings() async throws {
         let tempDir = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
         let badURL = tempDir.appendingPathComponent("bad.json")
+        let settingsURL = tempDir.appendingPathComponent("s.json")
         try "not valid json".write(to: badURL, atomically: true, encoding: .utf8)
 
-        let store = SettingsRepository(fileURL: tempDir.appendingPathComponent("s.json"))
+        let store = SettingsRepository(fileURL: settingsURL)
         store.update { $0.input.inputMethod = .vni }
+        await store.saveNow()
+        let persistedSettings = try Data(contentsOf: settingsURL)
+
         let diagnostic = try store.import(from: badURL)
-        XCTAssertEqual(store.settings, .defaults)
+
+        XCTAssertEqual(store.settings.input.inputMethod, .vni)
+        XCTAssertEqual(try Data(contentsOf: settingsURL), persistedSettings)
         XCTAssertTrue(diagnostic.entries.contains { $0.severity == .warning })
 
         try FileManager.default.removeItem(at: tempDir)
+    }
+
+    func testImportFileTooLargeThrowsError() throws {
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        let largeFile = tempDir.appendingPathComponent("large.json")
+        let largeData = Data(repeating: 0x41, count: SettingsRepository.maxImportFileBytes + 1)
+        try largeData.write(to: largeFile)
+
+        let store = SettingsRepository(fileURL: tempDir.appendingPathComponent("s.json"))
+        XCTAssertThrowsError(try store.import(from: largeFile)) { error in
+            if let repoError = error as? SettingsRepositoryError {
+                XCTAssertEqual(repoError, .importFileTooLarge)
+            }
+        }
+    }
+
+    func testLoadWhenFileExists() async throws {
+        let tempDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: tempDir) }
+
+        let fileURL = tempDir.appendingPathComponent("settings.json")
+        let store = SettingsRepository(fileURL: fileURL)
+        store.update { $0.input.inputMethod = .vni }
+        await store.saveNow()
+
+        store.update { $0.input.inputMethod = .simpleTelex }
+        store.load()
+        XCTAssertEqual(store.settings.input.inputMethod, .vni)
+    }
+
+    func testLoadWhenNoFileResetsToDefaults() {
+        let fileURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("nonexistent-\(UUID().uuidString)")
+            .appendingPathComponent("settings.json")
+        let store = SettingsRepository(fileURL: fileURL)
+        store.update { $0.input.inputMethod = .vni }
+        XCTAssertEqual(store.settings.input.inputMethod, .vni)
+        store.load()
+        XCTAssertEqual(store.settings, .defaults)
+    }
+
+    func testOnSettingsChangeCallback() {
+        let fileURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+            .appendingPathComponent("settings.json")
+        let store = SettingsRepository(fileURL: fileURL)
+        var changed = false
+        store.onSettingsChange = { _ in changed = true }
+        store.update { $0.input.language = .english }
+        XCTAssertTrue(changed)
+    }
+
+    func testSettingsRepositoryErrorEquality() {
+        XCTAssertEqual(SettingsRepositoryError.importFileTooLarge, SettingsRepositoryError.importFileTooLarge)
     }
 }
 

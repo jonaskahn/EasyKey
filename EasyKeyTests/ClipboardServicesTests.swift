@@ -17,39 +17,48 @@ final class ClipboardServicesTests: XCTestCase {
         try? FileManager.default.removeItem(at: directory)
     }
 
-    func testStartRegistersHotkeyAndStartsCaptureWhenEnabled() {
+    func testStartRegistersHotkeyAndStartsCaptureWhenEnabled() async {
         let registrar = FakeHotKeyRegistrar()
         let reader = FakePasteboardReader()
         let services = makeServices(enabled: true, registrar: registrar, reader: reader)
-        services.start(loadPersisted: false)
+        await services.start(loadPersisted: false)
         XCTAssertTrue(services.hotKey.isRegistered)
         XCTAssertTrue(services.monitor.isRunning)
         XCTAssertFalse(services.hotkeyConflict)
     }
 
-    func testCaptureFlowsFromMonitorToModel() {
+    func testCaptureFlowsFromMonitorToModel() async {
         let reader = FakePasteboardReader()
         let services = makeServices(enabled: true, registrar: FakeHotKeyRegistrar(), reader: reader)
-        services.start(loadPersisted: false)
+        await services.start(loadPersisted: false)
         reader.setText("captured", changeCount: 42)
         services.monitor.poll()
         XCTAssertEqual(services.model.entryCount, 1)
     }
 
-    func testApplyStopsCaptureWhenDisabled() {
+    func testApplyStopsCaptureWhenDisabled() async {
         let reader = FakePasteboardReader()
         let services = makeServices(enabled: true, registrar: FakeHotKeyRegistrar(), reader: reader)
-        services.start(loadPersisted: false)
+        await services.start(loadPersisted: false)
         services.apply(ClipboardOptions(isCaptureEnabled: false))
         XCTAssertFalse(services.monitor.isRunning)
     }
 
     func testStopTearsDown() async {
         let services = makeServices(enabled: true, registrar: FakeHotKeyRegistrar(), reader: FakePasteboardReader())
-        services.start(loadPersisted: false)
+        await services.start(loadPersisted: false)
         await services.stop()
         XCTAssertFalse(services.monitor.isRunning)
         XCTAssertFalse(services.hotKey.isRegistered)
+    }
+
+    func testApplyReturnsOptions() async {
+        let registrar = FakeHotKeyRegistrar()
+        let services = makeServices(enabled: true, registrar: registrar, reader: FakePasteboardReader())
+        await services.start(loadPersisted: false)
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.ignoredApplicationBundleIdentifiers = ["com.example.test"]
+        services.apply(options)
     }
 
     private func makeServices(

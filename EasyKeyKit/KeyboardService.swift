@@ -24,7 +24,6 @@ public final class KeyboardService {
         }
 
         public let eventType: UInt32
-        public let keyCode: UInt16?
         public let disposition: Disposition
         public let outputCount: Int
         public let bundleIdentifier: String?
@@ -120,6 +119,12 @@ public final class KeyboardService {
         }
     }
 
+    public func update(macros: [Macro]) {
+        processingQueue.sync {
+            pipeline.update(macros: macros)
+        }
+    }
+
     public func setActiveApplication(_ bundleIdentifier: String?) {
         processingQueue.sync {
             pipeline.setActiveApplication(bundleIdentifier)
@@ -196,13 +201,13 @@ public final class KeyboardService {
         let keyCode = KeyboardInputPipeline.keyCode(from: event)
 
         if KeySynthesizer.isSelfPosted(event) {
-            record(type: type, keyCode: keyCode, disposition: .selfPosted, outputCount: 0, startedAt: startedAt)
+            record(type: type, disposition: .selfPosted, outputCount: 0, startedAt: startedAt)
             return Unmanaged.passUnretained(event)
         }
 
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             AppLog.notice(.keyboard, "Event tap disabled type=\(type.rawValue); recovering")
-            record(type: type, keyCode: keyCode, disposition: .disabled, outputCount: 0, startedAt: startedAt)
+            record(type: type, disposition: .disabled, outputCount: 0, startedAt: startedAt)
             recoverTapAfterDisable()
             return Unmanaged.passUnretained(event)
         }
@@ -212,7 +217,6 @@ public final class KeyboardService {
         }
         record(
             type: type,
-            keyCode: keyCode,
             disposition: result.disposition,
             outputCount: result.outputCount,
             startedAt: startedAt
@@ -231,7 +235,6 @@ public final class KeyboardService {
 
     private func record(
         type: CGEventType,
-        keyCode: UInt16?,
         disposition: Diagnostic.Disposition,
         outputCount: Int,
         startedAt: UInt64
@@ -239,7 +242,6 @@ public final class KeyboardService {
         processingQueue.sync {
             diagnosticsRecorder.record(
                 typeRawValue: type.rawValue,
-                keyCode: keyCode,
                 disposition: disposition,
                 outputCount: outputCount,
                 bundleIdentifier: pipeline.activeBundleIdentifierSnapshot,
