@@ -12,7 +12,11 @@ struct ContentView: View {
     var body: some View {
         Group {
             if hasCompletedOnboarding {
-                SettingsShell(settingsStore: settingsStore, coordinator: coordinator)
+                SettingsShell(
+                    settingsStore: settingsStore,
+                    coordinator: coordinator,
+                    translationSettingsModel: coordinator.translation.settingsModel
+                )
             } else {
                 OnboardingView(
                     settingsStore: settingsStore,

@@ -10,6 +10,12 @@ extension AppCoordinator {
     }
 
     func configureStatusItemController() {
+        statusItemController.translationConfigurationProvider = { [weak self] in
+            guard let self else { return nil }
+            return translation.makePopoverConfiguration {
+                self.showSettings(section: .translation)
+            }
+        }
         statusItemController.onLeftClick = { [weak self] in
             self?.togglePopover()
         }
@@ -112,6 +118,7 @@ extension AppCoordinator {
                 clipboardOptionsSetting = settings.clipboard
                 clipboard.apply(settings.clipboard)
             }
+            translation.apply(settings)
         }
     }
 

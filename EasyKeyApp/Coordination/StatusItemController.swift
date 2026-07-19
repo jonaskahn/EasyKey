@@ -14,6 +14,7 @@ final class StatusItemController {
 
     var onLeftClick: (() -> Void)?
     var onAppearanceChange: (() -> Void)?
+    var translationConfigurationProvider: (() -> MenuPopoverTranslationConfiguration?)?
 
     init(localization: LocalizationStore) {
         self.localization = localization
@@ -33,7 +34,7 @@ final class StatusItemController {
 
         let popover = NSPopover()
         popover.behavior = .transient
-        let hostingController = NSHostingController(rootView: MenuPopoverView(coordinator: coordinator).localized())
+        let hostingController = NSHostingController(rootView: popoverView(coordinator: coordinator))
         hostingController.sizingOptions = [.preferredContentSize]
         popover.contentViewController = hostingController
         statusPopover = popover
@@ -89,7 +90,7 @@ final class StatusItemController {
     func refreshPopoverContent(coordinator: AppCoordinator) {
         guard let popover = statusPopover else { return }
         popover.contentViewController = NSHostingController(
-            rootView: MenuPopoverView(coordinator: coordinator).localized()
+            rootView: popoverView(coordinator: coordinator)
         )
     }
 
@@ -166,6 +167,13 @@ final class StatusItemController {
         statusPopover?.performClose(nil)
         statusItem = nil
         statusPopover = nil
+    }
+
+    private func popoverView(coordinator: AppCoordinator) -> some View {
+        MenuPopoverView(
+            coordinator: coordinator,
+            translation: translationConfigurationProvider?()
+        ).localized()
     }
 
     private func observeStatusItemAppearance(button: NSStatusBarButton?) {

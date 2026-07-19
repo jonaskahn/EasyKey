@@ -64,6 +64,42 @@ final class LocalizationTests: XCTestCase {
         )
     }
 
+    func testTranslationCatalogHasMatchingEnglishVietnamesePlaceholders() throws {
+        let catalog = try translationCatalog()
+        let translationKeys = catalog.keys.filter { $0.hasPrefix("translation.") }
+        XCTAssertFalse(translationKeys.isEmpty)
+        XCTAssertEqual(
+            Set(translationKeys),
+            Set(L10nKey.allCases.map(\.rawValue).filter { $0.hasPrefix("translation.") })
+        )
+
+        for key in translationKeys {
+            let localizations = try XCTUnwrap(catalog[key]?["localizations"] as? [String: Any], key)
+            let english = try localizedValue("en", from: localizations, key: key)
+            let vietnamese = try localizedValue("vi", from: localizations, key: key)
+            XCTAssertFalse(english.isEmpty, "Empty English value: \(key)")
+            XCTAssertFalse(vietnamese.isEmpty, "Empty Vietnamese value: \(key)")
+            XCTAssertEqual(try placeholders(in: english), try placeholders(in: vietnamese), "Placeholder mismatch: \(key)")
+        }
+    }
+
+    func testTranslationCopyNamesProvidersAndDescribesActualDataFlow() {
+        for language in [AppLanguage.english, .vietnamese] {
+            store.setPreference(language)
+            let disclosure = store.format(.translationCloudDisclosureFirstUse, "DeepL", "DeepL")
+            XCTAssertEqual(disclosure.components(separatedBy: "DeepL").count - 1, 2)
+            XCTAssertFalse(disclosure.contains(L10nKey.translationCloudDisclosureFirstUse.rawValue))
+            XCTAssertTrue(store.format(.translationSettingsProviderDataHandling, "OpenAI").contains("OpenAI"))
+        }
+
+        store.setPreference(.english)
+        let disclosure = store.format(.translationCloudDisclosureFirstUse, "DeepL", "DeepL")
+        XCTAssertTrue(disclosure.contains("choose Translate"))
+        XCTAssertTrue(disclosure.contains("submitted source text"))
+        XCTAssertTrue(disclosure.contains("directly"))
+        XCTAssertTrue(disclosure.contains("Nothing is sent while you type"))
+    }
+
     func testSystemDefaultFallsBackToSupportedLanguage() {
         store.setPreference(.system)
         XCTAssertTrue(["en", "vi"].contains(store.resolvedCode))
@@ -133,6 +169,7 @@ final class LocalizationTests: XCTestCase {
         store.setPreference(.english)
         XCTAssertEqual(store.sectionTitle(.typing), store.string(.settingsSectionTyping))
         XCTAssertEqual(store.sectionTitle(.smartSwitch), store.string(.settingsSectionSmartSwitch))
+        XCTAssertEqual(store.sectionTitle(.translation), store.string(.settingsSectionTranslation))
         XCTAssertEqual(store.sectionTitle(.system), store.string(.settingsSectionSystem))
         XCTAssertEqual(store.sectionTitle(.about), store.string(.settingsSectionAbout))
     }
@@ -245,5 +282,31 @@ final class LocalizationTests: XCTestCase {
             .appendingPathComponent("LocEmpty-\(UUID().uuidString).bundle")
         try FileManager.default.createDirectory(at: bundleURL, withIntermediateDirectories: true)
         return bundleURL
+    }
+
+    private func translationCatalog() throws -> [String: [String: Any]] {
+        let url = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("EasyKeyApp/Localizable.xcstrings")
+        let object = try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any]
+        return try XCTUnwrap(object?["strings"] as? [String: [String: Any]])
+    }
+
+    private func localizedValue(_ language: String, from localizations: [String: Any], key: String) throws -> String {
+        let localization = try XCTUnwrap(localizations[language] as? [String: Any], "Missing \(language): \(key)")
+        let unit = try XCTUnwrap(localization["stringUnit"] as? [String: Any], key)
+        XCTAssertEqual(unit["state"] as? String, "translated", "Untranslated \(language): \(key)")
+        return try XCTUnwrap(unit["value"] as? String, key)
+    }
+
+    private func placeholders(in value: String) throws -> [String] {
+        let regex = try NSRegularExpression(pattern: "%((\\d+)\\$)?(?:@|d|ld|lld)")
+        let range = NSRange(value.startIndex..., in: value)
+        return regex.matches(in: value, range: range).compactMap { match in
+            Range(match.range, in: value).map { String(value[$0]) }
+        }
+        .map { $0.replacingOccurrences(of: #"^%\d+\$"#, with: "%", options: .regularExpression) }
+        .sorted()
     }
 }

@@ -119,6 +119,19 @@ final class AppCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
+    func testStart_WithoutCloudCredentialKeepsKeyboardAndClipboardRunning() async {
+        coordinator.settingsStore.update { $0.clipboard.isCaptureEnabled = true }
+        coordinator.start()
+        coordinator.translation.model.setSourceText("hello")
+        coordinator.translation.model.translate()
+        await Task.yield()
+
+        XCTAssertEqual(coordinator.translation.model.status, .failed(.noProviderConfigured))
+        XCTAssertNotEqual(coordinator.keyboardHealth, .stopped)
+        XCTAssertTrue(coordinator.clipboard.monitor.isRunning)
+        coordinator.stop()
+    }
+
     func testStart_WithShowSettingsAtLaunch_OpensSettings() {
         coordinator.settingsStore.update { $0.system.showSettingsAtLaunch = true }
         coordinator.start()

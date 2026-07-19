@@ -17,7 +17,7 @@ EasyKey is a native Vietnamese input utility built for accurate typing across ma
 vieejt nam  →  việt nam
 ```
 
-Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit; it includes no cloud processing, analytics, or telemetry.
+Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit. Apple Translation is on-device on macOS 15 or later. Optional cloud translation runs only after you choose **Translate** and sends submitted source text directly to your selected provider. EasyKey includes no analytics or telemetry.
 
 ## ✨ Highlights
 
@@ -31,10 +31,15 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 - ⌨️ **Custom shortcuts** — Switch languages, control the engine, and convert clipboard content from the keyboard
 - 🚀 **Secure updates** — Sparkle 2 update delivery with EdDSA signature verification
 - 🌐 **Bilingual interface** — English and Vietnamese localization through String Catalogs
+- 🌍 **Explicit translation** — Apple on-device translation on macOS 15+, or opt-in direct requests to configured cloud providers
 
 ## 🔒 Private by Design
 
-EasyKey performs keyboard transformation and preference storage on the Mac. No typed content is uploaded, and no usage data is collected. Network access is limited to update checks when updates are configured and enabled.
+EasyKey performs keyboard transformation and preference storage on your Mac. Typing never invokes translation and typed content is not uploaded. Apple Translation runs locally on macOS 15 or later. Cloud translation is optional: no request occurs while you type, select text, edit source text, or switch providers. Only choosing **Translate** sends submitted source text directly from EasyKey to the selected provider. EasyKey does not proxy cloud requests through an EasyKey service.
+
+Cloud-provider credentials are stored in macOS Keychain as device-only, non-synchronizing items. EasyKey does not persist source text, translation results, prompts, or translation history. Providers process submitted text under their own terms and may retain or use request data according to account tier and provider settings. Provider data-handling links are shown in Translation settings and in first-use disclosure. These providers do not sponsor or endorse EasyKey.
+
+Separate network activity includes provider credential validation and signed Sparkle update checks. Credential validation does not submit source text. No usage data is collected. See [Privacy](./PRIVACY.md) for exact data flows and reviewed provider links.
 
 Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
 

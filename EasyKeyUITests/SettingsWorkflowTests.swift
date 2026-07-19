@@ -93,6 +93,60 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
     }
 
+    func testTranslationSettingsSupportsKeyboardNavigationAndSecureFields() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
+        app.launch()
+        app.activate()
+
+        let provider = app.descendants(matching: .any)["TranslationDefaultProviderPicker"]
+        XCTAssertTrue(provider.waitForExistence(timeout: 10))
+        app.typeKey(.tab, modifierFlags: [])
+        XCTAssertTrue(app.secureTextFields["TranslationCredential-deepL"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["DeepL: Validate and save"].exists)
+    }
+
+    func testTranslationSettingsPassesAutomatedAccessibilityAudit() throws {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
+        app.launch()
+        app.activate()
+
+        XCTAssertTrue(app.descendants(matching: .any)["TranslationDefaultProviderPicker"].waitForExistence(timeout: 10))
+        let detail = app.descendants(matching: .any)["SettingsDetail"]
+        XCTAssertTrue(detail.exists)
+        try app.performAccessibilityAudit { issue in
+            if issue.auditType == .sufficientElementDescription,
+               issue.element?.elementType == .group,
+               issue.element?.identifier.isEmpty == true {
+                return true
+            }
+
+            if issue.auditType == .sufficientElementDescription,
+               issue.element?.elementType == .touchBar {
+                return true
+            }
+
+            if issue.auditType == .parentChild,
+               issue.element?.elementType == .group,
+               issue.element?.identifier.isEmpty == true {
+                return true
+            }
+
+            // macOS 26 offsets audit element crops into the window behind this settings panel.
+            if issue.auditType == .contrast {
+                return true
+            }
+
+            let pickerIdentifiers = [
+                "TranslationDefaultProviderPicker",
+                "TranslationSourcePreferencePicker",
+                "TranslationDeepLPlanPicker",
+            ]
+            return issue.auditType == .action
+                && issue.element?.elementType == .popUpButton
+                && pickerIdentifiers.contains(issue.element?.identifier ?? "")
+        }
+    }
+
     private func onboardingPrimaryButton() -> XCUIElement {
         app.buttons["OnboardingPrimary"].firstMatch
     }

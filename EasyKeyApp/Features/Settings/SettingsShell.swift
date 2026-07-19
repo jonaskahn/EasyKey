@@ -7,6 +7,7 @@ struct SettingsShell: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var localization = LocalizationStore.shared
+    @StateObject private var translationSettingsModel: TranslationSettingsModel
 
     private var selection: Binding<SettingsSection?> {
         Binding(
@@ -17,9 +18,16 @@ struct SettingsShell: View {
 
     @State private var columnVisibility: NavigationSplitViewVisibility
 
-    init(settingsStore: SettingsStore, coordinator: AppCoordinator) {
+    init(
+        settingsStore: SettingsStore,
+        coordinator: AppCoordinator,
+        translationSettingsModel: TranslationSettingsModel? = nil
+    ) {
         self.settingsStore = settingsStore
         self.coordinator = coordinator
+        _translationSettingsModel = StateObject(
+            wrappedValue: translationSettingsModel ?? TranslationSettingsModel(settingsStore: settingsStore)
+        )
         _columnVisibility = State(initialValue:
             ProcessInfo.processInfo.arguments.contains("--ui-sidebar-hidden") ? .detailOnly : .all)
     }
@@ -61,6 +69,8 @@ struct SettingsShell: View {
             TypingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .encoding:
             EncodingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
+        case .translation:
+            TranslationSettingsView(model: translationSettingsModel)
         case .clipboard:
             ClipboardSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .macros:

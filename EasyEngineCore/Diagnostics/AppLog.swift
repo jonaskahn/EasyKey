@@ -14,6 +14,7 @@ public enum AppLog {
         case settings
         case update
         case loginItem
+        case translation
     }
 
     private static let loggers: [Category: Logger] = {

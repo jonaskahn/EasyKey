@@ -14,12 +14,14 @@ protocol ClipboardHotKeyRegistrar: AnyObject {
 /// so a conflicting shortcut leaves the previous binding working.
 @MainActor
 final class ClipboardHotKeyController {
+    nonisolated static let firstCarbonIdentifier: UInt32 = 1
+
     private let registrar: ClipboardHotKeyRegistrar
     private let onActivate: () -> Void
 
     private var activeIdentifier: UInt32?
     private var activeShortcut: Shortcut?
-    private var nextIdentifier: UInt32 = 1
+    private var nextIdentifier = ClipboardHotKeyController.firstCarbonIdentifier
     private(set) var hasConflict = false
 
     init(registrar: ClipboardHotKeyRegistrar, onActivate: @escaping () -> Void) {
@@ -94,10 +96,11 @@ final class ClipboardHotKeyController {
 /// Production Carbon registrar. Installs one application event handler and routes
 /// hotkey events to per-identifier handlers.
 final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
+    static let carbonSignature: OSType = 0x454B_4859 // 'EKHY'
+
     private var handlers: [UInt32: () -> Void] = [:]
     private var refs: [UInt32: EventHotKeyRef] = [:]
     private var eventHandler: EventHandlerRef?
-    private let signature: OSType = 0x454B_4859 // 'EKHY'
 
     init() {
         installEventHandlerIfNeeded()
@@ -105,7 +108,7 @@ final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
 
     func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool {
         var ref: EventHotKeyRef?
-        let hotKeyID = EventHotKeyID(signature: signature, id: identifier)
+        let hotKeyID = EventHotKeyID(signature: Self.carbonSignature, id: identifier)
         let status = RegisterEventHotKey(keyCode, modifiers, hotKeyID, GetApplicationEventTarget(), 0, &ref)
         guard status == noErr, let ref else { return false }
         refs[identifier] = ref

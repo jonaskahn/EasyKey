@@ -112,6 +112,7 @@ final class LocalizationStore: ObservableObject {
         switch section {
         case .typing: string(.settingsSectionTyping)
         case .encoding: string(.settingsSectionEncoding)
+        case .translation: string(.settingsSectionTranslation)
         case .clipboard: string(.settingsSectionClipboard)
         case .macros: string(.settingsSectionMacros)
         case .smartSwitch: string(.settingsSectionSmartSwitch)
