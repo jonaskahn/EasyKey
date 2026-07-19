@@ -145,6 +145,22 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
 
+    func testProcess_ModifierOnlySwitchShortcut_OnFlagsChanged_TogglesLanguage() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 0, modifiers: [.control, .command])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        let expectation = expectation(description: "toggle language via flagsChanged")
+        pipeline.onLanguageToggled = { language in
+            XCTAssertEqual(language, .english)
+            expectation.fulfill()
+        }
+
+        let event = keyEvent(character: "", keyCode: 0, flags: [.maskControl, .maskCommand])
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: nil)
+        XCTAssertEqual(result.disposition, .suppressed)
+        wait(for: [expectation], timeout: 1.0)
+    }
+
     func testUpdate_ChangesConfigurationAndResetsSession() {
         let pipeline = KeyboardInputPipeline(settings: .defaults)
         var settings = EasyKeySettings.defaults

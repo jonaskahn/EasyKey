@@ -152,6 +152,50 @@ final class KeyboardServiceIntegrationTests: XCTestCase {
         XCTAssertNotNil(result)
     }
 
+    func testHandleTapEvent_SwitchShortcut_ForwardsLanguageToggleHandler() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 49, modifiers: [.control, .command])
+        let service = KeyboardService(settings: settings)
+        let exp = expectation(description: "language toggled")
+        var toggled: [InputLanguage] = []
+        service.languageToggleHandler = { language in
+            toggled.append(language)
+            exp.fulfill()
+        }
+
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 49, keyDown: true)
+        else { XCTFail("switch shortcut event"); return }
+        event.flags = [.maskControl, .maskCommand]
+        _ = service.handleTapEvent(proxy: fakeProxy(), type: .keyDown, event: event)
+
+        wait(for: [exp], timeout: 2)
+        XCTAssertEqual(toggled, [.english])
+    }
+
+    func testHandleTapEvent_TapDisabledByTimeout_RecoversAndDegradesHealth() {
+        let service = KeyboardService(settings: .defaults)
+        let exp = expectation(description: "health degraded")
+        service.healthHandler = { health in
+            if health == .degraded {
+                exp.fulfill()
+            }
+        }
+
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("tapTimeout event"); return }
+        event.setIntegerValueField(.eventSourceUserData, value: 0)
+        _ = service.handleTapEvent(proxy: fakeProxy(), type: .tapDisabledByTimeout, event: event)
+
+        wait(for: [exp], timeout: 2)
+    }
+
+    func testStart_WhilePaused_SkipsInstallWithoutCrashing() {
+        let service = KeyboardService(settings: .defaults)
+        service.setPaused(true)
+        service.start()
+        XCTAssertEqual(service.health, .stopped)
+    }
+
     private func fakeProxy() -> CGEventTapProxy {
         unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
     }
