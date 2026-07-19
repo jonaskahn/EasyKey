@@ -2,6 +2,22 @@
 import XCTest
 
 final class SmartSwitchStoreEdgeCaseTests: XCTestCase {
+    func testHandleAppFocus_DisplayNameFallsBackToPath_WhenNameMissing() throws {
+        let store = SmartSwitchStore()
+        let app = ApplicationIdentity(bundleIdentifier: nil, path: "/Applications/Test.app", name: nil)
+        _ = try store.handleAppFocus(app, currentChoice: SmartSwitchChoice(language: .vietnamese))
+
+        XCTAssertEqual(store.preferences.first?.displayName, "/Applications/Test.app")
+    }
+
+    func testHandleAppFocus_DisplayNameFallsBackToBundleIdentifier_WhenNameAndPathMissing() throws {
+        let store = SmartSwitchStore()
+        let app = ApplicationIdentity(bundleIdentifier: "com.example.Test", path: nil, name: nil)
+        _ = try store.handleAppFocus(app, currentChoice: SmartSwitchChoice(language: .vietnamese))
+
+        XCTAssertEqual(store.preferences.first?.displayName, "com.example.Test")
+    }
+
     func testClearAll() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

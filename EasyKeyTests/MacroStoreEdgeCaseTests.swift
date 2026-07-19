@@ -196,4 +196,35 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
         _ = try? store.add(trigger: "x", expansion: "y")
         XCTAssertEqual(store.macros.count, 1)
     }
+
+    func testSaveWithMultipleMacros_PersistsSortedByTrigger() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let fileURL = directory.appendingPathComponent("macros.json")
+        let store = MacroStore(fileURL: fileURL)
+        _ = try store.add(trigger: "zebra", expansion: "z")
+        _ = try store.add(trigger: "apple", expansion: "a")
+
+        let reloaded = MacroStore(fileURL: fileURL)
+        XCTAssertEqual(reloaded.macros.map(\.trigger), ["apple", "zebra"])
+    }
+
+    func testApply_ConflictWithoutResolution_DefaultsToSkip() throws {
+        let store = MacroStore()
+        let existing = try store.add(trigger: "greeting", expansion: "hello")
+
+        let imported = Macro(trigger: "greeting", expansion: "hi there")
+        let preview = MacroImportPreview(
+            additions: [],
+            conflicts: [MacroImportConflict(imported: imported, existing: existing)],
+            unparseableRecords: []
+        )
+
+        try store.apply(preview, resolving: [:])
+
+        XCTAssertEqual(store.macros.count, 1)
+        XCTAssertEqual(store.macros.first?.expansion, "hello")
+    }
 }

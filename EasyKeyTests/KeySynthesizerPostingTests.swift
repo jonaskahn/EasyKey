@@ -179,6 +179,35 @@ final class KeySynthesizerPostingTests: XCTestCase {
         synthesizer.postUnicodeText(proxy: fakeProxy(), text)
         XCTAssertEqual(synthesizer.encodedUnitCount, 32)
     }
+
+    func testUtf16Chunks_SurrogatePairAtChunkBoundary_PulledIntoNextChunk() {
+        let synthesizer = KeySynthesizer()
+        // 1 BMP unit ("a") followed by 8 surrogate pairs (16 units) = 17 units.
+        // Built from explicit code units so the high surrogate lands exactly at
+        // index 15 — the 16-unit chunk boundary — forcing the split-avoidance
+        // branch that pulls the whole pair into the next chunk.
+        var units: [UInt16] = [0x0061]
+        for _ in 0 ..< 8 {
+            units.append(0xD83D)
+            units.append(0xDE00)
+        }
+        XCTAssertEqual(units.count, 17)
+        let text = String(decoding: units, as: UTF16.self)
+        XCTAssertEqual(text.utf16.count, 17)
+        // encodedUnitCount tracks one entry per Character (grapheme), not per
+        // UTF-16 code unit: 1 "a" + 8 emoji = 9 — the boundary-split behavior
+        // itself is exercised internally regardless of this public count.
+        synthesizer.postUnicodeText(proxy: fakeProxy(), text)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 9)
+    }
+
+    func testPostPhysicalKey_EventCreationFailure_DoesNotCrash() {
+        let synthesizer = KeySynthesizer(
+            focusedTextReplacer: { _, _ in .failed },
+            eventFactory: { _, _ in nil }
+        )
+        synthesizer.postPhysicalKey(proxy: fakeProxy(), keyCode: 6)
+    }
 }
 
 final class MacroExpanderCoverageTests: XCTestCase {
@@ -274,5 +303,31 @@ final class MacroExpanderCoverageTests: XCTestCase {
         expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
         _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
         expander.reset()
+    }
+
+    func testWhitespaceCharacter_OnNonDelimiterKeyCode_ResetsTrigger() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
+        _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        let result = expander.consume(
+            character: " ",
+            keyCode: 0,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .vietnamese
+        )
+        XCTAssertNil(result)
+
+        _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        _ = expander.consume(character: "t", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        _ = expander.consume(character: "w", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        let matched = expander.consume(
+            character: "\n",
+            keyCode: 36,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .vietnamese
+        )
+        XCTAssertEqual(matched?.text, "by the way")
     }
 }

@@ -53,6 +53,15 @@ final class VietnameseCharactersTests: XCTestCase {
         XCTAssertNil(VietnameseCharacters.baseVowel("đ"))
     }
 
+    func testBaseVowelIAndYHaveNoDiacriticVariants() {
+        XCTAssertEqual(VietnameseCharacters.baseVowel("i"), "i")
+        XCTAssertEqual(VietnameseCharacters.baseVowel("y"), "y")
+    }
+
+    func testVowel_MarkIndexOutOfRangeForBase_ReturnsNil() {
+        XCTAssertNil(VietnameseCharacters.vowel(base: "a", mark: .stroke, tone: .none, uppercase: false))
+    }
+
     func testMarkForVowelAllCases() {
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "â"), .circumflex)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "Â"), .circumflex)

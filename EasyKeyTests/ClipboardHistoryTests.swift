@@ -5,6 +5,13 @@ final class ClipboardHistoryTests: XCTestCase {
     private let base = Date(timeIntervalSince1970: 1_700_000_000)
     private let options = ClipboardOptions(maximumEntryCount: 100, retentionDays: 7)
 
+    // MARK: - ClipboardEntry.kind
+
+    func testKind_WhenItemsEmpty_IsMixed() {
+        let entry = ClipboardEntry(fingerprint: "empty", capturedAt: base, items: [])
+        XCTAssertEqual(entry.kind, .mixed)
+    }
+
     // MARK: - Ordering & deduplication
 
     func testInsertOrdersNewestFirst() {
