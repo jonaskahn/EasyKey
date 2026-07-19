@@ -123,9 +123,10 @@ final class KeyboardServiceIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 2)
     }
 
-    func testHandleTapEvent_NormalKeyDown_CanBeCalled() throws {
+    func testHandleTapEvent_NormalKeyDown_CanBeCalled() {
         let service = KeyboardService(settings: .defaults)
-        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else { XCTFail(); return }
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("normal key event"); return }
         event.setIntegerValueField(.keyboardEventKeycode, value: 0)
         let uni: [UniChar] = [97]
         event.keyboardSetUnicodeString(stringLength: 1, unicodeString: uni)
@@ -133,17 +134,19 @@ final class KeyboardServiceIntegrationTests: XCTestCase {
         _ = result
     }
 
-    func testHandleTapEvent_TapDisabledByTimeout_ReturnsPassUnretained() throws {
+    func testHandleTapEvent_TapDisabledByTimeout_ReturnsPassUnretained() {
         let service = KeyboardService(settings: .defaults)
-        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else { XCTFail(); return }
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("tapTimeout event"); return }
         event.setIntegerValueField(.eventSourceUserData, value: 0)
         let result = service.handleTapEvent(proxy: fakeProxy(), type: .tapDisabledByTimeout, event: event)
         XCTAssertNotNil(result)
     }
 
-    func testHandleTapEvent_TapDisabledByUserInput_ReturnsPassUnretained() throws {
+    func testHandleTapEvent_TapDisabledByUserInput_ReturnsPassUnretained() {
         let service = KeyboardService(settings: .defaults)
-        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else { XCTFail(); return }
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("tapDisabled event"); return }
         event.setIntegerValueField(.eventSourceUserData, value: 0)
         let result = service.handleTapEvent(proxy: fakeProxy(), type: .tapDisabledByUserInput, event: event)
         XCTAssertNotNil(result)

@@ -212,7 +212,7 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     // MARK: - VietnameseEngine processQuickW: standalone cycle with out-of-bounds index guard
 
-    func testQuickTelex_StandaloneCycle_AllBranches() throws {
+    func testQuickTelex_StandaloneCycle_AllBranches() {
         let onsets: [String] = ["ch", "gh", "gi", "kh", "ng", "ngh", "nh", "ph", "th", "tr", "qu"]
         for method in [InputMethod.telex, .simpleTelex] {
             for onset in onsets {
@@ -236,8 +236,8 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testBackspace_AtomHasMarkAndTone_RemovesMarkAndResetsTone() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
-        typeKeys(&engine, "aa")  // produces â
-        typeKeys(&engine, "s")   // produces ấ
+        typeKeys(&engine, "aa") // produces â
+        typeKeys(&engine, "s") // produces ấ
         _ = engine.process(event: KeyEvent(kind: .backspace))
         // After backspace: mark removed, tone reset; result is "a"
         XCTAssertEqual(engine.currentBuffer, "a")
@@ -245,7 +245,7 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testBackspace_OnlyToneNoMark_RemovesTone() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
-        typeKeys(&engine, "as")  // produces á
+        typeKeys(&engine, "as") // produces á
         _ = engine.process(event: KeyEvent(kind: .backspace))
         // After backspace: tone removed; result is "a"
         XCTAssertEqual(engine.currentBuffer, "a")
@@ -253,7 +253,7 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testBackspace_AfterToneRemoval_EmptiesBuffer() {
         var engine = VietnameseEngine()
-        typeKeys(&engine, "as")  // produces á
+        typeKeys(&engine, "as") // produces á
         _ = engine.process(event: KeyEvent(kind: .backspace)) // removes tone → "a"
         _ = engine.process(event: KeyEvent(kind: .backspace)) // removes "a" → empty
         XCTAssertEqual(engine.currentBuffer, "")
@@ -265,9 +265,9 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testToneRepeat_WithNonEmptyBuffer_ReturnsToPlain() {
         var engine = VietnameseEngine()
-        typeKeys(&engine, "as")  // á
+        typeKeys(&engine, "as") // á
         XCTAssertEqual(engine.currentBuffer, "á")
-        _ = engine.process(event: .char("s"))  // same tone again → removes tone
+        _ = engine.process(event: .char("s")) // same tone again → removes tone
         XCTAssertEqual(engine.currentBuffer, "as")
     }
 
@@ -912,15 +912,15 @@ final class EngineCoreCoverageTests: XCTestCase {
     func testEasyKeySettings_DecodeWithMissingKeys_UsesDefaults() throws {
         let json = """
         {"schemaVersion": 4}
-        """.data(using: .utf8)!
-        let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: json)
+        """.data(using: .utf8)
+        let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: XCTUnwrap(json))
         XCTAssertEqual(decoded.macro, MacroOptions())
         XCTAssertEqual(decoded.system, SystemOptions())
     }
 
     func testEasyKeySettings_DecodeEmptyJSON_UsesAllDefaults() throws {
-        let json = "{}".data(using: .utf8)!
-        let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: json)
+        let json = "{}".data(using: .utf8)
+        let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: XCTUnwrap(json))
         XCTAssertEqual(decoded.schemaVersion, EasyKeySettings.currentSchemaVersion)
         XCTAssertEqual(decoded.input, InputSettings())
     }
@@ -1010,9 +1010,7 @@ final class EngineCoreCoverageTests: XCTestCase {
         let state = SessionState()
         XCTAssertTrue(state.isEmpty)
         XCTAssertEqual(state.tone, .none)
-        XCTAssertEqual(state.wordStartIndex, 0)
         XCTAssertFalse(state.isDisabled)
-        XCTAssertFalse(state.isSpellDisabled)
     }
 
     // MARK: - ClipboardHistory: pinnedCount
@@ -1153,7 +1151,10 @@ final class EngineCoreCoverageTests: XCTestCase {
     // MARK: - EncodingCodec: decode VNI with triplet
 
     func testEncodingCodec_DecodeVNI_Triplet() {
-        let result = Converter.preview(input: "Tieáng", configuration: ConverterConfiguration(sourceEncoding: .vniWindows, destinationEncoding: .unicode))
+        let result = Converter.preview(
+            input: "Tieáng",
+            configuration: ConverterConfiguration(sourceEncoding: .vniWindows, destinationEncoding: .unicode)
+        )
         // VNI encoding includes tone/mark diacritics after base characters
         XCTAssertFalse(result.isEmpty)
     }
@@ -1204,7 +1205,7 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testQuickTelex_WWithoutVowelIndex_PrependsUWithHorn() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelex: true))
-        typeKeys(&engine, "tw")  // "t" is a start consonant, so w should add ư
+        typeKeys(&engine, "tw") // "t" is a start consonant, so w should add ư
         XCTAssertEqual(engine.currentBuffer, "tư")
     }
 

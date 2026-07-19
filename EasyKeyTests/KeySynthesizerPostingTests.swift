@@ -185,7 +185,13 @@ final class MacroExpanderCoverageTests: XCTestCase {
     func testWithModifiers_ResetsTriggerAndReturnsNil() {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
-        let result = expander.consume(character: "b", keyCode: 49, modifiers: [.shift], options: MacroOptions(enabled: true), language: .vietnamese)
+        let result = expander.consume(
+            character: "b",
+            keyCode: 49,
+            modifiers: [.shift],
+            options: MacroOptions(enabled: true),
+            language: .vietnamese
+        )
         XCTAssertNil(result)
     }
 
@@ -193,7 +199,13 @@ final class MacroExpanderCoverageTests: XCTestCase {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
         _ = expander.consume(character: "b", keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
-        let result = expander.consume(character: " ", keyCode: 49, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        let result = expander.consume(
+            character: " ",
+            keyCode: 49,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .vietnamese
+        )
         XCTAssertNil(result)
     }
 
@@ -212,7 +224,13 @@ final class MacroExpanderCoverageTests: XCTestCase {
         for ch in "btw" {
             _ = expander.consume(character: ch, keyCode: 0, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
         }
-        let result = expander.consume(character: "\n", keyCode: 36, modifiers: [], options: MacroOptions(enabled: true), language: .vietnamese)
+        let result = expander.consume(
+            character: "\n",
+            keyCode: 36,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .vietnamese
+        )
         XCTAssertNil(result)
     }
 
@@ -220,16 +238,34 @@ final class MacroExpanderCoverageTests: XCTestCase {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
         for ch in "Btw" {
-            _ = expander.consume(character: ch, keyCode: 0, modifiers: [], options: MacroOptions(enabled: true, autoCapitalize: true), language: .vietnamese)
+            _ = expander.consume(
+                character: ch,
+                keyCode: 0,
+                modifiers: [],
+                options: MacroOptions(enabled: true, autoCapitalize: true),
+                language: .vietnamese
+            )
         }
-        let result = expander.consume(character: "\n", keyCode: 36, modifiers: [], options: MacroOptions(enabled: true, autoCapitalize: true), language: .vietnamese)
+        let result = expander.consume(
+            character: "\n",
+            keyCode: 36,
+            modifiers: [],
+            options: MacroOptions(enabled: true, autoCapitalize: true),
+            language: .vietnamese
+        )
         XCTAssertEqual(result?.text, "By the way")
     }
 
     func testNotEnabled_ReturnsNil() {
         var expander = MacroExpander()
         expander.update(macros: [])
-        let result = expander.consume(character: "b", keyCode: 49, modifiers: [], options: MacroOptions(enabled: false), language: .vietnamese)
+        let result = expander.consume(
+            character: "b",
+            keyCode: 49,
+            modifiers: [],
+            options: MacroOptions(enabled: false),
+            language: .vietnamese
+        )
         XCTAssertNil(result)
     }
 

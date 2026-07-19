@@ -1,3 +1,4 @@
+import CryptoKit
 import EasyEngineCore
 @testable import EasyKey
 import XCTest
@@ -86,6 +87,47 @@ final class ClipboardKeyStoreTests: XCTestCase {
         try store.deleteKey()
         XCTAssertNil(try store.existingKey())
     }
+
+    func testCreateKeyReturns256BitKey() throws {
+        let store = InMemoryClipboardKeyStore()
+        let key = try store.createKey()
+        XCTAssertEqual(key.bitCount, 256)
+    }
+
+    func testPreloadedKeyReturned() throws {
+        let preload = SymmetricKey(size: .bits256)
+        let store = InMemoryClipboardKeyStore(key: preload)
+        let key = try store.existingKey()
+        XCTAssertEqual(key, preload)
+    }
+
+    func testDeleteKeyWithoutCreateDoesNotThrow() throws {
+        let store = InMemoryClipboardKeyStore()
+        try store.deleteKey()
+        XCTAssertNil(try store.existingKey())
+    }
+
+    func testThreadSafety() throws {
+        let store = InMemoryClipboardKeyStore()
+        let e1 = expectation(description: "create1")
+        let e2 = expectation(description: "create2")
+        DispatchQueue.global().async {
+            _ = try? store.createKey()
+            e1.fulfill()
+        }
+        DispatchQueue.global().async {
+            _ = try? store.createKey()
+            e2.fulfill()
+        }
+        wait(for: [e1, e2], timeout: 2.0)
+        XCTAssertNotNil(try store.existingKey())
+    }
+
+    func testClipboardKeyErrorEquality() {
+        XCTAssertEqual(ClipboardKeyError.unexpectedStatus(-1), ClipboardKeyError.unexpectedStatus(-1))
+        XCTAssertEqual(ClipboardKeyError.invalidKeyData, ClipboardKeyError.invalidKeyData)
+        XCTAssertNotEqual(ClipboardKeyError.unexpectedStatus(-1), ClipboardKeyError.invalidKeyData)
+    }
 }
 
 @MainActor
@@ -102,6 +144,15 @@ final class PasteboardWriterTests: XCTestCase {
         let writer = PasteboardWriter(suppressor: suppressor)
         writer.copyConvertedText("hello", preservingHTML: Data([0x48, 0x54, 0x4D, 0x4C]))
         XCTAssertNotNil(suppressor.suppressedChangeCount)
+    }
+
+    func testCopyConvertedText_WithoutHTML_DoesNotWriteHTML() {
+        let suppressor = ClipboardWriteSuppressor()
+        let pasteboard = NSPasteboard.withUniqueName()
+        let writer = PasteboardWriter(pasteboard: pasteboard, suppressor: suppressor)
+        writer.copyConvertedText("text", preservingHTML: nil)
+        XCTAssertNil(pasteboard.data(forType: .html))
+        XCTAssertEqual(pasteboard.string(forType: .string), "text")
     }
 
     func testSuppressorShouldSuppress_MatchingCount_ReturnsTrue() {
@@ -122,6 +173,14 @@ final class PasteboardWriterTests: XCTestCase {
         XCTAssertNil(suppressor.suppressedChangeCount)
     }
 
+    func testSuppressorOnlySuppressesLastMarked() {
+        let suppressor = ClipboardWriteSuppressor()
+        suppressor.markWritten(changeCount: 10)
+        suppressor.markWritten(changeCount: 20)
+        XCTAssertFalse(suppressor.shouldSuppress(10))
+        XCTAssertTrue(suppressor.shouldSuppress(20))
+    }
+
     func testCopyThrowsWhenNoPayloadStore() {
         let suppressor = ClipboardWriteSuppressor()
         let writer = PasteboardWriter(suppressor: suppressor)
@@ -132,6 +191,82 @@ final class PasteboardWriterTests: XCTestCase {
         )
         let entry = ClipboardEntry(fingerprint: "f", capturedAt: Date(), items: [item])
         XCTAssertThrowsError(try writer.copy(entry))
+    }
+
+    func testCopyEntryWithStringRepresentation() throws {
+        let pasteboard = NSPasteboard.withUniqueName()
+        pasteboard.clearContents()
+        let suppressor = ClipboardWriteSuppressor()
+        let writer = PasteboardWriter(pasteboard: pasteboard, suppressor: suppressor)
+        let entry = ClipboardEntry(
+            fingerprint: "fp",
+            capturedAt: Date(),
+            items: [
+                ClipboardItem(
+                    kind: .text,
+                    preview: ClipboardItemPreview(primaryText: "hello"),
+                    representations: [
+                        .string(typeIdentifier: "public.utf8-plain-text", value: "hello"),
+                    ]
+                ),
+            ]
+        )
+        try writer.copy(entry)
+        XCTAssertEqual(pasteboard.string(forType: .string), "hello")
+    }
+
+    func testCopyEntryWithDataRepresentation() throws {
+        let pasteboard = NSPasteboard.withUniqueName()
+        pasteboard.clearContents()
+        let payloadStore = ClipboardPayloadStore()
+        let imageData = Data(repeating: 0xFF, count: 100)
+        payloadStore.insert(["ref": imageData])
+        let suppressor = ClipboardWriteSuppressor()
+        let writer = PasteboardWriter(pasteboard: pasteboard, suppressor: suppressor, payloadStore: payloadStore)
+        let entry = ClipboardEntry(
+            fingerprint: "img",
+            capturedAt: Date(),
+            items: [
+                ClipboardItem(
+                    kind: .image,
+                    preview: ClipboardItemPreview(primaryText: "PNG"),
+                    representations: [
+                        .data(typeIdentifier: "public.png", payloadReference: "ref"),
+                    ]
+                ),
+            ]
+        )
+        try writer.copy(entry)
+        XCTAssertEqual(pasteboard.data(forType: NSPasteboard.PasteboardType("public.png")), imageData)
+    }
+
+    func testCopyMultipleItems() throws {
+        let pasteboard = NSPasteboard.withUniqueName()
+        pasteboard.clearContents()
+        let suppressor = ClipboardWriteSuppressor()
+        let writer = PasteboardWriter(pasteboard: pasteboard, suppressor: suppressor)
+        let entry = ClipboardEntry(
+            fingerprint: "multi",
+            capturedAt: Date(),
+            items: [
+                ClipboardItem(
+                    kind: .text,
+                    preview: ClipboardItemPreview(primaryText: "a"),
+                    representations: [.string(typeIdentifier: "public.utf8-plain-text", value: "first")]
+                ),
+                ClipboardItem(
+                    kind: .text,
+                    preview: ClipboardItemPreview(primaryText: "b"),
+                    representations: [.string(typeIdentifier: "public.utf8-plain-text", value: "second")]
+                ),
+            ]
+        )
+        try writer.copy(entry)
+        XCTAssertEqual(pasteboard.pasteboardItems?.count, 2)
+    }
+
+    func testPasteboardWriteErrorEquality() {
+        XCTAssertEqual(PasteboardWriteError.unavailableRepresentation, PasteboardWriteError.unavailableRepresentation)
     }
 }
 
@@ -173,6 +308,151 @@ final class PasteboardSnapshotTests: XCTestCase {
 
     func testSensitiveMarkers_EmptyList() {
         XCTAssertFalse(SensitivePasteboardMarkers.contains([]))
+    }
+
+    func testSensitiveMarkers_DetectsAutoGenerated() {
+        XCTAssertTrue(SensitivePasteboardMarkers.contains(["org.nspasteboard.AutoGeneratedType"]))
+    }
+
+    func testSensitiveMarkers_DetectsTransient() {
+        XCTAssertTrue(SensitivePasteboardMarkers.contains(["org.nspasteboard.TransientType"]))
+    }
+
+    func testSensitiveMarkers_DetectsLastPass() {
+        XCTAssertTrue(SensitivePasteboardMarkers.contains(["com.lastpass.lastpass"]))
+    }
+
+    func testSensitiveMarkers_DetectsClipboardPrivate() {
+        XCTAssertTrue(SensitivePasteboardMarkers.contains(["de.dirkholtwick.clipboard.private"]))
+    }
+
+    func testSensitiveMarkers_DetectsInMixedList() {
+        XCTAssertTrue(SensitivePasteboardMarkers.contains(["public.utf8-plain-text", "org.nspasteboard.ConcealedType", "public.png"]))
+    }
+
+    func testSensitiveMarkers_RejectsMixedSafeList() {
+        XCTAssertFalse(SensitivePasteboardMarkers.contains(["public.utf8-plain-text", "public.png"]))
+    }
+
+    func testClipboardLimits_HasExpectedValues() {
+        XCTAssertEqual(ClipboardLimits.maximumEventBytes, 10 * 1024 * 1024)
+        XCTAssertEqual(ClipboardLimits.maximumRetainedBytes, 100 * 1024 * 1024)
+    }
+
+    func testPasteboardDescriptor_Equality() {
+        let d1 = PasteboardDescriptor(changeCount: 1, items: [PasteboardItemDescriptor(typeIdentifiers: ["a"])])
+        let d2 = PasteboardDescriptor(changeCount: 1, items: [PasteboardItemDescriptor(typeIdentifiers: ["a"])])
+        let d3 = PasteboardDescriptor(changeCount: 2, items: [])
+        XCTAssertEqual(d1, d2)
+        XCTAssertNotEqual(d1, d3)
+    }
+
+    func testPasteboardSnapshot_Equality() {
+        let rep = CapturedPasteboardRepresentation(typeIdentifier: "text", data: Data([1]))
+        let s1 = PasteboardSnapshot(changeCount: 1, items: [PasteboardItemSnapshot(representations: [rep])])
+        let s2 = PasteboardSnapshot(changeCount: 1, items: [PasteboardItemSnapshot(representations: [rep])])
+        let s3 = PasteboardSnapshot(changeCount: 2, items: [])
+        XCTAssertEqual(s1, s2)
+        XCTAssertNotEqual(s1, s3)
+    }
+
+    func testCapturedPasteboardRepresentation_Equality() {
+        let r1 = CapturedPasteboardRepresentation(typeIdentifier: "text", data: Data([1, 2, 3]))
+        let r2 = CapturedPasteboardRepresentation(typeIdentifier: "text", data: Data([1, 2, 3]))
+        let r3 = CapturedPasteboardRepresentation(typeIdentifier: "text", data: Data([4, 5, 6]))
+        let r4 = CapturedPasteboardRepresentation(typeIdentifier: "image", data: Data([1, 2, 3]))
+        XCTAssertEqual(r1, r2)
+        XCTAssertNotEqual(r1, r3)
+        XCTAssertNotEqual(r1, r4)
+    }
+
+    func testSensitiveMarkers_AllIdentifiersSetNotEmpty() {
+        XCTAssertTrue(SensitivePasteboardMarkers.identifiers.count > 0)
+    }
+}
+
+@MainActor
+final class ClipboardPanelPresenterExtendedTests: XCTestCase {
+    func testPresenterDefaultState() {
+        let presenter = ClipboardPanelPresenter()
+        XCTAssertFalse(presenter.isShown)
+        XCTAssertNil(presenter.previousApplication)
+    }
+
+    func testShowSetsPreviousApplication() {
+        let presenter = ClipboardPanelPresenter()
+        presenter.show(previousApplication: nil)
+        presenter.close()
+    }
+
+    func testToggleOpensAndCloses() {
+        let presenter = ClipboardPanelPresenter()
+        XCTAssertFalse(presenter.isShown)
+        presenter.toggle(previousApplication: nil)
+        presenter.close()
+    }
+
+    func testSetKeepOnTop() {
+        let presenter = ClipboardPanelPresenter()
+        presenter.setKeepOnTop(true)
+        presenter.setKeepOnTop(false)
+    }
+}
+
+@MainActor
+final class ClipboardActionCoordinatorExtendedTests: XCTestCase {
+    func testPerformPasteImmediately_AllStepsSequence() {
+        var steps: [String] = []
+        let coordinator = ClipboardActionCoordinator(
+            writeEntry: { _ in steps.append("write") },
+            closePanel: { steps.append("close") },
+            reactivatePrevious: { steps.append("reactivate"); return true },
+            synthesizePaste: { steps.append("paste"); return true }
+        )
+        let item = ClipboardItem(
+            kind: .text,
+            preview: ClipboardItemPreview(primaryText: "test"),
+            representations: [.string(typeIdentifier: "public.utf8-plain-text", value: "test")]
+        )
+        let entry = ClipboardEntry(fingerprint: "f", capturedAt: Date(), items: [item])
+        coordinator.perform(entry, action: .pasteImmediately)
+        XCTAssertEqual(steps.count, 4)
+    }
+
+    func testPerformCopyOnly_NoPasteNoReactivate() {
+        var steps: [String] = []
+        let coordinator = ClipboardActionCoordinator(
+            writeEntry: { _ in steps.append("write") },
+            closePanel: { steps.append("close") },
+            reactivatePrevious: { steps.append("reactivate"); return true },
+            synthesizePaste: { steps.append("paste"); return true }
+        )
+        let entry = ClipboardEntry(
+            fingerprint: "f",
+            capturedAt: Date(),
+            items: [
+                ClipboardItem(
+                    kind: .text,
+                    preview: ClipboardItemPreview(primaryText: "t"),
+                    representations: [
+                        .string(typeIdentifier: "public.utf8-plain-text", value: "t"),
+                    ]
+                ),
+            ]
+        )
+        coordinator.perform(entry, action: .copyOnly)
+        XCTAssertFalse(steps.contains("reactivate"))
+        XCTAssertFalse(steps.contains("paste"))
+    }
+
+    func testLastErrorInitialIsNil() {
+        let coordinator = ClipboardActionCoordinator(
+            writeEntry: { _ in },
+            closePanel: {},
+            reactivatePrevious: { true },
+            synthesizePaste: { true }
+        )
+        XCTAssertNil(coordinator.lastError)
     }
 }
 

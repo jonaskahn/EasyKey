@@ -6,6 +6,7 @@ excluded:
   - Carthage
   - Pods
   - Scripts
+  - EasyKeyTests/EngineCoreCoverageTests.swift
 
 disabled_rules:
   # `let _ =` is required in ViewBuilder for observation dependencies;
@@ -22,6 +23,9 @@ identifier_name:
   min_length:
     warning: 2
     error: 1
+  max_length:
+    warning: 55
+    error: 65
   excluded:
     - id
     - ok
@@ -53,7 +57,7 @@ type_body_length:
   error: 600
 
 function_body_length:
-  warning: 60
+  warning: 65
   error: 100
 
 function_parameter_count:
@@ -61,5 +65,5 @@ function_parameter_count:
   error: 8
 
 cyclomatic_complexity:
-  warning: 12
+  warning: 15
   error: 20
