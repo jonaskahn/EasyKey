@@ -69,7 +69,6 @@ struct MenuPopoverTranslationPresentation: Equatable {
     let isTranslating: Bool
     let canTranslate: Bool
     let setupRequired: Bool
-    let disclosure: TranslationPanelPresentation.Disclosure
 
     init(
         sourceText: String,
@@ -92,7 +91,6 @@ struct MenuPopoverTranslationPresentation: Equatable {
         isTranslating = presentation.isTranslating
         canTranslate = presentation.canTranslate
         setupRequired = presentation.setupRequired
-        disclosure = providerID.map(availableProviders.contains) == true ? presentation.disclosure : .none
     }
 }
 
@@ -107,7 +105,6 @@ enum MenuPopoverTranslationAccessibility {
     static let translateButton = "MenuPopoverTranslationTranslateButton"
     static let settingsButton = "MenuPopoverTranslationSettingsButton"
     static let status = "MenuPopoverTranslationStatus"
-    static let disclosure = "MenuPopoverTranslationDisclosure"
 }
 
 struct MenuPopoverTranslationView: View {
@@ -293,12 +290,9 @@ struct MenuPopoverTranslationView: View {
     }
 
     private var footer: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            disclosure
-            Text(localization.string(.translationEditorInstructions))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
+        Text(localization.string(.translationEditorInstructions))
+            .font(.caption)
+            .foregroundStyle(.secondary)
     }
 
     private var compactProvider: some View {
@@ -349,28 +343,6 @@ struct MenuPopoverTranslationView: View {
             }
             .font(.caption)
             .accessibilityIdentifier(MenuPopoverTranslationAccessibility.status)
-        }
-    }
-
-    @ViewBuilder private var disclosure: some View {
-        switch presentation.disclosure {
-        case .none:
-            EmptyView()
-        case .local:
-            Label(localization.string(.translationLocalDisclosure), systemImage: "lock.shield")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityIdentifier(MenuPopoverTranslationAccessibility.disclosure)
-        case let .cloud(provider):
-            Label(
-                localization.format(.translationCloudDisclosure, providerName(provider)),
-                systemImage: "cloud"
-            )
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.disclosure)
         }
     }
 

@@ -66,8 +66,8 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertEqual(primaryButton.label, "Tiếp tục")
     }
 
-    func testSettingsLaunchesAboutSection() {
-        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
+    func testSettingsLaunchesSystemSection() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "system"]
         app.launch()
         app.activate()
 

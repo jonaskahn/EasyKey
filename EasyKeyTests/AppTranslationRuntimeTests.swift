@@ -403,6 +403,10 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
     func setCloseHandler(_ handler: @escaping () -> Void) {
         closeHandler = handler
     }
+
+    func containsWindowNumber(_ windowNumber: Int) -> Bool {
+        windowNumber == self.windowNumber
+    }
 }
 
 @MainActor
@@ -410,7 +414,7 @@ private final class RuntimePanelMonitor: TranslationPanelEventMonitoring {
     private(set) var removedMonitorCount = 0
 
     func addLocalMonitor(
-        panelWindowNumber _: @escaping () -> Int?,
+        isPanelOwnedWindow _: @escaping (Int) -> Bool,
         handler _: @escaping (TranslationPanelLocalEvent) -> Bool
     ) -> TranslationPanelMonitorRegistration? {
         registration()

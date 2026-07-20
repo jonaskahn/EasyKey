@@ -55,6 +55,10 @@ private final class FakeTranslationPanel: TranslationPanelWindow {
         closeHandler = handler
     }
 
+    func containsWindowNumber(_ windowNumber: Int) -> Bool {
+        windowNumber == self.windowNumber
+    }
+
     func requestClose() {
         closeHandler?()
     }
@@ -83,7 +87,7 @@ private final class FakeTranslationPanelEventMonitor: TranslationPanelEventMonit
     }
 
     func addLocalMonitor(
-        panelWindowNumber _: @escaping () -> Int?,
+        isPanelOwnedWindow _: @escaping (Int) -> Bool,
         handler: @escaping (TranslationPanelLocalEvent) -> Bool
     ) -> TranslationPanelMonitorRegistration? {
         localInstallCount += 1
@@ -287,6 +291,21 @@ final class TranslationPanelPresenterTests: XCTestCase {
         XCTAssertFalse(panel.hidesOnDeactivate)
         XCTAssertTrue(panel.collectionBehavior.contains(.canJoinAllSpaces))
         XCTAssertTrue(panel.collectionBehavior.contains(.fullScreenAuxiliary))
+    }
+
+    func testTranslationPanelTreatsChildPopoverWindowsAsInside() {
+        let panel = TranslationPanel(size: TranslationPanelPresenter.panelSize)
+        let child = NSPanel(
+            contentRect: .init(x: 0, y: 0, width: 100, height: 100),
+            styleMask: [.nonactivatingPanel],
+            backing: .buffered,
+            defer: false
+        )
+        panel.addChildWindow(child, ordered: .above)
+        defer { child.close() }
+
+        XCTAssertTrue(panel.containsWindowNumber(panel.windowNumber))
+        XCTAssertTrue(panel.containsWindowNumber(child.windowNumber))
     }
 
     private func makePresenter(

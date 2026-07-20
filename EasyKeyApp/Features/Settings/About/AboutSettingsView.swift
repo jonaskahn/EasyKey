@@ -6,7 +6,6 @@ import SwiftUI
 struct AboutSettingsView: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject private var localization = LocalizationStore.shared
-    @State private var confirmReset = false
 
     private static let author = "jonaskahn"
     private static let githubDisplay = "Github"
@@ -46,12 +45,6 @@ struct AboutSettingsView: View {
             }
 
             Section {
-                InterfaceLanguagePicker()
-            } header: {
-                Text(localization.string(.aboutInterface))
-            }
-
-            Section {
                 Text(localization.string(.aboutTrademarksDescription))
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -60,28 +53,8 @@ struct AboutSettingsView: View {
                 Text(localization.string(.aboutTrademarks))
             }
 
-            Section {
-                VStack(alignment: .leading, spacing: 4) {
-                    Button(localization.string(.aboutResetSettings), role: .destructive) { confirmReset = true }
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-                        .tint(.red)
-                    Text(localization.string(.aboutResetSettingsDescription))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            } header: {
-                Text(localization.string(.aboutMaintenance))
-            }
         }
         .formStyle(.grouped)
-        .alert(localization.string(.aboutResetConfirmTitle), isPresented: $confirmReset) {
-            Button(localization.string(.commonReset), role: .destructive) { settingsStore.reset() }
-            Button(localization.string(.commonCancel), role: .cancel) {}
-        } message: {
-            Text(localization.string(.aboutResetConfirmMessage))
-        }
     }
 
     private var appVersion: String {

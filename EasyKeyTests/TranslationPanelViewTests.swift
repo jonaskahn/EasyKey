@@ -31,7 +31,6 @@ final class TranslationPanelViewTests: XCTestCase {
     func testPresentationCoversBlankReadyLoadingSuccessAndError() {
         let blank = presentation(text: "", status: .idle)
         XCTAssertFalse(blank.canTranslate)
-        XCTAssertEqual(blank.disclosure, .cloud(.deepL))
 
         let ready = presentation(text: "Xin chao", status: .idle)
         XCTAssertTrue(ready.canTranslate)
@@ -48,7 +47,7 @@ final class TranslationPanelViewTests: XCTestCase {
         XCTAssertTrue(error.canTranslate)
     }
 
-    func testPresentationCoversSetupAndDisclosureStates() {
+    func testPresentationCoversSetupState() {
         let setup = TranslationPanelPresentation(
             sourceText: "Hello",
             sourceLanguage: .english,
@@ -58,17 +57,6 @@ final class TranslationPanelViewTests: XCTestCase {
             status: .idle
         )
         XCTAssertTrue(setup.setupRequired)
-        XCTAssertEqual(setup.disclosure, .none)
-
-        let local = TranslationPanelPresentation(
-            sourceText: "Hello",
-            sourceLanguage: .english,
-            targetLanguage: .vietnamese,
-            providerID: .apple,
-            availableProviders: [.apple],
-            status: .idle
-        )
-        XCTAssertEqual(local.disclosure, .local)
     }
 
     func testPresentationRejectsOversizedEqualLanguageAndUnavailableProvider() {
@@ -110,7 +98,6 @@ final class TranslationPanelViewTests: XCTestCase {
             TranslationPanelAccessibility.resultSpeechButton,
             TranslationPanelAccessibility.settingsButton,
             TranslationPanelAccessibility.status,
-            TranslationPanelAccessibility.disclosure,
         ]
         XCTAssertEqual(Set(identifiers).count, identifiers.count)
         XCTAssertFalse(identifiers.contains(where: \.isEmpty))
@@ -126,7 +113,7 @@ final class TranslationPanelViewTests: XCTestCase {
         XCTAssertFalse(TranslationPronunciationPolicy.supports(.automatic))
     }
 
-    func testPanelCopyLocalizesShortcutDisclosureAndAnnouncement() throws {
+    func testPanelCopyLocalizesShortcutAndAnnouncement() throws {
         let suite = "one.ifelse.easykey.translation-panel.\(UUID().uuidString)"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
         defaults.removePersistentDomain(forName: suite)
@@ -134,10 +121,6 @@ final class TranslationPanelViewTests: XCTestCase {
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
 
         localization.setPreference(.english)
-        XCTAssertEqual(
-            localization.format(.translationCloudDisclosure, "DeepL"),
-            "Submitted source text is sent directly to DeepL after the configured delay or when you choose Translate."
-        )
         XCTAssertTrue(localization.format(.translationInstructions, "⌥ + A").contains("⌥ + A"))
         XCTAssertEqual(
             localization.string(.translationResultAnnouncement),
@@ -232,16 +215,6 @@ final class TranslationPanelViewTests: XCTestCase {
         )
         XCTAssertEqual(macOS14.availableProviders, [.deepL, .gemini])
         XCTAssertFalse(macOS14.availableProviders.contains(.apple))
-        let hiddenApple = MenuPopoverTranslationPresentation(
-            sourceText: "Hello",
-            sourceLanguage: .english,
-            targetLanguage: .vietnamese,
-            providerID: .apple,
-            availableProviders: macOS14.availableProviders,
-            status: .idle
-        )
-        XCTAssertEqual(hiddenApple.disclosure, .none)
-
         let macOS15 = MenuPopoverTranslationConfiguration(
             model: model,
             availableProviders: [.gemini, .apple, .deepL, .automatic],
@@ -275,7 +248,6 @@ final class TranslationPanelViewTests: XCTestCase {
             status: .idle
         )
         XCTAssertTrue(setup.setupRequired)
-        XCTAssertEqual(setup.disclosure, .none)
     }
 
     func testPopoverAccessibilityIdentifiersAreUniqueAndNonempty() {
@@ -289,7 +261,6 @@ final class TranslationPanelViewTests: XCTestCase {
             MenuPopoverTranslationAccessibility.result,
             MenuPopoverTranslationAccessibility.settingsButton,
             MenuPopoverTranslationAccessibility.status,
-            MenuPopoverTranslationAccessibility.disclosure,
         ]
         XCTAssertEqual(Set(identifiers).count, identifiers.count)
         XCTAssertFalse(identifiers.contains(where: \.isEmpty))
@@ -303,9 +274,9 @@ final class TranslationPanelViewTests: XCTestCase {
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
 
         localization.setPreference(.english)
-        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("delay"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift+Enter"))
         localization.setPreference(.vietnamese)
-        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("độ trễ"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift+Enter"))
     }
 
     private func presentation(text: String, status: TranslationModel.Status) -> TranslationPanelPresentation {

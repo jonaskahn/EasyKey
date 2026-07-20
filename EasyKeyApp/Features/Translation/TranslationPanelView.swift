@@ -37,22 +37,14 @@ enum TranslationPanelAccessibility {
     static let translateButton = "TranslationTranslateButton"
     static let settingsButton = "TranslationSettingsButton"
     static let status = "TranslationStatus"
-    static let disclosure = "TranslationDisclosure"
 }
 
 struct TranslationPanelPresentation: Equatable {
-    enum Disclosure: Equatable {
-        case none
-        case local
-        case cloud(TranslationProviderID)
-    }
-
     let resultText: String
     let error: TranslationError?
     let isTranslating: Bool
     let canTranslate: Bool
     let setupRequired: Bool
-    let disclosure: Disclosure
 
     init(
         sourceText: String,
@@ -82,16 +74,6 @@ struct TranslationPanelPresentation: Equatable {
             && sourceLanguage != targetLanguage
             && !isTranslating
 
-        switch providerID {
-        case .some(.apple):
-            disclosure = .local
-        case let .some(provider) where provider != .automatic:
-            disclosure = .cloud(provider)
-        case .some(.automatic), .none:
-            disclosure = .none
-        default:
-            disclosure = .none
-        }
     }
 }
 
@@ -133,7 +115,6 @@ struct TranslationPanelView: View {
                     sourceSection
                     resultSection
                     statusSection
-                    disclosure
                 }
                 .padding(16)
             }
@@ -344,24 +325,6 @@ struct TranslationPanelView: View {
                         .accessibilityIdentifier(TranslationPanelAccessibility.settingsButton)
                 }
             }
-        }
-    }
-
-    @ViewBuilder private var disclosure: some View {
-        switch presentation.disclosure {
-        case .none:
-            EmptyView()
-        case .local:
-            Label(localization.string(.translationLocalDisclosure), systemImage: "lock.shield")
-                .foregroundStyle(.secondary)
-                .accessibilityIdentifier(TranslationPanelAccessibility.disclosure)
-        case let .cloud(provider):
-            Label(
-                localization.format(.translationCloudDisclosure, providerName(provider)),
-                systemImage: "cloud"
-            )
-            .foregroundStyle(.secondary)
-            .accessibilityIdentifier(TranslationPanelAccessibility.disclosure)
         }
     }
 
