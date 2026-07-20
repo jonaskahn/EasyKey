@@ -36,47 +36,53 @@ struct BorderlessPickerMenu<Item: Hashable>: View {
     }
 }
 
+struct MenuPopoverActions {
+    var openClipboard: () -> Void
+    var openSettings: () -> Void
+    var quit: () -> Void
+}
+
 struct MenuPopoverView: View {
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var settingsStore: SettingsStore
-    @ObservedObject private var localization = LocalizationStore.shared
+    @ObservedObject private var localization: LocalizationStore
+    let translation: MenuPopoverTranslationConfiguration?
+    let actions: MenuPopoverActions
 
-    init(coordinator: AppCoordinator) {
+    init(
+        coordinator: AppCoordinator,
+        translation: MenuPopoverTranslationConfiguration? = nil,
+        localization: LocalizationStore? = nil,
+        actions: MenuPopoverActions? = nil
+    ) {
         self.coordinator = coordinator
         settingsStore = coordinator.settingsStore
+        self.translation = translation
+        self.localization = localization ?? .shared
+        self.actions = actions ?? MenuPopoverActions(
+            openClipboard: { [weak coordinator] in coordinator?.showSettingsFromPopover(section: .clipboard) },
+            openSettings: { [weak coordinator] in coordinator?.showSettingsFromPopover() },
+            quit: { NSApp.terminate(nil) }
+        )
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 10) {
-                Image(systemName: stateSymbol)
-                    .font(.title2)
-                    .foregroundStyle(stateColor)
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(coordinator.menuBarStateTitle)
-                        .font(.headline)
-                    Text(localization.format(
-                        .menuCurrentAppStatus,
-                        coordinator.currentApplicationName,
-                        coordinator.currentAppSmartSwitchStatus
-                    ))
-                    .font(.caption.monospaced())
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                }
-                Spacer(minLength: 0)
+            if let translation {
+                MenuPopoverTranslationView(
+                    model: translation.model,
+                    availableProviders: translation.availableProviders,
+                    localization: localization,
+                    actions: translation.actions,
+                    width: widthValue
+                )
+                .background(translation.sessionHost)
+
+                Divider()
             }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(localization.format(
-                .a11yPopoverStatus,
-                coordinator.menuBarStateTitle,
-                coordinator.currentApplicationName,
-                coordinator.currentAppSmartSwitchStatus
-            ))
-            .padding(10)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(stateColor.opacity(0.08), in: RoundedRectangle(cornerRadius: DesignScale.radiusMD))
+
+            Label(localization.string(.menuInputSection), systemImage: "keyboard")
+                .font(.headline)
 
             VStack(spacing: 0) {
                 pickerRow(label: localization.string(.menuLanguage)) {
@@ -109,27 +115,63 @@ struct MenuPopoverView: View {
             .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: DesignScale.radiusMD))
             .frame(maxWidth: .infinity, alignment: .leading)
 
+            inputStatus
+
             Divider()
 
             HStack(spacing: 12) {
-                Button(localization.string(.settingsSectionClipboard)) { coordinator.showSettings(section: .clipboard) }
+                Button(localization.string(.settingsSectionClipboard), action: actions.openClipboard)
                     .buttonStyle(.bordered)
                 Spacer()
-                Button(localization.string(.menuSettingsShort)) { coordinator.showSettings() }
+                Button(localization.string(.menuSettingsShort), action: actions.openSettings)
                     .buttonStyle(.bordered)
                     .keyboardShortcut(",", modifiers: .command)
                     .accessibilityLabel(localization.string(.a11yOpenSettings))
-                Button(localization.string(.menuQuitShort)) {
-                    NSApp.terminate(nil)
-                }
-                .buttonStyle(.bordered)
-                .keyboardShortcut("q", modifiers: .command)
-                .accessibilityLabel(localization.string(.a11yQuit))
+                Button(localization.string(.menuQuitShort), action: actions.quit)
+                    .buttonStyle(.bordered)
+                    .keyboardShortcut("q", modifiers: .command)
+                    .accessibilityLabel(localization.string(.a11yQuit))
             }
         }
         .padding(16)
-        .frame(width: 380)
+        .frame(width: widthValue)
         .easyKeyButtonShape()
+    }
+
+    private var widthValue: CGFloat {
+        CGFloat(settingsStore.settings.system.menuPopoverWidth.rawValue)
+    }
+
+    private var inputStatus: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: stateSymbol)
+                .foregroundStyle(stateColor)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(coordinator.menuBarStateTitle)
+                    .font(.subheadline.weight(.semibold))
+                Text(localization.format(
+                    .menuCurrentAppStatus,
+                    coordinator.currentApplicationName,
+                    coordinator.currentAppSmartSwitchStatus
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(localization.format(
+            .a11yPopoverStatus,
+            coordinator.menuBarStateTitle,
+            coordinator.currentApplicationName,
+            coordinator.currentAppSmartSwitchStatus
+        ))
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(stateColor.opacity(0.08), in: RoundedRectangle(cornerRadius: DesignScale.radiusMD))
     }
 
     private func pickerRow(label: String, @ViewBuilder control: () -> some View) -> some View {
@@ -143,21 +185,21 @@ struct MenuPopoverView: View {
         .padding(.vertical, 8)
     }
 
-    private var languageBinding: Binding<InputLanguage> {
+    var languageBinding: Binding<InputLanguage> {
         Binding(
             get: { settingsStore.settings.input.language },
             set: coordinator.setLanguage
         )
     }
 
-    private var inputMethodBinding: Binding<InputMethod> {
+    var inputMethodBinding: Binding<InputMethod> {
         Binding(
             get: { settingsStore.settings.input.inputMethod },
             set: coordinator.setInputMethod
         )
     }
 
-    private var encodingBinding: Binding<EncodingTable> {
+    var encodingBinding: Binding<EncodingTable> {
         Binding(
             get: { settingsStore.settings.input.encoding },
             set: coordinator.setEncoding

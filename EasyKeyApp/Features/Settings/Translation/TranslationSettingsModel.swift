@@ -1,0 +1,379 @@
+import Combine
+import EasyEngineCore
+import Foundation
+
+@MainActor
+protocol TranslationCredentialValidating {
+    func validate(
+        _ credential: String,
+        for provider: TranslationProviderID,
+        options: TranslationOptions
+    ) async throws -> Bool
+}
+
+@MainActor
+struct LiveTranslationCredentialValidator: TranslationCredentialValidating {
+    private let session: URLSession
+
+    init(session: URLSession = TranslationNetworkSession.ephemeral) {
+        self.session = session
+    }
+
+    func validate(
+        _ credential: String,
+        for provider: TranslationProviderID,
+        options: TranslationOptions
+    ) async throws -> Bool {
+        switch provider {
+        case .deepL:
+            return try await DeepLTranslationProvider(
+                endpoint: options.deepLEndpoint,
+                credentialStore: InMemoryTranslationCredentialStore(),
+                session: session
+            ).validateCredential(credential)
+        case .google:
+            return try await GoogleTranslationProvider(
+                credentialStore: InMemoryTranslationCredentialStore(),
+                session: session
+            ).validateCredential(credential)
+        case .openAI:
+            return try await validateRequest(
+                url: URL(string: "https://api.openai.com/v1/models")!,
+                headers: ["Authorization": "Bearer \(credential)"]
+            )
+        case .anthropic:
+            return try await validateRequest(
+                url: URL(string: "https://api.anthropic.com/v1/models")!,
+                headers: ["x-api-key": credential, "anthropic-version": "2023-06-01"]
+            )
+        case .gemini:
+            return try await validateRequest(
+                url: URL(string: "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1")!,
+                headers: ["x-goog-api-key": credential]
+            )
+        case .openRouter:
+            return try await validateRequest(
+                url: URL(string: "https://openrouter.ai/api/v1/models")!,
+                headers: ["Authorization": "Bearer \(credential)"]
+            )
+        case .groq:
+            return try await validateRequest(
+                url: URL(string: "https://api.groq.com/openai/v1/models")!,
+                headers: ["Authorization": "Bearer \(credential)"]
+            )
+        case .openAICompatible:
+            guard !options.openAICompatibleEndpoint.isEmpty else { return false }
+            return true
+        case .anthropicCompatible:
+            guard !options.anthropicCompatibleEndpoint.isEmpty else { return false }
+            return true
+        case .automatic, .apple:
+            return false
+        }
+    }
+
+    private func validateRequest(url: URL, headers: [String: String]) async throws -> Bool {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 20
+        for (name, value) in headers {
+            request.setValue(value, forHTTPHeaderField: name)
+        }
+        let (_, response) = try await session.data(for: request)
+        guard let response = response as? HTTPURLResponse else { throw URLError(.badServerResponse) }
+        switch response.statusCode {
+        case 200 ..< 300: return true
+        case 400, 401, 403: return false
+        default: throw URLError(.badServerResponse)
+        }
+    }
+}
+
+@MainActor
+final class TranslationSettingsModel: ObservableObject {
+    typealias ShortcutApplier = @MainActor (Shortcut) -> TranslationHotKeyRegistrationState
+
+    static let cloudProviders = TranslationProviderResolver.cloudProviderOrder
+    static let maximumModelIdentifierLength = 100
+
+    @Published private(set) var credentialStatuses: [TranslationProviderID: TranslationCredentialStatus] = [:]
+    @Published private(set) var storedCredentialProviders: Set<TranslationProviderID> = []
+    @Published private(set) var shortcutRegistrationState: TranslationHotKeyRegistrationState
+    @Published private(set) var lastCredentialErrorProvider: TranslationProviderID?
+
+    let platformCapability: TranslationPlatformCapability
+    private let settingsStore: SettingsStore
+    private let credentialStore: TranslationCredentialStoring
+    private let credentialValidator: TranslationCredentialValidating
+    var shortcutApplier: ShortcutApplier?
+    var onCredentialsChange: (() -> Void)?
+    var onEnabledChange: (() -> Void)?
+
+    init(
+        settingsStore: SettingsStore,
+        platformCapability: TranslationPlatformCapability,
+        credentialStore: TranslationCredentialStoring = KeychainTranslationCredentialStore(),
+        credentialValidator: TranslationCredentialValidating? = nil,
+        shortcutRegistrationState: TranslationHotKeyRegistrationState? = nil,
+        shortcutApplier: ShortcutApplier? = nil
+    ) {
+        self.settingsStore = settingsStore
+        self.platformCapability = platformCapability
+        self.credentialStore = credentialStore
+        self.credentialValidator = credentialValidator ?? LiveTranslationCredentialValidator()
+        self.shortcutApplier = shortcutApplier
+        self.shortcutRegistrationState = shortcutRegistrationState
+            ?? (settingsStore.settings.translation.shortcut.isActive
+                ? .registered(settingsStore.settings.translation.shortcut)
+                : .unregistered)
+        refreshCredentialStatuses()
+    }
+
+    convenience init(settingsStore: SettingsStore) {
+        let capability: TranslationPlatformCapability
+        if #available(macOS 15.0, *) {
+            capability = TranslationPlatformCapability(supportsAppleTranslation: true)
+        } else {
+            capability = TranslationPlatformCapability(supportsAppleTranslation: false)
+        }
+        self.init(settingsStore: settingsStore, platformCapability: capability)
+    }
+
+    var selectableProviders: [TranslationProviderID] {
+        var providers: [TranslationProviderID] = [.automatic]
+        if platformCapability.supportsAppleTranslation {
+            providers.append(.apple)
+        }
+        providers.append(contentsOf: Self.cloudProviders)
+        return providers
+    }
+
+    var visibleProviderCards: [TranslationProviderID] {
+        var providers: [TranslationProviderID] = []
+        if platformCapability.supportsAppleTranslation {
+            providers.append(.apple)
+        }
+        providers.append(contentsOf: Self.cloudProviders)
+        return providers
+    }
+
+    var preferredProvider: TranslationProviderID {
+        let saved = settingsStore.settings.translation.preferredProviderID ?? .automatic
+        return selectableProviders.contains(saved) ? saved : .automatic
+    }
+
+    var defaultSourceLanguage: TranslationLanguage? {
+        settingsStore.settings.translation.defaultSourceLanguage
+    }
+
+    var shortcut: Shortcut {
+        settingsStore.settings.translation.shortcut
+    }
+
+    var deepLEndpoint: TranslationOptions.DeepLEndpoint {
+        settingsStore.settings.translation.deepLEndpoint
+    }
+
+    var isEnabled: Bool {
+        settingsStore.settings.translation.isEnabled
+    }
+
+    var showInMenuPopover: Bool {
+        settingsStore.settings.translation.showInMenuPopover
+    }
+
+    var autoTranslateDelayMs: Int {
+        settingsStore.settings.translation.autoTranslateDelayMs
+    }
+
+    var acknowledgedDisclosureProviders: Set<TranslationProviderID> {
+        settingsStore.settings.translation.acknowledgedCloudDisclosureProviders
+    }
+
+    func modelIdentifier(for provider: TranslationProviderID) -> String? {
+        switch provider {
+        case .openAI: settingsStore.settings.translation.openAIModelIdentifier
+        case .anthropic: settingsStore.settings.translation.anthropicModelIdentifier
+        case .gemini: settingsStore.settings.translation.geminiModelIdentifier
+        case .openRouter: settingsStore.settings.translation.openRouterModelIdentifier
+        case .groq: settingsStore.settings.translation.groqModelIdentifier
+        case .openAICompatible: settingsStore.settings.translation.openAICompatibleModelIdentifier
+        case .anthropicCompatible: settingsStore.settings.translation.anthropicCompatibleModelIdentifier
+        case .automatic, .apple, .deepL, .google: nil
+        }
+    }
+
+    func setPreferredProvider(_ provider: TranslationProviderID) {
+        guard selectableProviders.contains(provider) else { return }
+        settingsStore.update {
+            $0.translation.preferredProviderID = provider == .automatic ? nil : provider
+        }
+        objectWillChange.send()
+    }
+
+    func setDefaultSourceLanguage(_ language: TranslationLanguage?) {
+        guard language == nil || language.map(SupportedLanguages.contains) == true else { return }
+        settingsStore.update { $0.translation.defaultSourceLanguage = language }
+        objectWillChange.send()
+    }
+
+    func setShortcut(_ shortcut: Shortcut) {
+        settingsStore.update { $0.translation.shortcut = shortcut }
+        shortcutRegistrationState = shortcutApplier?(shortcut)
+            ?? (shortcut.isActive ? .registered(shortcut) : .unregistered)
+    }
+
+    func publishRegistrationState(_ state: TranslationHotKeyRegistrationState) {
+        shortcutRegistrationState = state
+        objectWillChange.send()
+    }
+
+    func setDeepLEndpoint(_ endpoint: TranslationOptions.DeepLEndpoint) {
+        settingsStore.update { $0.translation.deepLEndpoint = endpoint }
+        if credentialStatuses[.deepL] == .ready {
+            credentialStatuses[.deepL] = .saved
+        }
+        objectWillChange.send()
+    }
+
+    func setIsEnabled(_ value: Bool) {
+        settingsStore.update { $0.translation.isEnabled = value }
+        objectWillChange.send()
+        onEnabledChange?()
+    }
+
+    func setShowInMenuPopover(_ value: Bool) {
+        settingsStore.update { $0.translation.showInMenuPopover = value }
+        objectWillChange.send()
+    }
+
+    func setAutoTranslateDelayMs(_ value: Int) {
+        guard TranslationOptions.AutoTranslateDelayPreset(rawValue: value) != nil else { return }
+        settingsStore.update { $0.translation.autoTranslateDelayMs = value }
+        objectWillChange.send()
+    }
+
+    func openAICompatibleEndpoint() -> String {
+        settingsStore.settings.translation.openAICompatibleEndpoint
+    }
+
+    func setOpenAICompatibleEndpoint(_ value: String) {
+        settingsStore.update { $0.translation.openAICompatibleEndpoint = value.trimmingCharacters(in: .whitespacesAndNewlines) }
+        objectWillChange.send()
+    }
+
+    func anthropicCompatibleEndpoint() -> String {
+        settingsStore.settings.translation.anthropicCompatibleEndpoint
+    }
+
+    func setAnthropicCompatibleEndpoint(_ value: String) {
+        settingsStore.update { $0.translation.anthropicCompatibleEndpoint = value.trimmingCharacters(in: .whitespacesAndNewlines) }
+        objectWillChange.send()
+    }
+
+    @discardableResult
+    func setModelIdentifier(_ value: String, for provider: TranslationProviderID) -> Bool {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard Self.isValidModelIdentifier(trimmed) else { return false }
+        settingsStore.update {
+            switch provider {
+            case .openAI: $0.translation.openAIModelIdentifier = trimmed
+            case .anthropic: $0.translation.anthropicModelIdentifier = trimmed
+            case .gemini: $0.translation.geminiModelIdentifier = trimmed
+            case .openRouter: $0.translation.openRouterModelIdentifier = trimmed
+            case .groq: $0.translation.groqModelIdentifier = trimmed
+            case .openAICompatible: $0.translation.openAICompatibleModelIdentifier = trimmed
+            case .anthropicCompatible: $0.translation.anthropicCompatibleModelIdentifier = trimmed
+            case .automatic, .apple, .deepL, .google: return
+            }
+        }
+        objectWillChange.send()
+        return true
+    }
+
+    @discardableResult
+    func saveCredential(_ credential: String, for provider: TranslationProviderID) -> Bool {
+        guard Self.cloudProviders.contains(provider) else { return false }
+        do {
+            try credentialStore.save(credential, for: provider)
+            storedCredentialProviders.insert(provider)
+            credentialStatuses[provider] = .saved
+            lastCredentialErrorProvider = nil
+            onCredentialsChange?()
+            return true
+        } catch {
+            lastCredentialErrorProvider = provider
+            return false
+        }
+    }
+
+    @discardableResult
+    func validateCredential(_ credential: String, for provider: TranslationProviderID) async -> Bool {
+        guard Self.cloudProviders.contains(provider) else { return false }
+        let trimmed = credential.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return false }
+        credentialStatuses[provider] = .validating
+        do {
+            let valid = try await credentialValidator.validate(
+                trimmed,
+                for: provider,
+                options: settingsStore.settings.translation
+            )
+            guard valid else {
+                credentialStatuses[provider] = .invalid
+                lastCredentialErrorProvider = provider
+                return false
+            }
+            try credentialStore.save(trimmed, for: provider)
+            storedCredentialProviders.insert(provider)
+            credentialStatuses[provider] = .ready
+            lastCredentialErrorProvider = nil
+            onCredentialsChange?()
+            return true
+        } catch {
+            credentialStatuses[provider] = .invalid
+            lastCredentialErrorProvider = provider
+            return false
+        }
+    }
+
+    func deleteCredential(for provider: TranslationProviderID) {
+        do {
+            try credentialStore.deleteCredential(for: provider)
+            storedCredentialProviders.remove(provider)
+            credentialStatuses[provider] = .missing
+            lastCredentialErrorProvider = nil
+            onCredentialsChange?()
+        } catch {
+            lastCredentialErrorProvider = provider
+        }
+    }
+
+    func resetCloudDisclosures() {
+        settingsStore.update { $0.translation.acknowledgedCloudDisclosureProviders.removeAll() }
+        objectWillChange.send()
+    }
+
+    func refreshCredentialStatuses() {
+        for provider in Self.cloudProviders {
+            do {
+                credentialStatuses[provider] = try credentialStore.status(for: provider)
+                if credentialStatuses[provider] == .saved {
+                    storedCredentialProviders.insert(provider)
+                } else {
+                    storedCredentialProviders.remove(provider)
+                }
+            } catch {
+                credentialStatuses[provider] = .invalid
+                lastCredentialErrorProvider = provider
+            }
+        }
+    }
+
+    static func isValidModelIdentifier(_ identifier: String) -> Bool {
+        let length = identifier.utf8.count
+        guard (1 ... maximumModelIdentifierLength).contains(length) else { return false }
+        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-._"))
+        return identifier.unicodeScalars.allSatisfy(allowed.contains)
+    }
+}

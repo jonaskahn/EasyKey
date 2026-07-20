@@ -8,7 +8,36 @@ import SwiftUI
 final class AppCoordinator: ObservableObject {
     typealias LoginItemStatus = LoginItemController.Status
 
-    static let shared = AppCoordinator()
+    static let shared: AppCoordinator = {
+        guard ProcessInfo.processInfo.arguments.contains("--uitesting") else {
+            return AppCoordinator()
+        }
+
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("EasyKeyUITests-\(ProcessInfo.processInfo.processIdentifier)", isDirectory: true)
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let settingsStore = SettingsStore(fileURL: directory.appendingPathComponent("settings.json"))
+        let localization = LocalizationStore.shared
+        var translationDependencies = AppTranslationRuntime.Dependencies.production
+        translationDependencies.credentialStore = InMemoryTranslationCredentialStore()
+        let clipboard = ClipboardServices(
+            options: settingsStore.settings.clipboard,
+            applicationSupportDirectory: directory,
+            localization: localization,
+            keyProvider: InMemoryClipboardKeyStore()
+        )
+        return AppCoordinator(
+            settingsStore: settingsStore,
+            localization: localization,
+            macroStore: MacroStore(
+                fileURL: directory.appendingPathComponent("macros.json"),
+                activeEncoding: settingsStore.settings.input.encoding
+            ),
+            smartSwitchStore: SmartSwitchStore(fileURL: directory.appendingPathComponent("smart-switch.json")),
+            clipboardServices: clipboard,
+            translationDependencies: translationDependencies
+        )
+    }()
 
     let settingsStore: SettingsStore
     let keyboardService: KeyboardService
@@ -21,6 +50,7 @@ final class AppCoordinator: ObservableObject {
     let smartSwitchController: SmartSwitchController
     let updateService: UpdateService
     let clipboard: ClipboardServices
+    let translation: AppTranslationRuntime
 
     @Published var keyboardHealth: KeyboardService.Health = .stopped
     @Published var keyboardPaused = false
@@ -30,6 +60,7 @@ final class AppCoordinator: ObservableObject {
     @Published var selectedSettingsSection: SettingsSection = .typing
     @Published var macroRevision = 0
     @Published var smartSwitchRevision = 0
+    @Published private(set) var systemHealthNavigationRevision = 0
 
     var settingsObserver: AnyCancellable?
     var localizationObserver: AnyCancellable?
@@ -51,7 +82,9 @@ final class AppCoordinator: ObservableObject {
         settingsWindowPresenter: SettingsWindowPresenter? = nil,
         loginItemController: LoginItemController? = nil,
         workspaceObserver: WorkspaceObserver? = nil,
-        updateService: UpdateService? = nil
+        updateService: UpdateService? = nil,
+        clipboardServices: ClipboardServices? = nil,
+        translationDependencies: AppTranslationRuntime.Dependencies? = nil
     ) {
         let settingsStore = settingsStore ?? SettingsStore()
         let localization = localization ?? .shared
@@ -79,7 +112,12 @@ final class AppCoordinator: ObservableObject {
         self.loginItemController = loginItemController ?? LoginItemController()
         self.workspaceObserver = workspaceObserver ?? WorkspaceObserver()
         self.updateService = updateService ?? UpdateService()
-        clipboard = ClipboardServices(
+        translation = AppTranslationRuntime(
+            settingsStore: settingsStore,
+            localization: localization,
+            dependencies: translationDependencies ?? .production
+        )
+        clipboard = clipboardServices ?? ClipboardServices(
             options: settingsStore.settings.clipboard,
             applicationSupportDirectory: SettingsStore.defaultFileURL.deletingLastPathComponent(),
             localization: localization
@@ -94,6 +132,11 @@ final class AppCoordinator: ObservableObject {
         configureWorkspaceObserver()
         self.keyboardService.update(macros: self.macroStore.macros)
         clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
+        translation.onOpenSettings = { [weak self] in self?.showSettings(section: .translation) }
+        translation.onConfigurationChange = { [weak self] in
+            guard let self else { return }
+            self.statusItemController.refreshPopoverContent(coordinator: self)
+        }
     }
 
     func showClipboardPanel() {
@@ -119,6 +162,7 @@ final class AppCoordinator: ObservableObject {
     }
 
     func start() {
+        guard settingsObserver == nil else { return }
         AppLog.info(.app, "AppCoordinator start")
         statusItemController.bindMenuActions(to: self)
         statusItemController.install(coordinator: self)
@@ -133,6 +177,7 @@ final class AppCoordinator: ObservableObject {
         }
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         keyboardService.start()
+        translation.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
         clipboardStartTask?.cancel()
         clipboardStartTask = Task { [clipboard] in
@@ -146,10 +191,13 @@ final class AppCoordinator: ObservableObject {
     func stop() {
         AppLog.info(.app, "AppCoordinator stop")
         settingsObserver?.cancel()
+        settingsObserver = nil
         localizationObserver?.cancel()
+        localizationObserver = nil
         workspaceObserver.stop()
         statusItemController.teardown()
         keyboardService.stop()
+        translation.stop()
         settingsWindowPresenter.close()
         let clipboardStartTask = clipboardStartTask
         self.clipboardStartTask = nil
@@ -179,6 +227,15 @@ final class AppCoordinator: ObservableObject {
             return
         }
         presentSettingsWindow()
+    }
+
+    func showSettingsFromPopover(section preferredSection: SettingsSection? = nil) {
+        if keyboardHealth == .requestingPermission {
+            systemHealthNavigationRevision &+= 1
+            showSettings(section: .system)
+        } else {
+            showSettings(section: preferredSection)
+        }
     }
 
     func clearSettingsWindowIfNeeded(_ window: NSWindow) {

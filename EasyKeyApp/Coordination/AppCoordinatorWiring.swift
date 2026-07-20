@@ -3,6 +3,37 @@ import Combine
 import EasyEngineCore
 import EasyKeyKit
 
+struct TranslationRuntimeSettingsObservation: Equatable {
+    let preferredProviderID: TranslationProviderID?
+    let defaultSourceLanguage: TranslationLanguage?
+    let autoTranslateDelayMs: Int
+    let openAIModelIdentifier: String
+    let anthropicModelIdentifier: String
+    let geminiModelIdentifier: String
+    let deepLEndpoint: TranslationOptions.DeepLEndpoint
+
+    init(options: TranslationOptions) {
+        preferredProviderID = options.preferredProviderID
+        defaultSourceLanguage = options.defaultSourceLanguage
+        autoTranslateDelayMs = options.autoTranslateDelayMs
+        openAIModelIdentifier = options.openAIModelIdentifier
+        anthropicModelIdentifier = options.anthropicModelIdentifier
+        geminiModelIdentifier = options.geminiModelIdentifier
+        deepLEndpoint = options.deepLEndpoint
+    }
+}
+
+struct TranslationPopoverSettingsObservation: Equatable {
+    let isEnabled: Bool
+    let showInMenuPopover: Bool
+    let menuPopoverWidth: SystemOptions.MenuPopoverWidth
+}
+
+struct TranslationActivationSettingsObservation: Equatable {
+    let isEnabled: Bool
+    let shortcut: Shortcut
+}
+
 @MainActor
 extension AppCoordinator {
     func presentSettingsWindow() {
@@ -10,6 +41,12 @@ extension AppCoordinator {
     }
 
     func configureStatusItemController() {
+        statusItemController.translationConfigurationProvider = { [weak self] in
+            guard let self else { return nil }
+            return translation.makePopoverConfiguration {
+                self.showSettingsFromPopover(section: .translation)
+            }
+        }
         statusItemController.onLeftClick = { [weak self] in
             self?.togglePopover()
         }
@@ -93,6 +130,9 @@ extension AppCoordinator {
     }
 
     func observeSettings() {
+        var lastTranslationRuntimeObservation: TranslationRuntimeSettingsObservation?
+        var lastTranslationPopoverObservation: TranslationPopoverSettingsObservation?
+        var lastTranslationActivationObservation: TranslationActivationSettingsObservation?
         settingsObserver = settingsStore.$settings.sink { [weak self] settings in
             guard let self else { return }
             keyboardService.update(settings: settings)
@@ -111,6 +151,36 @@ extension AppCoordinator {
             if clipboardOptionsSetting != settings.clipboard {
                 clipboardOptionsSetting = settings.clipboard
                 clipboard.apply(settings.clipboard)
+            }
+            let currentTranslationRuntimeObservation = TranslationRuntimeSettingsObservation(
+                options: settings.translation
+            )
+            if lastTranslationRuntimeObservation != currentTranslationRuntimeObservation {
+                lastTranslationRuntimeObservation = currentTranslationRuntimeObservation
+                translation.apply(settings)
+            }
+            let currentTranslationActivationObservation = TranslationActivationSettingsObservation(
+                isEnabled: settings.translation.isEnabled,
+                shortcut: settings.translation.shortcut
+            )
+            if lastTranslationActivationObservation != currentTranslationActivationObservation {
+                lastTranslationActivationObservation = currentTranslationActivationObservation
+                translation.applyActivationSettings(settings.translation)
+            }
+            let currentTranslationPopoverObservation = TranslationPopoverSettingsObservation(
+                isEnabled: settings.translation.isEnabled,
+                showInMenuPopover: settings.translation.showInMenuPopover,
+                menuPopoverWidth: settings.system.menuPopoverWidth
+            )
+            if lastTranslationPopoverObservation != currentTranslationPopoverObservation {
+                lastTranslationPopoverObservation = currentTranslationPopoverObservation
+                let configuration = translation.makePopoverConfiguration(
+                    options: settings.translation,
+                    openSettings: { [weak self] in
+                        self?.showSettingsFromPopover(section: .translation)
+                    }
+                )
+                statusItemController.refreshPopoverContent(coordinator: self, translation: configuration)
             }
         }
     }

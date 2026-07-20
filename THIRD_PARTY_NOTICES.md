@@ -1,5 +1,15 @@
 # Third-Party Notices
 
+## Translation Services
+
+EasyKey can connect directly to DeepL, Google Cloud Translation, OpenAI,
+Anthropic, and Gemini when a user configures credentials and explicitly chooses
+Translate. Apple Translation is available locally on supported macOS versions.
+Provider names and links identify interoperability and data handling only. No
+provider sponsors, endorses, or is affiliated with EasyKey. EasyKey does not
+bundle provider SDKs or provider software. See [PRIVACY.md](./PRIVACY.md) for
+current official privacy and data-handling links.
+
 ## Sparkle 2.9.4
 
 EasyKey uses Sparkle 2 for signed application updates. Sparkle and its bundled

@@ -39,6 +39,14 @@ struct SystemSettingsView: View {
                     description: .systemOpenSettingsAtLaunchDescription,
                     isOn: setting(\.system.showSettingsAtLaunch)
                 )
+
+                Picker(localization.string(.systemMenuPopoverWidth), selection: setting(\.system.menuPopoverWidth)) {
+                    Text(localization.string(.systemMenuPopoverWidthCompact)).tag(SystemOptions.MenuPopoverWidth.compact)
+                    Text(localization.string(.systemMenuPopoverWidthSmall)).tag(SystemOptions.MenuPopoverWidth.small)
+                    Text(localization.string(.systemMenuPopoverWidthMedium)).tag(SystemOptions.MenuPopoverWidth.medium)
+                    Text(localization.string(.systemMenuPopoverWidthLarge)).tag(SystemOptions.MenuPopoverWidth.large)
+                    Text(localization.string(.systemMenuPopoverWidthExtraLarge)).tag(SystemOptions.MenuPopoverWidth.extraLarge)
+                }
             } header: {
                 Text(localization.string(.systemStartupMenuBar))
             }

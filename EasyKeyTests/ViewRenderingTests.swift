@@ -242,6 +242,106 @@ final class ViewRenderingTests: XCTestCase {
         render { MenuPopoverView(coordinator: coordinator) }
     }
 
+    func testMenuPopoverView_TranslationRendersEnglishVietnameseAndAccessibilityText() throws {
+        let suite = "one.ifelse.easykey.menu-popover-render.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defaults.removePersistentDomain(forName: suite)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let localization = LocalizationStore(defaults: defaults, bundle: .main)
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        model.setSourceText(String(repeating: "Long source text ", count: 80))
+        let translation = MenuPopoverTranslationConfiguration(
+            model: model,
+            availableProviders: [.deepL],
+            platformCapability: .init(supportsAppleTranslation: false),
+            actions: .init(openSettings: {}, announceResult: { _ in })
+        )
+
+        for language in [AppLanguage.english, .vietnamese] {
+            localization.setPreference(language)
+            render {
+                MenuPopoverView(
+                    coordinator: coordinator,
+                    translation: translation,
+                    localization: localization
+                )
+                .environment(\.dynamicTypeSize, .accessibility2)
+            }
+        }
+    }
+
+    func testMenuPopoverInputBindingsAndFooterActionsRemainFunctional() {
+        var footerEvents: [String] = []
+        let view = MenuPopoverView(
+            coordinator: coordinator,
+            actions: MenuPopoverActions(
+                openClipboard: { footerEvents.append("clipboard") },
+                openSettings: { footerEvents.append("settings") },
+                quit: { footerEvents.append("quit") }
+            )
+        )
+
+        view.languageBinding.wrappedValue = .english
+        view.inputMethodBinding.wrappedValue = .vni
+        view.encodingBinding.wrappedValue = .tcvn3
+        view.actions.openClipboard()
+        view.actions.openSettings()
+        view.actions.quit()
+
+        XCTAssertEqual(coordinator.settingsStore.settings.input.language, .english)
+        XCTAssertEqual(coordinator.settingsStore.settings.input.inputMethod, .vni)
+        XCTAssertEqual(coordinator.settingsStore.settings.input.encoding, .tcvn3)
+        XCTAssertEqual(footerEvents, ["clipboard", "settings", "quit"])
+    }
+
+    func testMenuPopoverUsesConfiguredWidth() {
+        for width in SystemOptions.MenuPopoverWidth.allCases {
+            coordinator.settingsStore.update { $0.system.menuPopoverWidth = width }
+
+            let host = NSHostingView(rootView: MenuPopoverView(coordinator: coordinator))
+
+            XCTAssertEqual(host.fittingSize.width, CGFloat(width.rawValue), accuracy: 0.5)
+        }
+    }
+
+    func testMenuPopoverWidthDoesNotDependOnTranslationVisibility() {
+        coordinator.settingsStore.update { $0.system.menuPopoverWidth = .small }
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        let translation = MenuPopoverTranslationConfiguration(
+            model: model,
+            availableProviders: [.deepL],
+            platformCapability: .init(supportsAppleTranslation: false),
+            actions: .init(openSettings: {}, announceResult: { _ in })
+        )
+
+        let host = NSHostingView(rootView: MenuPopoverView(coordinator: coordinator, translation: translation))
+
+        XCTAssertEqual(host.fittingSize.width, 360, accuracy: 0.5)
+    }
+
+    func testTranslationEditorsStackAtSmallAndMediumWidths() {
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 280, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 360, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 440, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 520, accessibilityText: false))
+    }
+
+    func testTranslationEditorsUseSideBySideLayoutAtExtraLargeWidth() {
+        XCTAssertTrue(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 640, accessibilityText: false))
+    }
+
+    func testTranslationEditorsStackAtAccessibilityTextSizes() {
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 640, accessibilityText: true))
+    }
+
     func testInterfaceLanguagePicker_Renders() {
         render { InterfaceLanguagePicker() }
     }

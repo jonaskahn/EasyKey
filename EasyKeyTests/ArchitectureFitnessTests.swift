@@ -51,6 +51,44 @@ final class ArchitectureFitnessTests: XCTestCase {
         )
     }
 
+    func testTranslationLogsDoNotReferenceContentCredentialsOrRequestBodies() throws {
+        let directory = repoRoot.appendingPathComponent("EasyKeyApp/Features/Translation")
+        let sensitiveNames = ["sourceText", "translatedText", "apiKey", "credential", "prompt", "httpBody"]
+        var violations: [String] = []
+        for file in try swiftFiles(in: directory) {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            for (index, line) in source.components(separatedBy: .newlines).enumerated()
+                where line.contains("AppLog.") && sensitiveNames.contains(where: line.contains) {
+                violations.append("\(file.lastPathComponent):\(index + 1): \(line)")
+            }
+        }
+        XCTAssertTrue(
+            violations.isEmpty,
+            "Sensitive translation values must not reach logs or exports:\n\(violations.joined(separator: "\n"))"
+        )
+    }
+
+    func testTranslationModelAndSettingsDoNotPersistContentOrSecrets() throws {
+        var settingsSources = try swiftFiles(in: repoRoot.appendingPathComponent("EasyEngineCore/Settings"))
+            .map { try String(contentsOf: $0, encoding: .utf8) }
+            .joined(separator: "\n")
+        settingsSources += try String(
+            contentsOf: repoRoot.appendingPathComponent("EasyEngineCore/Translation/TranslationOptions.swift"),
+            encoding: .utf8
+        )
+        for forbidden in ["sourceText", "translatedText", "translationHistory", "apiKey", "prompt"] {
+            XCTAssertFalse(settingsSources.contains(forbidden), "Persisted settings contain forbidden translation field: \(forbidden)")
+        }
+
+        let model = try String(
+            contentsOf: repoRoot.appendingPathComponent("EasyKeyApp/Features/Translation/TranslationModel.swift"),
+            encoding: .utf8
+        )
+        XCTAssertFalse(model.contains("Codable"))
+        XCTAssertFalse(model.contains("UserDefaults"))
+        XCTAssertFalse(model.contains("FileManager"))
+    }
+
     // MARK: - Helpers
 
     private func importViolations(in directory: URL, forbiddenModules: [String]) throws -> [String] {
@@ -83,5 +121,14 @@ final class ArchitectureFitnessTests: XCTestCase {
             }
         }
         return violations
+    }
+
+    private func swiftFiles(in directory: URL) throws -> [URL] {
+        let values = try FileManager.default.contentsOfDirectory(
+            at: directory,
+            includingPropertiesForKeys: [.isRegularFileKey],
+            options: [.skipsHiddenFiles]
+        )
+        return values.filter { $0.pathExtension == "swift" }
     }
 }

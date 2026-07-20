@@ -114,8 +114,58 @@ final class AppCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
+    func testShowSettingsFromPopover_DeniedPermissionRoutesToSystem() {
+        coordinator.keyboardHealth = .requestingPermission
+        let initialRevision = coordinator.systemHealthNavigationRevision
+        coordinator.showSettingsFromPopover(section: .clipboard)
+        XCTAssertEqual(coordinator.selectedSettingsSection, .system)
+        XCTAssertEqual(coordinator.systemHealthNavigationRevision, initialRevision &+ 1)
+    }
+
+    func testShowSettingsFromPopover_ActivePermissionRoutesToPreferredSection() {
+        coordinator.keyboardHealth = .active
+        coordinator.showSettingsFromPopover(section: .clipboard)
+        XCTAssertEqual(coordinator.selectedSettingsSection, .clipboard)
+    }
+
+    func testShowSettingsFromPopover_ActivePermission_NilPreferredKeepsCurrent() {
+        coordinator.selectedSettingsSection = .about
+        coordinator.keyboardHealth = .active
+        coordinator.showSettingsFromPopover()
+        XCTAssertEqual(coordinator.selectedSettingsSection, .about)
+    }
+
+    func testShowSettingsFromPopover_DeniedPermission_NilPreferredRoutesToSystem() {
+        coordinator.keyboardHealth = .requestingPermission
+        coordinator.showSettingsFromPopover()
+        XCTAssertEqual(coordinator.selectedSettingsSection, .system)
+    }
+
+    func testShowSettingsFromPopover_RepeatedDeniedRoutesIncrementsRevision() {
+        coordinator.keyboardHealth = .requestingPermission
+        let first = coordinator.systemHealthNavigationRevision
+        coordinator.showSettingsFromPopover()
+        let second = coordinator.systemHealthNavigationRevision
+        XCTAssertEqual(second, first &+ 1)
+        coordinator.showSettingsFromPopover()
+        XCTAssertEqual(coordinator.systemHealthNavigationRevision, second &+ 1)
+    }
+
     func testStart_InvokesFullLifecycle() {
         coordinator.start()
+        coordinator.stop()
+    }
+
+    func testStart_WithoutCloudCredentialKeepsKeyboardAndClipboardRunning() async {
+        coordinator.settingsStore.update { $0.clipboard.isCaptureEnabled = true }
+        coordinator.start()
+        coordinator.translation.model.setSourceText("hello")
+        coordinator.translation.model.translate()
+        await Task.yield()
+
+        XCTAssertEqual(coordinator.translation.model.status, .failed(.noProviderConfigured))
+        XCTAssertNotEqual(coordinator.keyboardHealth, .stopped)
+        XCTAssertTrue(coordinator.clipboard.monitor.isRunning)
         coordinator.stop()
     }
 

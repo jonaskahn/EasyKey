@@ -39,6 +39,96 @@ final class AppCoordinatorWiringTests: XCTestCase {
         coordinator.settingsStore.update { $0.input.encoding = .tcvn3 }
     }
 
+    func testTranslationObservationsIgnoreUnrelatedSettings() {
+        let settings = coordinator.settingsStore.settings
+        let initialRuntime = TranslationRuntimeSettingsObservation(options: settings.translation)
+        let initialPopover = TranslationPopoverSettingsObservation(
+            isEnabled: settings.translation.isEnabled,
+            showInMenuPopover: settings.translation.showInMenuPopover,
+            menuPopoverWidth: settings.system.menuPopoverWidth
+        )
+        let initialActivation = TranslationActivationSettingsObservation(
+            isEnabled: settings.translation.isEnabled,
+            shortcut: settings.translation.shortcut
+        )
+        var unrelated = settings
+        unrelated.system.grayMenuIcon.toggle()
+
+        XCTAssertEqual(initialRuntime, TranslationRuntimeSettingsObservation(options: unrelated.translation))
+        XCTAssertEqual(initialPopover, TranslationPopoverSettingsObservation(
+            isEnabled: unrelated.translation.isEnabled,
+            showInMenuPopover: unrelated.translation.showInMenuPopover,
+            menuPopoverWidth: unrelated.system.menuPopoverWidth
+        ))
+        XCTAssertEqual(initialActivation, TranslationActivationSettingsObservation(
+            isEnabled: unrelated.translation.isEnabled,
+            shortcut: unrelated.translation.shortcut
+        ))
+    }
+
+    func testTranslationRuntimeObservationTracksProviderConfigurationAndDelay() {
+        let settings = coordinator.settingsStore.settings
+        let initial = TranslationRuntimeSettingsObservation(options: settings.translation)
+        var changedProvider = settings.translation
+        changedProvider.preferredProviderID = .google
+        var changedShortcut = settings.translation
+        changedShortcut.shortcut = Shortcut(keyCode: 6, modifiers: [.command])
+        var changedDisclosure = settings.translation
+        changedDisclosure.acknowledgedCloudDisclosureProviders.insert(.google)
+        var changedDelay = settings.translation
+        changedDelay.autoTranslateDelayMs = 1500
+
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedProvider))
+        XCTAssertEqual(initial, TranslationRuntimeSettingsObservation(options: changedShortcut))
+        XCTAssertEqual(initial, TranslationRuntimeSettingsObservation(options: changedDisclosure))
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedDelay))
+    }
+
+    func testTranslationActivationObservationTracksEnabledStateAndShortcut() {
+        let settings = coordinator.settingsStore.settings
+        let initial = TranslationActivationSettingsObservation(
+            isEnabled: settings.translation.isEnabled,
+            shortcut: settings.translation.shortcut
+        )
+        var disabled = settings.translation
+        disabled.isEnabled = false
+        var changedShortcut = settings.translation
+        changedShortcut.shortcut = Shortcut(keyCode: 6, modifiers: [.command])
+
+        XCTAssertNotEqual(initial, TranslationActivationSettingsObservation(
+            isEnabled: disabled.isEnabled,
+            shortcut: disabled.shortcut
+        ))
+        XCTAssertNotEqual(initial, TranslationActivationSettingsObservation(
+            isEnabled: changedShortcut.isEnabled,
+            shortcut: changedShortcut.shortcut
+        ))
+    }
+
+    func testTranslationPopoverObservationTracksVisibilityAndWidth() {
+        let settings = coordinator.settingsStore.settings
+        let initial = TranslationPopoverSettingsObservation(
+            isEnabled: settings.translation.isEnabled,
+            showInMenuPopover: settings.translation.showInMenuPopover,
+            menuPopoverWidth: settings.system.menuPopoverWidth
+        )
+        var changedVisibility = settings
+        changedVisibility.translation.showInMenuPopover.toggle()
+        var changedWidth = settings
+        changedWidth.system.menuPopoverWidth = .large
+
+        XCTAssertNotEqual(initial, TranslationPopoverSettingsObservation(
+            isEnabled: changedVisibility.translation.isEnabled,
+            showInMenuPopover: changedVisibility.translation.showInMenuPopover,
+            menuPopoverWidth: changedVisibility.system.menuPopoverWidth
+        ))
+        XCTAssertNotEqual(initial, TranslationPopoverSettingsObservation(
+            isEnabled: changedWidth.translation.isEnabled,
+            showInMenuPopover: changedWidth.translation.showInMenuPopover,
+            menuPopoverWidth: changedWidth.system.menuPopoverWidth
+        ))
+    }
+
     func testHandleApplicationActivation_NilApplication_DoesNotCrash() {
         coordinator.handleApplicationActivation(nil)
     }

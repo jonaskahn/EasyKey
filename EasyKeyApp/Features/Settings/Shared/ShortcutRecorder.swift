@@ -17,7 +17,7 @@ struct ShortcutRecorder: View {
                     .monospaced()
                     .foregroundStyle(shortcut.isActive ? .primary : .secondary)
                     .padding(.horizontal, 8)
-                    .frame(minHeight: 22)
+                    .padding(.vertical, 5)
                     .frame(minWidth: 95, alignment: .leading)
                     .background(.quaternary, in: RoundedRectangle(cornerRadius: DesignScale.radiusSM))
 

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct EasyKeySettings: Codable, Equatable, Sendable {
-    public static let currentSchemaVersion: Int = 4
+    public static let currentSchemaVersion: Int = 7
 
     public var schemaVersion: Int
     public var input: InputSettings
@@ -12,6 +12,7 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
     public var system: SystemOptions
     public var converter: ConverterOptions
     public var clipboard: ClipboardOptions
+    public var translation: TranslationOptions
 
     public init(
         schemaVersion: Int = currentSchemaVersion,
@@ -22,7 +23,8 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
         smartSwitch: SmartSwitchOptions = SmartSwitchOptions(),
         system: SystemOptions = SystemOptions(),
         converter: ConverterOptions = ConverterOptions(),
-        clipboard: ClipboardOptions = ClipboardOptions()
+        clipboard: ClipboardOptions = ClipboardOptions(),
+        translation: TranslationOptions = TranslationOptions()
     ) {
         self.schemaVersion = schemaVersion
         self.input = input
@@ -33,6 +35,7 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
         self.system = system
         self.converter = converter
         self.clipboard = clipboard
+        self.translation = translation
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -45,6 +48,7 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
         case system
         case converter
         case clipboard
+        case translation
     }
 
     /// Decodes every root field with `decodeIfPresent` and its current default so a
@@ -61,6 +65,7 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
         system = try container.decodeIfPresent(SystemOptions.self, forKey: .system) ?? SystemOptions()
         converter = try container.decodeIfPresent(ConverterOptions.self, forKey: .converter) ?? ConverterOptions()
         clipboard = try container.decodeIfPresent(ClipboardOptions.self, forKey: .clipboard) ?? ClipboardOptions()
+        translation = try container.decodeIfPresent(TranslationOptions.self, forKey: .translation) ?? TranslationOptions()
     }
 
     public static var defaults: EasyKeySettings {
