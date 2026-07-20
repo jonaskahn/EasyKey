@@ -4,6 +4,14 @@
         <title>EasyKey Updates</title>
         <item>
             <title>Version 0.0.3</title>
+            <pubDate>Mon, 20 Jul 2026 19:18:47 +0000</pubDate>
+            <sparkle:version>0.0.3</sparkle:version>
+            <sparkle:shortVersionString>0.0.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/jonaskahn/EasyKey/releases/download/v0.0.3/EasyKey-0.0.3-universal.dmg" length="4648246" type="application/octet-stream" sparkle:edSignature="q3jPmcoBh1J1K0SVoRl7Qc2Pn4uj7jUcE3x6DCi0x5850Azmqq+mo1K1sXKpn09lqUy06I9eLe3p5HuD+INLBg==" />
+        </item>
+        <item>
+            <title>Version 0.0.3</title>
             <pubDate>Mon, 20 Jul 2026 19:13:16 +0000</pubDate>
             <sparkle:version>0.0.3</sparkle:version>
             <sparkle:shortVersionString>0.0.3</sparkle:shortVersionString>
