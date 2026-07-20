@@ -50,8 +50,7 @@ final class SettingsInteractionTests: XCTestCase {
     func testEncodingTypeInPreviewField() {
         launchToSection("encoding")
         let textViews = app.textViews
-        if textViews.count > 0 {
-            textViews.firstMatch.clickWhenHittable()
+        if textViews.count > 0, textViews.firstMatch.clickWhenHittable() {
             textViews.firstMatch.typeText("xin chao")
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -115,8 +114,7 @@ final class SettingsInteractionTests: XCTestCase {
     func testMacroSettingsSearchTyping() {
         launchToSection("macros")
         let textFields = app.textFields
-        if textFields.count > 0 {
-            textFields.firstMatch.clickWhenHittable()
+        if textFields.count > 0, textFields.firstMatch.clickWhenHittable() {
             usleep(200_000)
             textFields.firstMatch.typeText("test")
         }

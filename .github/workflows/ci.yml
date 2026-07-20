@@ -47,11 +47,14 @@ jobs:
           - shard: ui-2
             filter: "-only-testing:EasyKeyUITests/SettingsInteractionTests"
           - shard: ui-3
+            filter: "-only-testing:EasyKeyUITests/SettingsNavigationTests"
+          - shard: ui-4
             filter: >-
-              -only-testing:EasyKeyUITests/SettingsNavigationTests
-              -only-testing:EasyKeyUITests/SettingsWorkflowTests
               -only-testing:EasyKeyUITests/OnboardingCoverageTests
               -only-testing:EasyKeyUITests/SettingsAccessibilityTests
+          - shard: ui-5
+            filter: >-
+              -only-testing:EasyKeyUITests/SettingsWorkflowTests
               -only-testing:EasyKeyUITests/EasyKeyUITests
     steps:
       - name: Checkout
