@@ -44,13 +44,13 @@ final class SettingsNavigationTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSidebar"].waitForExistence(timeout: 10))
 
         let toggle = app.descendants(matching: .any)["SettingsSidebarToggle"]
-        XCTAssertTrue(toggle.waitForExistence(timeout: 5))
+        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
 
-        toggle.click()
+        toggle.clickWhenHittable()
         sleep(1)
         XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
 
-        toggle.click()
+        toggle.clickWhenHittable()
         sleep(1)
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSidebar"].waitForExistence(timeout: 5))
     }

@@ -229,6 +229,7 @@
 		F60000000000000000000016 /* SettingsNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000006 /* SettingsNavigationTests.swift */; };
 		F60000000000000000000017 /* OnboardingCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000007 /* OnboardingCoverageTests.swift */; };
 		F60000000000000000000018 /* SettingsInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000008 /* SettingsInteractionTests.swift */; };
+		F60000000000000000000019 /* XCUITestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000009 /* XCUITestHelpers.swift */; };
 		F6C312116761392F0816341B /* ClipboardViewRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DF03ED65A4917065897163 /* ClipboardViewRenderingTests.swift */; };
 		F7CE122BD15771D5200F2278 /* ViewRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C391054375B7257BDF6BFFE /* ViewRenderingTests.swift */; };
 		F8251EED3DBFA64C531D4B6B /* TranslationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5280173763A0F7434CEFA56 /* TranslationError.swift */; };
@@ -559,6 +560,7 @@
 		F60000000000000000000006 /* SettingsNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationTests.swift; sourceTree = "<group>"; };
 		F60000000000000000000007 /* OnboardingCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoverageTests.swift; sourceTree = "<group>"; };
 		F60000000000000000000008 /* SettingsInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInteractionTests.swift; sourceTree = "<group>"; };
+		F60000000000000000000009 /* XCUITestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUITestHelpers.swift; sourceTree = "<group>"; };
 		F9329398DB2DD62B053A78F1 /* DeepLTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeepLTranslationProviderTests.swift; sourceTree = "<group>"; };
 		FAFD59368E7979149B6AC5EA /* KeyEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEvent.swift; sourceTree = "<group>"; };
 		FFC6FB64BEFDEC3B555A9E14 /* TranslationRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationRequest.swift; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				F60000000000000000000006 /* SettingsNavigationTests.swift */,
 				F60000000000000000000007 /* OnboardingCoverageTests.swift */,
 				F60000000000000000000008 /* SettingsInteractionTests.swift */,
+				F60000000000000000000009 /* XCUITestHelpers.swift */,
 			);
 			path = EasyKeyUITests;
 			sourceTree = "<group>";
@@ -1499,6 +1502,7 @@
 				F60000000000000000000016 /* SettingsNavigationTests.swift in Sources */,
 				F60000000000000000000017 /* OnboardingCoverageTests.swift in Sources */,
 				F60000000000000000000018 /* SettingsInteractionTests.swift in Sources */,
+				F60000000000000000000019 /* XCUITestHelpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

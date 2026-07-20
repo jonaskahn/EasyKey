@@ -27,7 +27,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("typing")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -38,7 +38,7 @@ final class SettingsInteractionTests: XCTestCase {
         let switches = app.switches
         if switches.count >= 6 {
             for i in 0 ..< min(switches.count, 6) {
-                switches.element(boundBy: i).click()
+                switches.element(boundBy: i).clickWhenHittable()
                 usleep(100_000)
             }
         }
@@ -51,7 +51,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("encoding")
         let textViews = app.textViews
         if textViews.count > 0 {
-            textViews.firstMatch.click()
+            textViews.firstMatch.clickWhenHittable()
             textViews.firstMatch.typeText("xin chao")
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -87,7 +87,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("clipboard")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -97,11 +97,11 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("clipboard")
         let clearButton = app.descendants(matching: .any)["ClipboardClearAllButton"]
         if clearButton.waitForExistence(timeout: 5) {
-            clearButton.click()
+            clearButton.clickWhenHittable()
             sleep(1)
             let cancelButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Cancel'"))
             if cancelButton.firstMatch.exists {
-                cancelButton.firstMatch.click()
+                cancelButton.firstMatch.clickWhenHittable()
             } else {
                 app.typeKey(.escape, modifierFlags: [])
             }
@@ -116,7 +116,8 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("macros")
         let textFields = app.textFields
         if textFields.count > 0 {
-            textFields.firstMatch.click()
+            textFields.firstMatch.clickWhenHittable()
+            usleep(200_000)
             textFields.firstMatch.typeText("test")
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -126,7 +127,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("macros")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -138,7 +139,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("smartSwitch")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -150,7 +151,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("behavior")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -162,7 +163,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("system")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
             sleep(1)
         }
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -172,11 +173,11 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("system")
         let resetBtns = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Reset'"))
         if resetBtns.firstMatch.waitForExistence(timeout: 5) {
-            resetBtns.firstMatch.click()
+            resetBtns.firstMatch.clickWhenHittable()
             sleep(1)
             let cancelButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Cancel'"))
             if cancelButton.firstMatch.exists {
-                cancelButton.firstMatch.click()
+                cancelButton.firstMatch.clickWhenHittable()
             } else {
                 app.typeKey(.escape, modifierFlags: [])
             }
@@ -189,7 +190,7 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("system")
         let langPicker = app.descendants(matching: .any)["InterfaceLanguagePicker"]
         if langPicker.waitForExistence(timeout: 10) {
-            langPicker.click()
+            langPicker.clickWhenHittable()
             sleep(1)
             app.typeKey(.escape, modifierFlags: [])
         }
@@ -202,11 +203,11 @@ final class SettingsInteractionTests: XCTestCase {
         launchToSection("about")
         let licensesBtn = app.descendants(matching: .any)["OpenSourceLicenses"]
         if licensesBtn.waitForExistence(timeout: 5) {
-            licensesBtn.click()
+            licensesBtn.clickWhenHittable()
             sleep(1)
             let doneBtn = app.descendants(matching: .any)["ThirdPartyNoticesDone"]
             if doneBtn.waitForExistence(timeout: 5) {
-                doneBtn.click()
+                doneBtn.clickWhenHittable()
                 sleep(1)
             }
         }

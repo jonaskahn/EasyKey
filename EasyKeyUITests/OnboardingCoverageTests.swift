@@ -52,7 +52,7 @@ final class OnboardingCoverageTests: XCTestCase {
 
         let primaryButton = app.buttons["OnboardingPrimary"]
         XCTAssertTrue(primaryButton.waitForExistence(timeout: 5))
-        primaryButton.click()
+        primaryButton.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
     }
 
@@ -63,12 +63,12 @@ final class OnboardingCoverageTests: XCTestCase {
 
         let primary = app.buttons["OnboardingPrimary"]
         XCTAssertTrue(primary.waitForExistence(timeout: 5))
-        primary.click()
+        primary.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         let backButton = app.buttons["Back"]
         XCTAssertTrue(backButton.waitForExistence(timeout: 5))
-        backButton.click()
+        backButton.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
     }
 
@@ -79,7 +79,7 @@ final class OnboardingCoverageTests: XCTestCase {
 
         let primary = app.buttons["OnboardingPrimary"]
         XCTAssertTrue(primary.waitForExistence(timeout: 5))
-        primary.click()
+        primary.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         let grantButton = app.buttons["Grant Accessibility Access"]
@@ -94,7 +94,7 @@ final class OnboardingCoverageTests: XCTestCase {
         for _ in 0 ..< 2 {
             let primary = app.buttons["OnboardingPrimary"]
             XCTAssertTrue(primary.waitForExistence(timeout: 5))
-            primary.click()
+            primary.clickWhenHittable()
             sleep(1)
         }
 
@@ -110,7 +110,7 @@ final class OnboardingCoverageTests: XCTestCase {
         for _ in 0 ..< 3 {
             let primary = app.buttons["OnboardingPrimary"]
             XCTAssertTrue(primary.waitForExistence(timeout: 5))
-            primary.click()
+            primary.clickWhenHittable()
             sleep(1)
         }
 
@@ -125,7 +125,7 @@ final class OnboardingCoverageTests: XCTestCase {
         for _ in 0 ..< 3 {
             let primary = app.buttons["OnboardingPrimary"]
             XCTAssertTrue(primary.waitForExistence(timeout: 5))
-            primary.click()
+            primary.clickWhenHittable()
             sleep(1)
         }
 
@@ -142,7 +142,7 @@ final class OnboardingCoverageTests: XCTestCase {
         for _ in 0 ..< 3 {
             let primary = app.buttons["OnboardingPrimary"]
             XCTAssertTrue(primary.waitForExistence(timeout: 5))
-            primary.click()
+            primary.clickWhenHittable()
             sleep(1)
         }
 
@@ -195,7 +195,7 @@ final class OnboardingCoverageTests: XCTestCase {
         for _ in 0 ..< 3 {
             let primary = app.buttons["OnboardingPrimary"]
             XCTAssertTrue(primary.waitForExistence(timeout: 5))
-            primary.click()
+            primary.clickWhenHittable()
             sleep(1)
         }
 

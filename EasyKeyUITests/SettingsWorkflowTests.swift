@@ -40,7 +40,7 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         let primaryButton = onboardingPrimaryButton()
         XCTAssertTrue(primaryButton.waitForExistence(timeout: 5))
-        primaryButton.click()
+        primaryButton.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)["Accessibility"].waitForExistence(timeout: 5))
 
         // Grant button is only shown when Accessibility is not yet trusted on the host.
@@ -79,12 +79,12 @@ final class SettingsWorkflowTests: XCTestCase {
 
         let licenses = app.buttons["Open Source Licenses"]
         XCTAssertTrue(licenses.waitForExistence(timeout: 10))
-        licenses.click()
+        licenses.clickWhenHittable()
 
         XCTAssertTrue(app.descendants(matching: .any)["ThirdPartyNoticesText"].waitForExistence(timeout: 5))
         let done = app.buttons["ThirdPartyNoticesDone"]
         XCTAssertTrue(done.exists)
-        done.click()
+        done.clickWhenHittable()
         XCTAssertFalse(app.descendants(matching: .any)["ThirdPartyNoticesText"].exists)
     }
 
@@ -162,7 +162,7 @@ final class SettingsWorkflowTests: XCTestCase {
     private func advanceOnboarding(thenWaitFor titleIdentifier: String) {
         let button = onboardingPrimaryButton()
         XCTAssertTrue(button.waitForExistence(timeout: 5))
-        button.click()
+        button.clickWhenHittable()
         XCTAssertTrue(app.descendants(matching: .any)[titleIdentifier].waitForExistence(timeout: 10))
     }
 }

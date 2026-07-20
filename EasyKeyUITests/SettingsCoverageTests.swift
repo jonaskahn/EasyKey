@@ -48,7 +48,7 @@ final class SettingsCoverageTests: XCTestCase {
         launchToSection("typing")
         let switches = app.switches
         if switches.count > 0 {
-            switches.firstMatch.click()
+            switches.firstMatch.clickWhenHittable()
         }
     }
 
