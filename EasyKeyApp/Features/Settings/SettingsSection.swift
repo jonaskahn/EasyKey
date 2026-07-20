@@ -4,7 +4,7 @@ import EasyKeyKit
 import SwiftUI
 
 enum SettingsSection: String, CaseIterable, Identifiable {
-    case typing, encoding, translation, clipboard, macros, smartSwitch, behavior, system, about
+    case typing, encoding, smartSwitch, translation, clipboard, macros, behavior, system, about
 
     var id: String {
         rawValue

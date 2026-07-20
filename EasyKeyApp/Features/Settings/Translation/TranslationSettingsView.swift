@@ -27,6 +27,9 @@ struct TranslationSettingsView: View {
                 Toggle(localization.string(.translationEnableTranslation), isOn: enableBinding)
                     .accessibilityIdentifier(TranslationSettingsAccessibility.enableToggle)
 
+                Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
+                    .accessibilityIdentifier("TranslationMenuPopoverToggle")
+
                 Picker(localization.string(.translationSettingsDefaultProvider), selection: preferredProviderBinding) {
                     ForEach(model.selectableProviders, id: \.self) { provider in
                         Text(providerName(provider)).tag(provider)
@@ -48,9 +51,6 @@ struct TranslationSettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-
-                Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
-                    .accessibilityIdentifier("TranslationMenuPopoverToggle")
 
                 Picker(localization.string(.translationSettingsAutoTranslateDelay), selection: autoTranslateDelayBinding) {
                     ForEach(TranslationOptions.AutoTranslateDelayPreset.allCases, id: \.self) { preset in

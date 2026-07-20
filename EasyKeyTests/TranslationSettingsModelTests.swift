@@ -116,13 +116,13 @@ final class TranslationSettingsModelTests: XCTestCase {
 
     func testShowInMenuPopoverTogglePersists() async {
         let model = makeModel()
-        XCTAssertTrue(model.showInMenuPopover)
-        model.setShowInMenuPopover(false)
         XCTAssertFalse(model.showInMenuPopover)
+        model.setShowInMenuPopover(true)
+        XCTAssertTrue(model.showInMenuPopover)
         await settingsStore.saveNow()
 
         let reloaded = SettingsStore(fileURL: settingsURL)
-        XCTAssertFalse(reloaded.settings.translation.showInMenuPopover)
+        XCTAssertTrue(reloaded.settings.translation.showInMenuPopover)
     }
 
     func testAutoTranslateDelayPersists() async {
@@ -143,12 +143,12 @@ final class TranslationSettingsModelTests: XCTestCase {
         var callbackCount = 0
         model.onEnabledChange = { callbackCount += 1 }
 
-        XCTAssertTrue(model.isEnabled)
-        model.setIsEnabled(false)
+        XCTAssertFalse(model.isEnabled)
+        model.setIsEnabled(true)
         await settingsStore.saveNow()
 
         let reloaded = SettingsStore(fileURL: settingsURL)
-        XCTAssertFalse(reloaded.settings.translation.isEnabled)
+        XCTAssertTrue(reloaded.settings.translation.isEnabled)
         XCTAssertEqual(callbackCount, 1)
     }
 

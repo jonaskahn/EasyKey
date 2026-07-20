@@ -87,8 +87,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         anthropicCompatibleModelIdentifier: String = TranslationOptions.defaultAnthropicCompatibleModelIdentifier,
         anthropicCompatibleEndpoint: String = "",
         acknowledgedCloudDisclosureProviders: Set<TranslationProviderID> = [],
-        isEnabled: Bool = true,
-        showInMenuPopover: Bool = true,
+        isEnabled: Bool = false,
+        showInMenuPopover: Bool = false,
         autoTranslateDelayMs: Int = AutoTranslateDelayPreset.ms500.rawValue
     ) {
         self.preferredProviderID = preferredProviderID
@@ -137,8 +137,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
             forKey: .acknowledgedCloudDisclosureProviders
         )
             ?? []
-        isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? true
-        showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? true
+        isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? false
+        showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? false
         autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500
             .rawValue
     }
