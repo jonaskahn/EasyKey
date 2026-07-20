@@ -208,6 +208,7 @@
 		F1B10000000000000000000F /* InterfaceLanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000F /* InterfaceLanguagePicker.swift */; };
 		F1B100000000000000000010 /* ShortcutKeyCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000010 /* ShortcutKeyCapture.swift */; };
 		F1D100000000000000000002 /* DesignScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000001 /* DesignScale.swift */; };
+		F1D100000000000000000005 /* KeepOnTopTitlebarAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */; };
 		F20000000000000000000001 /* GitHubUpdateCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */; };
 		F267CAD2C6DD5E9A767AB4FB /* AppleTranslationSessionBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64D68453EF5F8634C426EDA /* AppleTranslationSessionBridge.swift */; };
 		F2B100000000000000000001 /* LoginItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A100000000000000000001 /* LoginItemController.swift */; };
@@ -532,6 +533,7 @@
 		F1A10000000000000000000F /* InterfaceLanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceLanguagePicker.swift; sourceTree = "<group>"; };
 		F1A100000000000000000010 /* ShortcutKeyCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutKeyCapture.swift; sourceTree = "<group>"; };
 		F1D100000000000000000001 /* DesignScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignScale.swift; sourceTree = "<group>"; };
+		F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepOnTopTitlebarAccessory.swift; sourceTree = "<group>"; };
 		F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUpdateCheckerTests.swift; sourceTree = "<group>"; };
 		F2A100000000000000000001 /* LoginItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemController.swift; sourceTree = "<group>"; };
 		F2A100000000000000000002 /* SettingsWindowPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowPresenter.swift; sourceTree = "<group>"; };
@@ -1127,6 +1129,7 @@
 			isa = PBXGroup;
 			children = (
 				F1D100000000000000000001 /* DesignScale.swift */,
+				F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1565,6 +1568,7 @@
 				F1B10000000000000000000D /* AboutSettingsView.swift in Sources */,
 				F1B10000000000000000000E /* ShortcutRecorder.swift in Sources */,
 				F1D100000000000000000002 /* DesignScale.swift in Sources */,
+				F1D100000000000000000005 /* KeepOnTopTitlebarAccessory.swift in Sources */,
 				F1B10000000000000000000F /* InterfaceLanguagePicker.swift in Sources */,
 				F1B100000000000000000010 /* ShortcutKeyCapture.swift in Sources */,
 				E70000000000000000000003 /* UpdateService.swift in Sources */,

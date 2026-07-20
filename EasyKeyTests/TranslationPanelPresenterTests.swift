@@ -59,6 +59,8 @@ private final class FakeTranslationPanel: TranslationPanelWindow {
         windowNumber == self.windowNumber
     }
 
+    func addTitlebarAccessory(_: NSTitlebarAccessoryViewController) {}
+
     func requestClose() {
         closeHandler?()
     }
@@ -92,13 +94,13 @@ private final class FakeTranslationPanelEventMonitor: TranslationPanelEventMonit
     ) -> TranslationPanelMonitorRegistration? {
         localInstallCount += 1
         localHandler = handler
-        return addToken()
+        return addToken { [weak self] in self?.localHandler = nil }
     }
 
     func addGlobalClickMonitor(handler: @escaping () -> Void) -> TranslationPanelMonitorRegistration? {
         globalInstallCount += 1
         globalHandler = handler
-        return addToken()
+        return addToken { [weak self] in self?.globalHandler = nil }
     }
 
     func sendLocal(_ event: TranslationPanelLocalEvent) -> Bool {
@@ -109,7 +111,7 @@ private final class FakeTranslationPanelEventMonitor: TranslationPanelEventMonit
         globalHandler?()
     }
 
-    private func addToken() -> TranslationPanelMonitorRegistration {
+    private func addToken(onInvalidate: @escaping () -> Void) -> TranslationPanelMonitorRegistration {
         let identifier = UUID()
         let state = state
         state.activeIdentifiers.insert(identifier)
@@ -118,6 +120,7 @@ private final class FakeTranslationPanelEventMonitor: TranslationPanelEventMonit
             if state.activeIdentifiers.remove(identifier) != nil {
                 state.removeCount += 1
             }
+            onInvalidate()
         }
     }
 }
@@ -129,12 +132,16 @@ final class TranslationPanelPresenterTests: XCTestCase {
     private var panel: FakeTranslationPanel!
     private var monitor: FakeTranslationPanelEventMonitor!
     private var presenter: TranslationPanelPresenter!
+    private var userDefaults: UserDefaults!
+    private var userDefaultsSuiteName: String!
 
     override func setUp() {
         cancellation = FakeTranslationCancellation()
         speech = FakeTranslationSpeechStopper()
         panel = FakeTranslationPanel()
         monitor = FakeTranslationPanelEventMonitor()
+        userDefaultsSuiteName = "TranslationPanelPresenterTests.\(UUID().uuidString)"
+        userDefaults = UserDefaults(suiteName: userDefaultsSuiteName)
         presenter = makePresenter()
     }
 
@@ -145,6 +152,8 @@ final class TranslationPanelPresenterTests: XCTestCase {
         panel = nil
         speech = nil
         cancellation = nil
+        userDefaults.removePersistentDomain(forName: userDefaultsSuiteName)
+        userDefaults = nil
     }
 
     func testShowCapturesPreviousApplicationBeforeContentAndActivation() {
@@ -239,15 +248,17 @@ final class TranslationPanelPresenterTests: XCTestCase {
         XCTAssertTrue(presenter.isShown)
     }
 
-    func testInsideClickStaysOpenAndOutsideLocalClickClosesWithoutConsumingClick() {
+    func testLocalMouseClicksNeverCloseSinceOutsideDismissalIsGlobalMonitorsJob() {
         presenter.show()
         XCTAssertFalse(monitor.sendLocal(.mouseDownInsidePanel))
         XCTAssertTrue(presenter.isShown)
 
+        // A local "outside" click is an in-app popover/NSMenu (e.g. the language
+        // pickers), not a dismissal gesture — it must leave the panel open.
         let consumed = monitor.sendLocal(.mouseDownOutsidePanel)
 
         XCTAssertFalse(consumed)
-        XCTAssertFalse(presenter.isShown)
+        XCTAssertTrue(presenter.isShown)
     }
 
     func testGlobalClickClosesPanel() {
@@ -257,6 +268,51 @@ final class TranslationPanelPresenterTests: XCTestCase {
 
         XCTAssertFalse(presenter.isShown)
         XCTAssertEqual(monitor.activeCount, 0)
+    }
+
+    func testKeepOnTopSuppressesOutsideClickDismissal() {
+        presenter.show()
+
+        presenter.setKeepOnTop(true)
+
+        let localConsumed = monitor.sendLocal(.mouseDownOutsidePanel)
+        XCTAssertFalse(localConsumed)
+        XCTAssertTrue(presenter.isShown)
+
+        monitor.sendGlobalClick()
+        XCTAssertTrue(presenter.isShown)
+    }
+
+    func testKeepOnTopStillClosesOnEscape() {
+        presenter.show()
+        presenter.setKeepOnTop(true)
+
+        let consumed = monitor.sendLocal(.escape)
+
+        XCTAssertTrue(consumed)
+        XCTAssertFalse(presenter.isShown)
+    }
+
+    func testDisablingKeepOnTopRestoresOutsideClickDismissal() {
+        presenter.show()
+        presenter.setKeepOnTop(true)
+        presenter.setKeepOnTop(false)
+
+        monitor.sendGlobalClick()
+
+        XCTAssertFalse(presenter.isShown)
+    }
+
+    func testKeepOnTopPersistsAndLoadsForNewPresenter() {
+        presenter.setKeepOnTop(true)
+        XCTAssertTrue(userDefaults.bool(forKey: "panel.translation.keepOnTop"))
+
+        let reloaded = makePresenter()
+        reloaded.show()
+        monitor.sendGlobalClick()
+
+        XCTAssertTrue(reloaded.isShown)
+        reloaded.close()
     }
 
     func testNativeCloseRequestUsesFullCancellationLifecycle() {
@@ -323,7 +379,8 @@ final class TranslationPanelPresenterTests: XCTestCase {
             screenGeometries: {
                 let frame = CGRect(x: 0, y: 0, width: 1440, height: 900)
                 return [TranslationPanelScreenGeometry(frame: frame, visibleFrame: frame)]
-            }
+            },
+            userDefaults: userDefaults
         )
     }
 }

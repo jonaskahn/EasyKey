@@ -15,11 +15,14 @@ final class ClipboardPanel: NSPanel {
 @MainActor
 final class ClipboardPanelPresenter {
     static let panelSize = CGSize(width: 420, height: 500)
+    private static let keepOnTopDefaultsKey = "panel.clipboard.keepOnTop"
 
+    private let userDefaults: UserDefaults
     private var panel: ClipboardPanel?
+    private var titlebarAccessory: KeepOnTopTitlebarAccessory?
     private var globalClickMonitor: Any?
     private var localKeyMonitor: Any?
-    private var keepOnTop = false
+    private var keepOnTop: Bool
     private(set) var previousApplication: NSRunningApplication?
 
     /// Supplies the SwiftUI content. Set by the coordinator once the history model
@@ -28,6 +31,11 @@ final class ClipboardPanelPresenter {
 
     var isShown: Bool {
         panel?.isVisible ?? false
+    }
+
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+        keepOnTop = userDefaults.bool(forKey: Self.keepOnTopDefaultsKey)
     }
 
     func toggle(previousApplication: NSRunningApplication?) {
@@ -45,7 +53,6 @@ final class ClipboardPanelPresenter {
         panel.contentView = NSHostingView(rootView: makeContent())
         panel.setFrameOrigin(originForCurrentPointer())
 
-        keepOnTop = false
         NSApp.activate(ignoringOtherApps: true)
         panel.makeKeyAndOrderFront(nil)
         installMonitors()
@@ -60,6 +67,8 @@ final class ClipboardPanelPresenter {
     /// (the global click monitor is suppressed); Escape still closes it.
     func setKeepOnTop(_ on: Bool) {
         keepOnTop = on
+        userDefaults.set(on, forKey: Self.keepOnTopDefaultsKey)
+        titlebarAccessory?.isOn = on
         if on {
             removeGlobalClickMonitor()
         } else {
@@ -84,6 +93,14 @@ final class ClipboardPanelPresenter {
         panel.hidesOnDeactivate = false
         panel.isReleasedWhenClosed = false
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
+        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { on in
+            on
+                ? LocalizationStore.shared.string(.commonUnkeepOnTop)
+                : LocalizationStore.shared.string(.commonKeepOnTop)
+        }
+        accessory.onToggle = { [weak self] on in self?.setKeepOnTop(on) }
+        panel.addTitlebarAccessoryViewController(accessory)
+        titlebarAccessory = accessory
         self.panel = panel
         return panel
     }

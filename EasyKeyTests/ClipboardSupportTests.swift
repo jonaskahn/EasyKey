@@ -386,10 +386,30 @@ final class ClipboardPanelPresenterExtendedTests: XCTestCase {
         presenter.close()
     }
 
-    func testSetKeepOnTop() {
-        let presenter = ClipboardPanelPresenter()
+    func testSetKeepOnTopPersistsValueAcrossPresenterInstances() throws {
+        let suiteName = "ClipboardPanelPresenterExtendedTests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+
+        let presenter = ClipboardPanelPresenter(userDefaults: defaults)
+        XCTAssertFalse(defaults.bool(forKey: "panel.clipboard.keepOnTop"))
+
         presenter.setKeepOnTop(true)
+        XCTAssertTrue(defaults.bool(forKey: "panel.clipboard.keepOnTop"))
+
         presenter.setKeepOnTop(false)
+        XCTAssertFalse(defaults.bool(forKey: "panel.clipboard.keepOnTop"))
+    }
+
+    func testNewPresenterLoadsPersistedKeepOnTopValue() throws {
+        let suiteName = "ClipboardPanelPresenterExtendedTests.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        defaults.set(true, forKey: "panel.clipboard.keepOnTop")
+
+        _ = ClipboardPanelPresenter(userDefaults: defaults)
+
+        XCTAssertTrue(defaults.bool(forKey: "panel.clipboard.keepOnTop"))
     }
 }
 

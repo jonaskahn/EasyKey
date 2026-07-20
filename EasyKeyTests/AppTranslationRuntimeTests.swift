@@ -358,7 +358,8 @@ final class AppTranslationRuntimeTests: XCTestCase {
                         panelFactory: { panelWindow },
                         activateEasyKey: {},
                         pointerLocation: { .zero },
-                        screenGeometries: { [] }
+                        screenGeometries: { [] },
+                        userDefaults: UserDefaults(suiteName: "AppTranslationRuntimeTests.panel-\(UUID().uuidString)")!
                     )
                 },
                 speech: TranslationSpeechController(engine: speechEngine)
@@ -415,6 +416,8 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
     func containsWindowNumber(_ windowNumber: Int) -> Bool {
         windowNumber == self.windowNumber
     }
+
+    func addTitlebarAccessory(_: NSTitlebarAccessoryViewController) {}
 }
 
 @MainActor

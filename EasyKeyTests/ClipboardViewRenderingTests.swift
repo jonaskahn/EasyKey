@@ -38,7 +38,6 @@ final class ClipboardViewRenderingTests: XCTestCase {
             delete: { _ in },
             reveal: { _ in },
             clearUnpinned: {},
-            setKeepOnTop: { _ in },
             openSettings: {}
         )
         render {
@@ -70,7 +69,6 @@ final class ClipboardViewRenderingTests: XCTestCase {
             delete: { _ in },
             reveal: { _ in },
             clearUnpinned: {},
-            setKeepOnTop: { _ in },
             openSettings: {}
         )
         render {
@@ -169,7 +167,6 @@ final class ClipboardViewRenderingTests: XCTestCase {
             delete: { _ in },
             reveal: { _ in },
             clearUnpinned: {},
-            setKeepOnTop: { _ in },
             openSettings: {}
         )
         render {
@@ -193,7 +190,6 @@ final class ClipboardViewRenderingTests: XCTestCase {
             delete: { _ in },
             reveal: { _ in },
             clearUnpinned: {},
-            setKeepOnTop: { _ in },
             openSettings: {}
         )
         render {

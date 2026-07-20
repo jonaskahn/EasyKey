@@ -23,6 +23,7 @@ protocol TranslationPanelWindow: AnyObject {
     func orderOut()
     func setCloseHandler(_ handler: @escaping () -> Void)
     func containsWindowNumber(_ windowNumber: Int) -> Bool
+    func addTitlebarAccessory(_ viewController: NSTitlebarAccessoryViewController)
 }
 
 final class TranslationPanel: NSPanel, TranslationPanelWindow {
@@ -90,6 +91,10 @@ final class TranslationPanel: NSPanel, TranslationPanelWindow {
             candidate = window.parent
         }
         return false
+    }
+
+    func addTitlebarAccessory(_ viewController: NSTitlebarAccessoryViewController) {
+        addTitlebarAccessoryViewController(viewController)
     }
 }
 
@@ -170,6 +175,7 @@ final class SystemTranslationPanelEventMonitor: TranslationPanelEventMonitoring 
 @MainActor
 final class TranslationPanelPresenter {
     static let panelSize = CGSize(width: 520, height: 560)
+    private static let keepOnTopDefaultsKey = "panel.translation.keepOnTop"
 
     var makeContent: () -> AnyView = { AnyView(EmptyView()) }
 
@@ -181,9 +187,12 @@ final class TranslationPanelPresenter {
     private let activateEasyKey: () -> Void
     private let pointerLocation: () -> CGPoint
     private let screenGeometries: () -> [TranslationPanelScreenGeometry]
+    private let userDefaults: UserDefaults
     private var panel: TranslationPanelWindow?
+    private var titlebarAccessory: KeepOnTopTitlebarAccessory?
     private var localMonitor: TranslationPanelMonitorRegistration?
     private var globalClickMonitor: TranslationPanelMonitorRegistration?
+    private var keepOnTop: Bool
 
     private(set) var previousApplication: NSRunningApplication?
 
@@ -201,7 +210,8 @@ final class TranslationPanelPresenter {
         pointerLocation: @escaping () -> CGPoint = { NSEvent.mouseLocation },
         screenGeometries: @escaping () -> [TranslationPanelScreenGeometry] = {
             NSScreen.screens.map { TranslationPanelScreenGeometry(frame: $0.frame, visibleFrame: $0.visibleFrame) }
-        }
+        },
+        userDefaults: UserDefaults = .standard
     ) {
         self.translation = translation
         self.speech = speech
@@ -211,6 +221,8 @@ final class TranslationPanelPresenter {
         self.activateEasyKey = activateEasyKey ?? { NSApp.activate(ignoringOtherApps: true) }
         self.pointerLocation = pointerLocation
         self.screenGeometries = screenGeometries
+        self.userDefaults = userDefaults
+        keepOnTop = userDefaults.bool(forKey: Self.keepOnTopDefaultsKey)
     }
 
     func show() {
@@ -255,6 +267,17 @@ final class TranslationPanelPresenter {
         previousApplication = nil
     }
 
+    /// Toggles "keep on top": when on, the panel stays open on outside clicks
+    /// (both monitors are suppressed); Escape still closes it.
+    func setKeepOnTop(_ on: Bool) {
+        keepOnTop = on
+        userDefaults.set(on, forKey: Self.keepOnTopDefaultsKey)
+        titlebarAccessory?.isOn = on
+        if isShown {
+            installMonitors()
+        }
+    }
+
     private func existingOrNewPanel() -> TranslationPanelWindow {
         if let panel {
             return panel
@@ -263,6 +286,14 @@ final class TranslationPanelPresenter {
         panel.setCloseHandler { [weak self] in
             self?.close()
         }
+        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { on in
+            on
+                ? LocalizationStore.shared.string(.commonUnkeepOnTop)
+                : LocalizationStore.shared.string(.commonKeepOnTop)
+        }
+        accessory.onToggle = { [weak self] on in self?.setKeepOnTop(on) }
+        panel.addTitlebarAccessory(accessory)
+        titlebarAccessory = accessory
         self.panel = panel
         return panel
     }
@@ -273,8 +304,10 @@ final class TranslationPanelPresenter {
             isPanelOwnedWindow: { [weak self] in self?.panel?.containsWindowNumber($0) == true },
             handler: { [weak self] event in self?.handle(event) ?? false }
         )
-        globalClickMonitor = eventMonitor.addGlobalClickMonitor { [weak self] in
-            self?.close()
+        if !keepOnTop {
+            globalClickMonitor = eventMonitor.addGlobalClickMonitor { [weak self] in
+                self?.close()
+            }
         }
     }
 
@@ -284,7 +317,12 @@ final class TranslationPanelPresenter {
             close()
             return true
         case .mouseDownOutsidePanel:
-            close()
+            // Local monitors only ever see this app's own events, so an
+            // "outside the panel" click here is a transient in-app popover or
+            // NSMenu (the source/target language pickers), not a dismissal
+            // gesture. Closing here would tear the panel down the instant the
+            // user picks a language from a Menu popup. Real outside-click
+            // dismissal (clicks into other apps) is the global monitor's job.
             return false
         case .keyDown, .mouseDownInsidePanel:
             return false
