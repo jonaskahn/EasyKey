@@ -32,18 +32,6 @@ final class ClipboardActionCoordinator {
         self.synthesizePaste = synthesizePaste
     }
 
-    /// Whether every representation the entry needs can be restored right now.
-    func canRestore(_ entry: ClipboardEntry) -> Bool {
-        entry.items.allSatisfy { item in
-            item.representations.allSatisfy { representation in
-                if case let .fileURL(url) = representation {
-                    return FileManager.default.fileExists(atPath: url.path)
-                }
-                return true
-            }
-        }
-    }
-
     func perform(_ entry: ClipboardEntry, action: ClipboardSelectionAction) {
         switch action {
         case .copyOnly:

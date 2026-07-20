@@ -56,8 +56,6 @@ public struct VietnameseEngine {
         TransformEngine.encode(state, encoding: configuration.outputEncoding)
     }
 
-    // MARK: - Private
-
     private func handlePassThrough() -> EngineOutput {
         .passThrough
     }
@@ -211,11 +209,11 @@ public struct VietnameseEngine {
 
         switch configuration.inputMethod {
         case .telex:
-            return TelexRules.intent(forCharacter: character, previousChar: previousChar)!
+            return TelexRules.intent(forCharacter: character, previousChar: previousChar)
         case .vni:
-            return VNIRules.intent(forCharacter: character)!
+            return VNIRules.intent(forCharacter: character)
         case .simpleTelex:
-            return SimpleTelexRules.intent(forCharacter: character, previousChar: previousChar)!
+            return SimpleTelexRules.intent(forCharacter: character, previousChar: previousChar)
         }
     }
 

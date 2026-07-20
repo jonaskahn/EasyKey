@@ -144,16 +144,6 @@ public final class KeyboardService {
         }
     }
 
-    public func setDiagnosticsEnabled(_ enabled: Bool) {
-        processingQueue.sync {
-            diagnosticsRecorder.setEnabled(enabled)
-        }
-    }
-
-    public func diagnosticSnapshot() -> [Diagnostic] {
-        processingQueue.sync { diagnosticsRecorder.snapshot }
-    }
-
     public func medianCallbackLatencyNanoseconds() -> UInt64? {
         processingQueue.sync { diagnosticsRecorder.medianCallbackLatencyNanoseconds }
     }

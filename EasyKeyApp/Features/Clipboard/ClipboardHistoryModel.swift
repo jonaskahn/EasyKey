@@ -62,8 +62,6 @@ final class ClipboardHistoryModel: ObservableObject {
         try? payloadStore.data(for: reference)
     }
 
-    // MARK: - Capture
-
     /// Stages one capture as a single transaction: prune, compute payload
     /// eviction, and commit history and payloads together. Any limit breach that
     /// pinned content cannot make room for rejects the candidate untouched.
@@ -88,8 +86,6 @@ final class ClipboardHistoryModel: ObservableObject {
         history = candidate
         scheduleSave()
     }
-
-    // MARK: - Mutations
 
     func setPinned(_ pinned: Bool, entryID: UUID) {
         var candidate = history
@@ -156,12 +152,6 @@ final class ClipboardHistoryModel: ObservableObject {
             persistenceError = error as? ClipboardPersistenceError ?? .malformedDocument
         }
     }
-
-    func acknowledgeLimitNotice() {
-        limitNotice = nil
-    }
-
-    // MARK: - Private
 
     private func disablePersistence() async {
         saveTask?.cancel()

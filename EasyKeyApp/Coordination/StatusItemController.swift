@@ -33,7 +33,9 @@ final class StatusItemController {
         observeStatusItemAppearance(button: item.button)
 
         let popover = NSPopover()
-        popover.behavior = .transient
+        // Child menus and SwiftUI popovers used by translation must not dismiss
+        // this status popover. It still closes when focus moves to another app.
+        popover.behavior = .semitransient
         let hostingController = NSHostingController(rootView: popoverView(coordinator: coordinator))
         hostingController.sizingOptions = [.preferredContentSize]
         popover.contentViewController = hostingController

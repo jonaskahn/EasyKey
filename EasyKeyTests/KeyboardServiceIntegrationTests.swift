@@ -39,18 +39,6 @@ final class KeyboardServiceIntegrationTests: XCTestCase {
         XCTAssertEqual(pauseCount, 0)
     }
 
-    func testDiagnosticSnapshot_BeforeEnable_IsEmpty() {
-        let service = KeyboardService(settings: .defaults)
-        XCTAssertTrue(service.diagnosticSnapshot().isEmpty)
-    }
-
-    func testSetDiagnosticsEnabled_WhenDisabled_ClearsBuffer() {
-        let service = KeyboardService(settings: .defaults)
-        service.setDiagnosticsEnabled(true)
-        service.setDiagnosticsEnabled(false)
-        XCTAssertTrue(service.diagnosticSnapshot().isEmpty)
-    }
-
     func testMedianCallbackLatencyNanoseconds_EmptyBuffer_ReturnsNil() {
         let service = KeyboardService(settings: .defaults)
         XCTAssertNil(service.medianCallbackLatencyNanoseconds())

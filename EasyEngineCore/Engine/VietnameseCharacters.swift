@@ -1,8 +1,6 @@
 import Foundation
 
 public enum VietnameseCharacters {
-    // MARK: - Vowel tables (base, mark, tone) -> Unicode scalar
-
     // Source: Unicode 15.0 Latin Extended Additional block (U+1E00-U+1EFF)
     // and Latin-1 Supplement (U+00C0-U+00FF)
 
@@ -190,19 +188,6 @@ public enum VietnameseCharacters {
     public static func isVowel(_ character: Character) -> Bool {
         let lower = Character(character.lowercased())
         return vowels.contains(lower)
-    }
-
-    public static func baseVowel(_ character: Character) -> Character? {
-        let lower = Character(character.lowercased())
-        switch lower {
-        case "a", "â", "ă": return Character("a")
-        case "e", "ê": return Character("e")
-        case "i": return Character("i")
-        case "o", "ô", "ơ": return Character("o")
-        case "u", "ư": return Character("u")
-        case "y": return Character("y")
-        default: return nil
-        }
     }
 
     public static func mark(forVowel character: Character) -> DiacriticalMark {

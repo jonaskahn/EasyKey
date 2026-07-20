@@ -13,8 +13,6 @@ final class SettingsWorkflowTests: XCTestCase {
         app.terminate()
     }
 
-    // MARK: - Onboarding
-
     func testOnboardingShowsOnFirstLaunch() {
         app.launch()
         app.activate()
@@ -66,12 +64,28 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertEqual(primaryButton.label, "Tiếp tục")
     }
 
-    func testSettingsLaunchesAboutSection() {
-        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
+    func testSettingsLaunchesSystemSection() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "system"]
         app.launch()
         app.activate()
 
         XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 10))
+    }
+
+    func testAboutShowsOpenSourceLicenses() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
+        app.launch()
+        app.activate()
+
+        let licenses = app.buttons["Open Source Licenses"]
+        XCTAssertTrue(licenses.waitForExistence(timeout: 10))
+        licenses.click()
+
+        XCTAssertTrue(app.descendants(matching: .any)["ThirdPartyNoticesText"].waitForExistence(timeout: 5))
+        let done = app.buttons["ThirdPartyNoticesDone"]
+        XCTAssertTrue(done.exists)
+        done.click()
+        XCTAssertFalse(app.descendants(matching: .any)["ThirdPartyNoticesText"].exists)
     }
 
     func testSettingsSidebarHasFixedWidth() {

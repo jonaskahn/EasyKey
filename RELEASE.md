@@ -96,8 +96,9 @@ required release inputs and use the signed path above before shipping.
 - Archive contains only EasyKey binaries, Sparkle, MIT `LICENSE`, independent
   implementation `NOTICE`, and reviewed `THIRD_PARTY_NOTICES.md`.
 - Verify privacy copy still matches runtime behavior: typing local; Apple Translation
-  local; cloud requests only after explicit **Translate** action and sent directly to
-  selected provider; credentials in Keychain; no translation history/source/result persistence.
+  local; cloud requests sent directly to selected provider only from EasyKey translation
+  surfaces, on explicit translation or configured auto-translation; credentials in
+  Keychain; no translation history/source/result persistence.
 - Review every provider data-handling URL in `PRIVACY.md` and Translation settings.
   Provider names and links are informational and must not imply sponsorship or endorsement.
 - Run English/Vietnamese localization checks, macOS 14 Apple-surface tests, automated

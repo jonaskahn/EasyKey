@@ -23,7 +23,7 @@ struct TranslationTextEditor: NSViewRepresentable {
         return scrollView
     }
 
-    func updateNSView(_ nsView: NSScrollView, context: Context) {
+    func updateNSView(_ nsView: NSScrollView, context _: Context) {
         guard let textView = nsView.documentView as? NSTextView else { return }
         if textView.string != text {
             textView.string = text
@@ -46,7 +46,7 @@ struct TranslationTextEditor: NSViewRepresentable {
             text: Binding<String>,
             onTranslateTriggered: @escaping () -> Void
         ) {
-            self.textBinding = text
+            textBinding = text
             self.onTranslateTriggered = onTranslateTriggered
         }
 
@@ -55,7 +55,7 @@ struct TranslationTextEditor: NSViewRepresentable {
             textBinding.wrappedValue = textView.string
         }
 
-        func textView(_ textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        func textView(_: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
             if commandSelector == #selector(NSResponder.insertNewline(_:)) {
                 let flags = NSApp.currentEvent?.modifierFlags ?? []
                 if flags.contains(.shift) {

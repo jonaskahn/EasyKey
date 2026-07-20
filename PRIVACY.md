@@ -11,7 +11,7 @@ EasyKey separates local typing, local translation, and optional cloud translatio
 
 ## Optional Cloud Translation
 
-Cloud translation is opt-in. In the translation source editor or Option+A popup, when you type or paste, EasyKey sends submitted source text directly to the selected provider after the configured idle delay. Each edit restarts the timer. Pressing Return translates immediately. General keyboard input outside translation editors is not translated. Requests do not pass through an EasyKey server.
+Cloud translation is opt-in. In EasyKey's translation editor, menu popover, or Option+A panel, user-entered or captured source text is sent directly to the selected provider when you translate or when the configured idle delay expires. Each edit restarts the timer. General keyboard input outside these translation surfaces is not translated. Requests do not pass through an EasyKey server.
 
 First use of each cloud provider shows a disclosure naming the provider and explaining transfer before the request proceeds. Declining cancels the request. Consent can be reset in Translation settings.
 
@@ -22,6 +22,9 @@ Provider handling and retention depend on provider terms, account tier, and acco
 - [OpenAI API data controls](https://platform.openai.com/docs/guides/your-data)
 - [Anthropic Privacy Center](https://privacy.anthropic.com/)
 - [Gemini API Additional Terms](https://ai.google.dev/gemini-api/terms)
+- [OpenRouter Privacy Policy](https://openrouter.ai/privacy)
+- [Groq Privacy Policy](https://groq.com/privacy-policy/)
+- A user-configured OpenAI-compatible or Anthropic-compatible endpoint is governed by that endpoint's published terms.
 
 Provider names and links identify interoperability and provider-controlled data handling. They do not imply sponsorship, affiliation, or endorsement.
 
@@ -34,6 +37,6 @@ Provider names and links identify interoperability and provider-controlled data 
 
 ## Other Network Activity
 
-When configured, Sparkle checks the release appcast over HTTPS and verifies update signatures. EasyKey otherwise contacts only a selected translation provider for explicit translation or credential validation.
+When configured, Sparkle checks the release appcast over HTTPS and verifies update signatures. EasyKey can also check GitHub Releases over HTTPS as an update fallback. EasyKey otherwise contacts only a selected translation provider for translation from its translation surfaces or credential validation.
 
-Clipboard history is a separate opt-in local feature. See README for its memory-only default and optional encrypted persistence behavior.
+Clipboard history is a separate opt-in local feature. It is memory-only by default; optional persisted history is AES-GCM encrypted locally with a non-synchronizing, unlocked-this-device-only Keychain key. Clipboard content is never uploaded or written to logs.

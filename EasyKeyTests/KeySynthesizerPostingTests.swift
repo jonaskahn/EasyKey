@@ -70,11 +70,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
         synthesizer.postShiftLeft(proxy: fakeProxy(), count: 2)
     }
 
-    func testPostCut_DoesNotCrash() {
-        let synthesizer = KeySynthesizer()
-        synthesizer.postCut(proxy: fakeProxy())
-    }
-
     func testInsert_ClearsPendingEmptyCharacterFirst() {
         let synthesizer = KeySynthesizer()
         synthesizer.insertEmptyCharacter(proxy: fakeProxy(), "\u{200B}")

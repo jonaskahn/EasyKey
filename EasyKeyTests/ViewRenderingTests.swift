@@ -186,6 +186,10 @@ final class ViewRenderingTests: XCTestCase {
         render { AboutSettingsView(settingsStore: coordinator.settingsStore) }
     }
 
+    func testThirdPartyNoticesSheet_Renders() {
+        render { ThirdPartyNoticesSheet() }
+    }
+
     func testOnboardingView_Renders() {
         render { OnboardingView(settingsStore: coordinator.settingsStore, coordinator: coordinator, finish: {}) }
     }

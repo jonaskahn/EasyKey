@@ -6,7 +6,7 @@ import SwiftUI
 struct AboutSettingsView: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject private var localization = LocalizationStore.shared
-    @State private var confirmReset = false
+    @State private var showsThirdPartyNotices = false
 
     private static let author = "jonaskahn"
     private static let githubDisplay = "Github"
@@ -46,12 +46,6 @@ struct AboutSettingsView: View {
             }
 
             Section {
-                InterfaceLanguagePicker()
-            } header: {
-                Text(localization.string(.aboutInterface))
-            }
-
-            Section {
                 Text(localization.string(.aboutTrademarksDescription))
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -61,30 +55,61 @@ struct AboutSettingsView: View {
             }
 
             Section {
-                VStack(alignment: .leading, spacing: 4) {
-                    Button(localization.string(.aboutResetSettings), role: .destructive) { confirmReset = true }
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-                        .tint(.red)
-                    Text(localization.string(.aboutResetSettingsDescription))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+                Button(localization.string(.aboutOpenSourceLicenses)) {
+                    showsThirdPartyNotices = true
                 }
+                .accessibilityIdentifier("OpenSourceLicenses")
             } header: {
-                Text(localization.string(.aboutMaintenance))
+                Text(localization.string(.aboutLegal))
             }
         }
         .formStyle(.grouped)
-        .alert(localization.string(.aboutResetConfirmTitle), isPresented: $confirmReset) {
-            Button(localization.string(.commonReset), role: .destructive) { settingsStore.reset() }
-            Button(localization.string(.commonCancel), role: .cancel) {}
-        } message: {
-            Text(localization.string(.aboutResetConfirmMessage))
+        .sheet(isPresented: $showsThirdPartyNotices) {
+            ThirdPartyNoticesSheet()
         }
     }
 
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.2"
+    }
+}
+
+struct ThirdPartyNoticesSheet: View {
+    @ObservedObject private var localization = LocalizationStore.shared
+    @Environment(\.dismiss) private var dismiss
+
+    private var notices: String {
+        guard let url = Bundle.main.url(forResource: "THIRD_PARTY_NOTICES", withExtension: "md"),
+              let contents = try? String(contentsOf: url, encoding: .utf8)
+        else {
+            return localization.string(.aboutNoticesUnavailable)
+        }
+        return contents
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(localization.string(.aboutThirdPartyNotices))
+                .font(.title2.weight(.semibold))
+
+            ScrollView {
+                Text(notices)
+                    .font(.body.monospaced())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .textSelection(.enabled)
+                    .accessibilityIdentifier("ThirdPartyNoticesText")
+            }
+
+            HStack {
+                Spacer()
+                Button(localization.string(.commonDone)) { dismiss() }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .keyboardShortcut(.defaultAction)
+                    .accessibilityIdentifier("ThirdPartyNoticesDone")
+            }
+        }
+        .padding(24)
+        .frame(minWidth: 640, idealWidth: 720, minHeight: 480, idealHeight: 600)
     }
 }

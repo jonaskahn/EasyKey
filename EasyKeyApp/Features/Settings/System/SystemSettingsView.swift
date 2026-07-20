@@ -7,6 +7,7 @@ struct SystemSettingsView: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var localization = LocalizationStore.shared
+    @State private var confirmReset = false
 
     var body: some View {
         Form {
@@ -75,8 +76,35 @@ struct SystemSettingsView: View {
             } header: {
                 Text(localization.string(.systemUpdates))
             }
+
+            Section {
+                InterfaceLanguagePicker()
+            } header: {
+                Text(localization.string(.aboutInterface))
+            }
+
+            Section {
+                VStack(alignment: .leading, spacing: 4) {
+                    Button(localization.string(.aboutResetSettings), role: .destructive) { confirmReset = true }
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
+                        .tint(.red)
+                    Text(localization.string(.aboutResetSettingsDescription))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } header: {
+                Text(localization.string(.aboutMaintenance))
+            }
         }
         .formStyle(.grouped)
+        .alert(localization.string(.aboutResetConfirmTitle), isPresented: $confirmReset) {
+            Button(localization.string(.commonReset), role: .destructive) { settingsStore.reset() }
+            Button(localization.string(.commonCancel), role: .cancel) {}
+        } message: {
+            Text(localization.string(.aboutResetConfirmMessage))
+        }
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {

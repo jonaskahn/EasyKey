@@ -24,23 +24,12 @@ public struct ConverterConfiguration: Codable, Equatable, Sendable {
     }
 }
 
-public protocol ConverterClipboard: AnyObject {
-    var plainText: String? { get set }
-    var html: Data? { get set }
-}
-
 public enum Converter {
     /// Converts text without accessing platform clipboard services.
     public static func preview(input: String, configuration: ConverterConfiguration) -> String {
         let unicode = EncodingCodec.decode(input, from: configuration.sourceEncoding)
         let transformed = apply(configuration.transforms, to: unicode)
         return EncodingCodec.encode(transformed, as: configuration.destinationEncoding)
-    }
-
-    /// Replaces clipboard plain text while retaining available HTML data unchanged.
-    public static func convertClipboard(_ clipboard: any ConverterClipboard, configuration: ConverterConfiguration) {
-        guard let plainText = clipboard.plainText else { return }
-        clipboard.plainText = preview(input: plainText, configuration: configuration)
     }
 
     private static func apply(_ transforms: Set<ConverterTransform>, to text: String) -> String {

@@ -2,8 +2,6 @@
 import XCTest
 
 final class VietnameseEngineTonePlacementTests: XCTestCase {
-    // MARK: - Tone placement in diphthongs
-
     func testToneOnSingleVowel() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "cas")
@@ -64,8 +62,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "hoàn")
     }
 
-    // MARK: - End consonants
-
     func testEndConsonantC() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "anc")
@@ -96,8 +92,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "mọt")
     }
 
-    // MARK: - Common Vietnamese words (Telex)
-
     func testVietnamWord() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "vieetj")
@@ -123,8 +117,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "ơn")
     }
 
-    // MARK: - Simple Telex
-
     func testSimpleTelexTonesOnly() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
         typeKeys(&engine, "taif")
@@ -136,8 +128,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         typeKeys(&engine, "aa")
         XCTAssertEqual(engine.currentBuffer, "aa")
     }
-
-    // MARK: - Edge cases
 
     func testToneKeyWithNoVowelFallsBack() {
         var engine = VietnameseEngine()
@@ -188,26 +178,11 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(result.disposition, .pass)
     }
 
-    // MARK: - Encoding
-
     func testUnicodeCombiningEncoding() throws {
         var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .cp1258))
         typeKeys(&engine, "vis")
         let buffer = engine.currentBuffer
         XCTAssertTrue(try buffer.unicodeScalars.contains(XCTUnwrap(Unicode.Scalar(0x0301))))
-    }
-
-    // MARK: - Character tables
-
-    func testVietnameseCharactersBaseVowel() {
-        XCTAssertEqual(VietnameseCharacters.baseVowel("â"), "a")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ă"), "a")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ê"), "e")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ô"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ơ"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ư"), "u")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("a"), "a")
-        XCTAssertNil(VietnameseCharacters.baseVowel("b"))
     }
 
     func testVietnameseCharactersMarkForVowel() {
@@ -217,8 +192,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "ư"), .horn)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "a"), .none)
     }
-
-    // MARK: - Tone placement on marked vowels
 
     func testToneOnOcircumflexInBuon() {
         var engine = VietnameseEngine()
@@ -255,8 +228,6 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         typeKeys(&engine, "quys")
         XCTAssertEqual(engine.currentBuffer, "quý")
     }
-
-    // MARK: - W key transforms last vowel
 
     func testWTransformsLastVowelToHorn() {
         var engine = VietnameseEngine()

@@ -368,9 +368,13 @@ private final class RuntimeSpeechEngine: TranslationSpeechEngine {
     var eventHandler: ((UUID, TranslationSpeechEngineEvent) -> Void)?
     private(set) var stopCount = 0
 
-    func voiceIdentifier(for _: String) -> String? { "voice" }
+    func voiceIdentifier(for _: String) -> String? {
+        "voice"
+    }
 
-    func speak(_: String, voiceIdentifier _: String, requestID _: UUID) -> Bool { true }
+    func speak(_: String, voiceIdentifier _: String, requestID _: UUID) -> Bool {
+        true
+    }
 
     func stopSpeaking() {
         stopCount += 1
@@ -403,6 +407,10 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
     func setCloseHandler(_ handler: @escaping () -> Void) {
         closeHandler = handler
     }
+
+    func containsWindowNumber(_ windowNumber: Int) -> Bool {
+        windowNumber == self.windowNumber
+    }
 }
 
 @MainActor
@@ -410,7 +418,7 @@ private final class RuntimePanelMonitor: TranslationPanelEventMonitoring {
     private(set) var removedMonitorCount = 0
 
     func addLocalMonitor(
-        panelWindowNumber _: @escaping () -> Int?,
+        isPanelOwnedWindow _: @escaping (Int) -> Bool,
         handler _: @escaping (TranslationPanelLocalEvent) -> Bool
     ) -> TranslationPanelMonitorRegistration? {
         registration()

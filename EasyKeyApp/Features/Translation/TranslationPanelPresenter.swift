@@ -22,6 +22,7 @@ protocol TranslationPanelWindow: AnyObject {
     func makeKeyAndOrderFront()
     func orderOut()
     func setCloseHandler(_ handler: @escaping () -> Void)
+    func containsWindowNumber(_ windowNumber: Int) -> Bool
 }
 
 final class TranslationPanel: NSPanel, TranslationPanelWindow {
@@ -75,6 +76,21 @@ final class TranslationPanel: NSPanel, TranslationPanelWindow {
     func setCloseHandler(_ handler: @escaping () -> Void) {
         closeHandler = handler
     }
+
+    func containsWindowNumber(_ windowNumber: Int) -> Bool {
+        guard let eventWindow = NSApp.window(withWindowNumber: windowNumber) else {
+            return windowNumber == self.windowNumber
+        }
+
+        var candidate: NSWindow? = eventWindow
+        while let window = candidate {
+            if window === self {
+                return true
+            }
+            candidate = window.parent
+        }
+        return false
+    }
 }
 
 enum TranslationPanelLocalEvent: Equatable {
@@ -104,7 +120,7 @@ final class TranslationPanelMonitorRegistration {
 @MainActor
 protocol TranslationPanelEventMonitoring: AnyObject {
     func addLocalMonitor(
-        panelWindowNumber: @escaping () -> Int?,
+        isPanelOwnedWindow: @escaping (Int) -> Bool,
         handler: @escaping (TranslationPanelLocalEvent) -> Bool
     ) -> TranslationPanelMonitorRegistration?
     func addGlobalClickMonitor(handler: @escaping () -> Void) -> TranslationPanelMonitorRegistration?
@@ -113,7 +129,7 @@ protocol TranslationPanelEventMonitoring: AnyObject {
 @MainActor
 final class SystemTranslationPanelEventMonitor: TranslationPanelEventMonitoring {
     func addLocalMonitor(
-        panelWindowNumber: @escaping () -> Int?,
+        isPanelOwnedWindow: @escaping (Int) -> Bool,
         handler: @escaping (TranslationPanelLocalEvent) -> Bool
     ) -> TranslationPanelMonitorRegistration? {
         guard let monitor = NSEvent.addLocalMonitorForEvents(
@@ -124,7 +140,7 @@ final class SystemTranslationPanelEventMonitor: TranslationPanelEventMonitoring 
                 case .keyDown:
                     localEvent = event.keyCode == 53 ? .escape : .keyDown
                 case .leftMouseDown, .rightMouseDown:
-                    localEvent = event.windowNumber == panelWindowNumber()
+                    localEvent = isPanelOwnedWindow(event.windowNumber)
                         ? .mouseDownInsidePanel
                         : .mouseDownOutsidePanel
                 default:
@@ -254,7 +270,7 @@ final class TranslationPanelPresenter {
     private func installMonitors() {
         removeMonitors()
         localMonitor = eventMonitor.addLocalMonitor(
-            panelWindowNumber: { [weak self] in self?.panel?.windowNumber },
+            isPanelOwnedWindow: { [weak self] in self?.panel?.containsWindowNumber($0) == true },
             handler: { [weak self] event in self?.handle(event) ?? false }
         )
         globalClickMonitor = eventMonitor.addGlobalClickMonitor { [weak self] in

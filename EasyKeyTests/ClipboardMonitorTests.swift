@@ -93,8 +93,6 @@ final class ClipboardMonitorTests: XCTestCase {
         XCTAssertEqual(captured, 0)
     }
 
-    // MARK: - Helpers
-
     private func makeMonitor(
         reader: PasteboardReading,
         enabled: Bool,

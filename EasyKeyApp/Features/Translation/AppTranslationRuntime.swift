@@ -10,6 +10,7 @@ protocol TranslationActivationCapturing: AnyObject {
 
 extension SelectedTextCaptureCoordinator: TranslationActivationCapturing {}
 
+/// All mutable state is guarded by `lock`, making cross-actor access safe.
 final class TranslationProviderRegistry: @unchecked Sendable {
     private let lock = NSLock()
     private var providers: [TranslationProviderID: TranslationProviding] = [:]
@@ -257,7 +258,8 @@ final class AppTranslationRuntime {
 
     func makePopoverConfiguration(options: TranslationOptions, openSettings: @escaping () -> Void) -> MenuPopoverTranslationConfiguration? {
         guard options.isEnabled,
-              options.showInMenuPopover else { return nil }
+              options.showInMenuPopover
+        else { return nil }
         return MenuPopoverTranslationConfiguration(
             model: model,
             availableProviders: availableProviders,

@@ -206,16 +206,6 @@ public final class MacroStore {
         return MacroImportPreview(additions: additions, conflicts: conflicts, unparseableRecords: unparseableRecords)
     }
 
-    /// Parses simple legacy `trigger => expansion` records without discarding bad lines.
-    public func previewLegacyImport(_ text: String) throws -> MacroImportPreview {
-        let tabSeparated = text.split(whereSeparator: \.isNewline).map { line -> String in
-            let fields = String(line).components(separatedBy: "=>")
-            guard fields.count == 2 else { return String(line) }
-            return "\(fields[0].trimmingCharacters(in: .whitespaces))\t\(fields[1].trimmingCharacters(in: .whitespaces))\t1"
-        }.joined(separator: "\n")
-        return try previewImport(tabSeparated)
-    }
-
     public func apply(_ preview: MacroImportPreview, resolving conflicts: [UUID: MacroImportResolution]) throws {
         var updated = macrosByID
         for macro in preview.additions {

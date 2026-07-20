@@ -117,8 +117,6 @@ final class ClipboardServices: ObservableObject {
         }
     }
 
-    // MARK: - Lifecycle
-
     func start(loadPersisted: Bool) async {
         hotkeyConflict = !hotKey.apply(options.shortcut)
         if loadPersisted {
@@ -161,8 +159,6 @@ final class ClipboardServices: ObservableObject {
         presenter.close()
         await model.flushPendingSave()
     }
-
-    // MARK: - Helpers
 
     private static func reveal(_ entry: ClipboardEntry) {
         for item in entry.items {

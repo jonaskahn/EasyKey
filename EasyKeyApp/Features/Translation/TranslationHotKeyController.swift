@@ -27,7 +27,7 @@ enum TranslationHotKeyRegistrationState: Equatable {
 /// replacement conflicts. Carbon resources remain owned until `shutdown()`.
 @MainActor
 final class TranslationHotKeyController {
-    nonisolated static let carbonSignature: OSType = 0x454B_5452 // 'EKTR'
+    nonisolated static let carbonSignature: OSType = 0x454B_5452
     nonisolated static let firstCarbonIdentifier: UInt32 = 0x5452_0001
 
     private let registrar: TranslationHotKeyRegistering

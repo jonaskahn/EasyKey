@@ -104,8 +104,6 @@ actor ClipboardPersistence {
         try keyProvider.deleteKey()
     }
 
-    // MARK: - Helpers
-
     private func open(_ sealed: Data, using key: SymmetricKey) throws -> Data {
         do {
             let box = try AES.GCM.SealedBox(combined: sealed)

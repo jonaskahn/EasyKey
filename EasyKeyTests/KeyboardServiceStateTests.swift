@@ -68,12 +68,6 @@ final class KeyboardServiceStateTests: XCTestCase {
         XCTAssertEqual(service.health, .requestingPermission)
     }
 
-    func testSetDiagnosticsEnabledTrue() {
-        let service = KeyboardService(settings: .defaults)
-        service.setDiagnosticsEnabled(true)
-        XCTAssertTrue(service.diagnosticSnapshot().isEmpty)
-    }
-
     func testUpdateSettingsDoesNotCrash() {
         let service = KeyboardService(settings: .defaults)
         var settings = EasyKeySettings.defaults

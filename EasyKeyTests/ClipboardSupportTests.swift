@@ -21,12 +21,6 @@ final class ClipboardPayloadStoreTests: XCTestCase {
         XCTAssertFalse(store.contains("a"))
     }
 
-    func testCanRetainRespectsCap() {
-        let store = ClipboardPayloadStore()
-        XCTAssertTrue(store.canRetain(additionalBytes: ClipboardLimits.maximumRetainedBytes))
-        XCTAssertFalse(store.canRetain(additionalBytes: ClipboardLimits.maximumRetainedBytes + 1))
-    }
-
     func testMissingReferenceThrows() {
         let store = ClipboardPayloadStore()
         XCTAssertThrowsError(try store.data(for: "missing"))

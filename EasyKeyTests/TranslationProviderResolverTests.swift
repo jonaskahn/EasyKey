@@ -5,8 +5,6 @@ final class TranslationProviderResolverTests: XCTestCase {
     private let macOS14 = TranslationPlatformCapability(supportsAppleTranslation: false)
     private let macOS15 = TranslationPlatformCapability(supportsAppleTranslation: true)
 
-    // MARK: - availableProviders
-
     func testAvailableProviders_OnMacOS14_NeverIncludesApple() {
         let providers = TranslationProviderResolver.availableProviders(
             platformCapability: macOS14,
@@ -39,8 +37,6 @@ final class TranslationProviderResolverTests: XCTestCase {
         )
         XCTAssertTrue(providers.isEmpty)
     }
-
-    // MARK: - availability(of:)
 
     func testAvailability_AppleOnMacOS14_IsUnsupportedOnPlatform() {
         XCTAssertEqual(
@@ -97,8 +93,6 @@ final class TranslationProviderResolverTests: XCTestCase {
         )
     }
 
-    // MARK: - resolveEffectiveProvider: Automatic
-
     func testResolve_AutomaticOnMacOS15_ResolvesToApple() {
         let resolution = TranslationProviderResolver.resolveEffectiveProvider(
             preferredProviderID: nil,
@@ -134,8 +128,6 @@ final class TranslationProviderResolverTests: XCTestCase {
         )
         XCTAssertEqual(resolution, .setupRequired)
     }
-
-    // MARK: - resolveEffectiveProvider: explicit preference
 
     func testResolve_ExplicitAvailablePreference_IsUsedDirectly() {
         let resolution = TranslationProviderResolver.resolveEffectiveProvider(

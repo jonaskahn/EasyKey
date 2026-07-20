@@ -47,8 +47,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         return (data, response)
     }
 
-    // MARK: - Host selection
-
     func testTranslate_WithFreeEndpoint_UsesFreeHost() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "key"])
         let provider = DeepLTranslationProvider(endpoint: .free, credentialStore: store, session: mockSession())
@@ -81,8 +79,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         XCTAssertEqual(MockDeepLURLProtocol.capturedRequests.first?.url?.host, "api.deepl.com")
         XCTAssertTrue(MockDeepLURLProtocol.capturedRequests.first?.url?.scheme == "https")
     }
-
-    // MARK: - Request shape
 
     func testTranslate_SendsAuthorizationHeaderAndJSONBody() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "secret-key"])
@@ -127,8 +123,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         XCTAssertNil(json["source_lang"])
     }
 
-    // MARK: - Successful parsing
-
     func testTranslate_WithSuccessfulResponse_ReturnsMappedResult() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "key"])
         let provider = DeepLTranslationProvider(endpoint: .free, credentialStore: store, session: mockSession())
@@ -146,8 +140,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         XCTAssertEqual(response.providerID, .deepL)
         XCTAssertEqual(response.detectedSourceLanguage?.identifier, "EN")
     }
-
-    // MARK: - Credentials
 
     func testTranslate_WithNoStoredCredential_ThrowsMissingCredentials() async throws {
         let store = InMemoryDeepLCredentialStore()
@@ -185,8 +177,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         }
         XCTAssertTrue(MockDeepLURLProtocol.capturedRequests.isEmpty, "Must not call the network when credential lookup fails")
     }
-
-    // MARK: - HTTP error mapping
 
     func testTranslate_With403_ThrowsMissingCredentials() async throws {
         try await assertHTTPStatus(403, mapsTo: .missingCredentials(provider: .deepL))
@@ -226,8 +216,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
             XCTAssertEqual(error, expected)
         }
     }
-
-    // MARK: - Malformed / oversized response
 
     func testTranslate_WithMalformedJSON_ThrowsInvalidResponse() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "key"])
@@ -367,8 +355,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
         }
     }
 
-    // MARK: - Transport error mapping
-
     func testTranslate_WithNoConnection_ThrowsNetworkUnavailable() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "key"])
         let session = throwingSession(URLError(.notConnectedToInternet))
@@ -420,8 +406,6 @@ final class DeepLTranslationProviderTests: XCTestCase {
             XCTAssertEqual(error, .providerUnavailable(provider: .deepL, httpStatus: nil))
         }
     }
-
-    // MARK: - Redaction
 
     func testTranslate_NeverLeaksCredentialOrSourceTextInThrownError() async throws {
         let store = InMemoryDeepLCredentialStore(credentials: [.deepL: "super-secret-key"])

@@ -21,11 +21,6 @@ final class ClipboardPayloadStore {
         payloads[reference] != nil
     }
 
-    /// Whether adding `additionalBytes` keeps the store within the retained cap.
-    func canRetain(additionalBytes: Int) -> Bool {
-        totalByteCount + additionalBytes <= ClipboardLimits.maximumRetainedBytes
-    }
-
     func insert(_ newPayloads: [String: Data]) {
         for (reference, data) in newPayloads where payloads[reference] == nil {
             payloads[reference] = data

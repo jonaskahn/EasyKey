@@ -29,23 +29,4 @@ final class ConverterTests: XCTestCase {
         )
         XCTAssertEqual(Converter.preview(input: "xin chào. thế giới! x\u{0301}", configuration: config), "Xin chao. The gioi! X\u{0301}")
     }
-
-    func testClipboardConversionKeepsHTMLData() {
-        let html = Data("<b>việt</b>".utf8)
-        let clipboard = TestClipboard(plainText: "việt", html: html)
-        Converter.convertClipboard(clipboard, configuration: ConverterConfiguration(transforms: [.allCaps]))
-
-        XCTAssertEqual(clipboard.plainText, "VIỆT")
-        XCTAssertEqual(clipboard.html, html)
-    }
-}
-
-private final class TestClipboard: ConverterClipboard {
-    var plainText: String?
-    var html: Data?
-
-    init(plainText: String?, html: Data?) {
-        self.plainText = plainText
-        self.html = html
-    }
 }
