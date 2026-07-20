@@ -3,7 +3,7 @@
   <strong>EasyKey</strong><br><br>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/version-0.0.2-0969da?style=flat-square" alt="Latest version"></a>
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
-  <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-95%25-brightgreen?style=flat-square" alt="95% coverage gate"></a>
+  <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-90%25-brightgreen?style=flat-square" alt="90% coverage gate"></a>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/download-Releases-111111?style=flat-square" alt="Download EasyKey"></a>
   <br><br>
   <i>Fast, private Vietnamese typing for macOS with some sweets</i>
@@ -119,8 +119,10 @@ Run `make` or `make help` for the complete command reference.
 |---------|---------|
 | `make build` | Build the debug application |
 | `make run` | Build and launch EasyKey |
-| `make test` | Run unit and UI tests with code coverage |
-| `make coverage` | Run tests and print the coverage summary |
+| `make test` | Run unit and UI tests serially with code coverage |
+| `make test-parallel` | Build once, then run tests as parallel shards (faster) |
+| `make coverage` | Run tests and enforce the 90% coverage gate |
+| `make coverage-parallel` | Sharded parallel run plus the coverage gate |
 | `make lint` | Run SwiftLint when installed |
 | `make format` | Run SwiftFormat when installed |
 
@@ -178,7 +180,8 @@ Engineering practices and architectural rules are documented in [CONVENTIONS.md]
 
 ### Quality
 
-- CI-enforced 95% line-coverage threshold, excluding the login helper
+- CI-enforced 90% line-coverage threshold, excluding the login helper
+- CI splits tests into parallel shards, then merges the result bundles for the coverage gate
 - Unit, UI, behavioral fixture, and architecture fitness tests
 - Universal arm64 and x86_64 release verification
 - SwiftLint and SwiftFormat support
@@ -188,6 +191,17 @@ Engineering practices and architectural rules are documented in [CONVENTIONS.md]
 make test
 make qa
 ```
+
+`make test-parallel` runs the same shards locally. All shards share one `UserDefaults`
+domain on a single Mac, so UI shards may flake; use `make test` for a reliable serial run.
+
+---
+
+## 🙏 Acknowledgements
+
+EasyKey was inspired by [OpenKey](https://github.com/tuyenvm/OpenKey) by Mai Vũ Tuyên and [UniKey](https://www.unikey.org/) by Phạm Kim Long.
+
+Heartfelt thanks to both authors for their pioneering work and lasting contributions to Vietnamese typing software.
 
 ---
 

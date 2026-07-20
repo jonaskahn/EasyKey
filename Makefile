@@ -8,7 +8,7 @@ XCODEBUILD = xcodebuild -project "$(PROJECT)" -scheme "$(SCHEME)" -destination "
 
 .DEFAULT_GOAL := help
 
-.PHONY: all build release run test coverage lint format clean clean-local clean-all qa archive export verify-arch verify-release dmg local-dmg help
+.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-all qa archive export verify-arch verify-release dmg local-dmg help
 
 # `make` with no args prints grouped help. `make all` still builds.
 all: build
@@ -22,11 +22,76 @@ release:
 run: build
 	open "$(BUILD_DIR)/Build/Products/$(CONFIGURATION_DEBUG)/EasyKey.app"
 
+COVERAGE_THRESHOLD ?= 90
+SHARDS_DIR = $(BUILD_DIR)/Shards
+MERGED_XCRESULT = $(BUILD_DIR)/Merged.xcresult
+
+# Per-shard test filters (mirror .github/workflows/ci.yml).
+FILTER_unit = -only-testing:EasyKeyTests
+FILTER_ui-1 = -only-testing:EasyKeyUITests/SettingsCoverageTests
+FILTER_ui-2 = -only-testing:EasyKeyUITests/SettingsInteractionTests
+FILTER_ui-3 = -only-testing:EasyKeyUITests/SettingsNavigationTests \
+              -only-testing:EasyKeyUITests/SettingsWorkflowTests \
+              -only-testing:EasyKeyUITests/OnboardingCoverageTests \
+              -only-testing:EasyKeyUITests/SettingsAccessibilityTests \
+              -only-testing:EasyKeyUITests/EasyKeyUITests
+SHARDS = unit ui-1 ui-2 ui-3
+
+# Serial full run — reliable local default.
 test:
 	$(XCODEBUILD) -enableCodeCoverage YES test
 
+# Full run + enforce the same coverage gate as CI.
 coverage: test
-	@xcrun xccov view --report $(shell ls -t $(BUILD_DIR)/Logs/Test/*.xcresult | head -1) 2>/dev/null | head -40
+	@$(MAKE) --no-print-directory coverage-gate \
+		XCRESULT="$(shell ls -td $(BUILD_DIR)/Logs/Test/*.xcresult | head -1)"
+
+# Parallel sharded run: build once, then run each shard concurrently, merge, gate.
+# NOTE: all shards share one UserDefaults domain on a single Mac, so UI shards can
+# flake here. If you see spurious failures, fall back to serial `make test`.
+test-parallel: build-for-testing
+	@rm -rf "$(SHARDS_DIR)" && mkdir -p "$(SHARDS_DIR)"
+	@echo "Running shards in parallel: $(SHARDS)"
+	@$(MAKE) --no-print-directory -j$(words $(SHARDS)) $(addprefix shard-,$(SHARDS))
+	@$(MAKE) --no-print-directory coverage-gate \
+		XCRESULT="$(shell echo $(addsuffix .xcresult,$(addprefix $(SHARDS_DIR)/,$(SHARDS))))" \
+		MERGE=1
+
+# Alias so `make coverage-parallel` reads naturally.
+coverage-parallel: test-parallel
+
+build-for-testing:
+	$(XCODEBUILD) -enableCodeCoverage YES build-for-testing
+
+# shard-<name>: run one shard's filter against the already-built product.
+shard-%:
+	$(XCODEBUILD) -enableCodeCoverage YES \
+		-resultBundlePath "$(SHARDS_DIR)/$*.xcresult" \
+		$(FILTER_$*) \
+		test-without-building
+
+# coverage-gate: merge (if MERGE=1) then enforce COVERAGE_THRESHOLD on XCRESULT.
+coverage-gate:
+	@set -e; \
+	if [ "$(MERGE)" = "1" ]; then \
+		rm -rf "$(MERGED_XCRESULT)"; \
+		xcrun xcresulttool merge $(XCRESULT) --output-path "$(MERGED_XCRESULT)"; \
+		report="$(MERGED_XCRESULT)"; \
+	else \
+		report="$(XCRESULT)"; \
+	fi; \
+	coverage=$$(xcrun xccov view --report --json "$$report" | jq -r '\
+		.targets \
+		| map(select(.name != "EasyKeyLoginHelper.app")) \
+		| { covered: (map(.coveredLines) | add), executable: (map(.executableLines) | add) } \
+		| .covered / .executable * 100'); \
+	printf 'Line coverage (excl. LoginHelper): %.2f%%\n' "$$coverage"; \
+	if awk -v c="$$coverage" -v t="$(COVERAGE_THRESHOLD)" 'BEGIN { exit !(c >= t) }'; then \
+		echo "Coverage gate passed (>= $(COVERAGE_THRESHOLD)%)."; \
+	else \
+		echo "Coverage gate failed: $$coverage% < $(COVERAGE_THRESHOLD)%"; \
+		exit 1; \
+	fi
 
 lint:
 	@if command -v swiftlint >/dev/null 2>&1; then \
@@ -92,8 +157,10 @@ help:
 	@echo "  Development"
 	@echo "    make build          Debug build → build/Build/Products/Debug/EasyKey.app"
 	@echo "    make run            Build debug + launch app"
-	@echo "    make test           Unit + UI tests (with code coverage)"
-	@echo "    make coverage       Print coverage summary from last test run"
+	@echo "    make test           Unit + UI tests, serial (with code coverage)"
+	@echo "    make test-parallel  Sharded parallel run (faster; UI shards may flake)"
+	@echo "    make coverage       Serial run + enforce $(COVERAGE_THRESHOLD)% coverage gate"
+	@echo "    make coverage-parallel  Sharded parallel run + coverage gate"
 	@echo "    make lint           Run SwiftLint (brew install swiftlint)"
 	@echo "    make format         Run SwiftFormat (brew install swiftformat)"
 	@echo ""

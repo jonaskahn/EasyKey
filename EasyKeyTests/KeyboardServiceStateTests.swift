@@ -120,4 +120,55 @@ final class KeyboardServiceStateTests: XCTestCase {
         XCTAssertTrue(shortcut.modifiers.contains(.option))
         XCTAssertTrue(shortcut.modifiers.contains(.command))
     }
+
+    func testRequestAccessibilityPermission_WhenAlreadyTrusted_StartsService() {
+        let service = KeyboardService(settings: .defaults)
+        service.requestAccessibilityPermission()
+        XCTAssertTrue([.active, .requestingPermission].contains(service.health))
+    }
+
+    func testHandleTapEvent_SelfPostedEvent_ReturnsOriginal() {
+        let service = KeyboardService(settings: .defaults)
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+        guard let event = CGEvent(source: nil) else {
+            XCTFail("Could not create event")
+            return
+        }
+        event.setIntegerValueField(.eventSourceUserData, value: 0x45_4153_594B_4559)
+
+        let result = service.handleTapEvent(proxy: proxy, type: .keyDown, event: event)
+
+        XCTAssertNotNil(result)
+    }
+
+    func testHandleTapEvent_TapDisabledByTimeout_ReturnsOriginalAndRecovers() {
+        let service = KeyboardService(settings: .defaults)
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+        guard let event = CGEvent(source: nil) else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        let result = service.handleTapEvent(proxy: proxy, type: .tapDisabledByTimeout, event: event)
+
+        XCTAssertNotNil(result)
+    }
+
+    func testHandleTapEvent_NormalKeyDown_ReturnsResult() {
+        let service = KeyboardService(settings: .defaults)
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+        guard let event = CGEvent(source: nil) else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        let result = service.handleTapEvent(proxy: proxy, type: .keyDown, event: event)
+
+        XCTAssertNotNil(result)
+    }
+
+    func testMedianCallbackLatency_InitiallyNil() {
+        let service = KeyboardService(settings: .defaults)
+        XCTAssertNil(service.medianCallbackLatencyNanoseconds())
+    }
 }

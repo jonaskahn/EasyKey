@@ -27,9 +27,10 @@ Store Apple credentials in Keychain or CI secrets. Never commit them.
 
 Two workflows cover the pipeline:
 
-- `.github/workflows/release.yml` — on tag push (`v*`), builds an ad-hoc
-  universal DMG (`make local-dmg`) with `SPARKLE_FEED_URL` / `SPARKLE_PUBLIC_ED_KEY`
-  baked in, and creates a **draft** GitHub Release with the DMG attached.
+- `.github/workflows/release.yml` — on tag push (`v*`), builds ad-hoc universal,
+  arm64, and amd64 DMGs (`make local-dmg`) with `SPARKLE_FEED_URL` /
+  `SPARKLE_PUBLIC_ED_KEY` baked in, and creates a **draft** GitHub Release with
+  all three DMGs attached.
 - `.github/workflows/publish-appcast.yml` — fires on `release: released`
   (i.e. once a maintainer publishes the draft), signs the released DMG with
   Sparkle's `sign_update`, and appends a new `<item>` to `appcast.xml` on the
@@ -53,10 +54,11 @@ defers to Sparkle's own scheduled interval for subsequent checks.
 
 ## Architecture
 
-Release archives and DMGs are **universal** (arm64 + x86_64) in a single
-`EasyKey.app` / `EasyKey-<version>-universal.dmg`. Scripts pass
-`ARCHS="arm64 x86_64"` and `ONLY_ACTIVE_ARCH=NO`. Verify with
-`make verify-arch` (or `Scripts/verify-arch.sh`).
+CI publishes **universal** (arm64 + x86_64), arm64-only, and amd64-only
+(x86_64) DMGs. Sparkle uses `EasyKey-<version>-universal.dmg`; architecture-
+specific DMGs are additional manual downloads. Scripts accept `ARCHS` and
+`REQUIRED_ARCHS` overrides for these builds. Verify with `make verify-arch`
+(or `Scripts/verify-arch.sh`).
 
 ## Build And Distribute
 

@@ -74,7 +74,7 @@ final class TranslationSettingsModelTests: XCTestCase {
 
     func testSectionOrderPlacesTranslationImmediatelyAfterEncoding() {
         XCTAssertEqual(SettingsSection.allCases, [
-            .typing, .encoding, .translation, .clipboard, .macros, .smartSwitch, .behavior, .system, .about,
+            .typing, .encoding, .smartSwitch, .translation, .clipboard, .macros, .behavior, .system, .about,
         ])
         XCTAssertEqual(SettingsSection.translation.symbol, "character.bubble")
     }
@@ -266,6 +266,124 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertFalse(identifiers.contains(where: \.isEmpty))
     }
 
+    func testCredentialSaveDeleteAndRefreshPropagateErrorsToStatus() {
+        let throwingStore = TranslationStatusThrowingStore()
+        let model = TranslationSettingsModel(
+            settingsStore: settingsStore,
+            platformCapability: TranslationPlatformCapability(supportsAppleTranslation: false),
+            credentialStore: throwingStore,
+            credentialValidator: validator
+        )
+
+        XCTAssertFalse(model.saveCredential("key", for: .openAI))
+        XCTAssertNotNil(model.lastCredentialErrorProvider)
+
+        model.deleteCredential(for: .openAI)
+        XCTAssertNotNil(model.lastCredentialErrorProvider)
+
+        model.refreshCredentialStatuses()
+        XCTAssertEqual(model.credentialStatuses[.openAI], .invalid)
+        XCTAssertNotNil(model.lastCredentialErrorProvider)
+    }
+
+    func testSetDeepLEndpoint_WhenReady_ResetsToSaved() async {
+        let model = makeModel()
+        _ = await model.validateCredential("key", for: .deepL)
+        XCTAssertEqual(model.credentialStatuses[.deepL], .ready)
+        model.setDeepLEndpoint(.pro)
+        XCTAssertEqual(model.credentialStatuses[.deepL], .saved)
+    }
+
+    func testSetCompatibleEndpoints_TrimsWhitespace() {
+        let model = makeModel()
+        model.setOpenAICompatibleEndpoint("  https://custom.com  ")
+        XCTAssertEqual(model.openAICompatibleEndpoint(), "https://custom.com")
+        model.setAnthropicCompatibleEndpoint("  https://custom.com  ")
+        XCTAssertEqual(model.anthropicCompatibleEndpoint(), "https://custom.com")
+    }
+
+    func testValidateCredential_WithThrowingValidator_SetsInvalid() async {
+        let throwingValidator = FakeCredentialValidator()
+        throwingValidator.error = URLError(.badServerResponse)
+        let model = TranslationSettingsModel(
+            settingsStore: settingsStore,
+            platformCapability: TranslationPlatformCapability(supportsAppleTranslation: false),
+            credentialStore: credentialStore,
+            credentialValidator: throwingValidator
+        )
+        let result = await model.validateCredential("key", for: .openAI)
+        XCTAssertFalse(result)
+        XCTAssertEqual(model.credentialStatuses[.openAI], .invalid)
+        XCTAssertNotNil(model.lastCredentialErrorProvider)
+    }
+
+    func testLiveValidatorMapsHTTPStatusForOpenAIAndAnthropic() async throws {
+        let session = URLSession(configuration: {
+            let config = URLSessionConfiguration.ephemeral
+            config.protocolClasses = [MockValidatorURLProtocol.self]
+            return config
+        }())
+        let validator = LiveTranslationCredentialValidator(session: session)
+
+        MockValidatorURLProtocol.nextStatus = 200
+        let openAI = try await validator.validate("key", for: .openAI, options: settingsStore.settings.translation)
+        XCTAssertTrue(openAI)
+
+        MockValidatorURLProtocol.nextStatus = 401
+        let anthropic = try await validator.validate("key", for: .anthropic, options: settingsStore.settings.translation)
+        XCTAssertFalse(anthropic)
+
+        MockValidatorURLProtocol.nextStatus = 500
+        do {
+            _ = try await validator.validate("key", for: .google, options: settingsStore.settings.translation)
+            XCTFail("Expected throw for status 500")
+        } catch {}
+
+        MockValidatorURLProtocol.nextStatus = 200
+        let openRouter = try await validator.validate("key", for: .openRouter, options: settingsStore.settings.translation)
+        XCTAssertTrue(openRouter)
+
+        MockValidatorURLProtocol.nextStatus = 200
+        let groq = try await validator.validate("key", for: .groq, options: settingsStore.settings.translation)
+        XCTAssertTrue(groq)
+
+        MockValidatorURLProtocol.nextStatus = 200
+        let deepL = try await validator.validate("key", for: .deepL, options: settingsStore.settings.translation)
+        XCTAssertTrue(deepL)
+
+        MockValidatorURLProtocol.nextStatus = 200
+        let gemini = try await validator.validate("key", for: .gemini, options: settingsStore.settings.translation)
+        XCTAssertTrue(gemini)
+    }
+
+    func testLiveValidatorReturnsFalseForAutomaticAppleAndEmptyCompatibleEndpoints() async throws {
+        let validator = LiveTranslationCredentialValidator()
+        let automatic = try await validator.validate("key", for: .automatic, options: settingsStore.settings.translation)
+        XCTAssertFalse(automatic)
+
+        let apple = try await validator.validate("key", for: .apple, options: settingsStore.settings.translation)
+        XCTAssertFalse(apple)
+
+        let openAIEmpty = try await validator.validate("key", for: .openAICompatible, options: settingsStore.settings.translation)
+        XCTAssertFalse(openAIEmpty)
+
+        let anthropicEmpty = try await validator.validate("key", for: .anthropicCompatible, options: settingsStore.settings.translation)
+        XCTAssertFalse(anthropicEmpty)
+    }
+
+    func testLiveValidatorReturnsTrueForCompatibleWithEndpoint() async throws {
+        let validator = LiveTranslationCredentialValidator()
+        var options = settingsStore.settings.translation
+        options.openAICompatibleEndpoint = "https://custom.com/v1"
+        options.anthropicCompatibleEndpoint = "https://custom.com/v1"
+
+        let openAI = try await validator.validate("key", for: .openAICompatible, options: options)
+        XCTAssertTrue(openAI)
+
+        let anthropic = try await validator.validate("key", for: .anthropicCompatible, options: options)
+        XCTAssertTrue(anthropic)
+    }
+
     private func makeModel(
         supportsApple: Bool = false,
         shortcutApplier: TranslationSettingsModel.ShortcutApplier? = nil
@@ -278,4 +396,48 @@ final class TranslationSettingsModelTests: XCTestCase {
             shortcutApplier: shortcutApplier
         )
     }
+}
+
+private final class TranslationStatusThrowingStore: TranslationCredentialStoring {
+    func hasCredential(for _: TranslationProviderID) throws -> Bool {
+        throw TranslationCredentialError.unexpectedStatus(-1)
+    }
+
+    func credential(for _: TranslationProviderID) throws -> String? {
+        throw TranslationCredentialError.unexpectedStatus(-1)
+    }
+
+    func save(_: String, for _: TranslationProviderID) throws {
+        throw TranslationCredentialError.unexpectedStatus(-1)
+    }
+
+    func deleteCredential(for _: TranslationProviderID) throws {
+        throw TranslationCredentialError.unexpectedStatus(-1)
+    }
+}
+
+private final class MockValidatorURLProtocol: URLProtocol {
+    static var nextStatus: Int = 200
+
+    override static func canInit(with _: URLRequest) -> Bool {
+        true
+    }
+
+    override static func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        let response = HTTPURLResponse(
+            url: request.url!,
+            statusCode: Self.nextStatus,
+            httpVersion: "HTTP/1.1",
+            headerFields: nil
+        )!
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Data())
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }

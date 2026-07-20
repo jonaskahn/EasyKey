@@ -122,6 +122,42 @@ final class ClipboardKeyStoreTests: XCTestCase {
         XCTAssertEqual(ClipboardKeyError.invalidKeyData, ClipboardKeyError.invalidKeyData)
         XCTAssertNotEqual(ClipboardKeyError.unexpectedStatus(-1), ClipboardKeyError.invalidKeyData)
     }
+
+    func testKeychainStore_RoundTripCreateExistingAndDelete() throws {
+        let service = "one.ifelse.easykey.clipboard.tests.\(UUID().uuidString)"
+        let store = KeychainClipboardKeyStore(service: service, account: "test-key")
+        XCTAssertNil(try store.existingKey())
+
+        let created = try store.createKey()
+        let fetched = try XCTUnwrap(try store.existingKey())
+        XCTAssertEqual(created, fetched)
+
+        try store.deleteKey()
+        XCTAssertNil(try store.existingKey())
+    }
+
+    func testKeychainStore_DeleteIsIdempotent() throws {
+        let service = "one.ifelse.easykey.clipboard.tests.\(UUID().uuidString)"
+        let store = KeychainClipboardKeyStore(service: service, account: "test-key")
+        try store.deleteKey()
+        XCTAssertNil(try store.existingKey())
+    }
+
+    func testKeychainStore_DifferentServicesAreIsolated() throws {
+        let base = "one.ifelse.easykey.clipboard.tests.\(UUID().uuidString)"
+        let storeA = KeychainClipboardKeyStore(service: "\(base).A", account: "test-key")
+        let storeB = KeychainClipboardKeyStore(service: "\(base).B", account: "test-key")
+
+        let keyA = try storeA.createKey()
+        let fetchedB = try storeB.existingKey()
+        XCTAssertNil(fetchedB)
+
+        let fetchedA = try XCTUnwrap(try storeA.existingKey())
+        XCTAssertEqual(keyA, fetchedA)
+
+        try storeA.deleteKey()
+        try storeB.deleteKey()
+    }
 }
 
 @MainActor
@@ -362,6 +398,64 @@ final class PasteboardSnapshotTests: XCTestCase {
 
     func testSensitiveMarkers_AllIdentifiersSetNotEmpty() {
         XCTAssertTrue(SensitivePasteboardMarkers.identifiers.count > 0)
+    }
+
+    func testSystemPasteboardReader_ChangeCount() {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("SystemPasteboardReaderTests-\(UUID().uuidString)"))
+        let reader = SystemPasteboardReader(pasteboard: pasteboard)
+        let initial = reader.changeCount
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString("hello", forType: .string)
+        XCTAssertGreaterThan(reader.changeCount, initial)
+    }
+
+    func testSystemPasteboardReader_Descriptor() {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("SystemPasteboardReaderTests-\(UUID().uuidString)"))
+        pasteboard.declareTypes([.string, .rtf], owner: nil)
+        pasteboard.setString("hello", forType: .string)
+        let reader = SystemPasteboardReader(pasteboard: pasteboard)
+        let descriptor = reader.descriptor()
+        XCTAssertEqual(descriptor.changeCount, pasteboard.changeCount)
+        XCTAssertEqual(descriptor.items.count, 1)
+        XCTAssertTrue(descriptor.items[0].typeIdentifiers.contains("public.utf8-plain-text"))
+    }
+
+    func testSystemPasteboardReader_Snapshot_SelectsData() {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("SystemPasteboardReaderTests-\(UUID().uuidString)"))
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString("snapshot", forType: .string)
+        let reader = SystemPasteboardReader(pasteboard: pasteboard)
+        let snapshot = reader.snapshot(selecting: [["public.utf8-plain-text"]])
+        XCTAssertEqual(snapshot.changeCount, pasteboard.changeCount)
+        XCTAssertEqual(snapshot.items.count, 1)
+        XCTAssertEqual(snapshot.items[0].representations.count, 1)
+        XCTAssertEqual(snapshot.items[0].representations[0].typeIdentifier, "public.utf8-plain-text")
+        XCTAssertEqual(String(data: snapshot.items[0].representations[0].data, encoding: .utf8), "snapshot")
+    }
+
+    func testSystemPasteboardReader_Snapshot_SkipsMissingType() {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("SystemPasteboardReaderTests-\(UUID().uuidString)"))
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString("data", forType: .string)
+        let reader = SystemPasteboardReader(pasteboard: pasteboard)
+        let snapshot = reader.snapshot(selecting: [["public.utf8-plain-text", "public.png"]])
+        XCTAssertEqual(snapshot.items[0].representations.count, 1)
+        XCTAssertEqual(snapshot.items[0].representations[0].typeIdentifier, "public.utf8-plain-text")
+    }
+
+    func testSystemPasteboardReader_Snapshot_FewerIdentifiersThanItems() {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("SystemPasteboardReaderTests-\(UUID().uuidString)"))
+        pasteboard.declareTypes([.string, .rtf], owner: nil)
+        pasteboard.setString("hello", forType: .string)
+        let reader = SystemPasteboardReader(pasteboard: pasteboard)
+        let snapshot = reader.snapshot(selecting: [["public.utf8-plain-text"]])
+        XCTAssertEqual(snapshot.items.count, 1)
+        XCTAssertEqual(snapshot.items[0].representations.count, 1)
+    }
+
+    func testSystemPasteboardReader_DefaultInit() {
+        let reader = SystemPasteboardReader()
+        XCTAssertEqual(reader.changeCount, NSPasteboard.general.changeCount)
     }
 }
 
