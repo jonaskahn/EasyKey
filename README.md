@@ -119,8 +119,10 @@ Run `make` or `make help` for the complete command reference.
 |---------|---------|
 | `make build` | Build the debug application |
 | `make run` | Build and launch EasyKey |
-| `make test` | Run unit and UI tests with code coverage |
-| `make coverage` | Run tests and print the coverage summary |
+| `make test` | Run unit and UI tests serially with code coverage |
+| `make test-parallel` | Build once, then run tests as parallel shards (faster) |
+| `make coverage` | Run tests and enforce the 90% coverage gate |
+| `make coverage-parallel` | Sharded parallel run plus the coverage gate |
 | `make lint` | Run SwiftLint when installed |
 | `make format` | Run SwiftFormat when installed |
 
@@ -179,6 +181,7 @@ Engineering practices and architectural rules are documented in [CONVENTIONS.md]
 ### Quality
 
 - CI-enforced 90% line-coverage threshold, excluding the login helper
+- CI splits tests into parallel shards, then merges the result bundles for the coverage gate
 - Unit, UI, behavioral fixture, and architecture fitness tests
 - Universal arm64 and x86_64 release verification
 - SwiftLint and SwiftFormat support
@@ -188,6 +191,9 @@ Engineering practices and architectural rules are documented in [CONVENTIONS.md]
 make test
 make qa
 ```
+
+`make test-parallel` runs the same shards locally. All shards share one `UserDefaults`
+domain on a single Mac, so UI shards may flake; use `make test` for a reliable serial run.
 
 ---
 

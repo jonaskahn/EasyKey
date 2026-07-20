@@ -14,10 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  lint:
     runs-on: macos-15
-    env:
-      COVERAGE_THRESHOLD: "90"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -30,18 +28,46 @@ jobs:
       - name: Install static-analysis tools
         run: brew install swiftformat swiftlint
 
+      - name: Check formatting
+        run: swiftformat --lint .
+
+      - name: Lint
+        run: swiftlint lint
+
+  test:
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: unit
+            filter: "-only-testing:EasyKeyTests"
+          - shard: ui-1
+            filter: "-only-testing:EasyKeyUITests/SettingsCoverageTests"
+          - shard: ui-2
+            filter: "-only-testing:EasyKeyUITests/SettingsInteractionTests"
+          - shard: ui-3
+            filter: >-
+              -only-testing:EasyKeyUITests/SettingsNavigationTests
+              -only-testing:EasyKeyUITests/SettingsWorkflowTests
+              -only-testing:EasyKeyUITests/OnboardingCoverageTests
+              -only-testing:EasyKeyUITests/SettingsAccessibilityTests
+              -only-testing:EasyKeyUITests/EasyKeyUITests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
       - name: Resolve SPM dependencies
         run: |
           xcodebuild \
             -project EasyKey.xcodeproj \
             -scheme EasyKeyApp \
             -resolvePackageDependencies
-
-      - name: Check formatting
-        run: swiftformat --lint .
-
-      - name: Lint
-        run: swiftlint lint
 
       - name: Run tests with coverage
         run: |
@@ -52,11 +78,42 @@ jobs:
             -derivedDataPath build \
             -clonedSourcePackagesDirPath build/SourcePackages \
             -resultBundlePath build/TestResults.xcresult \
-            -enableCodeCoverage YES
+            -enableCodeCoverage YES \
+            ${{ matrix.filter }}
+
+      - name: Upload shard result bundle
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: xcresult-${{ matrix.shard }}
+          path: build/TestResults.xcresult
+          retention-days: 14
+
+  coverage:
+    needs: test
+    runs-on: macos-15
+    env:
+      COVERAGE_THRESHOLD: "90"
+    steps:
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Download shard result bundles
+        uses: actions/download-artifact@v5
+        with:
+          pattern: xcresult-*
+          path: shards
+
+      - name: Merge result bundles
+        run: |
+          xcrun xcresulttool merge shards/*/TestResults.xcresult \
+            --output-path merged.xcresult
 
       - name: Enforce coverage gate
         run: |
-          coverage=$(xcrun xccov view --report --json build/TestResults.xcresult | jq -r '
+          coverage=$(xcrun xccov view --report --json merged.xcresult | jq -r '
             .targets
             | map(select(.name != "EasyKeyLoginHelper.app"))
             | { covered: (map(.coveredLines) | add), executable: (map(.executableLines) | add) }
@@ -70,10 +127,10 @@ jobs:
             exit 1
           fi
 
-      - name: Upload test results
+      - name: Upload merged result bundle
         if: always()
         uses: actions/upload-artifact@v5
         with:
           name: test-results
-          path: build/TestResults.xcresult
+          path: merged.xcresult
           retention-days: 14

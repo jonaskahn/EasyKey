@@ -30,7 +30,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.terminate(nil)
             return
         }
-        NSApp.setActivationPolicy(.accessory)
+        // Accessory apps cannot reliably become key/frontmost on headless CI runners,
+        // which breaks XCUITest hit-testing. Run as a regular app while UI testing so
+        // the settings window can become key and receive clicks.
+        NSApp.setActivationPolicy(isUITesting ? .regular : .accessory)
         let coordinator = AppCoordinator.shared
         self.coordinator = coordinator
         if isUITesting,
