@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="EasyKey — bộ gõ tiếng Việt miễn phí, mã nguồn mở cho macOS, hỗ trợ Telex, VNI, nhiều bảng mã, gõ tắt và Smart Switch.">
+  <meta name="description" content="EasyKey — tiện ích tiếng Việt miễn phí, mã nguồn mở cho macOS với Telex, VNI, gõ tắt, lịch sử clipboard, chuyển mã và dịch thuật.">
   <title>EasyKey — Gõ tiếng Việt trên macOS</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <article class="sheet" data-od-id="easykey-document">
+  <div class="sheet" data-od-id="easykey-document">
     <header>
       <div class="eyebrow page-pad" data-od-id="eyebrow-row">
         <span class="lang-switch" data-od-id="locale-label">
@@ -29,14 +29,15 @@
           <span class="i18n-vi">Gõ tiếng Việt, thật <span class="accent">nhẹ nhàng.</span></span>
         </h1>
         <p class="tagline" data-od-id="hero-tagline">
-          <span class="i18n-en"><strong>EasyKey</strong> is a free Vietnamese typing utility for macOS.</span>
+          <span class="i18n-en"><strong>EasyKey</strong> is a free Vietnamese typing and language utility for macOS.</span>
           <span class="i18n-vi"><strong>EasyKey</strong> là bộ gõ tiếng Việt gọn nhẹ, miễn phí cho macOS.</span>
         </p>
         <div class="tags" data-od-id="hero-tags">
           <span class="tag" data-od-id="tag-input">Telex · VNI</span>
           <span class="tag" data-od-id="tag-local">
-            <span class="i18n-en">Local only</span><span class="i18n-vi">Xử lý trên máy</span>
+            <span class="i18n-en">Local-first</span><span class="i18n-vi">Ưu tiên xử lý trên máy</span>
           </span>
+          <span class="tag" data-od-id="tag-tools">Clipboard · Translation</span>
           <span class="tag" data-od-id="tag-universal">Apple Silicon · Intel</span>
         </div>
       </section>
@@ -47,18 +48,18 @@
         <div class="manifesto-kicker">
           <p class="section-num" data-od-id="manifesto-section-number">01</p>
           <h2 data-od-id="manifesto-heading">
-            <span class="i18n-en">Effortless access, thoughtfully secured.</span>
-            <span class="i18n-vi">Gõ thuận tay. Riêng tư trọn vẹn.</span>
+            <span class="i18n-en">Effortless input, useful tools close at hand.</span>
+            <span class="i18n-vi">Gõ thuận tay. Công cụ luôn sẵn sàng.</span>
           </h2>
           <p data-od-id="manifesto-gloss">
-            <span class="i18n-en">A tidy typing utility for everyday work — no cloud processing, no tracking.</span>
-            <span class="i18n-vi">Gọn nhẹ cho công việc mỗi ngày. Không xử lý trên đám mây, không theo dõi người dùng.</span>
+            <span class="i18n-en">Typing, clipboard history, text conversion, and translation from one menu-bar utility.</span>
+            <span class="i18n-vi">Bộ gõ tiếng Việt, lịch sử clipboard, chuyển mã và dịch thuật gói gọn trong một tiện ích thanh menu.</span>
           </p>
         </div>
         <blockquote class="quote" data-od-id="manifesto-quote">
           <p>
-            <span class="i18n-en">EasyKey is a clean-room Telex and VNI engine that lives in the menu bar. It supports familiar input methods, legacy encodings, macros, and per-app preferences while keeping typed content on your Mac.</span>
-            <span class="i18n-vi">EasyKey là bộ gõ Telex và VNI được xây dựng hoàn toàn độc lập, nằm gọn trên thanh menu. Bạn có thể dùng cách gõ quen thuộc, làm việc với bảng mã cũ, tạo nội dung gõ tắt và lưu lựa chọn riêng cho từng ứng dụng. Mọi nội dung bạn gõ đều được xử lý ngay trên máy Mac.</span>
+            <span class="i18n-en">EasyKey combines a clean-room Telex and VNI engine with macros, per-app preferences, searchable clipboard history, encoding conversion, and translation. Live typing remains on your Mac; translation uses Apple on-device services or a cloud provider you explicitly configure.</span>
+            <span class="i18n-vi">EasyKey gộp bộ gõ Telex và VNI tự phát triển cùng gõ tắt, thiết lập riêng cho từng ứng dụng, lịch sử clipboard, chuyển mã và dịch thuật. Chữ bạn gõ luôn nằm trên máy Mac; phần dịch dùng dịch vụ Apple trên thiết bị hoặc nhà cung cấp đám mây bạn tự cấu hình.</span>
           </p>
           <footer data-od-id="manifesto-signature">
             <span class="i18n-en">EasyKey · macOS input utility</span>
@@ -141,7 +142,7 @@
             <ul class="dash">
               <li>
                 <span class="i18n-en"><strong>Telex, VNI, Simple Telex.</strong> Familiar methods, ready from the menu bar.</span>
-                <span class="i18n-vi"><strong>Telex, VNI, Telex đơn giản.</strong> Ba cách gõ quen thuộc, chuyển đổi ngay trên thanh menu.</span>
+                <span class="i18n-vi"><strong>Telex, VNI, Telex đơn giản.</strong> Ba cách gõ quen thuộc, đổi qua lại ngay trên thanh menu.</span>
               </li>
               <li>
                 <span class="i18n-en"><strong>Unicode, Unicode Combining, TCVN3, VNI-Windows, CP1258.</strong> Modern and legacy encodings in one place.</span>
@@ -149,7 +150,7 @@
               </li>
               <li>
                 <span class="i18n-en"><strong>Macros.</strong> Turn a short trigger into a reusable expansion; import or export when needed.</span>
-                <span class="i18n-vi"><strong>Gõ tắt.</strong> Gõ một cụm ngắn để chèn cả đoạn văn bản. Có thể nhập, xuất và dùng lại bất cứ lúc nào.</span>
+                <span class="i18n-vi"><strong>Gõ tắt.</strong> Gõ một cụm ngắn, ra cả đoạn văn bản. Nhập, xuất và dùng lại lúc nào cũng được.</span>
               </li>
             </ul>
           </div>
@@ -170,7 +171,7 @@
           <div class="chapter-body" data-od-id="chapter-context-body">
             <p>
               <span class="i18n-en"><strong>Smart Switch</strong> remembers the language and, optionally, the encoding for each app. Move between writing, code, and legacy documents without resetting your tools each time.</span>
-              <span class="i18n-vi"><strong>Smart Switch</strong> nhớ ngôn ngữ và, nếu bạn muốn, cả bảng mã dùng trong từng ứng dụng. Khi chuyển từ viết lách sang lập trình hay mở một tài liệu cũ, EasyKey tự chọn lại đúng thiết lập cho bạn.</span>
+              <span class="i18n-vi"><strong>Smart Switch</strong> nhớ ngôn ngữ cho từng ứng dụng, và cả bảng mã nếu bạn muốn. Khi chuyển từ viết lách sang lập trình hay mở một tài liệu cũ, EasyKey tự chọn lại đúng thiết lập cho bạn.</span>
             </p>
             <p>
               <span class="tag" data-od-id="per-app-tag">
@@ -180,8 +181,68 @@
           </div>
         </article>
 
+        <article class="chapter" data-od-id="chapter-clipboard">
+          <p class="section-num" data-od-id="chapter-clipboard-number">03</p>
+          <div>
+            <h2 class="section-title" data-od-id="chapter-clipboard-title">
+              <span class="i18n-en">Find what you copied.</span>
+              <span class="i18n-vi">Tìm lại nội dung đã sao chép.</span>
+            </h2>
+            <p class="section-lede" data-od-id="chapter-clipboard-lede">
+              <span class="i18n-en">Searchable clipboard history, one shortcut away.</span>
+              <span class="i18n-vi">Lịch sử clipboard có tìm kiếm, mở bằng một phím tắt.</span>
+            </p>
+          </div>
+          <div class="chapter-body" data-od-id="chapter-clipboard-body">
+            <p>
+              <span class="i18n-en">Capture text, images, files, and supported rich content; search recent entries, pin important ones, then copy or paste them back into the previous app. Sensitive content and ignored apps can stay outside history.</span>
+              <span class="i18n-vi">Lưu văn bản, hình ảnh, tệp và nội dung có định dạng; tìm nhanh mục gần đây, ghim mục quan trọng rồi sao chép hoặc dán lại vào ứng dụng vừa dùng. Nội dung nhạy cảm và ứng dụng bạn loại trừ sẽ không được lưu.</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="chapter" data-od-id="chapter-conversion">
+          <p class="section-num" data-od-id="chapter-conversion-number">04</p>
+          <div>
+            <h2 class="section-title" data-od-id="chapter-conversion-title">
+              <span class="i18n-en">Move between encodings.</span>
+              <span class="i18n-vi">Chuyển đổi giữa các bảng mã.</span>
+            </h2>
+            <p class="section-lede" data-od-id="chapter-conversion-lede">
+              <span class="i18n-en">Modern Unicode and legacy Vietnamese text, connected.</span>
+              <span class="i18n-vi">Kết nối Unicode hiện đại với văn bản tiếng Việt cũ.</span>
+            </p>
+          </div>
+          <div class="chapter-body" data-od-id="chapter-conversion-body">
+            <p>
+              <span class="i18n-en">Convert among Unicode, Unicode Combining, TCVN3, VNI-Windows, and CP1258. Apply case changes or remove Vietnamese marks, preview the result, or transform current clipboard content while preserving supported formatting.</span>
+              <span class="i18n-vi">Chuyển đổi giữa Unicode, Unicode Combining, TCVN3, VNI-Windows và CP1258. Đổi kiểu chữ, bỏ dấu tiếng Việt, xem trước kết quả hoặc chuyển mã thẳng nội dung clipboard mà vẫn giữ nguyên định dạng.</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="chapter" data-od-id="chapter-translation">
+          <p class="section-num" data-od-id="chapter-translation-number">05</p>
+          <div>
+            <h2 class="section-title" data-od-id="chapter-translation-title">
+              <span class="i18n-en">Translate where you work.</span>
+              <span class="i18n-vi">Dịch ngay nơi bạn làm việc.</span>
+            </h2>
+            <p class="section-lede" data-od-id="chapter-translation-lede">
+              <span class="i18n-en">Selected text to translation panel in one shortcut.</span>
+              <span class="i18n-vi">Đưa văn bản đang chọn vào bảng dịch bằng một phím tắt.</span>
+            </p>
+          </div>
+          <div class="chapter-body" data-od-id="chapter-translation-body">
+            <p>
+              <span class="i18n-en">Capture selected text, choose source and target languages, then translate with Apple on-device services or a cloud provider you configure. Cloud credentials stay in macOS Keychain, and provider fallback only uses services available to you.</span>
+              <span class="i18n-vi">Lấy văn bản đang chọn, chọn ngôn ngữ nguồn và đích rồi dịch bằng dịch vụ Apple trên thiết bị hoặc nhà cung cấp đám mây bạn tự cấu hình. Thông tin đăng nhập nằm trong macOS Keychain, và EasyKey chỉ dùng những dịch vụ bạn có.</span>
+            </p>
+          </div>
+        </article>
+
         <article class="chapter" data-od-id="chapter-privacy">
-          <p class="section-num" data-od-id="chapter-privacy-number">03</p>
+          <p class="section-num" data-od-id="chapter-privacy-number">06</p>
           <div>
             <h2 class="section-title" data-od-id="chapter-privacy-title">
               <span class="i18n-en">Local by design.</span>
@@ -189,19 +250,19 @@
             </h2>
             <p class="section-lede" data-od-id="chapter-privacy-lede">
               <span class="i18n-en">Typed content stays on your Mac.</span>
-              <span class="i18n-vi">Nội dung bạn gõ chỉ được xử lý trên máy Mac.</span>
+              <span class="i18n-vi">Chữ bạn gõ chỉ nằm trên máy Mac.</span>
             </p>
           </div>
           <div class="chapter-body" data-od-id="chapter-privacy-body">
             <p>
-              <span class="i18n-en">No cloud processing, analytics, or telemetry. EasyKey uses macOS Accessibility and a CGEvent tap to transform input locally. Network access is limited to update checks when configured and enabled.</span>
-              <span class="i18n-vi">EasyKey không đưa nội dung lên đám mây, không theo dõi cách bạn sử dụng ứng dụng và không thu thập dữ liệu. Bộ gõ dùng quyền Trợ năng cùng CGEvent tap của macOS để xử lý phím ngay trên máy. Kết nối mạng chỉ được dùng để kiểm tra bản cập nhật khi bạn bật tính năng này.</span>
+              <span class="i18n-en">EasyKey uses macOS Accessibility and a CGEvent tap to transform keyboard input locally, with no analytics or telemetry. Network access is used for update checks and, only when you choose it, translation through a configured cloud provider.</span>
+              <span class="i18n-vi">EasyKey dùng quyền Trợ năng cùng CGEvent tap của macOS để xử lý phím ngay trên máy Mac, không phân tích hành vi hay gửi dữ liệu đo lường. Kết nối mạng chỉ dùng để kiểm tra cập nhật và để dịch qua nhà cung cấp đám mây đã cấu hình khi bạn chọn dùng.</span>
             </p>
           </div>
         </article>
 
         <article class="chapter" data-od-id="chapter-install">
-          <p class="section-num" data-od-id="chapter-install-number">04</p>
+          <p class="section-num" data-od-id="chapter-install-number">07</p>
           <div>
             <h2 class="section-title" data-od-id="chapter-install-title">
               <span class="i18n-en">Four steps to start.</span>
@@ -233,7 +294,7 @@
         </article>
 
         <article class="chapter" data-od-id="chapter-source">
-          <p class="section-num" data-od-id="chapter-source-number">05</p>
+          <p class="section-num" data-od-id="chapter-source-number">08</p>
           <div>
             <h2 class="section-title" data-od-id="chapter-source-title">
               <span class="i18n-en">Open to inspect.</span>
@@ -247,7 +308,7 @@
           <div class="chapter-body" data-od-id="chapter-source-body">
             <p>
               <span class="i18n-en">EasyKey is free and open source under the MIT License. The source is organized as App → Kit → Core, with the domain layer kept independent of AppKit and SwiftUI.</span>
-              <span class="i18n-vi">Toàn bộ mã nguồn EasyKey được công khai theo giấy phép MIT. Dự án được chia thành App → Kit → Core; phần xử lý cốt lõi hoạt động độc lập, không phụ thuộc AppKit hay SwiftUI.</span>
+              <span class="i18n-vi">Toàn bộ mã nguồn EasyKey công khai theo giấy phép MIT. Dự án chia thành App → Kit → Core; phần xử lý cốt lõi chạy độc lập, không phụ thuộc AppKit hay SwiftUI.</span>
             </p>
             <div class="code" data-od-id="source-url">github.com/jonaskahn/EasyKey</div>
           </div>
@@ -290,7 +351,7 @@
         </div>
       </div>
     </footer>
-  </article>
+  </div>
 
   <script src="scripts.js" defer></script>
 </body>
