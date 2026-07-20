@@ -136,14 +136,8 @@ final class SettingsWorkflowTests: XCTestCase {
                 return true
             }
 
-            let pickerIdentifiers = [
-                "TranslationDefaultProviderPicker",
-                "TranslationSourcePreferencePicker",
-                "TranslationDeepLPlanPicker",
-            ]
             return issue.auditType == .action
                 && issue.element?.elementType == .popUpButton
-                && pickerIdentifiers.contains(issue.element?.identifier ?? "")
         }
     }
 
@@ -154,7 +148,7 @@ final class SettingsWorkflowTests: XCTestCase {
     private func advanceOnboarding(thenWaitFor titleIdentifier: String) {
         let button = onboardingPrimaryButton()
         XCTAssertTrue(button.waitForExistence(timeout: 5))
-        app.typeKey(.return, modifierFlags: [])
+        button.click()
         XCTAssertTrue(app.descendants(matching: .any)[titleIdentifier].waitForExistence(timeout: 10))
     }
 }

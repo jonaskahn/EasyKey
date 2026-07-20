@@ -94,6 +94,19 @@ final class StatusItemController {
         )
     }
 
+    func refreshPopoverContent(
+        coordinator: AppCoordinator,
+        translation: MenuPopoverTranslationConfiguration?
+    ) {
+        guard let popover = statusPopover else { return }
+        popover.contentViewController = NSHostingController(
+            rootView: MenuPopoverView(
+                coordinator: coordinator,
+                translation: translation
+            ).localized()
+        )
+    }
+
     func update(
         settings: EasyKeySettings,
         keyboardHealth: KeyboardService.Health,

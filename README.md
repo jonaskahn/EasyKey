@@ -35,7 +35,7 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 
 ## 🔒 Private by Design
 
-EasyKey performs keyboard transformation and preference storage on your Mac. Typing never invokes translation and typed content is not uploaded. Apple Translation runs locally on macOS 15 or later. Cloud translation is optional: no request occurs while you type, select text, edit source text, or switch providers. Only choosing **Translate** sends submitted source text directly from EasyKey to the selected provider. EasyKey does not proxy cloud requests through an EasyKey service.
+EasyKey performs keyboard transformation and preference storage on your Mac. General keyboard input is not translated or uploaded. Apple Translation runs locally on macOS 15 or later. Cloud translation is optional: in the translation source editor or Option+A popup, when you type or paste, the configured provider receives source text after the selected idle delay. Each edit restarts the timer. Pressing Return translates immediately. EasyKey does not proxy cloud requests through an EasyKey service.
 
 Cloud-provider credentials are stored in macOS Keychain as device-only, non-synchronizing items. EasyKey does not persist source text, translation results, prompts, or translation history. Providers process submitted text under their own terms and may retain or use request data according to account tier and provider settings. Provider data-handling links are shown in Translation settings and in first-use disclosure. These providers do not sponsor or endorse EasyKey.
 

@@ -81,6 +81,7 @@ struct SettingsShell: View {
             BehaviorSettingsView(settingsStore: settingsStore)
         case .system:
             SystemSettingsView(settingsStore: settingsStore, coordinator: coordinator)
+                .id(coordinator.systemHealthNavigationRevision)
         case .about:
             AboutSettingsView(settingsStore: settingsStore)
         }

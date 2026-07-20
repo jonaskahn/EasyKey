@@ -298,6 +298,50 @@ final class ViewRenderingTests: XCTestCase {
         XCTAssertEqual(footerEvents, ["clipboard", "settings", "quit"])
     }
 
+    func testMenuPopoverUsesConfiguredWidth() {
+        for width in SystemOptions.MenuPopoverWidth.allCases {
+            coordinator.settingsStore.update { $0.system.menuPopoverWidth = width }
+
+            let host = NSHostingView(rootView: MenuPopoverView(coordinator: coordinator))
+
+            XCTAssertEqual(host.fittingSize.width, CGFloat(width.rawValue), accuracy: 0.5)
+        }
+    }
+
+    func testMenuPopoverWidthDoesNotDependOnTranslationVisibility() {
+        coordinator.settingsStore.update { $0.system.menuPopoverWidth = .small }
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        let translation = MenuPopoverTranslationConfiguration(
+            model: model,
+            availableProviders: [.deepL],
+            platformCapability: .init(supportsAppleTranslation: false),
+            actions: .init(openSettings: {}, announceResult: { _ in })
+        )
+
+        let host = NSHostingView(rootView: MenuPopoverView(coordinator: coordinator, translation: translation))
+
+        XCTAssertEqual(host.fittingSize.width, 360, accuracy: 0.5)
+    }
+
+    func testTranslationEditorsStackAtSmallAndMediumWidths() {
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 280, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 360, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 440, accessibilityText: false))
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 520, accessibilityText: false))
+    }
+
+    func testTranslationEditorsUseSideBySideLayoutAtExtraLargeWidth() {
+        XCTAssertTrue(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 640, accessibilityText: false))
+    }
+
+    func testTranslationEditorsStackAtAccessibilityTextSizes() {
+        XCTAssertFalse(MenuPopoverTranslationLayout.usesSideBySideEditors(width: 640, accessibilityText: true))
+    }
+
     func testInterfaceLanguagePicker_Renders() {
         render { InterfaceLanguagePicker() }
     }

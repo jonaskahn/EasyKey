@@ -1,12 +1,15 @@
+import AppKit
 import EasyEngineCore
 import SwiftUI
 
 enum TranslationSettingsAccessibility {
+    static let enableToggle = "TranslationEnableToggle"
     static let providerPicker = "TranslationDefaultProviderPicker"
     static let sourcePicker = "TranslationSourcePreferencePicker"
     static let deepLPlanPicker = "TranslationDeepLPlanPicker"
     static let shortcutStatus = "TranslationShortcutStatus"
     static let disclosureReset = "TranslationDisclosureReset"
+    static let appleLanguageSettings = "TranslationAppleLanguageSettings"
 
     static func credentialField(_ provider: TranslationProviderID) -> String {
         "TranslationCredential-\(provider.rawValue)"
@@ -21,6 +24,9 @@ struct TranslationSettingsView: View {
     var body: some View {
         Form {
             Section {
+                Toggle(localization.string(.translationEnableTranslation), isOn: enableBinding)
+                    .accessibilityIdentifier(TranslationSettingsAccessibility.enableToggle)
+
                 Picker(localization.string(.translationSettingsDefaultProvider), selection: preferredProviderBinding) {
                     ForEach(model.selectableProviders, id: \.self) { provider in
                         Text(providerName(provider)).tag(provider)
@@ -42,6 +48,17 @@ struct TranslationSettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+
+                Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
+                    .accessibilityIdentifier("TranslationMenuPopoverToggle")
+
+                Picker(localization.string(.translationSettingsAutoTranslateDelay), selection: autoTranslateDelayBinding) {
+                    ForEach(TranslationOptions.AutoTranslateDelayPreset.allCases, id: \.self) { preset in
+                        Text(delayLabel(preset)).tag(preset.rawValue)
+                    }
+                }
+                .accessibilityLabel(localization.string(.translationSettingsAutoTranslateDelay))
+                .accessibilityIdentifier("TranslationAutoTranslateDelayPicker")
 
                 ShortcutRecorder(
                     label: localization.string(.translationSettingsShortcut),
@@ -114,8 +131,20 @@ struct TranslationSettingsView: View {
         Binding(get: { model.preferredProvider }, set: model.setPreferredProvider)
     }
 
+    private var enableBinding: Binding<Bool> {
+        Binding(get: { model.isEnabled }, set: model.setIsEnabled)
+    }
+
     private var sourceLanguageBinding: Binding<TranslationLanguage?> {
         Binding(get: { model.defaultSourceLanguage }, set: model.setDefaultSourceLanguage)
+    }
+
+    private var menuPopoverBinding: Binding<Bool> {
+        Binding(get: { model.showInMenuPopover }, set: model.setShowInMenuPopover)
+    }
+
+    private var autoTranslateDelayBinding: Binding<Int> {
+        Binding(get: { model.autoTranslateDelayMs }, set: model.setAutoTranslateDelayMs)
     }
 
     private var shortcutBinding: Binding<Shortcut> {
@@ -129,6 +158,18 @@ struct TranslationSettingsView: View {
     private func languageName(_ language: TranslationLanguage) -> String {
         localization.locale.localizedString(forIdentifier: language.identifier) ?? language.identifier
     }
+
+    private func delayLabel(_ preset: TranslationOptions.AutoTranslateDelayPreset) -> String {
+        let ms = preset.rawValue
+        if ms >= 1000 {
+            let seconds = Double(ms) / 1000.0
+            let formatted = seconds.truncatingRemainder(dividingBy: 1) == 0
+                ? String(format: "%.0f", seconds)
+                : String(format: "%.1f", seconds)
+            return localization.format(.translationSettingsDelaySeconds, formatted)
+        }
+        return localization.format(.translationSettingsDelayMilliseconds, String(ms))
+    }
 }
 
 private struct AppleTranslationSettingsCard: View {
@@ -137,13 +178,27 @@ private struct AppleTranslationSettingsCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Label(providerName, systemImage: "apple.logo").font(.headline)
+            HStack(spacing: 8) {
+                TranslationProviderIcon(provider: .apple, size: 18)
+                Text(providerName).font(.headline)
+            }
             Text(localization.string(.translationSettingsAppleLocal))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            Button {
+                openLanguageSettings()
+            } label: {
+                Label(localization.string(.translationSettingsManageAppleLanguages), systemImage: "arrow.up.forward.app")
+            }
+            .accessibilityIdentifier(TranslationSettingsAccessibility.appleLanguageSettings)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 4)
+    }
+
+    private func openLanguageSettings() {
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings.extension") else { return }
+        NSWorkspace.shared.open(url)
     }
 }
 
@@ -155,11 +210,13 @@ private struct CloudTranslationSettingsCard: View {
     @State private var credential = ""
     @State private var modelIdentifier = ""
     @State private var modelIdentifierIsInvalid = false
+    @State private var endpointURL = ""
     @State private var showDeleteConfirmation = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
+            HStack(spacing: 8) {
+                TranslationProviderIcon(provider: provider, size: 18)
                 Text(providerName).font(.headline)
                 Spacer()
                 statusLabel
@@ -198,6 +255,14 @@ private struct CloudTranslationSettingsCard: View {
                 }
             }
 
+            if provider == .openAICompatible || provider == .anthropicCompatible {
+                TextField(localization.string(.translationSettingsEndpoint), text: $endpointURL)
+                    .textFieldStyle(.roundedBorder)
+                    .onSubmit(saveEndpoint)
+                    .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsEndpoint))")
+                    .accessibilityHint(localization.string(.translationSettingsEndpointHint))
+            }
+
             SecureField(localization.string(.translationSettingsApiKey), text: $credential)
                 .textFieldStyle(.roundedBorder)
                 .onSubmit(saveCredential)
@@ -228,7 +293,10 @@ private struct CloudTranslationSettingsCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 6)
-        .onAppear { modelIdentifier = model.modelIdentifier(for: provider) ?? "" }
+        .onAppear {
+            modelIdentifier = model.modelIdentifier(for: provider) ?? ""
+            endpointURL = endpointValue()
+        }
         .alert(localization.format(.translationSettingsDeleteKeyConfirmTitle, providerName), isPresented: $showDeleteConfirmation) {
             Button(localization.string(.commonCancel), role: .cancel) {}
             Button(localization.string(.translationSettingsDeleteKey), role: .destructive) {
@@ -274,6 +342,22 @@ private struct CloudTranslationSettingsCard: View {
 
     private var deepLEndpointBinding: Binding<TranslationOptions.DeepLEndpoint> {
         Binding(get: { model.deepLEndpoint }, set: model.setDeepLEndpoint)
+    }
+
+    private func endpointValue() -> String {
+        switch provider {
+        case .openAICompatible: model.openAICompatibleEndpoint()
+        case .anthropicCompatible: model.anthropicCompatibleEndpoint()
+        default: ""
+        }
+    }
+
+    private func saveEndpoint() {
+        switch provider {
+        case .openAICompatible: model.setOpenAICompatibleEndpoint(endpointURL)
+        case .anthropicCompatible: model.setAnthropicCompatibleEndpoint(endpointURL)
+        default: break
+        }
     }
 
     private func saveCredential() {

@@ -40,6 +40,10 @@ extension TranslationProviderID {
         case .openAI: "OpenAI"
         case .anthropic: "Anthropic"
         case .gemini: "Gemini"
+        case .openRouter: "OpenRouter"
+        case .groq: "Groq"
+        case .openAICompatible: "OpenAI-Compatible"
+        case .anthropicCompatible: "Anthropic-Compatible"
         }
     }
 
@@ -56,6 +60,14 @@ extension TranslationProviderID {
             value = "https://privacy.anthropic.com/"
         case .gemini:
             value = "https://ai.google.dev/gemini-api/terms"
+        case .openRouter:
+            value = "https://openrouter.ai/privacy"
+        case .groq:
+            value = "https://groq.com/privacy-policy/"
+        case .openAICompatible:
+            value = "https://platform.openai.com/docs/guides/your-data"
+        case .anthropicCompatible:
+            value = "https://privacy.anthropic.com/"
         case .automatic, .apple:
             return nil
         }

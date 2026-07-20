@@ -14,6 +14,7 @@ final class AppTranslationRuntimeTests: XCTestCase {
     private var registrar: TestTranslationHotKeyRegistrar!
     private var panelWindow: RuntimePanelWindow!
     private var panelMonitor: RuntimePanelMonitor!
+    private var speechEngine: RuntimeSpeechEngine!
     private var events: [String]!
 
     override func setUpWithError() throws {
@@ -28,6 +29,7 @@ final class AppTranslationRuntimeTests: XCTestCase {
         registrar = TestTranslationHotKeyRegistrar()
         panelWindow = RuntimePanelWindow()
         panelMonitor = RuntimePanelMonitor()
+        speechEngine = RuntimeSpeechEngine()
         events = []
     }
 
@@ -43,6 +45,90 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertNil(runtime.model.providerID)
         XCTAssertTrue(runtime.availableProviders.isEmpty)
         XCTAssertEqual(runtime.hotKeyRegistrationState, .registered(settingsStore.settings.translation.shortcut))
+    }
+
+    func testStartupPublishesRegisteredShortcutToSettingsModel() {
+        let runtime = makeRuntime()
+
+        runtime.start()
+
+        XCTAssertEqual(
+            runtime.settingsModel.shortcutRegistrationState,
+            .registered(settingsStore.settings.translation.shortcut)
+        )
+    }
+
+    func testDisabledStartupDoesNotRegisterHotKey() {
+        settingsStore.update { $0.translation.isEnabled = false }
+        let runtime = makeRuntime()
+
+        runtime.start()
+
+        XCTAssertEqual(registrar.registerCount, 0)
+        XCTAssertEqual(runtime.hotKeyRegistrationState, .unregistered)
+        XCTAssertEqual(runtime.settingsModel.shortcutRegistrationState, .unregistered)
+    }
+
+    func testDisablingUnregistersCancelsSpeechAndClosesPanel() throws {
+        try credentials.save("key", for: .google)
+        let runtime = makeRuntime()
+        runtime.start()
+        registrar.handler?()
+        runtime.model.setSourceText("hello")
+        runtime.model.translate()
+        XCTAssertEqual(runtime.model.status, .translating)
+        XCTAssertTrue(panelWindow.isVisible)
+
+        runtime.settingsModel.setIsEnabled(false)
+
+        XCTAssertEqual(runtime.hotKeyRegistrationState, .unregistered)
+        XCTAssertEqual(runtime.settingsModel.shortcutRegistrationState, .unregistered)
+        XCTAssertEqual(runtime.model.status, .idle)
+        XCTAssertGreaterThanOrEqual(speechEngine.stopCount, 1)
+        XCTAssertFalse(panelWindow.isVisible)
+        XCTAssertNil(runtime.makePopoverConfiguration {})
+    }
+
+    func testReEnablingRegistersLatestShortcut() {
+        let runtime = makeRuntime()
+        runtime.start()
+        runtime.settingsModel.setIsEnabled(false)
+        let latest = Shortcut(keyCode: 6, modifiers: [.command, .option])
+        runtime.settingsModel.setShortcut(latest)
+
+        runtime.settingsModel.setIsEnabled(true)
+
+        XCTAssertEqual(runtime.hotKeyRegistrationState, .registered(latest))
+        XCTAssertEqual(runtime.settingsModel.shortcutRegistrationState, .registered(latest))
+    }
+
+    func testStaleHotKeyCallbackCannotActivateDisabledTranslation() {
+        let runtime = makeRuntime()
+        runtime.start()
+        let staleHandler = registrar.handler
+        var captureCount = 0
+        capture.onCapture = { captureCount += 1 }
+        runtime.settingsModel.setIsEnabled(false)
+
+        staleHandler?()
+
+        XCTAssertEqual(captureCount, 0)
+        XCTAssertFalse(panelWindow.isVisible)
+    }
+
+    func testShortcutConflictIsPublishedToSettingsModel() {
+        let runtime = makeRuntime()
+        runtime.start()
+        registrar.shouldRegister = false
+        let replacement = Shortcut(keyCode: 1, modifiers: [.command, .shift])
+        let original = settingsStore.settings.translation.shortcut
+
+        runtime.settingsModel.setShortcut(replacement)
+
+        XCTAssertEqual(
+            runtime.settingsModel.shortcutRegistrationState,
+            .conflict(attempted: replacement, active: original)
+        )
     }
 
     func testCloudCredentialResolvesFallbackAndCredentialDeletionReturnsToSetup() throws {
@@ -88,11 +174,72 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertGreaterThan(runtime.providerRevision, initialRevision)
     }
 
-    func testPopoverAndPanelUseSameModel() {
+    func testUnsupportedProviderResolutionStopsSpeech() throws {
+        try credentials.save("key", for: .openAI)
         let runtime = makeRuntime()
-        let configuration = runtime.makePopoverConfiguration {}
+        let initialStopCount = speechEngine.stopCount
+
+        runtime.apply(settingsStore.settings)
+
+        XCTAssertEqual(runtime.model.providerID, .openAI)
+        XCTAssertGreaterThan(speechEngine.stopCount, initialStopCount)
+    }
+
+    func testPopoverAndPanelUseSameModel() throws {
+        let runtime = makeRuntime()
+        let configuration = try XCTUnwrap(runtime.makePopoverConfiguration {})
 
         XCTAssertTrue(configuration.model === runtime.model)
+    }
+
+    func testPopoverConfigurationReturnsNilWhenMenuPopoverDisabled() {
+        let runtime = makeRuntime()
+        runtime.settingsModel.setShowInMenuPopover(false)
+
+        XCTAssertNil(runtime.makePopoverConfiguration {})
+    }
+
+    func testPopoverConfiguration_SnapshotStoredTrueExplicitFalse_ReturnsNil() {
+        let runtime = makeRuntime()
+        runtime.settingsModel.setShowInMenuPopover(true)
+
+        var options = settingsStore.settings.translation
+        options.showInMenuPopover = false
+
+        XCTAssertNil(runtime.makePopoverConfiguration(options: options) {})
+    }
+
+    func testPopoverConfiguration_SnapshotStoredFalseExplicitTrue_ReturnsConfig() {
+        let runtime = makeRuntime()
+        runtime.settingsModel.setShowInMenuPopover(false)
+
+        var options = settingsStore.settings.translation
+        options.showInMenuPopover = true
+        options.isEnabled = true
+
+        let config = runtime.makePopoverConfiguration(options: options) {}
+        XCTAssertNotNil(config)
+    }
+
+    func testPopoverConfiguration_DisabledTranslationAlwaysReturnsNil() {
+        let runtime = makeRuntime()
+
+        var options = settingsStore.settings.translation
+        options.isEnabled = false
+        options.showInMenuPopover = true
+
+        XCTAssertNil(runtime.makePopoverConfiguration(options: options) {})
+    }
+
+    func testPopoverConfiguration_EnabledAndVisible_ReturnsSharedModelConfiguration() {
+        let runtime = makeRuntime()
+        var options = settingsStore.settings.translation
+        options.isEnabled = true
+        options.showInMenuPopover = true
+
+        let config = runtime.makePopoverConfiguration(options: options) {}
+        XCTAssertNotNil(config)
+        XCTAssertTrue(config?.model === runtime.model)
     }
 
     func testShortcutCapturesAndSeedsBeforePanelPresentation() {
@@ -174,11 +321,11 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertTrue(settingsStore.settings.translation.acknowledgedCloudDisclosureProviders.contains(.deepL))
     }
 
-    func testSetupActionRoutesToTranslationSettings() {
+    func testSetupActionRoutesToTranslationSettings() throws {
         let runtime = makeRuntime()
         var opened = false
         runtime.onOpenSettings = { opened = true }
-        let configuration = runtime.makePopoverConfiguration { runtime.onOpenSettings?() }
+        let configuration = try XCTUnwrap(runtime.makePopoverConfiguration { runtime.onOpenSettings?() })
 
         configuration.actions.openSettings()
 
@@ -210,9 +357,23 @@ final class AppTranslationRuntimeTests: XCTestCase {
                         screenGeometries: { [] }
                     )
                 },
-                speech: nil
+                speech: TranslationSpeechController(engine: speechEngine)
             )
         )
+    }
+}
+
+@MainActor
+private final class RuntimeSpeechEngine: TranslationSpeechEngine {
+    var eventHandler: ((UUID, TranslationSpeechEngineEvent) -> Void)?
+    private(set) var stopCount = 0
+
+    func voiceIdentifier(for _: String) -> String? { "voice" }
+
+    func speak(_: String, voiceIdentifier _: String, requestID _: UUID) -> Bool { true }
+
+    func stopSpeaking() {
+        stopCount += 1
     }
 }
 

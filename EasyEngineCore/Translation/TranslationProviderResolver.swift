@@ -21,6 +21,7 @@ public enum TranslationProviderResolver {
     /// Stable fallback order for Automatic resolution among cloud providers.
     public static let cloudProviderOrder: [TranslationProviderID] = [
         .deepL, .google, .openAI, .anthropic, .gemini,
+        .openRouter, .groq, .openAICompatible, .anthropicCompatible,
     ]
 
     /// The availability of a single provider given platform capability and
@@ -37,7 +38,8 @@ public enum TranslationProviderResolver {
             return .available
         case .apple:
             return platformCapability.supportsAppleTranslation ? .available : .unsupportedOnPlatform
-        case .deepL, .google, .openAI, .anthropic, .gemini:
+        case .deepL, .google, .openAI, .anthropic, .gemini,
+             .openRouter, .groq, .openAICompatible, .anthropicCompatible:
             return configuredCloudProviders.contains(providerID) ? .available : .missingCredentials
         }
     }

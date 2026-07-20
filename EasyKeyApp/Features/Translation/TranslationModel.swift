@@ -2,6 +2,12 @@ import Combine
 import EasyEngineCore
 import Foundation
 
+enum TranslationPronunciationPolicy {
+    static func supports(_ providerID: TranslationProviderID) -> Bool {
+        providerID == .apple || providerID == .google
+    }
+}
+
 /// Owns shared quick/full translation state: source text, languages,
 /// provider selection, in-flight request, and result. Views render this
 /// state and send intent; this type owns no window, panel, or pasteboard
@@ -23,8 +29,11 @@ final class TranslationModel: ObservableObject {
 
     private let providerLookup: TranslationProviderLookup
     private let requestsDisclosure: TranslationDisclosureDecision
+    private let onPronunciationUnsupportedProvider: () -> Void
     private var generation = 0
     private var activeTask: Task<Void, Never>?
+    private var autoTranslateTask: Task<Void, Never>?
+    private var autoTranslateDelay: TimeInterval = TranslationOptions.AutoTranslateDelayPreset.ms500.timeInterval
 
     /// `targetLanguage` seeds once from `inputLanguage` via the
     /// opposite-input default-target rule. After that, manual swaps and
@@ -34,11 +43,13 @@ final class TranslationModel: ObservableObject {
         inputLanguage: InputLanguage,
         providerID: TranslationProviderID?,
         providerLookup: @escaping TranslationProviderLookup,
-        requestsDisclosure: @escaping TranslationDisclosureDecision = { _ in true }
+        requestsDisclosure: @escaping TranslationDisclosureDecision = { _ in true },
+        onPronunciationUnsupportedProvider: @escaping () -> Void = {}
     ) {
         self.providerID = providerID
         self.providerLookup = providerLookup
         self.requestsDisclosure = requestsDisclosure
+        self.onPronunciationUnsupportedProvider = onPronunciationUnsupportedProvider
         targetLanguage = TranslationLanguagePolicy.defaultTarget(forInput: inputLanguage)
     }
 
@@ -46,8 +57,20 @@ final class TranslationModel: ObservableObject {
 
     func setSourceText(_ text: String) {
         guard text != sourceText else { return }
+        cancelScheduledAutoTranslate()
         sourceText = text
         clearStaleResultIfNeeded()
+    }
+
+    func setSourceTextFromUserInput(_ text: String) {
+        guard text != sourceText else { return }
+        cancelActiveInFlightTranslation()
+        cancelScheduledAutoTranslate()
+        sourceText = text
+        clearStaleResultIfNeeded()
+        if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            scheduleAutoTranslate()
+        }
     }
 
     func setSourceLanguage(_ language: TranslationLanguage?) {
@@ -66,6 +89,9 @@ final class TranslationModel: ObservableObject {
         guard providerID != self.providerID else { return }
         self.providerID = providerID
         clearStaleResultIfNeeded()
+        if let providerID, !TranslationPronunciationPolicy.supports(providerID) {
+            onPronunciationUnsupportedProvider()
+        }
     }
 
     func swapLanguages() {
@@ -80,6 +106,8 @@ final class TranslationModel: ObservableObject {
     /// explicit source/target pair) is a silent no-op — callers disable the
     /// translate affordance for those states instead of surfacing an error.
     func translate() {
+        cancelScheduledAutoTranslate()
+
         guard let providerID, let provider = providerLookup(providerID) else {
             status = .failed(.noProviderConfigured)
             return
@@ -126,6 +154,7 @@ final class TranslationModel: ObservableObject {
     /// Cancels any in-flight request. Callers invoke this when the feature
     /// closes (panel dismissed, popover collapsed) or the app is stopping.
     func cancelActiveTranslation() {
+        cancelScheduledAutoTranslate()
         activeTask?.cancel()
         activeTask = nil
         generation &+= 1
@@ -134,7 +163,35 @@ final class TranslationModel: ObservableObject {
         }
     }
 
+    func setAutoTranslateDelay(_ delay: TimeInterval) {
+        autoTranslateDelay = delay
+    }
+
+    func scheduleAutoTranslate() {
+        cancelScheduledAutoTranslate()
+        let delay = autoTranslateDelay
+        autoTranslateTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            guard !Task.isCancelled, let self else { return }
+            await MainActor.run { self.translate() }
+        }
+    }
+
+    func cancelScheduledAutoTranslate() {
+        autoTranslateTask?.cancel()
+        autoTranslateTask = nil
+    }
+
     // MARK: - Private
+
+    private func cancelActiveInFlightTranslation() {
+        activeTask?.cancel()
+        activeTask = nil
+        generation &+= 1
+        if status == .translating {
+            status = .idle
+        }
+    }
 
     private func finish(
         generation requestGeneration: Int,

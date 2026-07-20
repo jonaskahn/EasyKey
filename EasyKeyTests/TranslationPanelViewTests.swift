@@ -98,16 +98,6 @@ final class TranslationPanelViewTests: XCTestCase {
         XCTAssertFalse(unavailable.canTranslate)
     }
 
-    func testKeyboardPolicyUsesCommandReturnOnlyAndLeavesEscapeForPresenter() {
-        XCTAssertEqual(
-            TranslationPanelKeyboardAction.resolve(keyCode: 36, modifiers: [.command]),
-            .translate
-        )
-        XCTAssertNil(TranslationPanelKeyboardAction.resolve(keyCode: 36, modifiers: []))
-        XCTAssertNil(TranslationPanelKeyboardAction.resolve(keyCode: 36, modifiers: [.command, .shift]))
-        XCTAssertNil(TranslationPanelKeyboardAction.resolve(keyCode: 53, modifiers: []))
-    }
-
     func testAccessibilityIdentifiersAreUniqueAndNonempty() {
         let identifiers = [
             TranslationPanelAccessibility.providerPicker,
@@ -118,13 +108,22 @@ final class TranslationPanelViewTests: XCTestCase {
             TranslationPanelAccessibility.sourceSpeechButton,
             TranslationPanelAccessibility.resultEditor,
             TranslationPanelAccessibility.resultSpeechButton,
-            TranslationPanelAccessibility.translateButton,
             TranslationPanelAccessibility.settingsButton,
             TranslationPanelAccessibility.status,
             TranslationPanelAccessibility.disclosure,
         ]
         XCTAssertEqual(Set(identifiers).count, identifiers.count)
         XCTAssertFalse(identifiers.contains(where: \.isEmpty))
+    }
+
+    func testPronunciationPolicySupportsOnlyAppleAndGoogle() {
+        XCTAssertTrue(TranslationPronunciationPolicy.supports(.apple))
+        XCTAssertTrue(TranslationPronunciationPolicy.supports(.google))
+        XCTAssertFalse(TranslationPronunciationPolicy.supports(.deepL))
+        XCTAssertFalse(TranslationPronunciationPolicy.supports(.openAI))
+        XCTAssertFalse(TranslationPronunciationPolicy.supports(.anthropic))
+        XCTAssertFalse(TranslationPronunciationPolicy.supports(.gemini))
+        XCTAssertFalse(TranslationPronunciationPolicy.supports(.automatic))
     }
 
     func testPanelCopyLocalizesShortcutDisclosureAndAnnouncement() throws {
@@ -137,7 +136,7 @@ final class TranslationPanelViewTests: XCTestCase {
         localization.setPreference(.english)
         XCTAssertEqual(
             localization.format(.translationCloudDisclosure, "DeepL"),
-            "Only when you choose Translate, submitted source text is sent directly to DeepL."
+            "Submitted source text is sent directly to DeepL after the configured delay or when you choose Translate."
         )
         XCTAssertTrue(localization.format(.translationInstructions, "⌥ + A").contains("⌥ + A"))
         XCTAssertEqual(
@@ -157,6 +156,10 @@ final class TranslationPanelViewTests: XCTestCase {
             .openAI: "platform.openai.com",
             .anthropic: "privacy.anthropic.com",
             .gemini: "ai.google.dev",
+            .openRouter: "openrouter.ai",
+            .groq: "groq.com",
+            .openAICompatible: "platform.openai.com",
+            .anthropicCompatible: "privacy.anthropic.com",
         ]
         for provider in TranslationProviderResolver.cloudProviderOrder {
             let url = try XCTUnwrap(provider.privacyURL)
@@ -284,7 +287,6 @@ final class TranslationPanelViewTests: XCTestCase {
             MenuPopoverTranslationAccessibility.targetLanguagePicker,
             MenuPopoverTranslationAccessibility.sourceEditor,
             MenuPopoverTranslationAccessibility.result,
-            MenuPopoverTranslationAccessibility.translateButton,
             MenuPopoverTranslationAccessibility.settingsButton,
             MenuPopoverTranslationAccessibility.status,
             MenuPopoverTranslationAccessibility.disclosure,
@@ -301,9 +303,9 @@ final class TranslationPanelViewTests: XCTestCase {
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
 
         localization.setPreference(.english)
-        XCTAssertEqual(localization.string(.translationPopoverInstructions), "Command-Return")
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("delay"))
         localization.setPreference(.vietnamese)
-        XCTAssertEqual(localization.string(.translationPopoverInstructions), "Command-Return")
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("độ trễ"))
     }
 
     private func presentation(text: String, status: TranslationModel.Status) -> TranslationPanelPresentation {

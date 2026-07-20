@@ -163,7 +163,8 @@ final class AppTranslationRuntime {
             localization: localization,
             prompt: dependencies.disclosurePrompt
         )
-        speech = dependencies.speech ?? TranslationSpeechController()
+        let speech = dependencies.speech ?? TranslationSpeechController()
+        self.speech = speech
 
         let appleComponents = Self.makeAppleComponents(platformCapability: dependencies.platformCapability)
         appleProvider = appleComponents.provider
@@ -186,7 +187,8 @@ final class AppTranslationRuntime {
             inputLanguage: settingsStore.settings.input.language,
             providerID: providerID,
             providerLookup: { registry.provider(for: $0) },
-            requestsDisclosure: { disclosure.request(for: $0) }
+            requestsDisclosure: { disclosure.request(for: $0) },
+            onPronunciationUnsupportedProvider: { speech.stopSpeaking() }
         )
         model.setSourceLanguage(settingsStore.settings.translation.defaultSourceLanguage)
 
@@ -200,6 +202,11 @@ final class AppTranslationRuntime {
         settingsModel.onCredentialsChange = { [weak self] in self?.refreshProviders() }
         settingsModel.shortcutApplier = { [weak self] shortcut in
             self?.applyShortcut(shortcut) ?? .unregistered
+        }
+        settingsModel.onEnabledChange = { [weak self] in
+            guard let self else { return }
+            applyEnabledState(settingsStore.settings.translation)
+            onConfigurationChange?()
         }
     }
 
@@ -227,18 +234,31 @@ final class AppTranslationRuntime {
         speech.stopSpeaking()
         panelPresenter.close()
         hotKeyController.unregister()
+        settingsModel.publishRegistrationState(.unregistered)
     }
 
     func apply(_ settings: EasyKeySettings) {
         refreshProviders(options: settings.translation)
+        model.setAutoTranslateDelay(TimeInterval(settings.translation.autoTranslateDelayMs) / 1000.0)
         model.setSourceLanguage(settings.translation.defaultSourceLanguage)
-        if isStarted {
-            _ = hotKeyController.apply(settings.translation.shortcut)
-        }
+        applyEnabledState(settings.translation)
     }
 
-    func makePopoverConfiguration(openSettings: @escaping () -> Void) -> MenuPopoverTranslationConfiguration {
-        MenuPopoverTranslationConfiguration(
+    func applyActivationSettings(_ options: TranslationOptions) {
+        applyEnabledState(options)
+    }
+
+    func makePopoverConfiguration(openSettings: @escaping () -> Void) -> MenuPopoverTranslationConfiguration? {
+        makePopoverConfiguration(
+            options: settingsStore.settings.translation,
+            openSettings: openSettings
+        )
+    }
+
+    func makePopoverConfiguration(options: TranslationOptions, openSettings: @escaping () -> Void) -> MenuPopoverTranslationConfiguration? {
+        guard options.isEnabled,
+              options.showInMenuPopover else { return nil }
+        return MenuPopoverTranslationConfiguration(
             model: model,
             availableProviders: availableProviders,
             platformCapability: platformCapability,
@@ -248,15 +268,37 @@ final class AppTranslationRuntime {
     }
 
     private func applyShortcut(_ shortcut: Shortcut) -> TranslationHotKeyRegistrationState {
-        guard isStarted else { return .unregistered }
+        guard isStarted, settingsStore.settings.translation.isEnabled else { return .unregistered }
         _ = hotKeyController.apply(shortcut)
         return hotKeyController.registrationState
     }
 
     private func activateFromShortcut() {
+        guard settingsStore.settings.translation.isEnabled else { return }
         let captured = capture.capture()
+        model.setAutoTranslateDelay(
+            TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0
+        )
         model.setSourceText(captured.text)
+        model.scheduleAutoTranslate()
         panelPresenter.show(previousApplication: capture.previousApplication)
+    }
+
+    private func applyEnabledState(_ options: TranslationOptions) {
+        guard isStarted else {
+            settingsModel.publishRegistrationState(.unregistered)
+            return
+        }
+        guard options.isEnabled else {
+            hotKeyController.unregister()
+            model.cancelActiveTranslation()
+            speech.stopSpeaking()
+            panelPresenter.close()
+            settingsModel.publishRegistrationState(.unregistered)
+            return
+        }
+        _ = hotKeyController.apply(options.shortcut)
+        settingsModel.publishRegistrationState(hotKeyController.registrationState)
     }
 
     private func refreshProviders() {
@@ -272,11 +314,17 @@ final class AppTranslationRuntime {
         providers[.apple] = appleProvider
         registry.replace(with: providers)
         providerRevision &+= 1
-        model.setProviderID(Self.resolveProvider(
+        let resolvedProvider = Self.resolveProvider(
             options: options,
             platformCapability: platformCapability,
             configuredCloudProviders: Self.configuredCloudProviders(in: credentialStore)
-        ))
+        )
+        if resolvedProvider == model.providerID,
+           let resolvedProvider,
+           !TranslationPronunciationPolicy.supports(resolvedProvider) {
+            speech.stopSpeaking()
+        }
+        model.setProviderID(resolvedProvider)
         onConfigurationChange?()
     }
 
@@ -333,13 +381,48 @@ final class AppTranslationRuntime {
         options: TranslationOptions,
         credentialStore: TranslationCredentialStoring
     ) -> [TranslationProviderID: TranslationProviding] {
-        [
+        var providers: [TranslationProviderID: TranslationProviding] = [
             .deepL: DeepLTranslationProvider(endpoint: options.deepLEndpoint, credentialStore: credentialStore),
             .google: GoogleTranslationProvider(credentialStore: credentialStore),
             .openAI: OpenAITranslationProvider(options: options, credentialStore: credentialStore),
             .anthropic: AnthropicTranslationProvider(options: options, credentialStore: credentialStore),
             .gemini: GeminiTranslationProvider(options: options, credentialStore: credentialStore),
         ]
+        if let openRouterURL = URL(string: "https://openrouter.ai/api/v1/chat/completions") {
+            providers[.openRouter] = OpenAICompatibleTranslationProvider(
+                endpoint: openRouterURL,
+                providerID: .openRouter,
+                modelIdentifier: options.openRouterModelIdentifier,
+                credentialStore: credentialStore
+            )
+        }
+        if let groqURL = URL(string: "https://api.groq.com/openai/v1/chat/completions") {
+            providers[.groq] = OpenAICompatibleTranslationProvider(
+                endpoint: groqURL,
+                providerID: .groq,
+                modelIdentifier: options.groqModelIdentifier,
+                credentialStore: credentialStore
+            )
+        }
+        if !options.openAICompatibleEndpoint.isEmpty,
+           let compatibleURL = URL(string: options.openAICompatibleEndpoint) {
+            providers[.openAICompatible] = OpenAICompatibleTranslationProvider(
+                endpoint: compatibleURL,
+                providerID: .openAICompatible,
+                modelIdentifier: options.openAICompatibleModelIdentifier,
+                credentialStore: credentialStore
+            )
+        }
+        if !options.anthropicCompatibleEndpoint.isEmpty,
+           let compatibleURL = URL(string: options.anthropicCompatibleEndpoint) {
+            providers[.anthropicCompatible] = AnthropicCompatibleTranslationProvider(
+                endpoint: compatibleURL,
+                providerID: .anthropicCompatible,
+                modelIdentifier: options.anthropicCompatibleModelIdentifier,
+                credentialStore: credentialStore
+            )
+        }
+        return providers
     }
 
     private static func makeAppleComponents(

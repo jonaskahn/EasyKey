@@ -60,8 +60,8 @@ struct MenuPopoverView: View {
         self.translation = translation
         self.localization = localization ?? .shared
         self.actions = actions ?? MenuPopoverActions(
-            openClipboard: { [weak coordinator] in coordinator?.showSettings(section: .clipboard) },
-            openSettings: { [weak coordinator] in coordinator?.showSettings() },
+            openClipboard: { [weak coordinator] in coordinator?.showSettingsFromPopover(section: .clipboard) },
+            openSettings: { [weak coordinator] in coordinator?.showSettingsFromPopover() },
             quit: { NSApp.terminate(nil) }
         )
     }
@@ -73,12 +73,16 @@ struct MenuPopoverView: View {
                     model: translation.model,
                     availableProviders: translation.availableProviders,
                     localization: localization,
-                    actions: translation.actions
+                    actions: translation.actions,
+                    width: widthValue
                 )
                 .background(translation.sessionHost)
 
                 Divider()
             }
+
+            Label(localization.string(.menuInputSection), systemImage: "keyboard")
+                .font(.headline)
 
             VStack(spacing: 0) {
                 pickerRow(label: localization.string(.menuLanguage)) {
@@ -130,8 +134,12 @@ struct MenuPopoverView: View {
             }
         }
         .padding(16)
-        .frame(width: translation == nil ? 380 : 640)
+        .frame(width: widthValue)
         .easyKeyButtonShape()
+    }
+
+    private var widthValue: CGFloat {
+        CGFloat(settingsStore.settings.system.menuPopoverWidth.rawValue)
     }
 
     private var inputStatus: some View {

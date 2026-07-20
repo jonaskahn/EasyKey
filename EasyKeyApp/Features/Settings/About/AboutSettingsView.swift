@@ -52,6 +52,15 @@ struct AboutSettingsView: View {
             }
 
             Section {
+                Text(localization.string(.aboutTrademarksDescription))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            } header: {
+                Text(localization.string(.aboutTrademarks))
+            }
+
+            Section {
                 VStack(alignment: .leading, spacing: 4) {
                     Button(localization.string(.aboutResetSettings), role: .destructive) { confirmReset = true }
                         .buttonStyle(.bordered)

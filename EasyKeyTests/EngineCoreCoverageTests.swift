@@ -925,6 +925,55 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(decoded.input, InputSettings())
     }
 
+    func testSystemOptions_DefaultMenuPopoverWidthIsSmall() {
+        XCTAssertEqual(SystemOptions().menuPopoverWidth, .small)
+    }
+
+    func testSystemOptions_MenuPopoverWidthRawValuesMatchExpected() {
+        XCTAssertEqual(SystemOptions.MenuPopoverWidth.compact.rawValue, 280)
+        XCTAssertEqual(SystemOptions.MenuPopoverWidth.small.rawValue, 360)
+        XCTAssertEqual(SystemOptions.MenuPopoverWidth.medium.rawValue, 440)
+        XCTAssertEqual(SystemOptions.MenuPopoverWidth.large.rawValue, 520)
+        XCTAssertEqual(SystemOptions.MenuPopoverWidth.extraLarge.rawValue, 640)
+    }
+
+    func testSystemOptions_LegacyDecodeDefaultsMenuPopoverWidthToSmall() throws {
+        let decoded = try JSONDecoder().decode(SystemOptions.self, from: Data("{}".utf8))
+        XCTAssertEqual(decoded.menuPopoverWidth, .small)
+    }
+
+    func testSystemOptions_Legacy420DecodesAsMedium() throws {
+        let json = """
+        {"menuPopoverWidth": 420}
+        """.data(using: .utf8)!
+        let decoded = try JSONDecoder().decode(SystemOptions.self, from: json)
+        XCTAssertEqual(decoded.menuPopoverWidth, .medium)
+    }
+
+    func testSystemOptions_Legacy640DecodesAsExtraLarge() throws {
+        let json = """
+        {"menuPopoverWidth": 640}
+        """.data(using: .utf8)!
+        let decoded = try JSONDecoder().decode(SystemOptions.self, from: json)
+        XCTAssertEqual(decoded.menuPopoverWidth, .extraLarge)
+    }
+
+    func testSystemOptions_MenuPopoverWidthRoundTripsEveryCase() throws {
+        for width in SystemOptions.MenuPopoverWidth.allCases {
+            let options = SystemOptions(menuPopoverWidth: width)
+            let data = try JSONEncoder().encode(options)
+            let decoded = try JSONDecoder().decode(SystemOptions.self, from: data)
+            XCTAssertEqual(decoded.menuPopoverWidth, width)
+        }
+    }
+
+    func testSystemOptions_InvalidMenuPopoverWidthThrows() {
+        let json = """
+        {"menuPopoverWidth": 999}
+        """.data(using: .utf8)!
+        XCTAssertThrowsError(try JSONDecoder().decode(SystemOptions.self, from: json))
+    }
+
     // MARK: - VietnameseEncoding: TCVN3 roundtrip
 
     func testTCVN3Encode_NonEmptyAtoms_ProducesTCVN3() {

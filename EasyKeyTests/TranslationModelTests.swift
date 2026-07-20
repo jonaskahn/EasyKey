@@ -321,4 +321,156 @@ final class TranslationModelTests: XCTestCase {
 
         XCTAssertEqual(model.status, .idle)
     }
+
+    func testUnsupportedProviderChangeRequestsSpeechStop() {
+        var stopCount = 0
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .apple,
+            providerLookup: { _ in nil },
+            onPronunciationUnsupportedProvider: { stopCount += 1 }
+        )
+
+        model.setProviderID(.deepL)
+        model.setProviderID(.openAI)
+        model.setProviderID(.google)
+
+        XCTAssertEqual(stopCount, 2)
+    }
+
+    // MARK: - User-input auto-translate
+
+    func testUserInput_AutoTranslatesAfterConfiguredDelay() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+
+        model.setSourceTextFromUserInput("hello")
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 1)
+        let lastRequest = await provider.lastRequest
+        XCTAssertEqual(lastRequest?.sourceText, "hello")
+    }
+
+    func testUserInput_RapidEditsDebounceToLatestText() async {
+        let response = TranslationResponse(translatedText: "final", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.15)
+
+        model.setSourceTextFromUserInput("a")
+        model.setSourceTextFromUserInput("ab")
+        model.setSourceTextFromUserInput("abc")
+        model.setSourceTextFromUserInput("final")
+
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 1)
+        let lastRequest = await provider.lastRequest
+        XCTAssertEqual(lastRequest?.sourceText, "final")
+    }
+
+    func testProgrammaticSetSourceText_DoesNotAutoTranslate() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        ))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+
+        model.setSourceText("hello")
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 0)
+        XCTAssertEqual(model.status, .idle)
+    }
+
+    func testImmediateTranslate_CancelsPendingDebounce() async {
+        let response = TranslationResponse(translatedText: "immediate", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.3)
+
+        model.setSourceTextFromUserInput("immediate")
+        model.translate()
+        await waitUntil { model.status != .translating }
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 1)
+        let lastRequest = await provider.lastRequest
+        XCTAssertEqual(lastRequest?.sourceText, "immediate")
+
+        try? await Task.sleep(nanoseconds: 400_000_000)
+        let finalCallCount = await provider.callCount
+        XCTAssertEqual(finalCallCount, 1)
+    }
+
+    func testUserEdit_CancelsInFlightStaleTranslation() async {
+        let hangingProvider = FakeTranslationProvider(behavior: .hang)
+        let freshResponse = TranslationResponse(translatedText: "fresh", detectedSourceLanguage: nil, providerID: .google)
+        let freshProvider = FakeTranslationProvider(behavior: .success(freshResponse))
+
+        let model = TranslationModel(
+            inputLanguage: .vietnamese,
+            providerID: .deepL,
+            providerLookup: { requestedID in
+                switch requestedID {
+                case .deepL: return hangingProvider
+                case .google: return freshProvider
+                default: return nil
+                }
+            },
+            requestsDisclosure: { _ in true }
+        )
+        model.setAutoTranslateDelay(0.05)
+
+        model.setSourceTextFromUserInput("stale")
+        await waitUntil { model.status == .translating }
+
+        model.setProviderID(.google)
+        model.setSourceTextFromUserInput("fresh")
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        let callCount = await freshProvider.callCount
+        XCTAssertEqual(callCount, 1)
+        let lastRequest = await freshProvider.lastRequest
+        XCTAssertEqual(lastRequest?.sourceText, "fresh")
+    }
+
+    func testBlankUserInput_DoesNotScheduleRequest() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        ))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+
+        model.setSourceTextFromUserInput("   ")
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 0)
+    }
+
+    func testSetSourceTextFromUserInput_NoOpForIdenticalText() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        ))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+
+        model.setSourceTextFromUserInput("same")
+        model.setSourceTextFromUserInput("same")
+
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 1)
+    }
 }

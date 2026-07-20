@@ -57,6 +57,12 @@ enum MenuPopoverLayout {
     }
 }
 
+enum MenuPopoverTranslationLayout {
+    static func usesSideBySideEditors(width: CGFloat, accessibilityText: Bool) -> Bool {
+        width >= CGFloat(SystemOptions.MenuPopoverWidth.extraLarge.rawValue) && !accessibilityText
+    }
+}
+
 struct MenuPopoverTranslationPresentation: Equatable {
     let resultText: String
     let error: TranslationError?
@@ -109,8 +115,8 @@ struct MenuPopoverTranslationView: View {
     let availableProviders: [TranslationProviderID]
     @ObservedObject var localization: LocalizationStore
     let actions: MenuPopoverTranslationActions
+    let width: CGFloat
 
-    @FocusState private var sourceFocused: Bool
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private var presentation: MenuPopoverTranslationPresentation {
@@ -125,39 +131,146 @@ struct MenuPopoverTranslationView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Label(localization.string(.translationTitle), systemImage: "character.bubble")
-                .font(.headline)
-            controls
+        VStack(alignment: .leading, spacing: 8) {
+            header
             editors
             status
-            actionRow
+            footer
         }
         .accessibilityIdentifier(MenuPopoverTranslationAccessibility.section)
-        .onAppear { sourceFocused = true }
         .onChange(of: presentation.resultText) { _, result in
             guard !result.isEmpty else { return }
             actions.announceResult(localization.string(.translationResultAnnouncement))
         }
     }
 
-    @ViewBuilder
-    private var editors: some View {
-        if dynamicTypeSize.isAccessibilitySize {
-            VStack(alignment: .leading, spacing: 10) { editorSections }
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Label(localization.string(.translationTitle), systemImage: "character.bubble")
+                    .font(.headline)
+                if presentation.isTranslating {
+                    ProgressView().controlSize(.small)
+                }
+                Spacer(minLength: 8)
+                providerControl
+            }
+            languageRow
+        }
+        .disabled(presentation.isTranslating)
+    }
+
+    @ViewBuilder private var providerControl: some View {
+        compactProvider
+    }
+
+    private var languageRow: some View {
+        HStack(spacing: 8) {
+            sourceLanguagePicker
+                .frame(maxWidth: .infinity)
+            swapButton
+            targetLanguagePicker
+                .frame(maxWidth: .infinity)
+        }
+        .frame(maxWidth: .infinity)
+        .disabled(presentation.isTranslating)
+    }
+
+    private var sourceLanguagePicker: some View {
+        Menu {
+            Button {
+                sourceLanguageBinding.wrappedValue = nil
+            } label: {
+                if sourceLanguageBinding.wrappedValue == nil {
+                    Label(localization.string(.translationDetectLanguage), systemImage: "checkmark")
+                } else {
+                    Text(localization.string(.translationDetectLanguage))
+                }
+            }
+            ForEach(SupportedLanguages.all, id: \.self) { language in
+                Button {
+                    sourceLanguageBinding.wrappedValue = language
+                } label: {
+                    if sourceLanguageBinding.wrappedValue == language {
+                        Label(languageName(language), systemImage: "checkmark")
+                    } else {
+                        Text(languageName(language))
+                    }
+                }
+            }
+        } label: {
+            languageMenuLabel(
+                sourceLanguageBinding.wrappedValue.map(languageName)
+                    ?? localization.string(.translationDetectLanguage)
+            )
+        }
+        .menuIndicator(.hidden)
+        .menuStyle(.borderlessButton)
+        .accessibilityLabel(localization.string(.translationSourceLanguage))
+        .accessibilityIdentifier(MenuPopoverTranslationAccessibility.sourceLanguagePicker)
+    }
+
+    private var targetLanguagePicker: some View {
+        Menu {
+            ForEach(SupportedLanguages.all, id: \.self) { language in
+                Button {
+                    targetLanguageBinding.wrappedValue = language
+                } label: {
+                    if targetLanguageBinding.wrappedValue == language {
+                        Label(languageName(language), systemImage: "checkmark")
+                    } else {
+                        Text(languageName(language))
+                    }
+                }
+            }
+        } label: {
+            languageMenuLabel(languageName(targetLanguageBinding.wrappedValue))
+        }
+        .menuIndicator(.hidden)
+        .menuStyle(.borderlessButton)
+        .accessibilityLabel(localization.string(.translationTargetLanguage))
+        .accessibilityIdentifier(MenuPopoverTranslationAccessibility.targetLanguagePicker)
+    }
+
+    private func languageMenuLabel(_ title: String) -> some View {
+        HStack(spacing: 4) {
+            Text(title)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer(minLength: 4)
+            Image(systemName: "chevron.up.chevron.down")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 8)
+        .frame(maxWidth: .infinity, minHeight: 22)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 5))
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(Color(nsColor: .separatorColor), lineWidth: 1)
+        }
+    }
+
+    @ViewBuilder private var editors: some View {
+        if MenuPopoverTranslationLayout.usesSideBySideEditors(
+            width: width,
+            accessibilityText: dynamicTypeSize.isAccessibilitySize
+        ) {
+            HStack(alignment: .top, spacing: 8) { editorSections }
         } else {
-            HStack(alignment: .top, spacing: 10) { editorSections }
+            VStack(alignment: .leading, spacing: 8) { editorSections }
         }
     }
 
     @ViewBuilder private var editorSections: some View {
         editorCard(title: localization.string(.translationSourceText)) {
-            TextEditor(text: sourceTextBinding)
-                .font(.body)
-                .scrollContentBackground(.hidden)
-                .focused($sourceFocused)
-                .accessibilityLabel(localization.string(.translationSourceText))
-                .accessibilityIdentifier(MenuPopoverTranslationAccessibility.sourceEditor)
+            TranslationTextEditor(
+                text: sourceTextBinding,
+                isFocused: true,
+                onTranslateTriggered: { model.translate() }
+            )
+            .accessibilityLabel(localization.string(.translationSourceText))
+            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.sourceEditor)
         }
 
         editorCard(title: localization.string(.translationResult)) {
@@ -179,88 +292,37 @@ struct MenuPopoverTranslationView: View {
         }
     }
 
-    private var actionRow: some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private var footer: some View {
+        VStack(alignment: .leading, spacing: 4) {
             disclosure
-            HStack(alignment: .center, spacing: 10) {
-                Text(localization.string(.translationPopoverInstructions))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Spacer(minLength: 8)
-                Button(localization.string(.translationTranslate), action: model.translate)
-                    .keyboardShortcut(.return, modifiers: .command)
-                    .buttonStyle(.borderedProminent)
-                    .easyKeyButtonShape()
-                    .disabled(!presentation.canTranslate)
-                    .accessibilityHint(localization.string(.translationTranslateHint))
-                    .accessibilityIdentifier(MenuPopoverTranslationAccessibility.translateButton)
-            }
+            Text(localization.string(.translationEditorInstructions))
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 
-    private var controls: some View {
-        Group {
-            if dynamicTypeSize.isAccessibilitySize {
-                VStack(alignment: .leading, spacing: 8) {
-                    providerPicker
-                    languageControls
-                }
-            } else {
-                HStack(spacing: 8) {
-                    providerPicker
-                    languageControls
-                }
-            }
+    private var compactProvider: some View {
+        TranslationProviderPickerButton(
+            selection: model.providerID,
+            availableProviders: availableProviders,
+            chooseTitle: localization.string(.translationChooseProvider),
+            providerLabel: providerName,
+            accessibilityLabel: providerAccessibilityLabel,
+            accessibilityIdentifier: MenuPopoverTranslationAccessibility.providerPicker,
+            onSelect: model.setProviderID
+        )
+    }
+
+    private var swapButton: some View {
+        Button(action: model.swapLanguages) {
+            Image(systemName: "arrow.left.arrow.right")
+                .frame(width: 24, height: 24)
         }
+        .buttonStyle(.borderless)
         .disabled(presentation.isTranslating)
-    }
-
-    private var providerPicker: some View {
-        Picker(localization.string(.translationProvider), selection: providerBinding) {
-            Text(localization.string(.translationChooseProvider)).tag(nil as TranslationProviderID?)
-            ForEach(availableProviders, id: \.self) { provider in
-                Text(providerName(provider)).tag(provider as TranslationProviderID?)
-            }
-        }
-        .labelsHidden()
-        .frame(minWidth: 130, maxWidth: dynamicTypeSize.isAccessibilitySize ? .infinity : nil)
-        .accessibilityLabel(localization.string(.translationProvider))
-        .accessibilityIdentifier(MenuPopoverTranslationAccessibility.providerPicker)
-    }
-
-    private var languageControls: some View {
-        HStack(spacing: 8) {
-            Picker(localization.string(.translationSourceLanguage), selection: sourceLanguageBinding) {
-                Text(localization.string(.translationDetectLanguage)).tag(nil as TranslationLanguage?)
-                ForEach(SupportedLanguages.all, id: \.self) { language in
-                    Text(languageName(language)).tag(language as TranslationLanguage?)
-                }
-            }
-            .labelsHidden()
-            .frame(minWidth: 150)
-            .accessibilityLabel(localization.string(.translationSourceLanguage))
-            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.sourceLanguagePicker)
-
-            Button(action: model.swapLanguages) {
-                Image(systemName: "arrow.left.arrow.right")
-                    .frame(width: 24, height: 24)
-            }
-            .buttonStyle(.borderless)
-            .disabled(presentation.isTranslating)
-            .help(localization.string(.translationSwapLanguages))
-            .accessibilityLabel(localization.string(.translationSwapLanguages))
-            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.swapButton)
-
-            Picker(localization.string(.translationTargetLanguage), selection: targetLanguageBinding) {
-                ForEach(SupportedLanguages.all, id: \.self) { language in
-                    Text(languageName(language)).tag(language)
-                }
-            }
-            .labelsHidden()
-            .frame(minWidth: 150)
-            .accessibilityLabel(localization.string(.translationTargetLanguage))
-            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.targetLanguagePicker)
-        }
+        .help(localization.string(.translationSwapLanguages))
+        .accessibilityLabel(localization.string(.translationSwapLanguages))
+        .accessibilityIdentifier(MenuPopoverTranslationAccessibility.swapButton)
     }
 
     @ViewBuilder private var status: some View {
@@ -286,14 +348,6 @@ struct MenuPopoverTranslationView: View {
                 }
             }
             .font(.caption)
-            .accessibilityIdentifier(MenuPopoverTranslationAccessibility.status)
-        } else if presentation.isTranslating {
-            HStack(spacing: 8) {
-                ProgressView().controlSize(.small)
-                Text(localization.string(.translationInProgress))
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(localization.string(.translationInProgress))
             .accessibilityIdentifier(MenuPopoverTranslationAccessibility.status)
         }
     }
@@ -340,17 +394,7 @@ struct MenuPopoverTranslationView: View {
     }
 
     private var sourceTextBinding: Binding<String> {
-        Binding(get: { model.sourceText }, set: model.setSourceText)
-    }
-
-    private var providerBinding: Binding<TranslationProviderID?> {
-        Binding(
-            get: {
-                guard let providerID = model.providerID, availableProviders.contains(providerID) else { return nil }
-                return providerID
-            },
-            set: model.setProviderID
-        )
+        Binding(get: { model.sourceText }, set: model.setSourceTextFromUserInput)
     }
 
     private var sourceLanguageBinding: Binding<TranslationLanguage?> {
@@ -359,6 +403,13 @@ struct MenuPopoverTranslationView: View {
 
     private var targetLanguageBinding: Binding<TranslationLanguage> {
         Binding(get: { model.targetLanguage }, set: model.setTargetLanguage)
+    }
+
+    private var providerAccessibilityLabel: String {
+        guard let providerID = model.providerID, availableProviders.contains(providerID) else {
+            return localization.string(.translationChooseProvider)
+        }
+        return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }
 
     private func providerName(_ provider: TranslationProviderID) -> String {

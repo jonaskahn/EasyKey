@@ -114,6 +114,44 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertTrue(reloaded.settings.translation.acknowledgedCloudDisclosureProviders.isEmpty)
     }
 
+    func testShowInMenuPopoverTogglePersists() async {
+        let model = makeModel()
+        XCTAssertTrue(model.showInMenuPopover)
+        model.setShowInMenuPopover(false)
+        XCTAssertFalse(model.showInMenuPopover)
+        await settingsStore.saveNow()
+
+        let reloaded = SettingsStore(fileURL: settingsURL)
+        XCTAssertFalse(reloaded.settings.translation.showInMenuPopover)
+    }
+
+    func testAutoTranslateDelayPersists() async {
+        let model = makeModel()
+        XCTAssertEqual(model.autoTranslateDelayMs, 500)
+        model.setAutoTranslateDelayMs(1000)
+        XCTAssertEqual(model.autoTranslateDelayMs, 1000)
+        model.setAutoTranslateDelayMs(99)
+        XCTAssertEqual(model.autoTranslateDelayMs, 1000)
+        await settingsStore.saveNow()
+
+        let reloaded = SettingsStore(fileURL: settingsURL)
+        XCTAssertEqual(reloaded.settings.translation.autoTranslateDelayMs, 1000)
+    }
+
+    func testIsEnabledTogglePersistsAndNotifiesRuntime() async {
+        let model = makeModel()
+        var callbackCount = 0
+        model.onEnabledChange = { callbackCount += 1 }
+
+        XCTAssertTrue(model.isEnabled)
+        model.setIsEnabled(false)
+        await settingsStore.saveNow()
+
+        let reloaded = SettingsStore(fileURL: settingsURL)
+        XCTAssertFalse(reloaded.settings.translation.isEnabled)
+        XCTAssertEqual(callbackCount, 1)
+    }
+
     func testInvalidModelIdentifierDoesNotOverwritePersistedValue() {
         let model = makeModel()
         let original = model.modelIdentifier(for: .anthropic)
@@ -217,10 +255,12 @@ final class TranslationSettingsModelTests: XCTestCase {
     func testAccessibilityIdentifiersAreStableAndUnique() {
         let identifiers = TranslationSettingsModel.cloudProviders.map(TranslationSettingsAccessibility.credentialField)
             + [
+                TranslationSettingsAccessibility.enableToggle,
                 TranslationSettingsAccessibility.providerPicker,
                 TranslationSettingsAccessibility.sourcePicker,
                 TranslationSettingsAccessibility.shortcutStatus,
                 TranslationSettingsAccessibility.disclosureReset,
+                TranslationSettingsAccessibility.appleLanguageSettings,
             ]
         XCTAssertEqual(Set(identifiers).count, identifiers.count)
         XCTAssertFalse(identifiers.contains(where: \.isEmpty))

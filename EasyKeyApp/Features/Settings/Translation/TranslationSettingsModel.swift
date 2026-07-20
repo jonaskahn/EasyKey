@@ -51,6 +51,22 @@ struct LiveTranslationCredentialValidator: TranslationCredentialValidating {
                 url: URL(string: "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1")!,
                 headers: ["x-goog-api-key": credential]
             )
+        case .openRouter:
+            return try await validateRequest(
+                url: URL(string: "https://openrouter.ai/api/v1/models")!,
+                headers: ["Authorization": "Bearer \(credential)"]
+            )
+        case .groq:
+            return try await validateRequest(
+                url: URL(string: "https://api.groq.com/openai/v1/models")!,
+                headers: ["Authorization": "Bearer \(credential)"]
+            )
+        case .openAICompatible:
+            guard !options.openAICompatibleEndpoint.isEmpty else { return false }
+            return true
+        case .anthropicCompatible:
+            guard !options.anthropicCompatibleEndpoint.isEmpty else { return false }
+            return true
         case .automatic, .apple:
             return false
         }
@@ -91,6 +107,7 @@ final class TranslationSettingsModel: ObservableObject {
     private let credentialValidator: TranslationCredentialValidating
     var shortcutApplier: ShortcutApplier?
     var onCredentialsChange: (() -> Void)?
+    var onEnabledChange: (() -> Void)?
 
     init(
         settingsStore: SettingsStore,
@@ -157,6 +174,18 @@ final class TranslationSettingsModel: ObservableObject {
         settingsStore.settings.translation.deepLEndpoint
     }
 
+    var isEnabled: Bool {
+        settingsStore.settings.translation.isEnabled
+    }
+
+    var showInMenuPopover: Bool {
+        settingsStore.settings.translation.showInMenuPopover
+    }
+
+    var autoTranslateDelayMs: Int {
+        settingsStore.settings.translation.autoTranslateDelayMs
+    }
+
     var acknowledgedDisclosureProviders: Set<TranslationProviderID> {
         settingsStore.settings.translation.acknowledgedCloudDisclosureProviders
     }
@@ -166,6 +195,10 @@ final class TranslationSettingsModel: ObservableObject {
         case .openAI: settingsStore.settings.translation.openAIModelIdentifier
         case .anthropic: settingsStore.settings.translation.anthropicModelIdentifier
         case .gemini: settingsStore.settings.translation.geminiModelIdentifier
+        case .openRouter: settingsStore.settings.translation.openRouterModelIdentifier
+        case .groq: settingsStore.settings.translation.groqModelIdentifier
+        case .openAICompatible: settingsStore.settings.translation.openAICompatibleModelIdentifier
+        case .anthropicCompatible: settingsStore.settings.translation.anthropicCompatibleModelIdentifier
         case .automatic, .apple, .deepL, .google: nil
         }
     }
@@ -190,11 +223,51 @@ final class TranslationSettingsModel: ObservableObject {
             ?? (shortcut.isActive ? .registered(shortcut) : .unregistered)
     }
 
+    func publishRegistrationState(_ state: TranslationHotKeyRegistrationState) {
+        shortcutRegistrationState = state
+        objectWillChange.send()
+    }
+
     func setDeepLEndpoint(_ endpoint: TranslationOptions.DeepLEndpoint) {
         settingsStore.update { $0.translation.deepLEndpoint = endpoint }
         if credentialStatuses[.deepL] == .ready {
             credentialStatuses[.deepL] = .saved
         }
+        objectWillChange.send()
+    }
+
+    func setIsEnabled(_ value: Bool) {
+        settingsStore.update { $0.translation.isEnabled = value }
+        objectWillChange.send()
+        onEnabledChange?()
+    }
+
+    func setShowInMenuPopover(_ value: Bool) {
+        settingsStore.update { $0.translation.showInMenuPopover = value }
+        objectWillChange.send()
+    }
+
+    func setAutoTranslateDelayMs(_ value: Int) {
+        guard TranslationOptions.AutoTranslateDelayPreset(rawValue: value) != nil else { return }
+        settingsStore.update { $0.translation.autoTranslateDelayMs = value }
+        objectWillChange.send()
+    }
+
+    func openAICompatibleEndpoint() -> String {
+        settingsStore.settings.translation.openAICompatibleEndpoint
+    }
+
+    func setOpenAICompatibleEndpoint(_ value: String) {
+        settingsStore.update { $0.translation.openAICompatibleEndpoint = value.trimmingCharacters(in: .whitespacesAndNewlines) }
+        objectWillChange.send()
+    }
+
+    func anthropicCompatibleEndpoint() -> String {
+        settingsStore.settings.translation.anthropicCompatibleEndpoint
+    }
+
+    func setAnthropicCompatibleEndpoint(_ value: String) {
+        settingsStore.update { $0.translation.anthropicCompatibleEndpoint = value.trimmingCharacters(in: .whitespacesAndNewlines) }
         objectWillChange.send()
     }
 
@@ -207,6 +280,10 @@ final class TranslationSettingsModel: ObservableObject {
             case .openAI: $0.translation.openAIModelIdentifier = trimmed
             case .anthropic: $0.translation.anthropicModelIdentifier = trimmed
             case .gemini: $0.translation.geminiModelIdentifier = trimmed
+            case .openRouter: $0.translation.openRouterModelIdentifier = trimmed
+            case .groq: $0.translation.groqModelIdentifier = trimmed
+            case .openAICompatible: $0.translation.openAICompatibleModelIdentifier = trimmed
+            case .anthropicCompatible: $0.translation.anthropicCompatibleModelIdentifier = trimmed
             case .automatic, .apple, .deepL, .google: return
             }
         }

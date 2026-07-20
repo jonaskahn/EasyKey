@@ -2414,6 +2414,108 @@
         }
       }
     },
+    "system.menuPopoverWidth": {
+      "comment": "Picker label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menu Popover Width"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiều rộng cửa sổ bật lên trên thanh menu"
+          }
+        }
+      }
+    },
+    "system.menuPopoverWidth.compact": {
+      "comment": "Popover width picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compact"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thu gọn"
+          }
+        }
+      }
+    },
+    "system.menuPopoverWidth.small": {
+      "comment": "Popover width picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhỏ"
+          }
+        }
+      }
+    },
+    "system.menuPopoverWidth.medium": {
+      "comment": "Popover width picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medium"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vừa"
+          }
+        }
+      }
+    },
+    "system.menuPopoverWidth.large": {
+      "comment": "Popover width picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lớn"
+          }
+        }
+      }
+    },
+    "system.menuPopoverWidth.extraLarge": {
+      "comment": "Popover width picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra Large"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rất lớn"
+          }
+        }
+      }
+    },
     "system.showDockIcon": {
       "comment": "Toggle",
       "localizations": {
@@ -2648,6 +2750,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Trang web"
+          }
+        }
+      }
+    },
+    "about.trademarks": {
+      "comment": "Section title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trademarks"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thương hiệu"
+          }
+        }
+      }
+    },
+    "about.trademarksDescription": {
+      "comment": "Trademark disclaimer text",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All product names, logos, and/or brands are property of their respective owners. Apple, DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq, and other translation provider names or logos used in this application are for identification purposes only. Use of these names, logos, and brands does not imply endorsement."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tất cả tên sản phẩm, logo và thương hiệu đều thuộc sở hữu của các chủ sở hữu tương ứng. Tên hoặc logo của Apple, DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq và các nhà cung cấp dịch vụ dịch thuật khác được sử dụng trong ứng dụng này chỉ nhằm mục đích nhận diện. Việc sử dụng các tên, logo và thương hiệu này không ngụ ý sự xác nhận hoặc hợp tác."
           }
         }
       }
@@ -3243,6 +3379,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kiểu gõ"
+          }
+        }
+      }
+    },
+    "menu.inputSection": {
+      "comment": "Popover section heading",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập liệu"
           }
         }
       }
@@ -4253,13 +4406,29 @@
     "translation.resultPlaceholder": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation appears here." } }, "vi": { "stringUnit": { "state": "translated", "value": "Bản dịch sẽ xuất hiện tại đây." } } } },
     "translation.characterCount": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%d of %d characters" } }, "vi": { "stringUnit": { "state": "translated", "value": "%d/%d ký tự" } } } },
     "translation.detectedLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Detected: %@" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã phát hiện: %@" } } } },
+    "translation.enableTranslation": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Enable Translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Bật Dịch thuật" } } } },
     "translation.translate": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translate" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch" } } } },
-    "translation.translateHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translates source text. Command-Return." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch văn bản nguồn. Command-Return." } } } },
+     "translation.translateHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translates source text. Command-Return." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch văn bản nguồn. Command-Return." } } } },
+    "translation.editorInstructions": {
+      "comment": "Translation editor instructions",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Enter to translate · Shift+Enter for new line" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Enter để dịch · Shift+Enter xuống dòng" } } } },
+    "translation.autoTranslateDisclosure": {
+      "comment": "Translation auto-translate disclosure",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Paste automatically translates. For typing, press Return." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dán văn bản sẽ tự động dịch. Khi nhập, nhấn Enter." } } } },
+    "translation.settings.autoTranslateDelay": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translate after typing stops" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch sau khi ngừng nhập" } } } },
+    "translation.settings.delayMilliseconds": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ ms" } }, "vi": { "stringUnit": { "state": "translated", "value": "%@ ms" } } } },
+    "translation.settings.delaySeconds": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ s" } }, "vi": { "stringUnit": { "state": "translated", "value": "%@ giây" } } } },
+    "translation.settings.endpoint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Endpoint URL" } }, "vi": { "stringUnit": { "state": "translated", "value": "URL điểm cuối" } } } },
+    "translation.settings.endpointHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Enter the base URL for the API endpoint" } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhập URL gốc cho điểm cuối API" } } } },
     "translation.inProgress": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translating…" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đang dịch…" } } } },
-    "translation.instructions": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Select text, press %@, choose provider and languages, then Translate. Escape closes." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chọn văn bản, nhấn %@, chọn nhà cung cấp và ngôn ngữ, rồi chọn Dịch. Escape để đóng." } } } },
+    "translation.instructions": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Select text, press %@. Typing translates after the configured delay. Command-Return translates now. Escape closes." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chọn văn bản, nhấn %@. Nhập văn bản sẽ dịch sau độ trễ đã cài đặt. Command-Return để dịch ngay. Escape để đóng." } } } },
     "translation.localDisclosure": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Processed on this Mac with Apple Translation." } }, "vi": { "stringUnit": { "state": "translated", "value": "Được xử lý trên máy Mac này bằng Apple Translation." } } } },
-    "translation.cloudDisclosure": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Only when you choose Translate, submitted source text is sent directly to %@." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chỉ khi bạn chọn Dịch, văn bản nguồn bạn gửi mới được chuyển trực tiếp đến %@." } } } },
-    "translation.cloudDisclosure.firstUse": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Only when you choose Translate, EasyKey sends submitted source text directly to %@. Nothing is sent while you type. %@ handles submitted text under its own privacy and data terms." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chỉ khi bạn chọn Dịch, EasyKey mới gửi trực tiếp văn bản nguồn bạn gửi đến %@. Không có nội dung nào được gửi trong khi bạn nhập. %@ xử lý văn bản đã gửi theo điều khoản dữ liệu và quyền riêng tư riêng." } } } },
+    "translation.cloudDisclosure": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Submitted source text is sent directly to %@ after the configured delay or when you choose Translate." } }, "vi": { "stringUnit": { "state": "translated", "value": "Văn bản nguồn bạn gửi được chuyển trực tiếp đến %@ sau độ trễ đã cài đặt hoặc khi bạn chọn Dịch." } } } },
+    "translation.cloudDisclosure.firstUse": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "EasyKey sends submitted source text directly to %@ after the configured delay or when you choose Translate. Nothing is sent while you type outside the translation editor. %@ handles submitted text under its own privacy and data terms." } }, "vi": { "stringUnit": { "state": "translated", "value": "EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến %@ sau độ trễ đã cài đặt hoặc khi bạn chọn Dịch. Không có nội dung nào được gửi trong khi bạn nhập bên ngoài trình soạn thảo dịch. %@ xử lý văn bản đã gửi theo điều khoản dữ liệu và quyền riêng tư riêng." } } } },
     "translation.setup.title": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Set up translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Thiết lập dịch thuật" } } } },
     "translation.setup.message": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Configure a translation provider before translating." } }, "vi": { "stringUnit": { "state": "translated", "value": "Hãy cấu hình nhà cung cấp dịch trước khi dịch." } } } },
     "translation.openSettings": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Open Settings" } }, "vi": { "stringUnit": { "state": "translated", "value": "Mở Cài đặt" } } } },
@@ -4296,6 +4465,8 @@
     "translation.settings.deleteKeyConfirmMessage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "This removes the key from this Mac. This provider cannot translate until another key is saved." } }, "vi": { "stringUnit": { "state": "translated", "value": "Thao tác này xóa khóa khỏi máy Mac này. Nhà cung cấp này không thể dịch cho đến khi lưu khóa khác." } } } },
     "translation.settings.deleteKeyConfirmTitle": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Delete %@ credential?" } }, "vi": { "stringUnit": { "state": "translated", "value": "Xóa thông tin xác thực %@?" } } } },
     "translation.settings.general": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "General" } }, "vi": { "stringUnit": { "state": "translated", "value": "Chung" } } } },
+    "translation.menuPopoverVisibility": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Show in menu bar popover" } }, "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị trong cửa sổ bật lên trên thanh menu" } } } },
+    "translation.settings.manageAppleLanguages": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Manage Apple Languages" } }, "vi": { "stringUnit": { "state": "translated", "value": "Quản lý ngôn ngữ Apple" } } } },
     "translation.settings.model": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Model identifier" } }, "vi": { "stringUnit": { "state": "translated", "value": "Mã mô hình" } } } },
     "translation.settings.modelHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Press Return to validate and save this model identifier." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhấn Return để xác thực và lưu mã mô hình này." } } } },
     "translation.settings.modelInvalid": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Use 1–100 letters, numbers, periods, hyphens, or underscores." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dùng 1–100 chữ cái, số, dấu chấm, gạch nối hoặc gạch dưới." } } } },

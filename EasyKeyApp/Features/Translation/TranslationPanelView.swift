@@ -152,14 +152,18 @@ struct TranslationPanelView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
+            HStack(alignment: .center, spacing: 8) {
                 Label(localization.string(.translationTitle), systemImage: "character.bubble")
                     .font(.headline)
-                Spacer()
-                providerPicker
+                if presentation.isTranslating {
+                    ProgressView().controlSize(.small)
+                }
+                Spacer(minLength: 8)
+                providerControl
             }
             HStack(spacing: 8) {
                 sourceLanguagePicker
+                    .frame(maxWidth: .infinity)
                 Button(action: model.swapLanguages) {
                     Image(systemName: "arrow.left.arrow.right")
                         .frame(width: 24, height: 24)
@@ -170,44 +174,104 @@ struct TranslationPanelView: View {
                 .accessibilityLabel(localization.string(.translationSwapLanguages))
                 .accessibilityIdentifier(TranslationPanelAccessibility.swapButton)
                 targetLanguagePicker
+                    .frame(maxWidth: .infinity)
             }
+            .frame(maxWidth: .infinity)
         }
     }
 
-    private var providerPicker: some View {
-        Picker(localization.string(.translationProvider), selection: providerBinding) {
-            Text(localization.string(.translationChooseProvider))
-                .tag(nil as TranslationProviderID?)
-            ForEach(availableProviders, id: \.self) { provider in
-                Text(providerName(provider)).tag(provider as TranslationProviderID?)
-            }
+    private var providerControl: some View {
+        TranslationProviderPickerButton(
+            selection: model.providerID,
+            availableProviders: availableProviders,
+            chooseTitle: localization.string(.translationChooseProvider),
+            providerLabel: providerName,
+            accessibilityLabel: providerAccessibilityLabel,
+            accessibilityIdentifier: TranslationPanelAccessibility.providerPicker,
+            onSelect: model.setProviderID
+        )
+    }
+
+    private var providerAccessibilityLabel: String {
+        guard let providerID = model.providerID, availableProviders.contains(providerID) else {
+            return localization.string(.translationChooseProvider)
         }
-        .labelsHidden()
-        .frame(maxWidth: 190)
-        .accessibilityLabel(localization.string(.translationProvider))
-        .accessibilityIdentifier(TranslationPanelAccessibility.providerPicker)
+        return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }
 
     private var sourceLanguagePicker: some View {
-        Picker(localization.string(.translationSourceLanguage), selection: sourceLanguageBinding) {
-            Text(localization.string(.translationDetectLanguage))
-                .tag(nil as TranslationLanguage?)
-            ForEach(SupportedLanguages.all, id: \.self) { language in
-                Text(languageName(language)).tag(language as TranslationLanguage?)
+        Menu {
+            Button {
+                sourceLanguageBinding.wrappedValue = nil
+            } label: {
+                if sourceLanguageBinding.wrappedValue == nil {
+                    Label(localization.string(.translationDetectLanguage), systemImage: "checkmark")
+                } else {
+                    Text(localization.string(.translationDetectLanguage))
+                }
             }
+            ForEach(SupportedLanguages.all, id: \.self) { language in
+                Button {
+                    sourceLanguageBinding.wrappedValue = language
+                } label: {
+                    if sourceLanguageBinding.wrappedValue == language {
+                        Label(languageName(language), systemImage: "checkmark")
+                    } else {
+                        Text(languageName(language))
+                    }
+                }
+            }
+        } label: {
+            languageMenuLabel(
+                sourceLanguageBinding.wrappedValue.map(languageName)
+                    ?? localization.string(.translationDetectLanguage)
+            )
         }
-        .frame(maxWidth: .infinity)
+        .menuIndicator(.hidden)
+        .menuStyle(.borderlessButton)
+        .accessibilityLabel(localization.string(.translationSourceLanguage))
         .accessibilityIdentifier(TranslationPanelAccessibility.sourceLanguagePicker)
     }
 
     private var targetLanguagePicker: some View {
-        Picker(localization.string(.translationTargetLanguage), selection: targetLanguageBinding) {
+        Menu {
             ForEach(SupportedLanguages.all, id: \.self) { language in
-                Text(languageName(language)).tag(language)
+                Button {
+                    targetLanguageBinding.wrappedValue = language
+                } label: {
+                    if targetLanguageBinding.wrappedValue == language {
+                        Label(languageName(language), systemImage: "checkmark")
+                    } else {
+                        Text(languageName(language))
+                    }
+                }
             }
+        } label: {
+            languageMenuLabel(languageName(targetLanguageBinding.wrappedValue))
         }
-        .frame(maxWidth: .infinity)
+        .menuIndicator(.hidden)
+        .menuStyle(.borderlessButton)
+        .accessibilityLabel(localization.string(.translationTargetLanguage))
         .accessibilityIdentifier(TranslationPanelAccessibility.targetLanguagePicker)
+    }
+
+    private func languageMenuLabel(_ title: String) -> some View {
+        HStack(spacing: 4) {
+            Text(title)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer(minLength: 4)
+            Image(systemName: "chevron.up.chevron.down")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 8)
+        .frame(maxWidth: .infinity, minHeight: 22)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 5))
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(Color(nsColor: .separatorColor), lineWidth: 1)
+        }
     }
 
     private var sourceSection: some View {
@@ -280,14 +344,6 @@ struct TranslationPanelView: View {
                         .accessibilityIdentifier(TranslationPanelAccessibility.settingsButton)
                 }
             }
-        } else if presentation.isTranslating {
-            HStack(spacing: 8) {
-                ProgressView().controlSize(.small)
-                Text(localization.string(.translationInProgress))
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(localization.string(.translationInProgress))
-            .accessibilityIdentifier(TranslationPanelAccessibility.status)
         }
     }
 
@@ -311,7 +367,7 @@ struct TranslationPanelView: View {
 
     private var footer: some View {
         HStack(alignment: .center, spacing: 12) {
-            Text(localization.format(.translationInstructions, localization.shortcutLabel(shortcut)))
+            Text(localization.string(.translationEditorInstructions))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -374,37 +430,40 @@ struct TranslationPanelView: View {
     }
 
     @ViewBuilder private func speechControl(field: TranslationSpeechField) -> some View {
-        let availability = speechAvailability(field)
-        let subject = field == .source
-            ? localization.string(.translationSourceText)
-            : localization.string(.translationResult)
-        let speechLabel = localization.format(.translationPronounceSubject, subject)
-        if speech.speakingField == field {
-            Button(localization.string(.translationStopSpeaking)) { speech.stopSpeaking() }
+        if pronunciationSupported {
+            let availability = speechAvailability(field)
+            let subject = field == .source
+                ? localization.string(.translationSourceText)
+                : localization.string(.translationResult)
+            let speechLabel = localization.format(.translationPronounceSubject, subject)
+            if speech.speakingField == field {
+                Button(localization.string(.translationStopSpeaking)) { speech.stopSpeaking() }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel("\(localization.string(.translationStopSpeaking)): \(subject)")
+                    .accessibilityIdentifier(speechIdentifier(field))
+            } else {
+                Button {
+                    speak(field)
+                } label: {
+                    Label(localization.string(.translationPronounce), systemImage: "speaker.wave.2")
+                }
                 .buttonStyle(.borderless)
-                .accessibilityLabel("\(localization.string(.translationStopSpeaking)): \(subject)")
+                .disabled(availability != .available)
+                .help(speechAvailabilityMessage(availability))
+                .accessibilityLabel(speechLabel)
+                .accessibilityHint(speechAvailabilityMessage(availability))
                 .accessibilityIdentifier(speechIdentifier(field))
-        } else {
-            Button {
-                speak(field)
-            } label: {
-                Label(localization.string(.translationPronounce), systemImage: "speaker.wave.2")
             }
-            .buttonStyle(.borderless)
-            .disabled(availability != .available)
-            .help(speechAvailabilityMessage(availability))
-            .accessibilityLabel(speechLabel)
-            .accessibilityHint(speechAvailabilityMessage(availability))
-            .accessibilityIdentifier(speechIdentifier(field))
         }
     }
 
-    private var sourceTextBinding: Binding<String> {
-        Binding(get: { model.sourceText }, set: model.setSourceText)
+    private var pronunciationSupported: Bool {
+        guard let providerID = model.providerID else { return false }
+        return TranslationPronunciationPolicy.supports(providerID)
     }
 
-    private var providerBinding: Binding<TranslationProviderID?> {
-        Binding(get: { model.providerID }, set: model.setProviderID)
+    private var sourceTextBinding: Binding<String> {
+        Binding(get: { model.sourceText }, set: model.setSourceTextFromUserInput)
     }
 
     private var sourceLanguageBinding: Binding<TranslationLanguage?> {

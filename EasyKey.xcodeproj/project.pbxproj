@@ -11,6 +11,10 @@
 		170000000000000000000002 /* TranslationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000012 /* TranslationSettingsView.swift */; };
 		170000000000000000000003 /* TranslationSettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000013 /* TranslationSettingsModelTests.swift */; };
 		180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000011 /* MenuPopoverTranslationView.swift */; };
+		180000000000000000000002 /* TranslationProviderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000012 /* TranslationProviderIcon.swift */; };
+		D000000000000000000001 /* TranslationTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000000000000000000002 /* TranslationTextEditor.swift */; };
+		E000000000000000000001 /* OpenAICompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */; };
+		E000000000000000000003 /* AnthropicCompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */; };
 		190000000000000000000001 /* AppTranslationRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000011 /* AppTranslationRuntime.swift */; };
 		190000000000000000000002 /* AppTranslationRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000012 /* AppTranslationRuntimeTests.swift */; };
 		080000000000000000000001 /* GoogleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000011 /* GoogleTranslationProvider.swift */; };
@@ -326,6 +330,10 @@
 		170000000000000000000012 /* TranslationSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationSettingsView.swift; sourceTree = "<group>"; };
 		170000000000000000000013 /* TranslationSettingsModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSettingsModelTests.swift; sourceTree = "<group>"; };
 		180000000000000000000011 /* MenuPopoverTranslationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuPopoverTranslationView.swift; sourceTree = "<group>"; };
+		180000000000000000000012 /* TranslationProviderIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderIcon.swift; sourceTree = "<group>"; };
+		D000000000000000000002 /* TranslationTextEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationTextEditor.swift; sourceTree = "<group>"; };
+		E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAICompatibleTranslationProvider.swift; sourceTree = "<group>"; };
+		E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicCompatibleTranslationProvider.swift; sourceTree = "<group>"; };
 		080000000000000000000011 /* GoogleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProvider.swift; sourceTree = "<group>"; };
 		080000000000000000000012 /* GoogleTranslationProviderTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTestSupport.swift; sourceTree = "<group>"; };
 		080000000000000000000013 /* GoogleTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTests.swift; sourceTree = "<group>"; };
@@ -645,6 +653,10 @@
 				0F0000000000000000000011 /* TranslationSpeechController.swift */,
 				160000000000000000000011 /* TranslationPanelView.swift */,
 				180000000000000000000011 /* MenuPopoverTranslationView.swift */,
+				180000000000000000000012 /* TranslationProviderIcon.swift */,
+				D000000000000000000002 /* TranslationTextEditor.swift */,
+				E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */,
+				E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */,
 			);
 			name = Translation;
 			path = Translation;
@@ -1545,6 +1557,10 @@
 				170000000000000000000001 /* TranslationSettingsModel.swift in Sources */,
 				170000000000000000000002 /* TranslationSettingsView.swift in Sources */,
 				180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */,
+				180000000000000000000002 /* TranslationProviderIcon.swift in Sources */,
+				D000000000000000000001 /* TranslationTextEditor.swift in Sources */,
+				E000000000000000000001 /* OpenAICompatibleTranslationProvider.swift in Sources */,
+				E000000000000000000003 /* AnthropicCompatibleTranslationProvider.swift in Sources */,
 				F1B100000000000000000004 /* TypingSettingsView.swift in Sources */,
 				F1B100000000000000000005 /* EncodingSettingsView.swift in Sources */,
 				F1B100000000000000000006 /* MacroSettingsView.swift in Sources */,

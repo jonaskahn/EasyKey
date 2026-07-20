@@ -60,6 +60,7 @@ final class AppCoordinator: ObservableObject {
     @Published var selectedSettingsSection: SettingsSection = .typing
     @Published var macroRevision = 0
     @Published var smartSwitchRevision = 0
+    @Published private(set) var systemHealthNavigationRevision = 0
 
     var settingsObserver: AnyCancellable?
     var localizationObserver: AnyCancellable?
@@ -226,6 +227,15 @@ final class AppCoordinator: ObservableObject {
             return
         }
         presentSettingsWindow()
+    }
+
+    func showSettingsFromPopover(section preferredSection: SettingsSection? = nil) {
+        if keyboardHealth == .requestingPermission {
+            systemHealthNavigationRevision &+= 1
+            showSettings(section: .system)
+        } else {
+            showSettings(section: preferredSection)
+        }
     }
 
     func clearSettingsWindowIfNeeded(_ window: NSWindow) {

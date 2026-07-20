@@ -12,4 +12,8 @@ public enum TranslationProviderID: String, Codable, CaseIterable, Sendable {
     case openAI
     case anthropic
     case gemini
+    case openRouter
+    case groq
+    case openAICompatible
+    case anthropicCompatible
 }

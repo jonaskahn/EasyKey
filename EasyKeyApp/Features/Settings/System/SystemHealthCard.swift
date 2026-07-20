@@ -38,6 +38,7 @@ struct SystemHealthCard: View {
             }
         }
         .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(color.opacity(0.08), in: RoundedRectangle(cornerRadius: DesignScale.radiusMD))
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title). \(detail)")

@@ -14,6 +14,9 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(options.geminiModelIdentifier, TranslationOptions.defaultGeminiModelIdentifier)
         XCTAssertEqual(options.deepLEndpoint, .free)
         XCTAssertTrue(options.acknowledgedCloudDisclosureProviders.isEmpty)
+        XCTAssertTrue(options.isEnabled)
+        XCTAssertTrue(options.showInMenuPopover)
+        XCTAssertEqual(options.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
     }
 
     func testDefaultShortcut_DisplaysAsOptionA() {
@@ -30,10 +33,42 @@ final class TranslationOptionsTests: XCTestCase {
         options.openAIModelIdentifier = "custom-model"
         options.deepLEndpoint = .pro
         options.acknowledgedCloudDisclosureProviders = [.deepL, .openAI]
+        options.isEnabled = false
+        options.showInMenuPopover = false
+        options.autoTranslateDelayMs = 1000
 
         let data = try JSONEncoder().encode(options)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
         XCTAssertEqual(decoded, options)
+        XCTAssertFalse(decoded.isEnabled)
+        XCTAssertFalse(decoded.showInMenuPopover)
+        XCTAssertEqual(decoded.autoTranslateDelayMs, 1000)
+    }
+
+    func testLegacyDecode_MissingIsEnabledDefaultsToTrue() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertTrue(decoded.isEnabled)
+    }
+
+    func testLegacyDecode_MissingShowInMenuPopoverDefaultsToTrue() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertTrue(decoded.showInMenuPopover)
+    }
+
+    func testLegacyDecode_MissingAutoTranslateDelayMs_DefaultsTo500() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertEqual(decoded.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
+    }
+
+    func testAutoTranslateDelayPresets_ProduceCorrectTimeIntervals() {
+        XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms250.timeInterval, 0.25)
+        XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms500.timeInterval, 0.5)
+        XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms750.timeInterval, 0.75)
+        XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms1000.timeInterval, 1.0)
+        XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms1500.timeInterval, 1.5)
     }
 
     // MARK: - No secrets or translation content in Codable representation
@@ -56,8 +91,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(EasyKeySettings.defaults.translation, TranslationOptions())
     }
 
-    func testCurrentSchemaVersion_IsFive() {
-        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 5)
+    func testCurrentSchemaVersion_IsSeven() {
+        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 7)
     }
 
     func testLegacySettingsWithoutTranslationKey_DecodeWithDefaultsAndPreserveOthers() throws {
