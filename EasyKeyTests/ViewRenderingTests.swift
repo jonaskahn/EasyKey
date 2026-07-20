@@ -505,6 +505,146 @@ final class ViewRenderingTests: XCTestCase {
         return appURL
     }
 
+    func testTranslationProviderIcon_RendersAllProviders() {
+        let providers: [TranslationProviderID] = [
+            .automatic, .apple, .deepL, .google, .openAI, .anthropic, .gemini,
+            .openRouter, .groq, .openAICompatible, .anthropicCompatible,
+        ]
+        for provider in providers {
+            render { TranslationProviderIcon(provider: provider, size: 20) }
+        }
+    }
+
+    func testClipboardSettingsView_BindingsAndActionsUpdateSettings() {
+        coordinator.settingsStore.update {
+            $0.clipboard.capturedKinds = [.text]
+            $0.clipboard.ignoredApplicationBundleIdentifiers = ["dev.example.Ignore"]
+        }
+        let view = ClipboardSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+
+        view.persistBinding.wrappedValue = false
+        XCTAssertFalse(coordinator.settingsStore.settings.clipboard.persistsHistory)
+
+        view.persistBinding.wrappedValue = true
+        XCTAssertTrue(coordinator.settingsStore.settings.clipboard.persistsHistory)
+
+        view.confirmDisablePersistence()
+        XCTAssertFalse(coordinator.settingsStore.settings.clipboard.persistsHistory)
+
+        XCTAssertTrue(coordinator.settingsStore.settings.clipboard.capturedKinds.contains(.text))
+    }
+
+    func testTranslationSettingsView_RendersWithAllCloudProvidersVisible() {
+        let model = TranslationSettingsModel(
+            settingsStore: coordinator.settingsStore,
+            platformCapability: TranslationPlatformCapability(supportsAppleTranslation: false),
+            credentialStore: InMemoryTranslationCredentialStore()
+        )
+        render { TranslationSettingsView(model: model) }
+    }
+
+    func testTranslationSettingsView_RendersWithAppleProviderVisible() {
+        let model = TranslationSettingsModel(
+            settingsStore: coordinator.settingsStore,
+            platformCapability: TranslationPlatformCapability(supportsAppleTranslation: true),
+            credentialStore: InMemoryTranslationCredentialStore()
+        )
+        render { TranslationSettingsView(model: model) }
+    }
+
+    func testMacroSettingsView_WithNoMacros_Renders() {
+        render { MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
+    }
+
+    func testSystemSettingsView_RendersWithHealthStates() {
+        coordinator.keyboardHealth = .degraded
+        render { SystemSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
+        coordinator.keyboardHealth = .failed
+        render { SystemSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
+    }
+
+    func testBehaviorSettingsView_RendersWithApplications() {
+        coordinator.settingsStore.update {
+            $0.compatibility.compatibilityModeApplicationBundleIdentifiers = ["dev.example.App"]
+            $0.compatibility.ignoredApplicationBundleIdentifiers = ["dev.example.Ignore"]
+        }
+        render { BehaviorSettingsView(settingsStore: coordinator.settingsStore) }
+    }
+
+    func testMenuPopoverView_RendersWithPausedKeyboard() {
+        coordinator.keyboardPaused = true
+        coordinator.keyboardHealth = .active
+        render { MenuPopoverView(coordinator: coordinator) }
+    }
+
+    func testMenuPopoverView_RendersWithDegradedHealth() {
+        coordinator.keyboardHealth = .degraded
+        render { MenuPopoverView(coordinator: coordinator) }
+    }
+
+    func testMenuPopoverView_RendersWithFailedHealth() {
+        coordinator.keyboardHealth = .failed
+        render { MenuPopoverView(coordinator: coordinator) }
+    }
+
+    func testTranslationPanelView_RendersWithIdleModel() {
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        let view = TranslationPanelView(
+            model: model,
+            speech: TranslationSpeechController(),
+            localization: LocalizationStore.shared,
+            availableProviders: [.deepL],
+            shortcut: .none,
+            actions: TranslationPanelActions(openSettings: {})
+        )
+        render { view }
+    }
+
+    func testTranslationPanelView_RendersWithTranslatingModel() {
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        model.setSourceText("hello")
+        let view = TranslationPanelView(
+            model: model,
+            speech: TranslationSpeechController(),
+            localization: LocalizationStore.shared,
+            availableProviders: [.deepL],
+            shortcut: .none,
+            actions: TranslationPanelActions(openSettings: {})
+        )
+        render { view }
+    }
+
+    func testMenuPopoverTranslationView_RendersWithModel() {
+        let model = TranslationModel(
+            inputLanguage: .english,
+            providerID: .deepL,
+            providerLookup: { _ in nil }
+        )
+        let configuration = MenuPopoverTranslationConfiguration(
+            model: model,
+            availableProviders: [.deepL],
+            platformCapability: .init(supportsAppleTranslation: false),
+            actions: .init(openSettings: {}, announceResult: { _ in })
+        )
+        render {
+            MenuPopoverTranslationView(
+                model: configuration.model,
+                availableProviders: configuration.availableProviders,
+                localization: LocalizationStore.shared,
+                actions: configuration.actions,
+                width: 360
+            )
+        }
+    }
+
     private func waitUntil(timeout: TimeInterval, condition: () -> Bool) {
         let deadline = Date().addingTimeInterval(timeout)
         while !condition(), RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01)), Date() < deadline {}

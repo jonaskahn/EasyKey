@@ -145,6 +145,79 @@ final class ClipboardHistoryModelTests: XCTestCase {
         await model.flushPendingSave()
     }
 
+    func testModel_Apply_DisablesPersistence() async {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("model-disable-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let keyStore = InMemoryClipboardKeyStore()
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.persistsHistory = true
+        let persistence = ClipboardPersistence(directory: directory, keyProvider: keyStore)
+        let model = ClipboardHistoryModel(options: options, persistence: persistence, now: { self.now })
+        model.capture(textClassified(fingerprint: "f", text: "persisted"))
+
+        var disabledOptions = ClipboardOptions(isCaptureEnabled: true)
+        disabledOptions.persistsHistory = false
+        model.apply(disabledOptions)
+
+        XCTAssertEqual(model.entryCount, 1)
+    }
+
+    func testModel_ClearAll_WithFailingPersistence_SetsError() async {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("model-clear-fail-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let keyStore = InMemoryClipboardKeyStore()
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.persistsHistory = true
+        let persistence = ClipboardPersistence(directory: directory, keyProvider: keyStore)
+        let model = ClipboardHistoryModel(options: options, persistence: persistence, now: { self.now })
+        model.capture(textClassified(fingerprint: "f", text: "data"))
+
+        // Delete directory to make persistence.deleteAll fail
+        try? FileManager.default.removeItem(at: directory)
+        await model.clearAll()
+
+        XCTAssertEqual(model.entryCount, 0)
+    }
+
+    func testModel_LoadPersisted_WithFailingPersistence_SetsError() async {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("model-load-fail-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let keyStore = InMemoryClipboardKeyStore()
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.persistsHistory = true
+        let persistence = ClipboardPersistence(directory: directory, keyProvider: keyStore)
+        let model = ClipboardHistoryModel(options: options, persistence: persistence, now: { self.now })
+
+        // Delete directory to make persistence.load fail
+        try? FileManager.default.removeItem(at: directory)
+        await model.loadPersistedHistory()
+
+        XCTAssertEqual(model.entryCount, 0)
+    }
+
+    func testModel_PerformSave_GenerationMismatch_SkipsSave() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("model-gen-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let keyStore = InMemoryClipboardKeyStore()
+        var options = ClipboardOptions(isCaptureEnabled: true)
+        options.persistsHistory = true
+        let persistence = ClipboardPersistence(directory: directory, keyProvider: keyStore)
+        let model = ClipboardHistoryModel(
+            options: options,
+            persistence: persistence,
+            now: { self.now },
+            saveDebounce: .milliseconds(1)
+        )
+        model.capture(textClassified(fingerprint: "f", text: "data"))
+        // Trigger a clear which increments generation before save completes
+        await model.clearAll()
+        try await Task.sleep(for: .milliseconds(50))
+    }
+
     private func textClassified(fingerprint: String, text: String) -> ClassifiedClipboard {
         let item = ClipboardItem(
             kind: .text,

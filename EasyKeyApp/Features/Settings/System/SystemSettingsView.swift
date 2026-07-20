@@ -12,6 +12,14 @@ struct SystemSettingsView: View {
     var body: some View {
         Form {
             Section {
+                SystemHealthCard(coordinator: coordinator)
+            } header: {
+                Text(localization.string(.systemHealth))
+            } footer: {
+                Text(localization.string(.helpSystemHealth))
+            }
+
+            Section {
                 Toggle(isOn: Binding(get: { settingsStore.settings.system.launchAtLogin }, set: coordinator.setLaunchAtLogin)) {
                     SettingsControlLabel(
                         title: localization.string(.systemLaunchAtLogin),
@@ -73,14 +81,6 @@ struct SystemSettingsView: View {
                 }
             } header: {
                 Text(localization.string(.systemUpdates))
-            }
-
-            Section {
-                SystemHealthCard(coordinator: coordinator)
-            } header: {
-                Text(localization.string(.systemHealth))
-            } footer: {
-                Text(localization.string(.helpSystemHealth))
             }
 
             Section {

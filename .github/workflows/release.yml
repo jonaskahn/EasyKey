@@ -9,8 +9,22 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
+    name: Build ${{ matrix.target.name }} DMG
     runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: universal
+            archs: arm64 x86_64
+            required_archs: arm64 x86_64
+          - name: arm64
+            archs: arm64
+            required_archs: arm64
+          - name: amd64
+            archs: x86_64
+            required_archs: x86_64
     steps:
       - name: Checkout tag
         uses: actions/checkout@v5
@@ -20,34 +34,47 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Build DMG (ad-hoc, universal)
+      - name: Build ${{ matrix.target.name }} DMG (ad-hoc)
         env:
           SPARKLE_FEED_URL: ${{ vars.SPARKLE_FEED_URL }}
           SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
           EASYKEY_SUPPORT_URL: ${{ vars.EASYKEY_SUPPORT_URL }}
           EASYKEY_PRIVACY_POLICY_URL: ${{ vars.EASYKEY_PRIVACY_POLICY_URL }}
-        run: make local-dmg
-
-      - name: Locate DMG
-        id: dmg
+          ARCHS: ${{ matrix.target.archs }}
+          REQUIRED_ARCHS: ${{ matrix.target.required_archs }}
+          TARGET_NAME: ${{ matrix.target.name }}
         run: |
-          dmg_path=$(ls build/EasyKey-*-universal.dmg | head -n1)
-          echo "path=$dmg_path" >> "$GITHUB_OUTPUT"
+          make local-dmg
+          if [[ "$TARGET_NAME" != "universal" ]]; then
+            for dmg_path in build/EasyKey-*-universal.dmg; do
+              mv "$dmg_path" "${dmg_path%-universal.dmg}-${TARGET_NAME}.dmg"
+            done
+          fi
 
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v5
         with:
-          name: EasyKey-dmg
-          path: ${{ steps.dmg.outputs.path }}
+          name: EasyKey-${{ matrix.target.name }}-dmg
+          path: build/EasyKey-*-${{ matrix.target.name }}.dmg
           retention-days: 30
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download DMG artifacts
+        uses: actions/download-artifact@v5
+        with:
+          pattern: EasyKey-*-dmg
+          path: build/release
+          merge-multiple: true
 
       - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ github.ref_name }}
-          DMG_PATH: ${{ steps.dmg.outputs.path }}
         run: |
-          gh release create "$TAG_NAME" "$DMG_PATH" \
+          gh release create "$TAG_NAME" build/release/*.dmg \
             --title "$TAG_NAME" \
             --generate-notes \
             --draft

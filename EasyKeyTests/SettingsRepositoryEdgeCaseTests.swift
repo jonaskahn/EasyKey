@@ -109,4 +109,22 @@ final class SettingsRepositoryEdgeCaseTests: XCTestCase {
 
         XCTAssertEqual(repo.settings.input.inputMethod, .simpleTelex)
     }
+
+    func testSaveToReadOnlyDirectory_DoesNotCrash() async throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let fileURL = directory.appendingPathComponent("settings.json")
+        let repo = SettingsRepository(fileURL: fileURL)
+        repo.update { $0.input.inputMethod = .vni }
+
+        // Make directory read-only
+        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: directory.path)
+        defer {
+            _ = try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: directory.path)
+        }
+
+        await repo.saveNow()
+    }
 }

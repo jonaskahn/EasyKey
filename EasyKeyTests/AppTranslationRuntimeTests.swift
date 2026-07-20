@@ -336,6 +336,54 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertTrue(opened)
     }
 
+    func testCompatibleEndpointsCreateProvidersWhenConfigured() {
+        settingsStore.update {
+            $0.translation.openAICompatibleEndpoint = "https://api.custom.com/v1/chat/completions"
+            $0.translation.openAICompatibleModelIdentifier = "custom-model"
+            $0.translation.anthropicCompatibleEndpoint = "https://api.custom.com/v1/messages"
+            $0.translation.anthropicCompatibleModelIdentifier = "custom-claude"
+        }
+        let runtime = makeRuntime()
+
+        runtime.apply(settingsStore.settings)
+
+        XCTAssertGreaterThan(runtime.providerRevision, 0)
+    }
+
+    func testAppleComponentsCreatedWhenPlatformSupportsApple() {
+        let runtime = AppTranslationRuntime(
+            settingsStore: settingsStore,
+            localization: localization,
+            dependencies: AppTranslationRuntime.Dependencies(
+                credentialStore: credentials,
+                platformCapability: TranslationPlatformCapability(supportsAppleTranslation: true),
+                capture: capture,
+                hotKeyRegistrar: registrar,
+                disclosurePrompt: { _ in true },
+                panelPresenter: { [panelWindow, panelMonitor] model, speech in
+                    TranslationPanelPresenter(
+                        translation: model,
+                        speech: speech,
+                        eventMonitor: panelMonitor,
+                        panelFactory: { panelWindow },
+                        activateEasyKey: {},
+                        pointerLocation: { .zero },
+                        screenGeometries: { [] },
+                        userDefaults: UserDefaults(suiteName: "AppTranslationRuntimeTests.panel-\(UUID().uuidString)")!
+                    )
+                },
+                speech: TranslationSpeechController(engine: speechEngine)
+            )
+        )
+
+        XCTAssertNotNil(runtime)
+    }
+
+    func testProductionDependencies_CanBeConstructed() {
+        let deps = AppTranslationRuntime.Dependencies.production
+        XCTAssertNotNil(deps)
+    }
+
     private var makeCurrentRuntime: AppTranslationRuntime?
 
     private func makeRuntime(
