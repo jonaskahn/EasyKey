@@ -74,6 +74,22 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 10))
     }
 
+    func testAboutShowsOpenSourceLicenses() {
+        app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
+        app.launch()
+        app.activate()
+
+        let licenses = app.buttons["Open Source Licenses"]
+        XCTAssertTrue(licenses.waitForExistence(timeout: 10))
+        licenses.click()
+
+        XCTAssertTrue(app.descendants(matching: .any)["ThirdPartyNoticesText"].waitForExistence(timeout: 5))
+        let done = app.buttons["ThirdPartyNoticesDone"]
+        XCTAssertTrue(done.exists)
+        done.click()
+        XCTAssertFalse(app.descendants(matching: .any)["ThirdPartyNoticesText"].exists)
+    }
+
     func testSettingsSidebarHasFixedWidth() {
         app.launchArguments.append("--ui-skip-onboarding")
         app.launch()

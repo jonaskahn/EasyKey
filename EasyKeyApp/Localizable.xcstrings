@@ -154,6 +154,23 @@
         }
       }
     },
+    "common.done": {
+      "comment": "Done button",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xong"
+          }
+        }
+      }
+    },
     "common.edit": {
       "comment": "Edit button",
       "localizations": {
@@ -2754,6 +2771,23 @@
         }
       }
     },
+    "about.legal": {
+      "comment": "Section title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legal"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pháp lý"
+          }
+        }
+      }
+    },
     "about.trademarks": {
       "comment": "Section title",
       "localizations": {
@@ -2784,6 +2818,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tất cả tên sản phẩm, logo và thương hiệu đều thuộc sở hữu của các chủ sở hữu tương ứng. Tên hoặc logo của Apple, DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq và các nhà cung cấp dịch vụ dịch thuật khác được sử dụng trong ứng dụng này chỉ nhằm mục đích nhận diện. Việc sử dụng các tên, logo và thương hiệu này không ngụ ý sự xác nhận hoặc hợp tác."
+          }
+        }
+      }
+    },
+    "about.noticesUnavailable": {
+      "comment": "Fallback when bundled third-party notices cannot be read",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Third-party notices are unavailable."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thể tải thông báo của bên thứ ba."
+          }
+        }
+      }
+    },
+    "about.openSourceLicenses": {
+      "comment": "Button opening bundled open-source notices",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Source Licenses"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giấy phép mã nguồn mở"
+          }
+        }
+      }
+    },
+    "about.thirdPartyNotices": {
+      "comment": "Title for third-party notices sheet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Third-Party Notices"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thông báo của bên thứ ba"
           }
         }
       }

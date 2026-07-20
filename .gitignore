@@ -26,6 +26,7 @@ xcuserdata/
 .build/
 .swiftpm/
 Package.resolved
+!EasyKey.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # Node.js
 node_modules/
