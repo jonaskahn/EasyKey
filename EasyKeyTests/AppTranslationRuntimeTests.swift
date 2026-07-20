@@ -368,9 +368,13 @@ private final class RuntimeSpeechEngine: TranslationSpeechEngine {
     var eventHandler: ((UUID, TranslationSpeechEngineEvent) -> Void)?
     private(set) var stopCount = 0
 
-    func voiceIdentifier(for _: String) -> String? { "voice" }
+    func voiceIdentifier(for _: String) -> String? {
+        "voice"
+    }
 
-    func speak(_: String, voiceIdentifier _: String, requestID _: UUID) -> Bool { true }
+    func speak(_: String, voiceIdentifier _: String, requestID _: UUID) -> Bool {
+        true
+    }
 
     func stopSpeaking() {
         stopCount += 1

@@ -80,8 +80,6 @@ struct PasteboardClassifier {
         return ClassifiedClipboard(entry: entry, payloads: payloads)
     }
 
-    // MARK: - Per-item classification
-
     private func classifyItem(_ map: [String: Data], itemIndex _: Int) -> ClassifiedItem? {
         if let data = map[Self.fileURL], let url = Self.decodeURL(data) {
             let name = url.lastPathComponent
@@ -128,8 +126,6 @@ struct PasteboardClassifier {
         let preview = ClipboardItemPreview(primaryText: label + " image", typeLabel: label, byteCount: data.count)
         return ClassifiedItem(kind: .image, preview: preview, representations: [.data(typeIdentifier, data)])
     }
-
-    // MARK: - Fingerprint
 
     static func fingerprint(of items: [ClassifiedItem]) -> String {
         var hasher = SHA256()

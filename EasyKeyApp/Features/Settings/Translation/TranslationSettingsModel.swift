@@ -302,6 +302,7 @@ final class TranslationSettingsModel: ObservableObject {
             onCredentialsChange?()
             return true
         } catch {
+            AppLog.error(.translation, "Failed to save credential for \(provider.rawValue): \(error)")
             lastCredentialErrorProvider = provider
             return false
         }
@@ -331,6 +332,7 @@ final class TranslationSettingsModel: ObservableObject {
             onCredentialsChange?()
             return true
         } catch {
+            AppLog.error(.translation, "Failed to validate credential for \(provider.rawValue): \(error)")
             credentialStatuses[provider] = .invalid
             lastCredentialErrorProvider = provider
             return false
@@ -345,6 +347,7 @@ final class TranslationSettingsModel: ObservableObject {
             lastCredentialErrorProvider = nil
             onCredentialsChange?()
         } catch {
+            AppLog.error(.translation, "Failed to delete credential for \(provider.rawValue): \(error)")
             lastCredentialErrorProvider = provider
         }
     }
@@ -364,6 +367,7 @@ final class TranslationSettingsModel: ObservableObject {
                     storedCredentialProviders.remove(provider)
                 }
             } catch {
+                AppLog.error(.translation, "Failed to read credential status for \(provider.rawValue): \(error)")
                 credentialStatuses[provider] = .invalid
                 lastCredentialErrorProvider = provider
             }

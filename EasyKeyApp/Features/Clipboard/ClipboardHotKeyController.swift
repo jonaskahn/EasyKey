@@ -96,7 +96,7 @@ final class ClipboardHotKeyController {
 /// Production Carbon registrar. Installs one application event handler and routes
 /// hotkey events to per-identifier handlers.
 final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
-    static let carbonSignature: OSType = 0x454B_4859 // 'EKHY'
+    static let carbonSignature: OSType = 0x454B_4859
 
     private var handlers: [UInt32: () -> Void] = [:]
     private var refs: [UInt32: EventHotKeyRef] = [:]

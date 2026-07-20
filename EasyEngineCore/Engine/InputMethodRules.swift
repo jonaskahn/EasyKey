@@ -18,7 +18,7 @@ public enum TelexRules {
 
     private static let doubleVowelKeys: Set<Character> = ["a", "e", "o"]
 
-    public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent? {
+    public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent {
         let lower = Character(character.lowercased())
 
         if let tone = toneKeys[lower] {
@@ -54,7 +54,7 @@ public enum TelexRules {
 }
 
 public enum VNIRules {
-    public static func intent(forCharacter character: Character) -> TransformIntent? {
+    public static func intent(forCharacter character: Character) -> TransformIntent {
         if let tone = VietnameseCharacters.toneNumberKeys[character] {
             return .addTone(tone)
         }
@@ -70,7 +70,7 @@ public enum SimpleTelexRules {
         "s": .acute, "f": .grave, "r": .hook, "x": .tilde, "j": .dotBelow,
     ]
 
-    public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent? {
+    public static func intent(forCharacter character: Character, previousChar: Character?) -> TransformIntent {
         let lower = Character(character.lowercased())
         if let tone = toneKeys[lower] {
             return .addTone(tone)

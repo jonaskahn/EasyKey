@@ -2,15 +2,11 @@
 import XCTest
 
 final class VietnameseEngineTests: XCTestCase {
-    // MARK: - Configuration
-
     func testDefaultConfiguration() {
         let engine = VietnameseEngine()
         XCTAssertEqual(engine.configuration.inputMethod, .telex)
         XCTAssertEqual(engine.configuration.outputEncoding, .unicode)
     }
-
-    // MARK: - Telex: basic pass-through
 
     func testTelexPassThroughConsonants() {
         var engine = VietnameseEngine()
@@ -26,8 +22,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("i"))
         XCTAssertEqual(engine.currentBuffer, "tai")
     }
-
-    // MARK: - Telex: tones
 
     func testTelexAcuteTone() {
         var engine = VietnameseEngine()
@@ -73,8 +67,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("j"))
         XCTAssertEqual(engine.currentBuffer, "tại")
     }
-
-    // MARK: - Telex: diacritical transforms
 
     func testTelexDoubleAProducesAcircumflex() {
         var engine = VietnameseEngine()
@@ -152,8 +144,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "ư")
     }
 
-    // MARK: - Telex: combined transforms
-
     func testTelexChoWithGraveTone() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "chof")
@@ -167,8 +157,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("s"))
         XCTAssertEqual(engine.currentBuffer, "ấ")
     }
-
-    // MARK: - VNI: tones
 
     func testVNIacuteTone() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .vni))
@@ -187,8 +175,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("2"))
         XCTAssertEqual(engine.currentBuffer, "tài")
     }
-
-    // MARK: - VNI: diacritics
 
     func testVNICircumflex() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .vni))
@@ -218,8 +204,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "đ")
     }
 
-    // MARK: - Word boundaries
-
     func testSpaceFlushesAndResets() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("t"))
@@ -240,8 +224,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(result.sessionEffect, .resetSession)
     }
 
-    // MARK: - Movement keys
-
     func testArrowKeyResetsSession() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("t"))
@@ -252,8 +234,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "x")
     }
 
-    // MARK: - Escape
-
     func testEscapeResetsSession() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("t"))
@@ -261,8 +241,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: KeyEvent(kind: .escape))
         XCTAssertEqual(engine.currentBuffer, "")
     }
-
-    // MARK: - Backspace
 
     func testBackspaceRemovesLastAtom() {
         var engine = VietnameseEngine()
@@ -288,8 +266,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "a")
     }
 
-    // MARK: - Uppercase
-
     func testUppercaseCharacter() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("T", shift: true))
@@ -307,8 +283,6 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("g"))
         XCTAssertEqual(engine.currentBuffer, "Ưng")
     }
-
-    // MARK: - Uppercase first character (sentence auto-capitalization)
 
     func testUppercaseFirstCharacterCapitalizesAtSessionStart() {
         var configuration = EngineConfiguration()
@@ -350,8 +324,6 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "ta")
     }
 
-    // MARK: - Reset
-
     func testResetClearsState() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("t"))
@@ -359,8 +331,6 @@ final class VietnameseEngineTests: XCTestCase {
         engine.reset()
         XCTAssertEqual(engine.currentBuffer, "")
     }
-
-    // MARK: - Punctuation breaks word
 
     func testPunctuationBreaksWord() {
         var engine = VietnameseEngine()

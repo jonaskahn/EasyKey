@@ -89,8 +89,6 @@ final class PasteboardClassifierTests: XCTestCase {
         XCTAssertNil(classifier.classify(snapshot, source: nil, now: now))
     }
 
-    // MARK: - Helpers
-
     private func snapshot(_ items: [[CapturedPasteboardRepresentation]]) -> PasteboardSnapshot {
         PasteboardSnapshot(changeCount: 1, items: items.map { PasteboardItemSnapshot(representations: $0) })
     }

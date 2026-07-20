@@ -2095,64 +2095,154 @@
     "behavior.addApplications": {
       "comment": "Button",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Add Applications…" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thêm ứng dụng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Applications…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm ứng dụng"
+          }
+        }
       }
     },
     "behavior.applicationInvalid": {
       "comment": "Alert title",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Couldn’t Add Applications" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Không thể thêm ứng dụng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t Add Applications"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thể thêm ứng dụng"
+          }
+        }
       }
     },
     "behavior.compatibilityMode": {
       "comment": "Section",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Compatibility mode" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chế độ tương thích ứng dụng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatibility mode"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chế độ tương thích ứng dụng"
+          }
+        }
       }
     },
     "behavior.compatibilityModeEmpty": {
       "comment": "Empty state",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No applications use compatibility mode." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chưa có ứng dụng dùng chế độ tương thích." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No applications use compatibility mode."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có ứng dụng dùng chế độ tương thích."
+          }
+        }
       }
     },
     "behavior.compatibilityModeHint": {
       "comment": "Description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Use alternate text replacement in apps where typing does not work correctly." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dùng cách thay thế văn bản tương thích hơn cho ứng dụng gặp lỗi khi gõ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use alternate text replacement in apps where typing does not work correctly."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dùng cách thay thế văn bản tương thích hơn cho ứng dụng gặp lỗi khi gõ."
+          }
+        }
       }
     },
     "behavior.dropApplications": {
       "comment": "Drop target",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Drop applications here" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thả ứng dụng vào đây" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drop applications here"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thả ứng dụng vào đây"
+          }
+        }
       }
     },
     "behavior.ignoredApplications": {
       "comment": "Section",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Ignored applications" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ứng dụng bị bỏ qua" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ignored applications"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ứng dụng bị bỏ qua"
+          }
+        }
       }
     },
     "behavior.ignoredApplicationsHint": {
       "comment": "Description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "EasyKey passes every key through unchanged in selected applications." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Trong các ứng dụng đã chọn, EasyKey không can thiệp vào bất kỳ phím gõ nào." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EasyKey passes every key through unchanged in selected applications."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trong các ứng dụng đã chọn, EasyKey không can thiệp vào bất kỳ phím gõ nào."
+          }
+        }
       }
     },
     "behavior.ignoredApplicationsEmpty": {
       "comment": "Empty state",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No applications are ignored." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chưa có ứng dụng bị bỏ qua." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No applications are ignored."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có ứng dụng bị bỏ qua."
+          }
+        }
       }
     },
     "behavior.otherLanguageSupport": {
@@ -2223,161 +2313,38 @@
         }
       }
     },
-    "behavior.advancedHint": {
-      "comment": "Hint",
+    "help.about.easyKey": {
+      "comment": "Settings section help",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Use these only when a specific app has input problems."
+            "value": "Shows EasyKey version, author, project links, and a short description of the app."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chỉ dùng các tùy chọn này khi một ứng dụng cụ thể gặp lỗi nhập liệu."
+            "value": "Hiển thị phiên bản EasyKey, tác giả, liên kết dự án và mô tả ngắn về ứng dụng."
           }
         }
-      }
-    },
-    "help.about.easyKey": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shows EasyKey version, author, project links, and a short description of the app." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị phiên bản EasyKey, tác giả, liên kết dự án và mô tả ngắn về ứng dụng." } }
-      }
-    },
-    "help.about.interface": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Interface Language changes EasyKey menus and settings. It does not change the typing language." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ngôn ngữ giao diện đổi menu và cài đặt EasyKey, không đổi ngôn ngữ gõ." } }
-      }
-    },
-    "help.about.maintenance": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Reset Settings restores every EasyKey preference to its default value." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đặt lại cài đặt sẽ khôi phục toàn bộ tùy chọn EasyKey về mặc định." } }
-      }
-    },
-    "help.behavior.advanced": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Step-by-step sending and keyboard-layout compatibility help typing stay reliable in apps that mishandle fast or non-standard input." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gửi từng bước và tương thích bố cục bàn phím giúp việc gõ ổn định hơn ở những ứng dụng xử lý kém khi nhập nhanh hoặc bố cục khác thường." } }
-      }
-    },
-    "help.behavior.appCompatibility": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Keeps EasyKey active when the current macOS input source is not English." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Giữ EasyKey hoạt động khi nguồn nhập hiện tại của macOS không phải tiếng Anh." } }
-      }
-    },
-    "help.behavior.compatibilityMode": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Selected apps use alternate text replacement. Add apps with Finder or drag them here; Remove returns them to normal handling." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ứng dụng đã chọn dùng cách thay thế văn bản tương thích hơn. Thêm từ Finder hoặc kéo vào đây; chọn Xóa để trở lại cách xử lý thông thường." } }
-      }
-    },
-    "help.behavior.ignoredApplications": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "EasyKey leaves every key unchanged in ignored apps. Add apps with Finder or drag them here; Remove restores EasyKey processing." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "EasyKey giữ nguyên mọi phím gõ trong các ứng dụng bị bỏ qua. Thêm từ Finder hoặc kéo vào đây; chọn Xóa để EasyKey xử lý lại." } }
-      }
-    },
-    "help.encoding.output": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Default Encoding chooses how Vietnamese characters are emitted, such as Unicode, combining Unicode, VNI, or legacy tables." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bảng mã mặc định chọn cách xuất ký tự tiếng Việt như Unicode, Unicode tổ hợp, VNI hoặc bảng mã cũ." } }
-      }
-    },
-    "help.encoding.textConverter": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "From and To select source and destination encodings. Copy transforms entered text; Clipboard converts copied text using the shortcut." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn bảng mã nguồn và bảng mã đích. Sao chép kết quả để chuyển phần văn bản đã nhập, hoặc dùng bảng nhớ tạm để chuyển nội dung đã sao chép." } }
-      }
-    },
-    "help.macros.expansion": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Controls text expansion behavior. Import and Export move saved text expansions between files." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Điều khiển cách gõ tắt hoạt động. Dùng Nhập và Xuất để chuyển danh sách gõ tắt giữa các tệp." } }
-      }
-    },
-    "help.macros.registry": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Lists saved triggers and replacement text. Each switch enables one item; Edit changes it and Add creates another." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị các từ gõ tắt và nội dung thay thế đã lưu. Dùng công tắc để bật từng mục, Sửa để thay đổi hoặc Thêm để tạo mục mới." } }
-      }
-    },
-    "help.smartSwitch.currentApp": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shows the frontmost application and whether Smart Switch saved or applied its typing preference." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị ứng dụng đang dùng và cho biết EasyKey vừa ghi nhớ hay áp dụng lựa chọn gõ." } }
-      }
-    },
-    "help.smartSwitch.perApp": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Remember per app restores its last language. Remember encoding also restores the app-specific character encoding." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ghi nhớ theo ứng dụng khôi phục ngôn ngữ gần nhất. Ghi nhớ bảng mã cũng khôi phục bảng mã riêng của ứng dụng." } }
-      }
-    },
-    "help.smartSwitch.savedApps": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Lists remembered app preferences. Remove deletes one preference; Remove All clears the list." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị lựa chọn đã ghi nhớ cho từng ứng dụng. Chọn Xóa để bỏ một lựa chọn hoặc Xóa tất cả để xóa toàn bộ danh sách." } }
       }
     },
     "help.system.health": {
       "comment": "Settings section help",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Shows keyboard-service and Accessibility status. Available actions grant permission, resume capture, or restart the service." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị trạng thái dịch vụ bàn phím và Trợ năng. Các nút cho phép cấp quyền, tiếp tục hoặc khởi động lại dịch vụ." } }
-      }
-    },
-    "help.system.startupMenuBar": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Launch at Login starts EasyKey automatically. Dock Icon, gray menu icon, and open-at-launch control how EasyKey appears." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Mở khi đăng nhập tự chạy EasyKey. Biểu tượng Dock, menu xám và mở cài đặt khi chạy điều khiển cách EasyKey hiển thị." } }
-      }
-    },
-    "help.system.updates": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Automatic checks look for new releases periodically. Check Now requests the latest version immediately." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Kiểm tra tự động định kỳ tìm bản phát hành mới. Kiểm tra ngay yêu cầu phiên bản mới nhất lập tức." } }
-      }
-    },
-    "help.typing.activeInput": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Language enables Vietnamese or pass-through English. Input Method selects Telex, Simple Telex, or VNI. The shortcut switches language globally." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ngôn ngữ chọn gõ tiếng Việt hoặc giữ nguyên bàn phím tiếng Anh. Kiểu gõ chọn Telex, Simple Telex hoặc VNI. Phím tắt dùng để đổi ngôn ngữ ở bất kỳ đâu." } }
-      }
-    },
-    "help.typing.advanced": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Quick consonants speed up common consonants, while the temporary shortcuts let you pause spelling or the engine without leaving Vietnamese." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gõ nhanh phụ âm giúp nhập các phụ âm quen thuộc nhanh hơn, còn các phím tắt tạm thời cho bạn tạm dừng chính tả hoặc bộ gõ mà vẫn ở tiếng Việt." } }
-      }
-    },
-    "help.typing.options": {
-      "comment": "Settings section help",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Quick Telex controls how W transforms and cycles. Modern spelling, free tone placement, invalid-word restore, Z/F/W/J, and auto-capitalization each refine how Vietnamese is typed." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Telex nhanh quyết định cách phím W biến đổi và luân phiên. Chính tả hiện đại, bỏ dấu tự do, trả lại từ gõ sai, Z/F/W/J và tự viết hoa đều tinh chỉnh cách gõ tiếng Việt." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows keyboard-service and Accessibility status. Available actions grant permission, resume capture, or restart the service."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiển thị trạng thái dịch vụ bàn phím và Trợ năng. Các nút cho phép cấp quyền, tiếp tục hoặc khởi động lại dịch vụ."
+          }
+        }
       }
     },
     "system.health": {
@@ -3383,40 +3350,6 @@
         }
       }
     },
-    "menu.resume": {
-      "comment": "Popover button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resume"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tiếp tục"
-          }
-        }
-      }
-    },
-    "menu.pause": {
-      "comment": "Popover button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tạm dừng"
-          }
-        }
-      }
-    },
     "menu.settingsShort": {
       "comment": "Popover button",
       "localizations": {
@@ -3672,40 +3605,6 @@
         }
       }
     },
-    "a11y.resumeService": {
-      "comment": "A11y",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resume Vietnamese typing"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bật lại bộ gõ"
-          }
-        }
-      }
-    },
-    "a11y.pauseService": {
-      "comment": "A11y",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause keyboard service"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tạm dừng bộ gõ"
-          }
-        }
-      }
-    },
     "a11y.openSettings": {
       "comment": "A11y",
       "localizations": {
@@ -3930,650 +3829,2775 @@
     "common.remove": {
       "comment": "Remove an item from a saved list",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Remove" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa"
+          }
+        }
       }
     },
     "language.picker.description": {
       "comment": "Interface language setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Change EasyKey menus and settings without changing the typing language." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đổi ngôn ngữ của menu và phần cài đặt, không ảnh hưởng đến ngôn ngữ gõ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change EasyKey menus and settings without changing the typing language."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đổi ngôn ngữ của menu và phần cài đặt, không ảnh hưởng đến ngôn ngữ gõ."
+          }
+        }
       }
     },
     "typing.language.description": {
       "comment": "Typing language setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose Vietnamese processing or English pass-through." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn gõ tiếng Việt hoặc giữ nguyên phím khi gõ tiếng Anh." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Vietnamese processing or English pass-through."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn gõ tiếng Việt hoặc giữ nguyên phím khi gõ tiếng Anh."
+          }
+        }
       }
     },
     "typing.inputMethod.description": {
       "comment": "Input method setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose Telex, Simple Telex, or VNI typing rules." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn kiểu gõ Telex, Simple Telex hoặc VNI." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Telex, Simple Telex, or VNI typing rules."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn kiểu gõ Telex, Simple Telex hoặc VNI."
+          }
+        }
       }
     },
     "typing.switchLanguage.description": {
       "comment": "Language shortcut setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Switch typing language from any application." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chuyển ngôn ngữ gõ trong bất kỳ ứng dụng nào." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch typing language from any application."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển ngôn ngữ gõ trong bất kỳ ứng dụng nào."
+          }
+        }
       }
     },
     "typing.spellingModernization.description": {
       "comment": "Modern spelling setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Apply modern spelling rules, such as writing \"hòa\" instead of \"hoà\"." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Áp dụng quy tắc chính tả hiện đại, chẳng hạn viết \"hòa\" thay vì \"hoà\"." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply modern spelling rules, such as writing \"hòa\" instead of \"hoà\"."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Áp dụng quy tắc chính tả hiện đại, chẳng hạn viết \"hòa\" thay vì \"hoà\"."
+          }
+        }
       }
     },
     "typing.freeToneMarking.description": {
       "comment": "Free tone placement setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Place the tone mark at any point in a word instead of only after the vowels." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Cho phép bỏ dấu ở bất cứ đâu trong từ, không cần đợi gõ xong nguyên âm." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place the tone mark at any point in a word instead of only after the vowels."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho phép bỏ dấu ở bất cứ đâu trong từ, không cần đợi gõ xong nguyên âm."
+          }
+        }
       }
     },
     "typing.quickTelex.description": {
       "comment": "Quick Telex setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Enable quick W transformations while using Telex." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bật cách biến đổi nhanh bằng phím W khi dùng Telex." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable quick W transformations while using Telex."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bật cách biến đổi nhanh bằng phím W khi dùng Telex."
+          }
+        }
       }
     },
     "typing.restoreInvalidWord.description": {
       "comment": "Invalid word restoration setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Bring back the original keystrokes when a word is not valid Vietnamese." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tự trả lại đúng các phím bạn đã gõ khi từ đó không phải tiếng Việt." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring back the original keystrokes when a word is not valid Vietnamese."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự trả lại đúng các phím bạn đã gõ khi từ đó không phải tiếng Việt."
+          }
+        }
       }
     },
     "typing.allowZFWJ.description": {
       "comment": "Z F W J setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Type Z, F, W, and J directly instead of using them as transformation keys." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gõ thẳng các chữ Z, F, W, J thay vì dùng chúng làm phím biến đổi." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type Z, F, W, and J directly instead of using them as transformation keys."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gõ thẳng các chữ Z, F, W, J thay vì dùng chúng làm phím biến đổi."
+          }
+        }
       }
     },
     "typing.uppercaseFirstCharacter.description": {
       "comment": "Sentence capitalization setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Capitalize the first letter after a sentence boundary." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tự viết hoa chữ cái đầu sau dấu kết thúc câu." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capitalize the first letter after a sentence boundary."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự viết hoa chữ cái đầu sau dấu kết thúc câu."
+          }
+        }
       }
     },
     "typing.quickStartEndConsonant.description": {
       "comment": "Quick consonants setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Type common leading and trailing consonants with fewer keystrokes." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gõ các phụ âm đầu và cuối quen thuộc bằng ít phím hơn." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type common leading and trailing consonants with fewer keystrokes."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gõ các phụ âm đầu và cuối quen thuộc bằng ít phím hơn."
+          }
+        }
       }
     },
     "typing.temporarySpellToggle.description": {
       "comment": "Temporary spelling shortcut description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Pause or resume spelling checks with a shortcut while you keep typing." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tạm tắt hoặc bật lại kiểm tra chính tả bằng phím tắt ngay khi đang gõ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause or resume spelling checks with a shortcut while you keep typing."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạm tắt hoặc bật lại kiểm tra chính tả bằng phím tắt ngay khi đang gõ."
+          }
+        }
       }
     },
     "typing.temporaryEngineToggle.description": {
       "comment": "Temporary engine shortcut description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Pause or resume the typing engine with a shortcut without switching language." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tạm tắt hoặc bật lại bộ gõ bằng phím tắt mà không phải đổi ngôn ngữ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause or resume the typing engine with a shortcut without switching language."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tạm tắt hoặc bật lại bộ gõ bằng phím tắt mà không phải đổi ngôn ngữ."
+          }
+        }
       }
     },
     "encoding.defaultEncoding.description": {
       "comment": "Default output encoding setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Choose how Vietnamese text is emitted while typing." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn bảng mã dùng để xuất tiếng Việt khi gõ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose how Vietnamese text is emitted while typing."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn bảng mã dùng để xuất tiếng Việt khi gõ."
+          }
+        }
       }
     },
     "encoding.from.description": {
       "comment": "Source encoding setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Select the encoding used by source text and clipboard content." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn bảng mã của văn bản nguồn và nội dung trong bảng nhớ tạm." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select the encoding used by source text and clipboard content."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn bảng mã của văn bản nguồn và nội dung trong bảng nhớ tạm."
+          }
+        }
       }
     },
     "encoding.to.description": {
       "comment": "Destination encoding setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Select the encoding produced by converter and clipboard actions." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chọn bảng mã cho kết quả chuyển đổi." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select the encoding produced by converter and clipboard actions."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn bảng mã cho kết quả chuyển đổi."
+          }
+        }
       }
     },
     "encoding.clipboardShortcut.description": {
       "comment": "Clipboard shortcut setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Convert the encoding of clipboard text with a single shortcut." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chuyển mã văn bản trong bảng nhớ tạm chỉ với một phím tắt." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Convert the encoding of clipboard text with a single shortcut."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chuyển mã văn bản trong bảng nhớ tạm chỉ với một phím tắt."
+          }
+        }
       }
     },
     "macros.enable.description": {
       "comment": "Macro enable setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Replace short triggers with longer text automatically as you type." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tự thay từ gõ tắt ngắn thành đoạn văn bản dài hơn ngay khi bạn gõ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace short triggers with longer text automatically as you type."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự thay từ gõ tắt ngắn thành đoạn văn bản dài hơn ngay khi bạn gõ."
+          }
+        }
       }
     },
     "macros.enabledInEnglish.description": {
       "comment": "English macro setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Expand triggers while typing English, not only Vietnamese." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thay từ gõ tắt cả khi bạn gõ tiếng Anh, chứ không riêng tiếng Việt." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expand triggers while typing English, not only Vietnamese."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thay từ gõ tắt cả khi bạn gõ tiếng Anh, chứ không riêng tiếng Việt."
+          }
+        }
       }
     },
     "macros.autoCapitalize.description": {
       "comment": "Macro capitalization setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Match the replacement to how you capitalize the trigger you type." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Cho nội dung thay thế viết hoa theo đúng cách bạn gõ từ gõ tắt." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Match the replacement to how you capitalize the trigger you type."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho nội dung thay thế viết hoa theo đúng cách bạn gõ từ gõ tắt."
+          }
+        }
       }
     },
     "smartSwitch.rememberPerApp.description": {
       "comment": "Per-app language setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Restore each app's most recently used typing language." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khôi phục ngôn ngữ gõ gần nhất của từng ứng dụng." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore each app's most recently used typing language."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khôi phục ngôn ngữ gõ gần nhất của từng ứng dụng."
+          }
+        }
       }
     },
     "smartSwitch.rememberEncoding.description": {
       "comment": "Per-app encoding setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Also restore each app's most recently used output encoding." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khôi phục cả bảng mã đã dùng gần nhất trong từng ứng dụng." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Also restore each app's most recently used output encoding."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khôi phục cả bảng mã đã dùng gần nhất trong từng ứng dụng."
+          }
+        }
       }
     },
     "behavior.otherLanguageSupport.description": {
       "comment": "Other input sources setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Keep EasyKey active when macOS uses a non-English input source." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Giữ EasyKey hoạt động khi macOS đang dùng nguồn nhập không phải tiếng Anh." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep EasyKey active when macOS uses a non-English input source."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ EasyKey hoạt động khi macOS đang dùng nguồn nhập không phải tiếng Anh."
+          }
+        }
       }
     },
     "behavior.stepByStepSend.description": {
       "comment": "Step-by-step sending setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Send replacement text one character at a time for apps that drop fast input." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gửi văn bản từng ký tự một cho các ứng dụng hay bỏ sót khi gõ nhanh." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send replacement text one character at a time for apps that drop fast input."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gửi văn bản từng ký tự một cho các ứng dụng hay bỏ sót khi gõ nhanh."
+          }
+        }
       }
     },
     "behavior.keyboardLayoutCompatibility.description": {
       "comment": "Keyboard layout compatibility setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Adjust output for non-standard keyboard layouts so characters land correctly." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Điều chỉnh kết quả cho bố cục bàn phím khác thường để ký tự hiện đúng." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust output for non-standard keyboard layouts so characters land correctly."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Điều chỉnh kết quả cho bố cục bàn phím khác thường để ký tự hiện đúng."
+          }
+        }
       }
     },
     "system.launchAtLogin.description": {
       "comment": "Launch at login setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Start EasyKey automatically after you sign in." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tự mở EasyKey sau khi bạn đăng nhập vào máy Mac." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start EasyKey automatically after you sign in."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự mở EasyKey sau khi bạn đăng nhập vào máy Mac."
+          }
+        }
       }
     },
     "system.showDockIcon.description": {
       "comment": "Dock icon setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show EasyKey as a regular Dock application." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiện EasyKey trong Dock như một ứng dụng thông thường." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show EasyKey as a regular Dock application."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiện EasyKey trong Dock như một ứng dụng thông thường."
+          }
+        }
       }
     },
     "system.grayMenuIcon.description": {
       "comment": "Menu icon appearance setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Use monochrome language icons in the menu bar." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dùng biểu tượng ngôn ngữ đơn sắc trên thanh menu." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use monochrome language icons in the menu bar."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dùng biểu tượng ngôn ngữ đơn sắc trên thanh menu."
+          }
+        }
       }
     },
     "system.openSettingsAtLaunch.description": {
       "comment": "Open settings at launch description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Open Settings whenever EasyKey starts." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Mở cửa sổ Cài đặt mỗi khi EasyKey khởi động." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings whenever EasyKey starts."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở cửa sổ Cài đặt mỗi khi EasyKey khởi động."
+          }
+        }
       }
     },
     "system.checkForUpdates.description": {
       "comment": "Automatic update setting description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Check for a newer release when EasyKey starts." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Kiểm tra phiên bản mới mỗi khi EasyKey khởi động." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for a newer release when EasyKey starts."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kiểm tra phiên bản mới mỗi khi EasyKey khởi động."
+          }
+        }
       }
     },
     "about.resetSettings.description": {
       "comment": "Reset settings action description",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Restore input, typing, compatibility, Smart Switch, system, and converter preferences." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khôi phục cài đặt bộ gõ, tương thích, chuyển đổi theo ứng dụng, hệ thống và chuyển mã." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore input, typing, compatibility, Smart Switch, system, and converter preferences."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khôi phục cài đặt bộ gõ, tương thích, chuyển đổi theo ứng dụng, hệ thống và chuyển mã."
+          }
+        }
       }
     },
     "menu.currentAppStatus": {
       "comment": "Current app and Smart Switch status format",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "%1$@ · %2$@" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "%1$@ · %2$@" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$@"
+          }
+        }
       }
     },
     "settings.section.clipboard": {
       "comment": "Settings section",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clipboard" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bảng nhớ tạm" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clipboard"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bảng nhớ tạm"
+          }
+        }
       }
     },
     "menu.clipboardHistory": {
       "comment": "Menu",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clipboard History…" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử bảng nhớ tạm…" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clipboard History…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử bảng nhớ tạm…"
+          }
+        }
       }
     },
     "clipboard.capture.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clipboard History" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử bảng nhớ tạm" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clipboard History"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử bảng nhớ tạm"
+          }
+        }
       }
     },
     "clipboard.capture.enable": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Capture clipboard" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ghi lại bảng nhớ tạm" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture clipboard"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi lại bảng nhớ tạm"
+          }
+        }
       }
     },
     "clipboard.capture.description": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "When on, EasyKey keeps a private, local history of what you copy. Off by default." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khi bật, EasyKey lưu lại lịch sử những gì bạn sao chép, riêng tư và chỉ nằm trên máy của bạn. Mặc định tắt sẵn." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When on, EasyKey keeps a private, local history of what you copy. Off by default."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi bật, EasyKey lưu lại lịch sử những gì bạn sao chép, riêng tư và chỉ nằm trên máy của bạn. Mặc định tắt sẵn."
+          }
+        }
       }
     },
     "clipboard.access.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Access" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Truy cập" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Access"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Truy cập"
+          }
+        }
       }
     },
     "clipboard.access.shortcut": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Show history shortcut" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt mở lịch sử" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show history shortcut"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím tắt mở lịch sử"
+          }
+        }
       }
     },
     "clipboard.access.shortcutDescription": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Open the clipboard panel beside the pointer." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Mở bảng lịch sử cạnh con trỏ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the clipboard panel beside the pointer."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở bảng lịch sử cạnh con trỏ."
+          }
+        }
       }
     },
     "clipboard.selectionAction": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "On selection" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Khi chọn" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On selection"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi chọn"
+          }
+        }
       }
     },
     "clipboard.selectionAction.paste": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Paste immediately" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dán ngay" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste immediately"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dán ngay"
+          }
+        }
       }
     },
     "clipboard.selectionAction.copy": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Copy only" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ sao chép" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy only"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ sao chép"
+          }
+        }
       }
     },
     "clipboard.content.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Content" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Nội dung" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Content"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nội dung"
+          }
+        }
       }
     },
     "clipboard.content.text": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Text" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Văn bản" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Văn bản"
+          }
+        }
       }
     },
     "clipboard.content.urls": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "URLs" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Liên kết" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URLs"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liên kết"
+          }
+        }
       }
     },
     "clipboard.content.images": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Images" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hình ảnh" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Images"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hình ảnh"
+          }
+        }
       }
     },
     "clipboard.content.files": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Files and videos" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tập tin và video" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files and videos"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tập tin và video"
+          }
+        }
       }
     },
     "clipboard.retention.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Retention" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Lưu giữ" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retention"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu giữ"
+          }
+        }
       }
     },
     "clipboard.retention.count": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Maximum entries" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Số mục tối đa" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum entries"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số mục tối đa"
+          }
+        }
       }
     },
     "clipboard.retention.age": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Maximum age (days)" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thời gian tối đa (ngày)" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum age (days)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thời gian tối đa (ngày)"
+          }
+        }
       }
     },
     "clipboard.retention.pinNote": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Pinned entries are kept beyond these limits, up to 25." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Mục ghim được giữ vượt các giới hạn này, tối đa 25." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pinned entries are kept beyond these limits, up to 25."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mục ghim được giữ vượt các giới hạn này, tối đa 25."
+          }
+        }
       }
     },
     "clipboard.privacy.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Privacy" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Riêng tư" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riêng tư"
+          }
+        }
       }
     },
     "clipboard.privacy.persist": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Keep history after restart" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Giữ lịch sử sau khi khởi động lại" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep history after restart"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ lịch sử sau khi khởi động lại"
+          }
+        }
       }
     },
     "clipboard.privacy.persistDescription": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "History is encrypted on this device. Turning this off deletes stored history." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử được mã hóa trên thiết bị này. Tắt sẽ xóa lịch sử đã lưu." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History is encrypted on this device. Turning this off deletes stored history."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử được mã hóa trên thiết bị này. Tắt sẽ xóa lịch sử đã lưu."
+          }
+        }
       }
     },
     "clipboard.privacy.ignoredApps": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Ignored applications" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ứng dụng bỏ qua" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ignored applications"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ứng dụng bỏ qua"
+          }
+        }
       }
     },
     "clipboard.privacy.ignoredAppsHint": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Best-effort only; macOS does not report the source app, so this is not a security boundary." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chỉ mang tính tương đối: macOS không cho biết ứng dụng nguồn, nên đây không phải một lớp bảo mật." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best-effort only; macOS does not report the source app, so this is not a security boundary."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ mang tính tương đối: macOS không cho biết ứng dụng nguồn, nên đây không phải một lớp bảo mật."
+          }
+        }
       }
     },
     "clipboard.data.title": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Data" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dữ liệu" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dữ liệu"
+          }
+        }
       }
     },
     "clipboard.data.entries": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Entries" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Số mục" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entries"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Số mục"
+          }
+        }
       }
     },
     "clipboard.data.storage": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Storage used" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dung lượng đã dùng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storage used"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dung lượng đã dùng"
+          }
+        }
       }
     },
     "clipboard.data.clearUnpinned": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear Unpinned" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa mục chưa ghim" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Unpinned"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa mục chưa ghim"
+          }
+        }
       }
     },
     "clipboard.data.clearAll": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear All History" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa toàn bộ lịch sử" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear All History"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa toàn bộ lịch sử"
+          }
+        }
       }
     },
     "clipboard.data.limits": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Limits: 25 pins, 10 MB per item, 100 MB stored." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Giới hạn: 25 ghim, 10 MB mỗi mục, 100 MB lưu trữ." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limits: 25 pins, 10 MB per item, 100 MB stored."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giới hạn: 25 ghim, 10 MB mỗi mục, 100 MB lưu trữ."
+          }
+        }
       }
     },
     "clipboard.confirm.clearAllTitle": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear all clipboard history?" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa toàn bộ lịch sử bảng nhớ tạm?" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear all clipboard history?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa toàn bộ lịch sử bảng nhớ tạm?"
+          }
+        }
       }
     },
     "clipboard.confirm.clearAllMessage": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "This deletes all entries, including pinned ones, and any stored data." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thao tác này xóa mọi mục, kể cả mục đã ghim, và mọi dữ liệu đã lưu." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This deletes all entries, including pinned ones, and any stored data."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thao tác này xóa mọi mục, kể cả mục đã ghim, và mọi dữ liệu đã lưu."
+          }
+        }
       }
     },
     "clipboard.confirm.clear": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Clear" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa"
+          }
+        }
       }
     },
     "clipboard.confirm.persistOffTitle": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Turn off saved history?" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tắt lịch sử đã lưu?" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off saved history?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tắt lịch sử đã lưu?"
+          }
+        }
       }
     },
     "clipboard.confirm.persistOffMessage": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Stored history on disk will be deleted. The current session stays until cleared." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Lịch sử trên đĩa sẽ bị xóa. Phiên hiện tại vẫn giữ đến khi xóa." } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stored history on disk will be deleted. The current session stays until cleared."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lịch sử trên đĩa sẽ bị xóa. Phiên hiện tại vẫn giữ đến khi xóa."
+          }
+        }
       }
     },
     "clipboard.confirm.turnOff": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Turn Off" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tắt" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn Off"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tắt"
+          }
+        }
       }
     },
     "clipboard.search.placeholder": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Search" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tìm kiếm" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tìm kiếm"
+          }
+        }
       }
     },
     "clipboard.section.pinned": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Pinned" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Đã ghim" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pinned"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã ghim"
+          }
+        }
       }
     },
     "clipboard.section.recent": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Recent" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gần đây" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gần đây"
+          }
+        }
       }
     },
     "clipboard.empty": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No clipboard history yet" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chưa có lịch sử bảng nhớ tạm" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No clipboard history yet"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có lịch sử bảng nhớ tạm"
+          }
+        }
       }
     },
     "clipboard.noResults": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No matching entries" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Không có mục phù hợp" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matching entries"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không có mục phù hợp"
+          }
+        }
       }
     },
     "clipboard.action.paste": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Paste" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dán" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dán"
+          }
+        }
       }
     },
     "clipboard.action.copy": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Copy" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Sao chép" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sao chép"
+          }
+        }
       }
     },
     "clipboard.action.pin": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Pin" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ghim" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pin"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghim"
+          }
+        }
       }
     },
     "clipboard.action.unpin": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unpin" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bỏ ghim" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unpin"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ ghim"
+          }
+        }
       }
     },
     "clipboard.action.delete": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Delete" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Xóa" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa"
+          }
+        }
       }
     },
     "clipboard.action.reveal": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Reveal in Finder" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hiện trong Finder" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveal in Finder"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiện trong Finder"
+          }
+        }
       }
     },
     "clipboard.action.settings": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Settings" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Cài đặt" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cài đặt"
+          }
+        }
       }
     },
     "clipboard.action.keepOnTop": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Keep on top" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Giữ trên cùng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep on top"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ trên cùng"
+          }
+        }
       }
     },
     "clipboard.action.unkeepOnTop": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Stop keeping on top" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bỏ giữ trên cùng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop keeping on top"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ giữ trên cùng"
+          }
+        }
       }
     },
     "clipboard.unavailable": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unavailable" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Không khả dụng" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unavailable"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không khả dụng"
+          }
+        }
       }
     },
     "clipboard.hint": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Return to use · ⌘C to copy" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Enter để dùng · ⌘C để sao chép" } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to use · ⌘C to copy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter để dùng · ⌘C để sao chép"
+          }
+        }
       }
     },
-    "translation.title": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch thuật" } } } },
-    "translation.provider": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Provider" } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp" } } } },
-    "translation.provider.automatic": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Automatic" } }, "vi": { "stringUnit": { "state": "translated", "value": "Tự động" } } } },
-    "translation.chooseProvider": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Choose Provider" } }, "vi": { "stringUnit": { "state": "translated", "value": "Chọn nhà cung cấp" } } } },
-    "translation.sourceLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Source language" } }, "vi": { "stringUnit": { "state": "translated", "value": "Ngôn ngữ nguồn" } } } },
-    "translation.targetLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Target language" } }, "vi": { "stringUnit": { "state": "translated", "value": "Ngôn ngữ đích" } } } },
-    "translation.detectLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Detect Language" } }, "vi": { "stringUnit": { "state": "translated", "value": "Phát hiện ngôn ngữ" } } } },
-    "translation.swapLanguages": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Swap languages" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đổi ngôn ngữ" } } } },
-    "translation.sourceText": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Source text" } }, "vi": { "stringUnit": { "state": "translated", "value": "Văn bản nguồn" } } } },
-    "translation.result": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation result" } }, "vi": { "stringUnit": { "state": "translated", "value": "Kết quả dịch" } } } },
-    "translation.resultPlaceholder": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation appears here." } }, "vi": { "stringUnit": { "state": "translated", "value": "Bản dịch sẽ xuất hiện tại đây." } } } },
-    "translation.characterCount": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%d of %d characters" } }, "vi": { "stringUnit": { "state": "translated", "value": "%d/%d ký tự" } } } },
-    "translation.detectedLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Detected: %@" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã phát hiện: %@" } } } },
-    "translation.enableTranslation": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Enable Translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Bật Dịch thuật" } } } },
-    "translation.translate": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translate" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch" } } } },
-     "translation.translateHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translates source text. Command-Return." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch văn bản nguồn. Command-Return." } } } },
+    "translation.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch thuật"
+          }
+        }
+      }
+    },
+    "translation.provider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provider"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp"
+          }
+        }
+      }
+    },
+    "translation.provider.automatic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatic"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự động"
+          }
+        }
+      }
+    },
+    "translation.chooseProvider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Provider"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn nhà cung cấp"
+          }
+        }
+      }
+    },
+    "translation.sourceLanguage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source language"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ nguồn"
+          }
+        }
+      }
+    },
+    "translation.targetLanguage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Target language"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ đích"
+          }
+        }
+      }
+    },
+    "translation.detectLanguage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detect Language"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phát hiện ngôn ngữ"
+          }
+        }
+      }
+    },
+    "translation.swapLanguages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap languages"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đổi ngôn ngữ"
+          }
+        }
+      }
+    },
+    "translation.sourceText": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source text"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Văn bản nguồn"
+          }
+        }
+      }
+    },
+    "translation.result": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation result"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kết quả dịch"
+          }
+        }
+      }
+    },
+    "translation.resultPlaceholder": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation appears here."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bản dịch sẽ xuất hiện tại đây."
+          }
+        }
+      }
+    },
+    "translation.characterCount": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d of %d characters"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d/%d ký tự"
+          }
+        }
+      }
+    },
+    "translation.detectedLanguage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detected: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã phát hiện: %@"
+          }
+        }
+      }
+    },
+    "translation.enableTranslation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable Translation"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bật Dịch thuật"
+          }
+        }
+      }
+    },
+    "translation.translate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch"
+          }
+        }
+      }
+    },
+    "translation.translateHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translates source text. Command-Return."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch văn bản nguồn. Command-Return."
+          }
+        }
+      }
+    },
     "translation.editorInstructions": {
       "comment": "Translation editor instructions",
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Enter to translate · Shift+Enter for new line" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Enter để dịch · Shift+Enter xuống dòng" } } } },
-    "translation.autoTranslateDisclosure": {
-      "comment": "Translation auto-translate disclosure",
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter to translate · Shift+Enter for new line"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter để dịch · Shift+Enter xuống dòng"
+          }
+        }
+      }
+    },
+    "translation.settings.autoTranslateDelay": {
       "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Paste automatically translates. For typing, press Return." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dán văn bản sẽ tự động dịch. Khi nhập, nhấn Enter." } } } },
-    "translation.settings.autoTranslateDelay": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translate after typing stops" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch sau khi ngừng nhập" } } } },
-    "translation.settings.delayMilliseconds": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ ms" } }, "vi": { "stringUnit": { "state": "translated", "value": "%@ ms" } } } },
-    "translation.settings.delaySeconds": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ s" } }, "vi": { "stringUnit": { "state": "translated", "value": "%@ giây" } } } },
-    "translation.settings.endpoint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Endpoint URL" } }, "vi": { "stringUnit": { "state": "translated", "value": "URL điểm cuối" } } } },
-    "translation.settings.endpointHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Enter the base URL for the API endpoint" } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhập URL gốc cho điểm cuối API" } } } },
-    "translation.inProgress": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translating…" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đang dịch…" } } } },
-    "translation.instructions": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Select text, press %@. Typing translates after the configured delay. Command-Return translates now. Escape closes." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chọn văn bản, nhấn %@. Nhập văn bản sẽ dịch sau độ trễ đã cài đặt. Command-Return để dịch ngay. Escape để đóng." } } } },
-    "translation.cloudDisclosure.firstUse": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "EasyKey sends submitted source text directly to %@ after the configured delay or when you choose Translate. Nothing is sent while you type outside the translation editor. %@ handles submitted text under its own privacy and data terms." } }, "vi": { "stringUnit": { "state": "translated", "value": "EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến %@ sau độ trễ đã cài đặt hoặc khi bạn chọn Dịch. Không có nội dung nào được gửi trong khi bạn nhập bên ngoài trình soạn thảo dịch. %@ xử lý văn bản đã gửi theo điều khoản dữ liệu và quyền riêng tư riêng." } } } },
-    "translation.setup.title": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Set up translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Thiết lập dịch thuật" } } } },
-    "translation.setup.message": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Configure a translation provider before translating." } }, "vi": { "stringUnit": { "state": "translated", "value": "Hãy cấu hình nhà cung cấp dịch trước khi dịch." } } } },
-    "translation.openSettings": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Open Settings" } }, "vi": { "stringUnit": { "state": "translated", "value": "Mở Cài đặt" } } } },
-    "translation.popover.instructions": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Command-Return" } }, "vi": { "stringUnit": { "state": "translated", "value": "Command-Return" } } } },
-    "translation.pronounce": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Pronounce" } }, "vi": { "stringUnit": { "state": "translated", "value": "Phát âm" } } } },
-    "translation.stopSpeaking": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Stop" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dừng" } } } },
-    "translation.pronounceHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Reads this text aloud." } }, "vi": { "stringUnit": { "state": "translated", "value": "Đọc to văn bản này." } } } },
-    "translation.speech.empty": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Enter or translate text before using pronunciation." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhập hoặc dịch văn bản trước khi phát âm." } } } },
-    "translation.speech.needsLanguage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Choose a source language or translate once to detect it." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chọn ngôn ngữ nguồn hoặc dịch một lần để phát hiện." } } } },
-    "translation.speech.voiceUnavailable": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Install a macOS voice for %@ to use pronunciation." } }, "vi": { "stringUnit": { "state": "translated", "value": "Cài đặt giọng đọc macOS cho %@ để phát âm." } } } },
-    "translation.resultAnnouncement": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation complete. Result available." } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã dịch xong. Kết quả đã sẵn sàng." } } } },
-    "translation.error.title": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation failed" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch không thành công" } } } },
-    "translation.error.missingCredentials": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Add credentials for %@ in Settings." } }, "vi": { "stringUnit": { "state": "translated", "value": "Thêm thông tin xác thực %@ trong Cài đặt." } } } },
-    "translation.error.unsupportedPair": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "This provider does not support the selected language pair." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp này không hỗ trợ cặp ngôn ngữ đã chọn." } } } },
-    "translation.error.downloadRequired": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Download required Apple language resources, then try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Tải tài nguyên ngôn ngữ Apple cần thiết rồi thử lại." } } } },
-    "translation.error.network": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Check your internet connection and try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Kiểm tra kết nối internet rồi thử lại." } } } },
-    "translation.error.timeout": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "The request timed out. Try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Yêu cầu đã hết thời gian. Hãy thử lại." } } } },
-    "translation.error.rateLimit": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "The provider is busy. Wait, then try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp đang bận. Hãy chờ rồi thử lại." } } } },
-    "translation.error.tooLarge": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Shorten the source text and try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Rút ngắn văn bản nguồn rồi thử lại." } } } },
-    "translation.error.providerUnavailable": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "The provider is unavailable. Try again later." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp không khả dụng. Hãy thử lại sau." } } } },
-    "translation.error.invalidResponse": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "The provider returned an invalid response. Try again." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp trả về phản hồi không hợp lệ. Hãy thử lại." } } } },
-    "translation.error.cancelled": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation was cancelled." } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã hủy dịch." } } } },
-    "settings.section.translation": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation" } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch thuật" } } } },
-    "translation.settings.apiKey": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "API key" } }, "vi": { "stringUnit": { "state": "translated", "value": "Khóa API" } } } },
-    "translation.settings.apiKeyA11y": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ API key" } }, "vi": { "stringUnit": { "state": "translated", "value": "Khóa API %@" } } } },
-    "translation.settings.appleLocal": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "On-device translation. Source text stays on this Mac; language downloads may be required." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch trên thiết bị. Văn bản nguồn vẫn ở trên máy Mac này; có thể cần tải dữ liệu ngôn ngữ." } } } },
-    "translation.settings.cloudCosts": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Cloud translation is opt-in and runs only when you choose Translate. EasyKey sends submitted source text directly to the selected provider. Translation may consume paid quota. Credential checks do not submit source text. EasyKey stores credentials in Keychain and does not persist translation history, source text, or results." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dịch qua đám mây là tùy chọn và chỉ chạy khi bạn chọn Dịch. EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến nhà cung cấp được chọn. Việc dịch có thể dùng hạn mức trả phí. Kiểm tra thông tin xác thực không gửi văn bản nguồn. EasyKey lưu thông tin xác thực trong Chuỗi khóa và không lưu bền vững lịch sử dịch, văn bản nguồn hay kết quả." } } } },
-    "translation.settings.cloudProviderWarning": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Only choosing Translate sends submitted source text directly to %@ and may incur provider charges." } }, "vi": { "stringUnit": { "state": "translated", "value": "Chỉ thao tác chọn Dịch mới gửi trực tiếp văn bản nguồn bạn gửi đến %@ và có thể phát sinh phí nhà cung cấp." } } } },
-    "translation.settings.deepLFree": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Free" } }, "vi": { "stringUnit": { "state": "translated", "value": "Miễn phí" } } } },
-    "translation.settings.deepLPlan": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "DeepL API plan" } }, "vi": { "stringUnit": { "state": "translated", "value": "Gói API DeepL" } } } },
-    "translation.settings.deepLPro": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Pro" } }, "vi": { "stringUnit": { "state": "translated", "value": "Pro" } } } },
-    "translation.settings.defaultProvider": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Default provider" } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp mặc định" } } } },
-    "translation.settings.deleteKey": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Delete key" } }, "vi": { "stringUnit": { "state": "translated", "value": "Xóa khóa" } } } },
-    "translation.settings.deleteKeyConfirmMessage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "This removes the key from this Mac. This provider cannot translate until another key is saved." } }, "vi": { "stringUnit": { "state": "translated", "value": "Thao tác này xóa khóa khỏi máy Mac này. Nhà cung cấp này không thể dịch cho đến khi lưu khóa khác." } } } },
-    "translation.settings.deleteKeyConfirmTitle": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Delete %@ credential?" } }, "vi": { "stringUnit": { "state": "translated", "value": "Xóa thông tin xác thực %@?" } } } },
-    "translation.settings.general": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "General" } }, "vi": { "stringUnit": { "state": "translated", "value": "Chung" } } } },
-    "translation.menuPopoverVisibility": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Show in menu bar popover" } }, "vi": { "stringUnit": { "state": "translated", "value": "Hiển thị trong cửa sổ bật lên trên thanh menu" } } } },
-    "translation.settings.manageAppleLanguages": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Manage Apple Languages" } }, "vi": { "stringUnit": { "state": "translated", "value": "Quản lý ngôn ngữ Apple" } } } },
-    "translation.settings.model": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Model identifier" } }, "vi": { "stringUnit": { "state": "translated", "value": "Mã mô hình" } } } },
-    "translation.settings.modelHint": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Press Return to validate and save this model identifier." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhấn Return để xác thực và lưu mã mô hình này." } } } },
-    "translation.settings.modelInvalid": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Use 1–100 letters, numbers, periods, hyphens, or underscores." } }, "vi": { "stringUnit": { "state": "translated", "value": "Dùng 1–100 chữ cái, số, dấu chấm, gạch nối hoặc gạch dưới." } } } },
-    "translation.settings.oppositeTarget": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "New translations target the opposite input language: Vietnamese input targets English; English input targets Vietnamese. You can change the target in the translation panel." } }, "vi": { "stringUnit": { "state": "translated", "value": "Bản dịch mới dùng ngôn ngữ đối diện với ngôn ngữ nhập: nhập tiếng Việt sẽ dịch sang tiếng Anh; nhập tiếng Anh sẽ dịch sang tiếng Việt. Bạn có thể đổi ngôn ngữ đích trong bảng dịch." } } } },
-    "translation.settings.privacy": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Privacy" } }, "vi": { "stringUnit": { "state": "translated", "value": "Quyền riêng tư" } } } },
-    "translation.settings.providerDataHandling": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "%@ privacy and data handling" } }, "vi": { "stringUnit": { "state": "translated", "value": "Quyền riêng tư và cách xử lý dữ liệu của %@" } } } },
-    "translation.settings.providers": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Providers" } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp" } } } },
-    "translation.settings.resetDisclosures": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Reset cloud disclosures" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đặt lại thông báo đám mây" } } } },
-    "translation.settings.resetDisclosuresConfirmMessage": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Cloud providers will ask for consent again before source text leaves this Mac. Credentials and provider settings remain unchanged." } }, "vi": { "stringUnit": { "state": "translated", "value": "Nhà cung cấp đám mây sẽ yêu cầu đồng ý lại trước khi văn bản nguồn rời máy Mac này. Thông tin xác thực và cài đặt nhà cung cấp không thay đổi." } } } },
-    "translation.settings.resetDisclosuresConfirmTitle": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Reset cloud disclosure consent?" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đặt lại đồng ý thông báo đám mây?" } } } },
-    "translation.settings.resetDisclosuresDescription": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Resetting makes EasyKey explain cloud transmission again on first use of each provider." } }, "vi": { "stringUnit": { "state": "translated", "value": "Sau khi đặt lại, EasyKey sẽ giải thích việc truyền dữ liệu lên đám mây khi dùng lần đầu từng nhà cung cấp." } } } },
-    "translation.settings.shortcut": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Translation shortcut" } }, "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt dịch thuật" } } } },
-    "translation.settings.shortcutConflict": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Shortcut is used by another app. Choose another combination." } }, "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt đang được ứng dụng khác dùng. Hãy chọn tổ hợp khác." } } } },
-    "translation.settings.shortcutDescription": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Opens translation for selected text." } }, "vi": { "stringUnit": { "state": "translated", "value": "Mở bản dịch cho văn bản đã chọn." } } } },
-    "translation.settings.shortcutOff": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Global shortcut is off." } }, "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt toàn cục đang tắt." } } } },
-    "translation.settings.shortcutReady": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Shortcut is available." } }, "vi": { "stringUnit": { "state": "translated", "value": "Phím tắt khả dụng." } } } },
-    "translation.settings.sourcePreference": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Source preference" } }, "vi": { "stringUnit": { "state": "translated", "value": "Ngôn ngữ nguồn ưu tiên" } } } },
-    "translation.settings.status.invalid": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Invalid or unavailable" } }, "vi": { "stringUnit": { "state": "translated", "value": "Không hợp lệ hoặc không khả dụng" } } } },
-    "translation.settings.status.missing": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "No key" } }, "vi": { "stringUnit": { "state": "translated", "value": "Chưa có khóa" } } } },
-    "translation.settings.status.ready": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Validated" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã xác thực" } } } },
-    "translation.settings.status.saved": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Saved, not validated" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đã lưu, chưa xác thực" } } } },
-    "translation.settings.status.validating": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Validating…" } }, "vi": { "stringUnit": { "state": "translated", "value": "Đang xác thực…" } } } },
-    "translation.settings.validate": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Validate and save" } }, "vi": { "stringUnit": { "state": "translated", "value": "Xác thực và lưu" } } } },
-    "translation.pronounce.subject": { "localizations": { "en": { "stringUnit": { "state": "translated", "value": "Pronounce %@" } }, "vi": { "stringUnit": { "state": "translated", "value": "Phát âm %@" } } } }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate after typing stops"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch sau khi ngừng nhập"
+          }
+        }
+      }
+    },
+    "translation.settings.delayMilliseconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ms"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ms"
+          }
+        }
+      }
+    },
+    "translation.settings.delaySeconds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ giây"
+          }
+        }
+      }
+    },
+    "translation.settings.endpoint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endpoint URL"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL điểm cuối"
+          }
+        }
+      }
+    },
+    "translation.settings.endpointHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the base URL for the API endpoint"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập URL gốc cho điểm cuối API"
+          }
+        }
+      }
+    },
+    "translation.instructions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select text, press %@. Typing translates after the configured delay. Command-Return translates now. Escape closes."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn văn bản, nhấn %@. Nhập văn bản sẽ dịch sau độ trễ đã cài đặt. Command-Return để dịch ngay. Escape để đóng."
+          }
+        }
+      }
+    },
+    "translation.cloudDisclosure.firstUse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EasyKey sends submitted source text directly to %@ after the configured delay or when you choose Translate. Nothing is sent while you type outside the translation editor. %@ handles submitted text under its own privacy and data terms."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến %@ sau độ trễ đã cài đặt hoặc khi bạn chọn Dịch. Không có nội dung nào được gửi trong khi bạn nhập bên ngoài trình soạn thảo dịch. %@ xử lý văn bản đã gửi theo điều khoản dữ liệu và quyền riêng tư riêng."
+          }
+        }
+      }
+    },
+    "translation.setup.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set up translation"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thiết lập dịch thuật"
+          }
+        }
+      }
+    },
+    "translation.setup.message": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure a translation provider before translating."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hãy cấu hình nhà cung cấp dịch trước khi dịch."
+          }
+        }
+      }
+    },
+    "translation.openSettings": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở Cài đặt"
+          }
+        }
+      }
+    },
+    "translation.pronounce": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronounce"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phát âm"
+          }
+        }
+      }
+    },
+    "translation.stopSpeaking": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dừng"
+          }
+        }
+      }
+    },
+    "translation.pronounceHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reads this text aloud."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đọc to văn bản này."
+          }
+        }
+      }
+    },
+    "translation.speech.empty": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter or translate text before using pronunciation."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhập hoặc dịch văn bản trước khi phát âm."
+          }
+        }
+      }
+    },
+    "translation.speech.needsLanguage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a source language or translate once to detect it."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn ngôn ngữ nguồn hoặc dịch một lần để phát hiện."
+          }
+        }
+      }
+    },
+    "translation.speech.voiceUnavailable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install a macOS voice for %@ to use pronunciation."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cài đặt giọng đọc macOS cho %@ để phát âm."
+          }
+        }
+      }
+    },
+    "translation.resultAnnouncement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation complete. Result available."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã dịch xong. Kết quả đã sẵn sàng."
+          }
+        }
+      }
+    },
+    "translation.error.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation failed"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch không thành công"
+          }
+        }
+      }
+    },
+    "translation.error.missingCredentials": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add credentials for %@ in Settings."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm thông tin xác thực %@ trong Cài đặt."
+          }
+        }
+      }
+    },
+    "translation.error.unsupportedPair": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This provider does not support the selected language pair."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp này không hỗ trợ cặp ngôn ngữ đã chọn."
+          }
+        }
+      }
+    },
+    "translation.error.downloadRequired": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download required Apple language resources, then try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tải tài nguyên ngôn ngữ Apple cần thiết rồi thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.network": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check your internet connection and try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kiểm tra kết nối internet rồi thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.timeout": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The request timed out. Try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yêu cầu đã hết thời gian. Hãy thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.rateLimit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The provider is busy. Wait, then try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp đang bận. Hãy chờ rồi thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.tooLarge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shorten the source text and try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rút ngắn văn bản nguồn rồi thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.providerUnavailable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The provider is unavailable. Try again later."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp không khả dụng. Hãy thử lại sau."
+          }
+        }
+      }
+    },
+    "translation.error.invalidResponse": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The provider returned an invalid response. Try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp trả về phản hồi không hợp lệ. Hãy thử lại."
+          }
+        }
+      }
+    },
+    "translation.error.cancelled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation was cancelled."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã hủy dịch."
+          }
+        }
+      }
+    },
+    "settings.section.translation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch thuật"
+          }
+        }
+      }
+    },
+    "translation.settings.apiKey": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API key"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khóa API"
+          }
+        }
+      }
+    },
+    "translation.settings.apiKeyA11y": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ API key"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khóa API %@"
+          }
+        }
+      }
+    },
+    "translation.settings.appleLocal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On-device translation. Source text stays on this Mac; language downloads may be required."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch trên thiết bị. Văn bản nguồn vẫn ở trên máy Mac này; có thể cần tải dữ liệu ngôn ngữ."
+          }
+        }
+      }
+    },
+    "translation.settings.cloudCosts": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud translation is opt-in and runs only when you choose Translate. EasyKey sends submitted source text directly to the selected provider. Translation may consume paid quota. Credential checks do not submit source text. EasyKey stores credentials in Keychain and does not persist translation history, source text, or results."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dịch qua đám mây là tùy chọn và chỉ chạy khi bạn chọn Dịch. EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến nhà cung cấp được chọn. Việc dịch có thể dùng hạn mức trả phí. Kiểm tra thông tin xác thực không gửi văn bản nguồn. EasyKey lưu thông tin xác thực trong Chuỗi khóa và không lưu bền vững lịch sử dịch, văn bản nguồn hay kết quả."
+          }
+        }
+      }
+    },
+    "translation.settings.cloudProviderWarning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only choosing Translate sends submitted source text directly to %@ and may incur provider charges."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chỉ thao tác chọn Dịch mới gửi trực tiếp văn bản nguồn bạn gửi đến %@ và có thể phát sinh phí nhà cung cấp."
+          }
+        }
+      }
+    },
+    "translation.settings.deepLFree": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miễn phí"
+          }
+        }
+      }
+    },
+    "translation.settings.deepLPlan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepL API plan"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gói API DeepL"
+          }
+        }
+      }
+    },
+    "translation.settings.deepLPro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro"
+          }
+        }
+      }
+    },
+    "translation.settings.defaultProvider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default provider"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp mặc định"
+          }
+        }
+      }
+    },
+    "translation.settings.deleteKey": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete key"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa khóa"
+          }
+        }
+      }
+    },
+    "translation.settings.deleteKeyConfirmMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This removes the key from this Mac. This provider cannot translate until another key is saved."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thao tác này xóa khóa khỏi máy Mac này. Nhà cung cấp này không thể dịch cho đến khi lưu khóa khác."
+          }
+        }
+      }
+    },
+    "translation.settings.deleteKeyConfirmTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete %@ credential?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa thông tin xác thực %@?"
+          }
+        }
+      }
+    },
+    "translation.settings.general": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chung"
+          }
+        }
+      }
+    },
+    "translation.menuPopoverVisibility": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show in menu bar popover"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiển thị trong cửa sổ bật lên trên thanh menu"
+          }
+        }
+      }
+    },
+    "translation.settings.manageAppleLanguages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage Apple Languages"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quản lý ngôn ngữ Apple"
+          }
+        }
+      }
+    },
+    "translation.settings.model": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model identifier"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mã mô hình"
+          }
+        }
+      }
+    },
+    "translation.settings.modelHint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press Return to validate and save this model identifier."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhấn Return để xác thực và lưu mã mô hình này."
+          }
+        }
+      }
+    },
+    "translation.settings.modelInvalid": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use 1–100 letters, numbers, periods, hyphens, or underscores."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dùng 1–100 chữ cái, số, dấu chấm, gạch nối hoặc gạch dưới."
+          }
+        }
+      }
+    },
+    "translation.settings.oppositeTarget": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New translations target the opposite input language: Vietnamese input targets English; English input targets Vietnamese. You can change the target in the translation panel."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bản dịch mới dùng ngôn ngữ đối diện với ngôn ngữ nhập: nhập tiếng Việt sẽ dịch sang tiếng Anh; nhập tiếng Anh sẽ dịch sang tiếng Việt. Bạn có thể đổi ngôn ngữ đích trong bảng dịch."
+          }
+        }
+      }
+    },
+    "translation.settings.privacy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quyền riêng tư"
+          }
+        }
+      }
+    },
+    "translation.settings.providerDataHandling": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ privacy and data handling"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quyền riêng tư và cách xử lý dữ liệu của %@"
+          }
+        }
+      }
+    },
+    "translation.settings.providers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Providers"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp"
+          }
+        }
+      }
+    },
+    "translation.settings.resetDisclosures": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset cloud disclosures"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đặt lại thông báo đám mây"
+          }
+        }
+      }
+    },
+    "translation.settings.resetDisclosuresConfirmMessage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud providers will ask for consent again before source text leaves this Mac. Credentials and provider settings remain unchanged."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp đám mây sẽ yêu cầu đồng ý lại trước khi văn bản nguồn rời máy Mac này. Thông tin xác thực và cài đặt nhà cung cấp không thay đổi."
+          }
+        }
+      }
+    },
+    "translation.settings.resetDisclosuresConfirmTitle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset cloud disclosure consent?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đặt lại đồng ý thông báo đám mây?"
+          }
+        }
+      }
+    },
+    "translation.settings.resetDisclosuresDescription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resetting makes EasyKey explain cloud transmission again on first use of each provider."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sau khi đặt lại, EasyKey sẽ giải thích việc truyền dữ liệu lên đám mây khi dùng lần đầu từng nhà cung cấp."
+          }
+        }
+      }
+    },
+    "translation.settings.shortcut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation shortcut"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím tắt dịch thuật"
+          }
+        }
+      }
+    },
+    "translation.settings.shortcutConflict": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut is used by another app. Choose another combination."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím tắt đang được ứng dụng khác dùng. Hãy chọn tổ hợp khác."
+          }
+        }
+      }
+    },
+    "translation.settings.shortcutDescription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opens translation for selected text."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mở bản dịch cho văn bản đã chọn."
+          }
+        }
+      }
+    },
+    "translation.settings.shortcutOff": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global shortcut is off."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím tắt toàn cục đang tắt."
+          }
+        }
+      }
+    },
+    "translation.settings.shortcutReady": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut is available."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím tắt khả dụng."
+          }
+        }
+      }
+    },
+    "translation.settings.sourcePreference": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source preference"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ nguồn ưu tiên"
+          }
+        }
+      }
+    },
+    "translation.settings.status.invalid": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid or unavailable"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không hợp lệ hoặc không khả dụng"
+          }
+        }
+      }
+    },
+    "translation.settings.status.missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No key"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chưa có khóa"
+          }
+        }
+      }
+    },
+    "translation.settings.status.ready": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Validated"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã xác thực"
+          }
+        }
+      }
+    },
+    "translation.settings.status.saved": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved, not validated"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã lưu, chưa xác thực"
+          }
+        }
+      }
+    },
+    "translation.settings.status.validating": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Validating…"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang xác thực…"
+          }
+        }
+      }
+    },
+    "translation.settings.validate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Validate and save"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xác thực và lưu"
+          }
+        }
+      }
+    },
+    "translation.pronounce.subject": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronounce %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phát âm %@"
+          }
+        }
+      }
+    }
   },
   "version": "1.0"
 }

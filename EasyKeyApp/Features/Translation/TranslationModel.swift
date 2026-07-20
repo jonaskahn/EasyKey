@@ -53,8 +53,6 @@ final class TranslationModel: ObservableObject {
         targetLanguage = TranslationLanguagePolicy.defaultTarget(forInput: inputLanguage)
     }
 
-    // MARK: - Intent
-
     func setSourceText(_ text: String) {
         guard text != sourceText else { return }
         cancelScheduledAutoTranslate()
@@ -181,8 +179,6 @@ final class TranslationModel: ObservableObject {
         autoTranslateTask?.cancel()
         autoTranslateTask = nil
     }
-
-    // MARK: - Private
 
     private func cancelActiveInFlightTranslation() {
         activeTask?.cancel()

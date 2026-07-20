@@ -80,7 +80,8 @@ struct ThirdPartyNoticesSheet: View {
 
     private var notices: String {
         guard let url = Bundle.main.url(forResource: "THIRD_PARTY_NOTICES", withExtension: "md"),
-              let contents = try? String(contentsOf: url, encoding: .utf8) else {
+              let contents = try? String(contentsOf: url, encoding: .utf8)
+        else {
             return localization.string(.aboutNoticesUnavailable)
         }
         return contents

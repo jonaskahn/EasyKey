@@ -54,8 +54,6 @@ final class TranslationCredentialStoreTests: XCTestCase {
         XCTAssertFalse(try store.hasCredential(for: .google))
     }
 
-    // MARK: - In-memory store
-
     func testInMemoryStore_SatisfiesContract() throws {
         try assertContract(InMemoryTranslationCredentialStore())
     }
@@ -86,16 +84,12 @@ final class TranslationCredentialStoreTests: XCTestCase {
         XCTAssertEqual(try store.credential(for: .gemini), "seeded")
     }
 
-    // MARK: - Status derivation
-
     func testStatus_ReflectsPresenceOnly() throws {
         let store = InMemoryTranslationCredentialStore()
         XCTAssertEqual(try store.status(for: .gemini), .missing)
         try store.save("key", for: .gemini)
         XCTAssertEqual(try store.status(for: .gemini), .saved)
     }
-
-    // MARK: - Keychain store (best-effort; skips when the sandbox denies Keychain access)
 
     func testKeychainStore_SatisfiesContract() throws {
         let store = KeychainTranslationCredentialStore(service: "one.ifelse.easykey.translation.tests")
@@ -125,8 +119,6 @@ final class TranslationCredentialStoreTests: XCTestCase {
             throw XCTSkip("Keychain access unavailable in this test environment")
         }
     }
-
-    // MARK: - Keychain error path normalization (deterministic via a fake SecItem seam)
 
     func testHasCredential_UnexpectedStatus_Throws() {
         let access = FakeSecItemAccess()

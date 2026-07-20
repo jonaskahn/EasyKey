@@ -63,8 +63,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertTrue(condition(), "Condition not met before timeout", file: file, line: line)
     }
 
-    // MARK: - Initialization
-
     func testInit_SeedsTargetFromOppositeOfInputLanguage() {
         let vietnameseInput = makeModel(inputLanguage: .vietnamese, provider: nil)
         XCTAssertEqual(vietnameseInput.targetLanguage, .english)
@@ -72,8 +70,6 @@ final class TranslationModelTests: XCTestCase {
         let englishInput = makeModel(inputLanguage: .english, provider: nil)
         XCTAssertEqual(englishInput.targetLanguage, .vietnamese)
     }
-
-    // MARK: - No automatic requests
 
     func testSettingSourceText_NeverInvokesProvider() async {
         let provider = FakeTranslationProvider(behavior: .success(
@@ -89,8 +85,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(callCount, 0)
         XCTAssertEqual(model.status, .idle)
     }
-
-    // MARK: - Validation no-ops
 
     func testTranslate_WithBlankInput_IsNoOp() async {
         let provider = FakeTranslationProvider(behavior: .success(
@@ -122,8 +116,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(model.status, .idle)
     }
 
-    // MARK: - Provider setup state
-
     func testTranslate_WithNoProviderID_FailsWithNoProviderConfigured() {
         let model = makeModel(providerID: nil, provider: nil)
         model.setSourceText("hello")
@@ -147,8 +139,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(model.status, .failed(.noProviderConfigured))
     }
 
-    // MARK: - Disclosure
-
     func testTranslate_WhenDisclosureDeclined_FailsWithCancelledAndNeverCallsProvider() async {
         let provider = FakeTranslationProvider(behavior: .success(
             TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
@@ -163,8 +153,6 @@ final class TranslationModelTests: XCTestCase {
         let callCount = await provider.callCount
         XCTAssertEqual(callCount, 0)
     }
-
-    // MARK: - Success and provider error propagation
 
     func testTranslate_OnSuccess_PublishesSucceededStatus() async {
         let response = TranslationResponse(translatedText: "xin chào", detectedSourceLanguage: .english, providerID: .deepL)
@@ -213,8 +201,6 @@ final class TranslationModelTests: XCTestCase {
 
         XCTAssertEqual(model.status, .failed(.cancelled))
     }
-
-    // MARK: - Cancellation and stale-response rejection
 
     func testTranslate_CancelsPriorRequestWhenNewOneStarts() async {
         let freshResponse = TranslationResponse(translatedText: "fresh", detectedSourceLanguage: nil, providerID: .google)
@@ -269,8 +255,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(model.status, .idle)
     }
 
-    // MARK: - Swap and manual target persistence
-
     func testSwapLanguages_ExchangesExplicitSourceAndTarget() {
         let model = makeModel(inputLanguage: .vietnamese, provider: nil)
         model.setSourceLanguage(.english)
@@ -292,8 +276,6 @@ final class TranslationModelTests: XCTestCase {
 
         XCTAssertEqual(model.targetLanguage, .vietnamese)
     }
-
-    // MARK: - Stale result clearing
 
     func testMeaningfulTextChange_ClearsSucceededResult() async {
         let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
@@ -337,8 +319,6 @@ final class TranslationModelTests: XCTestCase {
 
         XCTAssertEqual(stopCount, 2)
     }
-
-    // MARK: - User-input auto-translate
 
     func testUserInput_AutoTranslatesAfterConfiguredDelay() async {
         let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)

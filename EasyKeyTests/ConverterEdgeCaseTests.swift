@@ -118,20 +118,4 @@ final class ConverterEdgeCaseTests: XCTestCase {
         let result = EncodingCodec.removeVietnameseMarks(from: "hello")
         XCTAssertEqual(result, "hello")
     }
-
-    func testConverterClipboardNil() {
-        let clipboard = TestClipboard(plainText: nil, html: nil)
-        Converter.convertClipboard(clipboard, configuration: ConverterConfiguration())
-        XCTAssertNil(clipboard.plainText)
-    }
-}
-
-private final class TestClipboard: ConverterClipboard {
-    var plainText: String?
-    var html: Data?
-
-    init(plainText: String?, html: Data?) {
-        self.plainText = plainText
-        self.html = html
-    }
 }

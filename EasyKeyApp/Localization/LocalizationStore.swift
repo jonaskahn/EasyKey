@@ -61,7 +61,6 @@ final class LocalizationStore: ObservableObject {
         if let value = catalog[key.rawValue]?["en"] {
             return value
         }
-        // Last resort: compiled String Catalog / .strings
         if let path = Bundle.main.path(forResource: resolvedCode, ofType: "lproj"),
            let languageBundle = Bundle(path: path) {
             let value = languageBundle.localizedString(forKey: key.rawValue, value: nil, table: nil)
@@ -127,8 +126,6 @@ final class LocalizationStore: ObservableObject {
         return shortcut.displayLabel
     }
 
-    // MARK: - Private
-
     private func macroErrorMessage(_ error: MacroStoreError) -> String {
         switch error {
         case .emptyTrigger: string(.macrosErrorEmptyTrigger)
@@ -157,13 +154,11 @@ final class LocalizationStore: ObservableObject {
     }
 
     private static func loadCatalog(from bundle: Bundle) -> [String: [String: String]] {
-        // Prefer compiled .lproj tables (what Xcode emits from Localizable.xcstrings).
         var catalog = loadCompiledStrings(from: bundle)
         if !catalog.isEmpty {
             return catalog
         }
 
-        // Fall back to the source String Catalog when present as a resource.
         guard let url = bundle.url(forResource: "Localizable", withExtension: "xcstrings"),
               let data = try? Data(contentsOf: url),
               let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],

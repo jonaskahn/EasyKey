@@ -2,8 +2,6 @@
 import XCTest
 
 final class TranslationOptionsTests: XCTestCase {
-    // MARK: - Defaults
-
     func testDefaults_MatchApprovedProductDecisions() {
         let options = TranslationOptions()
         XCTAssertNil(options.preferredProviderID, "Automatic preference is represented as nil, not .automatic")
@@ -22,8 +20,6 @@ final class TranslationOptionsTests: XCTestCase {
     func testDefaultShortcut_DisplaysAsOptionA() {
         XCTAssertEqual(TranslationOptions().shortcut.displayLabel, "\u{2325} + A")
     }
-
-    // MARK: - Coding round trip
 
     func testJSONRoundTrip_PreservesEveryField() throws {
         var options = TranslationOptions()
@@ -71,8 +67,6 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(TranslationOptions.AutoTranslateDelayPreset.ms1500.timeInterval, 1.5)
     }
 
-    // MARK: - No secrets or translation content in Codable representation
-
     func testEncodedRepresentation_ContainsNoSecretOrContentKeys() throws {
         let data = try JSONEncoder().encode(TranslationOptions())
         let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
@@ -84,8 +78,6 @@ final class TranslationOptionsTests: XCTestCase {
             XCTAssertNil(object[forbidden], "TranslationOptions must never persist \(forbidden)")
         }
     }
-
-    // MARK: - EasyKeySettings integration
 
     func testEasyKeySettings_DefaultsIncludeTranslationOptions() {
         XCTAssertEqual(EasyKeySettings.defaults.translation, TranslationOptions())

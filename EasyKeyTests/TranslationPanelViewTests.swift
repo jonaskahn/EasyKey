@@ -187,17 +187,6 @@ final class TranslationPanelViewTests: XCTestCase {
         XCTAssertGreaterThan(host.fittingSize.height, 0)
     }
 
-    func testPopoverSectionOrderPlacesTranslationBeforeInputAndStatusAfterInput() {
-        XCTAssertEqual(
-            MenuPopoverLayout.sectionOrder(hasTranslation: true),
-            [.translation, .inputControls, .inputStatus, .footer]
-        )
-        XCTAssertEqual(
-            MenuPopoverLayout.sectionOrder(hasTranslation: false),
-            [.inputControls, .inputStatus, .footer]
-        )
-    }
-
     func testPopoverConfigurationFiltersAndOrdersProvidersForSimulatedMacOS14And15() {
         let model = TranslationModel(
             inputLanguage: .english,

@@ -89,8 +89,6 @@ final class ArchitectureFitnessTests: XCTestCase {
         XCTAssertFalse(model.contains("FileManager"))
     }
 
-    // MARK: - Helpers
-
     private func importViolations(in directory: URL, forbiddenModules: [String]) throws -> [String] {
         let fm = FileManager.default
         guard fm.fileExists(atPath: directory.path) else {

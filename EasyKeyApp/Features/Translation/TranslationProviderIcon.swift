@@ -1,7 +1,5 @@
-import SwiftUI
 import EasyEngineCore
-
-// MARK: - TranslationProviderPickerButton
+import SwiftUI
 
 /// A provider selector that renders live `TranslationProviderIcon` rows in a popover.
 ///
@@ -25,8 +23,8 @@ struct TranslationProviderPickerButton: View {
             isPresented.toggle()
         } label: {
             TranslationProviderIcon(provider: selection ?? .automatic, size: 18)
-            .frame(width: 34, height: 24)
-            .contentShape(Rectangle())
+                .frame(width: 34, height: 24)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(accessibilityLabel)
@@ -86,8 +84,6 @@ private struct TranslationProviderRowButtonStyle: ButtonStyle {
             .onHover { isHovering = $0 }
     }
 }
-
-// MARK: - TranslationProviderIcon
 
 public struct TranslationProviderIcon: View {
     public let provider: TranslationProviderID

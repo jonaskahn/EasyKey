@@ -47,7 +47,9 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         case ms1000 = 1000
         case ms1500 = 1500
 
-        public var timeInterval: TimeInterval { TimeInterval(rawValue) / 1000.0 }
+        public var timeInterval: TimeInterval {
+            TimeInterval(rawValue) / 1000.0
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -130,10 +132,14 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         anthropicCompatibleModelIdentifier = try container.decodeIfPresent(String.self, forKey: .anthropicCompatibleModelIdentifier)
             ?? Self.defaultAnthropicCompatibleModelIdentifier
         anthropicCompatibleEndpoint = try container.decodeIfPresent(String.self, forKey: .anthropicCompatibleEndpoint) ?? ""
-        acknowledgedCloudDisclosureProviders = try container.decodeIfPresent(Set<TranslationProviderID>.self, forKey: .acknowledgedCloudDisclosureProviders)
+        acknowledgedCloudDisclosureProviders = try container.decodeIfPresent(
+            Set<TranslationProviderID>.self,
+            forKey: .acknowledgedCloudDisclosureProviders
+        )
             ?? []
         isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? true
         showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? true
-        autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500.rawValue
+        autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500
+            .rawValue
     }
 }

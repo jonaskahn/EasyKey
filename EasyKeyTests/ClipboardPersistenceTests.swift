@@ -112,8 +112,6 @@ final class ClipboardPersistenceTests: XCTestCase {
         XCTAssertNil(try keyStore.existingKey())
     }
 
-    // MARK: - Fixtures
-
     private func textEntry(_ text: String) -> ClipboardEntry {
         let item = ClipboardItem(
             kind: .text,

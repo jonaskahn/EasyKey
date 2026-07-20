@@ -143,8 +143,6 @@ struct ClipboardSettingsView: View {
         }
     }
 
-    // MARK: - Bindings
-
     var persistBinding: Binding<Bool> {
         Binding(
             get: { settingsStore.settings.clipboard.persistsHistory },

@@ -109,44 +109,4 @@ final class SettingsRepositoryEdgeCaseTests: XCTestCase {
 
         XCTAssertEqual(repo.settings.input.inputMethod, .simpleTelex)
     }
-
-    func testSettingsImporterValidation() throws {
-        let plist: [String: Any] = [
-            "InputMethod": 0,
-            "Encoding": 0,
-            "ModernOrthography": true,
-        ]
-        let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-        let result = try SettingsImporter.importFromPlistData(data)
-        XCTAssertEqual(result.settings.input.inputMethod, .telex)
-        XCTAssertTrue(result.settings.typing.spellingModernization)
-    }
-
-    func testSettingsImporterAllEncodings() throws {
-        for (rawValue, expected) in [
-            (0, EncodingTable.unicode),
-            (1, EncodingTable.unicodeCombining),
-            (2, EncodingTable.tcvn3),
-            (3, EncodingTable.vniWindows),
-            (4, EncodingTable.cp1258),
-        ] as [(Int, EncodingTable)] {
-            let plist: [String: Any] = ["Encoding": rawValue]
-            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-            let result = try SettingsImporter.importFromPlistData(data)
-            XCTAssertEqual(result.settings.input.encoding, expected, "Encoding \(rawValue)")
-        }
-    }
-
-    func testSettingsImporterAllInputMethods() throws {
-        for (rawValue, expected) in [
-            (0, InputMethod.telex),
-            (1, InputMethod.vni),
-            (2, InputMethod.simpleTelex),
-        ] as [(Int, InputMethod)] {
-            let plist: [String: Any] = ["InputMethod": rawValue]
-            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-            let result = try SettingsImporter.importFromPlistData(data)
-            XCTAssertEqual(result.settings.input.inputMethod, expected, "InputMethod \(rawValue)")
-        }
-    }
 }

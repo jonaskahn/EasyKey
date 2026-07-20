@@ -42,21 +42,6 @@ struct MenuPopoverTranslationConfiguration {
     }
 }
 
-enum MenuPopoverSection: Equatable {
-    case translation
-    case inputControls
-    case inputStatus
-    case footer
-}
-
-enum MenuPopoverLayout {
-    static func sectionOrder(hasTranslation: Bool) -> [MenuPopoverSection] {
-        hasTranslation
-            ? [.translation, .inputControls, .inputStatus, .footer]
-            : [.inputControls, .inputStatus, .footer]
-    }
-}
-
 enum MenuPopoverTranslationLayout {
     static func usesSideBySideEditors(width: CGFloat, accessibilityText: Bool) -> Bool {
         width >= CGFloat(SystemOptions.MenuPopoverWidth.extraLarge.rawValue) && !accessibilityText
@@ -157,7 +142,7 @@ struct MenuPopoverTranslationView: View {
         .disabled(presentation.isTranslating)
     }
 
-    @ViewBuilder private var providerControl: some View {
+    private var providerControl: some View {
         compactProvider
     }
 

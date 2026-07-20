@@ -78,10 +78,6 @@ public final class KeySynthesizer {
         }
     }
 
-    public func postCut(proxy: CGEventTapProxy) {
-        postPhysicalKey(proxy: proxy, keyCode: 7, modifiers: .maskCommand)
-    }
-
     @discardableResult
     func replaceBackward(
         proxy: CGEventTapProxy,

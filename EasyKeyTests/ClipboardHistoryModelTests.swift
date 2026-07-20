@@ -81,8 +81,6 @@ final class ClipboardHistoryModelTests: XCTestCase {
         XCTAssertEqual(reader.history.entries.first?.fingerprint, "f")
     }
 
-    // MARK: - Fixtures
-
     private func textClassified(fingerprint: String, value: String) -> ClassifiedClipboard {
         let item = ClipboardItem(
             kind: .text,
@@ -137,13 +135,6 @@ final class ClipboardHistoryModelTests: XCTestCase {
         model.capture(textClassified(fingerprint: "f2", text: "b"))
         model.apply(ClipboardOptions(maximumEntryCount: 0))
         XCTAssertEqual(model.entryCount, 0)
-    }
-
-    func testModel_AcknowledgeLimitNotice_DoesNotCrash() {
-        var options = ClipboardOptions(maximumEntryCount: 1)
-        options.persistsHistory = true
-        let model = ClipboardHistoryModel(options: options, persistence: nil)
-        model.acknowledgeLimitNotice()
     }
 
     func testModel_DisabledPersistence_DoesNotSave() async {

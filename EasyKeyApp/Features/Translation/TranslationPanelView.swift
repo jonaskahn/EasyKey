@@ -16,15 +16,6 @@ struct TranslationPanelActions {
     }
 }
 
-enum TranslationPanelKeyboardAction: Equatable {
-    case translate
-
-    static func resolve(keyCode: UInt16, modifiers: Shortcut.ModifierFlags) -> Self? {
-        guard keyCode == 36, modifiers == [.command] else { return nil }
-        return .translate
-    }
-}
-
 enum TranslationPanelAccessibility {
     static let providerPicker = "TranslationProviderPicker"
     static let sourceLanguagePicker = "TranslationSourceLanguagePicker"
@@ -73,7 +64,6 @@ struct TranslationPanelPresentation: Equatable {
             && trimmed.count <= TranslationRequest.maximumSourceTextLength
             && sourceLanguage != targetLanguage
             && !isTranslating
-
     }
 }
 

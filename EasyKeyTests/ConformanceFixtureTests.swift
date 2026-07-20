@@ -52,8 +52,6 @@ final class ConformanceFixtureTests: XCTestCase {
         XCTAssertTrue(failures.isEmpty, "Conformance failures:\n\(failures.joined(separator: "\n"))")
     }
 
-    // MARK: - Helpers
-
     private func fixturesDirectory() throws -> URL {
         let testFile = URL(fileURLWithPath: #file)
         let projectRoot = testFile

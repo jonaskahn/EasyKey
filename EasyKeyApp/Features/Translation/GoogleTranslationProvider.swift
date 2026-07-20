@@ -151,6 +151,8 @@ struct GoogleTranslationProvider: TranslationProviding {
         return urlRequest
     }
 
+    /// `endpoint` is always one of the fixed literal `Endpoint` URLs above, so parsing
+    /// into components and rebuilding with query items can never fail.
     private static func authenticatedURL(endpoint: URL, apiKey: String, target: String? = nil) -> URL {
         var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: false)!
         components.queryItems = [URLQueryItem(name: "key", value: apiKey)]

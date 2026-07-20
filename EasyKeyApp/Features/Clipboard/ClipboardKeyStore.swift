@@ -71,7 +71,8 @@ struct KeychainClipboardKeyStore: ClipboardKeyProviding {
     }
 }
 
-/// In-memory key provider for tests and previews.
+/// In-memory key provider for tests and previews. All mutable state is guarded
+/// by `lock`, making cross-actor access safe.
 final class InMemoryClipboardKeyStore: ClipboardKeyProviding, @unchecked Sendable {
     private let lock = NSLock()
     private var key: SymmetricKey?

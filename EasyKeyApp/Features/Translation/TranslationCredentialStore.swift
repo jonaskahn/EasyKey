@@ -150,7 +150,8 @@ struct KeychainTranslationCredentialStore: TranslationCredentialStoring {
 }
 
 /// In-memory credential store for tests and previews. Never persists to disk
-/// or the Keychain.
+/// or the Keychain. All mutable state is guarded by `lock`, making cross-actor
+/// access safe.
 final class InMemoryTranslationCredentialStore: TranslationCredentialStoring, @unchecked Sendable {
     private let lock = NSLock()
     private var credentials: [TranslationProviderID: String] = [:]

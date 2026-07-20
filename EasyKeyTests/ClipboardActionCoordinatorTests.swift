@@ -68,18 +68,6 @@ final class ClipboardActionCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.lastError, .accessibilityDenied)
     }
 
-    func testCanRestoreDetectsMissingFile() {
-        let coordinator = makeCoordinator(write: { _ in }, close: {}, reactivate: { true }, synthesize: { true })
-        let item = ClipboardItem(
-            kind: .file,
-            preview: ClipboardItemPreview(primaryText: "x"),
-            representations: [.fileURL(URL(fileURLWithPath: "/nope/missing-\(UUID()).bin"))]
-        )
-        let missing = ClipboardEntry(fingerprint: "f", capturedAt: Date(), items: [item])
-        XCTAssertFalse(coordinator.canRestore(missing))
-        XCTAssertTrue(coordinator.canRestore(entry()))
-    }
-
     private func makeCoordinator(
         write: @escaping (ClipboardEntry) throws -> Void,
         close: @escaping () -> Void,

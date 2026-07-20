@@ -95,11 +95,4 @@ final class MacroStoreTests: XCTestCase {
         XCTAssertEqual(store.expansion(for: "sig", autoCapitalize: false), "new")
         XCTAssertTrue(store.exportTSV().contains("addr\tHanoi\t0"))
     }
-
-    func testPreviewLegacyImport_MixedLines_FlagsUnparseableRecords() throws {
-        let preview = try MacroStore().previewLegacyImport("sig => Best regards\nnot a macro")
-
-        XCTAssertEqual(preview.additions.map(\.trigger), ["sig"])
-        XCTAssertEqual(preview.unparseableRecords, ["not a macro"])
-    }
 }

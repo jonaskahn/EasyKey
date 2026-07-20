@@ -67,8 +67,6 @@ final class ClipboardPanelPresenter {
         }
     }
 
-    // MARK: - Private
-
     private func existingOrNewPanel() -> ClipboardPanel {
         if let panel {
             return panel

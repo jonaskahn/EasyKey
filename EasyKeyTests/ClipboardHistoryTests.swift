@@ -5,14 +5,10 @@ final class ClipboardHistoryTests: XCTestCase {
     private let base = Date(timeIntervalSince1970: 1_700_000_000)
     private let options = ClipboardOptions(maximumEntryCount: 100, retentionDays: 7)
 
-    // MARK: - ClipboardEntry.kind
-
     func testKind_WhenItemsEmpty_IsMixed() {
         let entry = ClipboardEntry(fingerprint: "empty", capturedAt: base, items: [])
         XCTAssertEqual(entry.kind, .mixed)
     }
-
-    // MARK: - Ordering & deduplication
 
     func testInsertOrdersNewestFirst() {
         var history = ClipboardHistory()
@@ -31,8 +27,6 @@ final class ClipboardHistoryTests: XCTestCase {
         XCTAssertEqual(history.entries.first?.fingerprint, "fa")
         XCTAssertEqual(history.entries.first?.capturedAt, base.addingTimeInterval(2))
     }
-
-    // MARK: - Retention
 
     func testCountLimitAppliesToUnpinnedOnly() {
         var history = ClipboardHistory()
@@ -72,8 +66,6 @@ final class ClipboardHistoryTests: XCTestCase {
         }
         XCTAssertTrue(history.entries.contains { $0.fingerprint == "keep" })
     }
-
-    // MARK: - Pinning
 
     func testPinnedEntriesSortAboveRecentByPinnedAt() throws {
         var history = ClipboardHistory()
@@ -135,8 +127,6 @@ final class ClipboardHistoryTests: XCTestCase {
         XCTAssertEqual(history.setPinned(true, entryID: UUID(), now: base), .notFound)
     }
 
-    // MARK: - Clearing
-
     func testClearRemovesEverythingIncludingPinned() {
         var history = ClipboardHistory()
         history.insert(textEntry("a", fingerprint: "fa"), options: options, now: base)
@@ -153,8 +143,6 @@ final class ClipboardHistoryTests: XCTestCase {
         history.clearUnpinned()
         XCTAssertEqual(history.entries.map(\.fingerprint), ["pin"])
     }
-
-    // MARK: - Search
 
     func testSearchMatchesTextURLFilenameAndSource() {
         var history = ClipboardHistory()
@@ -185,8 +173,6 @@ final class ClipboardHistoryTests: XCTestCase {
         let history = ClipboardHistory()
         XCTAssertTrue(history.entries(matching: "anything").isEmpty)
     }
-
-    // MARK: - Fixtures
 
     private func textEntry(_ text: String, fingerprint: String) -> ClipboardEntry {
         ClipboardEntry(fingerprint: fingerprint, capturedAt: base, items: [textItem(text)])

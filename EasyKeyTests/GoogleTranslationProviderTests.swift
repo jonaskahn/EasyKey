@@ -43,8 +43,6 @@ final class GoogleTranslationProviderTests: XCTestCase {
         }
     }
 
-    // MARK: - Request
-
     func testTranslate_UsesFixedHTTPSV2EndpointAndQueryCredential() async throws {
         let provider = makeProvider()
         installSuccess()
@@ -107,8 +105,6 @@ final class GoogleTranslationProviderTests: XCTestCase {
 
         _ = try await provider.translate(makeRequest())
     }
-
-    // MARK: - Response
 
     func testTranslate_ReturnsSingleTranslationDetectedLanguageAndProvider() async throws {
         let provider = makeProvider()
@@ -220,8 +216,6 @@ final class GoogleTranslationProviderTests: XCTestCase {
         }
     }
 
-    // MARK: - Credentials and HTTP mapping
-
     func testTranslate_MissingCredentialDoesNotCallNetwork() async {
         let provider = GoogleTranslationProvider(
             credentialStore: InMemoryTranslationCredentialStore(),
@@ -291,8 +285,6 @@ final class GoogleTranslationProviderTests: XCTestCase {
             try await provider.translate(self.makeRequest())
         }
     }
-
-    // MARK: - Transport and redaction
 
     func testTranslate_MapsTimeoutCancellationAndNetworkFailures() async throws {
         try await assertTransportError(URLError(.timedOut), mapsTo: .requestTimedOut)

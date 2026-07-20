@@ -50,8 +50,6 @@ final class ClipboardOptionsTests: XCTestCase {
         }
     }
 
-    // MARK: - Settings migration
-
     func testLegacySettingsWithoutClipboardKeyDecodeWithDefaults() throws {
         let legacyData = try legacySettingsDataWithoutClipboard(schemaVersion: 3)
         let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: legacyData)

@@ -2,8 +2,6 @@
 import XCTest
 
 final class TranslationDomainModelTests: XCTestCase {
-    // MARK: - TranslationLanguage
-
     func testBcp47_TrimsWhitespaceAndStoresIdentifier() {
         let language = TranslationLanguage(bcp47: "  fr  ")
         XCTAssertEqual(language?.identifier, "fr")
@@ -46,8 +44,6 @@ final class TranslationDomainModelTests: XCTestCase {
         XCTAssertEqual(decoded.identifier, "zh-Hans")
     }
 
-    // MARK: - SupportedLanguages
-
     func testSupportedLanguages_ContainsEnglishAndVietnamese() {
         XCTAssertTrue(SupportedLanguages.contains(.english))
         XCTAssertTrue(SupportedLanguages.contains(.vietnamese))
@@ -64,8 +60,6 @@ final class TranslationDomainModelTests: XCTestCase {
         XCTAssertEqual(identifiers.count, Set(identifiers).count)
     }
 
-    // MARK: - TranslationLanguagePolicy swap
-
     func testSwapped_WithExplicitSource_ExchangesLanguages() {
         let result = TranslationLanguagePolicy.swapped(source: .english, target: .vietnamese)
         XCTAssertEqual(result.source, .vietnamese)
@@ -78,8 +72,6 @@ final class TranslationDomainModelTests: XCTestCase {
         XCTAssertEqual(result.target, .vietnamese)
     }
 
-    // MARK: - TranslationLanguagePolicy default target
-
     func testDefaultTarget_ForVietnameseInput_IsEnglish() {
         XCTAssertEqual(TranslationLanguagePolicy.defaultTarget(forInput: .vietnamese), .english)
     }
@@ -87,8 +79,6 @@ final class TranslationDomainModelTests: XCTestCase {
     func testDefaultTarget_ForEnglishInput_IsVietnamese() {
         XCTAssertEqual(TranslationLanguagePolicy.defaultTarget(forInput: .english), .vietnamese)
     }
-
-    // MARK: - TranslationRequest validation
 
     func testRequestInit_WithValidInputs_Succeeds() {
         let request = TranslationRequest(
@@ -185,8 +175,6 @@ final class TranslationDomainModelTests: XCTestCase {
         XCTAssertEqual(request?.sourceText, "Xin chào 👋 thế giới")
     }
 
-    // MARK: - TranslationResponse
-
     func testResponse_StoresProvidedValues() {
         let response = TranslationResponse(
             translatedText: "hello",
@@ -204,8 +192,6 @@ final class TranslationDomainModelTests: XCTestCase {
         XCTAssertEqual(first, second)
     }
 
-    // MARK: - TranslationError
-
     func testError_EqualityComparesAssociatedValues() {
         XCTAssertEqual(
             TranslationError.missingCredentials(provider: .deepL),
@@ -222,8 +208,6 @@ final class TranslationDomainModelTests: XCTestCase {
         let withoutStatus = TranslationError.providerUnavailable(provider: .openAI, httpStatus: nil)
         XCTAssertNotEqual(withStatus, withoutStatus)
     }
-
-    // MARK: - TranslationProviderID
 
     func testProviderID_AllCasesAreCodable() throws {
         let encoder = JSONEncoder()

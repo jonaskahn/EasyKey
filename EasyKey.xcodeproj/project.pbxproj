@@ -7,16 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		170000000000000000000001 /* TranslationSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000011 /* TranslationSettingsModel.swift */; };
-		170000000000000000000002 /* TranslationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000012 /* TranslationSettingsView.swift */; };
-		170000000000000000000003 /* TranslationSettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000013 /* TranslationSettingsModelTests.swift */; };
-		180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000011 /* MenuPopoverTranslationView.swift */; };
-		180000000000000000000002 /* TranslationProviderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000012 /* TranslationProviderIcon.swift */; };
-		D000000000000000000001 /* TranslationTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000000000000000000002 /* TranslationTextEditor.swift */; };
-		E000000000000000000001 /* OpenAICompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */; };
-		E000000000000000000003 /* AnthropicCompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */; };
-		190000000000000000000001 /* AppTranslationRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000011 /* AppTranslationRuntime.swift */; };
-		190000000000000000000002 /* AppTranslationRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000012 /* AppTranslationRuntimeTests.swift */; };
+		027299A700063F943906A71A /* SupportedLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85047A846DCC46C32C920843 /* SupportedLanguages.swift */; };
+		06783A2D84043AF4EB8FA424 /* EasyKeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */; };
 		080000000000000000000001 /* GoogleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000011 /* GoogleTranslationProvider.swift */; };
 		080000000000000000000002 /* GoogleTranslationProviderTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000012 /* GoogleTranslationProviderTestSupport.swift */; };
 		080000000000000000000003 /* GoogleTranslationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000013 /* GoogleTranslationProviderTests.swift */; };
@@ -34,6 +26,8 @@
 		0C0000000000000000000002 /* SelectedTextCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0000000000000000000012 /* SelectedTextCaptureTests.swift */; };
 		0D0000000000000000000001 /* TranslationHotKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000011 /* TranslationHotKeyController.swift */; };
 		0D0000000000000000000002 /* TranslationHotKeyControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000012 /* TranslationHotKeyControllerTests.swift */; };
+		0D1EE682B3ACE4B0912FB5AA /* TranslationLanguagePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87209C7080056B3BB1899893 /* TranslationLanguagePolicy.swift */; };
+		0DABA53C8B38708A5BF05A27 /* FocusedElementInspectorExtendedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */; };
 		0E0000000000000000000001 /* TranslationPanelGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000011 /* TranslationPanelGeometry.swift */; };
 		0E0000000000000000000002 /* TranslationPanelPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000012 /* TranslationPanelPresenter.swift */; };
 		0E0000000000000000000003 /* TranslationPanelGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000013 /* TranslationPanelGeometryTests.swift */; };
@@ -42,10 +36,13 @@
 		0F0000000000000000000002 /* TranslationSpeechControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0000000000000000000012 /* TranslationSpeechControllerTests.swift */; };
 		160000000000000000000001 /* TranslationPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000011 /* TranslationPanelView.swift */; };
 		160000000000000000000002 /* TranslationPanelViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160000000000000000000012 /* TranslationPanelViewTests.swift */; };
-		027299A700063F943906A71A /* SupportedLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85047A846DCC46C32C920843 /* SupportedLanguages.swift */; };
-		06783A2D84043AF4EB8FA424 /* EasyKeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */; };
-		0D1EE682B3ACE4B0912FB5AA /* TranslationLanguagePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87209C7080056B3BB1899893 /* TranslationLanguagePolicy.swift */; };
-		0DABA53C8B38708A5BF05A27 /* FocusedElementInspectorExtendedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */; };
+		170000000000000000000001 /* TranslationSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000011 /* TranslationSettingsModel.swift */; };
+		170000000000000000000002 /* TranslationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000012 /* TranslationSettingsView.swift */; };
+		170000000000000000000003 /* TranslationSettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000013 /* TranslationSettingsModelTests.swift */; };
+		180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000011 /* MenuPopoverTranslationView.swift */; };
+		180000000000000000000002 /* TranslationProviderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000012 /* TranslationProviderIcon.swift */; };
+		190000000000000000000001 /* AppTranslationRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000011 /* AppTranslationRuntime.swift */; };
+		190000000000000000000002 /* AppTranslationRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000012 /* AppTranslationRuntimeTests.swift */; };
 		1BA1113811F79F7B8EEBF1EE /* FocusedElementInspectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51640F560AC1C30662AA725D /* FocusedElementInspectorTests.swift */; };
 		237E6CEBDB27D7138C495DEC /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9A49BB0924AD4EBC4C092A /* Shortcut.swift */; };
 		2AC4931CC30676854B8E8131 /* TranslationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6FB64BEFDEC3B555A9E14 /* TranslationRequest.swift */; };
@@ -152,6 +149,7 @@
 		CB0000000000000000000131 /* ClipboardEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000031 /* ClipboardEntryRow.swift */; };
 		CB0000000000000000000132 /* ClipboardSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000032 /* ClipboardSettingsView.swift */; };
 		CE4884DDDFD18B33A05BAC78 /* UpdateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93165CEC2B6F8CF5F4519B50 /* UpdateServiceTests.swift */; };
+		D000000000000000000001 /* TranslationTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000000000000000000002 /* TranslationTextEditor.swift */; };
 		D1A600000000000000000001 /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A600000000000000000002 /* AppLog.swift */; };
 		D1A600000000000000000003 /* LogExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A600000000000000000004 /* LogExporter.swift */; };
 		D1A600000000000000000005 /* AppLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A600000000000000000006 /* AppLogTests.swift */; };
@@ -162,6 +160,8 @@
 		DC3FA5B3C3EBEF7B31775919 /* EasyEngineCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9DAB27F89404EF8AAF37788 /* EasyEngineCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD471C71134BE35C08534A09 /* WorkspaceObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10FAB3B968FCBDA09E88EDF /* WorkspaceObserverTests.swift */; };
 		DED6A441A373996EE5D502C9 /* ClipboardServicesExtendedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75D875F0735D136E9542350 /* ClipboardServicesExtendedTests.swift */; };
+		E000000000000000000001 /* OpenAICompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */; };
+		E000000000000000000003 /* AnthropicCompatibleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */; };
 		E200900CD9A4FF6804825FAD /* TranslationProviderResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF15BA67813F151CF16F34C6 /* TranslationProviderResolverTests.swift */; };
 		E2EFB585DDF347E9A7A81AC2 /* VietnameseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EA87E37B32432E92A80DEC /* VietnameseEngine.swift */; };
 		E40000000000000000000001 /* AppCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40000000000000000000011 /* AppCompatibility.swift */; };
@@ -223,8 +223,6 @@
 		F60000000000000000000011 /* ConformanceFixtureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000001 /* ConformanceFixtureTests.swift */; };
 		F60000000000000000000012 /* KeyboardServiceIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000002 /* KeyboardServiceIntegrationTests.swift */; };
 		F60000000000000000000013 /* SettingsWorkflowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000003 /* SettingsWorkflowTests.swift */; };
-		F60000000000000000000014 /* SettingsImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000004 /* SettingsImporter.swift */; };
-		F60000000000000000000015 /* SettingsImporterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60000000000000000000005 /* SettingsImporterTests.swift */; };
 		F6C312116761392F0816341B /* ClipboardViewRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DF03ED65A4917065897163 /* ClipboardViewRenderingTests.swift */; };
 		F7CE122BD15771D5200F2278 /* ViewRenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C391054375B7257BDF6BFFE /* ViewRenderingTests.swift */; };
 		F8251EED3DBFA64C531D4B6B /* TranslationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5280173763A0F7434CEFA56 /* TranslationError.swift */; };
@@ -326,14 +324,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		170000000000000000000011 /* TranslationSettingsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationSettingsModel.swift; sourceTree = "<group>"; };
-		170000000000000000000012 /* TranslationSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationSettingsView.swift; sourceTree = "<group>"; };
-		170000000000000000000013 /* TranslationSettingsModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSettingsModelTests.swift; sourceTree = "<group>"; };
-		180000000000000000000011 /* MenuPopoverTranslationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuPopoverTranslationView.swift; sourceTree = "<group>"; };
-		180000000000000000000012 /* TranslationProviderIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderIcon.swift; sourceTree = "<group>"; };
-		D000000000000000000002 /* TranslationTextEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationTextEditor.swift; sourceTree = "<group>"; };
-		E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAICompatibleTranslationProvider.swift; sourceTree = "<group>"; };
-		E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicCompatibleTranslationProvider.swift; sourceTree = "<group>"; };
+		02E1EA900B51458EACCD1D27 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		064CC3DCF24269EF44F13B44 /* TranslationOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationOptions.swift; sourceTree = "<group>"; };
 		080000000000000000000011 /* GoogleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProvider.swift; sourceTree = "<group>"; };
 		080000000000000000000012 /* GoogleTranslationProviderTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTestSupport.swift; sourceTree = "<group>"; };
 		080000000000000000000013 /* GoogleTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTests.swift; sourceTree = "<group>"; };
@@ -341,6 +333,7 @@
 		090000000000000000000011 /* OpenAITranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAITranslationProvider.swift; sourceTree = "<group>"; };
 		090000000000000000000012 /* OpenAITranslationProviderTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAITranslationProviderTestSupport.swift; sourceTree = "<group>"; };
 		090000000000000000000013 /* OpenAITranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAITranslationProviderTests.swift; sourceTree = "<group>"; };
+		09406B9B78ABC53691F980A4 /* AppleTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppleTranslationProviderTests.swift; sourceTree = "<group>"; };
 		0A0000000000000000000011 /* AnthropicTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicTranslationProvider.swift; sourceTree = "<group>"; };
 		0A0000000000000000000012 /* AnthropicTranslationProviderTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicTranslationProviderTestSupport.swift; sourceTree = "<group>"; };
 		0A0000000000000000000013 /* AnthropicTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicTranslationProviderTests.swift; sourceTree = "<group>"; };
@@ -349,13 +342,27 @@
 		0B0000000000000000000013 /* GeminiTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GeminiTranslationProviderTests.swift; sourceTree = "<group>"; };
 		0C0000000000000000000011 /* SelectedTextCapture.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelectedTextCapture.swift; sourceTree = "<group>"; };
 		0C0000000000000000000012 /* SelectedTextCaptureTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelectedTextCaptureTests.swift; sourceTree = "<group>"; };
-		02E1EA900B51458EACCD1D27 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		064CC3DCF24269EF44F13B44 /* TranslationOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationOptions.swift; sourceTree = "<group>"; };
-		09406B9B78ABC53691F980A4 /* AppleTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppleTranslationProviderTests.swift; sourceTree = "<group>"; };
 		0C391054375B7257BDF6BFFE /* ViewRenderingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewRenderingTests.swift; sourceTree = "<group>"; };
+		0D0000000000000000000011 /* TranslationHotKeyController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationHotKeyController.swift; sourceTree = "<group>"; };
+		0D0000000000000000000012 /* TranslationHotKeyControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationHotKeyControllerTests.swift; sourceTree = "<group>"; };
+		0E0000000000000000000011 /* TranslationPanelGeometry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelGeometry.swift; sourceTree = "<group>"; };
+		0E0000000000000000000012 /* TranslationPanelPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelPresenter.swift; sourceTree = "<group>"; };
+		0E0000000000000000000013 /* TranslationPanelGeometryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelGeometryTests.swift; sourceTree = "<group>"; };
+		0E0000000000000000000014 /* TranslationPanelPresenterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelPresenterTests.swift; sourceTree = "<group>"; };
+		0F0000000000000000000011 /* TranslationSpeechController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSpeechController.swift; sourceTree = "<group>"; };
+		0F0000000000000000000012 /* TranslationSpeechControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSpeechControllerTests.swift; sourceTree = "<group>"; };
 		121F12885E8840E3AB8887BD /* EasyKeyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EasyKeyApp.entitlements; sourceTree = "<group>"; };
 		1354D86AF2FD434D993ABD4A /* EasyKeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyKeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		149BC8C9BEFFC267117465CE /* TypingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingOptions.swift; sourceTree = "<group>"; };
+		160000000000000000000011 /* TranslationPanelView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelView.swift; sourceTree = "<group>"; };
+		160000000000000000000012 /* TranslationPanelViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelViewTests.swift; sourceTree = "<group>"; };
+		170000000000000000000011 /* TranslationSettingsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationSettingsModel.swift; sourceTree = "<group>"; };
+		170000000000000000000012 /* TranslationSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationSettingsView.swift; sourceTree = "<group>"; };
+		170000000000000000000013 /* TranslationSettingsModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSettingsModelTests.swift; sourceTree = "<group>"; };
+		180000000000000000000011 /* MenuPopoverTranslationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuPopoverTranslationView.swift; sourceTree = "<group>"; };
+		180000000000000000000012 /* TranslationProviderIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderIcon.swift; sourceTree = "<group>"; };
+		190000000000000000000011 /* AppTranslationRuntime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntime.swift; sourceTree = "<group>"; };
+		190000000000000000000012 /* AppTranslationRuntimeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntimeTests.swift; sourceTree = "<group>"; };
 		201F21301E9E70A2110E6424 /* AppleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppleTranslationProvider.swift; sourceTree = "<group>"; };
 		21559D828E582B968D3AA715 /* LoginItemControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginItemControllerTests.swift; sourceTree = "<group>"; };
 		21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FocusedElementInspectorExtendedTests.swift; sourceTree = "<group>"; };
@@ -370,18 +377,6 @@
 		372CF7BB5690B487002373BC /* CompatibilityOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompatibilityOptions.swift; sourceTree = "<group>"; };
 		3BC39EE95E63A655B019E3D7 /* InputSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSettings.swift; sourceTree = "<group>"; };
 		3C08BD3931A44B293EB5A997 /* TranslationDomainModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationDomainModelTests.swift; sourceTree = "<group>"; };
-		0D0000000000000000000011 /* TranslationHotKeyController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationHotKeyController.swift; sourceTree = "<group>"; };
-		0D0000000000000000000012 /* TranslationHotKeyControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationHotKeyControllerTests.swift; sourceTree = "<group>"; };
-		0E0000000000000000000011 /* TranslationPanelGeometry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelGeometry.swift; sourceTree = "<group>"; };
-		0E0000000000000000000012 /* TranslationPanelPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelPresenter.swift; sourceTree = "<group>"; };
-		0E0000000000000000000013 /* TranslationPanelGeometryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelGeometryTests.swift; sourceTree = "<group>"; };
-		0E0000000000000000000014 /* TranslationPanelPresenterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelPresenterTests.swift; sourceTree = "<group>"; };
-		0F0000000000000000000011 /* TranslationSpeechController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSpeechController.swift; sourceTree = "<group>"; };
-		0F0000000000000000000012 /* TranslationSpeechControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSpeechControllerTests.swift; sourceTree = "<group>"; };
-		160000000000000000000011 /* TranslationPanelView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelView.swift; sourceTree = "<group>"; };
-		160000000000000000000012 /* TranslationPanelViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelViewTests.swift; sourceTree = "<group>"; };
-		190000000000000000000011 /* AppTranslationRuntime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntime.swift; sourceTree = "<group>"; };
-		190000000000000000000012 /* AppTranslationRuntimeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntimeTests.swift; sourceTree = "<group>"; };
 		3C21BF699B666622991918A7 /* VietnameseEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VietnameseEncoding.swift; sourceTree = "<group>"; };
 		3C6119D58BD73F023707648A /* SmartSwitchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchOptions.swift; sourceTree = "<group>"; };
 		450039CDBC04409A92A5A361 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -480,6 +475,7 @@
 		CB0000000000000000000031 /* ClipboardEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardEntryRow.swift; sourceTree = "<group>"; };
 		CB0000000000000000000032 /* ClipboardSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSettingsView.swift; sourceTree = "<group>"; };
 		CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineCoreCoverageTests.swift; sourceTree = "<group>"; };
+		D000000000000000000002 /* TranslationTextEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationTextEditor.swift; sourceTree = "<group>"; };
 		D00AF1C9AC7F29ECE7A51E00 /* TranslationPlatformCapability.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPlatformCapability.swift; sourceTree = "<group>"; };
 		D138FB97146E42FA9D74ABB6 /* EasyKeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeyUITests.swift; sourceTree = "<group>"; };
 		D1A600000000000000000002 /* AppLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
@@ -493,6 +489,8 @@
 		DD7DA48C661976793DE72BEA /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		DDA47C4CE4FC652A2E7CD785 /* VietnameseTones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VietnameseTones.swift; sourceTree = "<group>"; };
 		DF15BA67813F151CF16F34C6 /* TranslationProviderResolverTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderResolverTests.swift; sourceTree = "<group>"; };
+		E000000000000000000002 /* OpenAICompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OpenAICompatibleTranslationProvider.swift; sourceTree = "<group>"; };
+		E000000000000000000004 /* AnthropicCompatibleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnthropicCompatibleTranslationProvider.swift; sourceTree = "<group>"; };
 		E3F76D5C2DB8481395F8A7CE /* EasyKeyLoginHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyKeyLoginHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E40000000000000000000011 /* AppCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompatibility.swift; sourceTree = "<group>"; };
 		E40000000000000000000012 /* KeySynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySynthesizer.swift; sourceTree = "<group>"; };
@@ -549,8 +547,6 @@
 		F60000000000000000000001 /* ConformanceFixtureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformanceFixtureTests.swift; sourceTree = "<group>"; };
 		F60000000000000000000002 /* KeyboardServiceIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceIntegrationTests.swift; sourceTree = "<group>"; };
 		F60000000000000000000003 /* SettingsWorkflowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWorkflowTests.swift; sourceTree = "<group>"; };
-		F60000000000000000000004 /* SettingsImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsImporter.swift; sourceTree = "<group>"; };
-		F60000000000000000000005 /* SettingsImporterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsImporterTests.swift; sourceTree = "<group>"; };
 		F9329398DB2DD62B053A78F1 /* DeepLTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeepLTranslationProviderTests.swift; sourceTree = "<group>"; };
 		FAFD59368E7979149B6AC5EA /* KeyEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEvent.swift; sourceTree = "<group>"; };
 		FFC6FB64BEFDEC3B555A9E14 /* TranslationRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationRequest.swift; sourceTree = "<group>"; };
@@ -749,7 +745,6 @@
 				E4000000000000000000001A /* KeySynthesizerTests.swift */,
 				F60000000000000000000001 /* ConformanceFixtureTests.swift */,
 				F60000000000000000000002 /* KeyboardServiceIntegrationTests.swift */,
-				F60000000000000000000005 /* SettingsImporterTests.swift */,
 				A10B00000000000000000015 /* LocalizationTests.swift */,
 				C3D100000000000000000011 /* ArchitectureFitnessTests.swift */,
 				T80000000000000010 /* KeyboardPipelineCoverageTests.swift */,
@@ -905,7 +900,6 @@
 				3BC39EE95E63A655B019E3D7 /* InputSettings.swift */,
 				E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */,
 				91DD71E9A302B4C7C36554C6 /* SettingsRepository.swift */,
-				F60000000000000000000004 /* SettingsImporter.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1391,7 +1385,6 @@
 				E40000000000000000000009 /* KeySynthesizerTests.swift in Sources */,
 				F60000000000000000000011 /* ConformanceFixtureTests.swift in Sources */,
 				F60000000000000000000012 /* KeyboardServiceIntegrationTests.swift in Sources */,
-				F60000000000000000000015 /* SettingsImporterTests.swift in Sources */,
 				A10B00000000000000000005 /* LocalizationTests.swift in Sources */,
 				C3D100000000000000000001 /* ArchitectureFitnessTests.swift in Sources */,
 				T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */,
@@ -1519,7 +1512,6 @@
 				A10000000000000000000001 /* MacroStore.swift in Sources */,
 				A10000000000000000000002 /* SmartSwitchStore.swift in Sources */,
 				A10000000000000000000003 /* Converter.swift in Sources */,
-				F60000000000000000000014 /* SettingsImporter.swift in Sources */,
 				5931D651115FF7A4C52016EA /* TranslationProviderID.swift in Sources */,
 				5BE5B07782693F554B7C3307 /* TranslationLanguage.swift in Sources */,
 				027299A700063F943906A71A /* SupportedLanguages.swift in Sources */,

@@ -13,8 +13,6 @@ final class SettingsWorkflowTests: XCTestCase {
         app.terminate()
     }
 
-    // MARK: - Onboarding
-
     func testOnboardingShowsOnFirstLaunch() {
         app.launch()
         app.activate()

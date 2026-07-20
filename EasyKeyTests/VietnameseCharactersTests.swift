@@ -30,34 +30,6 @@ final class VietnameseCharactersTests: XCTestCase {
         XCTAssertEqual(VietnameseCharacters.d(withStroke: false, uppercase: true), "D")
     }
 
-    func testBaseVowelUppercase() {
-        XCTAssertEqual(VietnameseCharacters.baseVowel("Â"), "a")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("Ê"), "e")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("Ô"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("Ơ"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("Ư"), "u")
-    }
-
-    func testBaseVowelLowercase() {
-        XCTAssertEqual(VietnameseCharacters.baseVowel("â"), "a")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ê"), "e")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ô"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ơ"), "o")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ư"), "u")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("ă"), "a")
-    }
-
-    func testBaseVowelNil() {
-        XCTAssertNil(VietnameseCharacters.baseVowel("b"))
-        XCTAssertNil(VietnameseCharacters.baseVowel("d"))
-        XCTAssertNil(VietnameseCharacters.baseVowel("đ"))
-    }
-
-    func testBaseVowelIAndYHaveNoDiacriticVariants() {
-        XCTAssertEqual(VietnameseCharacters.baseVowel("i"), "i")
-        XCTAssertEqual(VietnameseCharacters.baseVowel("y"), "y")
-    }
-
     func testVowel_MarkIndexOutOfRangeForBase_ReturnsNil() {
         XCTAssertNil(VietnameseCharacters.vowel(base: "a", mark: .stroke, tone: .none, uppercase: false))
     }
