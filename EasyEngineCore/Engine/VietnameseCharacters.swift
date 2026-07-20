@@ -181,10 +181,6 @@ public enum VietnameseCharacters {
         "ch", "gh", "gi", "kh", "ng", "ngh", "nh", "ph", "th", "tr", "qu",
     ]
 
-    public static let endConsonants: Set<String> = [
-        "c", "ch", "m", "n", "ng", "nh", "p", "t",
-    ]
-
     public static func isVowel(_ character: Character) -> Bool {
         let lower = Character(character.lowercased())
         return vowels.contains(lower)
