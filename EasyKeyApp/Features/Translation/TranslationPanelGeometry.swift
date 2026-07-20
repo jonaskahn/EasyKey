@@ -49,3 +49,19 @@ private func distanceSquared(from point: CGPoint, to frame: CGRect) -> CGFloat {
     let deltaY = point.y - nearestY
     return deltaX * deltaX + deltaY * deltaY
 }
+
+let translationEditorMinimumHeight: CGFloat = 92
+let translationEditorMaximumHeight: CGFloat = 420
+
+/// Splits the panel's chosen size between its two editor cards (source and
+/// result), so both grow to use the extra room a larger panel size leaves
+/// available instead of staying pinned to a small fixed height.
+///
+/// `nonEditorChromeHeight` is a rough estimate of everything else in the
+/// panel (header, card titles/footers, status card, divider, footer,
+/// padding) — the min/max clamps above absorb any inaccuracy.
+func translationEditorIdealHeight(forPanelHeight totalHeight: CGFloat, nonEditorChromeHeight: CGFloat = 260) -> CGFloat {
+    let available = totalHeight - nonEditorChromeHeight
+    let perEditor = available / 2
+    return min(max(perEditor, translationEditorMinimumHeight), translationEditorMaximumHeight)
+}

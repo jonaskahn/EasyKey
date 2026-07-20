@@ -97,22 +97,15 @@ struct TranslationPanelView: View {
         return response
     }
 
-    private static let editorMinimumHeight: CGFloat = 92
-    private static let editorMaximumHeight: CGFloat = 420
-    /// Rough height of everything in the panel besides the two editor cards
-    /// (header, card titles/footers, status card, divider, footer, padding).
-    /// Used only to split the panel's chosen size between the two editors —
-    /// generous min/max clamps below absorb any inaccuracy.
-    private static let nonEditorChromeHeight: CGFloat = 260
-
     var body: some View {
         GeometryReader { proxy in
+            let editorHeight = translationEditorIdealHeight(forPanelHeight: proxy.size.height)
             VStack(spacing: 0) {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
                         header
-                        sourceSection(idealHeight: editorIdealHeight(for: proxy.size.height))
-                        resultSection(idealHeight: editorIdealHeight(for: proxy.size.height))
+                        sourceSection(idealHeight: editorHeight)
+                        resultSection(idealHeight: editorHeight)
                         statusSection
                     }
                     .padding(16)
@@ -255,12 +248,6 @@ struct TranslationPanelView: View {
         }
     }
 
-    private func editorIdealHeight(for totalHeight: CGFloat) -> CGFloat {
-        let available = totalHeight - Self.nonEditorChromeHeight
-        let perEditor = available / 2
-        return min(max(perEditor, Self.editorMinimumHeight), Self.editorMaximumHeight)
-    }
-
     private func sourceSection(idealHeight: CGFloat) -> some View {
         editorCard(title: localization.string(.translationSourceText), idealHeight: idealHeight) {
             TextEditor(text: sourceTextBinding)
@@ -366,7 +353,7 @@ struct TranslationPanelView: View {
         VStack(alignment: .leading, spacing: 7) {
             Text(title).font(.subheadline.weight(.semibold))
             content()
-                .frame(minHeight: Self.editorMinimumHeight, idealHeight: idealHeight, maxHeight: Self.editorMaximumHeight)
+                .frame(minHeight: translationEditorMinimumHeight, idealHeight: idealHeight, maxHeight: translationEditorMaximumHeight)
                 .padding(6)
                 .background(Color(nsColor: .textBackgroundColor))
                 .clipShape(RoundedRectangle(cornerRadius: DesignScale.radiusSM))

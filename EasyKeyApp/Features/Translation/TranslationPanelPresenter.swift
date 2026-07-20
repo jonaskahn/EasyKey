@@ -192,6 +192,7 @@ final class TranslationPanelPresenter {
     private let activateEasyKey: () -> Void
     private let pointerLocation: () -> CGPoint
     private let screenGeometries: () -> [TranslationPanelScreenGeometry]
+    private let isFrontmostAppExemptFromOutsideClickDismissal: () -> Bool
     private let userDefaults: UserDefaults
     private var panel: TranslationPanelWindow?
     private var titlebarAccessory: KeepOnTopTitlebarAccessory?
@@ -216,6 +217,9 @@ final class TranslationPanelPresenter {
         screenGeometries: @escaping () -> [TranslationPanelScreenGeometry] = {
             NSScreen.screens.map { TranslationPanelScreenGeometry(frame: $0.frame, visibleFrame: $0.visibleFrame) }
         },
+        isFrontmostAppExemptFromOutsideClickDismissal: @escaping () -> Bool = {
+            TranslationPanelPresenter.frontmostAppIsSystemTranslationService()
+        },
         userDefaults: UserDefaults = .standard
     ) {
         self.translation = translation
@@ -226,6 +230,7 @@ final class TranslationPanelPresenter {
         self.activateEasyKey = activateEasyKey ?? { NSApp.activate(ignoringOtherApps: true) }
         self.pointerLocation = pointerLocation
         self.screenGeometries = screenGeometries
+        self.isFrontmostAppExemptFromOutsideClickDismissal = isFrontmostAppExemptFromOutsideClickDismissal
         self.userDefaults = userDefaults
         keepOnTop = userDefaults.bool(forKey: Self.keepOnTopDefaultsKey)
     }
@@ -314,9 +319,26 @@ final class TranslationPanelPresenter {
         )
         if !keepOnTop {
             globalClickMonitor = eventMonitor.addGlobalClickMonitor { [weak self] in
-                self?.close()
+                self?.handleGlobalClick()
             }
         }
+    }
+
+    /// Apple's on-device Translation framework can hand off to a system
+    /// helper process (language-download or consent UI) while resolving a
+    /// `.translationTask` session for the Apple provider. That helper briefly
+    /// becomes the frontmost app, which a plain outside-click check would
+    /// read as "the user switched apps" and close the panel the instant they
+    /// interact with it. Skip the close in that specific case; any other
+    /// foreign app still dismisses normally.
+    private func handleGlobalClick() {
+        guard !isFrontmostAppExemptFromOutsideClickDismissal() else { return }
+        close()
+    }
+
+    private nonisolated static func frontmostAppIsSystemTranslationService() -> Bool {
+        guard let bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else { return false }
+        return bundleIdentifier.hasPrefix("com.apple.") && bundleIdentifier.localizedCaseInsensitiveContains("translat")
     }
 
     private func handle(_ event: TranslationPanelLocalEvent) -> Bool {

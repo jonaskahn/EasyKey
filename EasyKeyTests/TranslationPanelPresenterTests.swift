@@ -289,6 +289,19 @@ final class TranslationPanelPresenterTests: XCTestCase {
         XCTAssertEqual(monitor.activeCount, 0)
     }
 
+    func testGlobalClickIsIgnoredWhenFrontmostAppIsExemptFromDismissal() {
+        // Simulates Apple's Translation framework handing off to a system
+        // helper (language download/consent UI) while resolving a
+        // .translationTask session — that helper briefly becomes frontmost,
+        // and must not be treated as "the user switched apps."
+        presenter = makePresenter(isFrontmostAppExemptFromOutsideClickDismissal: { true })
+        presenter.show()
+
+        monitor.sendGlobalClick()
+
+        XCTAssertTrue(presenter.isShown)
+    }
+
     func testKeepOnTopSuppressesOutsideClickDismissal() {
         presenter.show()
 
@@ -404,7 +417,8 @@ final class TranslationPanelPresenterTests: XCTestCase {
 
     private func makePresenter(
         frontmostApplication: @escaping () -> NSRunningApplication? = { nil },
-        activateEasyKey: @escaping () -> Void = {}
+        activateEasyKey: @escaping () -> Void = {},
+        isFrontmostAppExemptFromOutsideClickDismissal: @escaping () -> Bool = { false }
     ) -> TranslationPanelPresenter {
         TranslationPanelPresenter(
             translation: cancellation,
@@ -418,6 +432,7 @@ final class TranslationPanelPresenterTests: XCTestCase {
                 let frame = CGRect(x: 0, y: 0, width: 1440, height: 900)
                 return [TranslationPanelScreenGeometry(frame: frame, visibleFrame: frame)]
             },
+            isFrontmostAppExemptFromOutsideClickDismissal: isFrontmostAppExemptFromOutsideClickDismissal,
             userDefaults: userDefaults
         )
     }
