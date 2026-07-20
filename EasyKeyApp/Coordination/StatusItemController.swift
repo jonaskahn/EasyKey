@@ -3,17 +3,34 @@ import EasyEngineCore
 import EasyKeyKit
 import SwiftUI
 
+/// Forwards `NSPopover` close notifications to a plain closure. `NSPopover`
+/// requires an `NSObject`-conforming delegate, so this small adapter keeps
+/// `StatusItemController` itself from needing to subclass `NSObject`.
+final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
+    var onClose: (() -> Void)?
+
+    func popoverDidClose(_: Notification) {
+        onClose?()
+    }
+}
+
 @MainActor
 final class StatusItemController {
     private let localization: LocalizationStore
     private let menuActionTarget = StatusMenuActionTarget()
     private var statusItem: NSStatusItem?
     private var statusPopover: NSPopover?
+    private let popoverCloseObserver = PopoverCloseObserver()
     private var appAppearanceObservation: NSKeyValueObservation?
     private var statusItemAppearanceObservation: NSKeyValueObservation?
 
     var onLeftClick: (() -> Void)?
     var onAppearanceChange: (() -> Void)?
+    var onPopoverClosed: (() -> Void)? {
+        get { popoverCloseObserver.onClose }
+        set { popoverCloseObserver.onClose = newValue }
+    }
+
     var translationConfigurationProvider: (() -> MenuPopoverTranslationConfiguration?)?
 
     init(localization: LocalizationStore) {
@@ -36,6 +53,7 @@ final class StatusItemController {
         // Child menus and SwiftUI popovers used by translation must not dismiss
         // this status popover. It still closes when focus moves to another app.
         popover.behavior = .semitransient
+        popover.delegate = popoverCloseObserver
         let hostingController = NSHostingController(rootView: popoverView(coordinator: coordinator))
         hostingController.sizingOptions = [.preferredContentSize]
         popover.contentViewController = hostingController

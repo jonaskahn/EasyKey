@@ -1,10 +1,10 @@
 import Foundation
 
-public struct Shortcut: Codable, Equatable, Sendable {
+public struct Shortcut: Codable, Equatable, Hashable, Sendable {
     public var keyCode: UInt16
     public var modifiers: ModifierFlags
 
-    public struct ModifierFlags: OptionSet, Codable, Sendable {
+    public struct ModifierFlags: OptionSet, Codable, Hashable, Sendable {
         public let rawValue: UInt
 
         public init(rawValue: UInt) {

@@ -44,6 +44,18 @@ final class ClipboardServicesTests: XCTestCase {
         XCTAssertFalse(services.monitor.isRunning)
     }
 
+    func testHotkeyActivation_InvokesOnWillActivateBeforeTogglingPanel() async {
+        let registrar = FakeHotKeyRegistrar()
+        let services = makeServices(enabled: true, registrar: registrar, reader: FakePasteboardReader())
+        await services.start(loadPersisted: false)
+        var willActivateCount = 0
+        services.onWillActivate = { willActivateCount += 1 }
+
+        registrar.fireAll()
+
+        XCTAssertEqual(willActivateCount, 1)
+    }
+
     func testStopTearsDown() async {
         let services = makeServices(enabled: true, registrar: FakeHotKeyRegistrar(), reader: FakePasteboardReader())
         await services.start(loadPersisted: false)

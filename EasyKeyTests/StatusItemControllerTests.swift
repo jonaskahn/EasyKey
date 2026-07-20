@@ -35,6 +35,26 @@ final class StatusItemControllerTests: XCTestCase {
         controller.togglePopover {}
     }
 
+    func testPopoverCloseObserver_ForwardsNotificationToClosure() {
+        let observer = PopoverCloseObserver()
+        var closeCount = 0
+        observer.onClose = { closeCount += 1 }
+
+        observer.popoverDidClose(Notification(name: NSPopover.didCloseNotification))
+
+        XCTAssertEqual(closeCount, 1)
+    }
+
+    func testOnPopoverClosed_RoundTripsThroughController() {
+        var closeCount = 0
+        controller.onPopoverClosed = { closeCount += 1 }
+
+        XCTAssertNotNil(controller.onPopoverClosed)
+        controller.onPopoverClosed?()
+
+        XCTAssertEqual(closeCount, 1)
+    }
+
     func testMenuBarStateTitle_Paused_ReturnsPausedTitle() {
         let title = controller.menuBarStateTitle(for: .vietnamese, keyboardHealth: .active, keyboardPaused: true)
         XCTAssertEqual(title, localization.string(.statusPaused))

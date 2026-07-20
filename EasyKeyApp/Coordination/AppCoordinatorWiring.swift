@@ -50,6 +50,9 @@ extension AppCoordinator {
         statusItemController.onLeftClick = { [weak self] in
             self?.togglePopover()
         }
+        statusItemController.onPopoverClosed = { [weak self] in
+            self?.translation.handleMenuPopoverClosed()
+        }
         statusItemController.onAppearanceChange = { [weak self] in
             self?.updateStatusItem()
         }

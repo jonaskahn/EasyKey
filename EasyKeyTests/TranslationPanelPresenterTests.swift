@@ -27,6 +27,7 @@ private final class FakeTranslationPanel: TranslationPanelWindow {
     let windowNumber = 42
     private(set) var replacementCount = 0
     private(set) var origins: [CGPoint] = []
+    private(set) var sizes: [CGSize] = []
     private(set) var frontCount = 0
     private(set) var orderOutCount = 0
     var onReplaceContent: (() -> Void)?
@@ -39,6 +40,10 @@ private final class FakeTranslationPanel: TranslationPanelWindow {
 
     func setFrameOrigin(_ point: CGPoint) {
         origins.append(point)
+    }
+
+    func setContentSize(_ size: CGSize) {
+        sizes.append(size)
     }
 
     func makeKeyAndOrderFront() {
@@ -195,6 +200,20 @@ final class TranslationPanelPresenterTests: XCTestCase {
         XCTAssertEqual(monitor.activeCount, 2)
     }
 
+    func testShowAppliesPanelSizeProviderSize() {
+        presenter.panelSizeProvider = { CGSize(width: 620, height: 660) }
+
+        presenter.show()
+
+        XCTAssertEqual(panel.sizes, [CGSize(width: 620, height: 660)])
+    }
+
+    func testShowWithoutCustomProviderUsesDefaultPanelSize() {
+        presenter.show()
+
+        XCTAssertEqual(panel.sizes, [TranslationPanelPresenter.panelSize])
+    }
+
     func testRepeatedShowReusesPanelAndReplacesMonitorsWithoutDuplicates() {
         presenter.show()
         presenter.show()
@@ -324,6 +343,25 @@ final class TranslationPanelPresenterTests: XCTestCase {
         XCTAssertEqual(cancellation.callCount, 1)
         XCTAssertEqual(speech.callCount, 1)
         XCTAssertEqual(monitor.activeCount, 0)
+    }
+
+    func testCloseInvokesOnCloseCallback() {
+        var closeCount = 0
+        presenter.onClose = { closeCount += 1 }
+        presenter.show()
+
+        presenter.close()
+
+        XCTAssertEqual(closeCount, 1)
+    }
+
+    func testCloseWithoutShowingStillInvokesOnCloseCallback() {
+        var closeCount = 0
+        presenter.onClose = { closeCount += 1 }
+
+        presenter.close()
+
+        XCTAssertEqual(closeCount, 1)
     }
 
     func testCloseIsIdempotentForMonitorRemovalAndClearsPreviousApplication() {
