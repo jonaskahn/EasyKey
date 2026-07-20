@@ -6,7 +6,8 @@ excluded:
   - Carthage
   - Pods
   - Scripts
-  - EasyKeyTests/EngineCoreCoverageTests.swift
+  - EasyKeyTests
+  - EasyKeyUITests
 
 disabled_rules:
   # `let _ =` is required in ViewBuilder for observation dependencies;
