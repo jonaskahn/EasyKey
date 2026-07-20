@@ -341,6 +341,38 @@
         }
       }
     },
+    "common.keepOnTop": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep on top"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ trên cùng"
+          }
+        }
+      }
+    },
+    "common.unkeepOnTop": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop keeping on top"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ giữ trên cùng"
+          }
+        }
+      }
+    },
     "common.recording": {
       "comment": "Recording shortcut placeholder",
       "localizations": {
@@ -3764,13 +3796,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unable to check for updates. Please try again later."
+            "value": "Try again later."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Không thể kiểm tra cập nhật. Vui lòng thử lại sau."
+            "value": "Hãy thử lại sau."
           }
         }
       }
@@ -5173,38 +5205,6 @@
         }
       }
     },
-    "clipboard.action.keepOnTop": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep on top"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Giữ trên cùng"
-          }
-        }
-      }
-    },
-    "clipboard.action.unkeepOnTop": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stop keeping on top"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bỏ giữ trên cùng"
-          }
-        }
-      }
-    },
     "clipboard.unavailable": {
       "localizations": {
         "en": {
@@ -5595,13 +5595,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Select text, press %@. Typing translates after the configured delay. Command-Return translates now. Escape closes."
+            "value": "Select text and press %@ to translate. It translates automatically after you stop typing, or press Command-Return to translate right away. Press Escape to close."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chọn văn bản, nhấn %@. Nhập văn bản sẽ dịch sau độ trễ đã cài đặt. Command-Return để dịch ngay. Escape để đóng."
+            "value": "Chọn văn bản rồi nhấn %@ để dịch. Bản dịch tự hiện sau khi bạn ngừng gõ, hoặc nhấn Command-Return để dịch ngay. Nhấn Escape để đóng."
           }
         }
       }
@@ -6267,13 +6267,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "New translations target the opposite input language: Vietnamese input targets English; English input targets Vietnamese. You can change the target in the translation panel."
+            "value": "By default, translations go to the opposite of what you're typing — Vietnamese becomes English, English becomes Vietnamese. Change this anytime in the translation panel."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bản dịch mới dùng ngôn ngữ đối diện với ngôn ngữ nhập: nhập tiếng Việt sẽ dịch sang tiếng Anh; nhập tiếng Anh sẽ dịch sang tiếng Việt. Bạn có thể đổi ngôn ngữ đích trong bảng dịch."
+            "value": "Mặc định, bản dịch sẽ ra ngôn ngữ ngược với ngôn ngữ bạn đang gõ — gõ tiếng Việt thì dịch sang tiếng Anh, gõ tiếng Anh thì dịch sang tiếng Việt. Bạn có thể đổi bất cứ lúc nào trong bảng dịch."
           }
         }
       }

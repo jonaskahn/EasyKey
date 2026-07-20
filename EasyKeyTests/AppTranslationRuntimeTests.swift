@@ -22,6 +22,10 @@ final class AppTranslationRuntimeTests: XCTestCase {
             .appendingPathComponent("AppTranslationRuntimeTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
         settingsStore = SettingsStore(fileURL: tempDirectory.appendingPathComponent("settings.json"))
+        settingsStore.update {
+            $0.translation.isEnabled = true
+            $0.translation.showInMenuPopover = true
+        }
         let defaults = UserDefaults(suiteName: "AppTranslationRuntimeTests-\(UUID().uuidString)")!
         localization = LocalizationStore(defaults: defaults, bundle: .main)
         credentials = InMemoryTranslationCredentialStore()
@@ -354,7 +358,8 @@ final class AppTranslationRuntimeTests: XCTestCase {
                         panelFactory: { panelWindow },
                         activateEasyKey: {},
                         pointerLocation: { .zero },
-                        screenGeometries: { [] }
+                        screenGeometries: { [] },
+                        userDefaults: UserDefaults(suiteName: "AppTranslationRuntimeTests.panel-\(UUID().uuidString)")!
                     )
                 },
                 speech: TranslationSpeechController(engine: speechEngine)
@@ -411,6 +416,8 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
     func containsWindowNumber(_ windowNumber: Int) -> Bool {
         windowNumber == self.windowNumber
     }
+
+    func addTitlebarAccessory(_: NSTitlebarAccessoryViewController) {}
 }
 
 @MainActor

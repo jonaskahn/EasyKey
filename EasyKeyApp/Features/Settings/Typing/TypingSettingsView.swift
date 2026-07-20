@@ -47,16 +47,16 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.spellingModernization)
                 )
                 settingToggle(
+                    .typingRestoreInvalidWord,
+                    description: .typingRestoreInvalidWordDescription,
+                    isOn: setting(\.typing.restoreInvalidWord)
+                )
+                settingToggle(
                     .typingFreeToneMarking,
                     description: .typingFreeToneMarkingDescription,
                     isOn: setting(\.typing.freeToneMarking)
                 )
                 settingToggle(.typingQuickTelex, description: .typingQuickTelexDescription, isOn: setting(\.typing.quickTelex))
-                settingToggle(
-                    .typingRestoreInvalidWord,
-                    description: .typingRestoreInvalidWordDescription,
-                    isOn: setting(\.typing.restoreInvalidWord)
-                )
                 settingToggle(.typingAllowZFWJ, description: .typingAllowZFWJDescription, isOn: setting(\.typing.allowZFWJ))
                 settingToggle(
                     .typingUppercaseFirstCharacter,

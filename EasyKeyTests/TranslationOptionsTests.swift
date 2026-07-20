@@ -12,8 +12,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(options.geminiModelIdentifier, TranslationOptions.defaultGeminiModelIdentifier)
         XCTAssertEqual(options.deepLEndpoint, .free)
         XCTAssertTrue(options.acknowledgedCloudDisclosureProviders.isEmpty)
-        XCTAssertTrue(options.isEnabled)
-        XCTAssertTrue(options.showInMenuPopover)
+        XCTAssertFalse(options.isEnabled)
+        XCTAssertFalse(options.showInMenuPopover)
         XCTAssertEqual(options.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
     }
 
@@ -41,16 +41,16 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(decoded.autoTranslateDelayMs, 1000)
     }
 
-    func testLegacyDecode_MissingIsEnabledDefaultsToTrue() throws {
+    func testLegacyDecode_MissingIsEnabledDefaultsToFalse() throws {
         let data = Data("{}".utf8)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
-        XCTAssertTrue(decoded.isEnabled)
+        XCTAssertFalse(decoded.isEnabled)
     }
 
-    func testLegacyDecode_MissingShowInMenuPopoverDefaultsToTrue() throws {
+    func testLegacyDecode_MissingShowInMenuPopoverDefaultsToFalse() throws {
         let data = Data("{}".utf8)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
-        XCTAssertTrue(decoded.showInMenuPopover)
+        XCTAssertFalse(decoded.showInMenuPopover)
     }
 
     func testLegacyDecode_MissingAutoTranslateDelayMs_DefaultsTo500() throws {

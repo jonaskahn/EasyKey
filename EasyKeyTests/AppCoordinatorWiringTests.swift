@@ -91,7 +91,7 @@ final class AppCoordinatorWiringTests: XCTestCase {
             shortcut: settings.translation.shortcut
         )
         var disabled = settings.translation
-        disabled.isEnabled = false
+        disabled.isEnabled = !settings.translation.isEnabled
         var changedShortcut = settings.translation
         changedShortcut.shortcut = Shortcut(keyCode: 6, modifiers: [.command])
 

@@ -32,6 +32,24 @@ struct BehaviorSettingsView: View {
             }
 
             Section {
+                Toggle(isOn: setting(\.compatibility.stepByStepSend)) {
+                    SettingsControlLabel(
+                        title: localization.string(.behaviorStepByStepSend),
+                        description: localization.string(.behaviorStepByStepSendDescription)
+                    )
+                }
+                Toggle(isOn: setting(\.compatibility.keyboardLayoutCompatibility)) {
+                    SettingsControlLabel(
+                        title: localization.string(.behaviorKeyboardLayoutCompatibility),
+                        description: localization.string(.behaviorKeyboardLayoutCompatibilityDescription)
+                    )
+                }
+            } header: {
+                Text(localization.string(.behaviorAdvancedCompatibility))
+            }
+            .toggleStyle(.switch)
+
+            Section {
                 Text(localization.string(.behaviorCompatibilityModeHint))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -60,24 +78,6 @@ struct BehaviorSettingsView: View {
             } header: {
                 Text(localization.string(.behaviorIgnoredApplications))
             }
-
-            Section {
-                Toggle(isOn: setting(\.compatibility.stepByStepSend)) {
-                    SettingsControlLabel(
-                        title: localization.string(.behaviorStepByStepSend),
-                        description: localization.string(.behaviorStepByStepSendDescription)
-                    )
-                }
-                Toggle(isOn: setting(\.compatibility.keyboardLayoutCompatibility)) {
-                    SettingsControlLabel(
-                        title: localization.string(.behaviorKeyboardLayoutCompatibility),
-                        description: localization.string(.behaviorKeyboardLayoutCompatibilityDescription)
-                    )
-                }
-            } header: {
-                Text(localization.string(.behaviorAdvancedCompatibility))
-            }
-            .toggleStyle(.switch)
         }
         .formStyle(.grouped)
         .alert(localization.string(.behaviorApplicationInvalid), isPresented: $showsApplicationError) {

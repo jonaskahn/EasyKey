@@ -16,8 +16,8 @@ struct ClipboardSettingsView: View {
     var body: some View {
         Form {
             captureSection
-            accessSection
             contentSection
+            accessSection
             retentionSection
             privacySection
             dataSection
