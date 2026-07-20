@@ -145,7 +145,7 @@ final class ClipboardHistoryModelTests: XCTestCase {
         await model.flushPendingSave()
     }
 
-    func testModel_Apply_DisablesPersistence() async {
+    func testModel_Apply_DisablesPersistence() {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("model-disable-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: directory) }

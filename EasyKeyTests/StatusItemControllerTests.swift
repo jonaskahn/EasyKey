@@ -195,5 +195,4 @@ final class StatusItemControllerTests: XCTestCase {
         XCTAssertEqual(returned?.currentApplicationName, expected.currentApplicationName)
         XCTAssertEqual(returned?.language, expected.language)
     }
-
 }

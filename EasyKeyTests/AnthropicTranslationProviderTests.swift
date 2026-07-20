@@ -367,7 +367,7 @@ private extension XCTestCase {
     }
 }
 
-final class AnthropicCompatibleTranslationProviderTests: XCTestCase {
+final class AnthropicCompatProviderTests: XCTestCase {
     private let endpoint = URL(string: "https://api.example.com/v1/messages")!
 
     override func setUp() {

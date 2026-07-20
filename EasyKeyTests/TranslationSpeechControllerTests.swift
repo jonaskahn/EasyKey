@@ -2,20 +2,26 @@ import EasyEngineCore
 @testable import EasyKey
 import XCTest
 
+private struct SpokenRequest {
+    let text: String
+    let voiceIdentifier: String
+    let requestID: UUID
+}
+
 @MainActor
 private final class FakeTranslationSpeechEngine: TranslationSpeechEngine {
     var eventHandler: ((UUID, TranslationSpeechEngineEvent) -> Void)?
     private(set) var stopped = false
-    private(set) var spokenRequests: [(text: String, voiceIdentifier: String, requestID: UUID)] = []
+    private(set) var spokenRequests: [SpokenRequest] = []
     var nextResult = true
     var nextVoiceIdentifier: String? = "fake-voice"
 
-    func voiceIdentifier(for languageIdentifier: String) -> String? {
+    func voiceIdentifier(for _: String) -> String? {
         nextVoiceIdentifier
     }
 
     func speak(_ text: String, voiceIdentifier: String, requestID: UUID) -> Bool {
-        spokenRequests.append((text, voiceIdentifier, requestID))
+        spokenRequests.append(SpokenRequest(text: text, voiceIdentifier: voiceIdentifier, requestID: requestID))
         return nextResult
     }
 
@@ -105,10 +111,10 @@ final class TranslationSpeechControllerTests: XCTestCase {
         XCTAssertNil(controller.speakingField)
     }
 
-    func testHandleEvent_WhenMatchingRequestID_ClearsState() {
+    func testHandleEvent_WhenMatchingRequestID_ClearsState() throws {
         _ = controller.speakSource("hello", selectedLanguage: .english, detectedLanguage: nil)
         XCTAssertNotNil(controller.speakingField)
-        let requestID = engine.spokenRequests.last!.requestID
+        let requestID = try XCTUnwrap(engine.spokenRequests.last?.requestID)
         engine.finish(requestID: requestID, event: .completed)
         XCTAssertNil(controller.speakingField)
     }
@@ -119,22 +125,22 @@ final class TranslationSpeechControllerTests: XCTestCase {
         XCTAssertEqual(controller.speakingField, .source)
     }
 
-    func testHandleEvent_Cancelled_ClearsState() {
+    func testHandleEvent_Cancelled_ClearsState() throws {
         _ = controller.speakSource("hello", selectedLanguage: .english, detectedLanguage: nil)
-        let requestID = engine.spokenRequests.last!.requestID
+        let requestID = try XCTUnwrap(engine.spokenRequests.last?.requestID)
         engine.finish(requestID: requestID, event: .cancelled)
         XCTAssertNil(controller.speakingField)
     }
 
-    func testHandleEvent_Failed_ClearsState() {
+    func testHandleEvent_Failed_ClearsState() throws {
         _ = controller.speakSource("hello", selectedLanguage: .english, detectedLanguage: nil)
-        let requestID = engine.spokenRequests.last!.requestID
+        let requestID = try XCTUnwrap(engine.spokenRequests.last?.requestID)
         engine.finish(requestID: requestID, event: .failed)
         XCTAssertNil(controller.speakingField)
     }
 
     func testDefaultEngine() {
-        let c = TranslationSpeechController()
-        XCTAssertNotNil(c)
+        let controller = TranslationSpeechController()
+        XCTAssertNotNil(controller)
     }
 }
