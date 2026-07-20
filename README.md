@@ -6,7 +6,7 @@
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-95%25-brightgreen?style=flat-square" alt="95% coverage gate"></a>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/download-Releases-111111?style=flat-square" alt="Download EasyKey"></a>
   <br><br>
-  <i>Fast, private Vietnamese typing for macOS | Telex · VNI · encodings · macros · Smart Switch</i>
+  <i>Fast, private Vietnamese typing for macOS with some sweets</i>
 </p>
 
 ---
@@ -17,33 +17,40 @@ EasyKey is a native Vietnamese input utility built for accurate typing across ma
 vieejt nam  →  việt nam
 ```
 
-Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit. Apple Translation is on-device on macOS 15 or later. Optional cloud translation runs only after you choose **Translate** and sends submitted source text directly to your selected provider. EasyKey includes no analytics or telemetry.
+Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit. Apple Translation is on-device on macOS 15 or later. Optional cloud translation sends source text directly to the selected provider only from EasyKey translation surfaces. EasyKey includes no analytics or telemetry.
 
 ## ✨ Highlights
 
-- ⌨️ **Flexible input** — Telex, VNI, and Simple Telex with configurable typing rules
-- 🔤 **Complete encoding support** — Unicode, Unicode Combining, TCVN3, VNI-Windows, and CP1258
-- 🧩 **Powerful macros** — Create, search, enable, import, and export trigger-based expansions
-- 🔀 **Smart Switch** — Remember language and optional encoding choices for each application
-- 🔄 **Text converter** — Preview, copy, or transform clipboard text across supported encodings
-- 📋 **Clipboard manager** — Opt-in, private, searchable clipboard history opened with Control-Option-V; optional AES-GCM encrypted persistence
-- 🛠️ **Application compatibility** — Dedicated compatibility and ignore lists, including Chromium-oriented controls
-- ⌨️ **Custom shortcuts** — Switch languages, control the engine, and convert clipboard content from the keyboard
-- 🚀 **Secure updates** — Sparkle 2 update delivery with EdDSA signature verification
-- 🌐 **Bilingual interface** — English and Vietnamese localization through String Catalogs
-- 🌍 **Explicit translation** — Apple on-device translation on macOS 15+, or opt-in direct requests to configured cloud providers
+- ⌨️ Telex, VNI, and Simple Telex typing rules
+- 🔤 Unicode, Unicode Combining, TCVN3, VNI-Windows, CP1258
+- 🧩 Trigger-based macro expansions with import/export
+- 🔀 Smart Switch remembers language per application
+- 📋 Private clipboard manager with optional encrypted history
+- 🌍 Apple on-device translation or cloud providers
+- 🛠️ Per-application compatibility and ignore lists
+- 🚀 Signed Sparkle updates, English/Vietnamese localization
+
+## ⌨️ Default Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌥` + `V` | Open clipboard manager |
+| `⌥` + `A` | Open translate panel |
+| `⌥` + `Z` | Switch input language |
+
+All shortcuts are configurable in Settings.
 
 ## 🔒 Private by Design
 
-EasyKey performs keyboard transformation and preference storage on your Mac. General keyboard input is not translated or uploaded. Apple Translation runs locally on macOS 15 or later. Cloud translation is optional: in the translation source editor or Option+A popup, when you type or paste, the configured provider receives source text after the selected idle delay. Each edit restarts the timer. Pressing Return translates immediately. EasyKey does not proxy cloud requests through an EasyKey service.
+EasyKey processes keyboard transformation and preferences on your Mac. General keyboard input is never translated or uploaded. Apple Translation runs on-device on macOS 15 or later.
 
-Cloud-provider credentials are stored in macOS Keychain as device-only, non-synchronizing items. EasyKey does not persist source text, translation results, prompts, or translation history. Providers process submitted text under their own terms and may retain or use request data according to account tier and provider settings. Provider data-handling links are shown in Translation settings and in first-use disclosure. These providers do not sponsor or endorse EasyKey.
+Cloud translation is optional. In the translation editor, menu popover, or `⌥A` panel, user-entered or captured source text is sent directly to the selected provider when you translate or when the configured auto-translation delay expires. Each edit resets that delay. A first-use disclosure identifies every cloud provider before its first request. EasyKey does not proxy requests through its own service.
 
-Separate network activity includes provider credential validation and signed Sparkle update checks. Credential validation does not submit source text. No usage data is collected. See [Privacy](./PRIVACY.md) for exact data flows and reviewed provider links.
+Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./PRIVACY.md) for data flows and provider links.
 
 Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
 
-The **clipboard manager is off by default** and must be explicitly enabled. When enabled it keeps a local history of copied text, URLs, images, and file references. Content marked concealed, transient, or auto-generated (used by password managers) is always rejected and never recorded. History lives only in memory unless you turn on **Keep history after restart**, which stores it AES-GCM encrypted on the device with a Keychain key (unlocked-this-device-only, never synchronized); disabling that option deletes the stored data. The ignored-applications list is a best-effort convenience — macOS does not report the source application of a clipboard change, so it is not a security boundary. Clipboard content is never written to logs and never leaves the device.
+The **clipboard manager is off by default**. When enabled, it keeps local history for copied text, URLs, images, and file references. Concealed, transient, and auto-generated content is rejected. History remains in memory unless **Keep history after restart** is enabled; then it is AES-GCM encrypted on-device with an unlocked-this-device-only, non-synchronizing Keychain key. Disabling persistence deletes stored data. Clipboard content is never logged or uploaded. Ignored-applications filtering is best effort, not a security boundary, because macOS cannot always identify a clipboard change's source application.
 
 ## 📸 Screenshots
 
@@ -53,17 +60,9 @@ The **clipboard manager is off by default** and must be explicitly enabled. When
 
 ## 📋 Requirements
 
-### Using EasyKey
-
 - macOS 14.0 Sonoma or later
 - Apple silicon or Intel Mac
 - Accessibility permission
-
-### Building from Source
-
-- Xcode 15 or later
-- Git and command-line developer tools
-- SwiftLint and SwiftFormat are optional
 
 ## 📦 Installation
 
@@ -80,7 +79,11 @@ Current public builds are universal and ad-hoc signed, but not Developer ID nota
 
 EasyKey runs primarily from the menu bar. Typing transformation remains unavailable until Accessibility access is granted.
 
+---
+
 ## 🛠️ Build from Source
+
+Requires Xcode 15+, Git, and command-line developer tools. SwiftLint and SwiftFormat are optional.
 
 ```bash
 git clone https://github.com/jonaskahn/EasyKey.git
@@ -108,13 +111,11 @@ xcodebuild \
   -destination "platform=macOS"
 ```
 
-## 🧰 Make Commands
+### Make Commands
 
-Run `make` or `make help` to display the complete command reference.
+Run `make` or `make help` for the complete command reference.
 
-### Development
-
-| Command | Purpose |
+| Development | Purpose |
 |---------|---------|
 | `make build` | Build the debug application |
 | `make run` | Build and launch EasyKey |
@@ -123,18 +124,14 @@ Run `make` or `make help` to display the complete command reference.
 | `make lint` | Run SwiftLint when installed |
 | `make format` | Run SwiftFormat when installed |
 
-### Quality and Cleanup
-
-| Command | Purpose |
+| Quality and Cleanup | Purpose |
 |---------|---------|
 | `make qa` | Run the full QA gate and verify generated artifacts |
 | `make clean` | Remove build artifacts |
 | `make clean-local` | Quit EasyKey and remove local app and test data |
 | `make clean-all` | Remove build artifacts and local data |
 
-### Release
-
-| Command | Purpose |
+| Release | Purpose |
 |---------|---------|
 | `make release` | Build an unsigned universal Release application |
 | `make local-dmg` | Package an ad-hoc signed universal DMG |
@@ -146,7 +143,7 @@ Run `make` or `make help` to display the complete command reference.
 
 Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./RELEASE.md) for the complete release process.
 
-## 📁 Architecture
+### Architecture
 
 ```text
 EasyKey/
@@ -171,11 +168,7 @@ EasyKey/
 └── EasyKey.xcodeproj/
 ```
 
-Dependencies point inward:
-
-```text
-EasyKeyApp → EasyKeyKit → EasyEngineCore
-```
+Dependencies point inward: `EasyKeyApp → EasyKeyKit → EasyEngineCore`
 
 - **EasyEngineCore** contains the independent typing domain and has no AppKit, SwiftUI, or Combine dependency.
 - **EasyKeyKit** adapts domain behavior to macOS event taps, keyboard pipelines, and synthesis.
@@ -183,7 +176,7 @@ EasyKeyApp → EasyKeyKit → EasyEngineCore
 
 Engineering practices and architectural rules are documented in [CONVENTIONS.md](./CONVENTIONS.md).
 
-## 🧪 Quality
+### Quality
 
 - CI-enforced 95% line-coverage threshold, excluding the login helper
 - Unit, UI, behavioral fixture, and architecture fitness tests
@@ -195,6 +188,8 @@ Engineering practices and architectural rules are documented in [CONVENTIONS.md]
 make test
 make qa
 ```
+
+---
 
 ## 📄 License and Notices
 
