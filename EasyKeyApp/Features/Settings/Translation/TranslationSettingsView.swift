@@ -10,6 +10,8 @@ enum TranslationSettingsAccessibility {
     static let shortcutStatus = "TranslationShortcutStatus"
     static let disclosureReset = "TranslationDisclosureReset"
     static let appleLanguageSettings = "TranslationAppleLanguageSettings"
+    static let panelSizePicker = "TranslationPanelSizePicker"
+    static let sessionPersistencePicker = "TranslationSessionPersistencePicker"
 
     static func credentialField(_ provider: TranslationProviderID) -> String {
         "TranslationCredential-\(provider.rawValue)"
@@ -68,6 +70,27 @@ struct TranslationSettingsView: View {
                 shortcutStatus
             } header: {
                 Text(localization.string(.translationSettingsGeneral))
+            }
+
+            Section {
+                Picker(localization.string(.translationSettingsPanelSize), selection: panelSizeBinding) {
+                    ForEach(TranslationOptions.PanelSize.allCases, id: \.self) { size in
+                        Text(panelSizeLabel(size)).tag(size)
+                    }
+                }
+                .accessibilityLabel(localization.string(.translationSettingsPanelSize))
+                .accessibilityIdentifier(TranslationSettingsAccessibility.panelSizePicker)
+
+                Picker(localization.string(.translationSettingsSessionBehavior), selection: sessionPersistenceBinding) {
+                    Text(localization.string(.translationSettingsSessionClearOnClose))
+                        .tag(TranslationOptions.SessionPersistence.clearOnClose)
+                    Text(localization.string(.translationSettingsSessionKeepUntilRestart))
+                        .tag(TranslationOptions.SessionPersistence.keepUntilRestart)
+                }
+                .accessibilityLabel(localization.string(.translationSettingsSessionBehavior))
+                .accessibilityIdentifier(TranslationSettingsAccessibility.sessionPersistencePicker)
+            } header: {
+                Text(localization.string(.translationSettingsDisplaySection))
             }
 
             Section {
@@ -147,6 +170,14 @@ struct TranslationSettingsView: View {
         Binding(get: { model.autoTranslateDelayMs }, set: model.setAutoTranslateDelayMs)
     }
 
+    private var panelSizeBinding: Binding<TranslationOptions.PanelSize> {
+        Binding(get: { model.panelSize }, set: model.setPanelSize)
+    }
+
+    private var sessionPersistenceBinding: Binding<TranslationOptions.SessionPersistence> {
+        Binding(get: { model.sessionPersistence }, set: model.setSessionPersistence)
+    }
+
     private var shortcutBinding: Binding<Shortcut> {
         Binding(get: { model.shortcut }, set: model.setShortcut)
     }
@@ -157,6 +188,16 @@ struct TranslationSettingsView: View {
 
     private func languageName(_ language: TranslationLanguage) -> String {
         localization.locale.localizedString(forIdentifier: language.identifier) ?? language.identifier
+    }
+
+    private func panelSizeLabel(_ size: TranslationOptions.PanelSize) -> String {
+        switch size {
+        case .compact: localization.string(.systemMenuPopoverWidthCompact)
+        case .small: localization.string(.systemMenuPopoverWidthSmall)
+        case .medium: localization.string(.systemMenuPopoverWidthMedium)
+        case .large: localization.string(.systemMenuPopoverWidthLarge)
+        case .extraLarge: localization.string(.systemMenuPopoverWidthExtraLarge)
+        }
     }
 
     private func delayLabel(_ preset: TranslationOptions.AutoTranslateDelayPreset) -> String {

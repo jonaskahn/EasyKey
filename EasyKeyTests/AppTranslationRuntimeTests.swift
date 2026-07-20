@@ -93,6 +93,64 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertNil(runtime.makePopoverConfiguration {})
     }
 
+    func testShortcutActivation_InvokesOnWillActivateBeforeShowingPanel() {
+        let runtime = makeRuntime()
+        runtime.start()
+        var willActivateCount = 0
+        runtime.onWillActivate = { willActivateCount += 1 }
+
+        registrar.handler?()
+
+        XCTAssertEqual(willActivateCount, 1)
+        XCTAssertTrue(panelWindow.isVisible)
+    }
+
+    func testHandleMenuPopoverClosed_ClearsSessionWhenPolicyIsClearOnClose() {
+        settingsStore.update { $0.translation.sessionPersistence = .clearOnClose }
+        let runtime = makeRuntime()
+        runtime.start()
+        runtime.model.setSourceText("hello")
+
+        runtime.handleMenuPopoverClosed()
+
+        XCTAssertEqual(runtime.model.sourceText, "")
+    }
+
+    func testHandleMenuPopoverClosed_KeepsSessionWhenPolicyIsKeepUntilRestart() {
+        settingsStore.update { $0.translation.sessionPersistence = .keepUntilRestart }
+        let runtime = makeRuntime()
+        runtime.start()
+        runtime.model.setSourceText("hello")
+
+        runtime.handleMenuPopoverClosed()
+
+        XCTAssertEqual(runtime.model.sourceText, "hello")
+    }
+
+    func testPanelClose_ClearsSessionWhenPolicyIsClearOnClose() {
+        settingsStore.update { $0.translation.sessionPersistence = .clearOnClose }
+        let runtime = makeRuntime()
+        runtime.start()
+        registrar.handler?()
+        runtime.model.setSourceText("hello")
+
+        panelWindow.requestClose()
+
+        XCTAssertEqual(runtime.model.sourceText, "")
+    }
+
+    func testPanelClose_KeepsSessionWhenPolicyIsKeepUntilRestart() {
+        settingsStore.update { $0.translation.sessionPersistence = .keepUntilRestart }
+        let runtime = makeRuntime()
+        runtime.start()
+        registrar.handler?()
+        runtime.model.setSourceText("hello")
+
+        panelWindow.requestClose()
+
+        XCTAssertEqual(runtime.model.sourceText, "hello")
+    }
+
     func testReEnablingRegistersLatestShortcut() {
         let runtime = makeRuntime()
         runtime.start()
@@ -448,6 +506,8 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
 
     func setFrameOrigin(_: CGPoint) {}
 
+    func setContentSize(_: CGSize) {}
+
     func makeKeyAndOrderFront() {
         isVisible = true
     }
@@ -466,6 +526,10 @@ private final class RuntimePanelWindow: TranslationPanelWindow {
     }
 
     func addTitlebarAccessory(_: NSTitlebarAccessoryViewController) {}
+
+    func requestClose() {
+        closeHandler?()
+    }
 }
 
 @MainActor

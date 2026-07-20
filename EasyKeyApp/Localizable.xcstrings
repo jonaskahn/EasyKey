@@ -6166,6 +6166,22 @@
         }
       }
     },
+    "translation.settings.displaySection": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display & Session"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiển thị & Phiên làm việc"
+          }
+        }
+      }
+    },
     "translation.settings.general": {
       "localizations": {
         "en": {
@@ -6278,6 +6294,22 @@
         }
       }
     },
+    "translation.settings.panelSize": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel Size"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kích thước bảng"
+          }
+        }
+      }
+    },
     "translation.settings.privacy": {
       "localizations": {
         "en": {
@@ -6386,6 +6418,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sau khi đặt lại, EasyKey sẽ giải thích việc truyền dữ liệu lên đám mây khi dùng lần đầu từng nhà cung cấp."
+          }
+        }
+      }
+    },
+    "translation.settings.sessionBehavior": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When Closed"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi đóng"
+          }
+        }
+      }
+    },
+    "translation.settings.sessionClearOnClose": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Translation"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xóa bản dịch"
+          }
+        }
+      }
+    },
+    "translation.settings.sessionKeepUntilRestart": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Until Restart"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giữ đến khi khởi động lại"
           }
         }
       }

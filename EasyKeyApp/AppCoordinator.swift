@@ -132,7 +132,9 @@ final class AppCoordinator: ObservableObject {
         configureWorkspaceObserver()
         self.keyboardService.update(macros: self.macroStore.macros)
         clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
+        clipboard.onWillActivate = { [weak self] in self?.statusItemController.closePopover() }
         translation.onOpenSettings = { [weak self] in self?.showSettings(section: .translation) }
+        translation.onWillActivate = { [weak self] in self?.statusItemController.closePopover() }
         translation.onConfigurationChange = { [weak self] in
             guard let self else { return }
             self.statusItemController.refreshPopoverContent(coordinator: self)

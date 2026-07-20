@@ -24,6 +24,10 @@ final class ClipboardServices: ObservableObject {
 
     /// Set by the coordinator so the panel footer can open settings.
     var openSettings: () -> Void = {}
+    /// Invoked right before the shortcut opens or closes the clipboard panel.
+    /// The coordinator uses this to dismiss the menu-bar popover first, since
+    /// the two surfaces are never meant to be visible at the same time.
+    var onWillActivate: (() -> Void)?
 
     init(
         options: ClipboardOptions,
@@ -79,7 +83,13 @@ final class ClipboardServices: ObservableObject {
             onCapture: { [weak model] classified in model?.capture(classified) }
         )
         let registrar = hotKeyRegistrar ?? CarbonHotKeyRegistrar()
+        // `self` cannot be captured until every stored property (including
+        // `hotKey` itself) is initialized, so the activation closure calls
+        // through this local relay instead; it is pointed at `self` once
+        // initialization finishes below.
+        var activationRelay: (() -> Void)?
         let hotKey = ClipboardHotKeyController(registrar: registrar) { [weak presenter, frontmostProvider] in
+            activationRelay?()
             presenter?.toggle(previousApplication: frontmostProvider())
         }
 
@@ -90,6 +100,7 @@ final class ClipboardServices: ObservableObject {
         self.action = action
         self.monitor = monitor
         self.hotKey = hotKey
+        activationRelay = { [weak self] in self?.onWillActivate?() }
 
         configurePanelContent()
     }

@@ -186,6 +186,14 @@ final class TranslationSettingsModel: ObservableObject {
         settingsStore.settings.translation.autoTranslateDelayMs
     }
 
+    var panelSize: TranslationOptions.PanelSize {
+        settingsStore.settings.translation.panelSize
+    }
+
+    var sessionPersistence: TranslationOptions.SessionPersistence {
+        settingsStore.settings.translation.sessionPersistence
+    }
+
     var acknowledgedDisclosureProviders: Set<TranslationProviderID> {
         settingsStore.settings.translation.acknowledgedCloudDisclosureProviders
     }
@@ -250,6 +258,16 @@ final class TranslationSettingsModel: ObservableObject {
     func setAutoTranslateDelayMs(_ value: Int) {
         guard TranslationOptions.AutoTranslateDelayPreset(rawValue: value) != nil else { return }
         settingsStore.update { $0.translation.autoTranslateDelayMs = value }
+        objectWillChange.send()
+    }
+
+    func setPanelSize(_ value: TranslationOptions.PanelSize) {
+        settingsStore.update { $0.translation.panelSize = value }
+        objectWillChange.send()
+    }
+
+    func setSessionPersistence(_ value: TranslationOptions.SessionPersistence) {
+        settingsStore.update { $0.translation.sessionPersistence = value }
         objectWillChange.send()
     }
 

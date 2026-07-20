@@ -138,6 +138,28 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertEqual(reloaded.settings.translation.autoTranslateDelayMs, 1000)
     }
 
+    func testPanelSizePersists() async {
+        let model = makeModel()
+        XCTAssertEqual(model.panelSize, .medium)
+        model.setPanelSize(.large)
+        XCTAssertEqual(model.panelSize, .large)
+        await settingsStore.saveNow()
+
+        let reloaded = SettingsStore(fileURL: settingsURL)
+        XCTAssertEqual(reloaded.settings.translation.panelSize, .large)
+    }
+
+    func testSessionPersistencePersists() async {
+        let model = makeModel()
+        XCTAssertEqual(model.sessionPersistence, .keepUntilRestart)
+        model.setSessionPersistence(.clearOnClose)
+        XCTAssertEqual(model.sessionPersistence, .clearOnClose)
+        await settingsStore.saveNow()
+
+        let reloaded = SettingsStore(fileURL: settingsURL)
+        XCTAssertEqual(reloaded.settings.translation.sessionPersistence, .clearOnClose)
+    }
+
     func testIsEnabledTogglePersistsAndNotifiesRuntime() async {
         let model = makeModel()
         var callbackCount = 0

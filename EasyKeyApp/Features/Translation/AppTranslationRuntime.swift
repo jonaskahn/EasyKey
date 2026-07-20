@@ -130,6 +130,10 @@ final class AppTranslationRuntime {
     private var isStarted = false
     private(set) var providerRevision = 0
     var onConfigurationChange: (() -> Void)?
+    /// Invoked right before the shortcut opens the floating panel. The
+    /// coordinator uses this to dismiss the menu-bar popover first, since the
+    /// two surfaces are never meant to be visible at the same time.
+    var onWillActivate: (() -> Void)?
 
     private lazy var hotKeyController = TranslationHotKeyController(
         registrar: hotKeyRegistrar,
@@ -143,6 +147,10 @@ final class AppTranslationRuntime {
             guard let self else { return AnyView(EmptyView()) }
             return panelContent()
         }
+        presenter.panelSizeProvider = { [weak self] in
+            self?.settingsStore.settings.translation.panelSize.cgSize ?? TranslationPanelPresenter.panelSize
+        }
+        presenter.onClose = { [weak self] in self?.handleSurfaceClosed() }
         return presenter
     }()
 
@@ -269,6 +277,17 @@ final class AppTranslationRuntime {
         )
     }
 
+    /// Invoked by the coordinator when the menu-bar popover closes. Applies the
+    /// same session-persistence policy as the floating panel's own close.
+    func handleMenuPopoverClosed() {
+        handleSurfaceClosed()
+    }
+
+    private func handleSurfaceClosed() {
+        guard settingsStore.settings.translation.sessionPersistence == .clearOnClose else { return }
+        model.clearSession()
+    }
+
     private func applyShortcut(_ shortcut: Shortcut) -> TranslationHotKeyRegistrationState {
         guard isStarted, settingsStore.settings.translation.isEnabled else { return .unregistered }
         _ = hotKeyController.apply(shortcut)
@@ -277,6 +296,7 @@ final class AppTranslationRuntime {
 
     private func activateFromShortcut() {
         guard settingsStore.settings.translation.isEnabled else { return }
+        onWillActivate?()
         let captured = capture.capture()
         model.setAutoTranslateDelay(
             TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0

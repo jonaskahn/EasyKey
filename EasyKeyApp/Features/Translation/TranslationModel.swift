@@ -71,18 +71,36 @@ final class TranslationModel: ObservableObject {
         }
     }
 
+    /// Programmatic source-language change (settings apply, startup). Never
+    /// re-triggers translation; use `selectSourceLanguage` for the user-facing
+    /// picker.
     func setSourceLanguage(_ language: TranslationLanguage?) {
         guard language != sourceLanguage else { return }
         sourceLanguage = language
         clearStaleResultIfNeeded()
     }
 
+    /// User-initiated source-language change from the panel or popover picker.
+    /// Re-triggers translation when source text is already present, since the
+    /// user is explicitly asking to see it translated from the new language.
+    func selectSourceLanguage(_ language: TranslationLanguage?) {
+        setSourceLanguage(language)
+        guard language == sourceLanguage else { return }
+        retranslateIfNeeded()
+    }
+
+    /// Target language has no programmatic caller today — every change comes
+    /// from the user-facing picker — so it always re-triggers translation.
     func setTargetLanguage(_ language: TranslationLanguage) {
         guard language != targetLanguage else { return }
         targetLanguage = language
         clearStaleResultIfNeeded()
+        retranslateIfNeeded()
     }
 
+    /// Programmatic provider change (credential updates, startup resolution).
+    /// Never re-triggers translation; use `selectProvider` for the user-facing
+    /// picker.
     func setProviderID(_ providerID: TranslationProviderID?) {
         guard providerID != self.providerID else { return }
         self.providerID = providerID
@@ -92,17 +110,35 @@ final class TranslationModel: ObservableObject {
         }
     }
 
+    /// User-initiated provider change from the panel or popover picker. Unlike
+    /// `setProviderID`, this re-triggers translation when source text is already
+    /// present, since the user is explicitly asking to see it in a new provider.
+    /// Internal provider-refresh paths (credential changes, startup) must keep
+    /// calling `setProviderID` directly so they never fire a background
+    /// translation or cloud-disclosure prompt while the panel is hidden.
+    func selectProvider(_ providerID: TranslationProviderID?) {
+        setProviderID(providerID)
+        guard let providerID, providerID == self.providerID else { return }
+        retranslateIfNeeded()
+    }
+
+    /// Swapping languages has no programmatic caller today — every call comes
+    /// from the user-facing swap button — so it always re-triggers translation.
     func swapLanguages() {
         let swapped = TranslationLanguagePolicy.swapped(source: sourceLanguage, target: targetLanguage)
         sourceLanguage = swapped.source
         targetLanguage = swapped.target
         clearStaleResultIfNeeded()
+        retranslateIfNeeded()
     }
 
-    /// Explicit translate intent. Text, language, and provider changes never
-    /// call this on their own. Invalid input (blank, oversized, or an equal
-    /// explicit source/target pair) is a silent no-op — callers disable the
-    /// translate affordance for those states instead of surfacing an error.
+    /// Explicit translate intent. Text changes never call this on their own.
+    /// User-facing language and provider selection call this indirectly via
+    /// `retranslateIfNeeded()`; their programmatic counterparts
+    /// (`setSourceLanguage`, `setProviderID`) never do. Invalid input (blank,
+    /// oversized, or an equal explicit source/target pair) is a silent no-op —
+    /// callers disable the translate affordance for those states instead of
+    /// surfacing an error.
     func translate() {
         cancelScheduledAutoTranslate()
 
@@ -161,6 +197,15 @@ final class TranslationModel: ObservableObject {
         }
     }
 
+    /// Clears source text and any result/error, keeping provider and language
+    /// selections. Callers invoke this on panel/popover close when the user has
+    /// opted out of keeping translation session state until app restart.
+    func clearSession() {
+        cancelActiveTranslation()
+        sourceText = ""
+        status = .idle
+    }
+
     func setAutoTranslateDelay(_ delay: TimeInterval) {
         autoTranslateDelay = delay
     }
@@ -187,6 +232,12 @@ final class TranslationModel: ObservableObject {
         if status == .translating {
             status = .idle
         }
+    }
+
+    private func retranslateIfNeeded() {
+        guard !sourceText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        cancelActiveInFlightTranslation()
+        scheduleAutoTranslate()
     }
 
     private func finish(

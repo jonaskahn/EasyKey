@@ -15,6 +15,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertFalse(options.isEnabled)
         XCTAssertFalse(options.showInMenuPopover)
         XCTAssertEqual(options.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
+        XCTAssertEqual(options.panelSize, .medium)
+        XCTAssertEqual(options.sessionPersistence, .keepUntilRestart)
     }
 
     func testDefaultShortcut_DisplaysAsOptionA() {
@@ -32,6 +34,8 @@ final class TranslationOptionsTests: XCTestCase {
         options.isEnabled = false
         options.showInMenuPopover = false
         options.autoTranslateDelayMs = 1000
+        options.panelSize = .large
+        options.sessionPersistence = .clearOnClose
 
         let data = try JSONEncoder().encode(options)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
@@ -39,6 +43,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertFalse(decoded.isEnabled)
         XCTAssertFalse(decoded.showInMenuPopover)
         XCTAssertEqual(decoded.autoTranslateDelayMs, 1000)
+        XCTAssertEqual(decoded.panelSize, .large)
+        XCTAssertEqual(decoded.sessionPersistence, .clearOnClose)
     }
 
     func testLegacyDecode_MissingIsEnabledDefaultsToFalse() throws {
@@ -57,6 +63,25 @@ final class TranslationOptionsTests: XCTestCase {
         let data = Data("{}".utf8)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
         XCTAssertEqual(decoded.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
+    }
+
+    func testLegacyDecode_MissingPanelSizeDefaultsToMedium() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertEqual(decoded.panelSize, .medium)
+    }
+
+    func testLegacyDecode_MissingSessionPersistenceDefaultsToKeepUntilRestart() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertEqual(decoded.sessionPersistence, .keepUntilRestart)
+    }
+
+    func testPanelSize_CGSizeWidthsRespectViewMinimumWidth() {
+        for size in TranslationOptions.PanelSize.allCases {
+            XCTAssertGreaterThanOrEqual(size.cgSize.width, 420)
+            XCTAssertGreaterThanOrEqual(size.cgSize.height, 500)
+        }
     }
 
     func testAutoTranslateDelayPresets_ProduceCorrectTimeIntervals() {

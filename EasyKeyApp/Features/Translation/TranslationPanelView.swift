@@ -98,18 +98,21 @@ struct TranslationPanelView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    header
-                    sourceSection
-                    resultSection
-                    statusSection
+        GeometryReader { proxy in
+            let editorHeight = translationEditorIdealHeight(forPanelHeight: proxy.size.height)
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 14) {
+                        header
+                        sourceSection(idealHeight: editorHeight)
+                        resultSection(idealHeight: editorHeight)
+                        statusSection
+                    }
+                    .padding(16)
                 }
-                .padding(16)
+                Divider()
+                footer
             }
-            Divider()
-            footer
         }
         .frame(minWidth: 420, minHeight: 500)
         .background(Color(nsColor: .windowBackgroundColor))
@@ -159,7 +162,7 @@ struct TranslationPanelView: View {
             providerLabel: providerName,
             accessibilityLabel: providerAccessibilityLabel,
             accessibilityIdentifier: TranslationPanelAccessibility.providerPicker,
-            onSelect: model.setProviderID
+            onSelect: model.selectProvider
         )
     }
 
@@ -245,8 +248,8 @@ struct TranslationPanelView: View {
         }
     }
 
-    private var sourceSection: some View {
-        editorCard(title: localization.string(.translationSourceText)) {
+    private func sourceSection(idealHeight: CGFloat) -> some View {
+        editorCard(title: localization.string(.translationSourceText), idealHeight: idealHeight) {
             TextEditor(text: sourceTextBinding)
                 .font(.body)
                 .scrollContentBackground(.hidden)
@@ -266,8 +269,8 @@ struct TranslationPanelView: View {
         }
     }
 
-    private var resultSection: some View {
-        editorCard(title: localization.string(.translationResult)) {
+    private func resultSection(idealHeight: CGFloat) -> some View {
+        editorCard(title: localization.string(.translationResult), idealHeight: idealHeight) {
             ScrollView {
                 Text(presentation.resultText.isEmpty ? localization.string(.translationResultPlaceholder) : presentation.resultText)
                     .font(.body)
@@ -337,15 +340,20 @@ struct TranslationPanelView: View {
         .padding(.vertical, 12)
     }
 
+    /// Source and result cards take `idealHeight`, derived from the panel's
+    /// actual rendered size, so both grow to use the extra room a larger
+    /// panel size leaves available instead of staying pinned to a small
+    /// fixed height.
     private func editorCard<Content: View, Footer: View>(
         title: String,
+        idealHeight: CGFloat,
         @ViewBuilder content: () -> Content,
         @ViewBuilder footer: () -> Footer
     ) -> some View {
         VStack(alignment: .leading, spacing: 7) {
             Text(title).font(.subheadline.weight(.semibold))
             content()
-                .frame(minHeight: 92, idealHeight: 112, maxHeight: 150)
+                .frame(minHeight: translationEditorMinimumHeight, idealHeight: idealHeight, maxHeight: translationEditorMaximumHeight)
                 .padding(6)
                 .background(Color(nsColor: .textBackgroundColor))
                 .clipShape(RoundedRectangle(cornerRadius: DesignScale.radiusSM))
@@ -420,7 +428,7 @@ struct TranslationPanelView: View {
     }
 
     private var sourceLanguageBinding: Binding<TranslationLanguage?> {
-        Binding(get: { model.sourceLanguage }, set: model.setSourceLanguage)
+        Binding(get: { model.sourceLanguage }, set: model.selectSourceLanguage)
     }
 
     private var targetLanguageBinding: Binding<TranslationLanguage> {

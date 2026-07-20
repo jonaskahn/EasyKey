@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 
 /// User-configurable translation policy. Never carries secrets or
@@ -15,6 +16,32 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     public enum DeepLEndpoint: String, Codable, Equatable, Sendable, CaseIterable {
         case free
         case pro
+    }
+
+    /// Size of the floating translate panel opened by the translate shortcut.
+    public enum PanelSize: String, Codable, Equatable, Sendable, CaseIterable {
+        case compact
+        case small
+        case medium
+        case large
+        case extraLarge
+
+        public var cgSize: CGSize {
+            switch self {
+            case .compact: CGSize(width: 440, height: 500)
+            case .small: CGSize(width: 480, height: 530)
+            case .medium: CGSize(width: 520, height: 560)
+            case .large: CGSize(width: 620, height: 660)
+            case .extraLarge: CGSize(width: 720, height: 780)
+            }
+        }
+    }
+
+    /// Whether translate session state (source text, result) survives closing
+    /// the panel/popover, or is cleared each time the surface closes.
+    public enum SessionPersistence: String, Codable, Equatable, Sendable, CaseIterable {
+        case clearOnClose
+        case keepUntilRestart
     }
 
     /// `nil` represents the Automatic provider preference. A non-nil value
@@ -39,6 +66,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     public var isEnabled: Bool
     public var showInMenuPopover: Bool
     public var autoTranslateDelayMs: Int
+    public var panelSize: PanelSize
+    public var sessionPersistence: SessionPersistence
 
     public enum AutoTranslateDelayPreset: Int, CaseIterable {
         case ms250 = 250
@@ -70,6 +99,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         case isEnabled
         case showInMenuPopover
         case autoTranslateDelayMs
+        case panelSize
+        case sessionPersistence
     }
 
     public init(
@@ -89,7 +120,9 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         acknowledgedCloudDisclosureProviders: Set<TranslationProviderID> = [],
         isEnabled: Bool = false,
         showInMenuPopover: Bool = false,
-        autoTranslateDelayMs: Int = AutoTranslateDelayPreset.ms500.rawValue
+        autoTranslateDelayMs: Int = AutoTranslateDelayPreset.ms500.rawValue,
+        panelSize: PanelSize = .medium,
+        sessionPersistence: SessionPersistence = .keepUntilRestart
     ) {
         self.preferredProviderID = preferredProviderID
         self.shortcut = shortcut
@@ -108,6 +141,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         self.isEnabled = isEnabled
         self.showInMenuPopover = showInMenuPopover
         self.autoTranslateDelayMs = autoTranslateDelayMs
+        self.panelSize = panelSize
+        self.sessionPersistence = sessionPersistence
     }
 
     public init(from decoder: Decoder) throws {
@@ -141,5 +176,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? false
         autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500
             .rawValue
+        panelSize = try container.decodeIfPresent(PanelSize.self, forKey: .panelSize) ?? .medium
+        sessionPersistence = try container.decodeIfPresent(SessionPersistence.self, forKey: .sessionPersistence) ?? .keepUntilRestart
     }
 }

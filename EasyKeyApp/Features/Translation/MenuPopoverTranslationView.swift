@@ -288,7 +288,7 @@ struct MenuPopoverTranslationView: View {
             providerLabel: providerName,
             accessibilityLabel: providerAccessibilityLabel,
             accessibilityIdentifier: MenuPopoverTranslationAccessibility.providerPicker,
-            onSelect: model.setProviderID
+            onSelect: model.selectProvider
         )
     }
 
@@ -355,7 +355,7 @@ struct MenuPopoverTranslationView: View {
     }
 
     private var sourceLanguageBinding: Binding<TranslationLanguage?> {
-        Binding(get: { model.sourceLanguage }, set: model.setSourceLanguage)
+        Binding(get: { model.sourceLanguage }, set: model.selectSourceLanguage)
     }
 
     private var targetLanguageBinding: Binding<TranslationLanguage> {

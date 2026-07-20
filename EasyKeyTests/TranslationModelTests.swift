@@ -453,4 +453,153 @@ final class TranslationModelTests: XCTestCase {
         let callCount = await provider.callCount
         XCTAssertEqual(callCount, 1)
     }
+
+    func testSelectProvider_WithNonEmptySourceText_SchedulesRetranslate() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = TranslationModel(
+            inputLanguage: .vietnamese,
+            providerID: .deepL,
+            providerLookup: { requestedID in requestedID == .google ? provider : nil }
+        )
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        model.selectProvider(.google)
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        XCTAssertEqual(model.status, .succeeded(response))
+    }
+
+    func testSelectProvider_WithEmptySourceText_DoesNotSchedule() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
+        ))
+        let model = TranslationModel(
+            inputLanguage: .vietnamese,
+            providerID: .deepL,
+            providerLookup: { requestedID in requestedID == .google ? provider : nil }
+        )
+        model.setAutoTranslateDelay(0.05)
+
+        model.selectProvider(.google)
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 0)
+    }
+
+    func testSetProviderID_NeverSchedulesRetranslateEvenWithSourceText() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
+        ))
+        let model = TranslationModel(
+            inputLanguage: .vietnamese,
+            providerID: .deepL,
+            providerLookup: { requestedID in requestedID == .google ? provider : nil }
+        )
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        model.setProviderID(.google)
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 0)
+        XCTAssertEqual(model.status, .idle)
+    }
+
+    func testSelectSourceLanguage_WithNonEmptySourceText_SchedulesRetranslate() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        // Target defaults to English (opposite of Vietnamese input); select a
+        // different source so the pair isn't the equal-language no-op guard.
+        model.selectSourceLanguage(.vietnamese)
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        XCTAssertEqual(model.status, .succeeded(response))
+    }
+
+    func testSetSourceLanguage_NeverSchedulesRetranslateEvenWithSourceText() async {
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        ))
+        let model = makeModel(provider: provider)
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        model.setSourceLanguage(.english)
+        try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let callCount = await provider.callCount
+        XCTAssertEqual(callCount, 0)
+        XCTAssertEqual(model.status, .idle)
+    }
+
+    func testSetTargetLanguage_WithNonEmptySourceText_SchedulesRetranslate() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(inputLanguage: .vietnamese, provider: provider)
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        model.setTargetLanguage(.vietnamese)
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        XCTAssertEqual(model.status, .succeeded(response))
+    }
+
+    func testSwapLanguages_WithNonEmptySourceText_SchedulesRetranslate() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(inputLanguage: .vietnamese, provider: provider)
+        model.setAutoTranslateDelay(0.05)
+        model.setSourceText("hello")
+
+        // Source stays automatic (nil) and target defaults to English;
+        // `swapped` is a no-op when source is nil, so the pair after
+        // swapping is still (nil, English) — non-blocking, unlike the equal
+        // explicit pair `testSwapLanguages_ExchangesExplicitSourceAndTarget`
+        // sets up (that test never calls translate(), so it never hits the
+        // equal-pair no-op guard in `TranslationRequest.init`).
+        model.swapLanguages()
+        await waitUntil { model.status != .idle }
+        await waitUntil { model.status != .translating }
+
+        XCTAssertEqual(model.status, .succeeded(response))
+    }
+
+    func testClearSession_EmptiesSourceTextAndResetsStatus() async {
+        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .deepL)
+        let provider = FakeTranslationProvider(behavior: .success(response))
+        let model = makeModel(provider: provider)
+        model.setSourceText("hello")
+        model.translate()
+        await waitUntil { model.status != .translating }
+        XCTAssertEqual(model.status, .succeeded(response))
+
+        model.clearSession()
+
+        XCTAssertEqual(model.sourceText, "")
+        XCTAssertEqual(model.status, .idle)
+    }
+
+    func testClearSession_KeepsProviderAndLanguageSelections() {
+        let model = makeModel(inputLanguage: .vietnamese, providerID: .deepL, provider: nil)
+        model.setSourceLanguage(.english)
+        model.setTargetLanguage(.english)
+
+        model.clearSession()
+
+        XCTAssertEqual(model.providerID, .deepL)
+        XCTAssertEqual(model.sourceLanguage, .english)
+        XCTAssertEqual(model.targetLanguage, .english)
+    }
 }
