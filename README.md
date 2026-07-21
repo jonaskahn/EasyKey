@@ -30,6 +30,8 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 - 🛠️ Per-application compatibility and ignore lists
 - 🚀 Signed Sparkle updates, English/Vietnamese localization
 
+See [Telex Rule Set](./docs/TELEX.md) for exact full Telex, Simple Telex, tone-placement, undo, and restoration behavior.
+
 ## ⌨️ Default Shortcuts
 
 | Shortcut | Action |

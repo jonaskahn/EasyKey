@@ -866,53 +866,53 @@
         }
       }
     },
-    "typing.spellingModernization": {
-      "comment": "Toggle",
+    "typing.toneStyle": {
+      "comment": "Picker",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Modern Vietnamese spelling"
+            "value": "Tone placement"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chính tả hiện đại"
+            "value": "Vị trí dấu thanh"
           }
         }
       }
     },
-    "typing.freeToneMarking": {
-      "comment": "Toggle",
+    "typing.toneStyle.old": {
+      "comment": "Tone style option",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Free tone placement"
+            "value": "Old style (hòa, thủy)"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đặt dấu tự do"
+            "value": "Kiểu cũ (hòa, thủy)"
           }
         }
       }
     },
-    "typing.quickTelex": {
-      "comment": "Toggle",
+    "typing.toneStyle.new": {
+      "comment": "Tone style option",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quick Telex"
+            "value": "New style (hoà, thuỷ)"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Telex nhanh"
+            "value": "Kiểu mới (hoà, thuỷ)"
           }
         }
       }
@@ -934,19 +934,19 @@
         }
       }
     },
-    "typing.allowZFWJ": {
+    "typing.spellCheck": {
       "comment": "Toggle",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow Z, F, W, J"
+            "value": "Check Vietnamese spelling"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cho phép Z, F, W, J"
+            "value": "Kiểm tra chính tả tiếng Việt"
           }
         }
       }
@@ -968,70 +968,70 @@
         }
       }
     },
-    "typing.advancedOptions": {
-      "comment": "Section",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Advanced options"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tùy chọn nâng cao"
-          }
-        }
-      }
-    },
-    "typing.quickStartEndConsonant": {
+    "typing.quickTelexConsonants": {
       "comment": "Toggle",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quick start/end consonants"
+            "value": "Quick Telex consonants"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gõ nhanh phụ âm đầu/cuối"
+            "value": "Phụ âm Telex nhanh"
           }
         }
       }
     },
-    "typing.temporarySpellToggle": {
+    "typing.standaloneW": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standalone W shortcut"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím W đứng riêng"
+          }
+        }
+      }
+    },
+    "typing.bracketShortcuts": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bracket shortcuts"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phím ngoặc tạo nguyên âm"
+          }
+        }
+      }
+    },
+    "typing.restoreWordShortcut": {
       "comment": "Shortcut",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Temporary spelling toggle"
+            "value": "Restore current word"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tạm bật hoặc tắt chính tả"
-          }
-        }
-      }
-    },
-    "typing.temporaryEngineToggle": {
-      "comment": "Shortcut",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temporary engine toggle"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tạm bật hoặc tắt bộ gõ"
+            "value": "Khôi phục từ đang gõ"
           }
         }
       }
@@ -3943,53 +3943,53 @@
         }
       }
     },
-    "typing.spellingModernization.description": {
-      "comment": "Modern spelling setting description",
+    "typing.toneStyle.description": {
+      "comment": "Tone placement setting description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apply modern spelling rules, such as writing \"hòa\" instead of \"hoà\"."
+            "value": "Choose old placement (hòa, thủy) or new placement (hoà, thuỷ) for open oa, oe, and uy."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Áp dụng quy tắc chính tả hiện đại, chẳng hạn viết \"hòa\" thay vì \"hoà\"."
+            "value": "Chọn kiểu cũ (hòa, thủy) hoặc kiểu mới (hoà, thuỷ) cho vần oa, oe và uy mở."
           }
         }
       }
     },
-    "typing.freeToneMarking.description": {
-      "comment": "Free tone placement setting description",
+    "typing.spellCheck.description": {
+      "comment": "Spell-check setting description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Place the tone mark at any point in a word instead of only after the vowels."
+            "value": "Validate Vietnamese syllables before keeping Telex transformations."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cho phép bỏ dấu ở bất cứ đâu trong từ, không cần đợi gõ xong nguyên âm."
+            "value": "Kiểm tra âm tiết tiếng Việt trước khi giữ các biến đổi Telex."
           }
         }
       }
     },
-    "typing.quickTelex.description": {
-      "comment": "Quick Telex setting description",
+    "typing.quickTelexConsonants.description": {
+      "comment": "Quick Telex consonant setting description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enable quick W transformations while using Telex."
+            "value": "Enable cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, and tt=th."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bật cách biến đổi nhanh bằng phím W khi dùng Telex."
+            "value": "Bật cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph và tt=th."
           }
         }
       }
@@ -4011,19 +4011,19 @@
         }
       }
     },
-    "typing.allowZFWJ.description": {
-      "comment": "Z F W J setting description",
+    "typing.standaloneW.description": {
+      "comment": "Standalone W setting description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Type Z, F, W, and J directly instead of using them as transformation keys."
+            "value": "In full Telex, convert standalone W to ư. Simple Telex always keeps it literal."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gõ thẳng các chữ Z, F, W, J thay vì dùng chúng làm phím biến đổi."
+            "value": "Trong Telex đầy đủ, đổi W đứng riêng thành ư. Simple Telex luôn giữ nguyên W."
           }
         }
       }
@@ -4045,53 +4045,36 @@
         }
       }
     },
-    "typing.quickStartEndConsonant.description": {
-      "comment": "Quick consonants setting description",
+    "typing.bracketShortcuts.description": {
+      "comment": "Bracket shortcut setting description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Type common leading and trailing consonants with fewer keystrokes."
+            "value": "In full Telex, use [ for ơ, ] for ư, { for Ơ, and } for Ư."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gõ các phụ âm đầu và cuối quen thuộc bằng ít phím hơn."
+            "value": "Trong Telex đầy đủ, dùng [ cho ơ, ] cho ư, { cho Ơ và } cho Ư."
           }
         }
       }
     },
-    "typing.temporarySpellToggle.description": {
-      "comment": "Temporary spelling shortcut description",
+    "typing.restoreWordShortcut.description": {
+      "comment": "Restore-word shortcut description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pause or resume spelling checks with a shortcut while you keep typing."
+            "value": "Replace the current transformed word with its exact raw keystrokes."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tạm tắt hoặc bật lại kiểm tra chính tả bằng phím tắt ngay khi đang gõ."
-          }
-        }
-      }
-    },
-    "typing.temporaryEngineToggle.description": {
-      "comment": "Temporary engine shortcut description",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause or resume the typing engine with a shortcut without switching language."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tạm tắt hoặc bật lại bộ gõ bằng phím tắt mà không phải đổi ngôn ngữ."
+            "value": "Thay từ đang biến đổi bằng đúng các phím gốc đã gõ."
           }
         }
       }

@@ -202,7 +202,10 @@ final class LocalizationTests: XCTestCase {
     func testSettingDescriptionsAndContextualActionsLocalize() {
         store.setPreference(.english)
         XCTAssertEqual(store.string(.commonRemove), "Remove")
-        XCTAssertEqual(store.string(.typingQuickTelexDescription), "Enable quick W transformations while using Telex.")
+        XCTAssertEqual(
+            store.string(.typingQuickTelexConsonantsDescription),
+            "Enable cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, and tt=th."
+        )
         XCTAssertEqual(store.format(.menuCurrentAppStatus, "Safari", "Remembered Vietnamese"), "Safari · Remembered Vietnamese")
 
         store.setPreference(.vietnamese)

@@ -155,22 +155,6 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertFalse(opt.hasBase("a"))
     }
 
-    func testWTransformVowelIndex_EndsAtConsonant_ReturnsNil() {
-        let state = SessionState(atoms: [
-            BufferAtom(base: "a"),
-            BufferAtom(base: "l"),
-        ])
-        XCTAssertNil(state.wTransformVowelIndex)
-    }
-
-    func testWTransformVowelIndex_NoVowelInRange_ReturnsNil() {
-        let state = SessionState(atoms: [
-            BufferAtom(base: "t"),
-            BufferAtom(base: "n"),
-        ])
-        XCTAssertNil(state.wTransformVowelIndex)
-    }
-
     func testEscapeKey_ResetsStateAndPassesThrough() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("a"))
@@ -188,24 +172,10 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "")
     }
 
-    func testQuickTelex_StandaloneCycle_AllBranches() {
-        let onsets: [String] = ["ch", "gh", "gi", "kh", "ng", "ngh", "nh", "ph", "th", "tr", "qu"]
-        for method in [InputMethod.telex, .simpleTelex] {
-            for onset in onsets {
-                var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-                typeKeys(&engine, onset + "w")
-                let idx = engine.state.atoms.count - 1
-                // U → w → O path
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "ơ", "onset: \(onset), step 2")
-                // O → w → W path
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "w", "onset: \(onset), step 3")
-                // W → w → U path
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "ư", "onset: \(onset), step 4")
-            }
-        }
+    func testQuickTelexConsonantPair() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelexConsonants: true))
+        typeKeys(&engine, "cc")
+        XCTAssertEqual(engine.currentBuffer, "ch")
     }
 
     func testBackspace_AtomHasMarkAndTone_RemovesMarkAndResetsTone() {
@@ -213,8 +183,7 @@ final class EngineCoreCoverageTests: XCTestCase {
         typeKeys(&engine, "aa") // produces â
         typeKeys(&engine, "s") // produces ấ
         _ = engine.process(event: KeyEvent(kind: .backspace))
-        // After backspace: mark removed, tone reset; result is "a"
-        XCTAssertEqual(engine.currentBuffer, "a")
+        XCTAssertEqual(engine.currentBuffer, "â")
     }
 
     func testBackspace_OnlyToneNoMark_RemovesTone() {
@@ -334,71 +303,50 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(result, "t")
     }
 
-    func testApplyTransformW_OnVowelNotUorOorA_NoChange() {
-        let atoms = [BufferAtom(base: "e")]
-        var state = SessionState(atoms: atoms)
-        let result = TransformEngine.apply(intent: .transformW, state: state, configuration: EngineConfiguration())
-        XCTAssertEqual(result.newContent, "e")
-        XCTAssertEqual(result.newState.atoms.first?.mark, DiacriticalMark.none)
-    }
-
     func testToneTargetIndex_WithOffglide_RanksEarlierVowel() {
-        let state = SessionState(atoms: [
+        let atoms = [
             BufferAtom(base: "u"),
             BufferAtom(base: "i"),
-        ])
-        let idx = TransformEngine.toneTargetIndex(state)
+        ]
+        let idx = TelexComposer.toneTargetIndex(atoms: atoms, style: .old)
         XCTAssertEqual(idx, 0)
     }
 
     func testToneTargetIndex_DiphthongAY_ToneBeforeY() {
-        let state = SessionState(atoms: [
+        let atoms = [
             BufferAtom(base: "a"),
             BufferAtom(base: "y"),
-        ])
-        let idx = TransformEngine.toneTargetIndex(state)
+        ]
+        let idx = TelexComposer.toneTargetIndex(atoms: atoms, style: .old)
         XCTAssertEqual(idx, 0)
     }
 
     func testToneTargetIndex_OpenSyllableUA_ToneOnA() {
-        let state = SessionState(atoms: [
+        let atoms = [
             BufferAtom(base: "u"),
             BufferAtom(base: "a"),
-        ])
-        let idx = TransformEngine.toneTargetIndex(state)
-        // in open syllable "ua": "a" is last, but "u" is openNucleusLeader, so tone on "u"
+        ]
+        let idx = TelexComposer.toneTargetIndex(atoms: atoms, style: .old)
         XCTAssertEqual(idx, 0)
     }
 
     func testToneTargetIndex_OpenSyllableIA_ToneOnI() {
-        let state = SessionState(atoms: [
+        let atoms = [
             BufferAtom(base: "i"),
             BufferAtom(base: "a"),
-        ])
-        let idx = TransformEngine.toneTargetIndex(state)
+        ]
+        let idx = TelexComposer.toneTargetIndex(atoms: atoms, style: .old)
         XCTAssertEqual(idx, 0)
     }
 
     func testToneTargetIndex_SingleVowel_ReturnsFirst() {
-        let state = SessionState(atoms: [BufferAtom(base: "a")])
-        XCTAssertEqual(TransformEngine.toneTargetIndex(state), 0)
+        let atoms = [BufferAtom(base: "a")]
+        XCTAssertEqual(TelexComposer.toneTargetIndex(atoms: atoms, style: .old), 0)
     }
 
     func testToneTargetIndex_NoVowels_ReturnsNil() {
-        let state = SessionState(atoms: [BufferAtom(base: "t")])
-        XCTAssertNil(TransformEngine.toneTargetIndex(state))
-    }
-
-    func testApply_PassThrough_AppendsAtomToState() {
-        let result = TransformEngine.apply(intent: .passThrough("x"), state: SessionState(), configuration: EngineConfiguration())
-        XCTAssertEqual(result.newContent, "x")
-        XCTAssertEqual(result.newState.atoms.count, 1)
-        XCTAssertEqual(result.newState.atoms.first?.base, "x")
-    }
-
-    func testApply_UpperCasePassThrough_PreservesCase() {
-        let result = TransformEngine.apply(intent: .passThrough("X"), state: SessionState(), configuration: EngineConfiguration())
-        XCTAssertEqual(result.newContent, "X")
+        let atoms = [BufferAtom(base: "t")]
+        XCTAssertNil(TelexComposer.toneTargetIndex(atoms: atoms, style: .old))
     }
 
     func testCapitalizeSentences_WithArabicText() {
@@ -413,18 +361,16 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(result, "viet nam")
     }
 
-    func testQuickTelex_WAtEmptyBuffer_StartsStandaloneUCycle() {
-        var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelex: true))
+    func testFullTelexStandaloneWAtEmptyBufferProducesUWithHorn() {
+        var engine = VietnameseEngine()
         _ = engine.process(event: .char("w"))
         XCTAssertEqual(engine.currentBuffer, "ư")
     }
 
-    func testQuickTelex_TransformedVowelOutOfBounds_FallsBackToLiteralW() {
-        var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelex: true))
-        // Type "uw" → ư transforms the "u", then typing further "w" tries
-        // .transformedVowel branch but after modifications the index may be valid
-        typeKeys(&engine, "uw")
-        XCTAssertEqual(engine.currentBuffer, "ư")
+    func testRepeatedWRestoresLiteralPair() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "uww")
+        XCTAssertEqual(engine.currentBuffer, "uw")
     }
 
     func testSort_PinnedBeforeUnpinned_SameCaptureTime() {
@@ -771,11 +717,11 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testEasyKeySettings_RoundTrip_ThroughJSON() throws {
         var original = EasyKeySettings.defaults
-        original.typing.quickTelex = true
+        original.typing.quickTelexConsonants = true
         original.clipboard.maximumEntryCount = 50
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: data)
-        XCTAssertEqual(decoded.typing.quickTelex, original.typing.quickTelex)
+        XCTAssertEqual(decoded.typing.quickTelexConsonants, original.typing.quickTelexConsonants)
         XCTAssertEqual(decoded.clipboard.maximumEntryCount, original.clipboard.maximumEntryCount)
     }
 
@@ -997,9 +943,10 @@ final class EngineCoreCoverageTests: XCTestCase {
 
     func testTypingOptions_DefaultValues() {
         let opts = TypingOptions()
+        XCTAssertTrue(opts.spellCheck)
         XCTAssertTrue(opts.restoreInvalidWord)
-        XCTAssertTrue(opts.spellingModernization)
-        XCTAssertFalse(opts.quickTelex)
+        XCTAssertEqual(opts.toneStyle, .old)
+        XCTAssertFalse(opts.quickTelexConsonants)
         XCTAssertFalse(opts.uppercaseFirstCharacter)
     }
 
@@ -1058,29 +1005,10 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(preview.unparseableRecords.count, 1)
     }
 
-    func testQuickTelex_WWithoutVowelIndex_PrependsUWithHorn() {
-        var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelex: true))
-        typeKeys(&engine, "tw") // "t" is a start consonant, so w should add ư
+    func testFullTelexStandaloneWAfterOnset() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tw")
         XCTAssertEqual(engine.currentBuffer, "tư")
-    }
-
-    func testWTransformVowelIndex_QuOnset_SkipsFirstTwoAtoms() {
-        let state = SessionState(atoms: [
-            BufferAtom(base: "q"),
-            BufferAtom(base: "u"),
-            BufferAtom(base: "o"),
-        ])
-        // qu onset → scans from "o" which IS a vowel → eligible
-        XCTAssertEqual(state.wTransformVowelIndex, 2)
-    }
-
-    func testWTransformVowelIndex_GiOnset_SkipsFirstTwoAtoms() {
-        let state = SessionState(atoms: [
-            BufferAtom(base: "g"),
-            BufferAtom(base: "i"),
-            BufferAtom(base: "a"),
-        ])
-        XCTAssertEqual(state.wTransformVowelIndex, 2)
     }
 
     func testUppercaseFirstCharacter_AtSentenceStart_Capitalizes() {
@@ -1109,7 +1037,7 @@ final class EngineCoreCoverageTests: XCTestCase {
         let result = engine.process(event: .char("d")) // d+d → stroke
         XCTAssertEqual(engine.currentBuffer, "đ")
         _ = engine.process(event: .char("d")) // đ+d → revert
-        XCTAssertEqual(engine.currentBuffer, "d")
+        XCTAssertEqual(engine.currentBuffer, "dd")
     }
 
     private func entry(_ text: String, fingerprint: String, pinned: Bool = false) -> ClipboardEntry {

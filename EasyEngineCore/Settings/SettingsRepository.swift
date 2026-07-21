@@ -117,9 +117,12 @@ public final class SettingsRepository {
         EngineConfiguration(
             inputMethod: settings.input.inputMethod,
             outputEncoding: settings.input.encoding,
+            spellCheck: settings.typing.spellCheck,
             autoRestoreKeys: settings.typing.restoreInvalidWord,
-            modernStyle: settings.typing.spellingModernization,
-            quickTelex: settings.typing.quickTelex,
+            toneStyle: settings.typing.toneStyle,
+            quickTelexConsonants: settings.typing.quickTelexConsonants,
+            standaloneWShortcut: settings.typing.standaloneWShortcut,
+            bracketShortcuts: settings.typing.bracketShortcuts,
             uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
         )
     }
@@ -172,24 +175,33 @@ public enum SettingsRepositoryError: Error, Equatable, Sendable {
 public struct EngineConfiguration: Equatable, Sendable {
     public var inputMethod: InputMethod
     public var outputEncoding: EncodingTable
+    public var spellCheck: Bool
     public var autoRestoreKeys: Bool
-    public var modernStyle: Bool
-    public var quickTelex: Bool
+    public var toneStyle: ToneStyle
+    public var quickTelexConsonants: Bool
+    public var standaloneWShortcut: Bool
+    public var bracketShortcuts: Bool
     public var uppercaseFirstCharacter: Bool
 
     public init(
         inputMethod: InputMethod = .telex,
         outputEncoding: EncodingTable = .unicode,
+        spellCheck: Bool = true,
         autoRestoreKeys: Bool = true,
-        modernStyle: Bool = false,
-        quickTelex: Bool = false,
+        toneStyle: ToneStyle = .old,
+        quickTelexConsonants: Bool = false,
+        standaloneWShortcut: Bool = true,
+        bracketShortcuts: Bool = true,
         uppercaseFirstCharacter: Bool = false
     ) {
         self.inputMethod = inputMethod
         self.outputEncoding = outputEncoding
+        self.spellCheck = spellCheck
         self.autoRestoreKeys = autoRestoreKeys
-        self.modernStyle = modernStyle
-        self.quickTelex = quickTelex
+        self.toneStyle = toneStyle
+        self.quickTelexConsonants = quickTelexConsonants
+        self.standaloneWShortcut = standaloneWShortcut
+        self.bracketShortcuts = bracketShortcuts
         self.uppercaseFirstCharacter = uppercaseFirstCharacter
     }
 }

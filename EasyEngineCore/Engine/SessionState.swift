@@ -13,7 +13,7 @@ public struct BufferAtom: Equatable, Sendable {
         if VietnameseCharacters.isVowel(base) {
             return VietnameseCharacters.vowel(
                 base: base, mark: mark, tone: .none, uppercase: uppercase
-            )!
+            ) ?? base
         }
         if base.lowercased().first == "d" && mark == .stroke {
             return VietnameseCharacters.d(withStroke: true, uppercase: uppercase)
@@ -34,35 +34,37 @@ public extension BufferAtom? {
     }
 }
 
+/// Engine buffer. `rawKeys` is the source of truth; `atoms`/`tone` are the
+/// composed result derived from it by `TelexComposer`. Keeping raw keys makes
+/// exact repeat-to-undo, backspace, and word restoration trivial.
 public struct SessionState: Equatable, Sendable {
+    public var rawKeys: [Character]
     public var atoms: [BufferAtom]
     public var tone: Tone
     public var isDisabled: Bool
+    /// When true the buffer renders raw keys verbatim (per-word restore).
+    public var forceRaw: Bool
 
     public init(
+        rawKeys: [Character] = [],
         atoms: [BufferAtom] = [],
         tone: Tone = .none,
-        isDisabled: Bool = false
+        isDisabled: Bool = false,
+        forceRaw: Bool = false
     ) {
+        self.rawKeys = rawKeys
         self.atoms = atoms
         self.tone = tone
         self.isDisabled = isDisabled
+        self.forceRaw = forceRaw
     }
 
     public var isEmpty: Bool {
-        atoms.isEmpty
+        rawKeys.isEmpty
     }
 
     public var count: Int {
         atoms.count
-    }
-
-    public mutating func append(_ atom: BufferAtom) {
-        atoms.append(atom)
-    }
-
-    public mutating func removeLast() {
-        atoms.removeLast()
     }
 
     public var lastAtom: BufferAtom? {
@@ -77,37 +79,14 @@ public struct SessionState: Equatable, Sendable {
         return nil
     }
 
-    /// Nearest vowel eligible for the Telex `w` breve/horn transform, bounded
-    /// to the current syllable's vowel nucleus: the backward scan continues
-    /// through other vowels (diphthong continuations, e.g. "ui" in "Cuiw")
-    /// but stops as soon as it hits a plain consonant, since `w` only ever
-    /// modifies a vowel typed immediately before it, never across an
-    /// intervening consonant (e.g. "alw" must not reach back to the "a").
-    public var wTransformVowelIndex: Int? {
-        let onsetEndIndex: Int
-        if atoms.count >= 2 {
-            let prefix = String(atoms.prefix(2).map(\.base))
-            onsetEndIndex = prefix == "qu" || prefix == "gi" ? 2 : 0
-        } else {
-            onsetEndIndex = 0
-        }
-
-        let wBases: Set<Character> = ["u", "o", "a"]
-        for index in stride(from: atoms.count - 1, through: onsetEndIndex, by: -1) {
-            let rawBase = atoms[index].base
-            let baseChar = Character(rawBase.lowercased())
-            if !VietnameseCharacters.isVowel(baseChar) {
-                return nil
-            }
-            if wBases.contains(baseChar), atoms[index].mark == .none {
-                return index
-            }
-        }
-        return nil
+    public var rawText: String {
+        String(rawKeys)
     }
 
     public mutating func reset() {
+        rawKeys = []
         atoms = []
         tone = .none
+        forceRaw = false
     }
 }

@@ -1,29 +1,31 @@
 import Foundation
 
+/// Streaming Vietnamese input engine. Raw keystrokes are the source of truth;
+/// every edit recomputes the composed buffer via `TelexComposer`, which makes
+/// backspace, repeat-to-undo, and word restoration exact.
 public struct VietnameseEngine {
-    private enum QuickWState {
-        case none
-        case transformedVowel(Int)
-        case standaloneU(Int)
-        case standaloneO(Int)
-        case standaloneW(Int)
-    }
-
     private static let sentenceTerminators: Set<String> = [".", "!", "?", "\n"]
 
     public internal(set) var state: SessionState
     public var configuration: EngineConfiguration
-    private var quickWState: QuickWState = .none
     private var atSentenceStart = true
+    private var lastRenderedCount = 0
 
     public init(configuration: EngineConfiguration = EngineConfiguration()) {
         state = SessionState()
         self.configuration = configuration
     }
 
+    public var currentBuffer: String {
+        if state.forceRaw {
+            return state.rawText
+        }
+        return TransformEngine.encode(state, configuration: configuration)
+    }
+
     public mutating func process(event: KeyEvent) -> EngineOutput {
         guard !state.isDisabled else {
-            return handlePassThrough()
+            return .passThrough
         }
 
         switch event.kind {
@@ -37,33 +39,36 @@ public struct VietnameseEngine {
             return processWordBoundary(trailingChar: "\n")
         case .tab:
             return processWordBoundary(trailingChar: "\t")
-        case .leftArrow, .rightArrow, .upArrow, .downArrow:
-            return processMovement()
-        case .escape:
-            return processEscape()
-        case .forwardDelete, .other:
+        case .leftArrow, .rightArrow, .upArrow, .downArrow,
+             .escape, .forwardDelete, .other:
             return processReset()
         }
     }
 
     public mutating func reset() {
-        state.reset()
-        quickWState = .none
+        clearComposition()
         atSentenceStart = true
     }
 
-    public var currentBuffer: String {
-        TransformEngine.encode(state, encoding: configuration.outputEncoding)
-    }
-
-    private func handlePassThrough() -> EngineOutput {
-        .passThrough
+    /// Restores the raw keystrokes for the word being composed and freezes
+    /// transformation until the next word boundary (per-word restore).
+    @discardableResult
+    public mutating func restoreRawKeys() -> EngineOutput {
+        guard !state.isEmpty, !state.forceRaw else {
+            return .passThrough
+        }
+        let previousCount = lastRenderedCount
+        state.forceRaw = true
+        return EngineOutput(
+            disposition: .suppress,
+            edits: [.replaceBackward(deleteCount: previousCount, insert: state.rawText)],
+            sessionEffect: .continueSession
+        )
     }
 
     private mutating func processCharacter(_ character: Character, event: KeyEvent) -> EngineOutput {
         if event.hasModifiers {
-            state.reset()
-            quickWState = .none
+            reset()
             return .passThrough
         }
 
@@ -79,188 +84,51 @@ public struct VietnameseEngine {
             atSentenceStart = false
         }
 
-        let previousLength = state.count
-        let lower = Character(character.lowercased())
-        if configuration.quickTelex,
-           lower == "w",
-           configuration.inputMethod == .telex || configuration.inputMethod == .simpleTelex {
-            return processQuickW(character, previousLength: previousLength)
-        }
-        quickWState = .none
-        let intent = resolveIntent(for: character)
-
-        if case .addTone = intent, state.lastVowelIndex == nil {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case .addMark = intent, state.lastVowelIndex == nil {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case .transformDStroke = intent, state.isEmpty || !state.atoms.last.hasBase("d") {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case .revertDStroke = intent, state.isEmpty || state.atoms.last?.mark != .stroke {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case let .transformDoubleVowel(base, _) = intent, state.isEmpty || !state.atoms.last.hasBase(base) {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case let .revertDoubleVowel(base) = intent,
-           state.isEmpty || !state.atoms.last.hasBase(base) || state.atoms.last?.mark != .circumflex {
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-        if case .transformW = intent {
-            guard quickWVowelIndex != nil else {
-                return fallbackPassThrough(character, previousLength: previousLength)
-            }
-        }
-
-        if case let .addTone(newTone) = intent, state.tone == newTone {
-            state.tone = .none
-            return fallbackPassThrough(character, previousLength: previousLength)
-        }
-
-        let result = TransformEngine.apply(intent: intent, state: state, configuration: configuration)
-        state = result.newState
+        let previousCount = lastRenderedCount
+        state.rawKeys.append(character)
+        recompute()
 
         return EngineOutput(
             disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousLength, insert: result.newContent)],
+            edits: [.replaceBackward(deleteCount: previousCount, insert: currentBuffer)],
             sessionEffect: .continueSession
         )
     }
 
-    private mutating func processQuickW(_ character: Character, previousLength: Int) -> EngineOutput {
-        switch quickWState {
-        case let .transformedVowel(index):
-            if state.atoms[index].mark != .none {
-                state.atoms[index].mark = .none
-            }
-            state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-            quickWState = .none
-
-        case let .standaloneU(index):
-            let uppercase = state.atoms[index].uppercase
-            state.atoms[index] = BufferAtom(base: "o", mark: .horn, uppercase: uppercase)
-            quickWState = .standaloneO(index)
-
-        case let .standaloneO(index):
-            let uppercase = state.atoms[index].uppercase
-            state.atoms[index] = BufferAtom(base: "w", uppercase: uppercase)
-            quickWState = .standaloneW(index)
-
-        case let .standaloneW(index):
-            let uppercase = state.atoms[index].uppercase
-            state.atoms[index] = BufferAtom(base: "u", mark: .horn, uppercase: uppercase)
-            quickWState = .standaloneU(index)
-
-        case .none:
-            if let eligibleIndex = quickWVowelIndex {
-                let result = TransformEngine.apply(intent: .transformW, state: state, configuration: configuration)
-                state = result.newState
-                quickWState = .transformedVowel(eligibleIndex)
-            } else if state.isEmpty || VietnameseCharacters.startConsonants.contains(bufferText.lowercased()) {
-                let index = state.count
-                state.append(BufferAtom(base: "u", mark: .horn, uppercase: character.isUppercase))
-                quickWState = .standaloneU(index)
-            } else {
-                state.append(BufferAtom(base: "w", uppercase: character.isUppercase))
-            }
-        }
-
-        return EngineOutput(
-            disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousLength, insert: currentBuffer)],
-            sessionEffect: .continueSession
-        )
-    }
-
-    private var bufferText: String {
-        String(state.atoms.map(\.character))
-    }
-
-    private var quickWVowelIndex: Int? {
-        state.wTransformVowelIndex
-    }
-
-    private mutating func fallbackPassThrough(_ character: Character, previousLength: Int) -> EngineOutput {
-        let result = TransformEngine.apply(intent: .passThrough(character), state: state, configuration: configuration)
-        state = result.newState
-        return EngineOutput(
-            disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousLength, insert: result.newContent)],
-            sessionEffect: .continueSession
-        )
+    private mutating func recompute() {
+        let composition = TelexComposer.compose(rawKeys: state.rawKeys, configuration: configuration)
+        state.atoms = composition.atoms
+        state.tone = composition.tone
+        lastRenderedCount = currentBuffer.count
     }
 
     private func isWordBreakCharacter(_ character: Character) -> Bool {
         if character.isWhitespace {
             return true
         }
-        let punctuation: Set<Character> = [
-            ".", ",", ";", ":", "!", "?", "(", ")", "[", "]",
-            "{", "}", "<", ">", "/", "\\", "|", "@", "#", "$",
+        var punctuation: Set<Character> = [
+            ".", ",", ";", ":", "!", "?", "(", ")",
+            "<", ">", "/", "\\", "|", "@", "#", "$",
             "%", "^", "&", "*", "+", "=", "~", "`", "'",
         ]
+        if !TelexComposer.usesBracketShortcuts(configuration) {
+            punctuation.formUnion(["[", "]", "{", "}"])
+        }
         return punctuation.contains(character)
     }
 
-    private func resolveIntent(for character: Character) -> TransformIntent {
-        let previousChar = state.lastAtom?.character
-
-        switch configuration.inputMethod {
-        case .telex:
-            return TelexRules.intent(forCharacter: character, previousChar: previousChar)
-        case .vni:
-            return VNIRules.intent(forCharacter: character)
-        case .simpleTelex:
-            return SimpleTelexRules.intent(forCharacter: character, previousChar: previousChar)
-        }
-    }
-
     private mutating func processBackspace() -> EngineOutput {
-        quickWState = .none
         guard !state.isEmpty else {
             return .passThrough
         }
 
-        let oldCount = state.count
-        let lastIdx = state.count - 1
+        let previousCount = lastRenderedCount
+        state.rawKeys.removeLast()
+        recompute()
 
-        if state.atoms[lastIdx].mark != .none {
-            state.atoms[lastIdx].mark = .none
-            state.tone = .none
-            let encoded = TransformEngine.encode(state, encoding: configuration.outputEncoding)
-            return EngineOutput(
-                disposition: .suppress,
-                edits: [.replaceBackward(deleteCount: oldCount, insert: encoded)],
-                sessionEffect: .continueSession
-            )
-        }
-
-        if state.tone != .none {
-            state.tone = .none
-            let encoded = TransformEngine.encode(state, encoding: configuration.outputEncoding)
-            return EngineOutput(
-                disposition: .suppress,
-                edits: [.replaceBackward(deleteCount: oldCount, insert: encoded)],
-                sessionEffect: .continueSession
-            )
-        }
-
-        state.removeLast()
-
-        if state.isEmpty {
-            return EngineOutput(
-                disposition: .pass,
-                edits: [],
-                sessionEffect: .continueSession
-            )
-        }
-
-        let encoded2 = TransformEngine.encode(state, encoding: configuration.outputEncoding)
         return EngineOutput(
             disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: oldCount, insert: encoded2)],
+            edits: [.replaceBackward(deleteCount: previousCount, insert: currentBuffer)],
             sessionEffect: .continueSession
         )
     }
@@ -274,35 +142,39 @@ public struct VietnameseEngine {
             atSentenceStart = true
         }
 
-        let encoded = TransformEngine.encode(state, encoding: configuration.outputEncoding)
-        state.reset()
-        quickWState = .none
+        let previousCount = lastRenderedCount
+        let finalText = resolvedBoundaryText()
+        clearComposition()
 
         return EngineOutput(
             disposition: .suppress,
             edits: [
-                .replaceBackward(deleteCount: encoded.count, insert: encoded),
+                .replaceBackward(deleteCount: previousCount, insert: finalText),
                 .insert(trailingChar),
             ],
             sessionEffect: .resetSession
         )
     }
 
-    private mutating func processMovement() -> EngineOutput {
-        state.reset()
-        quickWState = .none
-        return .passThrough
-    }
-
-    private mutating func processEscape() -> EngineOutput {
-        state.reset()
-        quickWState = .none
-        return .passThrough
+    private func resolvedBoundaryText() -> String {
+        let composed = currentBuffer
+        let raw = state.rawText
+        guard configuration.spellCheck, composed != raw else {
+            return composed
+        }
+        guard !VietnameseOrthography.isValidWord(composed) else {
+            return composed
+        }
+        return configuration.autoRestoreKeys ? raw : composed
     }
 
     private mutating func processReset() -> EngineOutput {
-        state.reset()
-        quickWState = .none
+        reset()
         return .passThrough
+    }
+
+    private mutating func clearComposition() {
+        state.reset()
+        lastRenderedCount = 0
     }
 }

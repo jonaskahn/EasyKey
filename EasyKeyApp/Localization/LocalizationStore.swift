@@ -97,6 +97,13 @@ final class LocalizationStore: ObservableObject {
         }
     }
 
+    func displayName(for toneStyle: ToneStyle) -> String {
+        switch toneStyle {
+        case .old: string(.typingToneStyleOld)
+        case .new: string(.typingToneStyleNew)
+        }
+    }
+
     func displayName(for encoding: EncodingTable) -> String {
         switch encoding {
         case .unicode: string(.domainEncodingUnicode)

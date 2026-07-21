@@ -16,6 +16,8 @@ final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
 
 @MainActor
 final class StatusItemController {
+    static let popoverBehavior: NSPopover.Behavior = .transient
+
     private let localization: LocalizationStore
     private let menuActionTarget = StatusMenuActionTarget()
     private var statusItem: NSStatusItem?
@@ -50,9 +52,9 @@ final class StatusItemController {
         observeStatusItemAppearance(button: item.button)
 
         let popover = NSPopover()
-        // Child menus and SwiftUI popovers used by translation must not dismiss
-        // this status popover. It still closes when focus moves to another app.
-        popover.behavior = .semitransient
+        // Clipboard and translation panels explicitly close this popover before
+        // opening, so normal outside-click dismissal remains enabled.
+        popover.behavior = Self.popoverBehavior
         popover.delegate = popoverCloseObserver
         let hostingController = NSHostingController(rootView: popoverView(coordinator: coordinator))
         hostingController.sizingOptions = [.preferredContentSize]

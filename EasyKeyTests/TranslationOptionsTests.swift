@@ -109,7 +109,7 @@ final class TranslationOptionsTests: XCTestCase {
     }
 
     func testCurrentSchemaVersion_IsSeven() {
-        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 7)
+        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 8)
     }
 
     func testLegacySettingsWithoutTranslationKey_DecodeWithDefaultsAndPreserveOthers() throws {

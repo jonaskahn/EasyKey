@@ -1,21 +1,16 @@
 import Foundation
 
+/// Unicode Vietnamese letter tables. Rows follow tone order and columns follow
+/// diacritic order defined by `Tone` and `DiacriticalMark` raw values.
 public enum VietnameseCharacters {
-    // Source: Unicode 15.0 Latin Extended Additional block (U+1E00-U+1EFF)
-    // and Latin-1 Supplement (U+00C0-U+00FF)
-
-    // Row order per base: none, acute, grave, hook, tilde, dotBelow
-    // Column order per mark: none, circumflex, breve, horn
-
     private static let lowerVowels: [Character: [[Character]]] = [
         "a": [
-            // [none, circumflex, breve, horn] for each tone
-            ["a", "â", "ă", "a"], // none
-            ["á", "ấ", "ắ", "á"], // acute
-            ["à", "ầ", "ằ", "à"], // grave
-            ["ả", "ẩ", "ẳ", "ả"], // hook
-            ["ã", "ẫ", "ẵ", "ã"], // tilde
-            ["ạ", "ậ", "ặ", "ạ"], // dotBelow
+            ["a", "â", "ă", "a"],
+            ["á", "ấ", "ắ", "á"],
+            ["à", "ầ", "ằ", "à"],
+            ["ả", "ẩ", "ẳ", "ả"],
+            ["ã", "ẫ", "ẵ", "ã"],
+            ["ạ", "ậ", "ặ", "ạ"],
         ],
         "e": [
             ["e", "ê", "e", "e"],
@@ -189,11 +184,88 @@ public enum VietnameseCharacters {
     public static func mark(forVowel character: Character) -> DiacriticalMark {
         let lower = Character(character.lowercased())
         switch lower {
-        case "â": return .circumflex
+        case "â", "ê", "ô": return .circumflex
         case "ă": return .breve
-        case "ơ": return .horn
-        case "ư": return .horn
+        case "ơ", "ư": return .horn
         default: return .none
         }
+    }
+
+    /// Plain-base letter with mark and tone stripped. Non-accented letters
+    /// are returned unchanged.
+    public static func baseLetter(_ character: Character) -> Character {
+        accentedToBase[Character(character.lowercased())]
+            .map { character.isUppercase ? Character(String($0).uppercased()) : $0 }
+            ?? character
+    }
+
+    public static func tone(of character: Character) -> Tone {
+        accentedToTone[Character(character.lowercased())] ?? .none
+    }
+
+    public static func removingTone(from character: Character) -> Character {
+        let base = Character(String(baseLetter(character)).lowercased())
+        guard isVowel(base) else { return character }
+        return vowel(
+            base: base,
+            mark: mark(of: character),
+            tone: .none,
+            uppercase: character.isUppercase
+        ) ?? character
+    }
+
+    private static let accentedToBase: [Character: Character] = buildBaseMap()
+    private static let accentedToTone: [Character: Tone] = buildToneMap()
+    private static let accentedToMark: [Character: DiacriticalMark] = buildMarkMap()
+
+    static func mark(of character: Character) -> DiacriticalMark {
+        accentedToMark[Character(character.lowercased())] ?? .none
+    }
+
+    private static func buildBaseMap() -> [Character: Character] {
+        var map: [Character: Character] = [:]
+        for (base, rows) in lowerVowels {
+            for row in rows {
+                for char in row where char != base {
+                    map[char] = base
+                }
+            }
+        }
+        map["đ"] = "d"
+        return map
+    }
+
+    private static func buildToneMap() -> [Character: Tone] {
+        var map: [Character: Tone] = [:]
+        for (_, rows) in lowerVowels {
+            for (toneIndex, row) in rows.enumerated() where toneIndex > 0 {
+                guard let tone = Tone(rawValue: toneIndex) else { continue }
+                for char in row {
+                    map[char] = tone
+                }
+            }
+        }
+        return map
+    }
+
+    private static func buildMarkMap() -> [Character: DiacriticalMark] {
+        var map: [Character: DiacriticalMark] = [:]
+        let validMarks: [Character: Set<DiacriticalMark>] = [
+            "a": [.circumflex, .breve],
+            "e": [.circumflex],
+            "o": [.circumflex, .horn],
+            "u": [.horn],
+        ]
+        for (base, rows) in lowerVowels {
+            for row in rows {
+                for (markIndex, char) in row.enumerated() where markIndex > 0 {
+                    guard let mark = DiacriticalMark(rawValue: markIndex) else { continue }
+                    guard validMarks[base]?.contains(mark) == true else { continue }
+                    map[char] = mark
+                }
+            }
+        }
+        map["đ"] = .stroke
+        return map
     }
 }

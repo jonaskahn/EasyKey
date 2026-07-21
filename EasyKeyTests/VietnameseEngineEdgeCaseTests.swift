@@ -3,10 +3,10 @@ import XCTest
 
 final class VietnameseEngineEdgeCaseTests: XCTestCase {
     func testProcessWhenDisabled() {
-        let state = SessionState(isDisabled: true)
-        let config = EngineConfiguration()
-        let result = TransformEngine.apply(intent: .passThrough("a"), state: state, configuration: config)
-        XCTAssertEqual(result.newContent, "a")
+        var engine = VietnameseEngine()
+        engine.state.isDisabled = true
+        let result = engine.process(event: .char("a"))
+        XCTAssertEqual(result, .passThrough)
     }
 
     func testForwardDeleteResets() {
@@ -49,7 +49,7 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: .char("s"))
         XCTAssertEqual(engine.currentBuffer, "ấ")
         _ = engine.process(event: KeyEvent(kind: .backspace))
-        XCTAssertEqual(engine.currentBuffer, "a")
+        XCTAssertEqual(engine.currentBuffer, "â")
     }
 
     func testBackspaceOnLastAtomAfterToneRemoval() {
@@ -202,10 +202,10 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "tas")
     }
 
-    func testMarkAddOnEmptyBuffer() {
+    func testStandaloneWOnEmptyBuffer() {
         var engine = VietnameseEngine()
         let result = engine.process(event: .char("w"))
-        XCTAssertEqual(engine.currentBuffer, "w")
+        XCTAssertEqual(engine.currentBuffer, "ư")
         XCTAssertEqual(result.disposition, .suppress)
     }
 
@@ -228,13 +228,13 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: .char("d"))
         XCTAssertEqual(engine.currentBuffer, "đ")
         _ = engine.process(event: .char("d"))
-        XCTAssertEqual(engine.currentBuffer, "d")
+        XCTAssertEqual(engine.currentBuffer, "dd")
     }
 
     func testQuadrupleDCyclesBackToDstroke() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "dddd")
-        XCTAssertEqual(engine.currentBuffer, "đ")
+        XCTAssertEqual(engine.currentBuffer, "dđ")
     }
 
     func testTripleDUppercasePreservesCase() {
@@ -243,13 +243,13 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: .char("D", shift: true))
         XCTAssertEqual(engine.currentBuffer, "Đ")
         _ = engine.process(event: .char("D", shift: true))
-        XCTAssertEqual(engine.currentBuffer, "D")
+        XCTAssertEqual(engine.currentBuffer, "DD")
     }
 
     func testTripleDRevertsStrokeUnderSimpleTelex() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
         typeKeys(&engine, "ddd")
-        XCTAssertEqual(engine.currentBuffer, "d")
+        XCTAssertEqual(engine.currentBuffer, "dd")
     }
 
     func testDoubleVowelOnWrongBase() {
@@ -265,115 +265,54 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: .char("w"))
         XCTAssertEqual(engine.currentBuffer, "ơ")
         _ = engine.process(event: .char("w"))
-        XCTAssertEqual(engine.currentBuffer, "ơw")
+        XCTAssertEqual(engine.currentBuffer, "ow")
     }
 
-    func testQuickTelexRepeatedWRestoresVowelAndKeepsLiteralW() {
-        for method in [InputMethod.telex, .simpleTelex] {
-            var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-            typeKeys(&engine, "show")
-            XCTAssertEqual(engine.currentBuffer, "shơ", "method: \(method)")
-            _ = engine.process(event: .char("w"))
-            XCTAssertEqual(engine.currentBuffer, "show", "method: \(method)")
-        }
+    func testSimpleTelexKeepsStandaloneWLiteral() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
+        typeKeys(&engine, "tw")
+        XCTAssertEqual(engine.currentBuffer, "tw")
     }
 
-    func testQuickTelexStandaloneWCyclesAfterEveryCanonicalOnset() {
-        let onsets = VietnameseCharacters.startConsonants.sorted()
-        for method in [InputMethod.telex, .simpleTelex] {
-            for onset in onsets {
-                var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-                typeKeys(&engine, onset + "w")
-                XCTAssertEqual(engine.currentBuffer, onset + "ư", "method: \(method), onset: \(onset)")
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "ơ", "method: \(method), onset: \(onset)")
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "w", "method: \(method), onset: \(onset)")
-                _ = engine.process(event: .char("w"))
-                XCTAssertEqual(engine.currentBuffer, onset + "ư", "method: \(method), onset: \(onset)")
-            }
-        }
+    func testFullTelexTransformsStandaloneWAfterOnset() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "thw")
+        XCTAssertEqual(engine.currentBuffer, "thư")
     }
 
-    func testQuickTelexStandaloneWCyclesWithEmptyBuffer() {
-        for method in [InputMethod.telex, .simpleTelex] {
-            var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-            typeKeys(&engine, "w")
-            XCTAssertEqual(engine.currentBuffer, "ư", "method: \(method)")
-            typeKeys(&engine, "w")
-            XCTAssertEqual(engine.currentBuffer, "ơ", "method: \(method)")
-            typeKeys(&engine, "w")
-            XCTAssertEqual(engine.currentBuffer, "w", "method: \(method)")
-        }
+    func testFullTelexBracketShortcuts() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "m[")
+        XCTAssertEqual(engine.currentBuffer, "mơ")
     }
 
-    func testQuickTelexStandaloneWCyclePreservesInitialCapitalization() {
-        var engine = VietnameseEngine(configuration: EngineConfiguration(quickTelex: true))
-        typeKeys(&engine, "Ww")
-        XCTAssertEqual(engine.currentBuffer, "Ơ")
-        _ = engine.process(event: .char("w"))
-        XCTAssertEqual(engine.currentBuffer, "W")
+    func testSimpleTelexTreatsBracketsAsWordBoundaries() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
+        typeKeys(&engine, "m")
+        let result = engine.process(event: .char("["))
+        XCTAssertEqual(result.sessionEffect, .resetSession)
     }
 
-    func testQuickTelexInvalidOnsetPrefixKeepsWLiteral() {
-        for method in [InputMethod.telex, .simpleTelex] {
-            var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-            typeKeys(&engine, "zw")
-            XCTAssertEqual(engine.currentBuffer, "zw", "method: \(method)")
-        }
+    func testQuickTelexConsonantsAreOptional() {
+        var disabled = VietnameseEngine()
+        typeKeys(&disabled, "cc")
+        XCTAssertEqual(disabled.currentBuffer, "cc")
+
+        var enabled = VietnameseEngine(configuration: EngineConfiguration(quickTelexConsonants: true))
+        typeKeys(&enabled, "cc")
+        XCTAssertEqual(enabled.currentBuffer, "ch")
     }
 
-    func testQuickTelexExcludesQUAndGIOnsetVowelsFromWTransform() {
-        for method in [InputMethod.telex, .simpleTelex] {
-            var quEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-            typeKeys(&quEngine, "quow")
-            XCTAssertEqual(quEngine.currentBuffer, "quơ", "method: \(method)")
-
-            var giEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: true))
-            typeKeys(&giEngine, "giw")
-            XCTAssertEqual(giEngine.currentBuffer, "giư", "method: \(method)")
-        }
+    func testQuGlideIsNotHorned() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "quow")
+        XCTAssertEqual(engine.currentBuffer, "quơ")
     }
 
     func testWTransformDoesNotReachAcrossConsonantToEarlierVowel() {
-        // "alwways" (a typo of "always" with an extra w) previously came out as "ălways":
-        // the w-transform's backward vowel scan reached past the "l" consonant and put a
-        // breve on the leading "a". It must now stop at the first consonant it hits, so
-        // the "a" stays untouched. (The trailing "s" still triggers the *tone* key — a
-        // separate, pre-existing Telex/English collision unrelated to this fix — so the
-        // buffer is not fully plain ASCII, but the leading "a" must never carry a mark.)
-        for quickTelex in [false, true] {
-            for method in [InputMethod.telex, .simpleTelex] {
-                var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: quickTelex))
-                typeKeys(&engine, "alwways")
-                XCTAssertEqual(engine.currentBuffer, "alwwáy", "method: \(method), quickTelex: \(quickTelex)")
-
-                var anwEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: quickTelex))
-                typeKeys(&anwEngine, "anw")
-                XCTAssertEqual(anwEngine.currentBuffer, "anw", "method: \(method), quickTelex: \(quickTelex)")
-
-                var amwEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method, quickTelex: quickTelex))
-                typeKeys(&amwEngine, "amw")
-                XCTAssertEqual(amwEngine.currentBuffer, "amw", "method: \(method), quickTelex: \(quickTelex)")
-            }
-        }
-    }
-
-    func testQuickTelexDisabledPreservesStandardMethodBehavior() {
-        for method in [InputMethod.telex, .simpleTelex] {
-            var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method))
-            typeKeys(&engine, "thw")
-            XCTAssertEqual(engine.currentBuffer, "thw", "method: \(method)")
-
-            var showEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method))
-            typeKeys(&showEngine, "showw")
-            let expected = method == .telex ? "shơw" : "showw"
-            XCTAssertEqual(showEngine.currentBuffer, expected, "method: \(method)")
-
-            var quEngine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: method))
-            typeKeys(&quEngine, "quw")
-            XCTAssertEqual(quEngine.currentBuffer, "quw", "method: \(method)")
-        }
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "anw")
+        XCTAssertEqual(engine.currentBuffer, "anw")
     }
 
     func testUnicodeCombiningEncodingOutput() throws {
@@ -415,9 +354,9 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         typeKeys(&engine, "aa") // â
         typeKeys(&engine, "s") // ấ
         _ = engine.process(event: KeyEvent(kind: .backspace))
-        XCTAssertEqual(engine.currentBuffer, "a")
+        XCTAssertEqual(engine.currentBuffer, "â")
         _ = engine.process(event: KeyEvent(kind: .backspace))
-        XCTAssertEqual(engine.currentBuffer, "")
+        XCTAssertEqual(engine.currentBuffer, "a")
     }
 
     func testProcessBackspace_RemovingToneWithoutMark_KeepsAtom() {
@@ -431,14 +370,14 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         var engine = VietnameseEngine()
         typeKeys(&engine, "aa") // â, mark is circumflex
         _ = engine.process(event: .char("a")) // revertDoubleVowel: base "a", mark is circumflex → removes mark
-        XCTAssertEqual(engine.currentBuffer, "a")
+        XCTAssertEqual(engine.currentBuffer, "aa")
     }
 
     func testRevertDStroke_OnBaseWithoutStroke_PassThrough() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "dd") // đ
         _ = engine.process(event: .char("d")) // now it should revert
-        XCTAssertEqual(engine.currentBuffer, "d")
+        XCTAssertEqual(engine.currentBuffer, "dd")
     }
 
     func testProcessBackspace_ToneAfterRemoveLast_IsCleared() {

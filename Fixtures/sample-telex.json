@@ -3,8 +3,8 @@
     "inputMethod": "telex",
     "encoding": "unicode",
     "keystrokes": ["v", "i", "e", "t", "s"],
-    "expectedBuffer": "viét",
-    "description": "Basic vietnamese word in telex with diacritic on first vowel"
+    "expectedBuffer": "viết",
+    "description": "Telex infers the iê nucleus and places the acute tone on ê"
   },
   {
     "inputMethod": "telex",

@@ -27,6 +27,10 @@ final class StatusItemControllerTests: XCTestCase {
         XCTAssertFalse(controller.isPopoverShown)
     }
 
+    func testPopoverBehavior_ClosesWhenClickingOutside() {
+        XCTAssertEqual(StatusItemController.popoverBehavior, .transient)
+    }
+
     func testClosePopover_BeforeInstall_DoesNotCrash() {
         controller.closePopover()
     }

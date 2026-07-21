@@ -2,33 +2,17 @@
 import XCTest
 
 final class SessionStateTests: XCTestCase {
-    func testAppendAndCount() {
-        var state = SessionState()
+    func testRawKeysControlEmptyState() {
+        let state = SessionState(rawKeys: ["a"], atoms: [BufferAtom(base: "a")])
+        XCTAssertFalse(state.isEmpty)
+        XCTAssertEqual(state.rawText, "a")
+        XCTAssertEqual(state.count, 1)
+    }
+
+    func testEmptyStateHasNoRawKeysOrAtoms() {
+        let state = SessionState()
         XCTAssertTrue(state.isEmpty)
         XCTAssertEqual(state.count, 0)
-        state.append(BufferAtom(base: "a"))
-        XCTAssertEqual(state.count, 1)
-        XCTAssertFalse(state.isEmpty)
-    }
-
-    func testRemoveLastSingle() {
-        var state = SessionState(atoms: [BufferAtom(base: "a"), BufferAtom(base: "b")])
-        state.removeLast()
-        XCTAssertEqual(state.count, 1)
-        XCTAssertEqual(state.atoms.first?.base, "a")
-    }
-
-    func testRemoveLastMultiple() {
-        var state = SessionState(atoms: [
-            BufferAtom(base: "a"),
-            BufferAtom(base: "b"),
-            BufferAtom(base: "c"),
-            BufferAtom(base: "d"),
-        ])
-        state.removeLast()
-        state.removeLast()
-        XCTAssertEqual(state.count, 2)
-        XCTAssertEqual(state.atoms.map(\.base), ["a", "b"])
     }
 
     func testLastVowelIndexWithVowels() {

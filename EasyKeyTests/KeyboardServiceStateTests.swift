@@ -73,7 +73,7 @@ final class KeyboardServiceStateTests: XCTestCase {
         var settings = EasyKeySettings.defaults
         settings.input.inputMethod = .vni
         settings.input.encoding = .vniWindows
-        settings.typing.quickTelex = true
+        settings.typing.quickTelexConsonants = true
         service.update(settings: settings)
     }
 

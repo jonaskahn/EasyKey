@@ -1,7 +1,7 @@
 import Foundation
 
 public struct EasyKeySettings: Codable, Equatable, Sendable {
-    public static let currentSchemaVersion: Int = 7
+    public static let currentSchemaVersion: Int = 8
 
     public var schemaVersion: Int
     public var input: InputSettings

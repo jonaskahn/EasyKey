@@ -94,7 +94,7 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
-        XCTAssertEqual(engine.currentBuffer, "a")
+        XCTAssertEqual(engine.currentBuffer, "aa")
     }
 
     func testTelexTripleERevertsEcircumflex() {
@@ -103,7 +103,7 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("e"))
         _ = engine.process(event: .char("e"))
         _ = engine.process(event: .char("e"))
-        XCTAssertEqual(engine.currentBuffer, "se")
+        XCTAssertEqual(engine.currentBuffer, "see")
     }
 
     func testTelexTripleORevertsOcircumflex() {
@@ -111,7 +111,7 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("o"))
         _ = engine.process(event: .char("o"))
         _ = engine.process(event: .char("o"))
-        XCTAssertEqual(engine.currentBuffer, "o")
+        XCTAssertEqual(engine.currentBuffer, "oo")
     }
 
     func testTelexQuadrupleARetransformsAcircumflex() {
@@ -120,7 +120,7 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
-        XCTAssertEqual(engine.currentBuffer, "â")
+        XCTAssertEqual(engine.currentBuffer, "aâ")
     }
 
     func testTelexDoubleDProducesDstroke() {

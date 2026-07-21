@@ -41,10 +41,20 @@ struct TypingSettingsView: View {
             }
 
             Section {
+                Picker(selection: setting(\.typing.toneStyle)) {
+                    ForEach(ToneStyle.allCases, id: \.self) { style in
+                        Text(localization.displayName(for: style)).tag(style)
+                    }
+                } label: {
+                    SettingsControlLabel(
+                        title: localization.string(.typingToneStyle),
+                        description: localization.string(.typingToneStyleDescription)
+                    )
+                }
                 settingToggle(
-                    .typingSpellingModernization,
-                    description: .typingSpellingModernizationDescription,
-                    isOn: setting(\.typing.spellingModernization)
+                    .typingSpellCheck,
+                    description: .typingSpellCheckDescription,
+                    isOn: setting(\.typing.spellCheck)
                 )
                 settingToggle(
                     .typingRestoreInvalidWord,
@@ -52,12 +62,10 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.restoreInvalidWord)
                 )
                 settingToggle(
-                    .typingFreeToneMarking,
-                    description: .typingFreeToneMarkingDescription,
-                    isOn: setting(\.typing.freeToneMarking)
+                    .typingQuickTelexConsonants,
+                    description: .typingQuickTelexConsonantsDescription,
+                    isOn: setting(\.typing.quickTelexConsonants)
                 )
-                settingToggle(.typingQuickTelex, description: .typingQuickTelexDescription, isOn: setting(\.typing.quickTelex))
-                settingToggle(.typingAllowZFWJ, description: .typingAllowZFWJDescription, isOn: setting(\.typing.allowZFWJ))
                 settingToggle(
                     .typingUppercaseFirstCharacter,
                     description: .typingUppercaseFirstCharacterDescription,
@@ -70,24 +78,22 @@ struct TypingSettingsView: View {
 
             Section {
                 settingToggle(
-                    .typingQuickStartEndConsonant,
-                    description: .typingQuickStartEndConsonantDescription,
-                    isOn: setting(\.typing.quickStartEndConsonant)
+                    .typingStandaloneW,
+                    description: .typingStandaloneWDescription,
+                    isOn: setting(\.typing.standaloneWShortcut)
                 )
-                .toggleStyle(.switch)
+                settingToggle(
+                    .typingBracketShortcuts,
+                    description: .typingBracketShortcutsDescription,
+                    isOn: setting(\.typing.bracketShortcuts)
+                )
                 ShortcutRecorder(
-                    label: localization.string(.typingTemporarySpellToggle),
-                    description: localization.string(.typingTemporarySpellToggleDescription),
-                    shortcut: setting(\.typing.temporarySpellToggle)
+                    label: localization.string(.typingRestoreWordShortcut),
+                    description: localization.string(.typingRestoreWordShortcutDescription),
+                    shortcut: setting(\.typing.restoreWordShortcut)
                 )
-                ShortcutRecorder(
-                    label: localization.string(.typingTemporaryEngineToggle),
-                    description: localization.string(.typingTemporaryEngineToggleDescription),
-                    shortcut: setting(\.typing.temporaryEngineToggle)
-                )
-            } header: {
-                Text(localization.string(.typingAdvancedOptions))
             }
+            .toggleStyle(.switch)
         }
         .formStyle(.grouped)
     }

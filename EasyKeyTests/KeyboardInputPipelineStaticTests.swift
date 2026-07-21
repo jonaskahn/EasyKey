@@ -70,11 +70,11 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
     func testEngineConfigurationTypingOptions() {
         var settings = EasyKeySettings.defaults
         settings.typing.restoreInvalidWord = true
-        settings.typing.spellingModernization = false
+        settings.typing.toneStyle = .new
 
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: nil)
         XCTAssertTrue(config.autoRestoreKeys)
-        XCTAssertFalse(config.modernStyle)
+        XCTAssertEqual(config.toneStyle, .new)
     }
 
     func testKeyCodeFromEvent() {

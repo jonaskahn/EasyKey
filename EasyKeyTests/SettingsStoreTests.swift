@@ -51,7 +51,7 @@ final class SettingsStoreTests: XCTestCase {
         var settings = EasyKeySettings.defaults
         settings.input.inputMethod = .vni
         settings.input.encoding = .tcvn3
-        settings.typing.quickTelex = true
+        settings.typing.quickTelexConsonants = true
         settings.macro.enabled = true
         settings.smartSwitch.enabled = true
         settings.system.launchAtLogin = true
@@ -109,7 +109,7 @@ final class SettingsStoreTests: XCTestCase {
         let source = SettingsRepository(fileURL: tempDir.appendingPathComponent("src.json"))
         source.update {
             $0.input.inputMethod = .vni
-            $0.typing.allowZFWJ = true
+            $0.typing.bracketShortcuts = false
         }
         await source.saveNow()
         try source.export(to: exportURL)
@@ -117,7 +117,7 @@ final class SettingsStoreTests: XCTestCase {
         let dest = SettingsRepository(fileURL: tempDir.appendingPathComponent("dst.json"))
         let diagnostic = try dest.import(from: exportURL)
         XCTAssertEqual(dest.settings.input.inputMethod, .vni)
-        XCTAssertTrue(dest.settings.typing.allowZFWJ)
+        XCTAssertFalse(dest.settings.typing.bracketShortcuts)
         XCTAssertFalse(diagnostic.entries.isEmpty)
 
         try FileManager.default.removeItem(at: tempDir)
@@ -135,6 +135,13 @@ final class SettingsStoreTests: XCTestCase {
         let snapshot = store.configurationSnapshot
         XCTAssertEqual(snapshot.inputMethod, .simpleTelex)
         XCTAssertFalse(snapshot.autoRestoreKeys)
+    }
+
+    func testLegacyQuickConsonantSettingMigrates() throws {
+        let data = Data(#"{"quickStartEndConsonant":true,"quickTelex":true}"#.utf8)
+        let decoded = try JSONDecoder().decode(TypingOptions.self, from: data)
+        XCTAssertTrue(decoded.quickTelexConsonants)
+        XCTAssertEqual(decoded.toneStyle, .old)
     }
 
     func testImportInvalidFilePreservesCurrentSettings() async throws {

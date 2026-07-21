@@ -99,19 +99,7 @@ final class KeyboardInputPipeline {
         }
 
         if type == .flagsChanged {
-            if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: type, keyCode: keyCode, event: event) {
-                AppLog.debug(.keyboard, "Emergency pause shortcut matched")
-                DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
-                return .suppressed
-            }
-            if shortcutMatches(settings.input.switchShortcut, type: type, keyCode: keyCode, event: event) {
-                AppLog.debug(.keyboard, "Language switch shortcut matched")
-                toggleLanguage()
-                return .suppressed
-            }
-            invalidateSpotlightCache()
-            resetSession()
-            return .passed
+            return processFlagsChanged(proxy: proxy, event: event, keyCode: keyCode)
         }
 
         if Self.isMouseEvent(type) {
@@ -320,13 +308,14 @@ final class KeyboardInputPipeline {
     }
 
     private func encodedUnits(for state: SessionState, configuration: EngineConfiguration) -> [String] {
-        let toneTarget = TransformEngine.toneTargetIndex(state)
+        let toneTarget = TelexComposer.toneTargetIndex(atoms: state.atoms, style: configuration.toneStyle)
         return state.atoms.enumerated().map { index, atom in
-            let atomState = SessionState(
+            TransformEngine.encode(
                 atoms: [atom],
-                tone: index == toneTarget ? state.tone : .none
+                tone: index == toneTarget ? state.tone : .none,
+                encoding: configuration.outputEncoding,
+                toneStyle: configuration.toneStyle
             )
-            return TransformEngine.encode(atomState, encoding: configuration.outputEncoding)
         }
     }
 
@@ -361,9 +350,12 @@ final class KeyboardInputPipeline {
         var configuration = EngineConfiguration(
             inputMethod: settings.input.inputMethod,
             outputEncoding: settings.input.encoding,
+            spellCheck: settings.typing.spellCheck,
             autoRestoreKeys: settings.typing.restoreInvalidWord,
-            modernStyle: settings.typing.spellingModernization,
-            quickTelex: settings.typing.quickTelex,
+            toneStyle: settings.typing.toneStyle,
+            quickTelexConsonants: settings.typing.quickTelexConsonants,
+            standaloneWShortcut: settings.typing.standaloneWShortcut,
+            bracketShortcuts: settings.typing.bracketShortcuts,
             uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
         )
         if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
@@ -459,5 +451,34 @@ final class KeyboardInputPipeline {
         let languageCodes = Unmanaged<CFArray>.fromOpaque(languages).takeUnretainedValue() as NSArray
         guard let languageCodes = languageCodes as? [String] else { return false }
         return !languageCodes.contains { $0.lowercased().hasPrefix("en") }
+    }
+}
+
+private extension KeyboardInputPipeline {
+    func processFlagsChanged(proxy: CGEventTapProxy, event: CGEvent, keyCode: UInt16?) -> KeyboardProcessResult {
+        if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
+            AppLog.debug(.keyboard, "Emergency pause shortcut matched")
+            DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
+            return .suppressed
+        }
+        if shortcutMatches(settings.input.switchShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
+            AppLog.debug(.keyboard, "Language switch shortcut matched")
+            toggleLanguage()
+            return .suppressed
+        }
+        if settings.input.language == .vietnamese,
+           shortcutMatches(settings.typing.restoreWordShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
+            let output = engine.restoreRawKeys()
+            guard output.disposition == .suppress else { return .passed }
+            apply(proxy: proxy, output)
+            return KeyboardProcessResult(
+                suppressesOriginal: true,
+                outputCount: output.edits.count,
+                disposition: .suppressed
+            )
+        }
+        invalidateSpotlightCache()
+        resetSession()
+        return .passed
     }
 }

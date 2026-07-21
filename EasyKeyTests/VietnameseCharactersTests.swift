@@ -48,10 +48,10 @@ final class VietnameseCharactersTests: XCTestCase {
 
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "a"), .none)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "e"), .none)
-        XCTAssertEqual(VietnameseCharacters.mark(forVowel: "ê"), .none)
+        XCTAssertEqual(VietnameseCharacters.mark(forVowel: "ê"), .circumflex)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "i"), .none)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "o"), .none)
-        XCTAssertEqual(VietnameseCharacters.mark(forVowel: "ô"), .none)
+        XCTAssertEqual(VietnameseCharacters.mark(forVowel: "ô"), .circumflex)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "u"), .none)
         XCTAssertEqual(VietnameseCharacters.mark(forVowel: "y"), .none)
     }

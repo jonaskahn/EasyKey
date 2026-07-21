@@ -123,10 +123,10 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "tài")
     }
 
-    func testSimpleTelexNoDiacritics() {
+    func testSimpleTelexKeepsPairDiacritics() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
         typeKeys(&engine, "aa")
-        XCTAssertEqual(engine.currentBuffer, "aa")
+        XCTAssertEqual(engine.currentBuffer, "â")
     }
 
     func testToneKeyWithNoVowelFallsBack() {
@@ -245,5 +245,157 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         var engine = VietnameseEngine()
         typeKeys(&engine, "caw")
         XCTAssertEqual(engine.currentBuffer, "că")
+    }
+
+    func testVerifiedSpecificationExamples() {
+        let examples: [(String, String)] = [
+            ("vieejt", "việt"),
+            ("vietj", "việt"),
+            ("vieetj", "việt"),
+            ("dduwowcj", "được"),
+            ("dduocwj", "được"),
+            ("nguwowif", "người"),
+            ("nguoiwf", "người"),
+            ("truwowngf", "trường"),
+            ("truongwf", "trường"),
+            ("Nguyeenx", "Nguyễn"),
+            ("Nguyexn", "Nguyễn"),
+            ("khuyeens", "khuyến"),
+            ("khuyru", "khuỷu"),
+            ("ngoawnf", "ngoằn"),
+            ("cuar", "của"),
+            ("mias", "mía"),
+            ("quar", "quả"),
+            ("gif", "gì"),
+            ("xooong", "xoong"),
+            ("cana", "cân"),
+            ("ddeem", "đêm"),
+        ]
+
+        for (input, expected) in examples {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, input)
+            XCTAssertEqual(engine.currentBuffer, expected, "input: \(input)")
+        }
+    }
+
+    func testOldAndNewToneStylesOnlyDivergeForOpenOAOEUY() {
+        let examples: [(String, String, String)] = [
+            ("hoaf", "hòa", "hoà"),
+            ("khoer", "khỏe", "khoẻ"),
+            ("thuyr", "thủy", "thuỷ"),
+        ]
+
+        for (input, oldExpected, newExpected) in examples {
+            var oldEngine = VietnameseEngine(configuration: EngineConfiguration(toneStyle: .old))
+            typeKeys(&oldEngine, input)
+            XCTAssertEqual(oldEngine.currentBuffer, oldExpected, "old input: \(input)")
+
+            var newEngine = VietnameseEngine(configuration: EngineConfiguration(toneStyle: .new))
+            typeKeys(&newEngine, input)
+            XCTAssertEqual(newEngine.currentBuffer, newExpected, "new input: \(input)")
+        }
+
+        for input in ["hoanf", "suyts", "ngoays"] {
+            var oldEngine = VietnameseEngine(configuration: EngineConfiguration(toneStyle: .old))
+            var newEngine = VietnameseEngine(configuration: EngineConfiguration(toneStyle: .new))
+            typeKeys(&oldEngine, input)
+            typeKeys(&newEngine, input)
+            XCTAssertEqual(oldEngine.currentBuffer, newEngine.currentBuffer, "input: \(input)")
+        }
+    }
+
+    func testSimpleTelexDifferenceIsStandaloneWAndBracketsOnly() {
+        for input in ["caan", "trangw", "ddeem", "nhoo", "mow", "tuw", "ddau", "uowj"] {
+            var full = VietnameseEngine()
+            var simple = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
+            typeKeys(&full, input)
+            typeKeys(&simple, input)
+            XCTAssertEqual(full.currentBuffer, simple.currentBuffer, "input: \(input)")
+        }
+
+        var fullW = VietnameseEngine()
+        var simpleW = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
+        typeKeys(&fullW, "tw")
+        typeKeys(&simpleW, "tw")
+        XCTAssertEqual(fullW.currentBuffer, "tư")
+        XCTAssertEqual(simpleW.currentBuffer, "tw")
+    }
+
+    func testLegalUOExceptionsRemainUPlainOHorn() {
+        let examples: [(String, String)] = [
+            ("thuowr", "thuở"),
+            ("quow", "quơ"),
+            ("huow", "huơ"),
+            ("khuow", "khuơ"),
+        ]
+
+        for (input, expected) in examples {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, input)
+            XCTAssertEqual(engine.currentBuffer, expected, "input: \(input)")
+        }
+    }
+
+    func testCheckedFinalRejectsInvalidToneKey() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tacr")
+        XCTAssertEqual(engine.currentBuffer, "tacr")
+
+        var kFinal = VietnameseEngine()
+        typeKeys(&kFinal, "takr")
+        XCTAssertEqual(kFinal.currentBuffer, "takr")
+
+        var valid = VietnameseEngine()
+        typeKeys(&valid, "tacs")
+        XCTAssertEqual(valid.currentBuffer, "tác")
+    }
+
+    func testCheckedFinalTypedAfterInvalidToneAutoRestoresRawWord() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tarc")
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 3, insert: "tarc"), .insert(" ")])
+    }
+
+    func testZRemovesCurrentTone() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tasz")
+        XCTAssertEqual(engine.currentBuffer, "ta")
+    }
+
+    func testRestoreRawKeysKeepsFollowingInputLiteral() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "fix")
+        let output = engine.restoreRawKeys()
+        XCTAssertEqual(output.disposition, .suppress)
+        XCTAssertEqual(engine.currentBuffer, "fix")
+        typeKeys(&engine, "ed")
+        XCTAssertEqual(engine.currentBuffer, "fixed")
+    }
+
+    func testAutoRestoreAtBoundaryUsesRawKeystrokesForInvalidWord() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "fix")
+        let deleteCount = engine.currentBuffer.count
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(
+            output.edits,
+            [.replaceBackward(deleteCount: deleteCount, insert: "fix"), .insert(" ")]
+        )
+    }
+
+    func testStandaloneGiWordRemainsComposedAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "gif")
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 2, insert: "gì"), .insert(" ")])
+    }
+
+    func testValidVietnameseWordIsNotAutoRestoredAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "vieetj")
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 4, insert: "việt"), .insert(" ")])
     }
 }
