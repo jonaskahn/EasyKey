@@ -5,14 +5,14 @@ import XCTest
 
 @MainActor
 final class TranslationHotKeyControllerTests: XCTestCase {
-    func testDefaultShortcutRegistersPhysicalOptionA() {
+    func testDefaultShortcutRegistersPhysicalOptionC() {
         let registrar = FakeTranslationHotKeyRegistrar()
         let controller = TranslationHotKeyController(registrar: registrar) {}
 
         XCTAssertTrue(controller.apply(TranslationOptions().shortcut))
 
         XCTAssertEqual(registrar.registrations.count, 1)
-        XCTAssertEqual(registrar.registrations[0].keyCode, 0)
+        XCTAssertEqual(registrar.registrations[0].keyCode, 8)
         XCTAssertEqual(registrar.registrations[0].modifiers, UInt32(optionKey))
         XCTAssertEqual(controller.registrationState, .registered(TranslationOptions().shortcut))
         XCTAssertTrue(controller.isRegistered)

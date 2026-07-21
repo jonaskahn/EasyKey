@@ -5,7 +5,7 @@ final class TranslationOptionsTests: XCTestCase {
     func testDefaults_MatchApprovedProductDecisions() {
         let options = TranslationOptions()
         XCTAssertNil(options.preferredProviderID, "Automatic preference is represented as nil, not .automatic")
-        XCTAssertEqual(options.shortcut, Shortcut(keyCode: 0, modifiers: [.option]))
+        XCTAssertEqual(options.shortcut, Shortcut(keyCode: 8, modifiers: [.option]))
         XCTAssertNil(options.defaultSourceLanguage, "Default source is automatic detection")
         XCTAssertEqual(options.openAIModelIdentifier, TranslationOptions.defaultOpenAIModelIdentifier)
         XCTAssertEqual(options.anthropicModelIdentifier, TranslationOptions.defaultAnthropicModelIdentifier)
@@ -14,13 +14,14 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertTrue(options.acknowledgedCloudDisclosureProviders.isEmpty)
         XCTAssertFalse(options.isEnabled)
         XCTAssertFalse(options.showInMenuPopover)
+        XCTAssertTrue(options.autoCaptureSelectedText, "Auto-capture is on by default to preserve existing behavior")
         XCTAssertEqual(options.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
         XCTAssertEqual(options.panelSize, .medium)
         XCTAssertEqual(options.sessionPersistence, .keepUntilRestart)
     }
 
-    func testDefaultShortcut_DisplaysAsOptionA() {
-        XCTAssertEqual(TranslationOptions().shortcut.displayLabel, "\u{2325} + A")
+    func testDefaultShortcut_DisplaysAsOptionC() {
+        XCTAssertEqual(TranslationOptions().shortcut.displayLabel, "\u{2325} + C")
     }
 
     func testJSONRoundTrip_PreservesEveryField() throws {
@@ -33,6 +34,7 @@ final class TranslationOptionsTests: XCTestCase {
         options.acknowledgedCloudDisclosureProviders = [.deepL, .openAI]
         options.isEnabled = false
         options.showInMenuPopover = false
+        options.autoCaptureSelectedText = false
         options.autoTranslateDelayMs = 1000
         options.panelSize = .large
         options.sessionPersistence = .clearOnClose
@@ -42,6 +44,7 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(decoded, options)
         XCTAssertFalse(decoded.isEnabled)
         XCTAssertFalse(decoded.showInMenuPopover)
+        XCTAssertFalse(decoded.autoCaptureSelectedText)
         XCTAssertEqual(decoded.autoTranslateDelayMs, 1000)
         XCTAssertEqual(decoded.panelSize, .large)
         XCTAssertEqual(decoded.sessionPersistence, .clearOnClose)
@@ -57,6 +60,12 @@ final class TranslationOptionsTests: XCTestCase {
         let data = Data("{}".utf8)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
         XCTAssertFalse(decoded.showInMenuPopover)
+    }
+
+    func testLegacyDecode_MissingAutoCaptureSelectedTextDefaultsToTrue() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertTrue(decoded.autoCaptureSelectedText)
     }
 
     func testLegacyDecode_MissingAutoTranslateDelayMs_DefaultsTo500() throws {

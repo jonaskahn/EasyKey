@@ -204,6 +204,10 @@ final class TranslationSettingsModel: ObservableObject {
         settingsStore.settings.translation.showInMenuPopover
     }
 
+    var autoCaptureSelectedText: Bool {
+        settingsStore.settings.translation.autoCaptureSelectedText
+    }
+
     var autoTranslateDelayMs: Int {
         settingsStore.settings.translation.autoTranslateDelayMs
     }
@@ -274,6 +278,11 @@ final class TranslationSettingsModel: ObservableObject {
 
     func setShowInMenuPopover(_ value: Bool) {
         settingsStore.update { $0.translation.showInMenuPopover = value }
+        objectWillChange.send()
+    }
+
+    func setAutoCaptureSelectedText(_ value: Bool) {
+        settingsStore.update { $0.translation.autoCaptureSelectedText = value }
         objectWillChange.send()
     }
 

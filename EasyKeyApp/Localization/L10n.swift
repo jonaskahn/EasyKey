@@ -349,6 +349,8 @@ enum L10nKey: String, CaseIterable, Sendable {
     case translationSettingsAutoTranslateDelay = "translation.settings.autoTranslateDelay"
     case translationSettingsActiveProvider = "translation.settings.activeProvider"
     case translationSettingsAPIProviders = "translation.settings.apiProviders"
+    case translationSettingsAutoCaptureSelectedText = "translation.settings.autoCaptureSelectedText"
+    case translationSettingsAutoCaptureSelectedTextDescription = "translation.settings.autoCaptureSelectedTextDescription"
     case translationSettingsDelayMilliseconds = "translation.settings.delayMilliseconds"
     case translationSettingsDelaySeconds = "translation.settings.delaySeconds"
     case translationSettingsEndpoint = "translation.settings.endpoint"

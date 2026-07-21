@@ -297,13 +297,19 @@ final class AppTranslationRuntime {
     private func activateFromShortcut() {
         guard settingsStore.settings.translation.isEnabled else { return }
         onWillActivate?()
-        let captured = capture.capture()
         model.setAutoTranslateDelay(
             TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0
         )
-        model.setSourceText(captured.text)
-        model.scheduleAutoTranslate()
-        panelPresenter.show(previousApplication: capture.previousApplication)
+        if settingsStore.settings.translation.autoCaptureSelectedText {
+            let captured = capture.capture()
+            model.setSourceText(captured.text)
+            model.scheduleAutoTranslate()
+            panelPresenter.show(previousApplication: capture.previousApplication)
+        } else {
+            model.setSourceText("")
+            model.scheduleAutoTranslate()
+            panelPresenter.show(previousApplication: nil)
+        }
     }
 
     private func applyEnabledState(_ options: TranslationOptions) {

@@ -11,6 +11,7 @@ enum TranslationSettingsAccessibility {
     static let appleLanguageSettings = "TranslationAppleLanguageSettings"
     static let panelSizePicker = "TranslationPanelSizePicker"
     static let sessionPersistencePicker = "TranslationSessionPersistencePicker"
+    static let autoCaptureToggle = "TranslationAutoCaptureSelectedTextToggle"
 
     static func credentialField(_ provider: TranslationProviderID) -> String {
         "TranslationCredential-\(provider.rawValue)"
@@ -45,6 +46,14 @@ struct TranslationSettingsView: View {
             Section {
                 Toggle(localization.string(.translationEnableTranslation), isOn: enableBinding)
                     .accessibilityIdentifier(TranslationSettingsAccessibility.enableToggle)
+
+                Toggle(localization.string(.translationSettingsAutoCaptureSelectedText), isOn: autoCaptureSelectedTextBinding)
+                    .accessibilityIdentifier(TranslationSettingsAccessibility.autoCaptureToggle)
+
+                Text(localization.string(.translationSettingsAutoCaptureSelectedTextDescription))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
                     .accessibilityIdentifier("TranslationMenuPopoverToggle")
@@ -184,6 +193,10 @@ struct TranslationSettingsView: View {
 
     private var menuPopoverBinding: Binding<Bool> {
         Binding(get: { model.showInMenuPopover }, set: model.setShowInMenuPopover)
+    }
+
+    private var autoCaptureSelectedTextBinding: Binding<Bool> {
+        Binding(get: { model.autoCaptureSelectedText }, set: model.setAutoCaptureSelectedText)
     }
 
     private var autoTranslateDelayBinding: Binding<Int> {

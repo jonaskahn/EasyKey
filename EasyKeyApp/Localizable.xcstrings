@@ -5509,6 +5509,38 @@
         }
       }
     },
+    "translation.settings.autoCaptureSelectedText": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-capture selected text on shortcut"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tự động lấy văn bản đang chọn khi nhấn phím tắt"
+          }
+        }
+      }
+    },
+    "translation.settings.autoCaptureSelectedTextDescription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When on, the shortcut pre-fills the panel with the current selection. Turn off to always open with an empty editor."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi bật, phím tắt sẽ điền sẵn văn bản đang chọn vào bảng dịch. Tắt để luôn mở bảng với khung soạn thảo trống."
+          }
+        }
+      }
+    },
     "translation.settings.delayMilliseconds": {
       "localizations": {
         "en": {

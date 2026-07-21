@@ -65,6 +65,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     public var acknowledgedCloudDisclosureProviders: Set<TranslationProviderID>
     public var isEnabled: Bool
     public var showInMenuPopover: Bool
+    public var autoCaptureSelectedText: Bool
     public var autoTranslateDelayMs: Int
     public var panelSize: PanelSize
     public var sessionPersistence: SessionPersistence
@@ -98,6 +99,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         case acknowledgedCloudDisclosureProviders
         case isEnabled
         case showInMenuPopover
+        case autoCaptureSelectedText
         case autoTranslateDelayMs
         case panelSize
         case sessionPersistence
@@ -105,7 +107,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
 
     public init(
         preferredProviderID: TranslationProviderID? = nil,
-        shortcut: Shortcut = Shortcut(keyCode: 0, modifiers: [.option]),
+        shortcut: Shortcut = Shortcut(keyCode: 8, modifiers: [.option]),
         defaultSourceLanguage: TranslationLanguage? = nil,
         openAIModelIdentifier: String = TranslationOptions.defaultOpenAIModelIdentifier,
         anthropicModelIdentifier: String = TranslationOptions.defaultAnthropicModelIdentifier,
@@ -120,6 +122,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         acknowledgedCloudDisclosureProviders: Set<TranslationProviderID> = [],
         isEnabled: Bool = false,
         showInMenuPopover: Bool = false,
+        autoCaptureSelectedText: Bool = true,
         autoTranslateDelayMs: Int = AutoTranslateDelayPreset.ms500.rawValue,
         panelSize: PanelSize = .medium,
         sessionPersistence: SessionPersistence = .keepUntilRestart
@@ -140,6 +143,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         self.acknowledgedCloudDisclosureProviders = acknowledgedCloudDisclosureProviders
         self.isEnabled = isEnabled
         self.showInMenuPopover = showInMenuPopover
+        self.autoCaptureSelectedText = autoCaptureSelectedText
         self.autoTranslateDelayMs = autoTranslateDelayMs
         self.panelSize = panelSize
         self.sessionPersistence = sessionPersistence
@@ -148,7 +152,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         preferredProviderID = try container.decodeIfPresent(TranslationProviderID.self, forKey: .preferredProviderID)
-        shortcut = try container.decodeIfPresent(Shortcut.self, forKey: .shortcut) ?? Shortcut(keyCode: 0, modifiers: [.option])
+        shortcut = try container.decodeIfPresent(Shortcut.self, forKey: .shortcut) ?? Shortcut(keyCode: 8, modifiers: [.option])
         defaultSourceLanguage = try container.decodeIfPresent(TranslationLanguage.self, forKey: .defaultSourceLanguage)
         openAIModelIdentifier = try container.decodeIfPresent(String.self, forKey: .openAIModelIdentifier)
             ?? Self.defaultOpenAIModelIdentifier
@@ -174,6 +178,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
             ?? []
         isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? false
         showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? false
+        autoCaptureSelectedText = try container.decodeIfPresent(Bool.self, forKey: .autoCaptureSelectedText) ?? true
         autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500
             .rawValue
         panelSize = try container.decodeIfPresent(PanelSize.self, forKey: .panelSize) ?? .medium
