@@ -30,7 +30,7 @@ final class KeyboardInputPipeline {
 
     typealias SpotlightVisibilityProvider = () -> Bool
 
-    private let synthesizer = KeySynthesizer()
+    private let synthesizer: KeySynthesizer
     private var engine: VietnameseEngine
     private var settings: EasyKeySettings
     private var macroExpander = MacroExpander()
@@ -51,10 +51,13 @@ final class KeyboardInputPipeline {
 
     init(
         settings: EasyKeySettings,
-        spotlightVisibilityProvider: @escaping SpotlightVisibilityProvider = SpotlightWindowDetector.isSpotlightWindowVisible
+        spotlightVisibilityProvider: @escaping SpotlightVisibilityProvider = SpotlightWindowDetector.isSpotlightWindowVisible,
+        focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult =
+            FocusedElementInspector.replaceFocusedText
     ) {
         self.settings = settings
         self.spotlightVisibilityProvider = spotlightVisibilityProvider
+        synthesizer = KeySynthesizer(focusedTextReplacer: focusedTextReplacer)
         engine = VietnameseEngine(configuration: Self.engineConfiguration(for: settings, rule: nil))
     }
 
@@ -240,7 +243,7 @@ final class KeyboardInputPipeline {
             deleteCount: deleteCount,
             insert: insert,
             encodedUnits: replacementUnits,
-            useFocusedTextReplacement: isSpotlight,
+            useFocusedTextReplacement: false,
             useSelectionReplacement: isSpotlight,
             breakAutocomplete: Self.shouldBreakAutocomplete(
                 inChromiumAddressBar: inChromiumAddressBar,
