@@ -1,3 +1,4 @@
+import EasyEngineCore
 import SwiftUI
 
 struct CloudTranslationSettingsCard: View {

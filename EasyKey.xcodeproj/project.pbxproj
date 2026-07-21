@@ -41,6 +41,7 @@
 		170000000000000000000003 /* TranslationSettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000013 /* TranslationSettingsModelTests.swift */; };
 		170000000000000000000004 /* TranslationModelCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000014 /* TranslationModelCatalog.swift */; };
 		170000000000000000000005 /* TranslationModelCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000015 /* TranslationModelCatalogTests.swift */; };
+		170000000000000000000006 /* CloudTranslationSettingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170000000000000000000016 /* CloudTranslationSettingsCard.swift */; };
 		180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000011 /* MenuPopoverTranslationView.swift */; };
 		180000000000000000000002 /* TranslationProviderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180000000000000000000012 /* TranslationProviderIcon.swift */; };
 		190000000000000000000001 /* AppTranslationRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190000000000000000000011 /* AppTranslationRuntime.swift */; };
@@ -375,6 +376,7 @@
 		170000000000000000000013 /* TranslationSettingsModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationSettingsModelTests.swift; sourceTree = "<group>"; };
 		170000000000000000000014 /* TranslationModelCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/TranslationModelCatalog.swift; sourceTree = "<group>"; };
 		170000000000000000000015 /* TranslationModelCatalogTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationModelCatalogTests.swift; sourceTree = "<group>"; };
+		170000000000000000000016 /* CloudTranslationSettingsCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/CloudTranslationSettingsCard.swift; sourceTree = "<group>"; };
 		180000000000000000000011 /* MenuPopoverTranslationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MenuPopoverTranslationView.swift; sourceTree = "<group>"; };
 		180000000000000000000012 /* TranslationProviderIcon.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderIcon.swift; sourceTree = "<group>"; };
 		190000000000000000000011 /* AppTranslationRuntime.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntime.swift; sourceTree = "<group>"; };
@@ -1078,6 +1080,7 @@
 				F1A100000000000000000003 /* SettingsShell.swift */,
 				170000000000000000000011 /* TranslationSettingsModel.swift */,
 				170000000000000000000012 /* TranslationSettingsView.swift */,
+				170000000000000000000016 /* CloudTranslationSettingsCard.swift */,
 				170000000000000000000014 /* TranslationModelCatalog.swift */,
 				CB0000000000000000000401 /* Clipboard */,
 				F1C100000000000000000004 /* Typing */,
@@ -1600,6 +1603,7 @@
 				F1B100000000000000000003 /* SettingsShell.swift in Sources */,
 				170000000000000000000001 /* TranslationSettingsModel.swift in Sources */,
 				170000000000000000000002 /* TranslationSettingsView.swift in Sources */,
+				170000000000000000000006 /* CloudTranslationSettingsCard.swift in Sources */,
 				170000000000000000000004 /* TranslationModelCatalog.swift in Sources */,
 				180000000000000000000001 /* MenuPopoverTranslationView.swift in Sources */,
 				180000000000000000000002 /* TranslationProviderIcon.swift in Sources */,
