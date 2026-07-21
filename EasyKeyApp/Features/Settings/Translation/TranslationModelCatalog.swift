@@ -50,12 +50,14 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
             return try await fetchGeminiModels(apiKey: key)
 
         case .openRouter:
-            let key = try await resolveCredential(for: .openRouter)
             let request = makeRequest(
                 url: "https://openrouter.ai/api/v1/models",
-                headers: ["Authorization": "Bearer \(key)"]
+                headers: [:]
             )
-            return try await fetchOpenAICompatibleModels(request: request)
+            return try await fetchOpenAICompatibleModels(
+                request: request,
+                maximumResponseBytes: 1_048_576
+            )
 
         case .groq:
             let key = try await resolveCredential(for: .groq)
@@ -95,7 +97,10 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         return request
     }
 
-    private func perform(_ request: URLRequest) async throws(TranslationModelCatalogError) -> Data {
+    private func perform(
+        _ request: URLRequest,
+        maximumResponseBytes: Int = 262_144
+    ) async throws(TranslationModelCatalogError) -> Data {
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await session.data(for: request)
@@ -110,18 +115,23 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         guard (200 ..< 300).contains(http.statusCode) else {
             throw .requestFailed(status: http.statusCode)
         }
-        guard data.count <= 262_144 else {
+        guard data.count <= maximumResponseBytes else {
             throw .malformedResponse
         }
         return data
     }
 
     private func fetchOpenAICompatibleModels(
-        request: URLRequest
+        request: URLRequest,
+        maximumResponseBytes: Int = 262_144
     ) async throws(TranslationModelCatalogError) -> [TranslationModelCatalogEntry] {
-        let data = try await perform(request)
+        let data = try await perform(request, maximumResponseBytes: maximumResponseBytes)
         struct ListResponse: Decodable {
-            struct Item: Decodable { let id: String }
+            struct Item: Decodable {
+                let id: String
+                let name: String?
+            }
+
             let data: [Item]
         }
         let decoded: ListResponse
@@ -130,7 +140,9 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         } catch {
             throw .malformedResponse
         }
-        return decoded.data.map { TranslationModelCatalogEntry(identifier: $0.id, displayName: $0.id) }
+        return decoded.data.map {
+            TranslationModelCatalogEntry(identifier: $0.id, displayName: $0.name ?? $0.id)
+        }
     }
 
     private func fetchAnthropicModels(

@@ -52,6 +52,7 @@
 		343F36E687BAD295B4B7640B /* TranslationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4E4271C505061273CB792 /* TranslationResponse.swift */; };
 		3B71A8BAF9ECDB1BBC63151D /* EasyKeyKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 269D3453A4B74B408D59CD25 /* EasyKeyKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C8552796E33451A59AAA9BF /* SettingsWindowPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CE74A1116FC55A2113751A /* SettingsWindowPresenterTests.swift */; };
+		3C8552796E33451A59AAA9C0 /* AppMainMenuInstallerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CE74A1116FC55A2113751B /* AppMainMenuInstallerTests.swift */; };
 		3D03EE4FE25E6D334B8FFF4C /* TranslationProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8E93247014A2C907E697D2 /* TranslationProviding.swift */; };
 		3DAE11ABE94642D98112D3E6 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450039CDBC04409A92A5A361 /* AppCoordinator.swift */; };
 		41D2CDAA13140DEF24F3DD7D /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D7C77472F6D2B70383BF33 /* TranslationModel.swift */; };
@@ -212,6 +213,8 @@
 		F1B10000000000000000000E /* ShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000E /* ShortcutRecorder.swift */; };
 		F1B10000000000000000000F /* InterfaceLanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000F /* InterfaceLanguagePicker.swift */; };
 		F1B100000000000000000010 /* ShortcutKeyCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000010 /* ShortcutKeyCapture.swift */; };
+		F1B100000000000000000011 /* PasteableSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000011 /* PasteableSecureField.swift */; };
+		F2B10000000000000000000B /* AppMainMenuInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A10000000000000000000B /* AppMainMenuInstaller.swift */; };
 		F1D100000000000000000002 /* DesignScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000001 /* DesignScale.swift */; };
 		F1D100000000000000000005 /* KeepOnTopTitlebarAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */; };
 		F20000000000000000000001 /* GitHubUpdateCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */; };
@@ -529,6 +532,7 @@
 		EAA7DF5B9D9CC1EABEE70260 /* VietnameseCharacters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VietnameseCharacters.swift; sourceTree = "<group>"; };
 		EE447AEEA00A870D1733223A /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
 		F0CE74A1116FC55A2113751A /* SettingsWindowPresenterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsWindowPresenterTests.swift; sourceTree = "<group>"; };
+		F0CE74A1116FC55A2113751B /* AppMainMenuInstallerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppMainMenuInstallerTests.swift; sourceTree = "<group>"; };
 		F10000000000000000000002 /* GitHubUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUpdateChecker.swift; sourceTree = "<group>"; };
 		F10000000000000000000004 /* UpdateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViews.swift; sourceTree = "<group>"; };
 		F1A100000000000000000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -546,6 +550,8 @@
 		F1A10000000000000000000D /* AboutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSettingsView.swift; sourceTree = "<group>"; };
 		F1A10000000000000000000E /* ShortcutRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutRecorder.swift; sourceTree = "<group>"; };
 		F1A10000000000000000000F /* InterfaceLanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceLanguagePicker.swift; sourceTree = "<group>"; };
+		F1A100000000000000000011 /* PasteableSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteableSecureField.swift; sourceTree = "<group>"; };
+		F2A10000000000000000000B /* AppMainMenuInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMainMenuInstaller.swift; sourceTree = "<group>"; };
 		F1A100000000000000000010 /* ShortcutKeyCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutKeyCapture.swift; sourceTree = "<group>"; };
 		F1D100000000000000000001 /* DesignScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignScale.swift; sourceTree = "<group>"; };
 		F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepOnTopTitlebarAccessory.swift; sourceTree = "<group>"; };
@@ -810,6 +816,7 @@
 				4D1173C7701D0260790C3479 /* StatusItemControllerTests.swift */,
 				B10FAB3B968FCBDA09E88EDF /* WorkspaceObserverTests.swift */,
 				F0CE74A1116FC55A2113751A /* SettingsWindowPresenterTests.swift */,
+				F0CE74A1116FC55A2113751B /* AppMainMenuInstallerTests.swift */,
 				0C391054375B7257BDF6BFFE /* ViewRenderingTests.swift */,
 				DC3B5721A27DF22E8BFA82AA /* StatusMenuBuilderTests.swift */,
 				CB0000000000000000000011 /* ClipboardOptionsTests.swift */,
@@ -1151,6 +1158,7 @@
 				F1A10000000000000000000E /* ShortcutRecorder.swift */,
 				F1A10000000000000000000F /* InterfaceLanguagePicker.swift */,
 				F1A100000000000000000010 /* ShortcutKeyCapture.swift */,
+				F1A100000000000000000011 /* PasteableSecureField.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1169,6 +1177,7 @@
 			children = (
 				F2A100000000000000000001 /* LoginItemController.swift */,
 				F2A100000000000000000002 /* SettingsWindowPresenter.swift */,
+				F2A10000000000000000000B /* AppMainMenuInstaller.swift */,
 				F2A100000000000000000003 /* SmartSwitchController.swift */,
 				F2A100000000000000000004 /* StatusItemController.swift */,
 				F2A100000000000000000005 /* MenuPopoverView.swift */,
@@ -1455,6 +1464,7 @@
 				D612E9E9F14D70B0022BB464 /* StatusItemControllerTests.swift in Sources */,
 				DD471C71134BE35C08534A09 /* WorkspaceObserverTests.swift in Sources */,
 				3C8552796E33451A59AAA9BF /* SettingsWindowPresenterTests.swift in Sources */,
+				3C8552796E33451A59AAA9C0 /* AppMainMenuInstallerTests.swift in Sources */,
 				F7CE122BD15771D5200F2278 /* ViewRenderingTests.swift in Sources */,
 				F0067873CB7B99377CAEF239 /* StatusMenuBuilderTests.swift in Sources */,
 				CB0000000000000000000111 /* ClipboardOptionsTests.swift in Sources */,
@@ -1610,6 +1620,8 @@
 				F1D100000000000000000002 /* DesignScale.swift in Sources */,
 				F1D100000000000000000005 /* KeepOnTopTitlebarAccessory.swift in Sources */,
 				F1B10000000000000000000F /* InterfaceLanguagePicker.swift in Sources */,
+				F1B100000000000000000011 /* PasteableSecureField.swift in Sources */,
+				F2B10000000000000000000B /* AppMainMenuInstaller.swift in Sources */,
 				F1B100000000000000000010 /* ShortcutKeyCapture.swift in Sources */,
 				E70000000000000000000003 /* UpdateService.swift in Sources */,
 				F10000000000000000000001 /* GitHubUpdateChecker.swift in Sources */,
@@ -1782,7 +1794,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1836,7 +1848,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -1873,7 +1885,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1910,7 +1922,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -1937,7 +1949,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1960,7 +1972,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1985,7 +1997,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2026,7 +2038,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

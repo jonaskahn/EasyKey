@@ -87,18 +87,49 @@ final class TranslationModelCatalogTests: XCTestCase {
     }
 
     func testFetchOpenRouterModels() async throws {
-        try credentialStore.save("test-key", for: .openRouter)
         let catalog = makeCatalog()
         CatalogURLProtocol.handler = { _ in
             (.ok, """
-            {"data":[{"id":"openai/gpt-4o-mini"},{"id":"anthropic/claude-sonnet-4-5"}]}
+            {"data":[{"id":"openai/gpt-4o-mini","name":"GPT-4o mini"},{"id":"anthropic/claude-sonnet-4-5","name":"Claude Sonnet 4.5"}]}
             """)
         }
 
         let models = try await catalog.fetchModels(for: .openRouter)
         XCTAssertEqual(models.count, 2)
         XCTAssertEqual(models[0].identifier, "openai/gpt-4o-mini")
+        XCTAssertEqual(models[0].displayName, "GPT-4o mini")
         XCTAssertEqual(models[1].identifier, "anthropic/claude-sonnet-4-5")
+        XCTAssertEqual(models[1].displayName, "Claude Sonnet 4.5")
+    }
+
+    func testFetchOpenRouterModels_WithoutCredentials() async throws {
+        let catalog = makeCatalog()
+        CatalogURLProtocol.handler = { request in
+            XCTAssertNil(request.value(forHTTPHeaderField: "Authorization"))
+            return (.ok, """
+            {"data":[{"id":"openai/gpt-4o-mini","name":"GPT-4o mini"}]}
+            """)
+        }
+
+        let models = try await catalog.fetchModels(for: .openRouter)
+        XCTAssertEqual(models.count, 1)
+        XCTAssertEqual(models[0].identifier, "openai/gpt-4o-mini")
+        XCTAssertEqual(models[0].displayName, "GPT-4o mini")
+    }
+
+    func testFetchOpenRouterModels_AllowsLargeCatalogResponse() async throws {
+        let catalog = makeCatalog()
+        let items = (0 ..< 4000).map { index in
+            #"{"id":"provider/model-\#(index)","name":"Model \#(index) with a descriptive display name"}"#
+        }
+        let responseBody = #"{"data":[\#(items.joined(separator: ","))]}"#
+        XCTAssertGreaterThan(responseBody.utf8.count, 262_144)
+        CatalogURLProtocol.handler = { _ in (.ok, responseBody) }
+
+        let models = try await catalog.fetchModels(for: .openRouter)
+
+        XCTAssertEqual(models.count, 4000)
+        XCTAssertEqual(models.last?.identifier, "provider/model-3999")
     }
 
     func testFetchGroqModels() async throws {

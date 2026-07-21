@@ -83,9 +83,10 @@ final class SettingsCoverageTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-translation"].exists)
     }
 
-    func testTranslationSettingsProviderPickerExists() {
+    func testTranslationSettingsProviderSelectorExists() {
         launchToSection("translation")
-        XCTAssertTrue(app.descendants(matching: .any)["TranslationDefaultProviderPicker"].waitForExistence(timeout: 10))
+        let automaticProvider = app.descendants(matching: .any)["TranslationProvider-automatic"]
+        XCTAssertTrue(app.reveal(automaticProvider))
     }
 
     func testTranslationSettingsEnableToggleExists() {
@@ -113,8 +114,11 @@ final class SettingsCoverageTests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any)["TranslationDisclosureReset"].waitForExistence(timeout: 10))
     }
 
-    func testTranslationSettingsAppleLanguageSettingsExists() {
+    func testTranslationSettingsAppleLanguageSettingsExists() throws {
         launchToSection("translation")
+        let appleDetails = app.descendants(matching: .any)["TranslationProviderDisclosure-apple"]
+        try XCTSkipIf(!app.reveal(appleDetails), "Apple Translation is unavailable on this macOS version.")
+        XCTAssertTrue(appleDetails.clickWhenHittable())
         XCTAssertTrue(app.descendants(matching: .any)["TranslationAppleLanguageSettings"].waitForExistence(timeout: 10))
     }
 

@@ -107,14 +107,14 @@ final class SettingsWorkflowTests: XCTestCase {
         XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
     }
 
-    func testTranslationSettingsSupportsKeyboardNavigationAndSecureFields() {
+    func testTranslationSettingsExpandsProviderBeforeConfiguringCredentials() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
         app.launch()
         app.activate()
 
-        let provider = app.descendants(matching: .any)["TranslationDefaultProviderPicker"]
-        XCTAssertTrue(provider.waitForExistence(timeout: 10))
-        app.typeKey(.tab, modifierFlags: [])
+        let deepLDetails = app.descendants(matching: .any)["TranslationProviderDisclosure-deepL"]
+        XCTAssertTrue(app.reveal(deepLDetails))
+        XCTAssertTrue(deepLDetails.clickWhenHittable())
         XCTAssertTrue(app.secureTextFields["TranslationCredential-deepL"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["DeepL: Validate and save"].exists)
     }
@@ -124,7 +124,7 @@ final class SettingsWorkflowTests: XCTestCase {
         app.launch()
         app.activate()
 
-        XCTAssertTrue(app.descendants(matching: .any)["TranslationDefaultProviderPicker"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.reveal(app.descendants(matching: .any)["TranslationProvider-automatic"]))
         let detail = app.descendants(matching: .any)["SettingsDetail"]
         XCTAssertTrue(detail.exists)
         try app.performAccessibilityAudit { issue in

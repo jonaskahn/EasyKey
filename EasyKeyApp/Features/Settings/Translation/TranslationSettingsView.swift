@@ -4,7 +4,6 @@ import SwiftUI
 
 enum TranslationSettingsAccessibility {
     static let enableToggle = "TranslationEnableToggle"
-    static let providerPicker = "TranslationDefaultProviderPicker"
     static let sourcePicker = "TranslationSourcePreferencePicker"
     static let deepLPlanPicker = "TranslationDeepLPlanPicker"
     static let shortcutStatus = "TranslationShortcutStatus"
@@ -16,12 +15,30 @@ enum TranslationSettingsAccessibility {
     static func credentialField(_ provider: TranslationProviderID) -> String {
         "TranslationCredential-\(provider.rawValue)"
     }
+
+    static func providerRow(_ provider: TranslationProviderID) -> String {
+        "TranslationProvider-\(provider.rawValue)"
+    }
+
+    static func providerSelection(_ provider: TranslationProviderID) -> String {
+        "TranslationProviderSelection-\(provider.rawValue)"
+    }
+
+    static func providerDisclosure(_ provider: TranslationProviderID) -> String {
+        "TranslationProviderDisclosure-\(provider.rawValue)"
+    }
 }
 
 struct TranslationSettingsView: View {
     @ObservedObject var model: TranslationSettingsModel
     @ObservedObject private var localization = LocalizationStore.shared
     @State private var showDisclosureResetConfirmation = false
+    @State private var expandedProvider: TranslationProviderID?
+
+    init(model: TranslationSettingsModel) {
+        self.model = model
+        _expandedProvider = State(initialValue: nil)
+    }
 
     var body: some View {
         Form {
@@ -31,14 +48,6 @@ struct TranslationSettingsView: View {
 
                 Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
                     .accessibilityIdentifier("TranslationMenuPopoverToggle")
-
-                Picker(localization.string(.translationSettingsDefaultProvider), selection: preferredProviderBinding) {
-                    ForEach(model.selectableProviders, id: \.self) { provider in
-                        Text(providerName(provider)).tag(provider)
-                    }
-                }
-                .accessibilityLabel(localization.string(.translationSettingsDefaultProvider))
-                .accessibilityIdentifier(TranslationSettingsAccessibility.providerPicker)
 
                 Picker(localization.string(.translationSettingsSourcePreference), selection: sourceLanguageBinding) {
                     Text(localization.string(.translationDetectLanguage)).tag(nil as TranslationLanguage?)
@@ -94,19 +103,27 @@ struct TranslationSettingsView: View {
             }
 
             Section {
-                ForEach(model.visibleProviderCards, id: \.self) { provider in
-                    if provider == .apple {
-                        AppleTranslationSettingsCard(providerName: providerName(provider))
-                    } else {
-                        CloudTranslationSettingsCard(
-                            provider: provider,
-                            providerName: providerName(provider),
-                            model: model
-                        )
-                    }
-                }
+                TranslationProviderSettings(
+                    model: model,
+                    expandedProvider: $expandedProvider,
+                    providerName: providerName
+                )
             } header: {
-                Text(localization.string(.translationSettingsProviders))
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack {
+                        Text(localization.string(.translationSettingsProviders))
+                        Spacer()
+                        Text(localization.format(
+                            .translationSettingsActiveProvider,
+                            activeProviderName
+                        ))
+                        .foregroundStyle(.secondary)
+                    }
+                    Text(localization.string(.translationSettingsProvidersDescription))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             } footer: {
                 Text(localization.string(.translationSettingsCloudCosts))
                     .fixedSize(horizontal: false, vertical: true)
@@ -150,8 +167,11 @@ struct TranslationSettingsView: View {
         .accessibilityIdentifier(TranslationSettingsAccessibility.shortcutStatus)
     }
 
-    private var preferredProviderBinding: Binding<TranslationProviderID> {
-        Binding(get: { model.preferredProvider }, set: model.setPreferredProvider)
+    private var activeProviderName: String {
+        guard let provider = model.effectiveProvider else {
+            return localization.string(.translationChooseProvider)
+        }
+        return providerName(provider)
     }
 
     private var enableBinding: Binding<Bool> {
@@ -213,16 +233,219 @@ struct TranslationSettingsView: View {
     }
 }
 
-private struct AppleTranslationSettingsCard: View {
+private struct TranslationProviderSettings: View {
+    @ObservedObject var model: TranslationSettingsModel
+    @Binding var expandedProvider: TranslationProviderID?
+    let providerName: (TranslationProviderID) -> String
+    @ObservedObject private var localization = LocalizationStore.shared
+
+    private var cloudProviders: [TranslationProviderID] {
+        model.visibleProviderCards.filter { $0 != .apple }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            VStack(spacing: 0) {
+                ProviderSelectionRow(
+                    provider: .automatic,
+                    providerName: providerName(.automatic),
+                    isSelected: model.preferredProvider == .automatic,
+                    isExpanded: false,
+                    status: nil,
+                    onSelect: { model.setPreferredProvider(.automatic) },
+                    onToggle: {}
+                )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: DesignScale.radiusMD)
+                    .strokeBorder(Color(nsColor: .separatorColor))
+            }
+
+            if model.visibleProviderCards.contains(.apple) {
+                providerGroup(
+                    title: localization.string(.translationSettingsOnDeviceProviders),
+                    providers: [.apple]
+                )
+            }
+
+            providerGroup(
+                title: localization.string(.translationSettingsAPIProviders),
+                providers: cloudProviders
+            )
+        }
+    }
+
+    private func providerGroup(title: String, providers: [TranslationProviderID]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            VStack(spacing: 0) {
+                ForEach(providers, id: \.self) { provider in
+                    providerRow(provider)
+                    if provider != providers.last {
+                        Divider()
+                    }
+                }
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: DesignScale.radiusMD)
+                    .strokeBorder(Color(nsColor: .separatorColor))
+            }
+        }
+    }
+
+    private func providerRow(_ provider: TranslationProviderID) -> some View {
+        let isExpanded = expandedProvider == provider
+        return VStack(spacing: 0) {
+            ProviderSelectionRow(
+                provider: provider,
+                providerName: providerName(provider),
+                isSelected: model.preferredProvider == provider,
+                isExpanded: isExpanded,
+                status: ProviderStatus(provider: provider, status: model.credentialStatuses[provider]),
+                onSelect: { model.setPreferredProvider(provider) },
+                onToggle: {
+                    expandedProvider = isExpanded ? nil : provider
+                }
+            )
+
+            Divider()
+                .frame(height: isExpanded ? nil : 0)
+                .opacity(isExpanded ? 1 : 0)
+
+            providerBody(provider)
+                .padding(.leading, 42)
+                .padding(.trailing, 14)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity, maxHeight: isExpanded ? nil : 0, alignment: .topLeading)
+                .opacity(isExpanded ? 1 : 0)
+                .clipped()
+                .accessibilityHidden(!isExpanded)
+        }
+    }
+
+    @ViewBuilder
+    private func providerBody(_ provider: TranslationProviderID) -> some View {
+        if provider == .apple {
+            AppleTranslationSettingsCard()
+        } else {
+            CloudTranslationSettingsCard(
+                provider: provider,
+                providerName: providerName(provider),
+                model: model
+            )
+        }
+    }
+}
+
+private struct ProviderSelectionRow: View {
+    let provider: TranslationProviderID
     let providerName: String
+    let isSelected: Bool
+    let isExpanded: Bool
+    let status: ProviderStatus?
+    let onSelect: () -> Void
+    let onToggle: () -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Button(action: onSelect) {
+                Image(systemName: isSelected ? "circle.inset.filled" : "circle")
+                    .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+                    .frame(width: 16, height: 16)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(providerName)
+            .accessibilityValue(isSelected ? "Selected" : "Not selected")
+            .accessibilityIdentifier(TranslationSettingsAccessibility.providerSelection(provider))
+
+            TranslationProviderIcon(provider: provider, size: 18)
+
+            Button(action: onToggle) {
+                HStack(spacing: 8) {
+                    Text(providerName)
+                        .fontWeight(.medium)
+                    Spacer(minLength: 8)
+                    if let status {
+                        ProviderStatusBadge(status: status)
+                    }
+                    if status != nil {
+                        Image(systemName: "chevron.down")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                    }
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .disabled(status == nil)
+            .accessibilityLabel(providerName)
+            .accessibilityHint(status == nil ? "" : "Show provider settings")
+            .accessibilityValue(isExpanded ? "Expanded" : "Collapsed")
+            .accessibilityIdentifier(
+                status == nil
+                    ? TranslationSettingsAccessibility.providerRow(provider)
+                    : TranslationSettingsAccessibility.providerDisclosure(provider)
+            )
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+    }
+}
+
+private struct ProviderStatus {
+    let provider: TranslationProviderID
+    let status: TranslationCredentialStatus?
+}
+
+private struct ProviderStatusBadge: View {
+    let status: ProviderStatus
+    @ObservedObject private var localization = LocalizationStore.shared
+
+    var body: some View {
+        Text(text)
+            .font(.caption2.weight(.medium))
+            .foregroundStyle(color)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 3)
+            .background(color.opacity(0.12), in: RoundedRectangle(cornerRadius: DesignScale.radiusSM))
+            .accessibilityLabel(text)
+    }
+
+    private var text: String {
+        if status.provider == .apple {
+            return localization.string(.translationSettingsStatusOnDevice)
+        }
+        switch status.status ?? .missing {
+        case .missing: return localization.string(.translationSettingsStatusMissing)
+        case .saved: return localization.string(.translationSettingsStatusSaved)
+        case .validating: return localization.string(.translationSettingsStatusValidating)
+        case .ready: return localization.string(.translationSettingsStatusReady)
+        case .invalid: return localization.string(.translationSettingsStatusInvalid)
+        }
+    }
+
+    private var color: Color {
+        if status.provider == .apple {
+            return .green
+        }
+        switch status.status ?? .missing {
+        case .ready: return .green
+        case .saved, .validating: return .orange
+        case .invalid: return .red
+        case .missing: return .secondary
+        }
+    }
+}
+
+private struct AppleTranslationSettingsCard: View {
     @ObservedObject private var localization = LocalizationStore.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                TranslationProviderIcon(provider: .apple, size: 18)
-                Text(providerName).font(.headline)
-            }
             Text(localization.string(.translationSettingsAppleLocal))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -255,8 +478,14 @@ private struct CloudTranslationSettingsCard: View {
     @State private var showDeleteConfirmation = false
     @State private var showModelPicker = false
     @State private var modelSearchText = ""
-    @State private var showModelSaved = false
-    @State private var modelSavedTask: Task<Void, Never>?
+    @State private var modelSelectionState: ModelSelectionState = .idle
+    @State private var modelSelectionTask: Task<Void, Never>?
+
+    private enum ModelSelectionState {
+        case idle
+        case processing
+        case saved
+    }
 
     private var usesOfficialModelCatalog: Bool {
         provider.isOfficialAIModelProvider
@@ -264,13 +493,6 @@ private struct CloudTranslationSettingsCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                TranslationProviderIcon(provider: provider, size: 18)
-                Text(providerName).font(.headline)
-                Spacer()
-                statusLabel
-            }
-
             Text(localization.format(.translationSettingsCloudProviderWarning, providerName))
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -283,36 +505,30 @@ private struct CloudTranslationSettingsCard: View {
             }
 
             if provider == .deepL {
-                Picker(localization.string(.translationSettingsDeepLPlan), selection: deepLEndpointBinding) {
+                Picker(selection: deepLEndpointBinding) {
                     Text(localization.string(.translationSettingsDeepLFree)).tag(TranslationOptions.DeepLEndpoint.free)
                     Text(localization.string(.translationSettingsDeepLPro)).tag(TranslationOptions.DeepLEndpoint.pro)
+                } label: {
+                    SettingsControlLabel(title: localization.string(.translationSettingsDeepLPlan))
                 }
                 .accessibilityLabel(localization.string(.translationSettingsDeepLPlan))
                 .accessibilityIdentifier(TranslationSettingsAccessibility.deepLPlanPicker)
             }
 
-            if model.modelIdentifier(for: provider) != nil {
-                HStack(spacing: 6) {
-                    modelControl
-                    if showModelSaved {
-                        savedNotice
-                    }
+            if provider == .openAICompatible || provider == .anthropicCompatible {
+                LabeledContent {
+                    TextField(localization.string(.translationSettingsEndpoint), text: $endpointURL)
+                        .textFieldStyle(.roundedBorder)
+                        .labelsHidden()
+                        .onSubmit(saveEndpoint)
+                        .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsEndpoint))")
+                        .accessibilityHint(localization.string(.translationSettingsEndpointHint))
+                } label: {
+                    SettingsControlLabel(title: localization.string(.translationSettingsEndpoint))
                 }
             }
 
-            if provider == .openAICompatible || provider == .anthropicCompatible {
-                TextField(localization.string(.translationSettingsEndpoint), text: $endpointURL)
-                    .textFieldStyle(.roundedBorder)
-                    .onSubmit(saveEndpoint)
-                    .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsEndpoint))")
-                    .accessibilityHint(localization.string(.translationSettingsEndpointHint))
-            }
-
-            SecureField(localization.string(.translationSettingsApiKey), text: $credential)
-                .textFieldStyle(.roundedBorder)
-                .onSubmit(saveCredential)
-                .accessibilityLabel(localization.format(.translationSettingsApiKeyA11y, providerName))
-                .accessibilityIdentifier(TranslationSettingsAccessibility.credentialField(provider))
+            credentialAndModelBlock
 
             HStack {
                 Button(localization.string(.commonSave), action: saveCredential)
@@ -341,7 +557,9 @@ private struct CloudTranslationSettingsCard: View {
         .onAppear {
             modelIdentifier = model.modelIdentifier(for: provider) ?? ""
             endpointURL = endpointValue()
-            model.loadModelCatalog(for: provider)
+            if model.canManageModels(for: provider) {
+                model.loadModelCatalog(for: provider)
+            }
         }
         .alert(localization.format(.translationSettingsDeleteKeyConfirmTitle, providerName), isPresented: $showDeleteConfirmation) {
             Button(localization.string(.commonCancel), role: .cancel) {}
@@ -354,54 +572,104 @@ private struct CloudTranslationSettingsCard: View {
         }
     }
 
-    @ViewBuilder
-    private var modelControl: some View {
-        if usesOfficialModelCatalog {
-            officialModelPicker
-        } else {
-            compatibleModelField
+    private var credentialAndModelBlock: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            LabeledContent {
+                PasteableSecureField(
+                    text: $credential,
+                    placeholder: localization.string(.translationSettingsApiKey),
+                    accessibilityLabel: localization.format(.translationSettingsApiKeyA11y, providerName),
+                    accessibilityIdentifier: TranslationSettingsAccessibility.credentialField(provider),
+                    onSubmit: saveCredential
+                )
+                .frame(maxWidth: .infinity, minHeight: 22)
+            } label: {
+                SettingsControlLabel(title: localization.string(.translationSettingsApiKey))
+            }
+
+            if model.modelIdentifier(for: provider) != nil {
+                modelRow
+            }
         }
     }
 
-    private var compatibleModelField: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            TextField(localization.string(.translationSettingsModel), text: $modelIdentifier)
-                .textFieldStyle(.roundedBorder)
-                .onSubmit(saveModelIdentifier)
-                .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
-                .accessibilityHint(localization.string(.translationSettingsModelHint))
-            if modelIdentifierIsInvalid {
-                Text(localization.string(.translationSettingsModelInvalid))
-                    .font(.caption)
-                    .foregroundStyle(.primary)
+    private var canManageModels: Bool {
+        model.canManageModels(for: provider)
+    }
+
+    private var modelLabel: some View {
+        HStack(spacing: 6) {
+            SettingsControlLabel(title: localization.string(.translationSettingsModels))
+            selectionStatusView
+        }
+    }
+
+    @ViewBuilder
+    private var modelRow: some View {
+        if usesOfficialModelCatalog {
+            LabeledContent {
+                officialModelPicker
+            } label: {
+                modelLabel
+            }
+            .disabled(!canManageModels)
+        } else {
+            VStack(alignment: .leading, spacing: 4) {
+                LabeledContent {
+                    TextField(localization.string(.translationSettingsModel), text: $modelIdentifier)
+                        .textFieldStyle(.roundedBorder)
+                        .labelsHidden()
+                        .disabled(!canManageModels)
+                        .onSubmit(saveModelIdentifier)
+                        .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
+                        .accessibilityHint(
+                            canManageModels
+                                ? localization.string(.translationSettingsModelHint)
+                                : localization.string(.translationSettingsModelNeedsApiKey)
+                        )
+                } label: {
+                    SettingsControlLabel(title: localization.string(.translationSettingsModel))
+                }
+                if modelIdentifierIsInvalid {
+                    Text(localization.string(.translationSettingsModelInvalid))
+                        .font(.caption)
+                        .foregroundStyle(.primary)
+                }
             }
         }
     }
 
     private var officialModelPicker: some View {
         Button {
+            guard canManageModels else { return }
             modelSearchText = ""
             showModelPicker = true
+            model.loadModelCatalog(for: provider)
         } label: {
             HStack {
                 Text(modelIdentifier.nonEmptyForDisplay(
                     fallback: model.modelIdentifier(for: provider) ?? provider.displayName
                 ))
-                .lineLimit(1)
-                Spacer()
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                Spacer(minLength: 0)
                 Image(systemName: "chevron.up.chevron.down")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.vertical, 5)
+            .frame(maxWidth: .infinity, minHeight: 22, alignment: .leading)
+            .background(.quaternary, in: RoundedRectangle(cornerRadius: DesignScale.radiusSM))
         }
         .buttonStyle(.plain)
-        .background(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+        .disabled(!canManageModels)
+        .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModels))")
+        .accessibilityHint(
+            canManageModels
+                ? localization.string(.translationSettingsModelSearch)
+                : localization.string(.translationSettingsModelNeedsApiKey)
         )
-        .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
         .popover(isPresented: $showModelPicker) {
             modelPickerPopover
         }
@@ -446,22 +714,22 @@ private struct CloudTranslationSettingsCard: View {
                         .frame(width: 260)
                 } else {
                     List(filtered, id: \.identifier) { entry in
-                        Button {
-                            selectModelEntry(entry)
-                        } label: {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(entry.displayName)
-                                    .lineLimit(2)
-                                if entry.displayName != entry.identifier {
-                                    Text(entry.identifier)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .lineLimit(1)
-                                }
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(entry.displayName)
+                                .lineLimit(2)
+                            if entry.displayName != entry.identifier {
+                                Text(entry.identifier)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(1)
                             }
-                            .padding(.vertical, 2)
                         }
-                        .buttonStyle(.plain)
+                        .padding(.vertical, 2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectModelEntry(entry)
+                        }
                     }
                     .frame(width: 280, height: 280)
                 }
@@ -479,62 +747,67 @@ private struct CloudTranslationSettingsCard: View {
     }
 
     private func selectModelEntry(_ entry: TranslationModelCatalogEntry) {
+        guard model.setModelIdentifier(entry.identifier, for: provider) else {
+            modelIdentifier = model.modelIdentifier(for: provider) ?? ""
+            showModelPicker = false
+            return
+        }
         modelIdentifier = entry.identifier
-        model.setModelIdentifier(entry.identifier, for: provider)
         showModelPicker = false
-        triggerSavedNotice()
+        triggerModelSelectionFeedback()
     }
 
-    private var savedNotice: some View {
-        Label(localization.string(.translationSettingsModelSaved), systemImage: "checkmark.circle.fill")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .transition(.opacity.combined(with: .scale(scale: 0.8)))
-            .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModelSavedA11y))")
+    private var selectionStatusView: some View {
+        Group {
+            switch modelSelectionState {
+            case .idle:
+                EmptyView()
+            case .processing:
+                ProgressView()
+                    .controlSize(.small)
+                    .frame(width: 16, height: 16)
+                    .transition(.opacity.combined(with: .scale(scale: 0.8)))
+            case .saved:
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.green)
+                    .frame(width: 16, height: 16)
+                    .transition(.opacity.combined(with: .scale(scale: 0.8)))
+            }
+        }
+        .accessibilityLabel(selectionStatusAccessibilityLabel)
     }
 
-    private func triggerSavedNotice() {
-        modelSavedTask?.cancel()
-        showModelSaved = true
-        modelSavedTask = Task {
-            try? await Task.sleep(nanoseconds: 2_000_000_000)
+    private var selectionStatusAccessibilityLabel: String {
+        switch modelSelectionState {
+        case .idle:
+            return ""
+        case .processing:
+            return localization.string(.translationSettingsModelSavingA11y)
+        case .saved:
+            return "\(providerName): \(localization.string(.translationSettingsModelSavedA11y))"
+        }
+    }
+
+    private func triggerModelSelectionFeedback() {
+        modelSelectionTask?.cancel()
+        modelSelectionState = .processing
+        modelSelectionTask = Task {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            guard !Task.isCancelled else { return }
+            withAnimation(.easeOut(duration: 0.25)) {
+                modelSelectionState = .saved
+            }
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
             guard !Task.isCancelled else { return }
             withAnimation(.easeOut(duration: 0.3)) {
-                showModelSaved = false
+                modelSelectionState = .idle
             }
         }
     }
 
     private var status: TranslationCredentialStatus {
         model.credentialStatuses[provider] ?? .missing
-    }
-
-    private var statusLabel: some View {
-        let text: String
-        let symbol: String
-        switch status {
-        case .missing:
-            text = localization.string(.translationSettingsStatusMissing)
-            symbol = "circle"
-        case .saved:
-            text = localization.string(.translationSettingsStatusSaved)
-            symbol = "key.fill"
-        case .validating:
-            text = localization.string(.translationSettingsStatusValidating)
-            symbol = "clock"
-        case .ready:
-            text = localization.string(.translationSettingsStatusReady)
-            symbol = "checkmark.circle.fill"
-        case .invalid:
-            text = localization.string(.translationSettingsStatusInvalid)
-            symbol = "exclamationmark.circle.fill"
-        }
-        return Label(text, systemImage: symbol)
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(providerName)
-            .accessibilityValue(text)
     }
 
     private var deepLEndpointBinding: Binding<TranslationOptions.DeepLEndpoint> {

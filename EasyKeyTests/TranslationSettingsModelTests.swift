@@ -101,6 +101,7 @@ final class TranslationSettingsModelTests: XCTestCase {
         model.setPreferredProvider(.gemini)
         model.setDefaultSourceLanguage(.english)
         model.setDeepLEndpoint(.pro)
+        XCTAssertTrue(model.saveCredential("test-key", for: .openAI))
         XCTAssertTrue(model.setModelIdentifier("gpt-4.1-mini", for: .openAI))
         settingsStore.update { $0.translation.acknowledgedCloudDisclosureProviders = [.google, .gemini] }
         model.resetCloudDisclosures()
@@ -176,6 +177,7 @@ final class TranslationSettingsModelTests: XCTestCase {
 
     func testInvalidModelIdentifierDoesNotOverwritePersistedValue() {
         let model = makeModel()
+        XCTAssertTrue(model.saveCredential("test-key", for: .anthropic))
         let original = model.modelIdentifier(for: .anthropic)
         XCTAssertFalse(model.setModelIdentifier("bad/model", for: .anthropic))
         XCTAssertFalse(model.setModelIdentifier("", for: .anthropic))
@@ -184,12 +186,58 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("claude-3.5_test", for: .anthropic))
     }
 
+    func testSetModelIdentifier_RequiresSavedCredential() {
+        let model = makeModel()
+        XCTAssertFalse(model.canManageModels(for: .openAI))
+        XCTAssertFalse(model.setModelIdentifier("gpt-4.1-mini", for: .openAI))
+        XCTAssertTrue(model.saveCredential("test-key", for: .openAI))
+        XCTAssertTrue(model.canManageModels(for: .openAI))
+        XCTAssertTrue(model.setModelIdentifier("gpt-4.1-mini", for: .openAI))
+        model.deleteCredential(for: .openAI)
+        XCTAssertFalse(model.canManageModels(for: .openAI))
+        XCTAssertFalse(model.setModelIdentifier("gpt-4o", for: .openAI))
+        XCTAssertEqual(model.modelIdentifier(for: .openAI), "gpt-4.1-mini")
+    }
+
+    func testOpenRouterCanManageModelsAndSetIdentifierWithoutCredential() {
+        let model = makeModel()
+        XCTAssertTrue(model.canManageModels(for: .openRouter))
+        XCTAssertTrue(model.setModelIdentifier("openai/gpt-4o-mini", for: .openRouter))
+        XCTAssertEqual(model.modelIdentifier(for: .openRouter), "openai/gpt-4o-mini")
+    }
+
+    func testLoadModelCatalog_LoadsOpenRouterWithoutCredential() {
+        let model = makeModel()
+        model.loadModelCatalog(for: .openRouter)
+        XCTAssertEqual(model.modelCatalogStates[.openRouter], .loading)
+    }
+
+    func testSanitizedCredential_StripsPasteArtifacts() {
+        XCTAssertEqual(
+            TranslationSettingsModel.sanitizedCredential("\u{FEFF} sk-test-key \n"),
+            "sk-test-key"
+        )
+        XCTAssertEqual(
+            TranslationSettingsModel.sanitizedCredential("\u{200B}abc\u{200D}"),
+            "abc"
+        )
+        XCTAssertEqual(TranslationSettingsModel.sanitizedCredential("   \n"), "")
+    }
+
+    func testSaveCredential_SanitizesBeforeStore() {
+        let model = makeModel()
+        XCTAssertTrue(model.saveCredential("\u{FEFF} pasted-key \n", for: .openAI))
+        XCTAssertEqual(try credentialStore.credential(for: .openAI), "pasted-key")
+    }
+
     func testModelIdentifierValidationAllowsPathSeparatorForOpenRouterAndCompatible() {
         XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openRouter))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("google/gemini-2.5-flash:free", for: .openRouter))
         XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .groq))
         XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openAICompatible))
         XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .anthropicCompatible))
         XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openAI))
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("google/gemini-2.5-flash:free", for: .openAI))
         XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .anthropic))
         XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .gemini))
     }
@@ -293,9 +341,12 @@ final class TranslationSettingsModelTests: XCTestCase {
 
     func testAccessibilityIdentifiersAreStableAndUnique() {
         let identifiers = TranslationSettingsModel.cloudProviders.map(TranslationSettingsAccessibility.credentialField)
+            + TranslationSettingsModel.cloudProviders.map(TranslationSettingsAccessibility.providerRow)
+            + TranslationSettingsModel.cloudProviders.map(TranslationSettingsAccessibility.providerDisclosure)
             + [
                 TranslationSettingsAccessibility.enableToggle,
-                TranslationSettingsAccessibility.providerPicker,
+                TranslationSettingsAccessibility.providerRow(.automatic),
+                TranslationSettingsAccessibility.providerSelection(.automatic),
                 TranslationSettingsAccessibility.sourcePicker,
                 TranslationSettingsAccessibility.shortcutStatus,
                 TranslationSettingsAccessibility.disclosureReset,

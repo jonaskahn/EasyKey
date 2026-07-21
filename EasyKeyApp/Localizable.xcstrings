@@ -5957,6 +5957,22 @@
         }
       }
     },
+    "translation.settings.activeProvider": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active: %@"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang dùng: %@"
+          }
+        }
+      }
+    },
     "translation.settings.apiKey": {
       "localizations": {
         "en": {
@@ -5985,6 +6001,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Khóa API %@"
+          }
+        }
+      }
+    },
+    "translation.settings.apiProviders": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Providers"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhà cung cấp API"
           }
         }
       }
@@ -6229,6 +6261,38 @@
         }
       }
     },
+    "translation.settings.models": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Models"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mô hình"
+          }
+        }
+      }
+    },
+    "translation.settings.modelNeedsApiKey": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save an API key first to load and change models."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lưu khóa API trước để tải và đổi mô hình."
+          }
+        }
+      }
+    },
     "translation.settings.modelHint": {
       "localizations": {
         "en": {
@@ -6373,6 +6437,38 @@
         }
       }
     },
+    "translation.settings.modelSavingA11y": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving model"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đang lưu mô hình"
+          }
+        }
+      }
+    },
+    "translation.settings.onDeviceProviders": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On Device"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trên thiết bị"
+          }
+        }
+      }
+    },
     "translation.settings.oppositeTarget": {
       "localizations": {
         "en": {
@@ -6449,6 +6545,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nhà cung cấp"
+          }
+        }
+      }
+    },
+    "translation.settings.providersDescription": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a translation source. Only the selected provider receives text when you translate."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chọn một nguồn dịch. Chỉ nguồn đang chọn mới nhận văn bản khi bạn bấm Dịch."
           }
         }
       }
@@ -6689,6 +6801,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chưa có khóa"
+          }
+        }
+      }
+    },
+    "translation.settings.status.onDevice": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On device"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trên thiết bị"
           }
         }
       }

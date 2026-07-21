@@ -173,6 +173,17 @@ final class TranslationSettingsModel: ObservableObject {
         return selectableProviders.contains(saved) ? saved : .automatic
     }
 
+    var effectiveProvider: TranslationProviderID? {
+        switch TranslationProviderResolver.resolveEffectiveProvider(
+            preferredProviderID: settingsStore.settings.translation.preferredProviderID,
+            platformCapability: platformCapability,
+            configuredCloudProviders: storedCredentialProviders
+        ) {
+        case let .resolved(provider): provider
+        case .setupRequired: nil
+        }
+    }
+
     var defaultSourceLanguage: TranslationLanguage? {
         settingsStore.settings.translation.defaultSourceLanguage
     }
@@ -300,8 +311,16 @@ final class TranslationSettingsModel: ObservableObject {
         objectWillChange.send()
     }
 
+    func canManageModels(for provider: TranslationProviderID) -> Bool {
+        switch credentialStatuses[provider] {
+        case .saved, .ready: return true
+        default: return provider == .openRouter
+        }
+    }
+
     @discardableResult
     func setModelIdentifier(_ value: String, for provider: TranslationProviderID) -> Bool {
+        guard canManageModels(for: provider) else { return false }
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard Self.isValidModelIdentifier(trimmed, for: provider) else { return false }
         settingsStore.update {
@@ -320,11 +339,27 @@ final class TranslationSettingsModel: ObservableObject {
         return true
     }
 
+    /// Paste often leaves BOM / zero-width / trailing newlines that make API auth fail.
+    static func sanitizedCredential(_ value: String) -> String {
+        value
+            .replacingOccurrences(of: "\u{FEFF}", with: "")
+            .replacingOccurrences(of: "\u{200B}", with: "")
+            .replacingOccurrences(of: "\u{200C}", with: "")
+            .replacingOccurrences(of: "\u{200D}", with: "")
+            .replacingOccurrences(of: "\u{2060}", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     @discardableResult
     func saveCredential(_ credential: String, for provider: TranslationProviderID) -> Bool {
         guard Self.cloudProviders.contains(provider) else { return false }
+        let sanitized = Self.sanitizedCredential(credential)
+        guard !sanitized.isEmpty else {
+            lastCredentialErrorProvider = provider
+            return false
+        }
         do {
-            try credentialStore.save(credential, for: provider)
+            try credentialStore.save(sanitized, for: provider)
             storedCredentialProviders.insert(provider)
             credentialStatuses[provider] = .saved
             lastCredentialErrorProvider = nil
@@ -341,8 +376,11 @@ final class TranslationSettingsModel: ObservableObject {
     @discardableResult
     func validateCredential(_ credential: String, for provider: TranslationProviderID) async -> Bool {
         guard Self.cloudProviders.contains(provider) else { return false }
-        let trimmed = credential.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return false }
+        let trimmed = Self.sanitizedCredential(credential)
+        guard !trimmed.isEmpty else {
+            lastCredentialErrorProvider = provider
+            return false
+        }
         credentialStatuses[provider] = .validating
         do {
             let valid = try await credentialValidator.validate(
@@ -408,7 +446,7 @@ final class TranslationSettingsModel: ObservableObject {
 
     func loadModelCatalog(for provider: TranslationProviderID) {
         guard provider.isOfficialAIModelProvider,
-              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready
+              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready || provider == .openRouter
         else { return }
         modelCatalogStates[provider] = .loading
         let catalog = modelCatalog
@@ -439,7 +477,7 @@ final class TranslationSettingsModel: ObservableObject {
         guard (1 ... maximumModelIdentifierLength).contains(length) else { return false }
         var allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-._"))
         if provider.allowsPathSeparatorInModelID {
-            allowed.insert(charactersIn: "/")
+            allowed.insert(charactersIn: "/:")
         }
         return identifier.unicodeScalars.allSatisfy(allowed.contains)
     }

@@ -64,10 +64,10 @@ final class SettingsInteractionTests: XCTestCase {
 
     // MARK: - Translation Settings Interaction
 
-    func testTranslationProviderPickerOpens() {
+    func testTranslationProviderSelectorExists() {
         launchToSection("translation")
-        let providerPicker = app.descendants(matching: .any)["TranslationDefaultProviderPicker"]
-        XCTAssertTrue(providerPicker.waitForExistence(timeout: 10))
+        let automaticProvider = app.descendants(matching: .any)["TranslationProvider-automatic"]
+        XCTAssertTrue(app.reveal(automaticProvider))
     }
 
     func testTranslationSettingsTabNavigation() {

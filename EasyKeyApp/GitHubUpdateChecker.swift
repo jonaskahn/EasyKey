@@ -109,7 +109,7 @@ final class GitHubUpdateChecker {
     }
 
     private func currentAppVersion() -> String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.3"
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.4"
     }
 
     func isNewerVersion(_ new: String, than current: String) -> Bool {

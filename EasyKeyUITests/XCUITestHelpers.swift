@@ -37,3 +37,23 @@ extension XCUIElement {
         return true
     }
 }
+
+extension XCUIApplication {
+    @discardableResult
+    func reveal(_ element: XCUIElement, maximumSwipes: Int = 5) -> Bool {
+        for _ in 0 ..< maximumSwipes {
+            let settingsDetail = descendants(matching: .any)["SettingsDetail"]
+            let window = windows.firstMatch
+            let elementFrame = element.frame
+            if element.exists,
+               window.exists,
+               elementFrame.maxY > window.frame.minY,
+               elementFrame.minY < window.frame.maxY {
+                return true
+            }
+            guard settingsDetail.exists else { return false }
+            settingsDetail.swipeUp()
+        }
+        return element.exists
+    }
+}
