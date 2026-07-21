@@ -13,31 +13,33 @@ final class OnboardingCoverageTests: XCTestCase {
         app.terminate()
     }
 
+    private func launchApp() {
+        app.launch()
+        app.activate()
+        app.ensureKeyWindow()
+    }
+
     // MARK: - Welcome Step
 
     func testOnboardingWelcomeStepRenders() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
     }
 
     func testOnboardingPrimaryButtonExists() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["OnboardingPrimary"].exists)
     }
 
     func testOnboardingWelcomeHasStaticText() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         XCTAssertGreaterThan(app.staticTexts.count, 0)
     }
 
     func testOnboardingWelcomeHasProgressBar() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         // ProgressView is accessibilityHidden per design; verify parent view renders.
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].exists)
@@ -46,8 +48,7 @@ final class OnboardingCoverageTests: XCTestCase {
     // MARK: - Step Navigation
 
     func testOnboardingContinueToAccessibilityStep() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         let primaryButton = app.buttons["OnboardingPrimary"]
@@ -57,8 +58,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingBackButtonReturnsToWelcome() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         let primary = app.buttons["OnboardingPrimary"]
@@ -73,8 +73,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingAccessibilityStepHasGrantButton() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         let primary = app.buttons["OnboardingPrimary"]
@@ -87,8 +86,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingTypingMethodStepHasPickers() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         for _ in 0 ..< 2 {
@@ -103,8 +101,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingReadyStepAppears() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         for _ in 0 ..< 3 {
@@ -118,8 +115,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingFinishButtonPresent() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         for _ in 0 ..< 3 {
@@ -135,8 +131,7 @@ final class OnboardingCoverageTests: XCTestCase {
     }
 
     func testOnboardingFinishDismisses() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         for _ in 0 ..< 3 {
@@ -155,8 +150,7 @@ final class OnboardingCoverageTests: XCTestCase {
     // MARK: - Language Picker
 
     func testOnboardingHasLanguageMenu() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         let langPickers = app.descendants(matching: .any)["InterfaceLanguagePicker"]
         XCTAssertTrue(langPickers.waitForExistence(timeout: 3))
@@ -164,8 +158,7 @@ final class OnboardingCoverageTests: XCTestCase {
 
     func testOnboardingVietnameseLocalization() {
         app.launchArguments += ["--ui-language", "vi"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["OnboardingPrimary"].waitForExistence(timeout: 5))
     }
@@ -174,22 +167,19 @@ final class OnboardingCoverageTests: XCTestCase {
 
     func testOnboardingSkipFlagBypassesOnboarding() {
         app.launchArguments.append("--ui-skip-onboarding")
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.descendants(matching: .any)["Welcome"].exists)
     }
 
     func testOnboardingSectionFlagLaunchesToAbout() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["OpenSourceLicenses"].waitForExistence(timeout: 10))
     }
 
     func testOnboardingKeyboardReturnCompletes() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 10))
 
         for _ in 0 ..< 3 {

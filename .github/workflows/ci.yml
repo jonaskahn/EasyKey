@@ -82,6 +82,7 @@ jobs:
             -clonedSourcePackagesDirPath build/SourcePackages \
             -resultBundlePath build/TestResults.xcresult \
             -enableCodeCoverage YES \
+            -retry-tests-on-failure \
             ${{ matrix.filter }}
 
       - name: Upload shard result bundle

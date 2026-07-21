@@ -184,7 +184,7 @@ public struct EngineConfiguration: Equatable, Sendable {
     public var uppercaseFirstCharacter: Bool
 
     public init(
-        inputMethod: InputMethod = .telex,
+        inputMethod: InputMethod = .simpleTelex,
         outputEncoding: EncodingTable = .unicode,
         spellCheck: Bool = true,
         autoRestoreKeys: Bool = true,

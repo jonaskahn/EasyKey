@@ -18,6 +18,7 @@ final class SettingsInteractionTests: XCTestCase {
         app.launchArguments += ["--ui-settings-section", section]
         app.launch()
         app.activate()
+        app.ensureKeyWindow()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
     }
 

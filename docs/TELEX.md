@@ -157,7 +157,7 @@ This option is off by default and is independent of Telex versus Simple Telex.
 
 ## Defaults
 
-- Input method: Telex
+- Input method: Simple Telex
 - Tone style: old (`hòa`, `thủy`, `khỏe`)
 - Position-free composition: always enabled
 - Spell check: enabled

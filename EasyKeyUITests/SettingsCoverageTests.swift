@@ -18,6 +18,7 @@ final class SettingsCoverageTests: XCTestCase {
         app.launchArguments += ["--ui-settings-section", section]
         app.launch()
         app.activate()
+        app.ensureKeyWindow()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
     }
 

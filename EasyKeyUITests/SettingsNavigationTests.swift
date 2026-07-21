@@ -14,17 +14,21 @@ final class SettingsNavigationTests: XCTestCase {
         app.terminate()
     }
 
+    private func launchApp() {
+        app.launch()
+        app.activate()
+        app.ensureKeyWindow()
+    }
+
     // MARK: - Sidebar Rendering
 
     func testSidebarIsPresent() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSidebar"].waitForExistence(timeout: 10))
     }
 
     func testSidebarHasFixedWidth() {
-        app.launch()
-        app.activate()
+        launchApp()
         let sidebar = app.descendants(matching: .any)["SettingsSidebar"]
         XCTAssertTrue(sidebar.waitForExistence(timeout: 10))
         XCTAssertEqual(sidebar.frame.width, 192, accuracy: 2)
@@ -32,15 +36,13 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testSidebarCanStartHidden() {
         app.launchArguments += ["--ui-sidebar-hidden"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
     }
 
     func testSidebarToggleHidesAndShows() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSidebar"].waitForExistence(timeout: 10))
 
         let toggle = app.descendants(matching: .any)["SettingsSidebarToggle"]
@@ -59,72 +61,63 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testNavigateToTypingSection() {
         app.launchArguments += ["--ui-settings-section", "typing"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-typing"].exists)
     }
 
     func testNavigateToEncodingSection() {
         app.launchArguments += ["--ui-settings-section", "encoding"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-encoding"].exists)
     }
 
     func testNavigateToTranslationSection() {
         app.launchArguments += ["--ui-settings-section", "translation"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-translation"].exists)
     }
 
     func testNavigateToClipboardSection() {
         app.launchArguments += ["--ui-settings-section", "clipboard"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-clipboard"].exists)
     }
 
     func testNavigateToMacrosSection() {
         app.launchArguments += ["--ui-settings-section", "macros"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-macros"].exists)
     }
 
     func testNavigateToSmartSwitchSection() {
         app.launchArguments += ["--ui-settings-section", "smartSwitch"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-smartSwitch"].exists)
     }
 
     func testNavigateToBehaviorSection() {
         app.launchArguments += ["--ui-settings-section", "behavior"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-behavior"].exists)
     }
 
     func testNavigateToSystemSection() {
         app.launchArguments += ["--ui-settings-section", "system"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-system"].exists)
     }
 
     func testNavigateToAboutSection() {
         app.launchArguments += ["--ui-settings-section", "about"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.descendants(matching: .any)["SettingsSection-about"].exists)
     }
@@ -133,32 +126,28 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testTypingSectionHasDetailContent() {
         app.launchArguments += ["--ui-settings-section", "typing"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertGreaterThan(app.staticTexts.count, 0)
     }
 
     func testEncodingSectionHasDetailContent() {
         app.launchArguments += ["--ui-settings-section", "encoding"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertGreaterThan(app.staticTexts.count, 0)
     }
 
     func testTranslationSectionHasDetailContent() {
         app.launchArguments += ["--ui-settings-section", "translation"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertGreaterThan(app.staticTexts.count, 0)
     }
 
     func testClipboardSectionHasDetailContent() {
         app.launchArguments += ["--ui-settings-section", "clipboard"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertGreaterThan(app.staticTexts.count, 0)
     }
@@ -167,8 +156,7 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testKeyboardTabInTypingSettings() {
         app.launchArguments += ["--ui-settings-section", "typing"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         app.typeKey(.tab, modifierFlags: [])
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -176,8 +164,7 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testKeyboardTabInEncodingSettings() {
         app.launchArguments += ["--ui-settings-section", "encoding"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         app.typeKey(.tab, modifierFlags: [])
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -185,8 +172,7 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testKeyboardTabInMacroSettings() {
         app.launchArguments += ["--ui-settings-section", "macros"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         app.typeKey(.tab, modifierFlags: [])
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
@@ -196,8 +182,7 @@ final class SettingsNavigationTests: XCTestCase {
 
     func testVietnameseLocalizationHeader() {
         app.launchArguments += ["--ui-language", "vi", "--ui-settings-section", "system"]
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 10))
     }
 }

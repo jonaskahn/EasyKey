@@ -13,15 +13,19 @@ final class SettingsWorkflowTests: XCTestCase {
         app.terminate()
     }
 
-    func testOnboardingShowsOnFirstLaunch() {
+    private func launchApp() {
         app.launch()
         app.activate()
+        app.ensureKeyWindow()
+    }
+
+    func testOnboardingShowsOnFirstLaunch() {
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
     }
 
     func testOnboardingStepThroughAllPages() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
 
         advanceOnboarding(thenWaitFor: "Accessibility")
@@ -35,8 +39,7 @@ final class SettingsWorkflowTests: XCTestCase {
     }
 
     func testOnboardingAccessibilityStepShowsGrantButton() {
-        app.launch()
-        app.activate()
+        launchApp()
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         let primaryButton = onboardingPrimaryButton()
         XCTAssertTrue(primaryButton.waitForExistence(timeout: 5))
@@ -52,8 +55,7 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testOnboardingShowsVietnameseWhenRequested() {
         app.launchArguments += ["--ui-language", "vi"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Chào mừng"].waitForExistence(timeout: 3)
@@ -66,16 +68,14 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testSettingsLaunchesSystemSection() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "system"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         XCTAssertTrue(app.descendants(matching: .any)["InterfaceLanguagePicker"].waitForExistence(timeout: 10))
     }
 
     func testAboutShowsOpenSourceLicenses() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "about"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         let licenses = app.descendants(matching: .any)["OpenSourceLicenses"]
         XCTAssertTrue(licenses.waitForExistence(timeout: 10))
@@ -90,8 +90,7 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testSettingsSidebarHasFixedWidth() {
         app.launchArguments.append("--ui-skip-onboarding")
-        app.launch()
-        app.activate()
+        launchApp()
 
         let sidebar = app.descendants(matching: .any)["SettingsSidebar"]
         XCTAssertTrue(sidebar.waitForExistence(timeout: 5))
@@ -100,8 +99,7 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testSettingsSidebarCanStartHidden() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-sidebar-hidden"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.descendants(matching: .any)["SettingsSidebar"].exists)
@@ -109,8 +107,7 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testTranslationSettingsExpandsProviderBeforeConfiguringCredentials() {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         let deepLDetails = app.descendants(matching: .any)["TranslationProviderDisclosure-deepL"]
         XCTAssertTrue(app.reveal(deepLDetails))
@@ -121,8 +118,7 @@ final class SettingsWorkflowTests: XCTestCase {
 
     func testTranslationSettingsPassesAutomatedAccessibilityAudit() throws {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
-        app.launch()
-        app.activate()
+        launchApp()
 
         XCTAssertTrue(app.reveal(app.descendants(matching: .any)["TranslationProvider-automatic"]))
         let detail = app.descendants(matching: .any)["SettingsDetail"]
