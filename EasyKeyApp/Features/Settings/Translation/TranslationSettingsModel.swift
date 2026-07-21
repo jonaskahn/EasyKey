@@ -2,6 +2,8 @@ import Combine
 import EasyEngineCore
 import Foundation
 
+// swiftlint:disable file_length
+
 @MainActor
 protocol TranslationCredentialValidating {
     func validate(

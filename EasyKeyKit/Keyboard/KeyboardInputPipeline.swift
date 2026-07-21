@@ -3,6 +3,8 @@ import CoreGraphics
 import EasyEngineCore
 import Foundation
 
+// swiftlint:disable file_length
+
 struct KeyboardProcessResult {
     let suppressesOriginal: Bool
     let outputCount: Int
@@ -362,116 +364,6 @@ final class KeyboardInputPipeline {
         return type == .keyDown && keyCode == shortcut.keyCode
     }
 
-    static func engineConfiguration(
-        for settings: EasyKeySettings,
-        rule: AppCompatibilityRule?
-    ) -> EngineConfiguration {
-        var configuration = EngineConfiguration(
-            inputMethod: settings.input.inputMethod,
-            outputEncoding: settings.input.encoding,
-            spellCheck: settings.typing.spellCheck,
-            autoRestoreKeys: settings.typing.restoreInvalidWord,
-            toneStyle: settings.typing.toneStyle,
-            quickTelexConsonants: settings.typing.quickTelexConsonants,
-            standaloneWShortcut: settings.typing.standaloneWShortcut,
-            bracketShortcuts: settings.typing.bracketShortcuts,
-            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
-        )
-        if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
-            configuration.outputEncoding = .unicodeCombining
-        }
-        return configuration
-    }
-
-    static func shouldBreakAutocomplete(
-        inChromiumAddressBar: Bool,
-        isSpotlight: Bool,
-        deleteCount: Int
-    ) -> Bool {
-        (inChromiumAddressBar || isSpotlight) && deleteCount > 0
-    }
-
-    static func keyCode(from event: CGEvent) -> UInt16? {
-        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-        guard keyCode >= 0, keyCode <= Int64(UInt16.max) else { return nil }
-        return UInt16(keyCode)
-    }
-
-    static func normalize(event: CGEvent, keyCode: UInt16) -> KeyEvent {
-        let modifiers = modifiers(from: event)
-        return KeyEvent(
-            kind: keyKind(for: keyCode, event: event),
-            shift: modifiers.contains(.shift),
-            capsLock: event.flags.contains(.maskAlphaShift),
-            control: modifiers.contains(.control),
-            option: modifiers.contains(.option),
-            command: modifiers.contains(.command)
-        )
-    }
-
-    private static func keyKind(for keyCode: UInt16, event: CGEvent) -> KeyEvent.Kind {
-        specialKeyKinds[keyCode] ?? character(from: event).map(KeyEvent.Kind.character) ?? .other
-    }
-
-    private static func character(from event: CGEvent) -> Character? {
-        var length = 0
-        var buffer = [UniChar](repeating: 0, count: 8)
-        event.keyboardGetUnicodeString(
-            maxStringLength: buffer.count,
-            actualStringLength: &length,
-            unicodeString: &buffer
-        )
-        guard length > 0 else { return nil }
-        return String(utf16CodeUnits: buffer, count: length).first
-    }
-
-    static func modifiers(from event: CGEvent) -> Shortcut.ModifierFlags {
-        var modifiers: Shortcut.ModifierFlags = []
-        if event.flags.contains(.maskShift) {
-            modifiers.insert(.shift)
-        }
-        if event.flags.contains(.maskControl) {
-            modifiers.insert(.control)
-        }
-        if event.flags.contains(.maskAlternate) {
-            modifiers.insert(.option)
-        }
-        if event.flags.contains(.maskCommand) {
-            modifiers.insert(.command)
-        }
-        return modifiers
-    }
-
-    static func isMouseEvent(_ type: CGEventType) -> Bool {
-        switch type {
-        case .leftMouseDown, .rightMouseDown, .otherMouseDown,
-             .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
-            true
-        default:
-            false
-        }
-    }
-
-    static func makeEventMask() -> CGEventMask {
-        let types: [CGEventType] = [
-            .keyDown, .keyUp, .flagsChanged,
-            .leftMouseDown, .rightMouseDown, .otherMouseDown,
-            .leftMouseDragged, .rightMouseDragged, .otherMouseDragged,
-        ]
-        return types.reduce(0) { $0 | (CGEventMask(1) << $1.rawValue) }
-    }
-
-    static func isCurrentInputSourceForeign() -> Bool {
-        guard let source = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue(),
-              let languages = TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages)
-        else {
-            return false
-        }
-        let languageCodes = Unmanaged<CFArray>.fromOpaque(languages).takeUnretainedValue() as NSArray
-        guard let languageCodes = languageCodes as? [String] else { return false }
-        return !languageCodes.contains { $0.lowercased().hasPrefix("en") }
-    }
-
     private func detectCmdCDoublePress(keyCode: UInt16, event: CGEvent) {
         guard let handler = cmdCDoublePressHandler else { return }
         guard keyCode == UInt16(kVK_ANSI_C),
@@ -532,5 +424,117 @@ private extension KeyboardInputPipeline {
         invalidateSpotlightCache()
         resetSession()
         return .passed
+    }
+}
+
+extension KeyboardInputPipeline {
+    static func engineConfiguration(
+        for settings: EasyKeySettings,
+        rule: AppCompatibilityRule?
+    ) -> EngineConfiguration {
+        var configuration = EngineConfiguration(
+            inputMethod: settings.input.inputMethod,
+            outputEncoding: settings.input.encoding,
+            spellCheck: settings.typing.spellCheck,
+            autoRestoreKeys: settings.typing.restoreInvalidWord,
+            toneStyle: settings.typing.toneStyle,
+            quickTelexConsonants: settings.typing.quickTelexConsonants,
+            standaloneWShortcut: settings.typing.standaloneWShortcut,
+            bracketShortcuts: settings.typing.bracketShortcuts,
+            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
+        )
+        if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
+            configuration.outputEncoding = .unicodeCombining
+        }
+        return configuration
+    }
+
+    static func shouldBreakAutocomplete(
+        inChromiumAddressBar: Bool,
+        isSpotlight: Bool,
+        deleteCount: Int
+    ) -> Bool {
+        (inChromiumAddressBar || isSpotlight) && deleteCount > 0
+    }
+
+    static func keyCode(from event: CGEvent) -> UInt16? {
+        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+        guard keyCode >= 0, keyCode <= Int64(UInt16.max) else { return nil }
+        return UInt16(keyCode)
+    }
+
+    static func normalize(event: CGEvent, keyCode: UInt16) -> KeyEvent {
+        let modifiers = modifiers(from: event)
+        return KeyEvent(
+            kind: keyKind(for: keyCode, event: event),
+            shift: modifiers.contains(.shift),
+            capsLock: event.flags.contains(.maskAlphaShift),
+            control: modifiers.contains(.control),
+            option: modifiers.contains(.option),
+            command: modifiers.contains(.command)
+        )
+    }
+
+    static func modifiers(from event: CGEvent) -> Shortcut.ModifierFlags {
+        var modifiers: Shortcut.ModifierFlags = []
+        if event.flags.contains(.maskShift) {
+            modifiers.insert(.shift)
+        }
+        if event.flags.contains(.maskControl) {
+            modifiers.insert(.control)
+        }
+        if event.flags.contains(.maskAlternate) {
+            modifiers.insert(.option)
+        }
+        if event.flags.contains(.maskCommand) {
+            modifiers.insert(.command)
+        }
+        return modifiers
+    }
+
+    static func isMouseEvent(_ type: CGEventType) -> Bool {
+        switch type {
+        case .leftMouseDown, .rightMouseDown, .otherMouseDown,
+             .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
+            true
+        default:
+            false
+        }
+    }
+
+    static func makeEventMask() -> CGEventMask {
+        let types: [CGEventType] = [
+            .keyDown, .keyUp, .flagsChanged,
+            .leftMouseDown, .rightMouseDown, .otherMouseDown,
+            .leftMouseDragged, .rightMouseDragged, .otherMouseDragged,
+        ]
+        return types.reduce(0) { $0 | (CGEventMask(1) << $1.rawValue) }
+    }
+
+    static func isCurrentInputSourceForeign() -> Bool {
+        guard let source = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue(),
+              let languages = TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages)
+        else {
+            return false
+        }
+        let languageCodes = Unmanaged<CFArray>.fromOpaque(languages).takeUnretainedValue() as NSArray
+        guard let languageCodes = languageCodes as? [String] else { return false }
+        return !languageCodes.contains { $0.lowercased().hasPrefix("en") }
+    }
+
+    private static func keyKind(for keyCode: UInt16, event: CGEvent) -> KeyEvent.Kind {
+        specialKeyKinds[keyCode] ?? character(from: event).map(KeyEvent.Kind.character) ?? .other
+    }
+
+    private static func character(from event: CGEvent) -> Character? {
+        var length = 0
+        var buffer = [UniChar](repeating: 0, count: 8)
+        event.keyboardGetUnicodeString(
+            maxStringLength: buffer.count,
+            actualStringLength: &length,
+            unicodeString: &buffer
+        )
+        guard length > 0 else { return nil }
+        return String(utf16CodeUnits: buffer, count: length).first
     }
 }

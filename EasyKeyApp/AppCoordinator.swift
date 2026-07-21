@@ -124,13 +124,17 @@ final class AppCoordinator: ObservableObject {
         )
         currentApplicationName = localization.string(.smartSwitchNoActiveApp)
         currentAppSmartSwitchStatus = localization.string(.smartSwitchOff)
-        smartSwitchController.onPublishedStateChange = { [weak self] in
-            self?.syncSmartSwitchPublishedState()
-        }
         configureKeyboardService()
         configureStatusItemController()
         configureWorkspaceObserver()
         self.keyboardService.update(macros: self.macroStore.macros)
+        wireCollaboratorCallbacks()
+    }
+
+    private func wireCollaboratorCallbacks() {
+        smartSwitchController.onPublishedStateChange = { [weak self] in
+            self?.syncSmartSwitchPublishedState()
+        }
         clipboard.openSettings = { [weak self] in self?.showSettings(section: .clipboard) }
         clipboard.onWillActivate = { [weak self] in self?.statusItemController.closePopover() }
         translation.onOpenSettings = { [weak self] in self?.showSettings(section: .translation) }
@@ -317,56 +321,6 @@ final class AppCoordinator: ObservableObject {
         }
     }
 
-    private func presentUpdateAvailableWindow(current: String, latest: String, notes: String?, url: String) {
-        updateWindow?.close()
-        updateWindow = nil
-        let window = makeUpdateWindow(width: 400, height: 250, title: .updateAvailableTitle)
-        window.contentView = NSHostingView(rootView: UpdateAvailableView(
-            currentVersion: current,
-            latestVersion: latest,
-            releaseNotes: notes,
-            downloadURL: url,
-            onDismiss: { [weak self] in
-                self?.closeUpdateWindow()
-            },
-            onDownload: { [weak self] in
-                self?.handleUpdateDownload(url: url)
-            }
-        ))
-        updateWindow = window
-        window.center()
-        window.makeKeyAndOrderFront(nil)
-    }
-
-    private func presentUpToDateWindow(current: String) {
-        updateWindow?.close()
-        updateWindow = nil
-        let window = makeUpdateWindow(width: 350, height: 150, title: .updateUpToDateTitle)
-        window.contentView = NSHostingView(rootView: UpToDateView(
-            currentVersion: current,
-            onDismiss: { [weak self] in
-                self?.closeUpdateWindow()
-            }
-        ))
-        updateWindow = window
-        window.center()
-        window.makeKeyAndOrderFront(nil)
-    }
-
-    private func presentUpdateErrorWindow() {
-        updateWindow?.close()
-        updateWindow = nil
-        let window = makeUpdateWindow(width: 350, height: 150, title: .updateErrorTitle)
-        window.contentView = NSHostingView(rootView: UpdateCheckErrorView(
-            onDismiss: { [weak self] in
-                self?.closeUpdateWindow()
-            }
-        ))
-        updateWindow = window
-        window.center()
-        window.makeKeyAndOrderFront(nil)
-    }
-
     func closeUpdateWindow() {
         updateWindow?.close()
         updateWindow = nil
@@ -380,20 +334,6 @@ final class AppCoordinator: ObservableObject {
             AppLog.error(.update, "Refused to open untrusted download URL")
         }
         closeUpdateWindow()
-    }
-
-    private func makeUpdateWindow(width: CGFloat, height: CGFloat, title: L10nKey) -> NSWindow {
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: width, height: height),
-            styleMask: [.titled, .closable],
-            backing: .buffered,
-            defer: false
-        )
-        window.title = LocalizationStore.shared.string(title)
-        window.isReleasedWhenClosed = false
-        UpdateWindowDelegate.shared.coordinator = self
-        window.delegate = UpdateWindowDelegate.shared
-        return window
     }
 
     var canCheckForUpdates: Bool {
@@ -453,6 +393,72 @@ final class AppCoordinator: ObservableObject {
             keyboardHealth: keyboardHealth,
             keyboardPaused: keyboardPaused
         )
+    }
+}
+
+extension AppCoordinator {
+    func presentUpdateAvailableWindow(current: String, latest: String, notes: String?, url: String) {
+        updateWindow?.close()
+        updateWindow = nil
+        let window = makeUpdateWindow(width: 400, height: 250, title: .updateAvailableTitle)
+        window.contentView = NSHostingView(rootView: UpdateAvailableView(
+            currentVersion: current,
+            latestVersion: latest,
+            releaseNotes: notes,
+            downloadURL: url,
+            onDismiss: { [weak self] in
+                self?.closeUpdateWindow()
+            },
+            onDownload: { [weak self] in
+                self?.handleUpdateDownload(url: url)
+            }
+        ))
+        updateWindow = window
+        window.center()
+        window.makeKeyAndOrderFront(nil)
+    }
+
+    func presentUpToDateWindow(current: String) {
+        updateWindow?.close()
+        updateWindow = nil
+        let window = makeUpdateWindow(width: 350, height: 150, title: .updateUpToDateTitle)
+        window.contentView = NSHostingView(rootView: UpToDateView(
+            currentVersion: current,
+            onDismiss: { [weak self] in
+                self?.closeUpdateWindow()
+            }
+        ))
+        updateWindow = window
+        window.center()
+        window.makeKeyAndOrderFront(nil)
+    }
+
+    func presentUpdateErrorWindow() {
+        updateWindow?.close()
+        updateWindow = nil
+        let window = makeUpdateWindow(width: 350, height: 150, title: .updateErrorTitle)
+        window.contentView = NSHostingView(rootView: UpdateCheckErrorView(
+            onDismiss: { [weak self] in
+                self?.closeUpdateWindow()
+            }
+        ))
+        updateWindow = window
+        window.center()
+        window.makeKeyAndOrderFront(nil)
+    }
+
+    private func makeUpdateWindow(width: CGFloat, height: CGFloat, title: L10nKey) -> NSWindow {
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: width, height: height),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+        window.title = LocalizationStore.shared.string(title)
+        window.isReleasedWhenClosed = false
+        UpdateWindowDelegate.shared.coordinator = self
+        window.delegate = UpdateWindowDelegate.shared
+        return window
     }
 }
 

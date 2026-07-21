@@ -5,7 +5,7 @@ import XCTest
 final class GitHubUpdateCheckerTests: XCTestCase {
     func testVersionComparison_NewerVersion_ReturnsTrue() {
         let checker = GitHubUpdateChecker()
-        XCTAssertTrue(checker.isNewerVersion("0.0.5", than: "0.0.4"))
+        XCTAssertTrue(checker.isNewerVersion("0.0.6", than: "0.0.4"))
         XCTAssertTrue(checker.isNewerVersion("1.0.0", than: "0.9.9"))
         XCTAssertTrue(checker.isNewerVersion("0.1.0", than: "0.0.9"))
         XCTAssertTrue(checker.isNewerVersion("2.0.0", than: "1.9.9"))
@@ -19,7 +19,7 @@ final class GitHubUpdateCheckerTests: XCTestCase {
 
     func testVersionComparison_OlderVersion_ReturnsFalse() {
         let checker = GitHubUpdateChecker()
-        XCTAssertFalse(checker.isNewerVersion("0.0.4", than: "0.0.5"))
+        XCTAssertFalse(checker.isNewerVersion("0.0.4", than: "0.0.6"))
         XCTAssertFalse(checker.isNewerVersion("0.9.9", than: "1.0.0"))
     }
 

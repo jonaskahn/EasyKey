@@ -2,6 +2,8 @@ import AppKit
 import EasyEngineCore
 import SwiftUI
 
+// swiftlint:disable file_length
+
 struct TranslationPanelActions {
     var openSettings: () -> Void
     var announceResult: (String) -> Void = { result in
@@ -390,6 +392,30 @@ struct TranslationPanelView: View {
         .accessibilityIdentifier(TranslationPanelAccessibility.status)
     }
 
+    private var sourceTextBinding: Binding<String> {
+        Binding(get: { model.sourceText }, set: model.setSourceTextFromUserInput)
+    }
+
+    private var sourceLanguageBinding: Binding<TranslationLanguage?> {
+        Binding(get: { model.sourceLanguage }, set: model.selectSourceLanguage)
+    }
+
+    private var targetLanguageBinding: Binding<TranslationLanguage> {
+        Binding(get: { model.targetLanguage }, set: model.setTargetLanguage)
+    }
+
+    private func providerName(_ provider: TranslationProviderID) -> String {
+        provider == .automatic ? localization.string(.translationProviderAutomatic) : provider.displayName
+    }
+
+    private func languageName(_ language: TranslationLanguage) -> String {
+        Locale(identifier: localization.resolvedCode)
+            .localizedString(forIdentifier: language.identifier)?
+            .capitalized(with: localization.locale) ?? language.identifier
+    }
+}
+
+extension TranslationPanelView {
     @ViewBuilder private func speechControl(field: TranslationSpeechField) -> some View {
         if pronunciationSupported {
             let availability = speechAvailability(field)
@@ -421,18 +447,6 @@ struct TranslationPanelView: View {
     private var pronunciationSupported: Bool {
         guard let providerID = model.providerID else { return false }
         return TranslationPronunciationPolicy.supports(providerID)
-    }
-
-    private var sourceTextBinding: Binding<String> {
-        Binding(get: { model.sourceText }, set: model.setSourceTextFromUserInput)
-    }
-
-    private var sourceLanguageBinding: Binding<TranslationLanguage?> {
-        Binding(get: { model.sourceLanguage }, set: model.selectSourceLanguage)
-    }
-
-    private var targetLanguageBinding: Binding<TranslationLanguage> {
-        Binding(get: { model.targetLanguage }, set: model.setTargetLanguage)
     }
 
     private func speechAvailability(_ field: TranslationSpeechField) -> TranslationSpeechAvailability {
@@ -478,16 +492,6 @@ struct TranslationPanelView: View {
         case let .voiceUnavailable(identifier):
             return localization.format(.translationSpeechVoiceUnavailable, identifier)
         }
-    }
-
-    private func providerName(_ provider: TranslationProviderID) -> String {
-        provider == .automatic ? localization.string(.translationProviderAutomatic) : provider.displayName
-    }
-
-    private func languageName(_ language: TranslationLanguage) -> String {
-        Locale(identifier: localization.resolvedCode)
-            .localizedString(forIdentifier: language.identifier)?
-            .capitalized(with: localization.locale) ?? language.identifier
     }
 
     private func errorMessage(_ error: TranslationError) -> String {

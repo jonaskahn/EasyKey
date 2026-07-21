@@ -1,6 +1,7 @@
 import Foundation
 
-/// Typed semantic localization keys. Each case maps one message key to locale values in `Localizable.xcstrings`.
+// Typed semantic localization keys. Each case maps one message key to locale values in `Localizable.xcstrings`.
+// swiftlint:disable:next type_body_length
 enum L10nKey: String, CaseIterable, Sendable {
     case a11yClearShortcut = "a11y.clearShortcut"
     case a11yInputLanguage = "a11y.inputLanguage"
