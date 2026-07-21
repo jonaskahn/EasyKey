@@ -96,15 +96,24 @@ final class TranslationSettingsModel: ObservableObject {
     static let cloudProviders = TranslationProviderResolver.cloudProviderOrder
     static let maximumModelIdentifierLength = 100
 
+    enum ModelCatalogState: Equatable {
+        case idle
+        case loading
+        case loaded([TranslationModelCatalogEntry])
+        case failed
+    }
+
     @Published private(set) var credentialStatuses: [TranslationProviderID: TranslationCredentialStatus] = [:]
     @Published private(set) var storedCredentialProviders: Set<TranslationProviderID> = []
     @Published private(set) var shortcutRegistrationState: TranslationHotKeyRegistrationState
     @Published private(set) var lastCredentialErrorProvider: TranslationProviderID?
+    @Published private(set) var modelCatalogStates: [TranslationProviderID: ModelCatalogState] = [:]
 
     let platformCapability: TranslationPlatformCapability
     private let settingsStore: SettingsStore
     private let credentialStore: TranslationCredentialStoring
     private let credentialValidator: TranslationCredentialValidating
+    private let modelCatalog: TranslationModelCatalogProviding
     var shortcutApplier: ShortcutApplier?
     var onCredentialsChange: (() -> Void)?
     var onEnabledChange: (() -> Void)?
@@ -114,6 +123,7 @@ final class TranslationSettingsModel: ObservableObject {
         platformCapability: TranslationPlatformCapability,
         credentialStore: TranslationCredentialStoring = KeychainTranslationCredentialStore(),
         credentialValidator: TranslationCredentialValidating? = nil,
+        modelCatalog: TranslationModelCatalogProviding? = nil,
         shortcutRegistrationState: TranslationHotKeyRegistrationState? = nil,
         shortcutApplier: ShortcutApplier? = nil
     ) {
@@ -121,6 +131,7 @@ final class TranslationSettingsModel: ObservableObject {
         self.platformCapability = platformCapability
         self.credentialStore = credentialStore
         self.credentialValidator = credentialValidator ?? LiveTranslationCredentialValidator()
+        self.modelCatalog = modelCatalog ?? LiveTranslationModelCatalog(credentialStore: credentialStore)
         self.shortcutApplier = shortcutApplier
         self.shortcutRegistrationState = shortcutRegistrationState
             ?? (settingsStore.settings.translation.shortcut.isActive
@@ -292,7 +303,7 @@ final class TranslationSettingsModel: ObservableObject {
     @discardableResult
     func setModelIdentifier(_ value: String, for provider: TranslationProviderID) -> Bool {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard Self.isValidModelIdentifier(trimmed) else { return false }
+        guard Self.isValidModelIdentifier(trimmed, for: provider) else { return false }
         settingsStore.update {
             switch provider {
             case .openAI: $0.translation.openAIModelIdentifier = trimmed
@@ -318,6 +329,7 @@ final class TranslationSettingsModel: ObservableObject {
             credentialStatuses[provider] = .saved
             lastCredentialErrorProvider = nil
             onCredentialsChange?()
+            loadModelCatalog(for: provider)
             return true
         } catch {
             AppLog.error(.translation, "Failed to save credential for \(provider.rawValue): \(error)")
@@ -348,6 +360,7 @@ final class TranslationSettingsModel: ObservableObject {
             credentialStatuses[provider] = .ready
             lastCredentialErrorProvider = nil
             onCredentialsChange?()
+            loadModelCatalog(for: provider)
             return true
         } catch {
             AppLog.error(.translation, "Failed to validate credential for \(provider.rawValue): \(error)")
@@ -363,6 +376,7 @@ final class TranslationSettingsModel: ObservableObject {
             storedCredentialProviders.remove(provider)
             credentialStatuses[provider] = .missing
             lastCredentialErrorProvider = nil
+            modelCatalogStates[provider] = .idle
             onCredentialsChange?()
         } catch {
             AppLog.error(.translation, "Failed to delete credential for \(provider.rawValue): \(error)")
@@ -392,10 +406,57 @@ final class TranslationSettingsModel: ObservableObject {
         }
     }
 
-    static func isValidModelIdentifier(_ identifier: String) -> Bool {
+    func loadModelCatalog(for provider: TranslationProviderID) {
+        guard provider.isOfficialAIModelProvider,
+              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready
+        else { return }
+        modelCatalogStates[provider] = .loading
+        let catalog = modelCatalog
+        Task { [weak self] in
+            let entries: [TranslationModelCatalogEntry]
+            do {
+                entries = try await catalog.fetchModels(for: provider)
+            } catch {
+                await MainActor.run {
+                    self?.modelCatalogStates[provider] = .failed
+                }
+                return
+            }
+            let currentID = self?.modelIdentifier(for: provider)
+            var merged = entries
+            if let currentID,
+               !merged.contains(where: { $0.identifier == currentID }) {
+                merged.append(TranslationModelCatalogEntry(identifier: currentID, displayName: currentID))
+            }
+            await MainActor.run {
+                self?.modelCatalogStates[provider] = .loaded(merged)
+            }
+        }
+    }
+
+    static func isValidModelIdentifier(_ identifier: String, for provider: TranslationProviderID) -> Bool {
         let length = identifier.utf8.count
         guard (1 ... maximumModelIdentifierLength).contains(length) else { return false }
-        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-._"))
+        var allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-._"))
+        if provider.allowsPathSeparatorInModelID {
+            allowed.insert(charactersIn: "/")
+        }
         return identifier.unicodeScalars.allSatisfy(allowed.contains)
+    }
+}
+
+extension TranslationProviderID {
+    var allowsPathSeparatorInModelID: Bool {
+        switch self {
+        case .openRouter, .groq, .openAICompatible, .anthropicCompatible: true
+        default: false
+        }
+    }
+
+    var isOfficialAIModelProvider: Bool {
+        switch self {
+        case .openAI, .anthropic, .gemini, .openRouter, .groq: true
+        default: false
+        }
     }
 }

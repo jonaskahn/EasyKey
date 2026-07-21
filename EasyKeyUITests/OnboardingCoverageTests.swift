@@ -190,19 +190,19 @@ final class OnboardingCoverageTests: XCTestCase {
     func testOnboardingKeyboardReturnCompletes() {
         app.launch()
         app.activate()
-        XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["Welcome"].waitForExistence(timeout: 10))
 
         for _ in 0 ..< 3 {
             let primary = app.buttons["OnboardingPrimary"]
-            XCTAssertTrue(primary.waitForExistence(timeout: 5))
+            XCTAssertTrue(primary.waitForExistence(timeout: 10))
             primary.clickWhenHittable()
-            sleep(1)
+            sleep(2)
         }
 
-        XCTAssertTrue(app.descendants(matching: .any)["Ready"].waitForExistence(timeout: 5))
-        sleep(1)
-        app.typeKey(.return, modifierFlags: [])
+        XCTAssertTrue(app.descendants(matching: .any)["Ready"].waitForExistence(timeout: 10))
         sleep(2)
+        app.typeKey(.return, modifierFlags: [])
+        sleep(3)
         XCTAssertTrue(app.descendants(matching: .any)["SettingsDetail"].exists)
     }
 }

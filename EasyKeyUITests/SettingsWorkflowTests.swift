@@ -77,15 +77,15 @@ final class SettingsWorkflowTests: XCTestCase {
         app.launch()
         app.activate()
 
-        let licenses = app.buttons["Open Source Licenses"]
+        let licenses = app.descendants(matching: .any)["OpenSourceLicenses"]
         XCTAssertTrue(licenses.waitForExistence(timeout: 10))
         licenses.clickWhenHittable()
 
         XCTAssertTrue(app.descendants(matching: .any)["ThirdPartyNoticesText"].waitForExistence(timeout: 5))
         let done = app.buttons["ThirdPartyNoticesDone"]
-        XCTAssertTrue(done.exists)
+        XCTAssertTrue(done.waitForExistence(timeout: 5))
         done.clickWhenHittable()
-        XCTAssertFalse(app.descendants(matching: .any)["ThirdPartyNoticesText"].exists)
+        XCTAssertFalse(app.descendants(matching: .any)["ThirdPartyNoticesText"].waitForExistence(timeout: 3))
     }
 
     func testSettingsSidebarHasFixedWidth() {

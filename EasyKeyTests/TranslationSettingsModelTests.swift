@@ -181,7 +181,24 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertFalse(model.setModelIdentifier("", for: .anthropic))
         XCTAssertFalse(model.setModelIdentifier(String(repeating: "a", count: 101), for: .anthropic))
         XCTAssertEqual(model.modelIdentifier(for: .anthropic), original)
-        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("claude-3.5_test"))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("claude-3.5_test", for: .anthropic))
+    }
+
+    func testModelIdentifierValidationAllowsPathSeparatorForOpenRouterAndCompatible() {
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openRouter))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .groq))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openAICompatible))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .anthropicCompatible))
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .openAI))
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .anthropic))
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("openai/gpt-4o-mini", for: .gemini))
+    }
+
+    func testModelIdentifierValidationMaxLength() {
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier(String(repeating: "a", count: 101), for: .openAI))
+        XCTAssertFalse(TranslationSettingsModel.isValidModelIdentifier("", for: .openAI))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier(String(repeating: "a", count: 100), for: .openAI))
+        XCTAssertTrue(TranslationSettingsModel.isValidModelIdentifier("a", for: .openAI))
     }
 
     func testSaveValidateInvalidAndDeleteCredentialState() async throws {
@@ -404,6 +421,52 @@ final class TranslationSettingsModelTests: XCTestCase {
 
         let anthropic = try await validator.validate("key", for: .anthropicCompatible, options: options)
         XCTAssertTrue(anthropic)
+    }
+
+    func testSaveCredential_TriggersModelCatalogLoad_ForOfficialProvider() {
+        let model = makeModel()
+        model.saveCredential("test-key", for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+    }
+
+    func testSaveCredential_DoesNotTriggerCatalogLoad_ForNonOfficialProvider() {
+        let model = makeModel()
+        model.saveCredential("test-key", for: .deepL)
+        XCTAssertNil(model.modelCatalogStates[.deepL])
+        model.saveCredential("test-key", for: .google)
+        XCTAssertNil(model.modelCatalogStates[.google])
+    }
+
+    func testValidateCredential_SuccessTriggersCatalogLoad() async {
+        let model = makeModel()
+        _ = await model.validateCredential("test-key", for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+    }
+
+    func testDeleteCredential_ClearsCatalogState() async {
+        let model = makeModel()
+        _ = await model.validateCredential("test-key", for: .openAI)
+        model.deleteCredential(for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .idle)
+    }
+
+    func testLoadModelCatalog_SetsLoadingState_WhenCredentialSaved() {
+        let model = makeModel()
+        model.saveCredential("test-key", for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+    }
+
+    func testLoadModelCatalog_SkipsWhenNoCredential() {
+        let model = makeModel()
+        model.loadModelCatalog(for: .openAI)
+        XCTAssertNil(model.modelCatalogStates[.openAI])
+    }
+
+    func testLoadModelCatalog_SkipsWhenProviderNotOfficial() {
+        let model = makeModel()
+        model.saveCredential("test-key", for: .deepL)
+        model.loadModelCatalog(for: .deepL)
+        XCTAssertNil(model.modelCatalogStates[.deepL])
     }
 
     private func makeModel(

@@ -84,6 +84,40 @@ final class AppCoordinatorWiringTests: XCTestCase {
         XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedDelay))
     }
 
+    func testTranslationRuntimeObservationTracksAllModelIdentifiers() {
+        let settings = coordinator.settingsStore.settings
+        let initial = TranslationRuntimeSettingsObservation(options: settings.translation)
+
+        var changedOpenRouter = settings.translation
+        changedOpenRouter.openRouterModelIdentifier = "anthropic/claude-sonnet-4-5"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedOpenRouter))
+
+        var changedGroq = settings.translation
+        changedGroq.groqModelIdentifier = "mixtral-8x7b-32768"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedGroq))
+
+        var changedOpenAICompat = settings.translation
+        changedOpenAICompat.openAICompatibleModelIdentifier = "custom-model"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedOpenAICompat))
+
+        var changedAnthropicCompat = settings.translation
+        changedAnthropicCompat.anthropicCompatibleModelIdentifier = "custom-claude"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedAnthropicCompat))
+    }
+
+    func testTranslationRuntimeObservationTracksCompatibleEndpoints() {
+        let settings = coordinator.settingsStore.settings
+        let initial = TranslationRuntimeSettingsObservation(options: settings.translation)
+
+        var changedOpenAIEndpoint = settings.translation
+        changedOpenAIEndpoint.openAICompatibleEndpoint = "https://custom.com/v1"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedOpenAIEndpoint))
+
+        var changedAnthropicEndpoint = settings.translation
+        changedAnthropicEndpoint.anthropicCompatibleEndpoint = "https://custom.com/v1"
+        XCTAssertNotEqual(initial, TranslationRuntimeSettingsObservation(options: changedAnthropicEndpoint))
+    }
+
     func testTranslationActivationObservationTracksEnabledStateAndShortcut() {
         let settings = coordinator.settingsStore.settings
         let initial = TranslationActivationSettingsObservation(

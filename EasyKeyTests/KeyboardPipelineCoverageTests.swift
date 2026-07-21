@@ -257,4 +257,92 @@ final class KeyboardPipelineCoverageTests: XCTestCase {
         let normalized = KeyboardInputPipeline.normalize(event: event, keyCode: 0)
         XCTAssertTrue(normalized.hasModifiers)
     }
+
+    // MARK: - processFlagsChanged branches
+
+    func testProcess_FlagsChanged_RestoreWordShortcut_WhenVietnamese() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        settings.typing.restoreWordShortcut = Shortcut(keyCode: 10, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 10, keyDown: true)
+        else { XCTFail("restore event"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 10)
+        _ = result
+    }
+
+    func testProcess_FlagsChanged_RestoreWordShortcut_WhenNotVietnamese_DoesNotMatch() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.typing.restoreWordShortcut = Shortcut(keyCode: 10, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 10, keyDown: true)
+        else { XCTFail("non vi restore"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 10)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_KeyDown_RestoreWordShortcut_WhenVietnamese() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        settings.typing.restoreWordShortcut = Shortcut(keyCode: 10, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 10, keyDown: true)
+        else { XCTFail("restore key"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 10)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    func testProcess_KeyDown_NonVietnamese_Bypasses() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.compatibility.otherLanguageSupport = true
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else {
+            XCTFail("Cannot create event")
+            return
+        }
+        event.setIntegerValueField(.keyboardEventKeycode, value: 0)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 0)
+        XCTAssertEqual(result.disposition, .bypassed)
+    }
+
+    func testProcess_FlagsChanged_NoMatchingShortcut_InvalidatesCache() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 200, keyDown: true)
+        else { XCTFail("random key"); return }
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: 200)
+        XCTAssertEqual(result.disposition, .passed)
+    }
+
+    // MARK: - Shortcut matches when no keyCode
+
+    func testShortcutMatches_NoKeyCodeModifiersOnly_FlagsChanged() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 0, modifiers: [.option])
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("no keyCode event"); return }
+        event.flags = .maskAlternate
+        let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: nil)
+        XCTAssertEqual(result.disposition, .suppressed)
+    }
+
+    // MARK: - process with ignored bundle
+
+    func testProcess_IgnoredAppNoMacros() {
+        var settings = EasyKeySettings.defaults
+        let bundleID = "com.ignored.test-\(UUID().uuidString)"
+        settings.compatibility.ignoredApplicationBundleIdentifiers = [bundleID]
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        pipeline.setActiveApplication(bundleID)
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
+        else { XCTFail("ignored event"); return }
+        event.setIntegerValueField(.keyboardEventKeycode, value: 0)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 0)
+        XCTAssertEqual(result.disposition, .bypassed)
+    }
 }

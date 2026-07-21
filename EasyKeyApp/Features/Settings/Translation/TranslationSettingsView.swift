@@ -253,6 +253,14 @@ private struct CloudTranslationSettingsCard: View {
     @State private var modelIdentifierIsInvalid = false
     @State private var endpointURL = ""
     @State private var showDeleteConfirmation = false
+    @State private var showModelPicker = false
+    @State private var modelSearchText = ""
+    @State private var showModelSaved = false
+    @State private var modelSavedTask: Task<Void, Never>?
+
+    private var usesOfficialModelCatalog: Bool {
+        provider.isOfficialAIModelProvider
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -284,15 +292,11 @@ private struct CloudTranslationSettingsCard: View {
             }
 
             if model.modelIdentifier(for: provider) != nil {
-                TextField(localization.string(.translationSettingsModel), text: $modelIdentifier)
-                    .textFieldStyle(.roundedBorder)
-                    .onSubmit(saveModelIdentifier)
-                    .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
-                    .accessibilityHint(localization.string(.translationSettingsModelHint))
-                if modelIdentifierIsInvalid {
-                    Text(localization.string(.translationSettingsModelInvalid))
-                        .font(.caption)
-                        .foregroundStyle(.primary)
+                HStack(spacing: 6) {
+                    modelControl
+                    if showModelSaved {
+                        savedNotice
+                    }
                 }
             }
 
@@ -337,6 +341,7 @@ private struct CloudTranslationSettingsCard: View {
         .onAppear {
             modelIdentifier = model.modelIdentifier(for: provider) ?? ""
             endpointURL = endpointValue()
+            model.loadModelCatalog(for: provider)
         }
         .alert(localization.format(.translationSettingsDeleteKeyConfirmTitle, providerName), isPresented: $showDeleteConfirmation) {
             Button(localization.string(.commonCancel), role: .cancel) {}
@@ -346,6 +351,157 @@ private struct CloudTranslationSettingsCard: View {
             }
         } message: {
             Text(localization.string(.translationSettingsDeleteKeyConfirmMessage))
+        }
+    }
+
+    @ViewBuilder
+    private var modelControl: some View {
+        if usesOfficialModelCatalog {
+            officialModelPicker
+        } else {
+            compatibleModelField
+        }
+    }
+
+    private var compatibleModelField: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            TextField(localization.string(.translationSettingsModel), text: $modelIdentifier)
+                .textFieldStyle(.roundedBorder)
+                .onSubmit(saveModelIdentifier)
+                .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
+                .accessibilityHint(localization.string(.translationSettingsModelHint))
+            if modelIdentifierIsInvalid {
+                Text(localization.string(.translationSettingsModelInvalid))
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+            }
+        }
+    }
+
+    private var officialModelPicker: some View {
+        Button {
+            modelSearchText = ""
+            showModelPicker = true
+        } label: {
+            HStack {
+                Text(modelIdentifier.nonEmptyForDisplay(
+                    fallback: model.modelIdentifier(for: provider) ?? provider.displayName
+                ))
+                .lineLimit(1)
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+        }
+        .buttonStyle(.plain)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+        )
+        .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModel))")
+        .popover(isPresented: $showModelPicker) {
+            modelPickerPopover
+        }
+    }
+
+    private var modelPickerPopover: some View {
+        VStack(spacing: 0) {
+            TextField(localization.string(.translationSettingsModelSearch), text: $modelSearchText)
+                .textFieldStyle(.roundedBorder)
+                .padding(8)
+                .accessibilityLabel(localization.string(.translationSettingsModelSearch))
+
+            switch model.modelCatalogStates[provider] ?? .idle {
+            case .idle, .loading:
+                VStack(spacing: 8) {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text(localization.string(.translationSettingsModelLoading))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(20)
+                .frame(width: 260)
+            case .failed:
+                VStack(spacing: 8) {
+                    Text(localization.string(.translationSettingsModelLoadFailed))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Button(localization.string(.translationSettingsModelRetry)) {
+                        model.loadModelCatalog(for: provider)
+                    }
+                }
+                .padding(20)
+                .frame(width: 260)
+            case let .loaded(entries):
+                let filtered = filteredEntries(entries)
+                if filtered.isEmpty {
+                    Text(localization.string(.translationSettingsModelNoResults))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .padding(20)
+                        .frame(width: 260)
+                } else {
+                    List(filtered, id: \.identifier) { entry in
+                        Button {
+                            selectModelEntry(entry)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(entry.displayName)
+                                    .lineLimit(2)
+                                if entry.displayName != entry.identifier {
+                                    Text(entry.identifier)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .lineLimit(1)
+                                }
+                            }
+                            .padding(.vertical, 2)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .frame(width: 280, height: 280)
+                }
+            }
+        }
+    }
+
+    private func filteredEntries(_ entries: [TranslationModelCatalogEntry]) -> [TranslationModelCatalogEntry] {
+        let trimmed = modelSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return entries }
+        return entries.filter {
+            $0.identifier.localizedCaseInsensitiveContains(trimmed)
+                || $0.displayName.localizedCaseInsensitiveContains(trimmed)
+        }
+    }
+
+    private func selectModelEntry(_ entry: TranslationModelCatalogEntry) {
+        modelIdentifier = entry.identifier
+        model.setModelIdentifier(entry.identifier, for: provider)
+        showModelPicker = false
+        triggerSavedNotice()
+    }
+
+    private var savedNotice: some View {
+        Label(localization.string(.translationSettingsModelSaved), systemImage: "checkmark.circle.fill")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .transition(.opacity.combined(with: .scale(scale: 0.8)))
+            .accessibilityLabel("\(providerName): \(localization.string(.translationSettingsModelSavedA11y))")
+    }
+
+    private func triggerSavedNotice() {
+        modelSavedTask?.cancel()
+        showModelSaved = true
+        modelSavedTask = Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            guard !Task.isCancelled else { return }
+            withAnimation(.easeOut(duration: 0.3)) {
+                showModelSaved = false
+            }
         }
     }
 
@@ -416,5 +572,12 @@ private struct CloudTranslationSettingsCard: View {
         if !modelIdentifierIsInvalid {
             modelIdentifier = model.modelIdentifier(for: provider) ?? ""
         }
+    }
+}
+
+private extension String {
+    func nonEmptyForDisplay(fallback: String) -> String {
+        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? fallback : trimmed
     }
 }

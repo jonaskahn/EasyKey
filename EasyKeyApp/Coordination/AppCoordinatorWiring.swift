@@ -10,6 +10,12 @@ struct TranslationRuntimeSettingsObservation: Equatable {
     let openAIModelIdentifier: String
     let anthropicModelIdentifier: String
     let geminiModelIdentifier: String
+    let openRouterModelIdentifier: String
+    let groqModelIdentifier: String
+    let openAICompatibleModelIdentifier: String
+    let openAICompatibleEndpoint: String
+    let anthropicCompatibleModelIdentifier: String
+    let anthropicCompatibleEndpoint: String
     let deepLEndpoint: TranslationOptions.DeepLEndpoint
 
     init(options: TranslationOptions) {
@@ -19,6 +25,12 @@ struct TranslationRuntimeSettingsObservation: Equatable {
         openAIModelIdentifier = options.openAIModelIdentifier
         anthropicModelIdentifier = options.anthropicModelIdentifier
         geminiModelIdentifier = options.geminiModelIdentifier
+        openRouterModelIdentifier = options.openRouterModelIdentifier
+        groqModelIdentifier = options.groqModelIdentifier
+        openAICompatibleModelIdentifier = options.openAICompatibleModelIdentifier
+        openAICompatibleEndpoint = options.openAICompatibleEndpoint
+        anthropicCompatibleModelIdentifier = options.anthropicCompatibleModelIdentifier
+        anthropicCompatibleEndpoint = options.anthropicCompatibleEndpoint
         deepLEndpoint = options.deepLEndpoint
     }
 }

@@ -1040,6 +1040,216 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "dd")
     }
 
+    // MARK: - Syllable isOpen coverage
+
+    func testSyllable_OpenSyllable_IsOpenTrue() {
+        let s = Syllable(onset: "t", nucleus: "a", final: "")
+        XCTAssertTrue(s.isOpen)
+    }
+
+    func testSyllable_ClosedSyllable_IsOpenFalse() {
+        let s = Syllable(onset: "t", nucleus: "a", final: "n")
+        XCTAssertFalse(s.isOpen)
+    }
+
+    // MARK: - VietnameseCharacters.removingTone coverage
+
+    func testRemovingTone_PlainVowel_ReturnsSelf() {
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "a"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "e"), "e")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "o"), "o")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "u"), "u")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "i"), "i")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "y"), "y")
+    }
+
+    func testRemovingTone_AccentedVowel_RemovesTone() {
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "á"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "à"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ả"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ã"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ạ"), "a")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ắ"), "ă")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ằ"), "ă")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ẳ"), "ă")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ẵ"), "ă")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ặ"), "ă")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ấ"), "â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ầ"), "â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ẩ"), "â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ẫ"), "â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ậ"), "â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ớ"), "ơ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ờ"), "ơ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ở"), "ơ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ỡ"), "ơ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ợ"), "ơ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ứ"), "ư")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ừ"), "ư")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ử"), "ư")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ữ"), "ư")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "ự"), "ư")
+    }
+
+    func testRemovingTone_UppercaseVowel_RemovesTone() {
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "Á"), "A")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "Ấ"), "Â")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "Ỗ"), "Ô")
+    }
+
+    func testRemovingTone_Consonant_ReturnsUnchanged() {
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "t"), "t")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "đ"), "đ")
+        XCTAssertEqual(VietnameseCharacters.removingTone(from: "Đ"), "Đ")
+    }
+
+    // MARK: - TelexComposer coverage
+
+    func testTelexTrailingFinalConsonants_AllFinals() {
+        let cases: [([BufferAtom], String)] = [
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "n")], "n"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "n"), BufferAtom(base: "g")], "ng"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "n"), BufferAtom(base: "h")], "nh"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "c"), BufferAtom(base: "h")], "ch"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "t")], "t"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "c")], "c"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "p")], "p"),
+            ([BufferAtom(base: "t"), BufferAtom(base: "a"), BufferAtom(base: "m")], "m"),
+        ]
+        for (atoms, expected) in cases {
+            XCTAssertEqual(TelexComposer.trailingFinalConsonants(atoms), expected)
+        }
+    }
+
+    func testTelexTrailingFinalConsonants_OpenSyllable() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "t"), BufferAtom(base: "a"),
+        ]
+        XCTAssertEqual(TelexComposer.trailingFinalConsonants(atoms), "")
+        XCTAssertEqual(TelexComposer.trailingFinalConsonants([]), "")
+    }
+
+    func testTelexComposerToneTargetIndex_WithMultipleVowels() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "t"),
+            BufferAtom(base: "u"),
+            BufferAtom(base: "y"),
+            BufferAtom(base: "e"),
+            BufferAtom(base: "n"),
+        ]
+        let idx = TelexComposer.toneTargetIndex(atoms: atoms, style: .old)
+        XCTAssertNotNil(idx)
+    }
+
+    // MARK: - UnicodePrecomposedEncode coverage
+
+    func testUnicodePrecomposedEncode_HornVowelWithoutTone() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "o", mark: .horn),
+        ]
+        let result = UnicodePrecomposedEncoding().encode(atoms: atoms, tone: .none, toneTargetIndex: 0)
+        XCTAssertEqual(result, "ơ")
+    }
+
+    func testUnicodePrecomposedEncode_HornVowelWithTone() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "o", mark: .horn),
+        ]
+        let result = UnicodePrecomposedEncoding().encode(atoms: atoms, tone: .acute, toneTargetIndex: 0)
+        XCTAssertEqual(result, "ớ")
+    }
+
+    func testUnicodePrecomposedEncode_BreveWithTone() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "a", mark: .breve),
+        ]
+        let result = UnicodePrecomposedEncoding().encode(atoms: atoms, tone: .dotBelow, toneTargetIndex: 0)
+        XCTAssertEqual(result, "ặ")
+    }
+
+    func testUnicodePrecomposedEncode_UppercaseDStrokeWithTone() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "d", mark: .stroke, uppercase: true),
+        ]
+        let result = UnicodePrecomposedEncoding().encode(atoms: atoms, tone: .none, toneTargetIndex: nil)
+        XCTAssertEqual(result, "Đ")
+    }
+
+    func testUnicodePrecomposedEncode_SingleAtomNoTone_ReturnsBase() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "t"),
+        ]
+        let result = UnicodePrecomposedEncoding().encode(atoms: atoms, tone: .none, toneTargetIndex: nil)
+        XCTAssertEqual(result, "t")
+    }
+
+    // MARK: - SettingsRepository.saveNow error path
+
+    @MainActor
+    func testSaveNow_EncodesAndWrites() async throws {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("ek-sn-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: url) }
+        let repo = SettingsRepository(fileURL: url)
+        repo.update { $0.input.inputMethod = .simpleTelex }
+        await repo.saveNow()
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode(EasyKeySettings.self, from: data)
+        XCTAssertEqual(decoded.input.inputMethod, .simpleTelex)
+    }
+
+    // MARK: - SmartSwitchStore edge
+
+    @MainActor
+    func testSmartSwitchHandleAppFocus_NewApp_Records() throws {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("ek-ss-new-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: url) }
+        let store = SmartSwitchStore(fileURL: url)
+        let app = ApplicationIdentity(bundleIdentifier: "com.test.new", name: "New")
+        let result = try store.handleAppFocus(app, currentChoice: SmartSwitchChoice(language: .vietnamese))
+        if case .recorded = result {
+            // expected
+        } else {
+            XCTFail("Expected recorded, got \(result)")
+        }
+    }
+
+    // MARK: - VNI encoding coverage
+
+    func testVNIWindowsEncode_SingleAtom() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "a"),
+        ]
+        let result = VNIWindowsEncoding().encode(atoms: atoms, tone: .acute, toneTargetIndex: 0)
+        XCTAssertFalse(result.isEmpty)
+    }
+
+    // MARK: - TCVN3 encoding coverage
+
+    func testTCVN3Encode_SingleAtomNoTone() {
+        let atoms: [BufferAtom] = [
+            BufferAtom(base: "a"),
+        ]
+        let result = TCVN3Encoding().encode(atoms: atoms, tone: .none, toneTargetIndex: nil)
+        XCTAssertFalse(result.isEmpty)
+    }
+
+    // MARK: - VietnameseEngine.restoreRawKeys coverage
+
+    func testRestoreRawKeys_NonEmptyBuffer() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
+        typeKeys(&engine, "as")
+        let result = engine.restoreRawKeys()
+        XCTAssertEqual(result.disposition, .suppress)
+    }
+
+    func testRestoreRawKeys_NoSessionState() {
+        var engine = VietnameseEngine()
+        let result = engine.restoreRawKeys()
+        XCTAssertEqual(result.disposition, .pass)
+    }
+
     private func entry(_ text: String, fingerprint: String, pinned: Bool = false) -> ClipboardEntry {
         let item = ClipboardItem(
             kind: .text,
