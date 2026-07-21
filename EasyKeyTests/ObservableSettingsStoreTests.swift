@@ -33,7 +33,7 @@ final class ObservableSettingsStoreTests: XCTestCase {
     func testReset_RestoresDefaults() {
         store.update { $0.input.inputMethod = .vni }
         store.reset()
-        XCTAssertEqual(store.settings.input.inputMethod, .telex)
+        XCTAssertEqual(store.settings.input.inputMethod, .simpleTelex)
     }
 
     func testExportThenImport_RoundTrips() throws {
@@ -42,7 +42,7 @@ final class ObservableSettingsStoreTests: XCTestCase {
         try store.export(to: exportURL)
 
         store.reset()
-        XCTAssertEqual(store.settings.input.inputMethod, .telex)
+        XCTAssertEqual(store.settings.input.inputMethod, .simpleTelex)
 
         _ = try store.import(from: exportURL)
         XCTAssertEqual(store.settings.input.inputMethod, .vni)

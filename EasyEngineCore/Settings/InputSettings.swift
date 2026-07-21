@@ -8,7 +8,7 @@ public struct InputSettings: Codable, Equatable, Sendable {
 
     public init(
         language: InputLanguage = .vietnamese,
-        inputMethod: InputMethod = .telex,
+        inputMethod: InputMethod = .simpleTelex,
         encoding: EncodingTable = .unicode,
         switchShortcut: Shortcut = Shortcut(keyCode: 6, modifiers: [.option])
     ) {

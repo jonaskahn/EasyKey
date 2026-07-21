@@ -7,7 +7,7 @@ final class SettingsStoreTests: XCTestCase {
         let settings = EasyKeySettings.defaults
         XCTAssertEqual(settings.schemaVersion, EasyKeySettings.currentSchemaVersion)
         XCTAssertEqual(settings.input.language, .vietnamese)
-        XCTAssertEqual(settings.input.inputMethod, .telex)
+        XCTAssertEqual(settings.input.inputMethod, .simpleTelex)
         XCTAssertEqual(settings.input.encoding, .unicode)
         XCTAssertEqual(settings.input.switchShortcut, Shortcut(keyCode: 6, modifiers: [.option]))
         XCTAssertEqual(settings.input.switchShortcut.displayLabel, "\u{2325} + Z")

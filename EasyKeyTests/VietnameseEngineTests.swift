@@ -4,7 +4,7 @@ import XCTest
 final class VietnameseEngineTests: XCTestCase {
     func testDefaultConfiguration() {
         let engine = VietnameseEngine()
-        XCTAssertEqual(engine.configuration.inputMethod, .telex)
+        XCTAssertEqual(engine.configuration.inputMethod, .simpleTelex)
         XCTAssertEqual(engine.configuration.outputEncoding, .unicode)
     }
 

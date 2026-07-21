@@ -42,7 +42,7 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
     func testEngineConfigurationDefault() {
         let settings = EasyKeySettings.defaults
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: nil)
-        XCTAssertEqual(config.inputMethod, .telex)
+        XCTAssertEqual(config.inputMethod, .simpleTelex)
         XCTAssertEqual(config.outputEncoding, .unicode)
     }
 

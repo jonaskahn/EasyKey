@@ -711,7 +711,7 @@ final class EngineCoreCoverageTests: XCTestCase {
             .appendingPathComponent("ek-cfg-\(UUID().uuidString).json")
         let repo = SettingsRepository(fileURL: url)
         let config = repo.configurationSnapshot
-        XCTAssertEqual(config.inputMethod, .telex)
+        XCTAssertEqual(config.inputMethod, .simpleTelex)
         XCTAssertEqual(config.outputEncoding, .unicode)
     }
 
@@ -953,7 +953,7 @@ final class EngineCoreCoverageTests: XCTestCase {
     func testInputSettings_DefaultValues() {
         let opts = InputSettings()
         XCTAssertEqual(opts.language, .vietnamese)
-        XCTAssertEqual(opts.inputMethod, .telex)
+        XCTAssertEqual(opts.inputMethod, .simpleTelex)
         XCTAssertEqual(opts.encoding, .unicode)
         XCTAssertEqual(opts.switchShortcut.keyCode, 6)
     }
