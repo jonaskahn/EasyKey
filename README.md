@@ -32,6 +32,8 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 
 See [Telex Rule Set](./docs/TELEX.md) for exact full Telex, Simple Telex, tone-placement, undo, and restoration behavior.
 
+> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. This is a macOS detection-timing limitation, not an EasyKey defect — see [Known Platform Problems](./docs/PROBLEMS.md). If it persists, restarting EasyKey usually helps.
+
 ## ⌨️ Default Shortcuts
 
 | Shortcut | Action |
