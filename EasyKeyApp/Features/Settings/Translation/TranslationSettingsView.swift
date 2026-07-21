@@ -11,7 +11,8 @@ enum TranslationSettingsAccessibility {
     static let appleLanguageSettings = "TranslationAppleLanguageSettings"
     static let panelSizePicker = "TranslationPanelSizePicker"
     static let sessionPersistencePicker = "TranslationSessionPersistencePicker"
-    static let autoCaptureToggle = "TranslationAutoCaptureSelectedTextToggle"
+    static let cmdCDoublePressToggle = "TranslationCmdCDoublePressToggle"
+    static let cmdCDoublePressWindowSlider = "TranslationCmdCDoublePressWindowSlider"
 
     static func credentialField(_ provider: TranslationProviderID) -> String {
         "TranslationCredential-\(provider.rawValue)"
@@ -47,13 +48,23 @@ struct TranslationSettingsView: View {
                 Toggle(localization.string(.translationEnableTranslation), isOn: enableBinding)
                     .accessibilityIdentifier(TranslationSettingsAccessibility.enableToggle)
 
-                Toggle(localization.string(.translationSettingsAutoCaptureSelectedText), isOn: autoCaptureSelectedTextBinding)
-                    .accessibilityIdentifier(TranslationSettingsAccessibility.autoCaptureToggle)
+                Toggle(localization.string(.translationSettingsCmdCDoublePress), isOn: cmdCDoublePressEnabledBinding)
+                    .accessibilityIdentifier(TranslationSettingsAccessibility.cmdCDoublePressToggle)
 
-                Text(localization.string(.translationSettingsAutoCaptureSelectedTextDescription))
+                Text(localization.string(.translationSettingsCmdCDoublePressDescription))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+
+                if model.cmdCDoublePressEnabled {
+                    HStack {
+                        Text(localization.format(.translationSettingsCmdCDoublePressWindow, String(model.cmdCDoublePressWindowMs)))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Slider(value: cmdCDoublePressWindowBinding, in: 200 ... 800, step: 50)
+                            .accessibilityIdentifier(TranslationSettingsAccessibility.cmdCDoublePressWindowSlider)
+                    }
+                }
 
                 Toggle(localization.string(.translationMenuPopoverVisibility), isOn: menuPopoverBinding)
                     .accessibilityIdentifier("TranslationMenuPopoverToggle")
@@ -195,8 +206,15 @@ struct TranslationSettingsView: View {
         Binding(get: { model.showInMenuPopover }, set: model.setShowInMenuPopover)
     }
 
-    private var autoCaptureSelectedTextBinding: Binding<Bool> {
-        Binding(get: { model.autoCaptureSelectedText }, set: model.setAutoCaptureSelectedText)
+    private var cmdCDoublePressEnabledBinding: Binding<Bool> {
+        Binding(get: { model.cmdCDoublePressEnabled }, set: model.setCmdCDoublePressEnabled)
+    }
+
+    private var cmdCDoublePressWindowBinding: Binding<Double> {
+        Binding(
+            get: { Double(model.cmdCDoublePressWindowMs) },
+            set: { model.setCmdCDoublePressWindowMs(Int($0)) }
+        )
     }
 
     private var autoTranslateDelayBinding: Binding<Int> {

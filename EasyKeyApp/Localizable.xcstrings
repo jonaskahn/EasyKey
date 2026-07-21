@@ -368,7 +368,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bỏ giữ trên cùng"
+            "value": "Bỏ chế độ luôn ở trên cùng"
           }
         }
       }
@@ -515,13 +515,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey needs Accessibility permission to process typing in other apps."
+            "value": "EasyKey needs Accessibility permission to work in other apps."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey cần quyền Trợ năng để có thể gõ trong các ứng dụng khác."
+            "value": "EasyKey cần quyền Trợ năng để bộ gõ hoạt động trong các ứng dụng khác."
           }
         }
       }
@@ -600,13 +600,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You can change every option later from the menu bar."
+            "value": "You can change these options later from the menu bar."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bạn có thể thay đổi mọi tùy chọn bất cứ lúc nào từ thanh menu."
+            "value": "Bạn có thể đổi các tùy chọn này sau từ thanh menu."
           }
         }
       }
@@ -719,7 +719,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Smart Switch"
+            "value": "Per-App Settings"
           }
         },
         "vi": {
@@ -923,13 +923,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore original text for invalid words"
+            "value": "Restore keystrokes for invalid Vietnamese words"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trả lại từ gốc khi gõ sai"
+            "value": "Khôi phục phím gõ khi từ không hợp lệ"
           }
         }
       }
@@ -957,13 +957,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uppercase first character"
+            "value": "Capitalize sentences"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Viết hoa ký tự đầu"
+            "value": "Viết hoa đầu câu"
           }
         }
       }
@@ -974,13 +974,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quick Telex consonants"
+            "value": "Quick Telex consonant shortcuts"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phụ âm Telex nhanh"
+            "value": "Gõ nhanh phụ âm bằng Telex"
           }
         }
       }
@@ -991,13 +991,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Standalone W shortcut"
+            "value": "Convert standalone W to ư"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phím W đứng riêng"
+            "value": "Đổi W đứng riêng thành ư"
           }
         }
       }
@@ -1008,13 +1008,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bracket shortcuts"
+            "value": "Bracket shortcuts for ơ and ư"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phím ngoặc tạo nguyên âm"
+            "value": "Dùng phím ngoặc để gõ ơ, ư"
           }
         }
       }
@@ -1144,7 +1144,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unicode Combining"
+            "value": "Unicode tổ hợp"
           }
         },
         "vi": {
@@ -1354,7 +1354,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chuyển mã bảng nhớ tạm"
+            "value": "Chuyển mã nội dung đã sao chép"
           }
         }
       }
@@ -1365,13 +1365,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Convert clipboard shortcut"
+            "value": "Clipboard conversion shortcut"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phím tắt chuyển mã bảng nhớ tạm"
+            "value": "Phím tắt chuyển mã nội dung đã sao chép"
           }
         }
       }
@@ -1450,7 +1450,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enable text expansion to change its language and capitalization options."
+            "value": "Enable text expansion to change language and capitalization options."
           }
         },
         "vi": {
@@ -1586,13 +1586,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Imported %lld text expansions. Duplicate triggers were skipped."
+            "value": "Imported text expansions: %lld. Duplicate triggers were skipped."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đã nhập %lld mục gõ tắt. Các từ gõ tắt bị trùng đã được bỏ qua."
+            "value": "Đã nhập %lld mục gõ tắt. Mục trùng đã được bỏ qua."
           }
         }
       }
@@ -1694,7 +1694,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hãy nhập từ gõ tắt."
+            "value": "Nhập từ gõ tắt."
           }
         }
       }
@@ -1711,7 +1711,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hãy nhập nội dung thay thế."
+            "value": "Nhập nội dung thay thế."
           }
         }
       }
@@ -1858,13 +1858,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enable per-app preferences to remember choices as you switch apps."
+            "value": "Turn on per-app preferences to restore choices when you switch apps."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bật ghi nhớ theo ứng dụng để lưu lựa chọn khi bạn chuyển ứng dụng."
+            "value": "Bật để khôi phục lựa chọn riêng khi bạn chuyển ứng dụng."
           }
         }
       }
@@ -1943,7 +1943,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No app preferences have been remembered yet."
+            "value": "No saved app preferences."
           }
         },
         "vi": {
@@ -1960,13 +1960,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Remove all remembered apps"
+            "value": "Forget all apps"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Xóa tất cả ứng dụng đã ghi nhớ"
+            "value": "Quên tất cả ứng dụng"
           }
         }
       }
@@ -2130,7 +2130,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add Applications…"
+            "value": "Add Apps…"
           }
         },
         "vi": {
@@ -2147,7 +2147,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Couldn’t Add Applications"
+            "value": "Couldn’t Add Apps"
           }
         },
         "vi": {
@@ -2181,7 +2181,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No applications use compatibility mode."
+            "value": "No apps use compatibility mode."
           }
         },
         "vi": {
@@ -2198,13 +2198,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Use alternate text replacement in apps where typing does not work correctly."
+            "value": "Use a compatible typing method in apps where EasyKey does not work correctly."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dùng cách thay thế văn bản tương thích hơn cho ứng dụng gặp lỗi khi gõ."
+            "value": "Dùng cách gõ tương thích hơn trong ứng dụng mà EasyKey không hoạt động đúng."
           }
         }
       }
@@ -2215,7 +2215,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Drop applications here"
+            "value": "Drop apps here"
           }
         },
         "vi": {
@@ -2232,7 +2232,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ignored applications"
+            "value": "Ignored apps"
           }
         },
         "vi": {
@@ -2249,7 +2249,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey passes every key through unchanged in selected applications."
+            "value": "EasyKey leaves keyboard input unchanged in ignored apps."
           }
         },
         "vi": {
@@ -2266,7 +2266,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No applications are ignored."
+            "value": "No apps are ignored."
           }
         },
         "vi": {
@@ -2317,7 +2317,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Send text step by step"
+            "value": "Send text one character at a time"
           }
         },
         "vi": {
@@ -2368,7 +2368,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Shows keyboard-service and Accessibility status. Available actions grant permission, resume capture, or restart the service."
+            "value": "Shows keyboard service and Accessibility status. Actions can grant permission, resume typing, or restart the service."
           }
         },
         "vi": {
@@ -2436,13 +2436,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Menu Popover Width"
+            "value": "Menu popover width"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chiều rộng cửa sổ bật lên trên thanh menu"
+            "value": "Chiều rộng bảng trên thanh menu"
           }
         }
       }
@@ -2640,7 +2640,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Updates are unavailable in this build."
+            "value": "Update checks are unavailable in this build."
           }
         },
         "vi": {
@@ -2799,7 +2799,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thương hiệu"
+            "value": "Nhãn hiệu"
           }
         }
       }
@@ -2816,7 +2816,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tất cả tên sản phẩm, logo và thương hiệu đều thuộc sở hữu của các chủ sở hữu tương ứng. Tên hoặc logo của Apple, DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq và các nhà cung cấp dịch vụ dịch thuật khác được sử dụng trong ứng dụng này chỉ nhằm mục đích nhận diện. Việc sử dụng các tên, logo và thương hiệu này không ngụ ý sự xác nhận hoặc hợp tác."
+            "value": "Tất cả tên sản phẩm, logo và nhãn hiệu đều thuộc sở hữu của chủ sở hữu tương ứng. Tên hoặc logo của Apple, DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq và các nhà cung cấp dịch khác chỉ được dùng để nhận diện. Việc sử dụng không có nghĩa là các bên đó chứng thực hoặc hợp tác với EasyKey."
           }
         }
       }
@@ -2833,7 +2833,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Không thể tải thông báo của bên thứ ba."
+            "value": "Không thể đọc thông báo của bên thứ ba."
           }
         }
       }
@@ -2946,13 +2946,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This cannot be undone."
+            "value": "All EasyKey settings will return to their defaults. This cannot be undone."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thao tác này không thể hoàn tác."
+            "value": "Mọi cài đặt EasyKey sẽ trở về mặc định. Thao tác này không thể hoàn tác."
           }
         }
       }
@@ -3065,13 +3065,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Input is off until you resume it."
+            "value": "Vietnamese typing remains off until you resume it."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bộ gõ đang tắt cho đến khi bạn bật lại."
+            "value": "Bộ gõ tiếng Việt đang tạm dừng cho đến khi bạn tiếp tục."
           }
         }
       }
@@ -3099,13 +3099,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey cannot process Vietnamese typing until this is resolved."
+            "value": "EasyKey cannot process Vietnamese typing until this issue is resolved."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey chưa thể gõ tiếng Việt cho đến khi sự cố được khắc phục."
+            "value": "Bạn chưa thể gõ tiếng Việt bằng EasyKey cho đến khi sự cố được khắc phục."
           }
         }
       }
@@ -3258,7 +3258,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chuyển mã bảng nhớ tạm"
+            "value": "Chuyển mã nội dung đã sao chép"
           }
         }
       }
@@ -3949,13 +3949,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose old placement (hòa, thủy) or new placement (hoà, thuỷ) for open oa, oe, and uy."
+            "value": "Choose old placement (hòa, thủy) or new placement (hoà, thuỷ) for oa, oe, and uy without a final consonant."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chọn kiểu cũ (hòa, thủy) hoặc kiểu mới (hoà, thuỷ) cho vần oa, oe và uy mở."
+            "value": "Chọn kiểu cũ (hòa, thủy) hoặc kiểu mới (hoà, thuỷ) cho vần oa, oe và uy không có phụ âm cuối."
           }
         }
       }
@@ -3966,13 +3966,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Validate Vietnamese syllables before keeping Telex transformations."
+            "value": "Undo Telex changes that do not form valid Vietnamese syllables."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kiểm tra âm tiết tiếng Việt trước khi giữ các biến đổi Telex."
+            "value": "Chỉ áp dụng biến đổi Telex khi âm tiết tiếng Việt hợp lệ."
           }
         }
       }
@@ -4000,13 +4000,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bring back the original keystrokes when a word is not valid Vietnamese."
+            "value": "Restore the original keystrokes when a word is not valid Vietnamese."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tự trả lại đúng các phím bạn đã gõ khi từ đó không phải tiếng Việt."
+            "value": "Tự khôi phục đúng các phím đã gõ khi từ không hợp lệ trong tiếng Việt."
           }
         }
       }
@@ -4068,13 +4068,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Replace the current transformed word with its exact raw keystrokes."
+            "value": "Restore the current word to exactly what you typed."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thay từ đang biến đổi bằng đúng các phím gốc đã gõ."
+            "value": "Khôi phục từ hiện tại về đúng các phím bạn đã gõ."
           }
         }
       }
@@ -4085,7 +4085,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose how Vietnamese text is emitted while typing."
+            "value": "Choose the encoding used for Vietnamese text as you type."
           }
         },
         "vi": {
@@ -4119,7 +4119,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Select the encoding produced by converter and clipboard actions."
+            "value": "Choose the output encoding for converted text and clipboard actions."
           }
         },
         "vi": {
@@ -4136,13 +4136,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Convert the encoding of clipboard text with a single shortcut."
+            "value": "Convert clipboard text between the selected encodings."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chuyển mã văn bản trong bảng nhớ tạm chỉ với một phím tắt."
+            "value": "Chuyển văn bản đã sao chép giữa hai bảng mã đã chọn."
           }
         }
       }
@@ -4374,13 +4374,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Restore input, typing, compatibility, Smart Switch, system, and converter preferences."
+            "value": "Reset all EasyKey settings to their defaults."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khôi phục cài đặt bộ gõ, tương thích, chuyển đổi theo ứng dụng, hệ thống và chuyển mã."
+            "value": "Đưa mọi cài đặt EasyKey về mặc định."
           }
         }
       }
@@ -4457,13 +4457,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Capture clipboard"
+            "value": "Save clipboard history"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ghi lại bảng nhớ tạm"
+            "value": "Lưu lịch sử sao chép"
           }
         }
       }
@@ -4473,13 +4473,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "When on, EasyKey keeps a private, local history of what you copy. Off by default."
+            "value": "EasyKey stores a private, local history of copied content. Off by default."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khi bật, EasyKey lưu lại lịch sử những gì bạn sao chép, riêng tư và chỉ nằm trên máy của bạn. Mặc định tắt sẵn."
+            "value": "EasyKey lưu riêng trên máy này lịch sử nội dung bạn sao chép. Tính năng mặc định tắt."
           }
         }
       }
@@ -4537,7 +4537,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "On selection"
+            "value": "When choosing an entry"
           }
         },
         "vi": {
@@ -4697,13 +4697,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Maximum age (days)"
+            "value": "Maximum retention (days)"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thời gian tối đa (ngày)"
+            "value": "Số ngày lưu tối đa"
           }
         }
       }
@@ -4713,13 +4713,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pinned entries are kept beyond these limits, up to 25."
+            "value": "Up to 25 pinned entries are kept regardless of these limits."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mục ghim được giữ vượt các giới hạn này, tối đa 25."
+            "value": "Tối đa 25 mục đã ghim không chịu các giới hạn này."
           }
         }
       }
@@ -4735,7 +4735,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Riêng tư"
+            "value": "Quyền riêng tư"
           }
         }
       }
@@ -4745,13 +4745,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep history after restart"
+            "value": "Keep history between sessions"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Giữ lịch sử sau khi khởi động lại"
+            "value": "Giữ lịch sử giữa các lần mở EasyKey"
           }
         }
       }
@@ -4761,13 +4761,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "History is encrypted on this device. Turning this off deletes stored history."
+            "value": "History is encrypted on this Mac. Turning this off deletes saved history but keeps entries from the current session."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lịch sử được mã hóa trên thiết bị này. Tắt sẽ xóa lịch sử đã lưu."
+            "value": "Lịch sử được mã hóa trên máy Mac này. Khi tắt, lịch sử đã lưu sẽ bị xóa nhưng các mục trong phiên hiện tại vẫn được giữ."
           }
         }
       }
@@ -4777,13 +4777,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ignored applications"
+            "value": "Ignored apps"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ứng dụng bỏ qua"
+            "value": "Ứng dụng bị bỏ qua"
           }
         }
       }
@@ -4793,13 +4793,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Best-effort only; macOS does not report the source app, so this is not a security boundary."
+            "value": "macOS does not identify which app placed content on the clipboard. This list may miss content and should not protect sensitive data."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chỉ mang tính tương đối: macOS không cho biết ứng dụng nguồn, nên đây không phải một lớp bảo mật."
+            "value": "macOS không cho biết ứng dụng nào đã đưa nội dung vào bảng nhớ tạm. Danh sách này có thể bỏ sót nội dung và không nên dùng để bảo vệ dữ liệu nhạy cảm."
           }
         }
       }
@@ -4889,13 +4889,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Limits: 25 pins, 10 MB per item, 100 MB stored."
+            "value": "Limits: 25 pinned entries, 10 MB per entry, 100 MB total."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Giới hạn: 25 ghim, 10 MB mỗi mục, 100 MB lưu trữ."
+            "value": "Giới hạn: 25 mục ghim, 10 MB mỗi mục và tổng cộng 100 MB."
           }
         }
       }
@@ -4921,13 +4921,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This deletes all entries, including pinned ones, and any stored data."
+            "value": "This permanently deletes all clipboard entries, including pinned entries."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thao tác này xóa mọi mục, kể cả mục đã ghim, và mọi dữ liệu đã lưu."
+            "value": "Thao tác này xóa vĩnh viễn mọi mục, kể cả mục đã ghim."
           }
         }
       }
@@ -4953,13 +4953,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Turn off saved history?"
+            "value": "Stop saving clipboard history?"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tắt lịch sử đã lưu?"
+            "value": "Ngừng lưu lịch sử sao chép?"
           }
         }
       }
@@ -4969,13 +4969,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stored history on disk will be deleted. The current session stays until cleared."
+            "value": "Saved history will be deleted. Entries from this session remain until you clear them or quit EasyKey."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lịch sử trên đĩa sẽ bị xóa. Phiên hiện tại vẫn giữ đến khi xóa."
+            "value": "Lịch sử đã lưu sẽ bị xóa. Các mục trong phiên này vẫn còn đến khi bạn xóa hoặc thoát EasyKey."
           }
         }
       }
@@ -5049,13 +5049,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No clipboard history yet"
+            "value": "Copy something to start your clipboard history."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chưa có lịch sử bảng nhớ tạm"
+            "value": "Sao chép nội dung để bắt đầu lưu lịch sử."
           }
         }
       }
@@ -5209,13 +5209,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Return to use · ⌘C to copy"
+            "value": "Choose an item to use it"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter để dùng · ⌘C để sao chép"
+            "value": "Chọn một mục để sử dụng"
           }
         }
       }
@@ -5231,7 +5231,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dịch thuật"
+            "value": "Dịch"
           }
         }
       }
@@ -5343,7 +5343,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đổi ngôn ngữ"
+            "value": "Hoán đổi ngôn ngữ"
           }
         }
       }
@@ -5369,7 +5369,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Translation result"
+            "value": "Result"
           }
         },
         "vi": {
@@ -5433,13 +5433,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enable Translation"
+            "value": "Enable translation"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bật Dịch thuật"
+            "value": "Bật tính năng dịch"
           }
         }
       }
@@ -5465,13 +5465,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Translates source text. Command-Return."
+            "value": "Translates source text with Command-Return."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dịch văn bản nguồn. Command-Return."
+            "value": "Dịch văn bản nguồn bằng Command-Return."
           }
         }
       }
@@ -5482,13 +5482,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter to translate · Shift+Enter for new line"
+            "value": "Command-Return to translate · Shift+Enter for a new line"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter để dịch · Shift+Enter xuống dòng"
+            "value": "Command-Return để dịch · Shift+Enter để xuống dòng"
           }
         }
       }
@@ -5504,39 +5504,55 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dịch sau khi ngừng nhập"
+            "value": "Dịch sau khi ngừng gõ"
           }
         }
       }
     },
-    "translation.settings.autoCaptureSelectedText": {
+    "translation.settings.cmdCDoublePress": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Auto-capture selected text on shortcut"
+            "value": "Open translation by pressing Command-C twice"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tự động lấy văn bản đang chọn khi nhấn phím tắt"
+            "value": "Mở bảng dịch khi nhấn nhanh Cmd+C hai lần"
           }
         }
       }
     },
-    "translation.settings.autoCaptureSelectedTextDescription": {
+    "translation.settings.cmdCDoublePressDescription": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "When on, the shortcut pre-fills the panel with the current selection. Turn off to always open with an empty editor."
+            "value": "Select text in any app, then quickly press Command-C twice. The second press still copies the text."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khi bật, phím tắt sẽ điền sẵn văn bản đang chọn vào bảng dịch. Tắt để luôn mở bảng với khung soạn thảo trống."
+            "value": "Chọn văn bản trong bất kỳ ứng dụng nào rồi nhấn nhanh Cmd+C hai lần. Lần nhấn thứ hai vẫn sao chép như bình thường."
+          }
+        }
+      }
+    },
+    "translation.settings.cmdCDoublePressWindow": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ms"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ms"
           }
         }
       }
@@ -5584,7 +5600,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "URL điểm cuối"
+            "value": "URL API"
           }
         }
       }
@@ -5594,13 +5610,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter the base URL for the API endpoint"
+            "value": "Enter the API base URL."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nhập URL gốc cho điểm cuối API"
+            "value": "Nhập URL cơ sở của API."
           }
         }
       }
@@ -5610,13 +5626,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Select text and press %@ to translate. It translates automatically after you stop typing, or press Command-Return to translate right away. Press Escape to close."
+            "value": "Select text and press %@. Translation starts after you stop typing; press Command-Return to translate immediately or Escape to close."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chọn văn bản rồi nhấn %@ để dịch. Bản dịch tự hiện sau khi bạn ngừng gõ, hoặc nhấn Command-Return để dịch ngay. Nhấn Escape để đóng."
+            "value": "Chọn văn bản rồi nhấn %@. EasyKey sẽ dịch sau khi bạn ngừng gõ; nhấn Command-Return để dịch ngay hoặc Escape để đóng."
           }
         }
       }
@@ -5626,13 +5642,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey sends submitted source text directly to %@ after the configured delay or when you choose Translate. Nothing is sent while you type outside the translation editor. %@ handles submitted text under its own privacy and data terms."
+            "value": "EasyKey sends source text directly to %@ after the configured delay or when you choose Translate. Text typed outside the translation editor is never sent. %@ processes submitted text under its own privacy and data terms."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến %@ sau độ trễ đã cài đặt hoặc khi bạn chọn Dịch. Không có nội dung nào được gửi trong khi bạn nhập bên ngoài trình soạn thảo dịch. %@ xử lý văn bản đã gửi theo điều khoản dữ liệu và quyền riêng tư riêng."
+            "value": "EasyKey gửi trực tiếp văn bản nguồn đến %@ sau khoảng chờ đã đặt hoặc khi bạn chọn Dịch. EasyKey không gửi nội dung bạn gõ bên ngoài trình soạn thảo dịch. %@ xử lý văn bản này theo chính sách quyền riêng tư và điều khoản dữ liệu của họ."
           }
         }
       }
@@ -5648,7 +5664,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thiết lập dịch thuật"
+            "value": "Thiết lập dịch"
           }
         }
       }
@@ -5738,13 +5754,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter or translate text before using pronunciation."
+            "value": "Enter or translate text to hear it spoken."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nhập hoặc dịch văn bản trước khi phát âm."
+            "value": "Nhập hoặc dịch văn bản để nghe đọc."
           }
         }
       }
@@ -5754,13 +5770,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose a source language or translate once to detect it."
+            "value": "Choose a source language or translate once to detect the language."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chọn ngôn ngữ nguồn hoặc dịch một lần để phát hiện."
+            "value": "Chọn ngôn ngữ nguồn hoặc dịch một lần để EasyKey nhận diện ngôn ngữ."
           }
         }
       }
@@ -5770,13 +5786,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Install a macOS voice for %@ to use pronunciation."
+            "value": "Install a macOS voice for %@ to hear it spoken."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cài đặt giọng đọc macOS cho %@ để phát âm."
+            "value": "Cài giọng đọc macOS cho %@ để nghe đọc."
           }
         }
       }
@@ -5786,7 +5802,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Translation complete. Result available."
+            "value": "Translation complete. Result ready."
           }
         },
         "vi": {
@@ -5824,7 +5840,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thêm thông tin xác thực %@ trong Cài đặt."
+            "value": "Thêm thông tin xác thực của %@ trong Cài đặt."
           }
         }
       }
@@ -5850,13 +5866,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Download required Apple language resources, then try again."
+            "value": "Download the required Apple language resources, then try again."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tải tài nguyên ngôn ngữ Apple cần thiết rồi thử lại."
+            "value": "Tải các tài nguyên ngôn ngữ cần thiết của Apple rồi thử lại."
           }
         }
       }
@@ -5888,7 +5904,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Yêu cầu đã hết thời gian. Hãy thử lại."
+            "value": "Yêu cầu đã quá thời gian chờ. Hãy thử lại."
           }
         }
       }
@@ -5898,13 +5914,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The provider is busy. Wait, then try again."
+            "value": "Too many requests. Wait, then try again."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nhà cung cấp đang bận. Hãy chờ rồi thử lại."
+            "value": "Có quá nhiều yêu cầu. Hãy chờ rồi thử lại."
           }
         }
       }
@@ -5962,7 +5978,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Translation was cancelled."
+            "value": "Translation canceled."
           }
         },
         "vi": {
@@ -5984,7 +6000,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dịch thuật"
+            "value": "Dịch"
           }
         }
       }
@@ -6032,7 +6048,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khóa API %@"
+            "value": "Khóa API của %@"
           }
         }
       }
@@ -6074,13 +6090,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cloud translation is opt-in and runs only when you choose Translate. EasyKey sends submitted source text directly to the selected provider. Translation may consume paid quota. Credential checks do not submit source text. EasyKey stores credentials in Keychain and does not persist translation history, source text, or results."
+            "value": "Cloud translation is optional. EasyKey sends source text directly to the selected provider after the configured delay or when you choose Translate. Translation may use paid quota. Credential checks do not send source text. Credentials are stored in Keychain; translation history, source text, and results are not saved."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dịch qua đám mây là tùy chọn và chỉ chạy khi bạn chọn Dịch. EasyKey gửi trực tiếp văn bản nguồn bạn gửi đến nhà cung cấp được chọn. Việc dịch có thể dùng hạn mức trả phí. Kiểm tra thông tin xác thực không gửi văn bản nguồn. EasyKey lưu thông tin xác thực trong Chuỗi khóa và không lưu bền vững lịch sử dịch, văn bản nguồn hay kết quả."
+            "value": "Dịch qua đám mây là tính năng tùy chọn. EasyKey gửi trực tiếp văn bản nguồn đến nhà cung cấp đã chọn sau khoảng chờ đã đặt hoặc khi bạn chọn Dịch. Việc dịch có thể tiêu tốn hạn mức trả phí. Quá trình kiểm tra thông tin xác thực không gửi văn bản nguồn. Thông tin xác thực được lưu trong Chuỗi khóa; lịch sử dịch, văn bản nguồn và kết quả không được lưu lâu dài."
           }
         }
       }
@@ -6090,13 +6106,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Only choosing Translate sends submitted source text directly to %@ and may incur provider charges."
+            "value": "Source text is sent directly to %@ after the configured delay or when you choose Translate and may incur provider charges."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chỉ thao tác chọn Dịch mới gửi trực tiếp văn bản nguồn bạn gửi đến %@ và có thể phát sinh phí nhà cung cấp."
+            "value": "Văn bản nguồn được gửi trực tiếp đến %@ sau khoảng chờ đã đặt hoặc khi bạn chọn Dịch; nhà cung cấp có thể tính phí."
           }
         }
       }
@@ -6186,13 +6202,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This removes the key from this Mac. This provider cannot translate until another key is saved."
+            "value": "This removes the key from this Mac. Translation with this provider remains unavailable until you save another key."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thao tác này xóa khóa khỏi máy Mac này. Nhà cung cấp này không thể dịch cho đến khi lưu khóa khác."
+            "value": "Thao tác này xóa khóa khỏi máy Mac. Bạn không thể dịch bằng nhà cung cấp này cho đến khi lưu khóa khác."
           }
         }
       }
@@ -6224,7 +6240,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hiển thị & Phiên làm việc"
+            "value": "Hiển thị và phiên làm việc"
           }
         }
       }
@@ -6256,7 +6272,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hiển thị trong cửa sổ bật lên trên thanh menu"
+            "value": "Hiện trong bảng trên thanh menu"
           }
         }
       }
@@ -6288,7 +6304,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mã mô hình"
+            "value": "Mã định danh mô hình"
           }
         }
       }
@@ -6314,13 +6330,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Save an API key first to load and change models."
+            "value": "Save an API key before loading or changing models."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lưu khóa API trước để tải và đổi mô hình."
+            "value": "Lưu khóa API trước khi tải hoặc đổi mô hình."
           }
         }
       }
@@ -6352,7 +6368,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dùng 1–100 chữ cái, số, dấu chấm, gạch nối hoặc gạch dưới."
+            "value": "Dùng 1–100 chữ cái, chữ số, dấu chấm, dấu gạch nối hoặc dấu gạch dưới."
           }
         }
       }
@@ -6384,7 +6400,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tải mô hình thất bại"
+            "value": "Không thể tải danh sách mô hình"
           }
         }
       }
@@ -6432,7 +6448,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Không tìm thấy mô hình"
+            "value": "Không có mô hình phù hợp"
           }
         }
       }
@@ -6506,13 +6522,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "By default, translations go to the opposite of what you're typing — Vietnamese becomes English, English becomes Vietnamese. Change this anytime in the translation panel."
+            "value": "By default, Vietnamese translates to English and English translates to Vietnamese. You can change the target language in the translation panel."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mặc định, bản dịch sẽ ra ngôn ngữ ngược với ngôn ngữ bạn đang gõ — gõ tiếng Việt thì dịch sang tiếng Anh, gõ tiếng Anh thì dịch sang tiếng Việt. Bạn có thể đổi bất cứ lúc nào trong bảng dịch."
+            "value": "Mặc định, EasyKey dịch tiếng Việt sang tiếng Anh và tiếng Anh sang tiếng Việt. Bạn có thể đổi ngôn ngữ đích bất cứ lúc nào trong bảng dịch."
           }
         }
       }
@@ -6522,7 +6538,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Panel Size"
+            "value": "Panel size"
           }
         },
         "vi": {
@@ -6586,13 +6602,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Select a translation source. Only the selected provider receives text when you translate."
+            "value": "Choose a translation provider. Only the selected provider receives source text."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Chọn một nguồn dịch. Chỉ nguồn đang chọn mới nhận văn bản khi bạn bấm Dịch."
+            "value": "Chọn nhà cung cấp dịch. Chỉ nhà cung cấp đã chọn mới nhận văn bản nguồn."
           }
         }
       }
@@ -6602,13 +6618,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reset cloud disclosures"
+            "value": "Reset cloud consent"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đặt lại thông báo đám mây"
+            "value": "Đặt lại xác nhận gửi dữ liệu"
           }
         }
       }
@@ -6618,13 +6634,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cloud providers will ask for consent again before source text leaves this Mac. Credentials and provider settings remain unchanged."
+            "value": "EasyKey will ask for consent again before sending source text from this Mac to each cloud provider. Credentials and provider settings remain unchanged."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nhà cung cấp đám mây sẽ yêu cầu đồng ý lại trước khi văn bản nguồn rời máy Mac này. Thông tin xác thực và cài đặt nhà cung cấp không thay đổi."
+            "value": "EasyKey sẽ xin phép lại trước khi gửi văn bản nguồn từ máy Mac này đến từng nhà cung cấp đám mây. Thông tin xác thực và cài đặt nhà cung cấp vẫn giữ nguyên."
           }
         }
       }
@@ -6634,13 +6650,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reset cloud disclosure consent?"
+            "value": "Ask again before sending text to cloud providers?"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đặt lại đồng ý thông báo đám mây?"
+            "value": "Hỏi lại trước khi gửi dữ liệu lên đám mây?"
           }
         }
       }
@@ -6650,13 +6666,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Resetting makes EasyKey explain cloud transmission again on first use of each provider."
+            "value": "EasyKey will request consent again before sending text to each cloud provider."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sau khi đặt lại, EasyKey sẽ giải thích việc truyền dữ liệu lên đám mây khi dùng lần đầu từng nhà cung cấp."
+            "value": "EasyKey sẽ xin phép lại trước khi gửi văn bản đến từng nhà cung cấp đám mây."
           }
         }
       }
@@ -6666,7 +6682,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "When Closed"
+            "value": "After closing"
           }
         },
         "vi": {
@@ -6682,13 +6698,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Clear Translation"
+            "value": "Clear text and result"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Xóa bản dịch"
+            "value": "Xóa văn bản và kết quả"
           }
         }
       }
@@ -6698,13 +6714,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Keep Until Restart"
+            "value": "Keep until EasyKey restarts"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Giữ đến khi khởi động lại"
+            "value": "Giữ đến khi EasyKey khởi động lại"
           }
         }
       }
@@ -6720,7 +6736,7 @@
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phím tắt dịch thuật"
+            "value": "Phím tắt dịch"
           }
         }
       }
@@ -6746,13 +6762,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Opens translation for selected text."
+            "value": "Opens the translation panel with selected text."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mở bản dịch cho văn bản đã chọn."
+            "value": "Mở bảng dịch với văn bản đã chọn."
           }
         }
       }
@@ -6794,7 +6810,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Source preference"
+            "value": "Default source language"
           }
         },
         "vi": {
@@ -6810,7 +6826,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invalid or unavailable"
+            "value": "Key invalid or unavailable"
           }
         },
         "vi": {
@@ -6858,7 +6874,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Validated"
+            "value": "Key validated"
           }
         },
         "vi": {
@@ -6874,7 +6890,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Saved, not validated"
+            "value": "Key saved, not validated"
           }
         },
         "vi": {

@@ -65,10 +65,15 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     public var acknowledgedCloudDisclosureProviders: Set<TranslationProviderID>
     public var isEnabled: Bool
     public var showInMenuPopover: Bool
-    public var autoCaptureSelectedText: Bool
+    public var cmdCDoublePressEnabled: Bool
+    public var cmdCDoublePressWindowMs: Int
     public var autoTranslateDelayMs: Int
     public var panelSize: PanelSize
     public var sessionPersistence: SessionPersistence
+
+    public var cmdCDoublePressTimeWindow: TimeInterval {
+        TimeInterval(cmdCDoublePressWindowMs) / 1000.0
+    }
 
     public enum AutoTranslateDelayPreset: Int, CaseIterable {
         case ms250 = 250
@@ -99,7 +104,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         case acknowledgedCloudDisclosureProviders
         case isEnabled
         case showInMenuPopover
-        case autoCaptureSelectedText
+        case cmdCDoublePressEnabled
+        case cmdCDoublePressWindowMs
         case autoTranslateDelayMs
         case panelSize
         case sessionPersistence
@@ -122,7 +128,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         acknowledgedCloudDisclosureProviders: Set<TranslationProviderID> = [],
         isEnabled: Bool = false,
         showInMenuPopover: Bool = false,
-        autoCaptureSelectedText: Bool = true,
+        cmdCDoublePressEnabled: Bool = false,
+        cmdCDoublePressWindowMs: Int = 400,
         autoTranslateDelayMs: Int = AutoTranslateDelayPreset.ms500.rawValue,
         panelSize: PanelSize = .medium,
         sessionPersistence: SessionPersistence = .keepUntilRestart
@@ -143,7 +150,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         self.acknowledgedCloudDisclosureProviders = acknowledgedCloudDisclosureProviders
         self.isEnabled = isEnabled
         self.showInMenuPopover = showInMenuPopover
-        self.autoCaptureSelectedText = autoCaptureSelectedText
+        self.cmdCDoublePressEnabled = cmdCDoublePressEnabled
+        self.cmdCDoublePressWindowMs = cmdCDoublePressWindowMs
         self.autoTranslateDelayMs = autoTranslateDelayMs
         self.panelSize = panelSize
         self.sessionPersistence = sessionPersistence
@@ -178,7 +186,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
             ?? []
         isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? false
         showInMenuPopover = try container.decodeIfPresent(Bool.self, forKey: .showInMenuPopover) ?? false
-        autoCaptureSelectedText = try container.decodeIfPresent(Bool.self, forKey: .autoCaptureSelectedText) ?? true
+        cmdCDoublePressEnabled = try container.decodeIfPresent(Bool.self, forKey: .cmdCDoublePressEnabled) ?? false
+        cmdCDoublePressWindowMs = try container.decodeIfPresent(Int.self, forKey: .cmdCDoublePressWindowMs) ?? 400
         autoTranslateDelayMs = try container.decodeIfPresent(Int.self, forKey: .autoTranslateDelayMs) ?? AutoTranslateDelayPreset.ms500
             .rawValue
         panelSize = try container.decodeIfPresent(PanelSize.self, forKey: .panelSize) ?? .medium

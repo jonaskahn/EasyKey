@@ -14,7 +14,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertTrue(options.acknowledgedCloudDisclosureProviders.isEmpty)
         XCTAssertFalse(options.isEnabled)
         XCTAssertFalse(options.showInMenuPopover)
-        XCTAssertTrue(options.autoCaptureSelectedText, "Auto-capture is on by default to preserve existing behavior")
+        XCTAssertFalse(options.cmdCDoublePressEnabled, "Double-press Cmd+C is off by default")
+        XCTAssertEqual(options.cmdCDoublePressWindowMs, 400)
         XCTAssertEqual(options.autoTranslateDelayMs, TranslationOptions.AutoTranslateDelayPreset.ms500.rawValue)
         XCTAssertEqual(options.panelSize, .medium)
         XCTAssertEqual(options.sessionPersistence, .keepUntilRestart)
@@ -34,7 +35,8 @@ final class TranslationOptionsTests: XCTestCase {
         options.acknowledgedCloudDisclosureProviders = [.deepL, .openAI]
         options.isEnabled = false
         options.showInMenuPopover = false
-        options.autoCaptureSelectedText = false
+        options.cmdCDoublePressEnabled = true
+        options.cmdCDoublePressWindowMs = 600
         options.autoTranslateDelayMs = 1000
         options.panelSize = .large
         options.sessionPersistence = .clearOnClose
@@ -44,7 +46,8 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertEqual(decoded, options)
         XCTAssertFalse(decoded.isEnabled)
         XCTAssertFalse(decoded.showInMenuPopover)
-        XCTAssertFalse(decoded.autoCaptureSelectedText)
+        XCTAssertTrue(decoded.cmdCDoublePressEnabled)
+        XCTAssertEqual(decoded.cmdCDoublePressWindowMs, 600)
         XCTAssertEqual(decoded.autoTranslateDelayMs, 1000)
         XCTAssertEqual(decoded.panelSize, .large)
         XCTAssertEqual(decoded.sessionPersistence, .clearOnClose)
@@ -62,10 +65,16 @@ final class TranslationOptionsTests: XCTestCase {
         XCTAssertFalse(decoded.showInMenuPopover)
     }
 
-    func testLegacyDecode_MissingAutoCaptureSelectedTextDefaultsToTrue() throws {
+    func testLegacyDecode_MissingCmdCDoublePressEnabledDefaultsToFalse() throws {
         let data = Data("{}".utf8)
         let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
-        XCTAssertTrue(decoded.autoCaptureSelectedText)
+        XCTAssertFalse(decoded.cmdCDoublePressEnabled)
+    }
+
+    func testLegacyDecode_MissingCmdCDoublePressWindowMsDefaultsTo400() throws {
+        let data = Data("{}".utf8)
+        let decoded = try JSONDecoder().decode(TranslationOptions.self, from: data)
+        XCTAssertEqual(decoded.cmdCDoublePressWindowMs, 400)
     }
 
     func testLegacyDecode_MissingAutoTranslateDelayMs_DefaultsTo500() throws {

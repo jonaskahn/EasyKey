@@ -117,6 +117,7 @@ final class TranslationSettingsModel: ObservableObject {
     var shortcutApplier: ShortcutApplier?
     var onCredentialsChange: (() -> Void)?
     var onEnabledChange: (() -> Void)?
+    var onCmdCDoublePressChanged: (() -> Void)?
 
     init(
         settingsStore: SettingsStore,
@@ -204,8 +205,12 @@ final class TranslationSettingsModel: ObservableObject {
         settingsStore.settings.translation.showInMenuPopover
     }
 
-    var autoCaptureSelectedText: Bool {
-        settingsStore.settings.translation.autoCaptureSelectedText
+    var cmdCDoublePressEnabled: Bool {
+        settingsStore.settings.translation.cmdCDoublePressEnabled
+    }
+
+    var cmdCDoublePressWindowMs: Int {
+        settingsStore.settings.translation.cmdCDoublePressWindowMs
     }
 
     var autoTranslateDelayMs: Int {
@@ -281,9 +286,16 @@ final class TranslationSettingsModel: ObservableObject {
         objectWillChange.send()
     }
 
-    func setAutoCaptureSelectedText(_ value: Bool) {
-        settingsStore.update { $0.translation.autoCaptureSelectedText = value }
+    func setCmdCDoublePressEnabled(_ value: Bool) {
+        settingsStore.update { $0.translation.cmdCDoublePressEnabled = value }
         objectWillChange.send()
+        onCmdCDoublePressChanged?()
+    }
+
+    func setCmdCDoublePressWindowMs(_ value: Int) {
+        settingsStore.update { $0.translation.cmdCDoublePressWindowMs = value }
+        objectWillChange.send()
+        onCmdCDoublePressChanged?()
     }
 
     func setAutoTranslateDelayMs(_ value: Int) {

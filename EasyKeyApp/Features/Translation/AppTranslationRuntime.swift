@@ -251,10 +251,19 @@ final class AppTranslationRuntime {
         model.setAutoTranslateDelay(TimeInterval(settings.translation.autoTranslateDelayMs) / 1000.0)
         model.setSourceLanguage(settings.translation.defaultSourceLanguage)
         applyEnabledState(settings.translation)
+        applyDoubleCmdCState(settings.translation)
     }
 
     func applyActivationSettings(_ options: TranslationOptions) {
         applyEnabledState(options)
+        applyDoubleCmdCState(options)
+    }
+
+    private func applyDoubleCmdCState(_ options: TranslationOptions) {
+        setDoubleCmdCEnabled(
+            windowMs: options.cmdCDoublePressWindowMs,
+            enabled: options.isEnabled && options.cmdCDoublePressEnabled
+        )
     }
 
     func makePopoverConfiguration(openSettings: @escaping () -> Void) -> MenuPopoverTranslationConfiguration? {
@@ -300,17 +309,29 @@ final class AppTranslationRuntime {
         model.setAutoTranslateDelay(
             TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0
         )
-        if settingsStore.settings.translation.autoCaptureSelectedText {
-            let captured = capture.capture()
-            model.setSourceText(captured.text)
-            model.scheduleAutoTranslate()
-            panelPresenter.show(previousApplication: capture.previousApplication)
-        } else {
-            model.setSourceText("")
-            model.scheduleAutoTranslate()
-            panelPresenter.show(previousApplication: nil)
-        }
+        let captured = capture.capture()
+        model.setSourceText(captured.text)
+        model.scheduleAutoTranslate()
+        panelPresenter.show(previousApplication: capture.previousApplication)
     }
+
+    func activateFromDoubleCmdC() {
+        guard settingsStore.settings.translation.isEnabled else { return }
+        onWillActivate?()
+        model.setAutoTranslateDelay(
+            TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0
+        )
+        let captured = capture.capture()
+        model.setSourceText(captured.text)
+        model.scheduleAutoTranslate()
+        panelPresenter.show(previousApplication: capture.previousApplication)
+    }
+
+    func setDoubleCmdCEnabled(windowMs: Int, enabled: Bool) {
+        onDoubleCmdCChange?(windowMs, enabled)
+    }
+
+    var onDoubleCmdCChange: ((_ windowMs: Int, _ enabled: Bool) -> Void)?
 
     private func applyEnabledState(_ options: TranslationOptions) {
         guard isStarted else {

@@ -144,6 +144,18 @@ public final class KeyboardService {
         }
     }
 
+    public func setCmdCDoublePressHandler(windowMs: Int, handler: @escaping @MainActor () -> Void) {
+        processingQueue.sync {
+            pipeline.setCmdCDoublePressHandler(windowMs: windowMs, handler: handler)
+        }
+    }
+
+    public func clearCmdCDoublePressHandler() {
+        processingQueue.sync {
+            pipeline.clearCmdCDoublePressHandler()
+        }
+    }
+
     public func medianCallbackLatencyNanoseconds() -> UInt64? {
         processingQueue.sync { diagnosticsRecorder.medianCallbackLatencyNanoseconds }
     }

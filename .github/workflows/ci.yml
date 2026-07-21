@@ -158,7 +158,14 @@ jobs:
 
       - name: Merge result bundles
         run: |
-          xcrun xcresulttool merge shards/*/TestResults.xcresult \
+          # download-artifact unwraps the .xcresult bundle directory on upload/download,
+          # so each shard dir *is* the bundle content, not a TestResults.xcresult child.
+          # xcresulttool requires the .xcresult extension to recognize the bundle, so
+          # rename each shard dir before merging.
+          for dir in shards/*/; do
+            mv "$dir" "${dir%/}.xcresult"
+          done
+          xcrun xcresulttool merge shards/*.xcresult \
             --output-path merged.xcresult
 
       - name: Enforce coverage gate

@@ -1,5 +1,7 @@
 import AppKit
 import ApplicationServices
+import Carbon.HIToolbox
+import CoreGraphics
 import EasyEngineCore
 import Foundation
 
@@ -130,6 +132,7 @@ struct AccessibilitySelectedTextReader: SelectedTextReading {
 
 enum SelectedTextCaptureSource: Equatable {
     case accessibility
+    case simulatedCopy
     case pasteboard
     case blank
 }
@@ -148,6 +151,7 @@ struct SelectedTextCaptureResult: Equatable {
 final class SelectedTextCaptureCoordinator {
     private let selectedTextReader: SelectedTextReading
     private let pasteboardReader: PasteboardReading
+    private let simulatedCopy: SelectedTextSimulating?
     private let frontmostApplication: @MainActor () -> NSRunningApplication?
     private let activateEasyKey: @MainActor () -> Void
     private let maximumLength: Int
@@ -157,12 +161,14 @@ final class SelectedTextCaptureCoordinator {
     init(
         selectedTextReader: SelectedTextReading = AccessibilitySelectedTextReader(),
         pasteboardReader: PasteboardReading = SystemPasteboardReader(),
+        simulatedCopy: SelectedTextSimulating? = SystemSelectedTextSimulator(),
         frontmostApplication: @escaping @MainActor () -> NSRunningApplication? = { NSWorkspace.shared.frontmostApplication },
         activateEasyKey: @escaping @MainActor () -> Void = { NSApp.activate(ignoringOtherApps: true) },
         maximumLength: Int = TranslationRequest.maximumSourceTextLength
     ) {
         self.selectedTextReader = selectedTextReader
         self.pasteboardReader = pasteboardReader
+        self.simulatedCopy = simulatedCopy
         self.frontmostApplication = frontmostApplication
         self.activateEasyKey = activateEasyKey
         self.maximumLength = maximumLength
@@ -176,6 +182,12 @@ final class SelectedTextCaptureCoordinator {
             result = SelectedTextCaptureResult(
                 text: text,
                 source: .accessibility,
+                accessibilityResult: accessibilityResult
+            )
+        } else if let text = captureViaSimulatedCopy() {
+            result = SelectedTextCaptureResult(
+                text: text,
+                source: .simulatedCopy,
                 accessibilityResult: accessibilityResult
             )
         } else if let text = readPlainTextPasteboard() {
@@ -193,6 +205,14 @@ final class SelectedTextCaptureCoordinator {
         }
         activateEasyKey()
         return result
+    }
+
+    private func captureViaSimulatedCopy() -> String? {
+        guard let simulatedCopy else { return nil }
+        guard let text = simulatedCopy.copySelection(from: previousApplication) else { return nil }
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        guard text.count <= maximumLength else { return nil }
+        return text
     }
 
     private func readPlainTextPasteboard() -> String? {
@@ -229,5 +249,102 @@ final class SelectedTextCaptureCoordinator {
             return text
         }
         return nil
+    }
+}
+
+protocol SelectedTextSimulating: AnyObject {
+    func copySelection(from app: NSRunningApplication?) -> String?
+}
+
+final class SystemSelectedTextSimulator: SelectedTextSimulating {
+    private let pasteboard: NSPasteboard
+    private let eventSource: CGEventSource?
+    private let activationTimeBudget: TimeInterval
+
+    init(
+        pasteboard: NSPasteboard = .general,
+        eventSource: CGEventSource? = CGEventSource(stateID: .privateState),
+        activationTimeBudget: TimeInterval = 0.2
+    ) {
+        self.pasteboard = pasteboard
+        self.eventSource = eventSource
+        self.activationTimeBudget = activationTimeBudget
+    }
+
+    func copySelection(from app: NSRunningApplication?) -> String? {
+        let savedItems = pasteboard.pasteboardItems
+        let savedChangeCount = pasteboard.changeCount
+
+        pasteboard.clearContents()
+        let clearedChangeCount = pasteboard.changeCount
+
+        postCopyKeyEvents(to: app)
+
+        let deadline = Date().addingTimeInterval(activationTimeBudget)
+        var capturedText: String?
+        while Date() < deadline {
+            if pasteboard.changeCount != clearedChangeCount {
+                capturedText = pasteboard.string(forType: .string)?
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                if let text = capturedText, !text.isEmpty {
+                    break
+                }
+            }
+            RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.01))
+        }
+
+        restorePasteboard(savedItems: savedItems, savedChangeCount: savedChangeCount)
+
+        guard let text = capturedText, !text.isEmpty else { return nil }
+        return text
+    }
+
+    private func postCopyKeyEvents(to app: NSRunningApplication?) {
+        guard let source = eventSource else { return }
+
+        let cmdDown = CGEvent(
+            keyboardEventSource: source,
+            virtualKey: CGKeyCode(kVK_Command),
+            keyDown: true
+        )
+        let cDown = CGEvent(
+            keyboardEventSource: source,
+            virtualKey: CGKeyCode(kVK_ANSI_C),
+            keyDown: true
+        )
+        let cUp = CGEvent(
+            keyboardEventSource: source,
+            virtualKey: CGKeyCode(kVK_ANSI_C),
+            keyDown: false
+        )
+        let cmdUp = CGEvent(
+            keyboardEventSource: source,
+            virtualKey: CGKeyCode(kVK_Command),
+            keyDown: false
+        )
+
+        cDown?.flags = .maskCommand
+        cUp?.flags = .maskCommand
+
+        if let pid = app?.processIdentifier {
+            _ = cmdDown?.postToPid(pid)
+            _ = cDown?.postToPid(pid)
+            _ = cUp?.postToPid(pid)
+            _ = cmdUp?.postToPid(pid)
+        } else {
+            _ = cmdDown?.post(tap: .cghidEventTap)
+            _ = cDown?.post(tap: .cghidEventTap)
+            _ = cUp?.post(tap: .cghidEventTap)
+            _ = cmdUp?.post(tap: .cghidEventTap)
+        }
+    }
+
+    private func restorePasteboard(
+        savedItems: [NSPasteboardItem]?,
+        savedChangeCount _: Int
+    ) {
+        guard let savedItems, !savedItems.isEmpty else { return }
+        pasteboard.clearContents()
+        pasteboard.writeObjects(savedItems)
     }
 }

@@ -326,45 +326,6 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertTrue(panelWindow.isVisible)
     }
 
-    func testShortcutActivation_SkipsCaptureWhenAutoCaptureDisabled() {
-        capture.result = SelectedTextCaptureResult(
-            text: "should-not-be-used",
-            source: .accessibility,
-            accessibilityResult: .text("should-not-be-used")
-        )
-        capture.onCapture = { [weak self] in self?.events.append("capture") }
-        panelWindow.onReplaceContent = { [weak self] in
-            self?.events.append("panel")
-            XCTAssertEqual(self?.makeCurrentRuntime?.model.sourceText, "")
-        }
-        let runtime = makeRuntime()
-        makeCurrentRuntime = runtime
-        runtime.start()
-        runtime.settingsModel.setAutoCaptureSelectedText(false)
-
-        registrar.handler?()
-
-        XCTAssertEqual(events, ["panel"])
-        XCTAssertEqual(runtime.model.sourceText, "")
-        XCTAssertTrue(panelWindow.isVisible)
-    }
-
-    func testShortcutActivation_CapturesWhenAutoCaptureEnabledByDefault() {
-        capture.result = SelectedTextCaptureResult(
-            text: "selected",
-            source: .accessibility,
-            accessibilityResult: .text("selected")
-        )
-        let runtime = makeRuntime()
-        makeCurrentRuntime = runtime
-        runtime.start()
-
-        XCTAssertTrue(runtime.settingsModel.autoCaptureSelectedText)
-        registrar.handler?()
-
-        XCTAssertEqual(runtime.model.sourceText, "selected")
-    }
-
     func testShortcutReplacementConflictKeepsWorkingBinding() {
         let runtime = makeRuntime()
         runtime.start()

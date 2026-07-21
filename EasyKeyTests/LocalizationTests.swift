@@ -53,14 +53,14 @@ final class LocalizationTests: XCTestCase {
         store.setPreference(.english)
         XCTAssertEqual(
             store.format(.macrosImported, 3),
-            "Imported 3 text expansions. Duplicate triggers were skipped."
+            "Imported text expansions: 3. Duplicate triggers were skipped."
         )
         XCTAssertEqual(store.format(.macrosEnableTrigger, "addr"), "Enable addr")
 
         store.setPreference(.vietnamese)
         XCTAssertEqual(
             store.format(.macrosImported, 3),
-            "Đã nhập 3 mục gõ tắt. Các từ gõ tắt bị trùng đã được bỏ qua."
+            "Đã nhập 3 mục gõ tắt. Mục trùng đã được bỏ qua."
         )
     }
 
@@ -95,9 +95,9 @@ final class LocalizationTests: XCTestCase {
         store.setPreference(.english)
         let disclosure = store.format(.translationCloudDisclosureFirstUse, "DeepL", "DeepL")
         XCTAssertTrue(disclosure.contains("choose Translate"))
-        XCTAssertTrue(disclosure.contains("submitted source text"))
+        XCTAssertTrue(disclosure.contains("source text"))
         XCTAssertTrue(disclosure.contains("directly"))
-        XCTAssertTrue(disclosure.contains("Nothing is sent while you type"))
+        XCTAssertTrue(disclosure.contains("never sent"))
     }
 
     func testSystemDefaultFallsBackToSupportedLanguage() {
@@ -124,7 +124,7 @@ final class LocalizationTests: XCTestCase {
         XCTAssertEqual(store.displayName(for: InputMethod.simpleTelex), "Simple Telex")
         XCTAssertEqual(
             store.errorMessage(MacroStoreError.emptyTrigger),
-            "Hãy nhập từ gõ tắt."
+            "Nhập từ gõ tắt."
         )
 
         store.setPreference(.english)
@@ -212,7 +212,7 @@ final class LocalizationTests: XCTestCase {
         XCTAssertEqual(store.string(.settingsSectionMacros), "Gõ tắt")
         XCTAssertEqual(store.string(.macrosTrigger), "Từ gõ tắt")
         XCTAssertEqual(store.string(.macrosExpansionField), "Nội dung thay thế")
-        XCTAssertEqual(store.string(.encodingTransformClipboard), "Chuyển mã bảng nhớ tạm")
+        XCTAssertEqual(store.string(.encodingTransformClipboard), "Chuyển mã nội dung đã sao chép")
     }
 
     func testSetPreference_DoesNotInvokeRefreshOnSameValue() {

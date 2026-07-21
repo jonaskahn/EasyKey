@@ -319,4 +319,48 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
             deleteCount: 0
         ))
     }
+
+    func testCmdCDoublePress_DoesNotFireWithoutCommandModifier() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        var activated = false
+        pipeline.setCmdCDoublePressHandler(windowMs: 400) { activated = true }
+
+        let event = keyEvent(character: "c", keyCode: 8, flags: [])
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 8)
+        XCTAssertFalse(activated)
+    }
+
+    func testCmdCDoublePress_DoesNotFireWithOptionModifier() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        var activated = false
+        pipeline.setCmdCDoublePressHandler(windowMs: 400) { activated = true }
+
+        let event = keyEvent(character: "c", keyCode: 8, flags: [.maskCommand, .maskAlternate])
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 8)
+        XCTAssertFalse(activated)
+    }
+
+    func testCmdCDoublePress_ResetsOnInterveningNonMatchingKey() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        var activated = false
+        pipeline.setCmdCDoublePressHandler(windowMs: 400) { activated = true }
+
+        let cEvent = keyEvent(character: "c", keyCode: 8, flags: .maskCommand)
+        let vEvent = keyEvent(character: "v", keyCode: 9, flags: .maskCommand)
+
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: cEvent, keyCode: 8)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: vEvent, keyCode: 9)
+        XCTAssertFalse(activated)
+    }
+
+    func testCmdCDoublePress_DoesNotFireWhenHandlerCleared() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        var activated = false
+        pipeline.setCmdCDoublePressHandler(windowMs: 400) { activated = true }
+        pipeline.clearCmdCDoublePressHandler()
+
+        let event = keyEvent(character: "c", keyCode: 8, flags: .maskCommand)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 8)
+        XCTAssertFalse(activated)
+    }
 }

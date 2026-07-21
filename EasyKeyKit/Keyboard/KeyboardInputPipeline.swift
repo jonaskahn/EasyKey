@@ -46,6 +46,10 @@ final class KeyboardInputPipeline {
     private static let addressBarCacheTTL: CFAbsoluteTime = 1.5
     private static let spotlightCacheTTL: CFAbsoluteTime = 0.3
 
+    private var cmdCDoublePressHandler: (@MainActor () -> Void)?
+    private var cmdCDoublePressWindowMs: Int = 400
+    private var lastCmdCTimestamp: UInt64?
+
     var onTogglePause: (() -> Void)?
     var onLanguageToggled: ((InputLanguage) -> Void)?
 
@@ -90,6 +94,16 @@ final class KeyboardInputPipeline {
         macroExpander.reset()
     }
 
+    func setCmdCDoublePressHandler(windowMs: Int, handler: @escaping @MainActor () -> Void) {
+        cmdCDoublePressWindowMs = windowMs
+        cmdCDoublePressHandler = handler
+    }
+
+    func clearCmdCDoublePressHandler() {
+        cmdCDoublePressHandler = nil
+        lastCmdCTimestamp = nil
+    }
+
     var activeBundleIdentifierSnapshot: String? {
         activeBundleIdentifier
     }
@@ -115,6 +129,8 @@ final class KeyboardInputPipeline {
         guard type == .keyDown, let keyCode else {
             return .passed
         }
+
+        detectCmdCDoublePress(keyCode: keyCode, event: event)
 
         if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: type, keyCode: keyCode, event: event) {
             DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
@@ -454,6 +470,39 @@ final class KeyboardInputPipeline {
         let languageCodes = Unmanaged<CFArray>.fromOpaque(languages).takeUnretainedValue() as NSArray
         guard let languageCodes = languageCodes as? [String] else { return false }
         return !languageCodes.contains { $0.lowercased().hasPrefix("en") }
+    }
+
+    private func detectCmdCDoublePress(keyCode: UInt16, event: CGEvent) {
+        guard let handler = cmdCDoublePressHandler else { return }
+        guard keyCode == UInt16(kVK_ANSI_C),
+              event.flags.contains(.maskCommand),
+              !event.flags.contains(.maskAlternate),
+              !event.flags.contains(.maskControl)
+        else {
+            lastCmdCTimestamp = nil
+            return
+        }
+
+        let now = event.timestamp
+
+        if let last = lastCmdCTimestamp,
+           timestampDeltaMs(lhs: last, rhs: now) <= Double(cmdCDoublePressWindowMs) {
+            lastCmdCTimestamp = nil
+            DispatchQueue.main.async { handler() }
+            return
+        }
+
+        lastCmdCTimestamp = now
+    }
+
+    private func timestampDeltaMs(lhs: UInt64, rhs: UInt64) -> Double {
+        let delta: UInt64
+        if rhs >= lhs {
+            delta = rhs - lhs
+        } else {
+            delta = lhs - rhs
+        }
+        return Double(delta) / 1_000_000.0
     }
 }
 

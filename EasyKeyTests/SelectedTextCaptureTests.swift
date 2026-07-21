@@ -191,6 +191,62 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
         XCTAssertEqual(events, ["frontmost", "accessibility", "activate"])
     }
 
+    func testCapture_FallsBackToSimulatedCopyWhenAccessibilityFails() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [])
+        let simulator = FakeSelectedTextSimulator(text: "simulated")
+        let coordinator = makeCoordinator(selection: .absent, pasteboard: pasteboard, simulatedCopy: simulator)
+
+        let result = coordinator.capture()
+
+        XCTAssertEqual(result.text, "simulated")
+        XCTAssertEqual(result.source, .simulatedCopy)
+        XCTAssertEqual(simulator.copyCallCount, 1)
+        XCTAssertPasteboardUnchanged(pasteboard)
+    }
+
+    func testCapture_SimulatedCopyNotCalledWhenAccessibilitySucceeds() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [])
+        let simulator = FakeSelectedTextSimulator(text: "should-not-be-used")
+        let coordinator = makeCoordinator(selection: .text("accessibility"), pasteboard: pasteboard, simulatedCopy: simulator)
+
+        let result = coordinator.capture()
+
+        XCTAssertEqual(result.text, "accessibility")
+        XCTAssertEqual(result.source, .accessibility)
+        XCTAssertEqual(simulator.copyCallCount, 0)
+    }
+
+    func testCapture_SimulatedCopyNotCalledWhenSimulatorIsNil() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [])
+        let coordinator = makeCoordinator(selection: .absent, pasteboard: pasteboard, simulatedCopy: nil)
+
+        let result = coordinator.capture()
+
+        XCTAssertEqual(result.source, .blank)
+    }
+
+    func testCapture_SimulatedCopyResultRespectsMaxLength() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [])
+        let simulator = FakeSelectedTextSimulator(text: "123456")
+        let coordinator = makeCoordinator(selection: .absent, pasteboard: pasteboard, simulatedCopy: simulator, maximumLength: 5)
+
+        let result = coordinator.capture()
+
+        XCTAssertEqual(result.text, "")
+        XCTAssertEqual(result.source, .blank)
+    }
+
+    func testCapture_SimulatedCopySkipsBlankText() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [.plainText("pasteboard")])
+        let simulator = FakeSelectedTextSimulator(text: " ")
+        let coordinator = makeCoordinator(selection: .absent, pasteboard: pasteboard, simulatedCopy: simulator)
+
+        let result = coordinator.capture()
+
+        XCTAssertEqual(result.text, "pasteboard")
+        XCTAssertEqual(result.source, .pasteboard)
+    }
+
     private func makeCoordinator(
         selection: SelectedTextReadResult,
         pasteboard: FakeSelectedTextPasteboard,
@@ -199,6 +255,23 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
         SelectedTextCaptureCoordinator(
             selectedTextReader: ClosureSelectedTextReader { selection },
             pasteboardReader: pasteboard,
+            simulatedCopy: nil,
+            frontmostApplication: { nil },
+            activateEasyKey: {},
+            maximumLength: maximumLength
+        )
+    }
+
+    private func makeCoordinator(
+        selection: SelectedTextReadResult,
+        pasteboard: FakeSelectedTextPasteboard,
+        simulatedCopy: SelectedTextSimulating?,
+        maximumLength: Int = 5000
+    ) -> SelectedTextCaptureCoordinator {
+        SelectedTextCaptureCoordinator(
+            selectedTextReader: ClosureSelectedTextReader { selection },
+            pasteboardReader: pasteboard,
+            simulatedCopy: simulatedCopy,
             frontmostApplication: { nil },
             activateEasyKey: {},
             maximumLength: maximumLength
@@ -320,5 +393,19 @@ private final class FakeSelectedTextPasteboard: PasteboardReading {
             changeCount = changeCountAfterSnapshot
         }
         return PasteboardSnapshot(changeCount: reportedCount, items: items)
+    }
+}
+
+private final class FakeSelectedTextSimulator: SelectedTextSimulating {
+    let text: String?
+    private(set) var copyCallCount = 0
+
+    init(text: String?) {
+        self.text = text
+    }
+
+    func copySelection(from _: NSRunningApplication?) -> String? {
+        copyCallCount += 1
+        return text
     }
 }

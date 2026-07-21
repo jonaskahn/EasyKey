@@ -124,7 +124,7 @@ final class TranslationPanelViewTests: XCTestCase {
         XCTAssertTrue(localization.format(.translationInstructions, "⌥ + A").contains("⌥ + A"))
         XCTAssertEqual(
             localization.string(.translationResultAnnouncement),
-            "Translation complete. Result available."
+            "Translation complete. Result ready."
         )
 
         localization.setPreference(.vietnamese)

@@ -139,6 +139,28 @@ final class AppCoordinator: ObservableObject {
             guard let self else { return }
             self.statusItemController.refreshPopoverContent(coordinator: self)
         }
+        translation.onDoubleCmdCChange = { [weak self] windowMs, enabled in
+            guard let self else { return }
+            if enabled {
+                self.keyboardService.setCmdCDoublePressHandler(windowMs: windowMs) { [weak self] in
+                    self?.translation.activateFromDoubleCmdC()
+                }
+            } else {
+                self.keyboardService.clearCmdCDoublePressHandler()
+            }
+        }
+        translation.settingsModel.onCmdCDoublePressChanged = { [weak self] in
+            guard let self else { return }
+            let options = self.settingsStore.settings.translation
+            let enabled = options.isEnabled && options.cmdCDoublePressEnabled
+            if enabled {
+                self.keyboardService.setCmdCDoublePressHandler(windowMs: options.cmdCDoublePressWindowMs) { [weak self] in
+                    self?.translation.activateFromDoubleCmdC()
+                }
+            } else {
+                self.keyboardService.clearCmdCDoublePressHandler()
+            }
+        }
     }
 
     func showClipboardPanel() {
