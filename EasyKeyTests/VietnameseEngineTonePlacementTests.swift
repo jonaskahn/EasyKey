@@ -307,14 +307,14 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
 
     func testSimpleTelexDifferenceIsStandaloneWAndBracketsOnly() {
         for input in ["caan", "trangw", "ddeem", "nhoo", "mow", "tuw", "ddau", "uowj"] {
-            var full = VietnameseEngine()
+            var full = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
             var simple = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
             typeKeys(&full, input)
             typeKeys(&simple, input)
             XCTAssertEqual(full.currentBuffer, simple.currentBuffer, "input: \(input)")
         }
 
-        var fullW = VietnameseEngine()
+        var fullW = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         var simpleW = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
         typeKeys(&fullW, "tw")
         typeKeys(&simpleW, "tw")

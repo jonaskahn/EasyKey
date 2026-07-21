@@ -362,7 +362,7 @@ final class EngineCoreCoverageTests: XCTestCase {
     }
 
     func testFullTelexStandaloneWAtEmptyBufferProducesUWithHorn() {
-        var engine = VietnameseEngine()
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         _ = engine.process(event: .char("w"))
         XCTAssertEqual(engine.currentBuffer, "ư")
     }
@@ -1006,7 +1006,7 @@ final class EngineCoreCoverageTests: XCTestCase {
     }
 
     func testFullTelexStandaloneWAfterOnset() {
-        var engine = VietnameseEngine()
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         typeKeys(&engine, "tw")
         XCTAssertEqual(engine.currentBuffer, "tư")
     }

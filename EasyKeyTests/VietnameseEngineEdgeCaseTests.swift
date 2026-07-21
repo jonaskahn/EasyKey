@@ -203,7 +203,7 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
     }
 
     func testStandaloneWOnEmptyBuffer() {
-        var engine = VietnameseEngine()
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         let result = engine.process(event: .char("w"))
         XCTAssertEqual(engine.currentBuffer, "ư")
         XCTAssertEqual(result.disposition, .suppress)
@@ -275,13 +275,13 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
     }
 
     func testFullTelexTransformsStandaloneWAfterOnset() {
-        var engine = VietnameseEngine()
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         typeKeys(&engine, "thw")
         XCTAssertEqual(engine.currentBuffer, "thư")
     }
 
     func testFullTelexBracketShortcuts() {
-        var engine = VietnameseEngine()
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .telex))
         typeKeys(&engine, "m[")
         XCTAssertEqual(engine.currentBuffer, "mơ")
     }
