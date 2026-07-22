@@ -225,6 +225,5 @@ private struct LocalizedEnvironmentModifier: ViewModifier {
         content
             .environment(\.locale, localization.locale)
             .environmentObject(localization)
-            .id(localization.resolvedCode)
     }
 }

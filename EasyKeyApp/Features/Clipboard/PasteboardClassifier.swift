@@ -27,22 +27,33 @@ struct PasteboardClassifier {
     private static let videoExtensions: Set<String> = ["mp4", "mov", "m4v", "avi", "mkv", "webm", "mpg", "mpeg", "wmv", "flv"]
 
     /// Requests the accepted identifiers present in each descriptor item.
-    func selection(for descriptor: PasteboardDescriptor) -> [[String]] {
+    func selection(
+        for descriptor: PasteboardDescriptor,
+        capturedKinds: Set<ClipboardContentKind> = ClipboardContentKind.capturable
+    ) -> [[String]] {
         descriptor.items.map { item in
-            Self.acceptedTypes.filter { item.typeIdentifiers.contains($0) }
+            Self.acceptedTypes.filter {
+                item.typeIdentifiers.contains($0) && Self.isNeeded($0, capturedKinds: capturedKinds)
+            }
         }
     }
 
     /// Returns `nil` when nothing supported remains. Assumes the caller already
     /// rejected sensitive-marker events and validated the change count.
-    func classify(_ snapshot: PasteboardSnapshot, source: ClipboardSource?, now: Date) -> ClassifiedClipboard? {
+    func classify(
+        _ snapshot: PasteboardSnapshot,
+        source: ClipboardSource?,
+        now: Date,
+        capturedKinds: Set<ClipboardContentKind> = ClipboardContentKind.capturable
+    ) -> ClassifiedClipboard? {
+        guard !snapshot.exceededByteLimit else { return nil }
         var items: [ClassifiedItem] = []
-        for (index, itemSnapshot) in snapshot.items.enumerated() {
+        for itemSnapshot in snapshot.items {
             var map: [String: Data] = [:]
             for representation in itemSnapshot.representations {
                 map[representation.typeIdentifier] = representation.data
             }
-            if let classified = classifyItem(map, itemIndex: index) {
+            if let classified = classifyItem(map), capturedKinds.contains(classified.kind) {
                 items.append(classified)
             }
         }
@@ -80,7 +91,7 @@ struct PasteboardClassifier {
         return ClassifiedClipboard(entry: entry, payloads: payloads)
     }
 
-    private func classifyItem(_ map: [String: Data], itemIndex _: Int) -> ClassifiedItem? {
+    private func classifyItem(_ map: [String: Data]) -> ClassifiedItem? {
         if let data = map[Self.fileURL], let url = Self.decodeURL(data) {
             let name = url.lastPathComponent
             let ext = url.pathExtension.lowercased()
@@ -155,6 +166,21 @@ struct PasteboardClassifier {
             return url
         }
         return URL(fileURLWithPath: string)
+    }
+
+    private static func isNeeded(_ identifier: String, capturedKinds: Set<ClipboardContentKind>) -> Bool {
+        switch identifier {
+        case fileURL:
+            return capturedKinds.contains(.file) || capturedKinds.contains(.video)
+        case webURL:
+            return capturedKinds.contains(.url)
+        case png, tiff:
+            return capturedKinds.contains(.image)
+        case plainText, html, rtf:
+            return capturedKinds.contains(.text)
+        default:
+            return false
+        }
     }
 }
 

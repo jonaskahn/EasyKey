@@ -72,7 +72,7 @@ final class AppleTranslationProvider: TranslationProviding {
         case .unsupported:
             throw EasyEngineCore.TranslationError.unsupportedLanguagePair(source: domainSource, target: domainTarget)
         @unknown default:
-            return
+            throw EasyEngineCore.TranslationError.providerUnavailable(provider: .apple, httpStatus: nil)
         }
     }
 

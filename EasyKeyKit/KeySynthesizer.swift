@@ -6,6 +6,7 @@ public final class KeySynthesizer {
     typealias EventFactory = (UInt16, Bool) -> CGEvent?
 
     enum ReplacementStrategy: Equatable {
+        case failed
         case atomicFocusedText
         case atomicFocusedTextCaretUnknown
         case selectionReplacement
@@ -54,11 +55,12 @@ public final class KeySynthesizer {
         }
     }
 
-    public func postBackspace(proxy: CGEventTapProxy, count: Int = 1) {
-        guard count > 0 else { return }
-        for _ in 0 ..< count {
-            postPhysicalKey(proxy: proxy, keyCode: 51)
-        }
+    @discardableResult
+    public func postBackspace(proxy: CGEventTapProxy, count: Int = 1) -> Bool {
+        guard count > 0 else { return true }
+        guard let events = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: count) else { return false }
+        post(events, proxy: proxy)
+        return true
     }
 
     @discardableResult
@@ -66,16 +68,19 @@ public final class KeySynthesizer {
         postUnicodeText(proxy: proxy, text, encodedUnits: text.map(String.init))
     }
 
-    public func postPhysicalKey(proxy: CGEventTapProxy, keyCode: UInt16, modifiers: CGEventFlags = []) {
-        postKeyEvent(proxy: proxy, keyCode: keyCode, modifiers: modifiers, keyDown: true)
-        postKeyEvent(proxy: proxy, keyCode: keyCode, modifiers: modifiers, keyDown: false)
+    @discardableResult
+    public func postPhysicalKey(proxy: CGEventTapProxy, keyCode: UInt16, modifiers: CGEventFlags = []) -> Bool {
+        guard let events = makePhysicalKeyEvents(keyCode: keyCode, modifiers: modifiers, count: 1) else { return false }
+        post(events, proxy: proxy)
+        return true
     }
 
-    public func postShiftLeft(proxy: CGEventTapProxy, count: Int) {
-        guard count > 0 else { return }
-        for _ in 0 ..< count {
-            postPhysicalKey(proxy: proxy, keyCode: 123, modifiers: .maskShift)
-        }
+    @discardableResult
+    public func postShiftLeft(proxy: CGEventTapProxy, count: Int) -> Bool {
+        guard count > 0 else { return true }
+        guard let events = makePhysicalKeyEvents(keyCode: 123, modifiers: .maskShift, count: count) else { return false }
+        post(events, proxy: proxy)
+        return true
     }
 
     @discardableResult
@@ -106,36 +111,56 @@ public final class KeySynthesizer {
             }
         }
 
-        // Spotlight path: backspaces get swallowed by the panel's provisional
-        // autocomplete selection, but arrow keys cancel it. Select the composed
-        // text with Shift+Left and type the replacement over the selection.
         if useSelectionReplacement {
-            let selectionCount = prepareDeleteForSelection(deleteCount: deleteCount)
-            postShiftLeft(proxy: proxy, count: selectionCount)
-            postUnicodeText(proxy: proxy, text, encodedUnits: encodedUnits)
+            let selectionCount = selectionDeleteCount(deleteCount)
+            guard let selectionEvents = makePhysicalKeyEvents(
+                keyCode: 123,
+                modifiers: .maskShift,
+                count: selectionCount
+            ), let insertionEvents = makeUnicodeEvents(text)
+            else { return .failed }
+            _ = prepareDeleteForSelection(deleteCount: deleteCount)
+            post(selectionEvents, proxy: proxy)
+            post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
             return .selectionReplacement
         }
 
         let shouldBreakAutocomplete = breakAutocomplete || useFocusedTextReplacement
-        if shouldBreakAutocomplete {
-            postUnicodeText(proxy: proxy, "\u{202F}", encodedUnits: [])
-            postBackspace(proxy: proxy, count: 1)
-        }
+        guard let insertionEvents = makeUnicodeEvents(text),
+              let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? "\u{202F}" : ""),
+              let breakBackspaceEvents = makePhysicalKeyEvents(
+                  keyCode: 51,
+                  modifiers: [],
+                  count: shouldBreakAutocomplete ? 1 : 0
+              ),
+              let deletionEvents = makePhysicalKeyEvents(
+                  keyCode: 51,
+                  modifiers: [],
+                  count: physicalDeleteCount(deleteCount)
+              )
+        else { return .failed }
+        post(breakEvents, proxy: proxy, encodedUnits: [])
+        post(breakBackspaceEvents, proxy: proxy)
         let removedUnits = prepareDelete(deleteCount: deleteCount)
-        postBackspace(proxy: proxy, count: removedUnits)
-        postUnicodeText(proxy: proxy, text, encodedUnits: encodedUnits)
+        assert(removedUnits == deletionEvents.count)
+        post(deletionEvents, proxy: proxy)
+        post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
         return shouldBreakAutocomplete ? .breakAutocompleteAndBackspace : .physicalBackspace
     }
 
-    func insert(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]? = nil) {
-        clearPendingEmptyCharacter(proxy: proxy)
-        postUnicodeText(proxy: proxy, text, encodedUnits: encodedUnits ?? text.map(String.init))
+    @discardableResult
+    func insert(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]? = nil) -> Bool {
+        guard let events = makeUnicodeEvents(text), clearPendingEmptyCharacter(proxy: proxy) else { return false }
+        post(events, proxy: proxy, encodedUnits: encodedUnits ?? text.map(String.init))
+        return true
     }
 
-    func insertEmptyCharacter(proxy: CGEventTapProxy, _ text: String) {
-        clearPendingEmptyCharacter(proxy: proxy)
-        postUnicodeText(proxy: proxy, text, encodedUnits: [])
+    @discardableResult
+    func insertEmptyCharacter(proxy: CGEventTapProxy, _ text: String) -> Bool {
+        guard let events = makeUnicodeEvents(text), clearPendingEmptyCharacter(proxy: proxy) else { return false }
+        post(events, proxy: proxy, encodedUnits: [])
         pendingEmptyCharacter = true
+        return true
     }
 
     func resetEncodedUnits() {
@@ -158,6 +183,22 @@ public final class KeySynthesizer {
         pendingEmptyCharacter
     }
 
+    func postMacroExpansion(
+        proxy: CGEventTapProxy,
+        backspaceCount: Int,
+        text: String,
+        physicalKeyCode: UInt16
+    ) -> Bool {
+        guard let deletionEvents = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: backspaceCount),
+              let insertionEvents = makeUnicodeEvents(text),
+              let delimiterEvents = makePhysicalKeyEvents(keyCode: physicalKeyCode, modifiers: [], count: 1)
+        else { return false }
+        post(deletionEvents, proxy: proxy)
+        post(insertionEvents, proxy: proxy, encodedUnits: text.map(String.init))
+        post(delimiterEvents, proxy: proxy)
+        return true
+    }
+
     @discardableResult
     func prepareDelete(deleteCount: Int) -> Int {
         var physicalCount = 0
@@ -169,8 +210,6 @@ public final class KeySynthesizer {
         return physicalCount
     }
 
-    /// Like `prepareDelete`, but counts graphemes: arrow keys move the caret per
-    /// grapheme cluster, while backspaces are tracked per UTF-16 unit.
     @discardableResult
     func prepareDeleteForSelection(deleteCount: Int) -> Int {
         var selectionCount = 0
@@ -192,29 +231,37 @@ public final class KeySynthesizer {
         pendingEmptyCharacter = true
     }
 
-    private func clearPendingEmptyCharacter(proxy: CGEventTapProxy) {
-        guard pendingEmptyCharacter else { return }
-        postBackspace(proxy: proxy, count: 1)
+    private func clearPendingEmptyCharacter(proxy: CGEventTapProxy) -> Bool {
+        guard pendingEmptyCharacter else { return true }
+        guard postBackspace(proxy: proxy, count: 1) else { return false }
         pendingEmptyCharacter = false
+        return true
     }
 
     @discardableResult
     private func postUnicodeText(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]) -> Bool {
-        guard !text.isEmpty else { return true }
+        guard let events = makeUnicodeEvents(text) else { return false }
+        post(events, proxy: proxy, encodedUnits: encodedUnits)
+        return true
+    }
 
-        let chunks = utf16Chunks(in: text)
+    private func makeUnicodeEvents(_ text: String) -> [UnicodeEventPair]? {
         var events: [UnicodeEventPair] = []
+        let chunks = utf16Chunks(in: text)
         events.reserveCapacity(chunks.count)
         for chunk in chunks {
             guard let keyDown = eventFactory(0, true),
                   let keyUp = eventFactory(0, false)
             else {
                 AppLog.error(.synth, "Failed to create unicode key events")
-                return false
+                return nil
             }
             events.append(UnicodeEventPair(chunk: chunk, keyDown: keyDown, keyUp: keyUp))
         }
+        return events
+    }
 
+    private func post(_ events: [UnicodeEventPair], proxy: CGEventTapProxy, encodedUnits: [String]) {
         for event in events {
             let keyDown = event.keyDown
             let keyUp = event.keyUp
@@ -231,7 +278,18 @@ public final class KeySynthesizer {
         encodedUnitStack.append(contentsOf: encodedUnits.map {
             EncodedUnit(utf16: $0.utf16.count, graphemes: $0.count)
         })
-        return true
+    }
+
+    private func physicalDeleteCount(_ logicalCount: Int) -> Int {
+        let pendingCount = pendingEmptyCharacter ? 1 : 0
+        let count = min(max(0, logicalCount), encodedUnitStack.count)
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.utf16 }
+    }
+
+    private func selectionDeleteCount(_ logicalCount: Int) -> Int {
+        let pendingCount = pendingEmptyCharacter ? 1 : 0
+        let count = min(max(0, logicalCount), encodedUnitStack.count)
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemes }
     }
 
     private func removeEncodedUnits(_ logicalCount: Int) -> Int {
@@ -254,14 +312,32 @@ public final class KeySynthesizer {
         return deletedGraphemes
     }
 
-    private func postKeyEvent(proxy: CGEventTapProxy, keyCode: UInt16, modifiers: CGEventFlags, keyDown: Bool) {
-        guard let event = eventFactory(keyCode, keyDown) else {
-            AppLog.error(.synth, "Failed to create physical key event keyCode=\(keyCode)")
-            return
+    private func makePhysicalKeyEvents(
+        keyCode: UInt16,
+        modifiers: CGEventFlags,
+        count: Int
+    ) -> [(keyDown: CGEvent, keyUp: CGEvent)]? {
+        var events: [(keyDown: CGEvent, keyUp: CGEvent)] = []
+        events.reserveCapacity(count)
+        for _ in 0 ..< count {
+            guard let keyDown = eventFactory(keyCode, true), let keyUp = eventFactory(keyCode, false) else {
+                AppLog.error(.synth, "Failed to create physical key events keyCode=\(keyCode)")
+                return nil
+            }
+            keyDown.flags = modifiers
+            keyUp.flags = modifiers
+            markAsSelfPosted(keyDown)
+            markAsSelfPosted(keyUp)
+            events.append((keyDown, keyUp))
         }
-        event.flags = modifiers
-        markAsSelfPosted(event)
-        event.tapPostEvent(proxy)
+        return events
+    }
+
+    private func post(_ events: [(keyDown: CGEvent, keyUp: CGEvent)], proxy: CGEventTapProxy) {
+        for event in events {
+            event.keyDown.tapPostEvent(proxy)
+            event.keyUp.tapPostEvent(proxy)
+        }
     }
 
     private func markAsSelfPosted(_ event: CGEvent) {

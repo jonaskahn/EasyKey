@@ -1,4 +1,3 @@
-import AppKit
 import EasyEngineCore
 import EasyKeyKit
 import SwiftUI
@@ -66,6 +65,7 @@ struct SystemSettingsView: View {
                     isOn: setting(\.system.checkForUpdates)
                 )
                 .toggleStyle(.switch)
+                .disabled(!coordinator.canCheckForUpdates)
 
                 Button(localization.string(.systemCheckNow)) {
                     coordinator.checkForUpdates()
@@ -108,7 +108,7 @@ struct SystemSettingsView: View {
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
-        Binding(get: { settingsStore.settings[keyPath: keyPath] }, set: { value in settingsStore.update { $0[keyPath: keyPath] = value } })
+        settingsStore.binding(keyPath)
     }
 
     private func settingToggle(_ title: L10nKey, description: L10nKey, isOn: Binding<Bool>) -> some View {

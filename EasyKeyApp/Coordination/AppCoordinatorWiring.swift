@@ -148,6 +148,7 @@ extension AppCoordinator {
         var lastTranslationRuntimeObservation: TranslationRuntimeSettingsObservation?
         var lastTranslationPopoverObservation: TranslationPopoverSettingsObservation?
         var lastTranslationActivationObservation: TranslationActivationSettingsObservation?
+        var lastSmartSwitchEnabled: Bool?
         settingsObserver = settingsStore.$settings.sink { [weak self] settings in
             guard let self else { return }
             keyboardService.update(settings: settings)
@@ -159,6 +160,10 @@ extension AppCoordinator {
                 configureLaunchAtLogin(enabled: settings.system.launchAtLogin)
             }
             smartSwitchController.rememberChoiceIfNeeded(from: settings)
+            if lastSmartSwitchEnabled != settings.smartSwitch.enabled {
+                lastSmartSwitchEnabled = settings.smartSwitch.enabled
+                smartSwitchController.handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
+            }
             if ignoredApplicationsSetting != settings.compatibility.ignoredApplicationBundleIdentifiers {
                 ignoredApplicationsSetting = settings.compatibility.ignoredApplicationBundleIdentifiers
                 smartSwitchController.handleApplicationActivation(NSWorkspace.shared.frontmostApplication)

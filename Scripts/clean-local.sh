@@ -14,16 +14,14 @@ print "==> Removing Application Support..."
 rm -rf "${HOME}/Library/Application Support/EasyKey"
 
 print "==> Removing CrashReporter leftovers..."
-rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKey*
-rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKeyApp*
-rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKeyLoginHelper*
+rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKey_*.plist
+rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKeyApp_*.plist
+rm -f "${HOME}/Library/Application Support/CrashReporter"/EasyKeyLoginHelper_*.plist
 
 print "==> Removing Preferences..."
 rm -f "${HOME}/Library/Preferences/one.ifelse.easykey.plist"
 rm -f "${HOME}/Library/Preferences/com.easykey.EasyKey.plist"
 rm -f "${HOME}/Library/Preferences"/one.ifelse.easykey.localization-tests.*.plist
-rm -f "${HOME}/Library/Preferences"/one.ifelse.*.plist
-rm -f "${HOME}/Library/Preferences"/com.easykey.*.plist
 
 print "==> Removing defaults domains..."
 defaults delete one.ifelse.easykey 2>/dev/null || true
@@ -54,9 +52,6 @@ rm -rf "${HOME}/Library/HTTPStorages/one.ifelse.easykey"
 rm -rf "${HOME}/Library/HTTPStorages/com.easykey.EasyKey"
 rm -rf "${HOME}/Library/Logs/EasyKey"
 rm -rf "${HOME}/Library/Logs/one.ifelse.easykey"
-
-print "==> Removing Xcode DerivedData (EasyKey*)..."
-rm -rf "${HOME}/Library/Developer/Xcode/DerivedData"/EasyKey*
 
 print "==> Flushing preference cache..."
 killall cfprefsd 2>/dev/null || true

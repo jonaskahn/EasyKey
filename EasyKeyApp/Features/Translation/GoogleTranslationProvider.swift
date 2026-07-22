@@ -103,12 +103,7 @@ struct GoogleTranslationProvider: TranslationProviding {
     }
 
     private nonisolated func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: .google)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: .google)
-        }
+        let stored = try credentialStore.credential(for: .google)
         guard let stored else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: .google)
         }

@@ -6,6 +6,7 @@ import SwiftUI
 /// Forwards `NSPopover` close notifications to a plain closure. `NSPopover`
 /// requires an `NSObject`-conforming delegate, so this small adapter keeps
 /// `StatusItemController` itself from needing to subclass `NSObject`.
+@MainActor
 final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
     var onClose: (() -> Void)?
 

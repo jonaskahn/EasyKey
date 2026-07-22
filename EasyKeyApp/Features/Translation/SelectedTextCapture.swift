@@ -133,7 +133,6 @@ struct AccessibilitySelectedTextReader: SelectedTextReading {
 enum SelectedTextCaptureSource: Equatable {
     case accessibility
     case simulatedCopy
-    case pasteboard
     case blank
 }
 
@@ -141,16 +140,11 @@ struct SelectedTextCaptureResult: Equatable {
     let text: String
     let source: SelectedTextCaptureSource
     let accessibilityResult: SelectedTextReadResult
-
-    var isOrdinaryAbsence: Bool {
-        accessibilityResult == .absent
-    }
 }
 
 @MainActor
 final class SelectedTextCaptureCoordinator {
     private let selectedTextReader: SelectedTextReading
-    private let pasteboardReader: PasteboardReading
     private let simulatedCopy: SelectedTextSimulating?
     private let frontmostApplication: @MainActor () -> NSRunningApplication?
     private let activateEasyKey: @MainActor () -> Void
@@ -160,14 +154,12 @@ final class SelectedTextCaptureCoordinator {
 
     init(
         selectedTextReader: SelectedTextReading = AccessibilitySelectedTextReader(),
-        pasteboardReader: PasteboardReading = SystemPasteboardReader(),
         simulatedCopy: SelectedTextSimulating? = SystemSelectedTextSimulator(),
         frontmostApplication: @escaping @MainActor () -> NSRunningApplication? = { NSWorkspace.shared.frontmostApplication },
         activateEasyKey: @escaping @MainActor () -> Void = { NSApp.activate(ignoringOtherApps: true) },
         maximumLength: Int = TranslationRequest.maximumSourceTextLength
     ) {
         self.selectedTextReader = selectedTextReader
-        self.pasteboardReader = pasteboardReader
         self.simulatedCopy = simulatedCopy
         self.frontmostApplication = frontmostApplication
         self.activateEasyKey = activateEasyKey
@@ -184,16 +176,12 @@ final class SelectedTextCaptureCoordinator {
                 source: .accessibility,
                 accessibilityResult: accessibilityResult
             )
-        } else if let text = captureViaSimulatedCopy() {
+        } else if accessibilityResult != .secureField,
+                  accessibilityResult != .oversized,
+                  let text = captureViaSimulatedCopy() {
             result = SelectedTextCaptureResult(
                 text: text,
                 source: .simulatedCopy,
-                accessibilityResult: accessibilityResult
-            )
-        } else if let text = readPlainTextPasteboard() {
-            result = SelectedTextCaptureResult(
-                text: text,
-                source: .pasteboard,
                 accessibilityResult: accessibilityResult
             )
         } else {
@@ -213,42 +201,6 @@ final class SelectedTextCaptureCoordinator {
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
         guard text.count <= maximumLength else { return nil }
         return text
-    }
-
-    private func readPlainTextPasteboard() -> String? {
-        let initialChangeCount = pasteboardReader.changeCount
-        let descriptor = pasteboardReader.descriptor()
-        guard descriptor.changeCount == initialChangeCount,
-              !SensitivePasteboardMarkers.contains(descriptor.items.flatMap(\.typeIdentifiers))
-        else {
-            return nil
-        }
-
-        let selection = descriptor.items.map { item in
-            item.typeIdentifiers.contains(PasteboardClassifier.plainText) ? [PasteboardClassifier.plainText] : []
-        }
-        guard selection.contains(where: { !$0.isEmpty }) else { return nil }
-
-        let snapshot = pasteboardReader.snapshot(selecting: selection)
-        guard snapshot.changeCount == initialChangeCount,
-              pasteboardReader.changeCount == initialChangeCount
-        else {
-            return nil
-        }
-
-        for item in snapshot.items {
-            guard let representation = item.representations.first(where: {
-                $0.typeIdentifier == PasteboardClassifier.plainText
-            }),
-                let text = String(data: representation.data, encoding: .utf8),
-                !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                text.count <= maximumLength
-            else {
-                continue
-            }
-            return text
-        }
-        return nil
     }
 }
 
@@ -273,8 +225,6 @@ final class SystemSelectedTextSimulator: SelectedTextSimulating {
 
     func copySelection(from app: NSRunningApplication?) -> String? {
         let savedItems = pasteboard.pasteboardItems
-        let savedChangeCount = pasteboard.changeCount
-
         pasteboard.clearContents()
         let clearedChangeCount = pasteboard.changeCount
 
@@ -293,7 +243,7 @@ final class SystemSelectedTextSimulator: SelectedTextSimulating {
             RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.01))
         }
 
-        restorePasteboard(savedItems: savedItems, savedChangeCount: savedChangeCount)
+        restorePasteboard(savedItems: savedItems)
 
         guard let text = capturedText, !text.isEmpty else { return nil }
         return text
@@ -339,10 +289,7 @@ final class SystemSelectedTextSimulator: SelectedTextSimulating {
         }
     }
 
-    private func restorePasteboard(
-        savedItems: [NSPasteboardItem]?,
-        savedChangeCount _: Int
-    ) {
+    private func restorePasteboard(savedItems: [NSPasteboardItem]?) {
         guard let savedItems, !savedItems.isEmpty else { return }
         let clonedItems = savedItems.map(Self.clone)
         pasteboard.clearContents()

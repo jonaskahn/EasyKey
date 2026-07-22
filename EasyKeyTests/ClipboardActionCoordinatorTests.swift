@@ -68,6 +68,41 @@ final class ClipboardActionCoordinatorTests: XCTestCase {
         XCTAssertEqual(coordinator.lastError, .accessibilityDenied)
     }
 
+    func testDelayedPasteRejectsChangedFocus() async throws {
+        var pasted = false
+        let coordinator = ClipboardActionCoordinator(
+            writeEntry: { _ in },
+            closePanel: {},
+            reactivatePrevious: { true },
+            synthesizePaste: { pasted = true; return true },
+            isTargetFocused: { false },
+            pasteDelay: .milliseconds(10)
+        )
+
+        coordinator.perform(entry(), action: .pasteImmediately)
+        try await Task.sleep(for: .milliseconds(30))
+
+        XCTAssertFalse(pasted)
+        XCTAssertEqual(coordinator.lastError, .focusChanged)
+    }
+
+    func testNewActionCancelsDelayedPaste() async throws {
+        var pasted = false
+        let coordinator = ClipboardActionCoordinator(
+            writeEntry: { _ in },
+            closePanel: {},
+            reactivatePrevious: { true },
+            synthesizePaste: { pasted = true; return true },
+            pasteDelay: .milliseconds(20)
+        )
+
+        coordinator.perform(entry(), action: .pasteImmediately)
+        coordinator.perform(entry(), action: .copyOnly)
+        try await Task.sleep(for: .milliseconds(40))
+
+        XCTAssertFalse(pasted)
+    }
+
     private func makeCoordinator(
         write: @escaping (ClipboardEntry) throws -> Void,
         close: @escaping () -> Void,

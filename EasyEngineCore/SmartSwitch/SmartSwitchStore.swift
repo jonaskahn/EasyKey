@@ -191,6 +191,6 @@ public final class SmartSwitchStore {
         else {
             return [:]
         }
-        return Dictionary(uniqueKeysWithValues: document.preferences.map { ($0.key, $0) })
+        return Dictionary(document.preferences.map { ($0.key, $0) }, uniquingKeysWith: { _, latest in latest })
     }
 }

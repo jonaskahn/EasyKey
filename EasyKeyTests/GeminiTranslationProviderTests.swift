@@ -189,8 +189,13 @@ final class GeminiTranslationProviderTests: XCTestCase {
             credentialStore: ThrowingCredentialStore(),
             session: geminiMockSession()
         )
-        await assertTranslationError(.missingCredentials(provider: .gemini)) {
-            try await unreadable.translate(self.makeRequest())
+        do {
+            _ = try await unreadable.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockGeminiURLProtocol.capturedRequests.isEmpty)
     }

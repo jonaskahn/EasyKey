@@ -76,12 +76,6 @@ struct EncodingSettingsView: View {
                         .buttonStyle(.bordered)
                         .controlSize(.large)
                 }
-
-                ShortcutRecorder(
-                    label: localization.string(.encodingClipboardShortcut),
-                    description: localization.string(.encodingClipboardShortcutDescription),
-                    shortcut: setting(\.converter.shortcut)
-                )
             } header: {
                 Text(localization.string(.encodingTextConverter))
             }
@@ -102,6 +96,6 @@ struct EncodingSettingsView: View {
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
-        Binding(get: { settingsStore.settings[keyPath: keyPath] }, set: { value in settingsStore.update { $0[keyPath: keyPath] = value } })
+        settingsStore.binding(keyPath)
     }
 }

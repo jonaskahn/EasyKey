@@ -7,6 +7,7 @@ import EasyEngineCore
 protocol ClipboardHotKeyRegistrar: AnyObject {
     func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool
     func unregister(identifier: UInt32)
+    func shutdown()
 }
 
 /// Owns the active clipboard-panel hotkey registration. Replacement registers the
@@ -75,6 +76,11 @@ final class ClipboardHotKeyController {
         activeShortcut = nil
     }
 
+    func shutdown() {
+        unregister()
+        registrar.shutdown()
+    }
+
     static func carbonModifiers(_ modifiers: Shortcut.ModifierFlags) -> UInt32 {
         var value: UInt32 = 0
         if modifiers.contains(.control) {
@@ -106,7 +112,12 @@ final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
         installEventHandlerIfNeeded()
     }
 
+    deinit {
+        shutdown()
+    }
+
     func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool {
+        installEventHandlerIfNeeded()
         var ref: EventHotKeyRef?
         let hotKeyID = EventHotKeyID(signature: Self.carbonSignature, id: identifier)
         let status = RegisterEventHotKey(keyCode, modifiers, hotKeyID, GetApplicationEventTarget(), 0, &ref)
@@ -127,11 +138,33 @@ final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
         handlers[identifier]?()
     }
 
+    func shutdown() {
+        for ref in refs.values {
+            UnregisterEventHotKey(ref)
+        }
+        refs.removeAll()
+        handlers.removeAll()
+        if let eventHandler {
+            RemoveEventHandler(eventHandler)
+            self.eventHandler = nil
+        }
+    }
+
     private func installEventHandlerIfNeeded() {
         guard eventHandler == nil else { return }
         var spec = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
         let context = Unmanaged.passUnretained(self).toOpaque()
-        InstallEventHandler(GetApplicationEventTarget(), carbonHotKeyEventHandler, 1, &spec, context, &eventHandler)
+        let status = InstallEventHandler(
+            GetApplicationEventTarget(),
+            carbonHotKeyEventHandler,
+            1,
+            &spec,
+            context,
+            &eventHandler
+        )
+        if status != noErr {
+            eventHandler = nil
+        }
     }
 }
 

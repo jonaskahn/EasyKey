@@ -26,6 +26,7 @@ final class ClipboardHistoryModel: ObservableObject {
     private var options: ClipboardOptions
     private var generation = 0
     private var saveTask: Task<Void, Never>?
+    private var persistenceTransitionTask: Task<Void, Never>?
 
     /// Invoked with references whose payloads left the store, so decoded-thumbnail
     /// caches can invalidate alongside the source payload lifecycle.
@@ -72,7 +73,8 @@ final class ClipboardHistoryModel: ObservableObject {
         let referencedAfter = referencedPayloads(in: candidate)
         let orphans = payloadStore.references.subtracting(referencedAfter)
         let newReferences = Set(classified.payloads.keys).intersection(referencedAfter)
-        let newBytes = newReferences.reduce(0) { $0 + (classified.payloads[$1]?.count ?? 0) }
+        let unstoredReferences = newReferences.subtracting(payloadStore.references)
+        let newBytes = unstoredReferences.reduce(0) { $0 + (classified.payloads[$1]?.count ?? 0) }
         let projectedTotal = payloadStore.totalByteCount - payloadStore.byteCount(of: orphans) + newBytes
 
         guard projectedTotal <= ClipboardLimits.maximumRetainedBytes else {
@@ -81,7 +83,10 @@ final class ClipboardHistoryModel: ObservableObject {
         }
 
         payloadStore.remove(references: orphans)
-        payloadStore.insert(classified.payloads.filter { newReferences.contains($0.key) })
+        guard payloadStore.insert(classified.payloads.filter { newReferences.contains($0.key) }) else {
+            limitNotice = .payloadLimitReached
+            return
+        }
         notifyRemoved(orphans)
         history = candidate
         scheduleSave()
@@ -114,12 +119,20 @@ final class ClipboardHistoryModel: ObservableObject {
 
     func apply(_ options: ClipboardOptions) {
         let wasPersisting = self.options.persistsHistory
+        if wasPersisting != options.persistsHistory {
+            generation &+= 1
+        }
+        persistenceTransitionTask?.cancel()
+        persistenceTransitionTask = nil
         self.options = options
         var candidate = history
         candidate.prune(options: options, now: now())
         commit(candidate)
         if wasPersisting, !options.persistsHistory {
-            Task { await self.disablePersistence() }
+            let capturedGeneration = generation
+            persistenceTransitionTask = Task { [weak self] in
+                await self?.disablePersistence(generation: capturedGeneration)
+            }
         }
     }
 
@@ -128,6 +141,8 @@ final class ClipboardHistoryModel: ObservableObject {
     func clearAll() async {
         saveTask?.cancel()
         saveTask = nil
+        persistenceTransitionTask?.cancel()
+        persistenceTransitionTask = nil
         generation &+= 1
         let removed = payloadStore.references
         history.clear()
@@ -145,23 +160,41 @@ final class ClipboardHistoryModel: ObservableObject {
         guard options.persistsHistory, let persistence else { return }
         do {
             let state = try await persistence.load()
-            payloadStore.insert(state.payloads)
-            history = ClipboardHistory(entries: state.entries)
+            var loadedHistory = ClipboardHistory(entries: state.entries)
+            loadedHistory.prune(options: options, now: now())
+            loadedHistory = historyCappingPinnedEntries(loadedHistory)
+            let retainedReferences = referencedPayloads(in: loadedHistory)
+            let retainedPayloads = state.payloads.filter { retainedReferences.contains($0.key) }
+            let removed = payloadStore.references.subtracting(retainedReferences)
+            payloadStore.clear()
+            guard payloadStore.insert(retainedPayloads) else {
+                limitNotice = .payloadLimitReached
+                return
+            }
+            notifyRemoved(removed)
+            history = loadedHistory
             persistenceError = nil
+            scheduleSave()
         } catch {
             persistenceError = error as? ClipboardPersistenceError ?? .malformedDocument
         }
     }
 
-    private func disablePersistence() async {
+    private func disablePersistence(generation capturedGeneration: Int) async {
+        guard capturedGeneration == generation, !options.persistsHistory, !Task.isCancelled else { return }
         saveTask?.cancel()
         saveTask = nil
-        generation &+= 1
         do {
             try await persistence?.deleteAll()
-            persistenceError = nil
+            if capturedGeneration == generation, !options.persistsHistory {
+                persistenceError = nil
+            }
+        } catch is CancellationError {
+            return
         } catch {
-            persistenceError = error as? ClipboardPersistenceError ?? .malformedDocument
+            if capturedGeneration == generation, !options.persistsHistory {
+                persistenceError = error as? ClipboardPersistenceError ?? .malformedDocument
+            }
         }
     }
 
@@ -246,5 +279,15 @@ final class ClipboardHistoryModel: ObservableObject {
             }
         }
         return references
+    }
+
+    private func historyCappingPinnedEntries(_ history: ClipboardHistory) -> ClipboardHistory {
+        var pinnedCount = 0
+        let entries = history.entries.filter { entry in
+            guard entry.isPinned else { return true }
+            pinnedCount += 1
+            return pinnedCount <= ClipboardLimits.maximumPinnedEntries
+        }
+        return ClipboardHistory(entries: entries)
     }
 }

@@ -408,6 +408,48 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertGreaterThan(runtime.providerRevision, 0)
     }
 
+    func testValidatedTranslationEndpoint_RequiresHTTPSWithoutUserInfoAndNormalizesOrigin() throws {
+        let endpoint = try XCTUnwrap(ValidatedTranslationEndpoint(
+            "  HTTPS://API.Custom.COM:443/v1/chat/completions?mode=test  "
+        ))
+
+        XCTAssertEqual(endpoint.url.absoluteString, "https://api.custom.com/v1/chat/completions?mode=test")
+        XCTAssertEqual(endpoint.origin, "https://api.custom.com")
+        XCTAssertNil(ValidatedTranslationEndpoint("http://api.custom.com/v1"))
+        XCTAssertNil(ValidatedTranslationEndpoint("https://user@api.custom.com/v1"))
+        XCTAssertNil(ValidatedTranslationEndpoint("https://user:secret@api.custom.com/v1"))
+        XCTAssertNil(ValidatedTranslationEndpoint("/v1/chat/completions"))
+    }
+
+    func testCustomEndpointDisclosureIsKeyedByProviderAndOrigin() {
+        var prompts: [TranslationDisclosureIdentity] = []
+        let controller = TranslationDisclosureController(
+            settingsStore: settingsStore,
+            localization: localization,
+            prompt: {
+                prompts.append($0)
+                return true
+            }
+        )
+        let first = TranslationDisclosureIdentity(
+            providerID: .openAICompatible,
+            endpointOrigin: "https://first.example"
+        )
+        let second = TranslationDisclosureIdentity(
+            providerID: .openAICompatible,
+            endpointOrigin: "https://second.example"
+        )
+
+        XCTAssertTrue(controller.request(for: first))
+        XCTAssertTrue(controller.request(for: first))
+        XCTAssertTrue(controller.request(for: second))
+
+        XCTAssertEqual(prompts, [first, second])
+        XCTAssertFalse(
+            settingsStore.settings.translation.acknowledgedCloudDisclosureProviders.contains(.openAICompatible)
+        )
+    }
+
     func testAppleComponentsCreatedWhenPlatformSupportsApple() {
         let runtime = AppTranslationRuntime(
             settingsStore: settingsStore,

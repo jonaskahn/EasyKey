@@ -138,7 +138,7 @@ final class DeepLTranslationProviderTests: XCTestCase {
 
         XCTAssertEqual(response.translatedText, "xin chào")
         XCTAssertEqual(response.providerID, .deepL)
-        XCTAssertEqual(response.detectedSourceLanguage?.identifier, "EN")
+        XCTAssertEqual(response.detectedSourceLanguage?.identifier, "en")
     }
 
     func testTranslate_WithNoStoredCredential_ThrowsMissingCredentials() async throws {
@@ -166,14 +166,14 @@ final class DeepLTranslationProviderTests: XCTestCase {
         }
     }
 
-    func testTranslate_WithCredentialStoreThrowing_ThrowsMissingCredentials() async throws {
+    func testTranslate_WithCredentialStoreThrowing_PreservesOperationalError() async throws {
         let provider = DeepLTranslationProvider(endpoint: .free, credentialStore: ThrowingCredentialStore(), session: mockSession())
 
         do {
             _ = try await provider.translate(makeRequest())
-            XCTFail("Expected missingCredentials")
-        } catch let error as EasyEngineCore.TranslationError {
-            XCTAssertEqual(error, .missingCredentials(provider: .deepL))
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
         }
         XCTAssertTrue(MockDeepLURLProtocol.capturedRequests.isEmpty, "Must not call the network when credential lookup fails")
     }

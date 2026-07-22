@@ -26,9 +26,37 @@ jobs:
       - name: Locate DMG
         id: dmg
         run: |
-          dmg_path=$(ls /tmp/dmg/EasyKey-*-universal.dmg | head -n1)
+          shopt -s nullglob
+          matches=(/tmp/dmg/EasyKey-*-universal.dmg)
+          if (( ${#matches[@]} != 1 )); then
+            printf 'Expected exactly one universal DMG, found %s.\n' "${#matches[@]}" >&2
+            exit 1
+          fi
+          dmg_path="${matches[0]}"
           echo "path=$dmg_path" >> "$GITHUB_OUTPUT"
           echo "length=$(stat -f%z "$dmg_path")" >> "$GITHUB_OUTPUT"
+
+      - name: Read release metadata
+        id: metadata
+        env:
+          DMG_PATH: ${{ steps.dmg.outputs.path }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          mount_point=/tmp/easykey-release
+          mkdir -p "$mount_point"
+          hdiutil attach "$DMG_PATH" -readonly -nobrowse -mountpoint "$mount_point"
+          trap 'hdiutil detach "$mount_point"' EXIT
+          info_plist="$mount_point/EasyKey.app/Contents/Info.plist"
+          version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$info_plist")
+          build=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$info_plist")
+          minimum_system_version=$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$info_plist")
+          [[ "$TAG_NAME" == "v$version" ]] || {
+            printf 'Tag %s does not match built version %s.\n' "$TAG_NAME" "$version" >&2
+            exit 1
+          }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+          echo "minimum-system-version=$minimum_system_version" >> "$GITHUB_OUTPUT"
 
       - name: Download Sparkle tools
         run: |
@@ -40,9 +68,13 @@ jobs:
       - name: Sign DMG
         id: sign
         env:
-          SPARKLE_PRIVATE_ED_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
-          signature=$(echo "$SPARKLE_PRIVATE_ED_KEY" | /tmp/sparkle-tools/bin/sign_update "${{ steps.dmg.outputs.path }}" --ed-key-file - -p)
+          key_file=$(mktemp)
+          trap 'rm -f "$key_file"' EXIT
+          chmod 600 "$key_file"
+          printf '%s' "$SPARKLE_PRIVATE_KEY" > "$key_file"
+          signature=$(/tmp/sparkle-tools/bin/sign_update "${{ steps.dmg.outputs.path }}" --ed-key-file "$key_file" -p)
           echo "signature=$signature" >> "$GITHUB_OUTPUT"
 
       - name: Checkout gh-pages
@@ -59,17 +91,16 @@ jobs:
           DMG_LENGTH: ${{ steps.dmg.outputs.length }}
           SIGNATURE: ${{ steps.sign.outputs.signature }}
         run: |
-          version="${TAG_NAME#v}"
           pub_date=$(date -R)
           dmg_url="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/$(basename "$DMG_PATH")"
           python3 Scripts/generate-appcast.py \
             gh-pages/appcast.xml \
-            "$version" \
-            "$version" \
+            "${{ steps.metadata.outputs.version }}" \
+            "${{ steps.metadata.outputs.build }}" \
             "$dmg_url" \
             "$DMG_LENGTH" \
             "$SIGNATURE" \
-            "13.0" \
+            "${{ steps.metadata.outputs.minimum-system-version }}" \
             "$pub_date"
 
       - name: Commit and push appcast

@@ -14,12 +14,12 @@ private struct FakeConfiguration: Equatable {
 
 @MainActor
 final class SessionSlotTests: XCTestCase {
-    func testResolveSession_WithNoActiveSession_QueuesAndRequestsNewSession() async {
+    func testResolveSession_WithNoActiveSession_QueuesAndRequestsNewSession() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         var requested: [FakeConfiguration] = []
 
         let resolveTask = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { config in
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { config in
                 requested.append(config)
             }
         }
@@ -33,12 +33,12 @@ final class SessionSlotTests: XCTestCase {
             await slot.attach(session, configuration: FakeConfiguration(value: "en-vi")) {}
         }
 
-        let resolved = await resolveTask.value
+        let resolved = try await resolveTask.value
         XCTAssertIdentical(resolved, session)
         await attachTask.value
     }
 
-    func testResolveSession_WithMatchingCachedConfiguration_ReturnsCachedSessionWithoutRequesting() async {
+    func testResolveSession_WithMatchingCachedConfiguration_ReturnsCachedSessionWithoutRequesting() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         let session = FakeSession(id: 42)
 
@@ -50,7 +50,7 @@ final class SessionSlotTests: XCTestCase {
         await Task.yield()
 
         var requested = false
-        let resolved = await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in
+        let resolved = try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in
             requested = true
         }
 
@@ -59,7 +59,7 @@ final class SessionSlotTests: XCTestCase {
         await attachTask.value
     }
 
-    func testResolveSession_WithDifferentConfigurationThanCached_RequestsNewSession() async {
+    func testResolveSession_WithDifferentConfigurationThanCached_RequestsNewSession() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         let firstSession = FakeSession(id: 1)
 
@@ -72,7 +72,7 @@ final class SessionSlotTests: XCTestCase {
 
         var requested: [FakeConfiguration] = []
         let resolveTask = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "vi-en")) { config in
+            try await slot.resolveSession(for: FakeConfiguration(value: "vi-en")) { config in
                 requested.append(config)
             }
         }
@@ -86,25 +86,25 @@ final class SessionSlotTests: XCTestCase {
             await slot.attach(secondSession, configuration: FakeConfiguration(value: "vi-en")) {}
         }
 
-        let resolved = await resolveTask.value
+        let resolved = try await resolveTask.value
         XCTAssertIdentical(resolved, secondSession)
         await firstAttach.value
         await secondAttach.value
     }
 
-    func testAttach_ResolvesMultiplePendingWaiters() async {
+    func testAttach_ResolvesMultiplePendingWaiters() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         var firstRequested = false
         var secondRequested = false
 
         let firstResolve = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in firstRequested = true }
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in firstRequested = true }
         }
         while !firstRequested {
             await Task.yield()
         }
         let secondResolve = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in secondRequested = true }
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in secondRequested = true }
         }
         while !secondRequested {
             await Task.yield()
@@ -115,14 +115,14 @@ final class SessionSlotTests: XCTestCase {
             await slot.attach(session, configuration: FakeConfiguration(value: "en-vi")) {}
         }
 
-        let firstResolved = await firstResolve.value
-        let secondResolved = await secondResolve.value
+        let firstResolved = try await firstResolve.value
+        let secondResolved = try await secondResolve.value
         XCTAssertIdentical(firstResolved, session)
         XCTAssertIdentical(secondResolved, session)
         await attachTask.value
     }
 
-    func testAttach_ClearsActiveSessionAfterSleepCompletesWhenStillCurrent() async {
+    func testAttach_ClearsActiveSessionAfterSleepCompletesWhenStillCurrent() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         let session = FakeSession(id: 9)
 
@@ -130,7 +130,7 @@ final class SessionSlotTests: XCTestCase {
 
         var requested = false
         let resolveTask = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in requested = true }
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in requested = true }
         }
         while !requested {
             await Task.yield()
@@ -139,10 +139,10 @@ final class SessionSlotTests: XCTestCase {
 
         let replacement = FakeSession(id: 10)
         await slot.attach(replacement, configuration: FakeConfiguration(value: "en-vi")) {}
-        _ = await resolveTask.value
+        _ = try await resolveTask.value
     }
 
-    func testAttach_WhenReplacedByNewerSessionBeforeSleepCompletes_DoesNotClearNewerSession() async {
+    func testAttach_WhenReplacedByNewerSessionBeforeSleepCompletes_DoesNotClearNewerSession() async throws {
         let slot = SessionSlot<FakeSession, FakeConfiguration>()
         let staleSession = FakeSession(id: 100)
         let freshSession = FakeSession(id: 200)
@@ -165,12 +165,61 @@ final class SessionSlotTests: XCTestCase {
 
         var requested = false
         let resolveTask = Task {
-            await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in requested = true }
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in requested = true }
         }
         try? await Task.sleep(nanoseconds: 20_000_000)
         XCTAssertFalse(requested, "The stale attach's cleanup must not evict the newer session")
-        resolveTask.cancel()
+        let resolved = try await resolveTask.value
+        XCTAssertIdentical(resolved, freshSession)
 
         await freshAttach.value
+    }
+
+    func testAttach_ResolvesOnlyWaitersForMatchingConfiguration() async throws {
+        let slot = SessionSlot<FakeSession, FakeConfiguration>()
+        var requests: [FakeConfiguration] = []
+        let firstConfiguration = FakeConfiguration(value: "en-vi")
+        let secondConfiguration = FakeConfiguration(value: "vi-en")
+
+        let first = Task {
+            try await slot.resolveSession(for: firstConfiguration) { requests.append($0) }
+        }
+        let second = Task {
+            try await slot.resolveSession(for: secondConfiguration) { requests.append($0) }
+        }
+        while requests.count < 2 {
+            await Task.yield()
+        }
+
+        let firstSession = FakeSession(id: 1)
+        await slot.attach(firstSession, configuration: firstConfiguration) {}
+        let firstResolved = try await first.value
+        XCTAssertIdentical(firstResolved, firstSession)
+        XCTAssertFalse(second.isCancelled)
+
+        let secondSession = FakeSession(id: 2)
+        await slot.attach(secondSession, configuration: secondConfiguration) {}
+        let secondResolved = try await second.value
+        XCTAssertIdentical(secondResolved, secondSession)
+    }
+
+    func testResolveSession_CancellationRemovesWaiter() async {
+        let slot = SessionSlot<FakeSession, FakeConfiguration>()
+        var requested = false
+        let task = Task {
+            try await slot.resolveSession(for: FakeConfiguration(value: "en-vi")) { _ in requested = true }
+        }
+        while !requested {
+            await Task.yield()
+        }
+
+        task.cancel()
+
+        do {
+            _ = try await task.value
+            XCTFail("Expected cancellation")
+        } catch is CancellationError {} catch {
+            XCTFail("Unexpected error: \(error)")
+        }
     }
 }

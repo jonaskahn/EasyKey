@@ -31,6 +31,9 @@ struct ClipboardPersistedState: Equatable {
 /// Keychain, and the filesystem out of Core. History is AES-GCM sealed; image and
 /// RTF payloads are sealed in separate files addressed by their reference.
 actor ClipboardPersistence {
+    private static let sealedOverheadBytes = 64
+    private static let maximumManifestBytes = ClipboardLimits.maximumEventBytes
+
     private let directory: URL
     private let keyProvider: ClipboardKeyProviding
 
@@ -48,6 +51,13 @@ actor ClipboardPersistence {
     }
 
     func save(entries: [ClipboardEntry], payloads: [String: Data]) throws {
+        guard isValid(entries),
+              referencedPayloads(in: entries) == Set(payloads.keys),
+              payloads.values.reduce(0, { $0 + $1.count }) <= ClipboardLimits.maximumRetainedBytes,
+              payloads.values.allSatisfy({ $0.count <= ClipboardLimits.maximumEventBytes })
+        else {
+            throw ClipboardPersistenceError.malformedDocument
+        }
         let key = try keyProvider.existingKey() ?? keyProvider.createKey()
         try FileManager.default.createDirectory(at: payloadDirectory, withIntermediateDirectories: true)
 
@@ -65,6 +75,9 @@ actor ClipboardPersistence {
             entries: entries
         )
         let encoded = try JSONEncoder().encode(document)
+        guard encoded.count <= Self.maximumManifestBytes else {
+            throw ClipboardPersistenceError.malformedDocument
+        }
         let sealedManifest = try AES.GCM.seal(encoded, using: key).combined ?? Data()
         try writeAtomically(sealedManifest, to: manifestURL)
 
@@ -78,7 +91,10 @@ actor ClipboardPersistence {
         guard let key = try keyProvider.existingKey() else {
             throw ClipboardPersistenceError.keyUnavailable
         }
-        let sealedManifest = try Data(contentsOf: manifestURL)
+        let sealedManifest = try boundedData(
+            at: manifestURL,
+            maximumBytes: Self.maximumManifestBytes + Self.sealedOverheadBytes
+        )
         let manifestData = try open(sealedManifest, using: key)
         let document: ClipboardPersistenceDocument
         do {
@@ -86,21 +102,36 @@ actor ClipboardPersistence {
         } catch {
             throw ClipboardPersistenceError.malformedDocument
         }
-        guard document.schemaVersion <= ClipboardPersistenceDocument.currentSchemaVersion else {
+        guard document.schemaVersion == ClipboardPersistenceDocument.currentSchemaVersion else {
             throw ClipboardPersistenceError.unsupportedSchema
+        }
+        guard isValid(document.entries) else {
+            throw ClipboardPersistenceError.malformedDocument
         }
 
         var payloads: [String: Data] = [:]
+        var loadedByteCount = 0
         for reference in referencedPayloads(in: document.entries) {
             let url = payloadURL(for: reference)
-            guard let sealed = try? Data(contentsOf: url) else { continue }
-            payloads[reference] = try open(sealed, using: key)
+            let sealed = try boundedData(
+                at: url,
+                maximumBytes: ClipboardLimits.maximumEventBytes + Self.sealedOverheadBytes
+            )
+            let payload = try open(sealed, using: key)
+            loadedByteCount += payload.count
+            guard loadedByteCount <= ClipboardLimits.maximumRetainedBytes else {
+                throw ClipboardPersistenceError.malformedDocument
+            }
+            payloads[reference] = payload
         }
         return ClipboardPersistedState(entries: document.entries, payloads: payloads)
     }
 
     func deleteAll() throws {
-        try? FileManager.default.removeItem(at: directory)
+        try Task.checkCancellation()
+        if FileManager.default.fileExists(atPath: directory.path) {
+            try FileManager.default.removeItem(at: directory)
+        }
         try keyProvider.deleteKey()
     }
 
@@ -127,6 +158,25 @@ actor ClipboardPersistence {
         return references
     }
 
+    private func isValid(_ entries: [ClipboardEntry]) -> Bool {
+        let allowedReferenceCharacters = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_."))
+        return entries.allSatisfy { entry in
+            guard !entry.fingerprint.isEmpty,
+                  !entry.items.isEmpty,
+                  entry.isPinned == (entry.pinnedAt != nil)
+            else { return false }
+            return entry.items.allSatisfy { item in
+                ClipboardContentKind.capturable.contains(item.kind) && !item.representations.isEmpty &&
+                    item.representations.allSatisfy { representation in
+                        guard case let .data(_, reference) = representation else { return true }
+                        return !reference.isEmpty && reference.unicodeScalars.allSatisfy {
+                            allowedReferenceCharacters.contains($0)
+                        }
+                    }
+            }
+        }
+    }
+
     private func removeOrphanPayloads(keeping referenced: Set<String>) {
         guard let files = try? FileManager.default.contentsOfDirectory(
             at: payloadDirectory,
@@ -148,5 +198,31 @@ actor ClipboardPersistence {
 
     private func writeAtomically(_ data: Data, to url: URL) throws {
         try data.write(to: url, options: .atomic)
+    }
+
+    private func boundedData(at url: URL, maximumBytes: Int) throws -> Data {
+        let values: URLResourceValues
+        do {
+            values = try url.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+        } catch {
+            throw ClipboardPersistenceError.malformedDocument
+        }
+        guard values.isRegularFile == true,
+              let fileSize = values.fileSize,
+              fileSize <= maximumBytes
+        else {
+            throw ClipboardPersistenceError.malformedDocument
+        }
+        do {
+            let data = try Data(contentsOf: url, options: .mappedIfSafe)
+            guard data.count <= maximumBytes else {
+                throw ClipboardPersistenceError.malformedDocument
+            }
+            return data
+        } catch let error as ClipboardPersistenceError {
+            throw error
+        } catch {
+            throw ClipboardPersistenceError.malformedDocument
+        }
     }
 }

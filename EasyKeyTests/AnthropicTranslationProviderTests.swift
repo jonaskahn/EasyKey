@@ -172,8 +172,13 @@ final class AnthropicTranslationProviderTests: XCTestCase {
             credentialStore: ThrowingCredentialStore(),
             session: anthropicMockSession()
         )
-        await assertTranslationError(.missingCredentials(provider: .anthropic)) {
-            try await unreadable.translate(self.makeRequest())
+        do {
+            _ = try await unreadable.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockAnthropicURLProtocol.capturedRequests.isEmpty)
     }
@@ -559,8 +564,13 @@ final class AnthropicCompatProviderTests: XCTestCase {
             credentialStore: ThrowingCredentialStore(),
             session: anthropicCompatibleMockSession()
         )
-        await assertTranslationError(.missingCredentials(provider: .anthropicCompatible)) {
-            try await unreadable.translate(self.makeRequest())
+        do {
+            _ = try await unreadable.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockAnthropicCompatibleURLProtocol.capturedRequests.isEmpty)
     }

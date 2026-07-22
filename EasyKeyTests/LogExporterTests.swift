@@ -16,11 +16,14 @@ final class LogExporterTests: XCTestCase {
         XCTAssertTrue(contents.contains("subsystem=one.ifelse.easykey"))
     }
 
-    func testExportAndReveal_InvokesRevealCallback() {
+    func testExportAndReveal_InvokesRevealCallback() async {
+        let expectation = expectation(description: "reveal callback")
         var revealed: URL?
         LogExporter.exportAndReveal { url in
             revealed = url
+            expectation.fulfill()
         }
+        await fulfillment(of: [expectation], timeout: 5)
         XCTAssertNotNil(revealed)
         if let revealed {
             XCTAssertTrue(FileManager.default.fileExists(atPath: revealed.path))

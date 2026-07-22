@@ -51,12 +51,24 @@ final class ClipboardHotKeyControllerTests: XCTestCase {
         registrar.fireAll()
         XCTAssertEqual(fired, 1)
     }
+
+    func testShutdownReleasesRegistrar() {
+        let registrar = FakeHotKeyRegistrar()
+        let controller = ClipboardHotKeyController(registrar: registrar) {}
+        controller.apply(Shortcut(keyCode: 9, modifiers: [.control]))
+
+        controller.shutdown()
+
+        XCTAssertFalse(controller.isRegistered)
+        XCTAssertEqual(registrar.shutdownCount, 1)
+    }
 }
 
 final class FakeHotKeyRegistrar: ClipboardHotKeyRegistrar {
     private(set) var activeIdentifiers: Set<UInt32> = []
     private(set) var registerCount = 0
     private(set) var unregisterCount = 0
+    private(set) var shutdownCount = 0
     var failNextRegister = false
     private var handlers: [UInt32: () -> Void] = [:]
 
@@ -79,5 +91,11 @@ final class FakeHotKeyRegistrar: ClipboardHotKeyRegistrar {
 
     func fireAll() {
         handlers.values.forEach { $0() }
+    }
+
+    func shutdown() {
+        shutdownCount += 1
+        activeIdentifiers.removeAll()
+        handlers.removeAll()
     }
 }

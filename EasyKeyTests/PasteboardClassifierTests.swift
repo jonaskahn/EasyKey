@@ -61,6 +61,25 @@ final class PasteboardClassifierTests: XCTestCase {
         XCTAssertEqual(classifier.classify(snapshot, source: nil, now: now)?.entry.kind, .mixed)
     }
 
+    func testMixedEventDropsDisabledItemsAndPayloads() {
+        let capturedKinds: Set<ClipboardContentKind> = [.text]
+        let snapshot = snapshot([
+            [rep(PasteboardClassifier.plainText, "text")],
+            [data(PasteboardClassifier.png, bytes: 10)],
+        ])
+
+        let result = classifier.classify(snapshot, source: nil, now: now, capturedKinds: capturedKinds)
+
+        XCTAssertEqual(result?.entry.kind, .text)
+        XCTAssertEqual(result?.entry.items.count, 1)
+        XCTAssertTrue(result?.payloads.isEmpty == true)
+    }
+
+    func testExceededSnapshotLimitIsRejectedBeforeClassification() {
+        let snapshot = PasteboardSnapshot(changeCount: 1, items: [], exceededByteLimit: true)
+        XCTAssertNil(classifier.classify(snapshot, source: nil, now: now))
+    }
+
     func testFingerprintChangesWhenItemOrderChanges() {
         let forward = snapshot([[rep(PasteboardClassifier.plainText, "a")], [rep(PasteboardClassifier.plainText, "b")]])
         let reversed = snapshot([[rep(PasteboardClassifier.plainText, "b")], [rep(PasteboardClassifier.plainText, "a")]])

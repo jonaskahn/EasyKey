@@ -97,16 +97,18 @@ final class ClipboardMonitor {
             return
         }
 
-        let snapshot = reader.snapshot(selecting: classifier.selection(for: descriptor))
+        let snapshot = reader.snapshot(selecting: classifier.selection(for: descriptor, capturedKinds: options.capturedKinds))
         guard snapshot.changeCount == current, reader.changeCount == current else {
             return
         }
 
-        guard let classified = classifier.classify(snapshot, source: source, now: now()) else {
-            observedChangeCount = current
-            return
-        }
-        guard options.captures(classified.entry.kind) else {
+        guard let classified = classifier.classify(
+            snapshot,
+            source: source,
+            now: now(),
+            capturedKinds: options.capturedKinds
+        )
+        else {
             observedChangeCount = current
             return
         }

@@ -46,8 +46,8 @@ final class AppCoordinatorTests: XCTestCase {
         XCTAssertTrue(coordinator.settingsStore.settings.system.launchAtLogin)
     }
 
-    func testCanCheckForUpdates_AlwaysReturnsTrue() {
-        XCTAssertTrue(coordinator.canCheckForUpdates)
+    func testCanCheckForUpdates_ReflectsUpdateServiceConfiguration() {
+        XCTAssertEqual(coordinator.canCheckForUpdates, coordinator.updateService.isConfigured)
     }
 
     func testCheckForUpdates_DoesNotCrash() {
@@ -190,33 +190,6 @@ final class AppCoordinatorTests: XCTestCase {
         coordinator.restartKeyboardService()
     }
 
-    func testPresentUpdateResult_UpdateAvailable_OpensWindow() {
-        coordinator.presentUpdateResult(
-            .updateAvailable(
-                currentVersion: "1.0.0",
-                latestVersion: "1.1.0",
-                releaseNotes: "Notes",
-                downloadURL: "https://github.com/jonaskahn/EasyKey/releases/tag/v1.1.0"
-            )
-        )
-        coordinator.stop()
-    }
-
-    func testPresentUpdateResult_UpToDate_OpensWindow() {
-        coordinator.presentUpdateResult(.upToDate(currentVersion: "1.0.0"))
-        coordinator.stop()
-    }
-
-    func testPresentUpdateResult_Failure_OpensErrorWindow() {
-        coordinator.presentUpdateResult(.failure(.networkError))
-        coordinator.stop()
-    }
-
-    func testPerformStartupUpdateCheck_WhenDisabled_DoesNothing() {
-        coordinator.settingsStore.update { $0.system.checkForUpdates = false }
-        coordinator.performStartupUpdateCheck()
-    }
-
     func testShowLogs_DoesNotCrash() {
         coordinator.showLogs()
     }
@@ -236,51 +209,5 @@ final class AppCoordinatorTests: XCTestCase {
         pasteboard.setData(html, forType: .html)
         coordinator.convertClipboard()
         XCTAssertNotNil(pasteboard.string(forType: .string))
-    }
-
-    func testUpdateWindowDelegate_WindowWillClose_ClearsMatchingWindow() {
-        coordinator.presentUpdateResult(.upToDate(currentVersion: "1.0.0"))
-        if let window = coordinator.updateWindow {
-            UpdateWindowDelegate.shared.windowWillClose(
-                Notification(name: NSWindow.willCloseNotification, object: window)
-            )
-        }
-        coordinator.stop()
-    }
-
-    func testUpdateWindowDelegate_WindowWillClose_IgnoresUnrelatedWindow() {
-        let unrelated = NSWindow()
-        UpdateWindowDelegate.shared.windowWillClose(
-            Notification(name: NSWindow.willCloseNotification, object: unrelated)
-        )
-        coordinator.stop()
-    }
-
-    func testUpdateWindowDelegate_WindowWillClose_IgnoresNonWindowObject() {
-        UpdateWindowDelegate.shared.windowWillClose(
-            Notification(name: NSWindow.willCloseNotification, object: NSString(string: "not a window"))
-        )
-        coordinator.stop()
-    }
-
-    func testHandleUpdateDownload_TrustedURL_OpensInWorkspace() {
-        let trusted = "https://github.com/jonaskahn/EasyKey/releases/tag/v1.1.0"
-        coordinator.handleUpdateDownload(url: trusted)
-    }
-
-    func testHandleUpdateDownload_UntrustedURL_LogsError() {
-        let untrusted = "https://evil.example.com/malware"
-        coordinator.handleUpdateDownload(url: untrusted)
-    }
-
-    func testHandleUpdateDownload_InvalidURLString_LogsError() {
-        let invalid = "not a url"
-        coordinator.handleUpdateDownload(url: invalid)
-    }
-
-    func testCloseUpdateWindow_AfterPresenting_ClearsWindow() {
-        coordinator.presentUpdateResult(.upToDate(currentVersion: "1.0.0"))
-        coordinator.closeUpdateWindow()
-        coordinator.stop()
     }
 }

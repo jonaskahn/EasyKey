@@ -67,7 +67,12 @@ final class ClipboardServices: ObservableObject {
                 guard let application = presenter?.previousApplication, !application.isTerminated else { return false }
                 return application.activate(options: [])
             },
-            synthesizePaste: { ClipboardServices.synthesizePaste() }
+            synthesizePaste: { ClipboardServices.synthesizePaste() },
+            isTargetFocused: { [weak presenter] in
+                guard let target = presenter?.previousApplication, !target.isTerminated else { return false }
+                return NSWorkspace.shared.frontmostApplication?.processIdentifier == target.processIdentifier
+            },
+            pasteDelay: .milliseconds(120)
         )
         let monitor = ClipboardMonitor(
             reader: reader ?? SystemPasteboardReader(),
@@ -109,6 +114,7 @@ final class ClipboardServices: ObservableObject {
         presenter.makeContent = { [model, action, thumbnailLoader, localization, weak self] in
             AnyView(ClipboardPanelView(
                 model: model,
+                action: action,
                 thumbnailLoader: thumbnailLoader,
                 localization: localization,
                 actions: ClipboardPanelActions(
@@ -165,7 +171,8 @@ final class ClipboardServices: ObservableObject {
 
     func stop() async {
         monitor.stop()
-        hotKey.unregister()
+        hotKey.shutdown()
+        action.cancelPendingPaste()
         presenter.close()
         await model.flushPendingSave()
     }
@@ -181,21 +188,19 @@ final class ClipboardServices: ObservableObject {
         }
     }
 
-    /// Posts Command-V after a short delay to allow the previous app to reactivate.
-    /// Returns whether Accessibility is available; when it is not, no paste is sent.
+    /// Posts Command-V when Accessibility is available.
     @discardableResult
     static func synthesizePaste() -> Bool {
         guard AXIsProcessTrusted() else { return false }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-            let source = CGEventSource(stateID: .combinedSessionState)
-            let vKey: CGKeyCode = 9
-            let down = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: true)
-            let up = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: false)
-            down?.flags = .maskCommand
-            up?.flags = .maskCommand
-            down?.post(tap: .cghidEventTap)
-            up?.post(tap: .cghidEventTap)
-        }
+        let source = CGEventSource(stateID: .combinedSessionState)
+        let vKey: CGKeyCode = 9
+        guard let down = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: true),
+              let up = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: false)
+        else { return false }
+        down.flags = .maskCommand
+        up.flags = .maskCommand
+        down.post(tap: .cghidEventTap)
+        up.post(tap: .cghidEventTap)
         return true
     }
 }

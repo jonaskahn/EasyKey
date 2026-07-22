@@ -385,6 +385,11 @@ public enum TelexComposer {
                 appendLiteral(key, to: &atoms)
                 return nil
             }
+            let final = trailingFinalConsonants(atoms)
+            guard VietnameseOrthography.toneIsValid(newTone, forFinal: final) else {
+                appendLiteral(key, to: &atoms)
+                return nil
+            }
             let previous = tone
             tone = newTone
             return (key, .tone(previous: previous))

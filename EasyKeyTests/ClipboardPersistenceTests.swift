@@ -90,6 +90,39 @@ final class ClipboardPersistenceTests: XCTestCase {
         }
     }
 
+    func testMissingPayloadFailsWholeLoad() async throws {
+        let keyStore = InMemoryClipboardKeyStore()
+        let persistence = ClipboardPersistence(directory: directory, keyProvider: keyStore)
+        try await persistence.save(entries: [imageEntry(reference: "ref-1")], payloads: ["ref-1": Data([1])])
+        let payloadDirectory = directory.appendingPathComponent("payloads", isDirectory: true)
+        let files = try FileManager.default.contentsOfDirectory(at: payloadDirectory, includingPropertiesForKeys: nil)
+        try FileManager.default.removeItem(at: XCTUnwrap(files.first))
+
+        do {
+            _ = try await persistence.load()
+            XCTFail("Expected malformed document")
+        } catch {
+            XCTAssertEqual(error as? ClipboardPersistenceError, .malformedDocument)
+        }
+    }
+
+    func testOlderSchemaIsRejected() async throws {
+        let keyStore = InMemoryClipboardKeyStore()
+        let key = try keyStore.createKey()
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let document = ClipboardPersistenceDocument(schemaVersion: 0, savedAt: fixedDate, entries: [])
+        let encoded = try JSONEncoder().encode(document)
+        let sealed = try XCTUnwrap(AES.GCM.seal(encoded, using: key).combined)
+        try sealed.write(to: directory.appendingPathComponent("manifest.ekc"))
+
+        do {
+            _ = try await ClipboardPersistence(directory: directory, keyProvider: keyStore).load()
+            XCTFail("Expected unsupported schema")
+        } catch {
+            XCTAssertEqual(error as? ClipboardPersistenceError, .unsupportedSchema)
+        }
+    }
+
     func testOrphanPayloadsAreRemovedOnResave() async throws {
         let persistence = ClipboardPersistence(directory: directory, keyProvider: InMemoryClipboardKeyStore())
         try await persistence.save(entries: [imageEntry(reference: "ref-1")], payloads: ["ref-1": Data([1, 2, 3])])

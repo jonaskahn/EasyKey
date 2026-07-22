@@ -91,12 +91,7 @@ struct OpenAITranslationProvider: TranslationProviding {
     }
 
     private nonisolated func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: .openAI)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: .openAI)
-        }
+        let stored = try credentialStore.credential(for: .openAI)
         guard let stored else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: .openAI)
         }

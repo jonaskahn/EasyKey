@@ -374,6 +374,27 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "fixed")
     }
 
+    func testRestoreRawKeysSynchronizesRenderedLengthForFollowingBackspace() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "aas")
+        XCTAssertEqual(engine.currentBuffer, "ấ")
+        _ = engine.restoreRawKeys()
+
+        let output = engine.process(event: KeyEvent(kind: .backspace))
+
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 3, insert: "aa")])
+    }
+
+    func testVNICheckedFinalRejectsInvalidToneDigit() {
+        var configuration = EngineConfiguration()
+        configuration.inputMethod = .vni
+        var engine = VietnameseEngine(configuration: configuration)
+
+        typeKeys(&engine, "tac3")
+
+        XCTAssertEqual(engine.currentBuffer, "tac3")
+    }
+
     func testAutoRestoreAtBoundaryUsesRawKeystrokesForInvalidWord() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "fix")

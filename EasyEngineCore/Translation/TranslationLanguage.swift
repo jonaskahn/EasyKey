@@ -16,7 +16,7 @@ public struct TranslationLanguage: Equatable, Hashable, Sendable {
     public init?(bcp47 identifier: String) {
         let trimmed = identifier.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
-        self.init(validated: trimmed)
+        self.init(validated: Locale.canonicalLanguageIdentifier(from: trimmed))
     }
 
     public static let english = TranslationLanguage(validated: "en")

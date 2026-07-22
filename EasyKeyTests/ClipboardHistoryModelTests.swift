@@ -24,6 +24,18 @@ final class ClipboardHistoryModelTests: XCTestCase {
         XCTAssertEqual(model.retainedByteCount, 50)
     }
 
+    func testDuplicatePayloadReferenceIsNotCountedAsNewBytes() {
+        let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true), now: { self.now })
+        let reference = "same-reference"
+        model.capture(imageClassified(fingerprint: "img", reference: reference, bytes: 50))
+
+        model.capture(imageClassified(fingerprint: "img", reference: reference, bytes: 50))
+
+        XCTAssertEqual(model.entryCount, 1)
+        XCTAssertEqual(model.retainedByteCount, 50)
+        XCTAssertNil(model.limitNotice)
+    }
+
     func testPayloadLimitRejectsCandidate() {
         let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true), now: { self.now })
         model.capture(imageClassified(fingerprint: "big", reference: "r-big", bytes: ClipboardLimits.maximumRetainedBytes + 1))

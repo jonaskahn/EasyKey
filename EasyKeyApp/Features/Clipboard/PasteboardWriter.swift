@@ -19,10 +19,11 @@ final class ClipboardWriteSuppressor {
 
 enum PasteboardWriteError: Error, Equatable {
     case unavailableRepresentation
+    case writeFailed
 }
 
-/// The single boundary for every EasyKey-authored pasteboard write. Updates
-/// suppression state before touching `NSPasteboard` so capture cannot race.
+/// The single boundary for every EasyKey-authored pasteboard write. Successful
+/// writes update suppression state using resulting pasteboard change count.
 @MainActor
 final class PasteboardWriter {
     private let pasteboard: NSPasteboard
@@ -40,13 +41,15 @@ final class PasteboardWriter {
     }
 
     /// Writes the converter output, preserving an optional HTML representation.
-    func copyConvertedText(_ text: String, preservingHTML html: Data?) {
+    @discardableResult
+    func copyConvertedText(_ text: String, preservingHTML html: Data?) -> Bool {
         pasteboard.clearContents()
-        pasteboard.setString(text, forType: .string)
-        if let html {
-            pasteboard.setData(html, forType: .html)
+        guard pasteboard.setString(text, forType: .string) else { return false }
+        if let html, !pasteboard.setData(html, forType: .html) {
+            return false
         }
         suppressor.markWritten(changeCount: pasteboard.changeCount)
+        return true
     }
 
     /// Restores all representations of a history entry in original item order.
@@ -54,7 +57,7 @@ final class PasteboardWriter {
     func copy(_ entry: ClipboardEntry) throws {
         let items = try makeItems(for: entry)
         pasteboard.clearContents()
-        pasteboard.writeObjects(items)
+        guard pasteboard.writeObjects(items) else { throw PasteboardWriteError.writeFailed }
         suppressor.markWritten(changeCount: pasteboard.changeCount)
     }
 
@@ -65,17 +68,27 @@ final class PasteboardWriter {
             for representation in item.representations {
                 switch representation {
                 case let .string(typeIdentifier, value):
-                    pasteboardItem.setString(value, forType: NSPasteboard.PasteboardType(typeIdentifier))
+                    guard pasteboardItem.setString(value, forType: NSPasteboard.PasteboardType(typeIdentifier)) else {
+                        throw PasteboardWriteError.writeFailed
+                    }
                 case let .fileURL(url):
                     guard FileManager.default.fileExists(atPath: url.path) else {
                         throw PasteboardWriteError.unavailableRepresentation
                     }
-                    pasteboardItem.setString(url.absoluteString, forType: NSPasteboard.PasteboardType(PasteboardClassifier.fileURL))
+                    guard pasteboardItem.setString(
+                        url.absoluteString,
+                        forType: NSPasteboard.PasteboardType(PasteboardClassifier.fileURL)
+                    )
+                    else {
+                        throw PasteboardWriteError.writeFailed
+                    }
                 case let .data(typeIdentifier, payloadReference):
                     guard let data = try payloadStore?.data(for: payloadReference) else {
                         throw PasteboardWriteError.unavailableRepresentation
                     }
-                    pasteboardItem.setData(data, forType: NSPasteboard.PasteboardType(typeIdentifier))
+                    guard pasteboardItem.setData(data, forType: NSPasteboard.PasteboardType(typeIdentifier)) else {
+                        throw PasteboardWriteError.writeFailed
+                    }
                 }
             }
             pasteboardItems.append(pasteboardItem)

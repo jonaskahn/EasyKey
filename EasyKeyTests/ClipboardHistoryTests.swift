@@ -2,6 +2,29 @@
 import XCTest
 
 final class ClipboardHistoryTests: XCTestCase {
+    func testPinnedEntryWithoutPinnedDateSortsWithoutTrapping() {
+        let older = ClipboardEntry(
+            id: UUID(),
+            fingerprint: "older",
+            capturedAt: Date(timeIntervalSince1970: 1),
+            isPinned: true,
+            pinnedAt: nil,
+            items: []
+        )
+        let newer = ClipboardEntry(
+            id: UUID(),
+            fingerprint: "newer",
+            capturedAt: Date(timeIntervalSince1970: 2),
+            isPinned: true,
+            pinnedAt: nil,
+            items: []
+        )
+
+        let history = ClipboardHistory(entries: [older, newer])
+
+        XCTAssertEqual(history.entries.map(\.id), [newer.id, older.id])
+    }
+
     private let base = Date(timeIntervalSince1970: 1_700_000_000)
     private let options = ClipboardOptions(maximumEntryCount: 100, retentionDays: 7)
 

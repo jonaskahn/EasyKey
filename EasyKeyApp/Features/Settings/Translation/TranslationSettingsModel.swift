@@ -115,7 +115,11 @@ final class TranslationSettingsModel: ObservableObject {
     private let settingsStore: SettingsStore
     private let credentialStore: TranslationCredentialStoring
     private let credentialValidator: TranslationCredentialValidating
-    private let modelCatalog: TranslationModelCatalogProviding
+    let modelCatalog: TranslationModelCatalogProviding
+    private var catalogGenerations: [TranslationProviderID: UInt64] = [:]
+    private var catalogTasks: [TranslationProviderID: Task<Void, Never>] = [:]
+    private var validationTask: Task<Void, Never>?
+    private var validationGeneration: UInt64 = 0
     var shortcutApplier: ShortcutApplier?
     var onCredentialsChange: (() -> Void)?
     var onEnabledChange: (() -> Void)?
@@ -503,6 +507,12 @@ final class TranslationSettingsModel: ObservableObject {
             allowed.insert(charactersIn: "/:")
         }
         return identifier.unicodeScalars.allSatisfy(allowed.contains)
+    }
+
+    func cancelModelCatalogLoad(for provider: TranslationProviderID) {
+        catalogTasks[provider]?.cancel()
+        catalogTasks[provider] = nil
+        catalogGenerations[provider] = (catalogGenerations[provider] ?? 0) &+ 1
     }
 }
 

@@ -79,12 +79,7 @@ struct AnthropicTranslationProvider: TranslationProviding {
     }
 
     private nonisolated func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: .anthropic)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: .anthropic)
-        }
+        let stored = try credentialStore.credential(for: .anthropic)
         guard let stored else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: .anthropic)
         }

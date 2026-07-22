@@ -1,8 +1,15 @@
 import Foundation
 
 public struct Shortcut: Codable, Equatable, Hashable, Sendable {
-    public var keyCode: UInt16
-    public var modifiers: ModifierFlags
+    private enum Mode: Equatable, Hashable, Sendable {
+        case disabled
+        case key
+        case modifiersOnly
+    }
+
+    public let keyCode: UInt16
+    public let modifiers: ModifierFlags
+    private let mode: Mode
 
     public struct ModifierFlags: OptionSet, Codable, Hashable, Sendable {
         public let rawValue: UInt
@@ -20,12 +27,28 @@ public struct Shortcut: Codable, Equatable, Hashable, Sendable {
     public init(keyCode: UInt16, modifiers: ModifierFlags = []) {
         self.keyCode = keyCode
         self.modifiers = modifiers
+        mode = .key
     }
 
-    public static let none = Shortcut(keyCode: 0, modifiers: [])
+    private init(keyCode: UInt16, modifiers: ModifierFlags, mode: Mode) {
+        self.keyCode = keyCode
+        self.modifiers = modifiers
+        self.mode = mode
+    }
+
+    public static let none = Shortcut(keyCode: 0, modifiers: [], mode: .disabled)
+
+    public static func modifiersOnly(_ modifiers: ModifierFlags) -> Shortcut {
+        guard !modifiers.isEmpty else { return .none }
+        return Shortcut(keyCode: 0, modifiers: modifiers, mode: .modifiersOnly)
+    }
 
     public var isActive: Bool {
-        keyCode != 0 || !modifiers.isEmpty
+        mode != .disabled
+    }
+
+    public var isModifierOnly: Bool {
+        mode == .modifiersOnly
     }
 
     public var displayLabel: String {
@@ -43,8 +66,38 @@ public struct Shortcut: Codable, Equatable, Hashable, Sendable {
         if modifiers.contains(.command) {
             parts.append("\u{2318}")
         }
-        parts.append(Self.keyNames[keyCode] ?? "Key \(keyCode)")
+        if !isModifierOnly {
+            parts.append(Self.keyNames[keyCode] ?? "Key \(keyCode)")
+        }
         return parts.joined(separator: " + ")
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case keyCode
+        case modifiers
+        case modifierOnly
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        keyCode = try container.decode(UInt16.self, forKey: .keyCode)
+        modifiers = try container.decode(ModifierFlags.self, forKey: .modifiers)
+        if try container.decodeIfPresent(Bool.self, forKey: .modifierOnly) == true, !modifiers.isEmpty {
+            mode = .modifiersOnly
+        } else if keyCode == 0, modifiers.isEmpty {
+            mode = .disabled
+        } else {
+            mode = .key
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(keyCode, forKey: .keyCode)
+        try container.encode(modifiers, forKey: .modifiers)
+        if isModifierOnly {
+            try container.encode(true, forKey: .modifierOnly)
+        }
     }
 
     private static let keyNames: [UInt16: String] = [

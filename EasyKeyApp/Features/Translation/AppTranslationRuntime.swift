@@ -30,10 +30,11 @@ final class TranslationProviderRegistry: @unchecked Sendable {
 
 @MainActor
 final class TranslationDisclosureController {
-    typealias Prompt = @MainActor (TranslationProviderID) -> Bool
+    typealias Prompt = @MainActor (TranslationDisclosureIdentity) -> Bool
 
     private let settingsStore: SettingsStore
     private let prompt: Prompt
+    private var acknowledgedEndpointIdentities: Set<TranslationDisclosureIdentity> = []
 
     init(
         settingsStore: SettingsStore,
@@ -41,15 +42,22 @@ final class TranslationDisclosureController {
         prompt: Prompt? = nil
     ) {
         self.settingsStore = settingsStore
-        self.prompt = prompt ?? { provider in Self.presentPrompt(for: provider, localization: localization) }
+        self.prompt = prompt ?? { identity in Self.presentPrompt(for: identity, localization: localization) }
     }
 
-    func request(for provider: TranslationProviderID) -> Bool {
+    func request(for identity: TranslationDisclosureIdentity) -> Bool {
+        let provider = identity.providerID
         guard TranslationProviderResolver.cloudProviderOrder.contains(provider) else { return true }
+        if identity.endpointOrigin != nil {
+            guard !acknowledgedEndpointIdentities.contains(identity) else { return true }
+            guard prompt(identity) else { return false }
+            acknowledgedEndpointIdentities.insert(identity)
+            return true
+        }
         guard !settingsStore.settings.translation.acknowledgedCloudDisclosureProviders.contains(provider) else {
             return true
         }
-        guard prompt(provider) else { return false }
+        guard prompt(identity) else { return false }
         settingsStore.update {
             $0.translation.acknowledgedCloudDisclosureProviders.insert(provider)
         }
@@ -57,21 +65,24 @@ final class TranslationDisclosureController {
     }
 
     private static func presentPrompt(
-        for provider: TranslationProviderID,
+        for identity: TranslationDisclosureIdentity,
         localization: LocalizationStore
     ) -> Bool {
+        let provider = identity.providerID
+        let disclosedName = identity.endpointOrigin.map { "\(provider.displayName) (\($0))" } ?? provider.displayName
         let alert = NSAlert()
         alert.alertStyle = .informational
         alert.messageText = localization.string(.translationSettingsPrivacy)
         alert.informativeText = localization.format(
             .translationCloudDisclosureFirstUse,
-            provider.displayName,
-            provider.displayName
+            disclosedName,
+            disclosedName
         )
-        if let privacyURL = provider.privacyURL {
+        let disclosureURL = identity.endpointOrigin.flatMap(URL.init(string:)) ?? provider.privacyURL
+        if let disclosureURL {
             let link = Link(
                 localization.format(.translationSettingsProviderDataHandling, provider.displayName),
-                destination: privacyURL
+                destination: disclosureURL
             )
             .fixedSize()
             alert.accessoryView = NSHostingView(rootView: link)
@@ -304,18 +315,14 @@ final class AppTranslationRuntime {
     }
 
     private func activateFromShortcut() {
-        guard settingsStore.settings.translation.isEnabled else { return }
-        onWillActivate?()
-        model.setAutoTranslateDelay(
-            TimeInterval(settingsStore.settings.translation.autoTranslateDelayMs) / 1000.0
-        )
-        let captured = capture.capture()
-        model.setSourceText(captured.text)
-        model.scheduleAutoTranslate()
-        panelPresenter.show(previousApplication: capture.previousApplication)
+        activate()
     }
 
     func activateFromDoubleCmdC() {
+        activate()
+    }
+
+    private func activate() {
         guard settingsStore.settings.translation.isEnabled else { return }
         onWillActivate?()
         model.setAutoTranslateDelay(
@@ -388,17 +395,12 @@ final class AppTranslationRuntime {
                     shortcut: settingsStore.settings.translation.shortcut,
                     actions: TranslationPanelActions(openSettings: { [weak self] in
                         self?.panelPresenter.close()
-                        self?.openTranslationSettings()
+                        self?.onOpenSettings?()
                     })
                 )
                 appleSessionHost
             }
         )
-    }
-
-    private func openTranslationSettings() {
-        // Replaced by AppCoordinator after composition to avoid runtime owning window routing.
-        onOpenSettings?()
     }
 
     var onOpenSettings: (() -> Void)?
@@ -453,19 +455,17 @@ final class AppTranslationRuntime {
                 credentialStore: credentialStore
             )
         }
-        if !options.openAICompatibleEndpoint.isEmpty,
-           let compatibleURL = URL(string: options.openAICompatibleEndpoint) {
+        if let compatibleEndpoint = ValidatedTranslationEndpoint(options.openAICompatibleEndpoint) {
             providers[.openAICompatible] = OpenAICompatibleTranslationProvider(
-                endpoint: compatibleURL,
+                endpoint: compatibleEndpoint.url,
                 providerID: .openAICompatible,
                 modelIdentifier: options.openAICompatibleModelIdentifier,
                 credentialStore: credentialStore
             )
         }
-        if !options.anthropicCompatibleEndpoint.isEmpty,
-           let compatibleURL = URL(string: options.anthropicCompatibleEndpoint) {
+        if let compatibleEndpoint = ValidatedTranslationEndpoint(options.anthropicCompatibleEndpoint) {
             providers[.anthropicCompatible] = AnthropicCompatibleTranslationProvider(
-                endpoint: compatibleURL,
+                endpoint: compatibleEndpoint.url,
                 providerID: .anthropicCompatible,
                 modelIdentifier: options.anthropicCompatibleModelIdentifier,
                 credentialStore: credentialStore

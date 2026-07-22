@@ -65,6 +65,11 @@ struct ClipboardSettingsView: View {
             } label: {
                 Text(localization.string(.clipboardSelectionAction))
             }
+            if coordinator.clipboard.hotkeyConflict {
+                Text(localization.string(.clipboardUnavailable))
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
         } header: {
             Text(localization.string(.clipboardAccessTitle))
         }
@@ -214,6 +219,6 @@ struct ClipboardSettingsView: View {
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
-        Binding(get: { settingsStore.settings[keyPath: keyPath] }, set: { value in settingsStore.update { $0[keyPath: keyPath] = value } })
+        settingsStore.binding(keyPath)
     }
 }

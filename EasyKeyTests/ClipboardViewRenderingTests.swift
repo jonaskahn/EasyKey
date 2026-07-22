@@ -29,6 +29,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
 
     func testClipboardPanelView_Renders() {
         let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true))
+        let action = makeAction()
         let thumbnailLoader = ClipboardThumbnailLoader { _ in nil }
         let localization = LocalizationStore.shared
         let actions = ClipboardPanelActions(
@@ -43,6 +44,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
         render {
             ClipboardPanelView(
                 model: model,
+                action: action,
                 thumbnailLoader: thumbnailLoader,
                 localization: localization,
                 actions: actions
@@ -52,6 +54,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
 
     func testClipboardPanelView_WithEntry_Renders() {
         let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true))
+        let action = makeAction()
         let item = ClipboardItem(
             kind: .text,
             preview: ClipboardItemPreview(primaryText: "test"),
@@ -74,6 +77,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
         render {
             ClipboardPanelView(
                 model: model,
+                action: action,
                 thumbnailLoader: thumbnailLoader,
                 localization: localization,
                 actions: actions
@@ -141,6 +145,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
 
     func testClipboardPanelView_WithPinned_Renders() {
         let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true))
+        let action = makeAction()
         let item1 = ClipboardItem(
             kind: .text,
             preview: ClipboardItemPreview(primaryText: "pinned"),
@@ -172,6 +177,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
         render {
             ClipboardPanelView(
                 model: model,
+                action: action,
                 thumbnailLoader: thumbnailLoader,
                 localization: localization,
                 actions: actions
@@ -181,6 +187,7 @@ final class ClipboardViewRenderingTests: XCTestCase {
 
     func testClipboardPanelView_Empty_Renders() {
         let model = ClipboardHistoryModel(options: ClipboardOptions(isCaptureEnabled: true))
+        let action = makeAction()
         let thumbnailLoader = ClipboardThumbnailLoader { _ in nil }
         let localization = LocalizationStore.shared
         let actions = ClipboardPanelActions(
@@ -195,10 +202,20 @@ final class ClipboardViewRenderingTests: XCTestCase {
         render {
             ClipboardPanelView(
                 model: model,
+                action: action,
                 thumbnailLoader: thumbnailLoader,
                 localization: localization,
                 actions: actions
             )
         }
+    }
+
+    private func makeAction() -> ClipboardActionCoordinator {
+        ClipboardActionCoordinator(
+            writeEntry: { _ in },
+            closePanel: {},
+            reactivatePrevious: { true },
+            synthesizePaste: { true }
+        )
     }
 }

@@ -31,6 +31,14 @@ final class KeyboardInputPipeline {
     ]
 
     typealias SpotlightVisibilityProvider = () -> Bool
+    typealias ChromiumAddressBarDetector = () -> Bool
+
+    private struct AddressBarCache {
+        var value: Bool?
+        var updatedAt: CFAbsoluteTime = 0
+        var isRefreshing = false
+        var generation: UInt = 0
+    }
 
     private let synthesizer: KeySynthesizer
     private var engine: VietnameseEngine
@@ -38,9 +46,9 @@ final class KeyboardInputPipeline {
     private var macroExpander = MacroExpander()
     private var activeBundleIdentifier: String?
     private var usesForeignInputSource = false
-    private var cachedIsChromiumAddressBar: Bool?
-    private var addressBarCacheTime: CFAbsoluteTime = 0
-    private var isRefreshingAddressBar = false
+    private let chromiumAddressBarDetector: ChromiumAddressBarDetector
+    private let addressBarStateQueue = DispatchQueue(label: "com.easykey.chromium-address-cache")
+    private var addressBarCache = AddressBarCache()
     private let spotlightVisibilityProvider: SpotlightVisibilityProvider
     private var cachedIsSpotlightVisible: Bool?
     private var spotlightCacheTime: CFAbsoluteTime = 0
@@ -58,12 +66,15 @@ final class KeyboardInputPipeline {
     init(
         settings: EasyKeySettings,
         spotlightVisibilityProvider: @escaping SpotlightVisibilityProvider = SpotlightWindowDetector.isSpotlightWindowVisible,
+        chromiumAddressBarDetector: @escaping ChromiumAddressBarDetector = FocusedElementInspector.isChromiumAddressBar,
         focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult =
-            FocusedElementInspector.replaceFocusedText
+            FocusedElementInspector.replaceFocusedText,
+        eventFactory: KeySynthesizer.EventFactory? = nil
     ) {
         self.settings = settings
         self.spotlightVisibilityProvider = spotlightVisibilityProvider
-        synthesizer = KeySynthesizer(focusedTextReplacer: focusedTextReplacer)
+        self.chromiumAddressBarDetector = chromiumAddressBarDetector
+        synthesizer = KeySynthesizer(focusedTextReplacer: focusedTextReplacer, eventFactory: eventFactory)
         engine = VietnameseEngine(configuration: Self.engineConfiguration(for: settings, rule: nil))
     }
 
@@ -96,6 +107,12 @@ final class KeyboardInputPipeline {
         macroExpander.reset()
     }
 
+    private func resetComposition() {
+        engine.resetComposition()
+        synthesizer.resetEncodedUnits()
+        macroExpander.reset()
+    }
+
     func setCmdCDoublePressHandler(windowMs: Int, handler: @escaping @MainActor () -> Void) {
         cmdCDoublePressWindowMs = windowMs
         cmdCDoublePressHandler = handler
@@ -111,6 +128,11 @@ final class KeyboardInputPipeline {
     }
 
     func process(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, keyCode: UInt16?) -> KeyboardProcessResult {
+        if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: type, keyCode: keyCode, event: event) {
+            DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
+            return .suppressed
+        }
+
         if let activeBundleIdentifier,
            settings.compatibility.ignoredApplicationBundleIdentifiers.contains(activeBundleIdentifier) {
             resetSession()
@@ -124,7 +146,7 @@ final class KeyboardInputPipeline {
         if Self.isMouseEvent(type) {
             invalidateAddressBarCache()
             invalidateSpotlightCache()
-            resetSession()
+            resetComposition()
             return .passed
         }
 
@@ -134,13 +156,13 @@ final class KeyboardInputPipeline {
 
         detectCmdCDoublePress(keyCode: keyCode, event: event)
 
-        if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: type, keyCode: keyCode, event: event) {
-            DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
-            return .suppressed
-        }
         if shortcutMatches(settings.input.switchShortcut, type: type, keyCode: keyCode, event: event) {
             toggleLanguage()
             return .suppressed
+        }
+        if settings.input.language == .vietnamese,
+           shortcutMatches(settings.typing.restoreWordShortcut, type: type, keyCode: keyCode, event: event) {
+            return restoreRawKeys(proxy: proxy)
         }
 
         if let macroResult = processMacro(proxy: proxy, keyCode: keyCode, event: event) {
@@ -163,7 +185,10 @@ final class KeyboardInputPipeline {
             return .passed
         }
 
-        apply(proxy: proxy, output)
+        guard apply(proxy: proxy, output) else {
+            resetSession()
+            return .passed
+        }
         return KeyboardProcessResult(suppressesOriginal: true, outputCount: output.edits.count, disposition: .suppressed)
     }
 
@@ -178,14 +203,21 @@ final class KeyboardInputPipeline {
               )
         else { return nil }
         engine.reset()
-        synthesizer.postBackspace(proxy: proxy, count: expansion.triggerLength)
-        synthesizer.insert(proxy: proxy, expansion.text)
-        synthesizer.postPhysicalKey(proxy: proxy, keyCode: keyCode)
+        guard synthesizer.postMacroExpansion(
+            proxy: proxy,
+            backspaceCount: expansion.triggerLength,
+            text: expansion.text,
+            physicalKeyCode: keyCode
+        )
+        else {
+            resetSession()
+            return .passed
+        }
         synthesizer.resetEncodedUnits()
         return KeyboardProcessResult(suppressesOriginal: true, outputCount: 2, disposition: .suppressed)
     }
 
-    private func apply(proxy: CGEventTapProxy, _ output: EngineOutput) {
+    private func apply(proxy: CGEventTapProxy, _ output: EngineOutput) -> Bool {
         let rule = currentCompatibilityRule()
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
         let replacementUnits = encodedUnits(for: engine.state, configuration: engine.configuration)
@@ -195,14 +227,15 @@ final class KeyboardInputPipeline {
         editLoop: for edit in output.edits {
             switch edit {
             case let .deleteBackward(count):
-                applyDeleteBackward(
+                guard applyDeleteBackward(
                     proxy: proxy,
                     count: count,
                     isSpotlight: isSpotlight,
                     inChromiumAddressBar: inChromiumAddressBar
                 )
+                else { return false }
             case let .insert(text):
-                synthesizer.insert(proxy: proxy, text)
+                guard synthesizer.insert(proxy: proxy, text) else { return false }
             case let .replaceBackward(deleteCount, insert):
                 let strategy = applyReplaceBackward(
                     proxy: proxy,
@@ -213,6 +246,9 @@ final class KeyboardInputPipeline {
                     inChromiumAddressBar: inChromiumAddressBar
                 )
                 focusedCaretUnknown = focusedCaretUnknown || strategy == .atomicFocusedTextCaretUnknown
+                if strategy == .failed {
+                    return false
+                }
                 if focusedCaretUnknown {
                     break editLoop
                 }
@@ -221,14 +257,15 @@ final class KeyboardInputPipeline {
 
         if !inChromiumAddressBar {
             if rule?.workarounds.contains(.emptyCharacterInsertion) == true {
-                synthesizer.insertEmptyCharacter(proxy: proxy, "\u{200B}")
+                guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{200B}") else { return false }
             } else if rule?.workarounds.contains(.alternateEmptyCharacter) == true {
-                synthesizer.insertEmptyCharacter(proxy: proxy, "\u{2060}")
+                guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{2060}") else { return false }
             }
         }
         if output.sessionEffect == .resetSession || focusedCaretUnknown {
             resetSession()
         }
+        return true
     }
 
     private func applyDeleteBackward(
@@ -236,7 +273,7 @@ final class KeyboardInputPipeline {
         count: Int,
         isSpotlight: Bool,
         inChromiumAddressBar: Bool
-    ) {
+    ) -> Bool {
         synthesizer.replaceBackward(
             proxy: proxy,
             deleteCount: count,
@@ -245,7 +282,7 @@ final class KeyboardInputPipeline {
             useFocusedTextReplacement: false,
             useSelectionReplacement: isSpotlight,
             breakAutocomplete: inChromiumAddressBar
-        )
+        ) != .failed
     }
 
     private func applyReplaceBackward(
@@ -278,36 +315,39 @@ final class KeyboardInputPipeline {
             return false
         }
 
-        let now = CFAbsoluteTimeGetCurrent()
-        if let cached = cachedIsChromiumAddressBar,
-           now - addressBarCacheTime < Self.addressBarCacheTTL {
-            return cached
-        }
-
-        if !isRefreshingAddressBar {
-            isRefreshingAddressBar = true
-            addressBarCacheTime = now
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                let detected = FocusedElementInspector.isChromiumAddressBar()
-                DispatchQueue.main.async {
-                    self?.cachedIsChromiumAddressBar = detected
-                    self?.isRefreshingAddressBar = false
+        return addressBarStateQueue.sync {
+            let now = CFAbsoluteTimeGetCurrent()
+            if let value = addressBarCache.value,
+               now - addressBarCache.updatedAt < Self.addressBarCacheTTL {
+                return value
+            }
+            if !addressBarCache.isRefreshing {
+                addressBarCache.isRefreshing = true
+                let generation = addressBarCache.generation
+                let detector = chromiumAddressBarDetector
+                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                    let detected = detector()
+                    self?.addressBarStateQueue.async { [weak self] in
+                        guard let self, self.addressBarCache.generation == generation else { return }
+                        self.addressBarCache.value = detected
+                        self.addressBarCache.updatedAt = CFAbsoluteTimeGetCurrent()
+                        self.addressBarCache.isRefreshing = false
+                    }
                 }
             }
+            return addressBarCache.value ?? false
         }
-
-        return cachedIsChromiumAddressBar ?? false
     }
 
     private func invalidateAddressBarCache() {
-        cachedIsChromiumAddressBar = nil
-        addressBarCacheTime = 0
-        isRefreshingAddressBar = false
+        addressBarStateQueue.sync {
+            addressBarCache.value = nil
+            addressBarCache.updatedAt = 0
+            addressBarCache.isRefreshing = false
+            addressBarCache.generation &+= 1
+        }
     }
 
-    /// Spotlight's panel never activates as a regular app, so bundle-based rules
-    /// miss it. An on-screen window owned by the Spotlight process means the
-    /// panel has keyboard focus.
     private func isSpotlightContext() -> Bool {
         let now = CFAbsoluteTimeGetCurrent()
         if let cached = cachedIsSpotlightVisible,
@@ -358,7 +398,7 @@ final class KeyboardInputPipeline {
 
     private func shortcutMatches(_ shortcut: Shortcut, type: CGEventType, keyCode: UInt16?, event: CGEvent) -> Bool {
         guard shortcut.isActive, Self.modifiers(from: event) == shortcut.modifiers else { return false }
-        if shortcut.keyCode == 0, !shortcut.modifiers.isEmpty {
+        if shortcut.isModifierOnly {
             return type == .flagsChanged
         }
         return type == .keyDown && keyCode == shortcut.keyCode
@@ -400,11 +440,6 @@ final class KeyboardInputPipeline {
 
 private extension KeyboardInputPipeline {
     func processFlagsChanged(proxy: CGEventTapProxy, event: CGEvent, keyCode: UInt16?) -> KeyboardProcessResult {
-        if shortcutMatches(KeyboardService.defaultEmergencyPauseShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
-            AppLog.debug(.keyboard, "Emergency pause shortcut matched")
-            DispatchQueue.main.async { [weak self] in self?.onTogglePause?() }
-            return .suppressed
-        }
         if shortcutMatches(settings.input.switchShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
             AppLog.debug(.keyboard, "Language switch shortcut matched")
             toggleLanguage()
@@ -412,18 +447,25 @@ private extension KeyboardInputPipeline {
         }
         if settings.input.language == .vietnamese,
            shortcutMatches(settings.typing.restoreWordShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
-            let output = engine.restoreRawKeys()
-            guard output.disposition == .suppress else { return .passed }
-            apply(proxy: proxy, output)
-            return KeyboardProcessResult(
-                suppressesOriginal: true,
-                outputCount: output.edits.count,
-                disposition: .suppressed
-            )
+            return restoreRawKeys(proxy: proxy)
         }
         invalidateSpotlightCache()
-        resetSession()
+        resetComposition()
         return .passed
+    }
+
+    func restoreRawKeys(proxy: CGEventTapProxy) -> KeyboardProcessResult {
+        let output = engine.restoreRawKeys()
+        guard output.disposition == .suppress else { return .passed }
+        guard apply(proxy: proxy, output) else {
+            resetSession()
+            return .passed
+        }
+        return KeyboardProcessResult(
+            suppressesOriginal: true,
+            outputCount: output.edits.count,
+            disposition: .suppressed
+        )
     }
 }
 

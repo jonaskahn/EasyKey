@@ -36,17 +36,22 @@ struct SystemLanguageAvailability: AppleLanguageAvailabilityChecking, @unchecked
     }
 }
 
-/// Single-flight session cache keyed by configuration equality, plus a
-/// continuation queue for callers waiting on the next delivered session.
+/// Session cache keyed by configuration equality, plus configuration-keyed
+/// waiters for sessions that have not arrived yet.
 /// Generic and framework-agnostic (no `Translation` or `SwiftUI` reference)
 /// specifically so this coordination logic — the part with real branching
 /// behavior — is unit-testable without a live view hierarchy or a real
 /// `TranslationSession`, which has no public constructor before macOS 26.
 @MainActor
 final class SessionSlot<Session: AnyObject, Configuration: Equatable> {
+    private struct Waiter {
+        let configuration: Configuration
+        let continuation: CheckedContinuation<Session, Error>
+    }
+
     private var activeSession: Session?
     private var activeConfiguration: Configuration?
-    private var pendingWaiters: [CheckedContinuation<Session, Never>] = []
+    private var pendingWaiters: [UUID: Waiter] = [:]
 
     /// Invoked whenever the owner delivers a session for the configuration
     /// it most recently requested. Resolves any callers waiting on it, then
@@ -60,10 +65,10 @@ final class SessionSlot<Session: AnyObject, Configuration: Equatable> {
     ) async {
         activeSession = session
         activeConfiguration = configuration
-        let waiters = pendingWaiters
-        pendingWaiters = []
-        for waiter in waiters {
-            waiter.resume(returning: session)
+        let matchingWaiters = pendingWaiters.filter { $0.value.configuration == configuration }
+        for (identifier, waiter) in matchingWaiters {
+            pendingWaiters.removeValue(forKey: identifier)
+            waiter.continuation.resume(returning: session)
         }
         await sleepWhileActive()
         if activeSession === session {
@@ -79,14 +84,33 @@ final class SessionSlot<Session: AnyObject, Configuration: Equatable> {
     func resolveSession(
         for requestedConfiguration: Configuration,
         requestNewSession: (Configuration) -> Void
-    ) async -> Session {
+    ) async throws -> Session {
+        try Task.checkCancellation()
         if let activeSession, activeConfiguration == requestedConfiguration {
             return activeSession
         }
-        return await withCheckedContinuation { continuation in
-            pendingWaiters.append(continuation)
-            requestNewSession(requestedConfiguration)
+        let identifier = UUID()
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                    continuation.resume(throwing: CancellationError())
+                    return
+                }
+                pendingWaiters[identifier] = Waiter(
+                    configuration: requestedConfiguration,
+                    continuation: continuation
+                )
+                requestNewSession(requestedConfiguration)
+            }
+        } onCancel: {
+            Task { @MainActor [weak self] in
+                self?.cancelWaiter(identifier)
+            }
         }
+    }
+
+    private func cancelWaiter(_ identifier: UUID) {
+        pendingWaiters.removeValue(forKey: identifier)?.continuation.resume(throwing: CancellationError())
     }
 }
 
@@ -96,11 +120,6 @@ final class SessionSlot<Session: AnyObject, Configuration: Equatable> {
 /// programmatic constructor before macOS 26. This type owns no translation
 /// policy — it only publishes the configuration the hosting view observes
 /// and resolves the session that view delivers back.
-///
-/// `translate(text:source:target:)` calls are expected to be serialized by
-/// the caller (`TranslationModel` cancels any prior request before starting
-/// a new one); concurrent overlapping calls with different configurations
-/// are not a supported usage pattern here.
 @available(macOS 15.0, *)
 @MainActor
 final class AppleTranslationSessionBridge: ObservableObject, AppleTranslationSessionBridging {
@@ -110,8 +129,8 @@ final class AppleTranslationSessionBridge: ObservableObject, AppleTranslationSes
 
     /// Invoked by the hosting view's `.translationTask` action whenever the
     /// system delivers a session for the current configuration.
-    func attach(_ session: TranslationSession) async {
-        await slot.attach(session, configuration: configuration ?? TranslationSession.Configuration())
+    func attach(_ session: TranslationSession, configuration: TranslationSession.Configuration) async {
+        await slot.attach(session, configuration: configuration)
     }
 
     func translate(
@@ -120,7 +139,7 @@ final class AppleTranslationSessionBridge: ObservableObject, AppleTranslationSes
         target: Locale.Language
     ) async throws -> TranslationSession.Response {
         let requestedConfiguration = TranslationSession.Configuration(source: source, target: target)
-        let session = await slot.resolveSession(for: requestedConfiguration) { [weak self] newConfiguration in
+        let session = try await slot.resolveSession(for: requestedConfiguration) { [weak self] newConfiguration in
             self?.configuration = newConfiguration
         }
         return try await session.translate(text)
@@ -135,11 +154,19 @@ struct AppleTranslationSessionHostView: View {
     @ObservedObject var bridge: AppleTranslationSessionBridge
 
     var body: some View {
+        if let configuration = bridge.configuration {
+            placeholder
+                .translationTask(configuration) { session in
+                    await bridge.attach(session, configuration: configuration)
+                }
+        } else {
+            placeholder
+        }
+    }
+
+    private var placeholder: some View {
         Color.clear
             .frame(width: 0, height: 0)
             .accessibilityHidden(true)
-            .translationTask(bridge.configuration) { session in
-                await bridge.attach(session)
-            }
     }
 }

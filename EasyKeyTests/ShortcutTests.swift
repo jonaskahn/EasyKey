@@ -67,9 +67,18 @@ final class ShortcutTests: XCTestCase {
         XCTAssertEqual(shortcut.displayLabel, "")
     }
 
-    func testIsActiveNoKeyButModifiers() {
+    func testKeyCodeZeroWithModifiersRepresentsAKey() {
         let shortcut = Shortcut(keyCode: 0, modifiers: [.command])
         XCTAssertTrue(shortcut.isActive)
+        XCTAssertFalse(shortcut.isModifierOnly)
+        XCTAssertEqual(shortcut.displayLabel, "\u{2318} + A")
+    }
+
+    func testModifierOnlyShortcutHasExplicitSemantics() {
+        let shortcut = Shortcut.modifiersOnly([.command])
+        XCTAssertTrue(shortcut.isActive)
+        XCTAssertTrue(shortcut.isModifierOnly)
+        XCTAssertEqual(shortcut.displayLabel, "\u{2318}")
     }
 
     func testIsActiveWithKeyNoModifiers() {
@@ -78,8 +87,20 @@ final class ShortcutTests: XCTestCase {
     }
 
     func testIsActiveNeither() {
-        let shortcut = Shortcut(keyCode: 0, modifiers: [])
-        XCTAssertFalse(shortcut.isActive)
+        XCTAssertFalse(Shortcut.none.isActive)
+    }
+
+    func testCodingPreservesModifierOnlyAndLegacyAKeySemantics() throws {
+        let modifierOnly = Shortcut.modifiersOnly([.option])
+        let roundTrip = try JSONDecoder().decode(Shortcut.self, from: JSONEncoder().encode(modifierOnly))
+        XCTAssertTrue(roundTrip.isModifierOnly)
+
+        let legacyAKey = try JSONDecoder().decode(
+            Shortcut.self,
+            from: Data(#"{"keyCode":0,"modifiers":8}"#.utf8)
+        )
+        XCTAssertFalse(legacyAKey.isModifierOnly)
+        XCTAssertEqual(legacyAKey.displayLabel, "\u{2318} + A")
     }
 
     func testEquatable() {

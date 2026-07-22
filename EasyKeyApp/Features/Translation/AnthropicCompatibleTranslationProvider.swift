@@ -1,7 +1,7 @@
 import EasyEngineCore
 import Foundation
 
-struct AnthropicCompatibleTranslationProvider: TranslationProviding {
+struct AnthropicCompatibleTranslationProvider: TranslationProviding, TranslationEndpointDisclosing {
     private static let apiVersion = "2023-06-01"
     private static let requestTimeout: TimeInterval = 20
     private static let maxModelBytes = 100
@@ -14,7 +14,7 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding {
         charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-/"
     )
 
-    private let endpoint: URL
+    private let endpoint: ValidatedTranslationEndpoint?
     private let providerID: TranslationProviderID
     private let modelIdentifier: String
     private let credentialStore: TranslationCredentialStoring
@@ -27,7 +27,7 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding {
         credentialStore: TranslationCredentialStoring,
         session: URLSession = TranslationNetworkSession.ephemeral
     ) {
-        self.endpoint = endpoint
+        self.endpoint = ValidatedTranslationEndpoint(endpoint)
         self.providerID = providerID
         self.modelIdentifier = modelIdentifier
         self.credentialStore = credentialStore
@@ -35,13 +35,16 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding {
     }
 
     nonisolated func translate(_ request: TranslationRequest) async throws -> TranslationResponse {
+        guard let endpoint else {
+            throw EasyEngineCore.TranslationError.providerUnavailable(provider: providerID, httpStatus: nil)
+        }
         guard Self.isValidModelIdentifier(modelIdentifier) else {
             throw EasyEngineCore.TranslationError.providerUnavailable(provider: providerID, httpStatus: nil)
         }
 
         let apiKey = try resolveCredential()
         let urlRequest = try Self.makeRequest(
-            endpoint: endpoint,
+            endpoint: endpoint.url,
             modelIdentifier: modelIdentifier,
             apiKey: apiKey,
             request: request
@@ -72,13 +75,12 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding {
         )
     }
 
+    var disclosureIdentity: TranslationDisclosureIdentity {
+        TranslationDisclosureIdentity(providerID: providerID, endpointOrigin: endpoint?.origin)
+    }
+
     private nonisolated func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: providerID)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: providerID)
-        }
+        let stored = try credentialStore.credential(for: providerID)
         guard let stored else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: providerID)
         }

@@ -317,6 +317,45 @@ final class VietnameseEngineTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "ma")
     }
 
+    func testUppercaseFirstCharacterTracksPassThroughSentenceTerminator() {
+        var configuration = EngineConfiguration()
+        configuration.uppercaseFirstCharacter = true
+        var engine = VietnameseEngine(configuration: configuration)
+        _ = engine.process(event: .char("h"))
+        _ = engine.process(event: KeyEvent(kind: .space))
+        _ = engine.process(event: .char("."))
+
+        _ = engine.process(event: .char("t"))
+
+        XCTAssertEqual(engine.currentBuffer, "T")
+    }
+
+    func testNavigationResetDoesNotStartNewSentence() {
+        var configuration = EngineConfiguration()
+        configuration.uppercaseFirstCharacter = true
+        var engine = VietnameseEngine(configuration: configuration)
+        _ = engine.process(event: .char("h"))
+        _ = engine.process(event: KeyEvent(kind: .space))
+        _ = engine.process(event: KeyEvent(kind: .leftArrow))
+
+        _ = engine.process(event: .char("t"))
+
+        XCTAssertEqual(engine.currentBuffer, "t")
+    }
+
+    func testCompositionResetPreservesSentenceLifecycle() {
+        var configuration = EngineConfiguration()
+        configuration.uppercaseFirstCharacter = true
+        var engine = VietnameseEngine(configuration: configuration)
+        _ = engine.process(event: .char("h"))
+        _ = engine.process(event: KeyEvent(kind: .space))
+
+        engine.resetComposition()
+        _ = engine.process(event: .char("t"))
+
+        XCTAssertEqual(engine.currentBuffer, "t")
+    }
+
     func testUppercaseFirstCharacterDisabledDoesNothing() {
         var engine = VietnameseEngine()
         _ = engine.process(event: .char("t"))

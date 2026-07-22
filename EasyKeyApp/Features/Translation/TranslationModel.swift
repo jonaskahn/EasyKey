@@ -55,15 +55,14 @@ final class TranslationModel: ObservableObject {
 
     func setSourceText(_ text: String) {
         guard text != sourceText else { return }
-        cancelScheduledAutoTranslate()
+        invalidateRequest()
         sourceText = text
         clearStaleResultIfNeeded()
     }
 
     func setSourceTextFromUserInput(_ text: String) {
         guard text != sourceText else { return }
-        cancelActiveInFlightTranslation()
-        cancelScheduledAutoTranslate()
+        invalidateRequest()
         sourceText = text
         clearStaleResultIfNeeded()
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -76,6 +75,7 @@ final class TranslationModel: ObservableObject {
     /// picker.
     func setSourceLanguage(_ language: TranslationLanguage?) {
         guard language != sourceLanguage else { return }
+        invalidateRequest()
         sourceLanguage = language
         clearStaleResultIfNeeded()
     }
@@ -93,6 +93,7 @@ final class TranslationModel: ObservableObject {
     /// from the user-facing picker — so it always re-triggers translation.
     func setTargetLanguage(_ language: TranslationLanguage) {
         guard language != targetLanguage else { return }
+        invalidateRequest()
         targetLanguage = language
         clearStaleResultIfNeeded()
         retranslateIfNeeded()
@@ -103,6 +104,7 @@ final class TranslationModel: ObservableObject {
     /// picker.
     func setProviderID(_ providerID: TranslationProviderID?) {
         guard providerID != self.providerID else { return }
+        invalidateRequest()
         self.providerID = providerID
         clearStaleResultIfNeeded()
         if let providerID, !TranslationPronunciationPolicy.supports(providerID) {
@@ -125,6 +127,7 @@ final class TranslationModel: ObservableObject {
     /// Swapping languages has no programmatic caller today — every call comes
     /// from the user-facing swap button — so it always re-triggers translation.
     func swapLanguages() {
+        invalidateRequest()
         let swapped = TranslationLanguagePolicy.swapped(source: sourceLanguage, target: targetLanguage)
         sourceLanguage = swapped.source
         targetLanguage = swapped.target
@@ -160,11 +163,13 @@ final class TranslationModel: ObservableObject {
         generation &+= 1
         let requestGeneration = generation
         let requestProviderID = providerID
+        let disclosureIdentity = (provider as? TranslationEndpointDisclosing)?.disclosureIdentity
+            ?? TranslationDisclosureIdentity(providerID: providerID)
         status = .translating
 
         activeTask = Task { [weak self] in
             guard let self else { return }
-            let proceed = await self.requestsDisclosure(requestProviderID)
+            let proceed = await self.requestsDisclosure(disclosureIdentity)
             if Task.isCancelled {
                 return
             }
@@ -234,9 +239,13 @@ final class TranslationModel: ObservableObject {
         }
     }
 
+    private func invalidateRequest() {
+        cancelScheduledAutoTranslate()
+        cancelActiveInFlightTranslation()
+    }
+
     private func retranslateIfNeeded() {
         guard !sourceText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        cancelActiveInFlightTranslation()
         scheduleAutoTranslate()
     }
 

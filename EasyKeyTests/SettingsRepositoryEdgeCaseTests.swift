@@ -88,6 +88,21 @@ final class SettingsRepositoryEdgeCaseTests: XCTestCase {
         XCTAssertThrowsError(try repo.import(from: directory.appendingPathComponent("nonexistent.json")))
     }
 
+    func testImportRejectsFutureSchemaAndPreservesCurrentSettings() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let importURL = directory.appendingPathComponent("future.json")
+        try Data(#"{"schemaVersion":999}"#.utf8).write(to: importURL)
+        let repo = SettingsRepository(fileURL: directory.appendingPathComponent("settings.json"))
+        repo.update { $0.input.inputMethod = .vni }
+
+        XCTAssertThrowsError(try repo.import(from: importURL)) {
+            XCTAssertEqual($0 as? SettingsRepositoryError, .unsupportedSchemaVersion(999))
+        }
+        XCTAssertEqual(repo.settings.input.inputMethod, .vni)
+    }
+
     func testExportToFile() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

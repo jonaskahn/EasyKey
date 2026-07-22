@@ -96,12 +96,7 @@ struct GeminiTranslationProvider: TranslationProviding {
     ]
 
     private nonisolated func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: .gemini)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: .gemini)
-        }
+        let stored = try credentialStore.credential(for: .gemini)
         guard let stored else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: .gemini)
         }

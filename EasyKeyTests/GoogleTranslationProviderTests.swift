@@ -237,11 +237,16 @@ final class GoogleTranslationProviderTests: XCTestCase {
         XCTAssertTrue(MockGoogleURLProtocol.capturedRequests.isEmpty)
     }
 
-    func testTranslate_CredentialReadFailureMapsToMissingCredential() async {
+    func testTranslate_CredentialReadFailurePreservesOperationalError() async {
         let provider = GoogleTranslationProvider(credentialStore: ThrowingCredentialStore(), session: googleMockSession())
 
-        await assertTranslationError(.missingCredentials(provider: .google)) {
-            try await provider.translate(self.makeRequest())
+        do {
+            _ = try await provider.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockGoogleURLProtocol.capturedRequests.isEmpty)
     }

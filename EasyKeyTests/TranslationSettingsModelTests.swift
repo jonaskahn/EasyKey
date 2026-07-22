@@ -51,6 +51,14 @@ private final class CredentialStoreSpy: TranslationCredentialStoring, @unchecked
     }
 }
 
+private final class FakeModelCatalog: TranslationModelCatalogProviding, @unchecked Sendable {
+    func fetchModels(
+        for _: TranslationProviderID
+    ) async throws(TranslationModelCatalogError) -> [TranslationModelCatalogEntry] {
+        []
+    }
+}
+
 @MainActor
 final class TranslationSettingsModelTests: XCTestCase {
     private var directory: URL!
@@ -316,17 +324,21 @@ final class TranslationSettingsModelTests: XCTestCase {
 
     func testSettingsModelNeverReloadsCredentialFromStore() async {
         let spy = CredentialStoreSpy()
+        let fakeCatalog = FakeModelCatalog()
         let model = TranslationSettingsModel(
             settingsStore: settingsStore,
             platformCapability: TranslationPlatformCapability(supportsAppleTranslation: false),
             credentialStore: spy,
-            credentialValidator: validator
+            credentialValidator: validator,
+            modelCatalog: fakeCatalog
         )
 
         XCTAssertTrue(model.saveCredential("secret", for: .gemini))
-        _ = await model.validateCredential("replacement", for: .gemini)
-        model.refreshCredentialStatuses()
-        XCTAssertEqual(spy.credentialReadCount, 0)
+        let readCountAfterSave = spy.credentialReadCount
+        let validated = await model.validateCredential("replacement", for: .gemini)
+        XCTAssertTrue(validated)
+        model.cancelModelCatalogLoad(for: .gemini)
+        XCTAssertEqual(spy.credentialReadCount, readCountAfterSave)
     }
 
     func testSettingsViewRendersAtWindowMinimumWithLargeTextAndNoCredential() {

@@ -35,10 +35,11 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         switch provider {
         case .openAI:
             let key = try await resolveCredential(for: .openAI)
-            let request = makeRequest(
+            guard let request = makeRequest(
                 url: "https://api.openai.com/v1/models",
                 headers: ["Authorization": "Bearer \(key)"]
             )
+            else { throw .malformedResponse }
             return try await fetchOpenAICompatibleModels(request: request)
 
         case .anthropic:
@@ -50,10 +51,11 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
             return try await fetchGeminiModels(apiKey: key)
 
         case .openRouter:
-            let request = makeRequest(
+            guard let request = makeRequest(
                 url: "https://openrouter.ai/api/v1/models",
                 headers: [:]
             )
+            else { throw .malformedResponse }
             return try await fetchOpenAICompatibleModels(
                 request: request,
                 maximumResponseBytes: 1_048_576
@@ -61,10 +63,11 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
 
         case .groq:
             let key = try await resolveCredential(for: .groq)
-            let request = makeRequest(
+            guard let request = makeRequest(
                 url: "https://api.groq.com/openai/v1/models",
                 headers: ["Authorization": "Bearer \(key)"]
             )
+            else { throw .malformedResponse }
             return try await fetchOpenAICompatibleModels(request: request)
 
         case .automatic, .apple, .deepL, .google, .openAICompatible, .anthropicCompatible:
@@ -87,8 +90,9 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         return stored.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    private func makeRequest(url: String, headers: [String: String]) -> URLRequest {
-        var request = URLRequest(url: URL(string: url)!)
+    private func makeRequest(url: String, headers: [String: String]) -> URLRequest? {
+        guard let parsed = URL(string: url) else { return nil }
+        var request = URLRequest(url: parsed)
         request.httpMethod = "GET"
         request.timeoutInterval = 20
         for (name, value) in headers {
@@ -152,17 +156,23 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
         var afterID: String?
         let limit = 200
         repeat {
-            var urlString = "https://api.anthropic.com/v1/models?limit=\(limit)"
-            if let after = afterID {
-                urlString += "&after_id=\(after)"
+            guard var components = URLComponents(string: "https://api.anthropic.com/v1/models") else {
+                throw .malformedResponse
             }
-            let request = makeRequest(
-                url: urlString,
-                headers: [
-                    "x-api-key": apiKey,
-                    "anthropic-version": "2023-06-01",
-                ]
-            )
+            var items: [URLQueryItem] = [URLQueryItem(name: "limit", value: String(limit))]
+            if let after = afterID {
+                items.append(URLQueryItem(name: "after_id", value: after))
+            }
+            components.queryItems = items
+            guard let url = components.url,
+                  let request = makeRequest(
+                      url: url.absoluteString,
+                      headers: [
+                          "x-api-key": apiKey,
+                          "anthropic-version": "2023-06-01",
+                      ]
+                  )
+            else { throw .malformedResponse }
             let data = try await perform(request)
             struct Page: Decodable {
                 let data: [AnthropicModelItem]
@@ -195,10 +205,11 @@ struct LiveTranslationModelCatalog: TranslationModelCatalogProviding {
     private func fetchGeminiModels(
         apiKey: String
     ) async throws(TranslationModelCatalogError) -> [TranslationModelCatalogEntry] {
-        let request = makeRequest(
+        guard let request = makeRequest(
             url: "https://generativelanguage.googleapis.com/v1beta/models?pageSize=200",
             headers: ["x-goog-api-key": apiKey]
         )
+        else { throw .malformedResponse }
         let data = try await perform(request)
         struct ListResponse: Decodable {
             struct Item: Decodable {

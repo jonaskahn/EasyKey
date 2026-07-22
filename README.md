@@ -145,7 +145,7 @@ Run `make` or `make help` for the complete command reference.
 | `make export` | Export the application from an archive |
 | `make verify-arch` | Verify arm64 and x86_64 architectures |
 | `make verify-release` | Run release integrity checks |
-| `make dmg` | Build a signed universal distribution DMG |
+| `make dmg` | Build, notarize, staple, and verify a signed universal DMG |
 
 Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./RELEASE.md) for the complete release process.
 

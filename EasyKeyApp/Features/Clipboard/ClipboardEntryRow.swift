@@ -41,9 +41,10 @@ struct ClipboardEntryRow: View {
             .buttonStyle(.borderless)
             .help(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
             .accessibilityLabel(entry.isPinned ? localization.string(.clipboardActionUnpin) : localization.string(.clipboardActionPin))
+            .accessibilityValue(entry.isPinned ? localization.string(.clipboardSectionPinned) : "")
         }
         .padding(.vertical, 6)
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
         .accessibilityLabel(accessibilityLabel)
     }
 
@@ -73,10 +74,7 @@ struct ClipboardEntryRow: View {
     }
 
     private var accessibilityLabel: String {
-        var parts = [ClipboardRowPresenter.primaryText(for: entry), ClipboardRowPresenter.metadata(for: entry, now: Date())]
-        if entry.isPinned {
-            parts.append(localization.string(.clipboardActionPin))
-        }
+        let parts = [ClipboardRowPresenter.primaryText(for: entry), ClipboardRowPresenter.metadata(for: entry, now: Date())]
         return parts.joined(separator: ", ")
     }
 }

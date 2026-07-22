@@ -3,6 +3,7 @@ set -euo pipefail
 
 project_root="${0:A:h:h}"
 app_path="${1:-${APP_PATH:-$project_root/build/export/EasyKey.app}}"
+dmg_path="${2:-${DMG_PATH:-}}"
 release_local="${RELEASE_LOCAL:-0}"
 
 [[ -d "$app_path" ]] || { print -u2 "App not found: $app_path"; exit 1; }
@@ -14,6 +15,11 @@ if [[ "$release_local" == "1" ]]; then
 else
     codesign --verify --deep --strict --verbose=2 "$app_path"
     spctl --assess --type execute --verbose=4 "$app_path"
+    if [[ -n "$dmg_path" ]]; then
+        [[ -f "$dmg_path" ]] || { print -u2 "DMG not found: $dmg_path"; exit 1; }
+        xcrun stapler validate "$dmg_path"
+        spctl --assess --type open --context context:primary-signature --verbose=4 "$dmg_path"
+    fi
 fi
 
 [[ -f "$app_path/Contents/Resources/LICENSE" ]] || { print -u2 "Missing bundled MIT license."; exit 1; }

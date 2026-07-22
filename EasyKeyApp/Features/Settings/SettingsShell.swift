@@ -1,4 +1,3 @@
-import AppKit
 import EasyEngineCore
 import EasyKeyKit
 import SwiftUI
@@ -7,7 +6,7 @@ struct SettingsShell: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var localization = LocalizationStore.shared
-    @StateObject private var translationSettingsModel: TranslationSettingsModel
+    @ObservedObject private var translationSettingsModel: TranslationSettingsModel
 
     private var selection: Binding<SettingsSection?> {
         Binding(
@@ -20,14 +19,11 @@ struct SettingsShell: View {
 
     init(
         settingsStore: SettingsStore,
-        coordinator: AppCoordinator,
-        translationSettingsModel: TranslationSettingsModel? = nil
+        coordinator: AppCoordinator
     ) {
         self.settingsStore = settingsStore
         self.coordinator = coordinator
-        _translationSettingsModel = StateObject(
-            wrappedValue: translationSettingsModel ?? TranslationSettingsModel(settingsStore: settingsStore)
-        )
+        translationSettingsModel = coordinator.translation.settingsModel
         _columnVisibility = State(initialValue:
             ProcessInfo.processInfo.arguments.contains("--ui-sidebar-hidden") ? .detailOnly : .all)
     }

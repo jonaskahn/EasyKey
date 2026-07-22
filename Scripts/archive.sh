@@ -22,7 +22,7 @@ common_args=(
 )
 
 if [[ "$release_local" == "1" ]]; then
-    print "Archiving universal local Release build (ad-hoc sign, no Developer ID)."
+    print "Archiving local Release build for $archs (ad-hoc sign, no Developer ID)."
     xcodebuild "${common_args[@]}" \
         CODE_SIGN_STYLE=Automatic \
         CODE_SIGN_IDENTITY="-" \

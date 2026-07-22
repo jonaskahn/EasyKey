@@ -201,8 +201,13 @@ final class OpenAITranslationProviderTests: XCTestCase {
             credentialStore: ThrowingCredentialStore(),
             session: openAIMockSession()
         )
-        await assertTranslationError(.missingCredentials(provider: .openAI)) {
-            try await unreadable.translate(self.makeRequest())
+        do {
+            _ = try await unreadable.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockOpenAIURLProtocol.capturedRequests.isEmpty)
     }
@@ -580,8 +585,13 @@ final class OpenAICompatibleTranslationProviderTests: XCTestCase {
             credentialStore: ThrowingCredentialStore(),
             session: openAICompatibleMockSession()
         )
-        await assertTranslationError(.missingCredentials(provider: .openAICompatible)) {
-            try await unreadable.translate(self.makeRequest())
+        do {
+            _ = try await unreadable.translate(makeRequest())
+            XCTFail("Expected Keychain operational error")
+        } catch let error as TranslationCredentialError {
+            XCTAssertEqual(error, .unexpectedStatus(-1))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
         }
         XCTAssertTrue(MockOpenAICompatibleURLProtocol.capturedRequests.isEmpty)
     }

@@ -302,7 +302,7 @@ public final class MacroStore {
         else {
             return [:]
         }
-        return Dictionary(uniqueKeysWithValues: stored.map { ($0.id, $0) })
+        return Dictionary(stored.map { ($0.id, $0) }, uniquingKeysWith: { _, latest in latest })
     }
 
     private static func bool(from field: String) -> Bool? {

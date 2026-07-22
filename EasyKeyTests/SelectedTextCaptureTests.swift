@@ -79,23 +79,26 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
         XCTAssertPasteboardUnchanged(pasteboard)
     }
 
-    func testCapture_FallsBackToPlainTextForEveryUnavailableSelectionReason() {
-        let reasons: [SelectedTextReadResult] = [
-            .absent,
-            .permissionDenied,
-            .secureField,
-            .unsupportedRole,
-            .inaccessible,
-            .oversized,
-        ]
+    func testCapture_NeverUsesExistingPasteboardAsFallback() {
+        let pasteboard = FakeSelectedTextPasteboard(changeCount: 9, items: [.plainText("stale")])
 
-        for reason in reasons {
-            let pasteboard = FakeSelectedTextPasteboard(changeCount: 9, items: [.plainText("fallback")])
-            let result = makeCoordinator(selection: reason, pasteboard: pasteboard).capture()
+        let result = makeCoordinator(selection: .absent, pasteboard: pasteboard).capture()
 
-            XCTAssertEqual(result.text, "fallback")
-            XCTAssertEqual(result.source, .pasteboard)
-            XCTAssertEqual(result.accessibilityResult, reason)
+        XCTAssertEqual(result.source, .blank)
+        XCTAssertEqual(pasteboard.descriptorCallCount, 0)
+        XCTAssertEqual(pasteboard.snapshotCallCount, 0)
+        XCTAssertPasteboardUnchanged(pasteboard)
+    }
+
+    func testCapture_SecureAndOversizedSelectionsStopWithoutSimulatedCopy() {
+        for reason in [SelectedTextReadResult.secureField, .oversized] {
+            let pasteboard = FakeSelectedTextPasteboard(changeCount: 9, items: [.plainText("stale")])
+            let simulator = FakeSelectedTextSimulator(text: "copied")
+
+            let result = makeCoordinator(selection: reason, pasteboard: pasteboard, simulatedCopy: simulator).capture()
+
+            XCTAssertEqual(result.source, .blank)
+            XCTAssertEqual(simulator.copyCallCount, 0)
             XCTAssertPasteboardUnchanged(pasteboard)
         }
     }
@@ -105,7 +108,7 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
 
         let result = makeCoordinator(selection: .absent, pasteboard: pasteboard).capture()
 
-        XCTAssertTrue(result.isOrdinaryAbsence)
+        XCTAssertEqual(result.accessibilityResult, .absent)
         XCTAssertEqual(result.source, .blank)
     }
 
@@ -138,8 +141,9 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
 
         let result = makeCoordinator(selection: .absent, pasteboard: pasteboard).capture()
 
-        XCTAssertEqual(result.text, "plain")
-        XCTAssertEqual(pasteboard.requestedTypes, [[], [PasteboardClassifier.plainText]])
+        XCTAssertEqual(result.text, "")
+        XCTAssertEqual(result.source, .blank)
+        XCTAssertTrue(pasteboard.requestedTypes.isEmpty)
         XCTAssertPasteboardUnchanged(pasteboard)
     }
 
@@ -167,7 +171,7 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(result.source, .blank)
         XCTAssertEqual(pasteboard.contents, pasteboard.originalContents)
-        XCTAssertEqual(pasteboard.changeCount, 6)
+        XCTAssertEqual(pasteboard.changeCount, pasteboard.originalChangeCount)
     }
 
     func testCapture_CapturesFrontmostAndTextBeforeActivation() {
@@ -179,7 +183,6 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
         let pasteboard = FakeSelectedTextPasteboard(changeCount: 1, items: [])
         let coordinator = SelectedTextCaptureCoordinator(
             selectedTextReader: reader,
-            pasteboardReader: pasteboard,
             frontmostApplication: {
                 events.append("frontmost")
                 return nil
@@ -243,18 +246,17 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
 
         let result = coordinator.capture()
 
-        XCTAssertEqual(result.text, "pasteboard")
-        XCTAssertEqual(result.source, .pasteboard)
+        XCTAssertEqual(result.text, "")
+        XCTAssertEqual(result.source, .blank)
     }
 
     private func makeCoordinator(
         selection: SelectedTextReadResult,
-        pasteboard: FakeSelectedTextPasteboard,
+        pasteboard _: FakeSelectedTextPasteboard,
         maximumLength: Int = 5000
     ) -> SelectedTextCaptureCoordinator {
         SelectedTextCaptureCoordinator(
             selectedTextReader: ClosureSelectedTextReader { selection },
-            pasteboardReader: pasteboard,
             simulatedCopy: nil,
             frontmostApplication: { nil },
             activateEasyKey: {},
@@ -264,13 +266,12 @@ final class SelectedTextCaptureCoordinatorTests: XCTestCase {
 
     private func makeCoordinator(
         selection: SelectedTextReadResult,
-        pasteboard: FakeSelectedTextPasteboard,
+        pasteboard _: FakeSelectedTextPasteboard,
         simulatedCopy: SelectedTextSimulating?,
         maximumLength: Int = 5000
     ) -> SelectedTextCaptureCoordinator {
         SelectedTextCaptureCoordinator(
             selectedTextReader: ClosureSelectedTextReader { selection },
-            pasteboardReader: pasteboard,
             simulatedCopy: simulatedCopy,
             frontmostApplication: { nil },
             activateEasyKey: {},

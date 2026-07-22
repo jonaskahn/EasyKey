@@ -107,12 +107,12 @@ final class ViewRenderingTests: XCTestCase {
 
     func testBehaviorSettingsView_SettingBindingReadsAndWrites() {
         let view = BehaviorSettingsView(settingsStore: coordinator.settingsStore)
-        let binding = view.setting(\.compatibility.stepByStepSend)
+        let binding = view.setting(\.compatibility.otherLanguageSupport)
 
         XCTAssertFalse(binding.wrappedValue)
         binding.wrappedValue = true
 
-        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.stepByStepSend)
+        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.otherLanguageSupport)
     }
 
     func testBehaviorSettingsView_AppendUniquePreservesOrder() {
@@ -373,44 +373,6 @@ final class ViewRenderingTests: XCTestCase {
             "dev.example.Application"
         )
         XCTAssertNil(ApplicationBundleSelection.bundleIdentifier(at: contentsURL.appendingPathComponent("Info.plist")))
-    }
-
-    func testUpdateAvailableView_WithReleaseNotes_Renders() {
-        render {
-            UpdateAvailableView(
-                currentVersion: "1.0.0",
-                latestVersion: "1.1.0",
-                releaseNotes: "Bug fixes and improvements.",
-                downloadURL: "https://github.com/jonaskahn/EasyKey/releases/tag/v1.1.0",
-                onDismiss: {},
-                onDownload: {}
-            )
-        }
-    }
-
-    func testUpdateAvailableView_WithoutReleaseNotes_Renders() {
-        render {
-            UpdateAvailableView(
-                currentVersion: "1.0.0",
-                latestVersion: "1.1.0",
-                releaseNotes: nil,
-                downloadURL: "https://github.com/jonaskahn/EasyKey/releases/tag/v1.1.0",
-                onDismiss: {},
-                onDownload: {}
-            )
-        }
-    }
-
-    func testUpToDateView_Renders() {
-        render {
-            UpToDateView(currentVersion: "1.0.0", onDismiss: {})
-        }
-    }
-
-    func testUpdateCheckErrorView_Renders() {
-        render {
-            UpdateCheckErrorView(onDismiss: {})
-        }
     }
 
     func testSystemHealthCard_RequestingPermission_Renders() {

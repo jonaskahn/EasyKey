@@ -1,3 +1,4 @@
+import Combine
 import CryptoKit
 import EasyEngineCore
 @testable import EasyKey
@@ -39,15 +40,24 @@ final class ClipboardThumbnailLoaderTests: XCTestCase {
     func testDecodesAndCachesThenInvalidates() {
         let png = Self.makePNG()
         let loader = ClipboardThumbnailLoader(dataProvider: { _ in png })
-        XCTAssertNotNil(loader.thumbnail(for: "ref"))
+        let decoded = expectation(description: "thumbnail decoded")
+        let cancellable = loader.objectWillChange.sink { decoded.fulfill() }
+        XCTAssertNil(loader.thumbnail(for: "ref"))
+        wait(for: [decoded], timeout: 2)
         XCTAssertNotNil(loader.thumbnail(for: "ref"))
         loader.remove(references: ["ref"])
         loader.clear()
+        withExtendedLifetime(cancellable) {}
     }
 
     func testReturnsNilForUndecodableData() {
         let loader = ClipboardThumbnailLoader(dataProvider: { _ in Data([0, 1, 2]) })
+        let completed = expectation(description: "decode completed")
+        let cancellable = loader.objectWillChange.sink { completed.fulfill() }
         XCTAssertNil(loader.thumbnail(for: "ref"))
+        wait(for: [completed], timeout: 2)
+        XCTAssertNil(loader.thumbnail(for: "ref"))
+        withExtendedLifetime(cancellable) {}
     }
 
     private static func makePNG() -> Data {

@@ -10,7 +10,8 @@ struct AboutSettingsView: View {
 
     private static let author = "jonaskahn"
     private static let githubDisplay = "Github"
-    private static let githubURL = URL(string: "https://jonaskahn.github.io/EasyKey/")!
+    private static let githubURL = URL(string: "https://jonaskahn.github.io/EasyKey/")
+        ?? URL(fileURLWithPath: "/")
 
     var body: some View {
         Form {

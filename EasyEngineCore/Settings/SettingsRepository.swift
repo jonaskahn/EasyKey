@@ -20,8 +20,8 @@ public final class SettingsRepository {
         let resolvedURL = fileURL ?? SettingsRepository.defaultFileURL
         self.fileURL = resolvedURL
         if let data = try? Data(contentsOf: resolvedURL),
-           let decoded = try? JSONDecoder().decode(EasyKeySettings.self, from: data) {
-            settings = SettingsRepository.migrate(decoded)
+           let decoded = SettingsRepository.decodeSupportedSettings(from: data) {
+            settings = decoded
             AppLog.info(.settings, "Loaded settings from \(resolvedURL.lastPathComponent)")
         } else {
             settings = .defaults
@@ -91,6 +91,10 @@ public final class SettingsRepository {
             AppLog.error(.settings, message)
             return diagnostic
         }
+        guard decoded.schemaVersion <= EasyKeySettings.currentSchemaVersion else {
+            AppLog.error(.settings, "Import rejected: unsupported settings schema version \(decoded.schemaVersion)")
+            throw SettingsRepositoryError.unsupportedSchemaVersion(decoded.schemaVersion)
+        }
         settings = SettingsRepository.migrate(decoded)
         diagnostic.entries.append(.init(severity: .info, message: "Settings imported successfully"))
         scheduleSave()
@@ -100,8 +104,8 @@ public final class SettingsRepository {
 
     public func load() {
         if let data = try? Data(contentsOf: fileURL),
-           let decoded = try? JSONDecoder().decode(EasyKeySettings.self, from: data) {
-            settings = SettingsRepository.migrate(decoded)
+           let decoded = SettingsRepository.decodeSupportedSettings(from: data) {
+            settings = decoded
         } else {
             settings = .defaults
             AppLog.notice(.settings, "Reload fell back to defaults")
@@ -166,10 +170,20 @@ public final class SettingsRepository {
         }
         return migrated
     }
+
+    private static func decodeSupportedSettings(from data: Data) -> EasyKeySettings? {
+        guard let decoded = try? JSONDecoder().decode(EasyKeySettings.self, from: data),
+              decoded.schemaVersion <= EasyKeySettings.currentSchemaVersion
+        else {
+            return nil
+        }
+        return migrate(decoded)
+    }
 }
 
 public enum SettingsRepositoryError: Error, Equatable, Sendable {
     case importFileTooLarge
+    case unsupportedSchemaVersion(Int)
 }
 
 public struct EngineConfiguration: Equatable, Sendable {

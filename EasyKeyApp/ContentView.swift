@@ -14,8 +14,7 @@ struct ContentView: View {
             if hasCompletedOnboarding {
                 SettingsShell(
                     settingsStore: settingsStore,
-                    coordinator: coordinator,
-                    translationSettingsModel: coordinator.translation.settingsModel
+                    coordinator: coordinator
                 )
             } else {
                 OnboardingView(

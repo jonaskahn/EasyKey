@@ -2,9 +2,9 @@
 import XCTest
 
 final class TranslationDomainModelTests: XCTestCase {
-    func testBcp47_TrimsWhitespaceAndStoresIdentifier() {
-        let language = TranslationLanguage(bcp47: "  fr  ")
-        XCTAssertEqual(language?.identifier, "fr")
+    func testBcp47_TrimsWhitespaceAndCanonicalizesIdentifier() {
+        let language = TranslationLanguage(bcp47: "  EN-us  ")
+        XCTAssertEqual(language?.identifier, "en-US")
     }
 
     func testBcp47_RejectsEmptyIdentifier() {
@@ -85,20 +85,20 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "hello",
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNotNil(request)
         XCTAssertEqual(request?.sourceText, "hello")
     }
 
-    func testRequestInit_TrimsSourceText() {
+    func testRequestInit_PreservesSourceTextWhitespace() {
         let request = TranslationRequest(
             sourceText: "  hello world  ",
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
-        XCTAssertEqual(request?.sourceText, "hello world")
+        XCTAssertEqual(request?.sourceText, "  hello world  ")
     }
 
     func testRequestInit_RejectsBlankText() {
@@ -106,7 +106,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "   ",
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNil(request)
     }
@@ -116,7 +116,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "",
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNil(request)
     }
@@ -127,7 +127,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: oversized,
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNil(request)
     }
@@ -138,7 +138,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: maximal,
             sourceLanguage: nil,
             targetLanguage: .vietnamese,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNotNil(request)
     }
@@ -148,7 +148,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "hello",
             sourceLanguage: .english,
             targetLanguage: .english,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNil(request)
     }
@@ -160,7 +160,7 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "hello",
             sourceLanguage: nil,
             targetLanguage: .english,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertNotNil(request)
     }
@@ -170,9 +170,18 @@ final class TranslationDomainModelTests: XCTestCase {
             sourceText: "Xin chào 👋 thế giới",
             sourceLanguage: nil,
             targetLanguage: .english,
-            providerID: .automatic
+            providerID: .apple
         )
         XCTAssertEqual(request?.sourceText, "Xin chào 👋 thế giới")
+    }
+
+    func testRequestInitRejectsAutomaticProviderPreference() {
+        XCTAssertNil(TranslationRequest(
+            sourceText: "hello",
+            sourceLanguage: nil,
+            targetLanguage: .vietnamese,
+            providerID: .automatic
+        ))
     }
 
     func testResponse_StoresProvidedValues() {

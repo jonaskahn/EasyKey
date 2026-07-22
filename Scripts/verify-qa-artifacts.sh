@@ -19,18 +19,8 @@ if [[ ! -f "$project_root/EasyKeyTests/KeyboardServiceIntegrationTests.swift" ]]
     exit_status=1
 fi
 
-if [[ ! -f "$project_root/EasyKeyTests/SettingsImporterTests.swift" ]]; then
-    print -u2 "Missing settings importer tests."
-    exit_status=1
-fi
-
 if [[ ! -f "$project_root/EasyKeyUITests/SettingsWorkflowTests.swift" ]]; then
     print -u2 "Missing onboarding and settings workflow UI tests."
-    exit_status=1
-fi
-
-if [[ ! -f "$project_root/EasyEngineCore/Settings/SettingsImporter.swift" ]]; then
-    print -u2 "Missing legacy settings importer."
     exit_status=1
 fi
 

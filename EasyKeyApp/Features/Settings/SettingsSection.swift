@@ -1,6 +1,4 @@
-import AppKit
 import EasyEngineCore
-import EasyKeyKit
 import SwiftUI
 
 enum SettingsSection: String, CaseIterable, Identifiable {

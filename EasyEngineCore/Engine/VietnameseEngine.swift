@@ -50,6 +50,11 @@ public struct VietnameseEngine {
         atSentenceStart = true
     }
 
+    /// Clears current word state while preserving sentence-capitalization context.
+    public mutating func resetComposition() {
+        clearComposition()
+    }
+
     /// Restores the raw keystrokes for the word being composed and freezes
     /// transformation until the next word boundary (per-word restore).
     @discardableResult
@@ -59,6 +64,7 @@ public struct VietnameseEngine {
         }
         let previousCount = lastRenderedCount
         state.forceRaw = true
+        lastRenderedCount = state.rawText.count
         return EngineOutput(
             disposition: .suppress,
             edits: [.replaceBackward(deleteCount: previousCount, insert: state.rawText)],
@@ -68,7 +74,7 @@ public struct VietnameseEngine {
 
     private mutating func processCharacter(_ character: Character, event: KeyEvent) -> EngineOutput {
         if event.hasModifiers {
-            reset()
+            clearComposition()
             return .passThrough
         }
 
@@ -134,12 +140,12 @@ public struct VietnameseEngine {
     }
 
     private mutating func processWordBoundary(trailingChar: String) -> EngineOutput {
-        guard !state.isEmpty else {
-            return .passThrough
-        }
-
         if Self.sentenceTerminators.contains(trailingChar) {
             atSentenceStart = true
+        }
+
+        guard !state.isEmpty else {
+            return .passThrough
         }
 
         let previousCount = lastRenderedCount
@@ -169,7 +175,7 @@ public struct VietnameseEngine {
     }
 
     private mutating func processReset() -> EngineOutput {
-        reset()
+        clearComposition()
         return .passThrough
     }
 

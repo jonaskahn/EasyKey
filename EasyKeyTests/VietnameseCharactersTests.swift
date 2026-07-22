@@ -2,6 +2,13 @@
 import XCTest
 
 final class VietnameseCharactersTests: XCTestCase {
+    func testUppercaseACircumflexTildeUsesCorrectCharacter() {
+        XCTAssertEqual(
+            VietnameseCharacters.vowel(base: "a", mark: .circumflex, tone: .tilde, uppercase: true),
+            "Ẫ"
+        )
+    }
+
     func testIsVowel_lowercase() {
         for char in "aeiouy" {
             XCTAssertTrue(VietnameseCharacters.isVowel(char), "\(char) should be vowel")

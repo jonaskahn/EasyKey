@@ -32,24 +32,6 @@ struct BehaviorSettingsView: View {
             }
 
             Section {
-                Toggle(isOn: setting(\.compatibility.stepByStepSend)) {
-                    SettingsControlLabel(
-                        title: localization.string(.behaviorStepByStepSend),
-                        description: localization.string(.behaviorStepByStepSendDescription)
-                    )
-                }
-                Toggle(isOn: setting(\.compatibility.keyboardLayoutCompatibility)) {
-                    SettingsControlLabel(
-                        title: localization.string(.behaviorKeyboardLayoutCompatibility),
-                        description: localization.string(.behaviorKeyboardLayoutCompatibilityDescription)
-                    )
-                }
-            } header: {
-                Text(localization.string(.behaviorAdvancedCompatibility))
-            }
-            .toggleStyle(.switch)
-
-            Section {
                 Text(localization.string(.behaviorCompatibilityModeHint))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -260,10 +242,7 @@ struct BehaviorSettingsView: View {
     }
 
     func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
-        Binding(
-            get: { settingsStore.settings[keyPath: keyPath] },
-            set: { value in settingsStore.update { $0[keyPath: keyPath] = value } }
-        )
+        settingsStore.binding(keyPath)
     }
 }
 

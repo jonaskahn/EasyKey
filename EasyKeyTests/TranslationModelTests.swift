@@ -63,6 +63,15 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertTrue(condition(), "Condition not met before timeout", file: file, line: line)
     }
 
+    private func makeTranslatingModel() async -> TranslationModel {
+        let provider = FakeTranslationProvider(behavior: .hang)
+        let model = makeModel(provider: provider)
+        model.setSourceText("hello")
+        model.translate()
+        await waitUntil { model.status == .translating }
+        return model
+    }
+
     func testInit_SeedsTargetFromOppositeOfInputLanguage() {
         let vietnameseInput = makeModel(inputLanguage: .vietnamese, provider: nil)
         XCTAssertEqual(vietnameseInput.targetLanguage, .english)
@@ -253,6 +262,30 @@ final class TranslationModelTests: XCTestCase {
         try? await Task.sleep(nanoseconds: 20_000_000)
 
         XCTAssertEqual(model.status, .idle)
+    }
+
+    func testRequestDefiningMutationsInvalidateActiveRequest() async {
+        let sourceTextModel = await makeTranslatingModel()
+        sourceTextModel.setSourceText("changed")
+        XCTAssertEqual(sourceTextModel.status, .idle)
+
+        let sourceLanguageModel = await makeTranslatingModel()
+        sourceLanguageModel.setSourceLanguage(.vietnamese)
+        XCTAssertEqual(sourceLanguageModel.status, .idle)
+
+        let targetLanguageModel = await makeTranslatingModel()
+        targetLanguageModel.setTargetLanguage(.vietnamese)
+        XCTAssertEqual(targetLanguageModel.status, .idle)
+        targetLanguageModel.cancelScheduledAutoTranslate()
+
+        let providerModel = await makeTranslatingModel()
+        providerModel.setProviderID(.google)
+        XCTAssertEqual(providerModel.status, .idle)
+
+        let swapModel = await makeTranslatingModel()
+        swapModel.swapLanguages()
+        XCTAssertEqual(swapModel.status, .idle)
+        swapModel.cancelScheduledAutoTranslate()
     }
 
     func testSwapLanguages_ExchangesExplicitSourceAndTarget() {

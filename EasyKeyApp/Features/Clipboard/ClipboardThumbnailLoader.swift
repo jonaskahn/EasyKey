@@ -1,10 +1,12 @@
 import AppKit
+import ImageIO
 
 /// Lazily decodes and caches bounded thumbnails from image payloads. Cache entries
 /// are invalidated together with their source payload lifecycle.
 @MainActor
 final class ClipboardThumbnailLoader: ObservableObject {
     private var cache: [String: NSImage] = [:]
+    private var loads: [String: UUID] = [:]
     private let dataProvider: (String) -> Data?
     private let maxPixelSize: CGFloat
 
@@ -17,30 +19,43 @@ final class ClipboardThumbnailLoader: ObservableObject {
         if let cached = cache[reference] {
             return cached
         }
-        guard let data = dataProvider(reference), let image = downscaled(from: data) else { return nil }
-        cache[reference] = image
-        return image
+        guard loads[reference] == nil, let data = dataProvider(reference) else { return nil }
+        let loadID = UUID()
+        loads[reference] = loadID
+        let maxPixelSize = self.maxPixelSize
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let image = Self.downscaledImage(from: data, maxPixelSize: maxPixelSize)
+            DispatchQueue.main.async {
+                guard let self, self.loads[reference] == loadID else { return }
+                self.loads.removeValue(forKey: reference)
+                if let image {
+                    self.cache[reference] = NSImage(cgImage: image, size: .zero)
+                }
+                self.objectWillChange.send()
+            }
+        }
+        return nil
     }
 
     func remove(references: Set<String>) {
         for reference in references {
             cache.removeValue(forKey: reference)
+            loads.removeValue(forKey: reference)
         }
     }
 
     func clear() {
         cache.removeAll()
+        loads.removeAll()
     }
 
-    private func downscaled(from data: Data) -> NSImage? {
-        guard let source = NSBitmapImageRep(data: data) else { return nil }
-        let width = CGFloat(source.pixelsWide)
-        let height = CGFloat(source.pixelsHigh)
-        guard width > 0, height > 0 else { return nil }
-        let scale = min(1, maxPixelSize / max(width, height))
-        let target = NSSize(width: width * scale, height: height * scale)
-        let image = NSImage(size: target)
-        image.addRepresentation(source)
-        return image
+    private nonisolated static func downscaledImage(from data: Data, maxPixelSize: CGFloat) -> CGImage? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixelSize,
+        ]
+        return CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary)
     }
 }

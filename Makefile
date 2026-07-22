@@ -80,18 +80,7 @@ coverage-gate:
 	else \
 		report="$(XCRESULT)"; \
 	fi; \
-	coverage=$$(xcrun xccov view --report --json "$$report" | jq -r '\
-		.targets \
-		| map(select(.name != "EasyKeyLoginHelper.app")) \
-		| { covered: (map(.coveredLines) | add), executable: (map(.executableLines) | add) } \
-		| .covered / .executable * 100'); \
-	printf 'Line coverage (excl. LoginHelper): %.2f%%\n' "$$coverage"; \
-	if awk -v c="$$coverage" -v t="$(COVERAGE_THRESHOLD)" 'BEGIN { exit !(c >= t) }'; then \
-		echo "Coverage gate passed (>= $(COVERAGE_THRESHOLD)%)."; \
-	else \
-		echo "Coverage gate failed: $$coverage% < $(COVERAGE_THRESHOLD)%"; \
-		exit 1; \
-	fi
+	Scripts/check-coverage.sh "$$report" "$(COVERAGE_THRESHOLD)"
 
 lint:
 	@if command -v swiftlint >/dev/null 2>&1; then \
@@ -133,10 +122,20 @@ verify-arch:
 verify-release:
 	Scripts/verify-release.sh
 
-# Signed distribution path (requires Developer ID + release env vars).
+# Signed and notarized distribution path.
 dmg: archive export
-	Scripts/verify-release.sh
-	Scripts/create-dmg.sh "$(BUILD_DIR)/export/EasyKey.app"
+	@set -e; \
+	app="$(BUILD_DIR)/export/EasyKey.app"; \
+	version=$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$$app/Contents/Info.plist"); \
+	dmg="$(BUILD_DIR)/EasyKey-$$version-universal.dmg"; \
+	Scripts/verify-arch.sh "$$app"; \
+	codesign --verify --deep --strict --verbose=2 "$$app"; \
+	Scripts/notarize.sh "$$app"; \
+	Scripts/staple.sh "$$app"; \
+	DMG_PATH="$$dmg" Scripts/create-dmg.sh "$$app"; \
+	Scripts/notarize.sh "$$dmg"; \
+	Scripts/staple.sh "$$dmg"; \
+	Scripts/verify-release.sh "$$app" "$$dmg"
 
 # Local universal DMG without Developer ID / notarization secrets.
 local-dmg:
@@ -181,7 +180,7 @@ help:
 	@echo "    make export         Export .app from archive"
 	@echo "    make verify-arch    Confirm arm64 + x86_64 in exported app"
 	@echo "    make verify-release Full release verification"
-	@echo "    make dmg            Signed universal DMG (needs Developer ID + notarization secrets)"
+	@echo "    make dmg            Signed + notarized universal DMG (needs release secrets)"
 	@echo ""
 	@echo "  Other"
 	@echo "    make all            Build debug (default for 'make all')"

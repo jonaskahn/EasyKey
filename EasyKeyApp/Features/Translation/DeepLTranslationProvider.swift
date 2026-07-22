@@ -115,12 +115,7 @@ struct DeepLTranslationProvider: TranslationProviding {
     }
 
     private func resolveCredential() throws -> String {
-        let stored: String?
-        do {
-            stored = try credentialStore.credential(for: .deepL)
-        } catch {
-            throw EasyEngineCore.TranslationError.missingCredentials(provider: .deepL)
-        }
+        let stored = try credentialStore.credential(for: .deepL)
         guard let stored, !stored.isEmpty else {
             throw EasyEngineCore.TranslationError.missingCredentials(provider: .deepL)
         }

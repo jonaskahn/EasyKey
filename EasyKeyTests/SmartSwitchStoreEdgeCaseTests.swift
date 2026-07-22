@@ -113,6 +113,37 @@ final class SmartSwitchStoreEdgeCaseTests: XCTestCase {
         XCTAssertEqual(preferences.count, 1)
     }
 
+    func testLoadDuplicatePersistedKeysKeepsLatestWithoutTrapping() throws {
+        struct Document: Encodable {
+            let schemaVersion: Int
+            let preferences: [SmartSwitchPreference]
+        }
+
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("smart-switch.json")
+        let stored = Document(schemaVersion: 1, preferences: [
+            SmartSwitchPreference(
+                key: "bundle:duplicate",
+                displayName: "Old",
+                choice: SmartSwitchChoice(language: .english),
+                lastUsedAt: .distantPast
+            ),
+            SmartSwitchPreference(
+                key: "bundle:duplicate",
+                displayName: "Latest",
+                choice: SmartSwitchChoice(language: .vietnamese),
+                lastUsedAt: .distantFuture
+            ),
+        ])
+        try JSONEncoder().encode(stored).write(to: fileURL)
+
+        let store = SmartSwitchStore(fileURL: fileURL)
+
+        XCTAssertEqual(store.preferences.map(\.displayName), ["Latest"])
+    }
+
     func testEditWithNonExistentKey() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)

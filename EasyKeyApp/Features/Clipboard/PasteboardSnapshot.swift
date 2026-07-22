@@ -41,6 +41,13 @@ struct PasteboardItemDescriptor: Equatable {
 struct PasteboardSnapshot: Equatable {
     let changeCount: Int
     let items: [PasteboardItemSnapshot]
+    let exceededByteLimit: Bool
+
+    init(changeCount: Int, items: [PasteboardItemSnapshot], exceededByteLimit: Bool = false) {
+        self.changeCount = changeCount
+        self.items = items
+        self.exceededByteLimit = exceededByteLimit
+    }
 }
 
 struct PasteboardItemSnapshot: Equatable {
@@ -85,11 +92,20 @@ final class SystemPasteboardReader: PasteboardReading {
     func snapshot(selecting typeIdentifiers: [[String]]) -> PasteboardSnapshot {
         let items = pasteboard.pasteboardItems ?? []
         var snapshots: [PasteboardItemSnapshot] = []
+        var capturedByteCount = 0
         for (index, item) in items.enumerated() {
             let wanted = index < typeIdentifiers.count ? typeIdentifiers[index] : []
             var representations: [CapturedPasteboardRepresentation] = []
             for identifier in wanted {
                 if let data = item.data(forType: NSPasteboard.PasteboardType(identifier)) {
+                    capturedByteCount += data.count
+                    guard capturedByteCount <= ClipboardLimits.maximumEventBytes else {
+                        return PasteboardSnapshot(
+                            changeCount: pasteboard.changeCount,
+                            items: [],
+                            exceededByteLimit: true
+                        )
+                    }
                     representations.append(CapturedPasteboardRepresentation(typeIdentifier: identifier, data: data))
                 }
             }

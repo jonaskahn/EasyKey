@@ -85,6 +85,6 @@ struct SmartSwitchSettingsView: View {
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
-        Binding(get: { settingsStore.settings[keyPath: keyPath] }, set: { value in settingsStore.update { $0[keyPath: keyPath] = value } })
+        settingsStore.binding(keyPath)
     }
 }

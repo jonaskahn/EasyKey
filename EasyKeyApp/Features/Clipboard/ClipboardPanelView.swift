@@ -15,6 +15,7 @@ struct ClipboardPanelActions {
 
 struct ClipboardPanelView: View {
     @ObservedObject var model: ClipboardHistoryModel
+    @ObservedObject var action: ClipboardActionCoordinator
     @ObservedObject var thumbnailLoader: ClipboardThumbnailLoader
     @ObservedObject var localization: LocalizationStore
     let actions: ClipboardPanelActions
@@ -24,11 +25,13 @@ struct ClipboardPanelView: View {
 
     init(
         model: ClipboardHistoryModel,
+        action: ClipboardActionCoordinator,
         thumbnailLoader: ClipboardThumbnailLoader,
         localization: LocalizationStore,
         actions: ClipboardPanelActions
     ) {
         self.model = model
+        self.action = action
         self.thumbnailLoader = thumbnailLoader
         self.localization = localization
         self.actions = actions
@@ -49,6 +52,9 @@ struct ClipboardPanelView: View {
     var body: some View {
         VStack(spacing: 0) {
             searchField
+            if hasError {
+                errorNotice
+            }
             Divider()
             content
             Divider()
@@ -65,6 +71,25 @@ struct ClipboardPanelView: View {
                 .accessibilityIdentifier("ClipboardSearchField")
         }
         .padding(12)
+    }
+
+    private var hasError: Bool {
+        action.lastError != nil || model.persistenceError != nil || model.limitNotice != nil
+    }
+
+    private var errorNotice: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+            Text(model.limitNotice == nil
+                ? localization.string(.clipboardUnavailable)
+                : localization.string(.clipboardDataLimits))
+            Spacer(minLength: 0)
+        }
+        .font(.caption)
+        .foregroundStyle(.red)
+        .padding(.horizontal, 12)
+        .padding(.bottom, 10)
+        .accessibilityElement(children: .combine)
     }
 
     @ViewBuilder private var content: some View {

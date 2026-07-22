@@ -23,12 +23,13 @@ public struct TranslationRequest: Equatable, Sendable {
     ) {
         let trimmed = sourceText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
-        guard trimmed.count <= Self.maximumSourceTextLength else { return nil }
+        guard sourceText.count <= Self.maximumSourceTextLength else { return nil }
+        guard providerID != .automatic else { return nil }
         if let sourceLanguage, sourceLanguage == targetLanguage {
             return nil
         }
 
-        self.sourceText = trimmed
+        self.sourceText = sourceText
         self.sourceLanguage = sourceLanguage
         self.targetLanguage = targetLanguage
         self.providerID = providerID

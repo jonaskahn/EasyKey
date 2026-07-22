@@ -24,7 +24,6 @@ final class SettingsStoreTests: XCTestCase {
     func testLegacyCompatibilitySettingsReceiveNewDefaults() throws {
         let data = Data(#"{"stepByStepSend":true,"keyboardLayoutCompatibility":false,"otherLanguageSupport":true}"#.utf8)
         let decoded = try JSONDecoder().decode(CompatibilityOptions.self, from: data)
-        XCTAssertTrue(decoded.stepByStepSend)
         XCTAssertTrue(decoded.otherLanguageSupport)
         XCTAssertEqual(
             decoded.compatibilityModeApplicationBundleIdentifiers,
@@ -55,7 +54,6 @@ final class SettingsStoreTests: XCTestCase {
         settings.macro.enabled = true
         settings.smartSwitch.enabled = true
         settings.system.launchAtLogin = true
-        settings.converter.shortcut = Shortcut(keyCode: 36, modifiers: [.command, .option])
 
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys

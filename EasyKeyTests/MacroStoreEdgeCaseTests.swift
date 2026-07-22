@@ -183,6 +183,23 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
         XCTAssertEqual(reloaded.macros.first?.trigger, "persist")
     }
 
+    func testLoadDuplicatePersistedIDsKeepsLatestWithoutTrapping() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let fileURL = directory.appendingPathComponent("macros.json")
+        let id = UUID()
+        let stored = [
+            Macro(id: id, trigger: "old", expansion: "first"),
+            Macro(id: id, trigger: "new", expansion: "latest"),
+        ]
+        try JSONEncoder().encode(stored).write(to: fileURL)
+
+        let store = MacroStore(fileURL: fileURL)
+
+        XCTAssertEqual(store.macros.map(\.trigger), ["new"])
+    }
+
     func testPreviewImportDuplicateInFile() throws {
         let store = MacroStore()
         let preview = try store.previewImport("trigger\texpansion\tenabled\ndup\tfirst\t1\ndup\tsecond\t1")

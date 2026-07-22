@@ -9,14 +9,21 @@ enum LogExporter {
     private static let maxEntries = 2000
 
     @MainActor
-    static func exportAndReveal(reveal: (URL) -> Void = { NSWorkspace.shared.activateFileViewerSelecting([$0]) }) {
-        do {
-            let url = try writeExport()
-            AppLog.info(.app, "Exported logs to \(url.lastPathComponent)")
-            reveal(url)
-        } catch {
-            AppLog.error(.app, "Log export failed: \(error.localizedDescription)")
-            presentExportFailure(message: error.localizedDescription)
+    static func exportAndReveal(reveal: @escaping (URL) -> Void = { NSWorkspace.shared.activateFileViewerSelecting([$0]) }) {
+        let now = Date()
+        Task.detached(priority: .userInitiated) {
+            do {
+                let url = try writeExport(now: now)
+                await MainActor.run {
+                    AppLog.info(.app, "Exported logs to \(url.lastPathComponent)")
+                    reveal(url)
+                }
+            } catch {
+                await MainActor.run {
+                    AppLog.error(.app, "Log export failed: \(error.localizedDescription)")
+                    presentExportFailure(message: error.localizedDescription)
+                }
+            }
         }
     }
 

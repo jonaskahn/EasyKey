@@ -21,11 +21,17 @@ final class ClipboardPayloadStore {
         payloads[reference] != nil
     }
 
-    func insert(_ newPayloads: [String: Data]) {
+    @discardableResult
+    func insert(_ newPayloads: [String: Data]) -> Bool {
+        let additionalBytes = newPayloads.reduce(0) { count, payload in
+            count + (payloads[payload.key] == nil ? payload.value.count : 0)
+        }
+        guard totalByteCount + additionalBytes <= ClipboardLimits.maximumRetainedBytes else { return false }
         for (reference, data) in newPayloads where payloads[reference] == nil {
             payloads[reference] = data
             totalByteCount += data.count
         }
+        return true
     }
 
     func remove(references: Set<String>) {

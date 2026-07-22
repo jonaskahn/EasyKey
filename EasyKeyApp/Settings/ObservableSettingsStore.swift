@@ -1,6 +1,7 @@
 import Combine
 import EasyEngineCore
 import Foundation
+import SwiftUI
 
 /// App-layer observable wrapper around the framework-free `SettingsRepository`.
 @MainActor
@@ -24,6 +25,17 @@ final class ObservableSettingsStore: ObservableObject {
 
     func update(_ transform: (inout EasyKeySettings) -> Void) {
         repository.update(transform)
+    }
+
+    func binding<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {
+        Binding(
+            get: { [weak self] in
+                self?.settings[keyPath: keyPath] ?? EasyKeySettings.defaults[keyPath: keyPath]
+            },
+            set: { [weak self] newValue in
+                self?.update { $0[keyPath: keyPath] = newValue }
+            }
+        )
     }
 
     func reset() {

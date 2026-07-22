@@ -9,7 +9,7 @@ custom updater or accept unauthenticated version metadata.
 `SUFeedURL` and `SUPublicEDKey` are supplied only by release build settings.
 Local builds leave them empty, so update checks are disabled rather than using an
 untrusted endpoint. Publish each appcast over HTTPS and sign every archive with
-Sparkle's `generate_appcast` tooling before upload.
+Sparkle's `sign_update` tool before publishing its appcast entry.
 
 ## Required Release Inputs
 
@@ -21,16 +21,18 @@ Sparkle's `generate_appcast` tooling before upload.
 - `EASYKEY_PRIVACY_POLICY_URL`: HTTPS privacy-policy URL.
 - `NOTARY_KEYCHAIN_PROFILE`: `notarytool` keychain profile name.
 
+CI uses `NOTARY_APPLE_ID`, `NOTARY_APP_SPECIFIC_PASSWORD`, and
+`DEVELOPMENT_TEAM` instead of a local Keychain profile.
+
 Store Apple credentials in Keychain or CI secrets. Never commit them.
 
 ## Automated Release + Appcast (CI)
 
 Two workflows cover the pipeline:
 
-- `.github/workflows/release.yml` — on tag push (`v*`), builds ad-hoc universal,
-  arm64, and amd64 DMGs (`make local-dmg`) with `SPARKLE_FEED_URL` /
-  `SPARKLE_PUBLIC_ED_KEY` baked in, and creates a **draft** GitHub Release with
-  all three DMGs attached.
+- `.github/workflows/release.yml` — on tag push (`v*`), imports the Developer ID
+  certificate, builds and notarizes universal, arm64, and amd64 DMGs (`make dmg`),
+  and creates a **draft** GitHub Release with all three DMGs attached.
 - `.github/workflows/publish-appcast.yml` — fires on `release: released`
   (i.e. once a maintainer publishes the draft), signs the released DMG with
   Sparkle's `sign_update`, and appends a new `<item>` to `appcast.xml` on the
@@ -44,9 +46,11 @@ Required repo configuration (already set for this repo):
 - Variables: `SPARKLE_FEED_URL` = `https://jonaskahn.github.io/EasyKey/appcast.xml`
   (served from the `gh-pages` branch, GitHub Pages enabled), `EASYKEY_SUPPORT_URL`,
   `EASYKEY_PRIVACY_POLICY_URL`.
-- Secrets: `SPARKLE_PUBLIC_ED_KEY`, `SPARKLE_PRIVATE_KEY` (EdDSA keypair from
-  Sparkle's `generate_keys` tool — public key embeds in the app, private key
-  signs releases and never leaves CI secrets).
+- Signing secrets: `BUILD_CERTIFICATE_BASE64`, `BUILD_CERTIFICATE_PASSWORD`,
+  `KEYCHAIN_PASSWORD`, `DEVELOPER_ID_APPLICATION`, and `DEVELOPMENT_TEAM`.
+- Notarization secrets: `NOTARY_APPLE_ID` and `NOTARY_APP_SPECIFIC_PASSWORD`.
+- Sparkle secrets: `SPARKLE_PUBLIC_ED_KEY` and `SPARKLE_PRIVATE_KEY` (EdDSA
+  keypair from Sparkle's `generate_keys`; private key never leaves CI secrets).
 
 In-app behavior: `UpdateService` checks the appcast once per launch, after a
 randomized 30-60s startup delay (`UpdateService.startupCheckDelayRange`), then
@@ -68,13 +72,13 @@ Before packaging a candidate, run `make qa` (tests plus provenance/artifact chec
 
 1. Run `Scripts/archive.sh` with required release inputs (or `make archive`).
 2. Run `Scripts/export.sh` (or `make export`).
-3. Run `Scripts/notarize.sh build/export/EasyKey.app`.
-4. Run `Scripts/staple.sh build/export/EasyKey.app`.
-5. Run `Scripts/verify-release.sh` / `make verify-release` (and `make verify-arch`).
-6. Run `Scripts/create-dmg.sh build/export/EasyKey.app`.
-7. Staple and assess generated DMG before publishing it.
+3. Notarize and staple the app.
+4. Create the DMG.
+5. Notarize and staple the DMG.
+6. Run release integrity, architecture, Gatekeeper, and stapler validation.
 
-Or: `make dmg` (archive → export → verify → DMG; still requires env vars).
+`make dmg` performs this complete sequence. `Scripts/notarize.sh` accepts either
+`NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables.
 
 ### Local universal DMG (no secrets)
 

@@ -76,7 +76,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         XCTAssertEqual(result.disposition, .bypassed)
     }
 
-    func testProcess_IgnoredApplicationBypassesEmergencyShortcut() {
+    func testProcess_EmergencyShortcutPrecedesIgnoredApplication() {
         var settings = EasyKeySettings.defaults
         settings.compatibility.ignoredApplicationBundleIdentifiers = ["dev.example.Ignored"]
         let pipeline = KeyboardInputPipeline(settings: settings)
@@ -86,8 +86,8 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
         let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: shortcut.keyCode)
 
-        XCTAssertEqual(result.disposition, .bypassed)
-        XCTAssertFalse(result.suppressesOriginal)
+        XCTAssertEqual(result.disposition, .suppressed)
+        XCTAssertTrue(result.suppressesOriginal)
     }
 
     func testProcess_MouseEvent_ResetsSessionAndPasses() {
@@ -147,7 +147,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
     func testProcess_ModifierOnlySwitchShortcut_OnFlagsChanged_TogglesLanguage() {
         var settings = EasyKeySettings.defaults
-        settings.input.switchShortcut = Shortcut(keyCode: 0, modifiers: [.control, .command])
+        settings.input.switchShortcut = .modifiersOnly([.control, .command])
         let pipeline = KeyboardInputPipeline(settings: settings)
         let expectation = expectation(description: "toggle language via flagsChanged")
         pipeline.onLanguageToggled = { language in
@@ -159,6 +159,19 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         let result = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: event, keyCode: nil)
         XCTAssertEqual(result.disposition, .suppressed)
         wait(for: [expectation], timeout: 1.0)
+    }
+
+    func testProcess_SynthesisFailurePassesOriginalInput() {
+        let pipeline = KeyboardInputPipeline(
+            settings: .defaults,
+            eventFactory: { _, _ in nil }
+        )
+        let event = keyEvent(character: "a", keyCode: 0)
+
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 0)
+
+        XCTAssertEqual(result.disposition, .passed)
+        XCTAssertFalse(result.suppressesOriginal)
     }
 
     func testUpdate_ChangesConfigurationAndResetsSession() {

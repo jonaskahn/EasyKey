@@ -110,7 +110,7 @@ public struct ClipboardHistory: Equatable, Sendable {
                 return lhs.isPinned
             }
             if lhs.isPinned {
-                return lhs.pinnedAt! > rhs.pinnedAt!
+                return (lhs.pinnedAt ?? lhs.capturedAt) > (rhs.pinnedAt ?? rhs.capturedAt)
             }
             return lhs.capturedAt > rhs.capturedAt
         }

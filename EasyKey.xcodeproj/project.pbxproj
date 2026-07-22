@@ -196,8 +196,6 @@
 		F0067873CB7B99377CAEF239 /* StatusMenuBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3B5721A27DF22E8BFA82AA /* StatusMenuBuilderTests.swift */; };
 		F06FF5E7AC0843F84983845D /* TypingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149BC8C9BEFFC267117465CE /* TypingOptions.swift */; };
 		F0FBCC0839092B220F68730F /* ShortcutKeyCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1CAE0D5777709A9C18FD57 /* ShortcutKeyCaptureTests.swift */; };
-		F10000000000000000000001 /* GitHubUpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000002 /* GitHubUpdateChecker.swift */; };
-		F10000000000000000000003 /* UpdateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000004 /* UpdateViews.swift */; };
 		F1B100000000000000000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000001 /* OnboardingView.swift */; };
 		F1B100000000000000000002 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000002 /* SettingsSection.swift */; };
 		F1B100000000000000000003 /* SettingsShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000003 /* SettingsShell.swift */; };
@@ -218,7 +216,6 @@
 		F2B10000000000000000000B /* AppMainMenuInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A10000000000000000000B /* AppMainMenuInstaller.swift */; };
 		F1D100000000000000000002 /* DesignScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000001 /* DesignScale.swift */; };
 		F1D100000000000000000005 /* KeepOnTopTitlebarAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */; };
-		F20000000000000000000001 /* GitHubUpdateCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */; };
 		F267CAD2C6DD5E9A767AB4FB /* AppleTranslationSessionBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64D68453EF5F8634C426EDA /* AppleTranslationSessionBridge.swift */; };
 		F2B100000000000000000001 /* LoginItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A100000000000000000001 /* LoginItemController.swift */; };
 		F2B100000000000000000002 /* SettingsWindowPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A100000000000000000002 /* SettingsWindowPresenter.swift */; };
@@ -535,8 +532,6 @@
 		EE447AEEA00A870D1733223A /* AppCoordinatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppCoordinatorTests.swift; sourceTree = "<group>"; };
 		F0CE74A1116FC55A2113751A /* SettingsWindowPresenterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsWindowPresenterTests.swift; sourceTree = "<group>"; };
 		F0CE74A1116FC55A2113751B /* AppMainMenuInstallerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppMainMenuInstallerTests.swift; sourceTree = "<group>"; };
-		F10000000000000000000002 /* GitHubUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUpdateChecker.swift; sourceTree = "<group>"; };
-		F10000000000000000000004 /* UpdateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViews.swift; sourceTree = "<group>"; };
 		F1A100000000000000000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F1A100000000000000000002 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
 		F1A100000000000000000003 /* SettingsShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsShell.swift; sourceTree = "<group>"; };
@@ -557,7 +552,6 @@
 		F1A100000000000000000010 /* ShortcutKeyCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutKeyCapture.swift; sourceTree = "<group>"; };
 		F1D100000000000000000001 /* DesignScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignScale.swift; sourceTree = "<group>"; };
 		F1D100000000000000000004 /* KeepOnTopTitlebarAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepOnTopTitlebarAccessory.swift; sourceTree = "<group>"; };
-		F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubUpdateCheckerTests.swift; sourceTree = "<group>"; };
 		F2A100000000000000000001 /* LoginItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemController.swift; sourceTree = "<group>"; };
 		F2A100000000000000000002 /* SettingsWindowPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowPresenter.swift; sourceTree = "<group>"; };
 		F2A100000000000000000003 /* SmartSwitchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchController.swift; sourceTree = "<group>"; };
@@ -698,7 +692,6 @@
 				F1C100000000000000000001 /* Features */,
 				F2C100000000000000000002 /* Settings */,
 				E70000000000000000000004 /* UpdateService.swift */,
-				F10000000000000000000002 /* GitHubUpdateChecker.swift */,
 				A10B00000000000000000020 /* Localization */,
 				A10B00000000000000000014 /* Localizable.xcstrings */,
 				121F12885E8840E3AB8887BD /* EasyKeyApp.entitlements */,
@@ -811,7 +804,6 @@
 				762EBB840354C192118BF9E9 /* TestSupport.swift */,
 				EE447AEEA00A870D1733223A /* AppCoordinatorTests.swift */,
 				190000000000000000000012 /* AppTranslationRuntimeTests.swift */,
-				F20000000000000000000002 /* GitHubUpdateCheckerTests.swift */,
 				D1A600000000000000000006 /* AppLogTests.swift */,
 				D1A600000000000000000008 /* LogExporterTests.swift */,
 				7AEC0872B3A0C2BCE44A8464 /* AppCoordinatorWiringTests.swift */,
@@ -1142,7 +1134,6 @@
 				F1A10000000000000000000A /* SystemSettingsView.swift */,
 				F1A10000000000000000000B /* SystemHealthCard.swift */,
 				F1A10000000000000000000C /* HealthPill.swift */,
-				F10000000000000000000004 /* UpdateViews.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -1460,7 +1451,6 @@
 				701FD1700FC0DA4EE8A86A6B /* TestSupport.swift in Sources */,
 				5CC7E7E8BE6B8990540AC514 /* AppCoordinatorTests.swift in Sources */,
 				190000000000000000000002 /* AppTranslationRuntimeTests.swift in Sources */,
-				F20000000000000000000001 /* GitHubUpdateCheckerTests.swift in Sources */,
 				D1A600000000000000000005 /* AppLogTests.swift in Sources */,
 				D1A600000000000000000007 /* LogExporterTests.swift in Sources */,
 				2C51106C182C7F9A31C76148 /* AppCoordinatorWiringTests.swift in Sources */,
@@ -1628,8 +1618,6 @@
 				F2B10000000000000000000B /* AppMainMenuInstaller.swift in Sources */,
 				F1B100000000000000000010 /* ShortcutKeyCapture.swift in Sources */,
 				E70000000000000000000003 /* UpdateService.swift in Sources */,
-				F10000000000000000000001 /* GitHubUpdateChecker.swift in Sources */,
-				F10000000000000000000003 /* UpdateViews.swift in Sources */,
 				A10B00000000000000000001 /* AppLanguage.swift in Sources */,
 				A10B00000000000000000002 /* L10n.swift in Sources */,
 				A10B00000000000000000003 /* LocalizationStore.swift in Sources */,

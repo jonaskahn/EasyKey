@@ -134,7 +134,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         panelSize: PanelSize = .medium,
         sessionPersistence: SessionPersistence = .keepUntilRestart
     ) {
-        self.preferredProviderID = preferredProviderID
+        self.preferredProviderID = preferredProviderID == .automatic ? nil : preferredProviderID
         self.shortcut = shortcut
         self.defaultSourceLanguage = defaultSourceLanguage
         self.openAIModelIdentifier = openAIModelIdentifier
@@ -159,7 +159,8 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        preferredProviderID = try container.decodeIfPresent(TranslationProviderID.self, forKey: .preferredProviderID)
+        let decodedProviderID = try container.decodeIfPresent(TranslationProviderID.self, forKey: .preferredProviderID)
+        preferredProviderID = decodedProviderID == .automatic ? nil : decodedProviderID
         shortcut = try container.decodeIfPresent(Shortcut.self, forKey: .shortcut) ?? Shortcut(keyCode: 8, modifiers: [.option])
         defaultSourceLanguage = try container.decodeIfPresent(TranslationLanguage.self, forKey: .defaultSourceLanguage)
         openAIModelIdentifier = try container.decodeIfPresent(String.self, forKey: .openAIModelIdentifier)
