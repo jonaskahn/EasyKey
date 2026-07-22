@@ -179,8 +179,8 @@ struct OpenAICompatibleTranslationProvider: TranslationProviding, TranslationEnd
     private static func stripThinkingWrappers(_ text: String) -> String {
         var result = text
         while let thinkEnd = result.range(of: "</think>") {
-            if let thinkStart = result.range(of: "<think>", range: result.startIndex..<thinkEnd.lowerBound) {
-                let prefix = result[result.startIndex..<thinkStart.lowerBound]
+            if let thinkStart = result.range(of: "<think>", range: result.startIndex ..< thinkEnd.lowerBound) {
+                let prefix = result[result.startIndex ..< thinkStart.lowerBound]
                 let suffix = result[thinkEnd.upperBound...]
                 result = String(prefix) + String(suffix)
                 continue
