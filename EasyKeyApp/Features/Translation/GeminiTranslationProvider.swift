@@ -74,8 +74,9 @@ struct GeminiTranslationProvider: TranslationProviding {
         guard candidate.finishReason == "STOP",
               let content = candidate.content,
               content.role == "model",
-              content.parts.count == 1,
-              let translatedText = Self.parseTranslation(content.parts[0].text)
+              let textPart = content.parts.first(where: { $0.text != nil }),
+              content.parts.filter({ $0.text != nil }).count == 1,
+              let translatedText = Self.parseTranslation(textPart.text)
         else {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: .gemini)
         }

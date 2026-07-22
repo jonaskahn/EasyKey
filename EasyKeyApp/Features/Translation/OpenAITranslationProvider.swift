@@ -64,8 +64,7 @@ struct OpenAITranslationProvider: TranslationProviding {
         let messages = decoded.output.filter { $0.type == "message" }
         guard messages.count == 1,
               messages[0].role == "assistant",
-              messages[0].content.count == 1,
-              messages[0].content[0].type == "output_text"
+              let outputText = messages[0].content.first(where: { $0.type == "output_text" })
         else {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: .openAI)
         }
@@ -74,7 +73,7 @@ struct OpenAITranslationProvider: TranslationProviding {
         do {
             structuredResult = try JSONDecoder().decode(
                 OpenAITranslationResult.self,
-                from: Data(messages[0].content[0].text.utf8)
+                from: Data(outputText.text.utf8)
             )
         } catch {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: .openAI)
@@ -223,6 +222,7 @@ private struct OpenAIRequest: Encodable {
     let input: [OpenAIInputMessage]
     let maxOutputTokens: Int
     let text: OpenAITextConfiguration
+    let reasoning = ReasoningDisabled()
 
     enum CodingKeys: String, CodingKey {
         case model
@@ -230,7 +230,12 @@ private struct OpenAIRequest: Encodable {
         case input
         case maxOutputTokens = "max_output_tokens"
         case text
+        case reasoning
     }
+}
+
+private struct ReasoningDisabled: Encodable {
+    let effort = "none"
 }
 
 private struct OpenAIInputMessage: Encodable {

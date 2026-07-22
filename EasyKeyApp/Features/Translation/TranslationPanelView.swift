@@ -104,12 +104,12 @@ struct TranslationPanelView: View {
             let editorHeight = translationEditorIdealHeight(forPanelHeight: proxy.size.height)
             VStack(spacing: 0) {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
-                        header
-                        sourceSection(idealHeight: editorHeight)
-                        resultSection(idealHeight: editorHeight)
-                        statusSection
-                    }
+                VStack(alignment: .leading, spacing: 14) {
+                    header
+                    statusSection
+                    sourceSection(idealHeight: editorHeight)
+                    resultSection(idealHeight: editorHeight)
+                }
                     .padding(16)
                 }
                 Divider()

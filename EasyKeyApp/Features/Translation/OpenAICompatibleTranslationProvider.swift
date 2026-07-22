@@ -57,9 +57,14 @@ struct OpenAICompatibleTranslationProvider: TranslationProviding, TranslationEnd
         }
 
         guard !decoded.choices.isEmpty,
-              let text = decoded.choices[0].message.content,
-              !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+              let raw = decoded.choices[0].message.content,
+              !raw.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         else {
+            throw EasyEngineCore.TranslationError.invalidResponse(provider: providerID)
+        }
+
+        let text = Self.stripThinkingWrappers(raw)
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: providerID)
         }
 
@@ -171,6 +176,20 @@ struct OpenAICompatibleTranslationProvider: TranslationProviding, TranslationEnd
         }
     }
 
+    private static func stripThinkingWrappers(_ text: String) -> String {
+        var result = text
+        while let thinkEnd = result.range(of: "</think>") {
+            if let thinkStart = result.range(of: "<think>", range: result.startIndex..<thinkEnd.lowerBound) {
+                let prefix = result[result.startIndex..<thinkStart.lowerBound]
+                let suffix = result[thinkEnd.upperBound...]
+                result = String(prefix) + String(suffix)
+                continue
+            }
+            break
+        }
+        return result
+    }
+
     private static func map(urlError: URLError, providerID: TranslationProviderID) -> EasyEngineCore.TranslationError {
         switch urlError.code {
         case .cancelled:
@@ -190,12 +209,14 @@ private struct OpenAIChatRequest: Encodable {
     let messages: [OpenAIChatMessage]
     let maxTokens: Int
     let temperature: Double
+    let includeReasoning = false
 
     enum CodingKeys: String, CodingKey {
         case model
         case messages
         case maxTokens = "max_tokens"
         case temperature
+        case includeReasoning = "include_reasoning"
     }
 }
 
@@ -208,6 +229,27 @@ private struct OpenAIChatResponse: Decodable {
     struct Choice: Decodable {
         struct Message: Decodable {
             let content: String?
+            let reasoning: String?
+            let reasoningContent: String?
+            let reasoningDetails: [ReasoningDetail]?
+
+            enum CodingKeys: String, CodingKey {
+                case content
+                case reasoning
+                case reasoningContent = "reasoning_content"
+                case reasoningDetails = "reasoning_details"
+            }
+        }
+
+        struct ReasoningDetail: Decodable {
+            let type: String
+            let text: String?
+            let summary: String?
+            let data: String?
+            let signature: String?
+            let id: String?
+            let format: String?
+            let index: Int?
         }
 
         let message: Message

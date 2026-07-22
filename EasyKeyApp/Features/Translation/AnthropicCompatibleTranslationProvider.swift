@@ -59,11 +59,14 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding, Translation
             throw EasyEngineCore.TranslationError.invalidResponse(provider: providerID)
         }
 
+        let nonThinkingContent = decoded.content.filter {
+            $0.type != "thinking" && $0.type != "redacted_thinking"
+        }
         guard decoded.type == "message",
               decoded.role == "assistant",
-              decoded.content.count == 1,
-              decoded.content[0].type == "text",
-              let translatedText = Self.parseTranslation(decoded.content[0].text)
+              nonThinkingContent.count == 1,
+              nonThinkingContent[0].type == "text",
+              let translatedText = Self.parseTranslation(nonThinkingContent[0].text)
         else {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: providerID)
         }
@@ -209,17 +212,23 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding, Translation
     }
 }
 
+private struct ThinkingDisabled: Encodable {
+    let type = "disabled"
+}
+
 private struct AnthropicCompatibleRequest: Encodable {
     let model: String
     let maxTokens: Int
     let system: String
     let messages: [AnthropicCompatibleMessage]
+    let thinking = ThinkingDisabled()
 
     enum CodingKeys: String, CodingKey {
         case model
         case maxTokens = "max_tokens"
         case system
         case messages
+        case thinking
     }
 }
 

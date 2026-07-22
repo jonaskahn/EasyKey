@@ -61,12 +61,15 @@ struct AnthropicTranslationProvider: TranslationProviding {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: .anthropic)
         }
 
+        let nonThinkingContent = decoded.content.filter {
+            $0.type != "thinking" && $0.type != "redacted_thinking"
+        }
         guard decoded.type == "message",
               decoded.role == "assistant",
               decoded.stopReason == "end_turn",
-              decoded.content.count == 1,
-              decoded.content[0].type == "text",
-              let translatedText = Self.parseTranslation(decoded.content[0].text)
+              nonThinkingContent.count == 1,
+              nonThinkingContent[0].type == "text",
+              let translatedText = Self.parseTranslation(nonThinkingContent[0].text)
         else {
             throw EasyEngineCore.TranslationError.invalidResponse(provider: .anthropic)
         }
@@ -213,13 +216,19 @@ private struct AnthropicRequest: Encodable {
     let maxTokens: Int
     let system: String
     let messages: [AnthropicMessage]
+    let thinking = ThinkingDisabled()
 
     enum CodingKeys: String, CodingKey {
         case model
         case maxTokens = "max_tokens"
         case system
         case messages
+        case thinking
     }
+}
+
+private struct ThinkingDisabled: Encodable {
+    let type = "disabled"
 }
 
 private struct AnthropicMessage: Encodable {

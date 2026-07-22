@@ -40,8 +40,9 @@ final class SettingsWindowPresenter {
             window.setContentSize(NSSize(width: 700, height: max(440, visibleFrame.height - titleBarHeight)))
         }
         window.isReleasedWhenClosed = false
-        window.titlebarAppearsTransparent = true
-        window.toolbarStyle = .unified
+        if #available(macOS 14.0, *) {
+            window.titlebarAppearsTransparent = true
+        }
         window.center()
         SettingsWindowDelegate.shared.coordinator = coordinator
         window.delegate = SettingsWindowDelegate.shared
@@ -49,6 +50,12 @@ final class SettingsWindowPresenter {
         NSApp.activate(ignoringOtherApps: true)
         settingsWindow = window
         removeSplitViewSeparator(from: window)
+
+        DispatchQueue.main.async {
+            if #available(macOS 14.0, *) {
+                window.toolbarStyle = .unified
+            }
+        }
     }
 
     private func removeSplitViewSeparator(from window: NSWindow) {
