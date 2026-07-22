@@ -344,7 +344,21 @@ final class SystemSelectedTextSimulator: SelectedTextSimulating {
         savedChangeCount _: Int
     ) {
         guard let savedItems, !savedItems.isEmpty else { return }
+        let clonedItems = savedItems.map(Self.clone)
         pasteboard.clearContents()
-        pasteboard.writeObjects(savedItems)
+        pasteboard.writeObjects(clonedItems)
+    }
+
+    /// `NSPasteboardItem` already bound to a pasteboard cannot be reused in a
+    /// second `writeObjects:` call — AppKit throws `NSInvalidArgumentException`.
+    /// Copy each type's data into a fresh item instead.
+    private static func clone(_ item: NSPasteboardItem) -> NSPasteboardItem {
+        let clone = NSPasteboardItem()
+        for type in item.types {
+            if let data = item.data(forType: type) {
+                clone.setData(data, forType: type)
+            }
+        }
+        return clone
     }
 }

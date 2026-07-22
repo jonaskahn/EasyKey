@@ -8,7 +8,7 @@ struct OpenAICompatibleTranslationProvider: TranslationProviding {
     private static let maxResponseBytes = 262_144
     private static let maxOutputTokens = 2048
     private static let validModelCharacters = CharacterSet(
-        charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-/"
+        charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-/:"
     )
 
     private let endpoint: URL
