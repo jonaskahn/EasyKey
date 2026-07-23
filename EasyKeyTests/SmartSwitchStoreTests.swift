@@ -68,6 +68,7 @@ final class SmartSwitchStoreTests: XCTestCase {
 
         let key = try XCTUnwrap(app.stableKey)
         try store.edit(key: key, choice: SmartSwitchChoice(language: .vietnamese, encoding: .vniWindows))
+        store.flush()
         XCTAssertEqual(store.search("terminal").count, 1)
         XCTAssertEqual(SmartSwitchStore(fileURL: fileURL).choice(for: app)?.encoding, .vniWindows)
     }

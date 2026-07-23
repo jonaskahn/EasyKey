@@ -27,13 +27,16 @@ struct KeychainClipboardKeyStore: ClipboardKeyProviding {
     }
 
     private var baseQuery: [String: Any] {
-        [
+        var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
             kSecAttrSynchronizable as String: false,
-            kSecUseDataProtectionKeychain as String: true,
         ]
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
+            query[kSecUseDataProtectionKeychain as String] = true
+        }
+        return query
     }
 
     func existingKey() throws -> SymmetricKey? {
