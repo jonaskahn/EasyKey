@@ -688,8 +688,13 @@ final class EngineCoreCoverageTests: XCTestCase {
         try "bad json".write(to: url, atomically: true, encoding: .utf8)
         defer { try? FileManager.default.removeItem(at: url) }
         let repo = SettingsRepository()
-        let diag = try repo.import(from: url)
-        XCTAssertEqual(diag.entries.last?.severity, .warning)
+        XCTAssertThrowsError(try repo.import(from: url)) { error in
+            if case SettingsRepositoryError.malformedDocument = error {
+                // expected
+            } else {
+                XCTFail("Expected malformedDocument, got \(error)")
+            }
+        }
     }
 
     @MainActor
