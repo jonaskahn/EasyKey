@@ -51,4 +51,22 @@ final class LogExporterTests: XCTestCase {
         let contents = try String(contentsOf: url, encoding: .utf8)
         XCTAssertTrue(contents.contains("EasyKey log export"))
     }
+
+    func testLogExporter_RedactsSensitiveKeysAndRestrictsPermissions() throws {
+        let secretString = "sk-proj-1234567890abcdef1234567890"
+        let redacted = LogExporter.redact("Header sk-proj-1234567890abcdef1234567890 AIzaSy1234567890abcdef1234567890 key")
+        XCTAssertFalse(redacted.contains(secretString))
+        XCTAssertTrue(redacted.contains("[REDACTED]"))
+
+        let url = try LogExporter.writeExport()
+        defer { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        if let permissions = attributes[.posixPermissions] as? NSNumber {
+            XCTAssertEqual(permissions.uint16Value, 0o600)
+        } else {
+            XCTFail("Missing posixPermissions")
+        }
+    }
 }
+

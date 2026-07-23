@@ -4,9 +4,34 @@ import Foundation
 import OSLog
 
 /// Exports recent OSLog entries for the EasyKey subsystem and reveals them in Finder.
+///
+/// Log entries are filtered to safe categories (`.app`, `.keyboard`, `.settings`) by default.
+/// Any sensitive credential strings matching common API key formats are automatically redacted,
+/// and output files are created with restricted file permissions (`0600`).
 enum LogExporter {
     private static let lookbackInterval: TimeInterval = 60 * 60
     private static let maxEntries = 2000
+
+    /// Safe log categories allowed in standard exports.
+    static let allowedCategories: Set<String> = [
+        AppLog.Category.app.rawValue,
+        AppLog.Category.keyboard.rawValue,
+        AppLog.Category.settings.rawValue
+    ]
+
+    /// Redacts sensitive credential patterns from log messages.
+    static func redact(_ text: String) -> String {
+        var redacted = text
+        let patterns = [
+            #"sk-[A-Za-z0-9_\-]{20,}"#,
+            #"AIzaSy[A-Za-z0-9_\-]{20,}"#,
+            #"x-api-key:\s*[A-Za-z0-9_\-]{10,}"#
+        ]
+        for pattern in patterns {
+            redacted = redacted.replacingOccurrences(of: pattern, with: "[REDACTED]", options: [.regularExpression])
+        }
+        return redacted
+    }
 
     @MainActor
     static func exportAndReveal(reveal: @escaping (URL) -> Void = { NSWorkspace.shared.activateFileViewerSelecting([$0]) }) {
@@ -40,7 +65,8 @@ enum LogExporter {
     static func writeExport(
         store: OSLogStore? = nil,
         fileManager: FileManager = .default,
-        now: Date = Date()
+        now: Date = Date(),
+        allowedCategories: Set<String> = allowedCategories
     ) throws -> URL {
         let logStore = try store ?? OSLogStore(scope: .currentProcessIdentifier)
         let startDate = now.addingTimeInterval(-lookbackInterval)
@@ -59,8 +85,11 @@ enum LogExporter {
         for entry in entries {
             guard let logEntry = entry as? OSLogEntryLog else { continue }
             guard logEntry.subsystem == AppLog.subsystem else { continue }
+            guard allowedCategories.contains(logEntry.category) else { continue }
+
             let timestamp = ISO8601DateFormatter().string(from: logEntry.date)
-            lines.append("[\(timestamp)] [\(logEntry.category)] \(logEntry.composedMessage)")
+            let sanitizedMessage = redact(logEntry.composedMessage)
+            lines.append("[\(timestamp)] [\(logEntry.category)] \(sanitizedMessage)")
             count += 1
             if count >= maxEntries {
                 break
@@ -78,6 +107,8 @@ enum LogExporter {
         let fileURL = directory.appendingPathComponent("easykey-\(formatter.string(from: now)).log")
         let payload = lines.joined(separator: "\n") + "\n"
         try payload.write(to: fileURL, atomically: true, encoding: .utf8)
+        try fileManager.setAttributes([.posixPermissions: 0o600], ofItemAtPath: fileURL.path)
         return fileURL
     }
 }
+

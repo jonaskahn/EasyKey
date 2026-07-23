@@ -33,7 +33,7 @@ Provider names and links identify interoperability and provider-controlled data 
 - Cloud-provider credentials are stored in macOS Keychain with `WhenUnlockedThisDeviceOnly` accessibility and synchronization disabled.
 - Credential validation contacts provider account, usage, model, or minimal translation endpoints as required by that provider. It does not submit source text.
 - EasyKey does not persist source text, translated results, provider prompts, or translation history.
-- Translation content and credentials are excluded from EasyKey logs and diagnostic exports.
+- Translation content and credentials are excluded from EasyKey logs and diagnostic exports. Diagnostic log exports perform pattern redaction on credentials and restrict output permissions to 0600.
 
 ## Other Network Activity
 
