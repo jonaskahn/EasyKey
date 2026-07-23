@@ -225,35 +225,35 @@ private struct OpenAIChatMessage: Encodable {
     let content: String
 }
 
-private struct OpenAIChatResponse: Decodable {
-    struct Choice: Decodable {
-        struct Message: Decodable {
-            let content: String?
-            let reasoning: String?
-            let reasoningContent: String?
-            let reasoningDetails: [ReasoningDetail]?
+private struct OpenAIReasoningDetail: Decodable {
+    let type: String
+    let text: String?
+    let summary: String?
+    let data: String?
+    let signature: String?
+    let id: String?
+    let format: String?
+    let index: Int?
+}
 
-            enum CodingKeys: String, CodingKey {
-                case content
-                case reasoning
-                case reasoningContent = "reasoning_content"
-                case reasoningDetails = "reasoning_details"
-            }
-        }
+private struct OpenAIChatChoiceMessage: Decodable {
+    let content: String?
+    let reasoning: String?
+    let reasoningContent: String?
+    let reasoningDetails: [OpenAIReasoningDetail]?
 
-        struct ReasoningDetail: Decodable {
-            let type: String
-            let text: String?
-            let summary: String?
-            let data: String?
-            let signature: String?
-            let id: String?
-            let format: String?
-            let index: Int?
-        }
-
-        let message: Message
+    enum CodingKeys: String, CodingKey {
+        case content
+        case reasoning
+        case reasoningContent = "reasoning_content"
+        case reasoningDetails = "reasoning_details"
     }
+}
 
-    let choices: [Choice]
+private struct OpenAIChatChoice: Decodable {
+    let message: OpenAIChatChoiceMessage
+}
+
+private struct OpenAIChatResponse: Decodable {
+    let choices: [OpenAIChatChoice]
 }

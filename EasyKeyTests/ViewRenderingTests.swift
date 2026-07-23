@@ -28,9 +28,9 @@ final class ViewRenderingTests: XCTestCase {
         XCTAssertNotNil(host)
     }
 
-    func testKeepOnTopTitlebarAccessory_InitWithCoder_ReturnsNilWithoutCrashing() {
+    func testKeepOnTopTitlebarAccessory_InitWithCoder_ReturnsNilWithoutCrashing() throws {
         let archiver = NSKeyedArchiver(requiringSecureCoding: false)
-        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: archiver.encodedData)
+        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: archiver.encodedData)
         let accessory = KeepOnTopTitlebarAccessory(coder: unarchiver)
         XCTAssertNil(accessory)
     }

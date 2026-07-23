@@ -12,7 +12,7 @@ final class ValidatedTranslationEndpointTests: XCTestCase {
             "https://something.local/v1",
             "https://localhost/v1",
         ]
-        
+
         for string in invalidURLs {
             if let url = URL(string: string) {
                 XCTAssertNil(ValidatedTranslationEndpoint(url), "Endpoint \(string) should be rejected due to SSRF safety rules")
@@ -25,7 +25,7 @@ final class ValidatedTranslationEndpointTests: XCTestCase {
             "https://api.openai.com/v1",
             "https://api.anthropic.com/v1",
         ]
-        
+
         for string in validURLs {
             if let url = URL(string: string) {
                 XCTAssertNotNil(ValidatedTranslationEndpoint(url), "Endpoint \(string) should be accepted")

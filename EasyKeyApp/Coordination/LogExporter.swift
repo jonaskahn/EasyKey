@@ -16,7 +16,7 @@ enum LogExporter {
     static let allowedCategories: Set<String> = [
         AppLog.Category.app.rawValue,
         AppLog.Category.keyboard.rawValue,
-        AppLog.Category.settings.rawValue
+        AppLog.Category.settings.rawValue,
     ]
 
     /// Redacts sensitive credential patterns from log messages.
@@ -25,7 +25,7 @@ enum LogExporter {
         let patterns = [
             #"sk-[A-Za-z0-9_\-]{20,}"#,
             #"AIzaSy[A-Za-z0-9_\-]{20,}"#,
-            #"x-api-key:\s*[A-Za-z0-9_\-]{10,}"#
+            #"x-api-key:\s*[A-Za-z0-9_\-]{10,}"#,
         ]
         for pattern in patterns {
             redacted = redacted.replacingOccurrences(of: pattern, with: "[REDACTED]", options: [.regularExpression])
@@ -111,4 +111,3 @@ enum LogExporter {
         return fileURL
     }
 }
-

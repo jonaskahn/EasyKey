@@ -53,7 +53,8 @@ final class GoogleTranslationProviderTests: XCTestCase {
         XCTAssertEqual(sent.url?.scheme, "https")
         XCTAssertEqual(sent.url?.host, "translation.googleapis.com")
         XCTAssertEqual(sent.url?.path, "/language/translate/v2")
-        XCTAssertNil(URLComponents(url: try XCTUnwrap(sent.url), resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "key" }))
+        XCTAssertNil(try URLComponents(url: XCTUnwrap(sent.url), resolvingAgainstBaseURL: false)?.queryItems?
+            .first(where: { $0.name == "key" }))
         XCTAssertEqual(sent.value(forHTTPHeaderField: "x-goog-api-key"), "fixture-api-key")
         XCTAssertNil(sent.value(forHTTPHeaderField: "Authorization"))
         XCTAssertEqual(sent.httpMethod, "POST")

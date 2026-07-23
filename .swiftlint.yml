@@ -35,6 +35,7 @@ identifier_name:
     - k
     - x
     - y
+    - p
 
 nesting:
   type_level:

@@ -36,9 +36,9 @@ final class KeychainAccessibilityMigrationTests: XCTestCase {
     func testSave_OnUpdate_ReAssertsAccessibilityAttribute() throws {
         let access = RecordingSecItemAccess()
         let store = TranslationCredentialStore(service: "test-service", access: access)
-        
+
         try store.save("new-secret", for: .google)
-        
+
         XCTAssertNotNil(access.lastUpdateAttributes)
         XCTAssertEqual(
             access.lastUpdateAttributes?[kSecAttrAccessible as String] as? String,
@@ -50,9 +50,9 @@ final class KeychainAccessibilityMigrationTests: XCTestCase {
     func testBaseQuery_IncludesDataProtectionKeychainFlag() throws {
         let access = RecordingSecItemAccess()
         let store = TranslationCredentialStore(service: "test-service", access: access)
-        
+
         _ = try store.credential(for: .google)
-        
+
         XCTAssertNotNil(access.lastBaseQuery)
         XCTAssertEqual(
             access.lastBaseQuery?[kSecUseDataProtectionKeychain as String] as? Bool,

@@ -82,10 +82,18 @@ final class ClipboardHotKeyController {
 
     static func carbonModifiers(_ modifiers: Shortcut.ModifierFlags) -> UInt32 {
         var carbonFlags: UInt32 = 0
-        if modifiers.contains(.command) { carbonFlags |= UInt32(cmdKey) }
-        if modifiers.contains(.option) { carbonFlags |= UInt32(optionKey) }
-        if modifiers.contains(.control) { carbonFlags |= UInt32(controlKey) }
-        if modifiers.contains(.shift) { carbonFlags |= UInt32(shiftKey) }
+        if modifiers.contains(.command) {
+            carbonFlags |= UInt32(cmdKey)
+        }
+        if modifiers.contains(.option) {
+            carbonFlags |= UInt32(optionKey)
+        }
+        if modifiers.contains(.control) {
+            carbonFlags |= UInt32(controlKey)
+        }
+        if modifiers.contains(.shift) {
+            carbonFlags |= UInt32(shiftKey)
+        }
         return carbonFlags
     }
 }

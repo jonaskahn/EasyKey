@@ -97,7 +97,7 @@ final class TranslationCredentialStoreTests: XCTestCase {
         for service in createdServices {
             let query: [String: Any] = [
                 kSecClass as String: kSecClassGenericPassword,
-                kSecAttrService as String: service
+                kSecAttrService as String: service,
             ]
             SecItemDelete(query as CFDictionary)
         }

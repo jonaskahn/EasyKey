@@ -5,7 +5,7 @@ import Foundation
 /// Endpoint, instruction, roles, output shape, and resource limits are fixed;
 /// caller-controlled values are restricted to translation options and source text.
 struct OpenAITranslationProvider: TranslationProviding {
-    private static let endpoint = _validatedURL("https://api.openai.com/v1/responses")
+    private static let endpoint = validatedURL("https://api.openai.com/v1/responses")
     private static let requestTimeout: TimeInterval = 20
     private static let maxModelBytes = 100
     private static let maxRequestBytes = 100_000

@@ -5,7 +5,7 @@ import Foundation
 /// Endpoint, API version, roles, instruction, and resource limits are fixed;
 /// caller-controlled values are restricted to translation options and source text.
 struct AnthropicTranslationProvider: TranslationProviding {
-    private static let endpoint = _validatedURL("https://api.anthropic.com/v1/messages")
+    private static let endpoint = validatedURL("https://api.anthropic.com/v1/messages")
     private static let apiVersion = "2023-06-01"
     private static let requestTimeout: TimeInterval = 20
     private static let maxModelBytes = 100

@@ -13,7 +13,7 @@ final class EasyKeySettingsDeltaTests: XCTestCase {
         var s1 = EasyKeySettings()
         var s2 = EasyKeySettings()
         s2.system.showDockIcon = false
-        
+
         let delta = SettingsDelta.delta(from: s1, to: s2)
         XCTAssertTrue(delta.hasAnyChange)
         XCTAssertTrue(delta.systemChanged)

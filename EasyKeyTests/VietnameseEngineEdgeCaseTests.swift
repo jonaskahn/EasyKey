@@ -439,10 +439,10 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         var engine = VietnameseEngine()
         typeKeys(&engine, "tieesng")
         XCTAssertEqual(engine.currentBuffer, "tiếng")
-        
+
         engine.restoreRawKeys()
         XCTAssertEqual(engine.currentBuffer, "tieesng")
-        
+
         // Typing a character after restore commits the raw word and starts a new composition
         _ = engine.process(event: .char("s"))
         XCTAssertEqual(engine.currentBuffer, "s")

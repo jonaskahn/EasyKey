@@ -6,10 +6,10 @@ import Foundation
 /// only ever reach one of two known DeepL hosts.
 struct DeepLTranslationProvider: TranslationProviding {
     private enum Host {
-        static let free = _validatedURL("https://api-free.deepl.com/v2/translate")
-        static let pro = _validatedURL("https://api.deepl.com/v2/translate")
-        static let freeUsage = _validatedURL("https://api-free.deepl.com/v2/usage")
-        static let proUsage = _validatedURL("https://api.deepl.com/v2/usage")
+        static let free = validatedURL("https://api-free.deepl.com/v2/translate")
+        static let pro = validatedURL("https://api.deepl.com/v2/translate")
+        static let freeUsage = validatedURL("https://api-free.deepl.com/v2/usage")
+        static let proUsage = validatedURL("https://api.deepl.com/v2/usage")
     }
 
     private static let requestTimeout: TimeInterval = 20

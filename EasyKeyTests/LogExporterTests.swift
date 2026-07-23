@@ -69,4 +69,3 @@ final class LogExporterTests: XCTestCase {
         }
     }
 }
-

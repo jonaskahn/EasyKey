@@ -1,6 +1,6 @@
+import CoreGraphics
 @testable import EasyKey
 import EasyKeyKit
-import CoreGraphics
 import XCTest
 
 final class SynthesizePasteIsolationTests: XCTestCase {
@@ -12,7 +12,10 @@ final class SynthesizePasteIsolationTests: XCTestCase {
             return
         }
         KeySynthesizer.markAsSelfPosted(down)
-        
-        XCTAssertTrue(KeySynthesizer.isSelfPosted(down), "Event marked with KeySynthesizer.markAsSelfPosted must be recognized as self-posted")
+
+        XCTAssertTrue(
+            KeySynthesizer.isSelfPosted(down),
+            "Event marked with KeySynthesizer.markAsSelfPosted must be recognized as self-posted"
+        )
     }
 }
