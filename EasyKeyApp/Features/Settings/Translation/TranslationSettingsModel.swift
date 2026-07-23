@@ -475,9 +475,10 @@ final class TranslationSettingsModel: ObservableObject {
         guard provider.isOfficialAIModelProvider,
               credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready || provider == .openRouter
         else { return }
+        cancelModelCatalogLoad(for: provider)
         modelCatalogStates[provider] = .loading
         let catalog = modelCatalog
-        Task { [weak self] in
+        catalogTasks[provider] = Task { [weak self] in
             let entries: [TranslationModelCatalogEntry]
             do {
                 entries = try await catalog.fetchModels(for: provider)
