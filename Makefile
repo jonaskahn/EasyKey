@@ -116,6 +116,12 @@ archive:
 export:
 	Scripts/export.sh
 
+release-config-check:
+	@if [ -z "$$SPARKLE_PUBLIC_ED_KEY" ]; then \
+		echo "Error: SPARKLE_PUBLIC_ED_KEY environment variable is not set." >&2; \
+		exit 1; \
+	fi
+
 verify-arch:
 	Scripts/verify-arch.sh
 
@@ -123,7 +129,7 @@ verify-release:
 	Scripts/verify-release.sh
 
 # Signed and notarized distribution path.
-dmg: archive export
+dmg: release-config-check archive export
 	@set -e; \
 	app="$(BUILD_DIR)/export/EasyKey.app"; \
 	version=$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$$app/Contents/Info.plist"); \
@@ -138,7 +144,7 @@ dmg: archive export
 	Scripts/verify-release.sh "$$app" "$$dmg"
 
 # Local universal DMG without Developer ID / notarization secrets.
-local-dmg:
+local-dmg: release-config-check
 	RELEASE_LOCAL=1 Scripts/archive.sh
 	RELEASE_LOCAL=1 Scripts/export.sh
 	RELEASE_LOCAL=1 Scripts/verify-release.sh

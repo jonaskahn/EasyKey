@@ -16,7 +16,7 @@ Sparkle's `sign_update` tool before publishing its appcast entry.
 - `DEVELOPER_ID_APPLICATION`: Developer ID Application certificate name.
 - `DEVELOPMENT_TEAM`: Apple Developer team identifier.
 - `SPARKLE_FEED_URL`: HTTPS URL for signed appcast.
-- `SPARKLE_PUBLIC_ED_KEY`: Sparkle EdDSA public key.
+- `SPARKLE_PUBLIC_ED_KEY`: Sparkle EdDSA public key (parameterized as `$(SPARKLE_PUBLIC_ED_KEY)` in Xcode build settings).
 - `EASYKEY_SUPPORT_URL`: HTTPS support page URL.
 - `EASYKEY_PRIVACY_POLICY_URL`: HTTPS privacy-policy URL.
 - `NOTARY_KEYCHAIN_PROFILE`: `notarytool` keychain profile name.
