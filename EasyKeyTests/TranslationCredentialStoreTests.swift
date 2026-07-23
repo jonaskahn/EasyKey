@@ -91,8 +91,28 @@ final class TranslationCredentialStoreTests: XCTestCase {
         XCTAssertEqual(try store.status(for: .gemini), .saved)
     }
 
+    private var createdServices: [String] = []
+
+    override func tearDown() {
+        for service in createdServices {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: service
+            ]
+            SecItemDelete(query as CFDictionary)
+        }
+        createdServices.removeAll()
+        super.tearDown()
+    }
+
+    private func makeTestKeychainStore() -> (store: KeychainTranslationCredentialStore, service: String) {
+        let service = "one.ifelse.easykey.translation.tests.\(UUID().uuidString)"
+        createdServices.append(service)
+        return (KeychainTranslationCredentialStore(service: service), service)
+    }
+
     func testKeychainStore_SatisfiesContract() throws {
-        let store = KeychainTranslationCredentialStore(service: "one.ifelse.easykey.translation.tests")
+        let (store, _) = makeTestKeychainStore()
         defer {
             try? store.deleteCredential(for: .deepL)
             try? store.deleteCredential(for: .google)
@@ -105,14 +125,14 @@ final class TranslationCredentialStoreTests: XCTestCase {
     }
 
     func testKeychainStore_RejectsBlankCredential() {
-        let store = KeychainTranslationCredentialStore(service: "one.ifelse.easykey.translation.tests")
+        let (store, _) = makeTestKeychainStore()
         XCTAssertThrowsError(try store.save("  ", for: .openAI)) {
             XCTAssertEqual($0 as? TranslationCredentialError, .blankCredential)
         }
     }
 
     func testKeychainStore_DeleteForMissingProvider_DoesNotThrow() throws {
-        let store = KeychainTranslationCredentialStore(service: "one.ifelse.easykey.translation.tests")
+        let (store, _) = makeTestKeychainStore()
         do {
             try store.deleteCredential(for: .anthropic)
         } catch TranslationCredentialError.unexpectedStatus {
