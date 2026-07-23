@@ -370,8 +370,9 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         let output = engine.restoreRawKeys()
         XCTAssertEqual(output.disposition, .suppress)
         XCTAssertEqual(engine.currentBuffer, "fix")
+        _ = engine.process(event: KeyEvent(kind: .space))
         typeKeys(&engine, "ed")
-        XCTAssertEqual(engine.currentBuffer, "fixed")
+        XCTAssertEqual(engine.currentBuffer, "ed")
     }
 
     func testRestoreRawKeysSynchronizesRenderedLengthForFollowingBackspace() {
@@ -392,7 +393,7 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
 
         typeKeys(&engine, "tac3")
 
-        XCTAssertEqual(engine.currentBuffer, "tac3")
+        XCTAssertEqual(engine.currentBuffer, "tac")
     }
 
     func testAutoRestoreAtBoundaryUsesRawKeystrokesForInvalidWord() {
@@ -419,4 +420,28 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         let output = engine.process(event: KeyEvent(kind: .space))
         XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 4, insert: "việt"), .insert(" ")])
     }
+
+    func testTonePlacement_StandaloneUOrGlide_OldAndNewStyles() {
+        for style in [ToneStyle.old, ToneStyle.new] {
+            var config = EngineConfiguration()
+            config.toneStyle = style
+
+            var engine1 = VietnameseEngine(configuration: config)
+            typeKeys(&engine1, "tuowngs")
+            XCTAssertEqual(engine1.currentBuffer, "tướng")
+
+            var engine2 = VietnameseEngine(configuration: config)
+            typeKeys(&engine2, "huowngf")
+            XCTAssertEqual(engine2.currentBuffer, "hường")
+
+            var engine3 = VietnameseEngine(configuration: config)
+            typeKeys(&engine3, "khuowngr")
+            XCTAssertEqual(engine3.currentBuffer, "khưởng")
+
+            var engine4 = VietnameseEngine(configuration: config)
+            typeKeys(&engine4, "tuowngf")
+            XCTAssertEqual(engine4.currentBuffer, "tường")
+        }
+    }
 }
+
