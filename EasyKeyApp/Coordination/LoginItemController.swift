@@ -26,7 +26,7 @@ final class LoginItemController {
         }
     }
 
-    private let loginItemService = SMAppService.loginItem(identifier: "one.ifelse.easykey.LoginHelper")
+    private let loginItemService = SMAppService.loginItem(identifier: AppIdentifiers.loginHelper)
     private(set) var status: Status = .disabled
 
     func configure(enabled: Bool) {
