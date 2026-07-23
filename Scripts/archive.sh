@@ -22,15 +22,24 @@ common_args=(
 )
 
 if [[ "$release_local" == "1" ]]; then
+    : "${SPARKLE_FEED_URL:?Set HTTPS Sparkle appcast URL.}"
+    : "${SPARKLE_PUBLIC_ED_KEY:?Set Sparkle EdDSA public key.}"
+    : "${EASYKEY_SUPPORT_URL:?Set HTTPS support URL.}"
+    : "${EASYKEY_PRIVACY_POLICY_URL:?Set HTTPS privacy-policy URL.}"
+
+    for url in "$SPARKLE_FEED_URL" "$EASYKEY_SUPPORT_URL" "$EASYKEY_PRIVACY_POLICY_URL"; do
+        [[ "$url" == https://* ]] || { print -u2 "Release URLs must use HTTPS: $url"; exit 1; }
+    done
+
     print "Archiving local Release build for $archs (ad-hoc sign, no Developer ID)."
     xcodebuild "${common_args[@]}" \
         CODE_SIGN_STYLE=Automatic \
         CODE_SIGN_IDENTITY="-" \
         DEVELOPMENT_TEAM="" \
-        "SPARKLE_FEED_URL=${SPARKLE_FEED_URL:-}" \
-        "SPARKLE_PUBLIC_ED_KEY=${SPARKLE_PUBLIC_ED_KEY:-}" \
-        "EASYKEY_SUPPORT_URL=${EASYKEY_SUPPORT_URL:-}" \
-        "EASYKEY_PRIVACY_POLICY_URL=${EASYKEY_PRIVACY_POLICY_URL:-}"
+        "SPARKLE_FEED_URL=$SPARKLE_FEED_URL" \
+        "SPARKLE_PUBLIC_ED_KEY=$SPARKLE_PUBLIC_ED_KEY" \
+        "EASYKEY_SUPPORT_URL=$EASYKEY_SUPPORT_URL" \
+        "EASYKEY_PRIVACY_POLICY_URL=$EASYKEY_PRIVACY_POLICY_URL"
     print "Local archive created: $archive_path"
     exit 0
 fi
