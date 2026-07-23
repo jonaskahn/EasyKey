@@ -14,6 +14,7 @@ final class KeyboardDiagnosticsRecorderTests: XCTestCase {
 
     func testRecordWhenDisabled() {
         let recorder = KeyboardDiagnosticsRecorder()
+        recorder.setEnabled(false)
         recorder.record(
             typeRawValue: 10,
             disposition: .passed,

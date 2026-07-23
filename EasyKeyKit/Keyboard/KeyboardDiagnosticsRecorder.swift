@@ -3,7 +3,7 @@ import Foundation
 /// Ring buffer for keyboard event-tap diagnostics used by `KeyboardService`.
 final class KeyboardDiagnosticsRecorder {
     private let capacity: Int
-    private var enabled = false
+    private var enabled = true
     private var diagnostics: [KeyboardService.Diagnostic] = []
 
     init(capacity: Int = 128) {
