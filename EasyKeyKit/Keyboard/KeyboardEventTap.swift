@@ -105,7 +105,10 @@ func keyboardEventTapCallback(
     event: CGEvent,
     userInfo: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
+    assert(Thread.isMainThread, "keyboardEventTapCallback must be invoked on the main thread")
     guard let userInfo else { return Unmanaged.passUnretained(event) }
     let service = Unmanaged<KeyboardService>.fromOpaque(userInfo).takeUnretainedValue()
-    return service.handleTapEvent(proxy: proxy, type: type, event: event)
+    return MainActor.assumeIsolated {
+        service.handleTapEvent(proxy: proxy, type: type, event: event)
+    }
 }

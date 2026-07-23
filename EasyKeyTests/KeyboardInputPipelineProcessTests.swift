@@ -134,7 +134,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         settings.input.switchShortcut = Shortcut(keyCode: 49, modifiers: [.control, .command])
         let pipeline = KeyboardInputPipeline(settings: settings)
         let expectation = expectation(description: "toggle language")
-        pipeline.onLanguageToggled = { language in
+        pipeline.onLanguageToggleRequested = { language in
             XCTAssertEqual(language, .english)
             expectation.fulfill()
         }
@@ -150,7 +150,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         settings.input.switchShortcut = .modifiersOnly([.control, .command])
         let pipeline = KeyboardInputPipeline(settings: settings)
         let expectation = expectation(description: "toggle language via flagsChanged")
-        pipeline.onLanguageToggled = { language in
+        pipeline.onLanguageToggleRequested = { language in
             XCTAssertEqual(language, .english)
             expectation.fulfill()
         }

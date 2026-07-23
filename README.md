@@ -39,7 +39,7 @@ See [Telex Rule Set](./docs/TELEX.md) for exact full Telex, Simple Telex, tone-p
 | Shortcut | Action |
 |----------|--------|
 | `⌥` + `V` | Open clipboard manager |
-| `⌥` + `A` | Open translate panel |
+| `⌥` + `C` | Open translate panel |
 | `⌥` + `Z` | Switch input language |
 
 All shortcuts are configurable in Settings.
@@ -50,7 +50,7 @@ EasyKey processes keyboard transformation and preferences on your Mac. General k
 
 Cloud translation is optional. In the translation editor, menu popover, or `⌥A` panel, user-entered or captured source text is sent directly to the selected provider when you translate or when the configured auto-translation delay expires. Each edit resets that delay. A first-use disclosure identifies every cloud provider before its first request. EasyKey does not proxy requests through its own service.
 
-Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./PRIVACY.md) for data flows and provider links.
+Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./docs/PRIVACY.md) for data flows and provider links.
 
 Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
 
@@ -147,7 +147,7 @@ Run `make` or `make help` for the complete command reference.
 | `make verify-release` | Run release integrity checks |
 | `make dmg` | Build, notarize, staple, and verify a signed universal DMG |
 
-Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./RELEASE.md) for the complete release process.
+Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./docs/RELEASE.md) for the complete release process.
 
 ### Architecture
 
@@ -165,6 +165,8 @@ EasyKey/
 │   ├── Macros/
 │   ├── SmartSwitch/
 │   ├── Converter/
+│   ├── Clipboard/
+│   ├── Translation/
 │   └── Diagnostics/
 ├── EasyKeyLoginHelper/     # Launch-at-login helper
 ├── EasyKeyTests/           # Unit and architecture fitness tests
@@ -180,7 +182,7 @@ Dependencies point inward: `EasyKeyApp → EasyKeyKit → EasyEngineCore`
 - **EasyKeyKit** adapts domain behavior to macOS event taps, keyboard pipelines, and synthesis.
 - **EasyKeyApp** provides feature-oriented UI, coordination, localization, settings, and update delivery.
 
-Engineering practices and architectural rules are documented in [CONVENTIONS.md](./CONVENTIONS.md).
+Engineering practices and architectural rules are documented in [CONVENTIONS.md](./docs/CONVENTIONS.md).
 
 ### Quality
 
@@ -213,4 +215,4 @@ Heartfelt thanks to both authors for their pioneering work and lasting contribut
 
 EasyKey is available under the [MIT License](./LICENSE).
 
-This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) for third-party acknowledgements.
+This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./docs/THIRD_PARTY_NOTICES.md) for third-party acknowledgements.

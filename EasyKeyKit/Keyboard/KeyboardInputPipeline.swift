@@ -61,7 +61,7 @@ final class KeyboardInputPipeline {
     private var lastCmdCTimestamp: UInt64?
 
     var onTogglePause: (() -> Void)?
-    var onLanguageToggled: ((InputLanguage) -> Void)?
+    var onLanguageToggleRequested: ((InputLanguage) -> Void)?
 
     init(
         settings: EasyKeySettings,
@@ -79,13 +79,29 @@ final class KeyboardInputPipeline {
     }
 
     func update(settings: EasyKeySettings) {
+        let oldConfig = engine.configuration
+        let newConfig = Self.engineConfiguration(for: settings, rule: currentCompatibilityRule())
         self.settings = settings
-        engine.configuration = Self.engineConfiguration(for: settings, rule: currentCompatibilityRule())
-        resetSession()
+        if oldConfig != newConfig {
+            engine.configuration = newConfig
+            resetSession()
+        }
     }
 
     func update(macros: [Macro]) {
         macroExpander.update(macros: macros)
+    }
+
+    var isComposing: Bool {
+        !engine.state.isEmpty
+    }
+
+    var activeAppBundleIdentifier: String? {
+        activeBundleIdentifier
+    }
+
+    var currentSettings: EasyKeySettings {
+        settings
     }
 
     func setActiveApplication(_ bundleIdentifier: String?) {
@@ -388,11 +404,9 @@ final class KeyboardInputPipeline {
     }
 
     private func toggleLanguage() {
-        settings.input.language = settings.input.language == .vietnamese ? .english : .vietnamese
-        resetSession()
-        let language = settings.input.language
+        let next: InputLanguage = settings.input.language == .vietnamese ? .english : .vietnamese
         DispatchQueue.main.async { [weak self] in
-            self?.onLanguageToggled?(language)
+            self?.onLanguageToggleRequested?(next)
         }
     }
 

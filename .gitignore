@@ -39,3 +39,5 @@ dSYM/
 keys/
 *.key
 *.pem
+
+.nodeterm/

@@ -1,6 +1,7 @@
 import AppKit
 import Combine
 import EasyEngineCore
+import EasyKeyKit
 import SwiftUI
 
 /// Composition container for the clipboard feature. Builds and wires the history
@@ -192,13 +193,15 @@ final class ClipboardServices: ObservableObject {
     @discardableResult
     static func synthesizePaste() -> Bool {
         guard AXIsProcessTrusted() else { return false }
-        let source = CGEventSource(stateID: .combinedSessionState)
+        let source = CGEventSource(stateID: .privateState)
         let vKey: CGKeyCode = 9
         guard let down = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: true),
               let up = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: false)
         else { return false }
         down.flags = .maskCommand
         up.flags = .maskCommand
+        KeySynthesizer.markAsSelfPosted(down)
+        KeySynthesizer.markAsSelfPosted(up)
         down.post(tap: .cghidEventTap)
         up.post(tap: .cghidEventTap)
         return true

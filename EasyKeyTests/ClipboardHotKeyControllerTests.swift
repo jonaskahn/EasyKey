@@ -72,7 +72,7 @@ final class FakeHotKeyRegistrar: ClipboardHotKeyRegistrar {
     var failNextRegister = false
     private var handlers: [UInt32: () -> Void] = [:]
 
-    func register(keyCode _: UInt32, modifiers _: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool {
+    func register(keyCode _: UInt32, modifiers _: UInt32, identifier: UInt32, handler: @escaping @MainActor @Sendable () -> Void) -> Bool {
         registerCount += 1
         if failNextRegister {
             failNextRegister = false

@@ -5,7 +5,7 @@ import EasyEngineCore
 /// register/replace/conflict logic is testable without touching the real
 /// window-server hotkey registry.
 protocol ClipboardHotKeyRegistrar: AnyObject {
-    func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool
+    func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping @MainActor @Sendable () -> Void) -> Bool
     func unregister(identifier: UInt32)
     func shutdown()
 }
@@ -18,14 +18,14 @@ final class ClipboardHotKeyController {
     nonisolated static let firstCarbonIdentifier: UInt32 = 1
 
     private let registrar: ClipboardHotKeyRegistrar
-    private let onActivate: () -> Void
+    private let onActivate: @MainActor @Sendable () -> Void
 
     private var activeIdentifier: UInt32?
     private var activeShortcut: Shortcut?
     private var nextIdentifier = ClipboardHotKeyController.firstCarbonIdentifier
     private(set) var hasConflict = false
 
-    init(registrar: ClipboardHotKeyRegistrar, onActivate: @escaping () -> Void) {
+    init(registrar: ClipboardHotKeyRegistrar, onActivate: @escaping @MainActor @Sendable () -> Void) {
         self.registrar = registrar
         self.onActivate = onActivate
     }
@@ -59,8 +59,8 @@ final class ClipboardHotKeyController {
             hasConflict = true
             return false
         }
-        if let previous = activeIdentifier {
-            registrar.unregister(identifier: previous)
+        if let activeIdentifier {
+            registrar.unregister(identifier: activeIdentifier)
         }
         activeIdentifier = identifier
         activeShortcut = shortcut
@@ -69,10 +69,9 @@ final class ClipboardHotKeyController {
     }
 
     func unregister() {
-        if let identifier = activeIdentifier {
-            registrar.unregister(identifier: identifier)
-        }
-        activeIdentifier = nil
+        guard let activeIdentifier else { return }
+        registrar.unregister(identifier: activeIdentifier)
+        self.activeIdentifier = nil
         activeShortcut = nil
     }
 
@@ -82,20 +81,12 @@ final class ClipboardHotKeyController {
     }
 
     static func carbonModifiers(_ modifiers: Shortcut.ModifierFlags) -> UInt32 {
-        var value: UInt32 = 0
-        if modifiers.contains(.control) {
-            value |= UInt32(controlKey)
-        }
-        if modifiers.contains(.option) {
-            value |= UInt32(optionKey)
-        }
-        if modifiers.contains(.shift) {
-            value |= UInt32(shiftKey)
-        }
-        if modifiers.contains(.command) {
-            value |= UInt32(cmdKey)
-        }
-        return value
+        var carbonFlags: UInt32 = 0
+        if modifiers.contains(.command) { carbonFlags |= UInt32(cmdKey) }
+        if modifiers.contains(.option) { carbonFlags |= UInt32(optionKey) }
+        if modifiers.contains(.control) { carbonFlags |= UInt32(controlKey) }
+        if modifiers.contains(.shift) { carbonFlags |= UInt32(shiftKey) }
+        return carbonFlags
     }
 }
 
@@ -104,7 +95,7 @@ final class ClipboardHotKeyController {
 final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
     static let carbonSignature: OSType = 0x454B_4859
 
-    private var handlers: [UInt32: () -> Void] = [:]
+    private var handlers: [UInt32: @MainActor @Sendable () -> Void] = [:]
     private var refs: [UInt32: EventHotKeyRef] = [:]
     private var eventHandler: EventHandlerRef?
 
@@ -116,7 +107,7 @@ final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
         shutdown()
     }
 
-    func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping () -> Void) -> Bool {
+    func register(keyCode: UInt32, modifiers: UInt32, identifier: UInt32, handler: @escaping @MainActor @Sendable () -> Void) -> Bool {
         installEventHandlerIfNeeded()
         var ref: EventHotKeyRef?
         let hotKeyID = EventHotKeyID(signature: Self.carbonSignature, id: identifier)
@@ -134,6 +125,7 @@ final class CarbonHotKeyRegistrar: ClipboardHotKeyRegistrar {
         handlers.removeValue(forKey: identifier)
     }
 
+    @MainActor
     fileprivate func handle(identifier: UInt32) {
         handlers[identifier]?()
     }
@@ -186,6 +178,8 @@ private func carbonHotKeyEventHandler(
     )
     guard status == noErr else { return status }
     let registrar = Unmanaged<CarbonHotKeyRegistrar>.fromOpaque(userData).takeUnretainedValue()
-    registrar.handle(identifier: hotKeyID.id)
+    MainActor.assumeIsolated {
+        registrar.handle(identifier: hotKeyID.id)
+    }
     return noErr
 }

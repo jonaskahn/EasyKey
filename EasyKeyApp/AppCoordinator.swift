@@ -7,7 +7,7 @@ import EasyKeyKit
 final class AppCoordinator: ObservableObject {
     typealias LoginItemStatus = LoginItemController.Status
 
-    static let shared: AppCoordinator = {
+    static func makeDefault() -> AppCoordinator {
         guard ProcessInfo.processInfo.arguments.contains("--uitesting") else {
             return AppCoordinator()
         }
@@ -36,7 +36,7 @@ final class AppCoordinator: ObservableObject {
             clipboardServices: clipboard,
             translationDependencies: translationDependencies
         )
-    }()
+    }
 
     let settingsStore: SettingsStore
     let keyboardService: KeyboardService
@@ -67,6 +67,7 @@ final class AppCoordinator: ObservableObject {
     var ignoredApplicationsSetting: [String]?
     var clipboardOptionsSetting: ClipboardOptions?
     private var clipboardStartTask: Task<Void, Never>?
+    private var stopTask: Task<Void, Never>?
 
     /// Composition-root initializer. Production uses `AppCoordinator.shared` defaults;
     /// tests may inject stores and collaborators.
@@ -188,6 +189,8 @@ final class AppCoordinator: ObservableObject {
     }
 
     func start() {
+        stopTask?.cancel()
+        stopTask = nil
         guard settingsObserver == nil else { return }
         AppLog.info(.app, "AppCoordinator start")
         statusItemController.bindMenuActions(to: self)
@@ -226,11 +229,16 @@ final class AppCoordinator: ObservableObject {
         let clipboardStartTask = clipboardStartTask
         self.clipboardStartTask = nil
         clipboardStartTask?.cancel()
-        Task { [clipboard, settingsStore] in
-            await clipboardStartTask?.value
+        stopTask?.cancel()
+        stopTask = Task { [clipboard, settingsStore] in
+            _ = await clipboardStartTask?.value
             await clipboard.stop()
             await settingsStore.saveNow()
         }
+    }
+
+    func awaitShutdown() async {
+        await stopTask?.value
     }
 
     func showLogs() {

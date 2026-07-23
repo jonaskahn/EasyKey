@@ -10,9 +10,9 @@ final class UpdateService {
         updaterController != nil
     }
 
-    init(bundle: Bundle = .main) {
-        guard Self.hasReleaseConfiguration(in: bundle) else {
-            AppLog.info(.update, "Sparkle disabled: missing HTTPS feed or EdDSA public key")
+    init(bundle: Bundle = .main, isUITesting: Bool = ProcessInfo.processInfo.arguments.contains("--uitesting") || ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil) {
+        guard !isUITesting, Self.hasReleaseConfiguration(in: bundle) else {
+            AppLog.info(.update, "Sparkle disabled: testing mode, missing HTTPS feed, or EdDSA public key")
             updaterController = nil
             return
         }

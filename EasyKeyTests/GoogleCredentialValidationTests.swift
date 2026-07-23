@@ -31,9 +31,9 @@ final class GoogleCredentialValidationTests: XCTestCase {
         XCTAssertEqual(sent.url?.path, "/language/translate/v2/languages")
         XCTAssertEqual(sent.httpMethod, "GET")
         XCTAssertNil(sent.httpBody)
+        XCTAssertEqual(sent.value(forHTTPHeaderField: "x-goog-api-key"), "candidate-key")
         let queryItems = try URLComponents(url: XCTUnwrap(sent.url), resolvingAgainstBaseURL: false)?.queryItems
         XCTAssertEqual(queryItems, [
-            URLQueryItem(name: "key", value: "candidate-key"),
             URLQueryItem(name: "target", value: "en"),
         ])
     }

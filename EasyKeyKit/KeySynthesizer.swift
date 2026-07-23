@@ -265,8 +265,8 @@ public final class KeySynthesizer {
         for event in events {
             let keyDown = event.keyDown
             let keyUp = event.keyUp
-            markAsSelfPosted(keyDown)
-            markAsSelfPosted(keyUp)
+            Self.markAsSelfPosted(keyDown)
+            Self.markAsSelfPosted(keyUp)
             let units = Array(event.chunk.utf16)
             units.withUnsafeBufferPointer { buffer in
                 keyDown.keyboardSetUnicodeString(stringLength: buffer.count, unicodeString: buffer.baseAddress)
@@ -326,8 +326,8 @@ public final class KeySynthesizer {
             }
             keyDown.flags = modifiers
             keyUp.flags = modifiers
-            markAsSelfPosted(keyDown)
-            markAsSelfPosted(keyUp)
+            Self.markAsSelfPosted(keyDown)
+            Self.markAsSelfPosted(keyUp)
             events.append((keyDown, keyUp))
         }
         return events
@@ -340,8 +340,8 @@ public final class KeySynthesizer {
         }
     }
 
-    private func markAsSelfPosted(_ event: CGEvent) {
-        event.setIntegerValueField(.eventSourceUserData, value: Self.selfPostedEventMarker)
+    public static func markAsSelfPosted(_ event: CGEvent) {
+        event.setIntegerValueField(.eventSourceUserData, value: selfPostedEventMarker)
     }
 
     private func utf16Chunks(in text: String) -> [String] {

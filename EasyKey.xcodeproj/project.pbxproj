@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080000000000000000000005 /* SettingsMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000015 /* SettingsMigration.swift */; };
+		080000000000000000000006 /* HostSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000016 /* HostSafety.swift */; };
 		027299A700063F943906A71A /* SupportedLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85047A846DCC46C32C920843 /* SupportedLanguages.swift */; };
 		06783A2D84043AF4EB8FA424 /* EasyKeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */; };
 		080000000000000000000001 /* GoogleTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080000000000000000000011 /* GoogleTranslationProvider.swift */; };
@@ -338,6 +340,8 @@
 /* Begin PBXFileReference section */
 		02E1EA900B51458EACCD1D27 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		064CC3DCF24269EF44F13B44 /* TranslationOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationOptions.swift; sourceTree = "<group>"; };
+		080000000000000000000015 /* SettingsMigration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsMigration.swift; sourceTree = "<group>"; };
+		080000000000000000000016 /* HostSafety.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HostSafety.swift; sourceTree = "<group>"; };
 		080000000000000000000011 /* GoogleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProvider.swift; sourceTree = "<group>"; };
 		080000000000000000000012 /* GoogleTranslationProviderTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTestSupport.swift; sourceTree = "<group>"; };
 		080000000000000000000013 /* GoogleTranslationProviderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GoogleTranslationProviderTests.swift; sourceTree = "<group>"; };
@@ -523,7 +527,7 @@
 		E70000000000000000000004 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 		E70000000000000000000006 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../LICENSE; sourceTree = "<group>"; };
 		E70000000000000000000008 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../NOTICE; sourceTree = "<group>"; };
-		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
+		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../docs/THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
 		E700000000000000000000B2 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Resources/AppIcon.icns; sourceTree = "<group>"; };
 		E700000000000000000000C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeySettings.swift; sourceTree = "<group>"; };
@@ -656,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				190000000000000000000011 /* AppTranslationRuntime.swift */,
+				080000000000000000000016 /* HostSafety.swift */,
 				5E8E93247014A2C907E697D2 /* TranslationProviding.swift */,
 				68D7C77472F6D2B70383BF33 /* TranslationModel.swift */,
 				7037C4595699F4CEA5280258 /* TranslationCredentialStore.swift */,
@@ -931,6 +936,7 @@
 				BDC0612AC5D7B1F0E29F98B0 /* SystemOptions.swift */,
 				3BC39EE95E63A655B019E3D7 /* InputSettings.swift */,
 				E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */,
+				080000000000000000000015 /* SettingsMigration.swift */,
 				91DD71E9A302B4C7C36554C6 /* SettingsRepository.swift */,
 			);
 			path = Settings;
@@ -1552,6 +1558,7 @@
 				CB0000000000000000000103 /* ClipboardHistory.swift in Sources */,
 				76FCF1604A63EFC1E02CFECD /* InputSettings.swift in Sources */,
 				06783A2D84043AF4EB8FA424 /* EasyKeySettings.swift in Sources */,
+				080000000000000000000005 /* SettingsMigration.swift in Sources */,
 				EA200ED3B90B2F1AEBC248D2 /* SettingsRepository.swift in Sources */,
 				D1A600000000000000000001 /* AppLog.swift in Sources */,
 				A10000000000000000000001 /* MacroStore.swift in Sources */,
@@ -1640,6 +1647,7 @@
 				CB0000000000000000000131 /* ClipboardEntryRow.swift in Sources */,
 				CB0000000000000000000132 /* ClipboardSettingsView.swift in Sources */,
 				3D03EE4FE25E6D334B8FFF4C /* TranslationProviding.swift in Sources */,
+				080000000000000000000006 /* HostSafety.swift in Sources */,
 				41D2CDAA13140DEF24F3DD7D /* TranslationModel.swift in Sources */,
 				56D7DFABB60E32D7B6CEAE7C /* TranslationCredentialStore.swift in Sources */,
 				43885DFB9ED11F907CA083AA /* AppleTranslationProvider.swift in Sources */,

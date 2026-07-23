@@ -206,7 +206,11 @@ extension AppCoordinator {
     }
 
     func handleApplicationActivation(_ application: NSRunningApplication?) {
-        keyboardService.setActiveApplication(application?.bundleIdentifier)
+        if !keyboardService.isComposing {
+            keyboardService.setActiveApplication(application?.bundleIdentifier)
+        } else {
+            AppLog.debug(.app, "Deferring app switch — pipeline composing")
+        }
         smartSwitchController.handleApplicationActivation(application)
     }
 

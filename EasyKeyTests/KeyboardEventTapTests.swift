@@ -2,6 +2,7 @@ import CoreGraphics
 @testable import EasyKeyKit
 import XCTest
 
+@MainActor
 final class KeyboardEventTapTests: XCTestCase {
     func testInit_NotInstalled() {
         let tap = KeyboardEventTap(eventMask: KeyboardInputPipeline.makeEventMask())

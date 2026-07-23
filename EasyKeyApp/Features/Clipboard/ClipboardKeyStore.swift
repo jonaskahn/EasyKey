@@ -32,6 +32,7 @@ struct KeychainClipboardKeyStore: ClipboardKeyProviding {
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
             kSecAttrSynchronizable as String: false,
+            kSecUseDataProtectionKeychain as String: true,
         ]
     }
 

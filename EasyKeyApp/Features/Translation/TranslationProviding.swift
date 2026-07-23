@@ -42,7 +42,8 @@ struct ValidatedTranslationEndpoint: Equatable, Sendable {
               let host = components.host?.lowercased(),
               !host.isEmpty,
               components.user == nil,
-              components.password == nil
+              components.password == nil,
+              HostSafety.validate(host: host)
         else { return nil }
 
         components.scheme = "https"

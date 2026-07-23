@@ -75,9 +75,10 @@ struct GoogleTranslationProvider: TranslationProviding {
         let trimmed = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return false }
 
-        var urlRequest = URLRequest(url: Self.authenticatedURL(endpoint: Endpoint.languages, apiKey: trimmed, target: "en"))
+        var urlRequest = URLRequest(url: Self.authenticatedURL(endpoint: Endpoint.languages, target: "en"))
         urlRequest.httpMethod = "GET"
         urlRequest.timeoutInterval = Self.requestTimeout
+        urlRequest.setValue(trimmed, forHTTPHeaderField: "x-goog-api-key")
 
         let (data, response) = try await perform(urlRequest)
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -127,9 +128,10 @@ struct GoogleTranslationProvider: TranslationProviding {
     }
 
     private static func makeTranslateRequest(apiKey: String, request: TranslationRequest) throws -> URLRequest {
-        var urlRequest = URLRequest(url: authenticatedURL(endpoint: Endpoint.translate, apiKey: apiKey))
+        var urlRequest = URLRequest(url: authenticatedURL(endpoint: Endpoint.translate))
         urlRequest.httpMethod = "POST"
         urlRequest.timeoutInterval = requestTimeout
+        urlRequest.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
         let body = GoogleTranslateRequestBody(
@@ -146,14 +148,11 @@ struct GoogleTranslationProvider: TranslationProviding {
         return urlRequest
     }
 
-    /// `endpoint` is always one of the fixed literal `Endpoint` URLs above, so parsing
-    /// into components and rebuilding with query items can never fail.
-    private static func authenticatedURL(endpoint: URL, apiKey: String, target: String? = nil) -> URL {
+    /// `endpoint` is always one of the fixed literal `Endpoint` URLs above.
+    private static func authenticatedURL(endpoint: URL, target: String? = nil) -> URL {
+        guard let target else { return endpoint }
         var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: false)!
-        components.queryItems = [URLQueryItem(name: "key", value: apiKey)]
-        if let target {
-            components.queryItems?.append(URLQueryItem(name: "target", value: target))
-        }
+        components.queryItems = [URLQueryItem(name: "target", value: target)]
         return components.url!
     }
 

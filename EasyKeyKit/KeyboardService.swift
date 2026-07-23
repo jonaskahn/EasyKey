@@ -5,6 +5,7 @@ import EasyEngineCore
 import Foundation
 
 /// Public facade for the keyboard event tap, Vietnamese engine pipeline, and diagnostics.
+@MainActor
 public final class KeyboardService {
     public enum Health: String, Equatable, Sendable {
         case stopped
@@ -36,9 +37,9 @@ public final class KeyboardService {
     )
 
     public private(set) var health: Health = .stopped
-    public var healthHandler: ((Health) -> Void)?
-    public var pauseHandler: ((Bool) -> Void)?
-    public var languageToggleHandler: ((InputLanguage) -> Void)?
+    public var healthHandler: (@MainActor @Sendable (Health) -> Void)?
+    public var pauseHandler: (@MainActor @Sendable (Bool) -> Void)?
+    public var languageToggleHandler: (@MainActor @Sendable (InputLanguage) -> Void)?
 
     private let processingQueue = DispatchQueue(label: "com.easykey.keyboard-event-processing")
     private let eventTap: KeyboardEventTap
@@ -53,13 +54,13 @@ public final class KeyboardService {
         pipeline = KeyboardInputPipeline(settings: settings)
         eventTap.bind(to: self)
         pipeline.onTogglePause = { [weak self] in self?.togglePause() }
-        pipeline.onLanguageToggled = { [weak self] language in
+        pipeline.onLanguageToggleRequested = { [weak self] language in
             self?.languageToggleHandler?(language)
         }
     }
 
     deinit {
-        stop()
+        eventTap.tearDown()
     }
 
     public func start() {
@@ -94,8 +95,6 @@ public final class KeyboardService {
         }
 
         setHealth(.requestingPermission)
-        guard !didRequestAccessibilityPrompt else { return }
-        didRequestAccessibilityPrompt = true
         AppLog.notice(.keyboard, "Requesting Accessibility permission")
         let promptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         AXIsProcessTrustedWithOptions([promptKey: true] as CFDictionary)
@@ -122,6 +121,12 @@ public final class KeyboardService {
     public func update(macros: [Macro]) {
         processingQueue.sync {
             pipeline.update(macros: macros)
+        }
+    }
+
+    public var isComposing: Bool {
+        processingQueue.sync {
+            pipeline.isComposing
         }
     }
 
@@ -241,15 +246,13 @@ public final class KeyboardService {
         outputCount: Int,
         startedAt: UInt64
     ) {
-        processingQueue.sync {
-            diagnosticsRecorder.record(
-                typeRawValue: type.rawValue,
-                disposition: disposition,
-                outputCount: outputCount,
-                bundleIdentifier: pipeline.activeBundleIdentifierSnapshot,
-                startedAt: startedAt
-            )
-        }
+        diagnosticsRecorder.record(
+            typeRawValue: type.rawValue,
+            disposition: disposition,
+            outputCount: outputCount,
+            bundleIdentifier: pipeline.activeAppBundleIdentifier,
+            startedAt: startedAt
+        )
     }
 
     private func setHealth(_ newValue: Health) {
@@ -257,10 +260,6 @@ public final class KeyboardService {
             AppLog.info(.keyboard, "Health \(health.rawValue) → \(newValue.rawValue)")
         }
         health = newValue
-        if Thread.isMainThread {
-            healthHandler?(newValue)
-        } else {
-            DispatchQueue.main.async { [weak self] in self?.healthHandler?(newValue) }
-        }
+        healthHandler?(newValue)
     }
 }

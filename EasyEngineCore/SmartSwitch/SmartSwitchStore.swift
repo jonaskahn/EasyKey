@@ -169,7 +169,26 @@ public final class SmartSwitchStore {
         preferencesByKey = candidate
     }
 
+    private var pendingSaveTask: Task<Void, Never>?
+
+    public func flush() {
+        pendingSaveTask?.cancel()
+        pendingSaveTask = nil
+        try? saveSync(preferencesByKey)
+    }
+
     private func save(_ preferencesByKey: [String: SmartSwitchPreference]) throws {
+        guard let fileURL else { return }
+        pendingSaveTask?.cancel()
+        let prefs = preferencesByKey
+        pendingSaveTask = Task.detached(priority: .utility) { [weak self] in
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            guard !Task.isCancelled, let self else { return }
+            try? self.saveSync(prefs)
+        }
+    }
+
+    private func saveSync(_ preferencesByKey: [String: SmartSwitchPreference]) throws {
         guard let fileURL else { return }
         let parent = fileURL.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)

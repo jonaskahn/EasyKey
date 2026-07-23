@@ -11,17 +11,19 @@ struct EasyKeyAppMain: App {
 
     var body: some Scene {
         Settings {
-            ContentView(
-                settingsStore: AppCoordinator.shared.settingsStore,
-                coordinator: AppCoordinator.shared
-            )
-            .localized()
+            if let coordinator = appDelegate.coordinator {
+                ContentView(
+                    settingsStore: coordinator.settingsStore,
+                    coordinator: coordinator
+                )
+                .localized()
+            }
         }
     }
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    private var coordinator: AppCoordinator?
+    private(set) var coordinator: AppCoordinator?
 
     func applicationDidFinishLaunching(_: Notification) {
         guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
@@ -36,7 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(isUITesting ? .regular : .accessory)
         // Accessory apps lack a system Edit menu; without it Cmd+V never reaches text fields.
         AppMainMenuInstaller.installIfNeeded()
-        let coordinator = AppCoordinator.shared
+        let coordinator = AppCoordinator.makeDefault()
         self.coordinator = coordinator
         if isUITesting,
            let sectionIndex = ProcessInfo.processInfo.arguments.firstIndex(of: "--ui-settings-section"),
@@ -54,6 +56,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_: Notification) {
         coordinator?.stop()
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard let coordinator = coordinator else { return .terminateNow }
+        coordinator.stop()
+        Task {
+            await coordinator.awaitShutdown()
+            NSApp.reply(toApplicationShouldTerminate: true)
+        }
+        return .terminateLater
     }
 }
 

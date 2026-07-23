@@ -34,30 +34,10 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Import Developer ID certificate
-        env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-          BUILD_CERTIFICATE_PASSWORD: ${{ secrets.BUILD_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          certificate_path="$RUNNER_TEMP/developer-id.p12"
-          keychain_path="$RUNNER_TEMP/release.keychain-db"
-          printf '%s' "$BUILD_CERTIFICATE_BASE64" | base64 -D > "$certificate_path"
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$keychain_path"
-          security set-keychain-settings -lut 21600 "$keychain_path"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$keychain_path"
-          security import "$certificate_path" -P "$BUILD_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$keychain_path"
-          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$keychain_path"
-          security list-keychains -d user -s "$keychain_path"
-          rm -f "$certificate_path"
-
+      # TODO: re-enable Developer ID signing + notarization once Apple cert is available.
+      # Was: "Import Developer ID certificate" step + `make dmg` (signed/notarized) below.
       - name: Build ${{ matrix.target.name }} DMG
         env:
-          DEVELOPER_ID_APPLICATION: ${{ secrets.DEVELOPER_ID_APPLICATION }}
-          DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
-          APPLE_ID: ${{ secrets.NOTARY_APPLE_ID }}
-          APPLE_TEAM_ID: ${{ secrets.DEVELOPMENT_TEAM }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.NOTARY_APP_SPECIFIC_PASSWORD }}
           SPARKLE_FEED_URL: ${{ vars.SPARKLE_FEED_URL }}
           SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
           EASYKEY_SUPPORT_URL: ${{ vars.EASYKEY_SUPPORT_URL }}
@@ -67,7 +47,7 @@ jobs:
           TARGET_NAME: ${{ matrix.target.name }}
           TAG_NAME: ${{ github.ref_name }}
         run: |
-          make dmg
+          make local-dmg
           built_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' build/export/EasyKey.app/Contents/Info.plist)
           [[ "$TAG_NAME" == "v$built_version" ]] || {
             printf 'Tag %s does not match built version %s.\n' "$TAG_NAME" "$built_version" >&2
@@ -78,10 +58,6 @@ jobs:
               mv "$dmg_path" "${dmg_path%-universal.dmg}-${TARGET_NAME}.dmg"
             done
           fi
-
-      - name: Remove release keychain
-        if: always()
-        run: security delete-keychain "$RUNNER_TEMP/release.keychain-db" || true
 
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v5

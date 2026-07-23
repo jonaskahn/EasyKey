@@ -2,6 +2,7 @@
 @testable import EasyKeyKit
 import XCTest
 
+@MainActor
 final class KeyboardServiceIntegrationTests: XCTestCase {
     func testInit_DefaultSettings_HealthIsStopped() {
         let service = KeyboardService(settings: .defaults)

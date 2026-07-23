@@ -3,6 +3,7 @@ import CoreGraphics
 @testable import EasyKeyKit
 import XCTest
 
+@MainActor
 final class KeyboardServiceStateTests: XCTestCase {
     func testInitHealthIsStopped() {
         let service = KeyboardService(settings: .defaults)

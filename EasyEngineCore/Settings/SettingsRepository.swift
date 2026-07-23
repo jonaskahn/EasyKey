@@ -114,7 +114,8 @@ public final class SettingsRepository {
 
     public func saveNow() async {
         saveTask?.cancel()
-        await Self.performAtomicWrite(data: settings, to: fileURL)
+        saveTask = nil
+        Self.performAtomicWrite(data: settings, to: fileURL)
     }
 
     public var configurationSnapshot: EngineConfiguration {
@@ -135,31 +136,30 @@ public final class SettingsRepository {
         saveTask?.cancel()
         let current = settings
         let url = fileURL
-        saveTask = Task {
-            try? await Task.sleep(nanoseconds: saveDebounceNanos)
+        saveTask = Task.detached(priority: .utility) {
+            try? await Task.sleep(nanoseconds: 300_000_000)
             guard !Task.isCancelled else { return }
-            await Self.performAtomicWrite(data: current, to: url)
+            Self.performAtomicWrite(data: current, to: url)
         }
     }
 
-    private static func performAtomicWrite(data: EasyKeySettings, to url: URL) async {
+    private nonisolated static let writeQueue = DispatchQueue(label: "one.ifelse.easykey.settings-write", qos: .utility)
+
+    nonisolated static func performAtomicWrite(data: EasyKeySettings, to url: URL) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let encoded = try? encoder.encode(data) else {
             AppLog.error(.settings, "Failed to encode settings for write")
             return
         }
-        let parent = url.deletingLastPathComponent()
-        do {
-            try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
-        } catch {
-            AppLog.error(.settings, "Failed to create settings parent directory: \(error.localizedDescription)")
-            return
-        }
-        do {
-            try encoded.write(to: url, options: .atomic)
-        } catch {
-            AppLog.error(.settings, "Failed to write settings: \(error.localizedDescription)")
+        writeQueue.sync {
+            let parent = url.deletingLastPathComponent()
+            do {
+                try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
+                try encoded.write(to: url, options: .atomic)
+            } catch {
+                AppLog.error(.settings, "Failed to write settings: \(error.localizedDescription)")
+            }
         }
     }
 
@@ -172,7 +172,8 @@ public final class SettingsRepository {
     }
 
     private static func decodeSupportedSettings(from data: Data) -> EasyKeySettings? {
-        guard let decoded = try? JSONDecoder().decode(EasyKeySettings.self, from: data),
+        let migratedData = SettingsMigration.migrate(data)
+        guard let decoded = try? JSONDecoder().decode(EasyKeySettings.self, from: migratedData),
               decoded.schemaVersion <= EasyKeySettings.currentSchemaVersion
         else {
             return nil
