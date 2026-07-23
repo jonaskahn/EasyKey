@@ -17,11 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Download release DMG
+      - name: Download release DMGs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ github.event.release.tag_name }}
-        run: gh release download "$TAG_NAME" --pattern "EasyKey-*-universal.dmg" --dir /tmp/dmg
+        run: gh release download "$TAG_NAME" --pattern "EasyKey-*.dmg" --dir /tmp/dmg
 
       - name: Locate DMG
         id: dmg
@@ -68,15 +68,19 @@ jobs:
           mkdir -p /tmp/sparkle-tools
           tar -xf /tmp/sparkle.tar.xz -C /tmp/sparkle-tools
 
-      - name: Sign DMG
+      - name: Sign DMGs
         id: sign
         env:
-          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
         run: |
           key_file=$(mktemp)
           trap 'rm -f "$key_file"' EXIT
           chmod 600 "$key_file"
           printf '%s' "$SPARKLE_PRIVATE_KEY" > "$key_file"
+          for dmg in /tmp/dmg/EasyKey-*.dmg; do
+            echo "Signing $dmg..."
+            /tmp/sparkle-tools/bin/sign_update "$dmg" --ed-key-file "$key_file"
+          done
           signature=$(/tmp/sparkle-tools/bin/sign_update "${{ steps.dmg.outputs.path }}" --ed-key-file "$key_file" -p)
           echo "signature=$signature" >> "$GITHUB_OUTPUT"
 

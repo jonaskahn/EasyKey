@@ -49,7 +49,7 @@ Required repo configuration (already set for this repo):
 - Signing secrets: `BUILD_CERTIFICATE_BASE64`, `BUILD_CERTIFICATE_PASSWORD`,
   `KEYCHAIN_PASSWORD`, `DEVELOPER_ID_APPLICATION`, and `DEVELOPMENT_TEAM`.
 - Notarization secrets: `NOTARY_APPLE_ID` and `NOTARY_APP_SPECIFIC_PASSWORD`.
-- Sparkle secrets: `SPARKLE_PUBLIC_ED_KEY` and `SPARKLE_PRIVATE_KEY` (EdDSA
+- Sparkle secrets: `SPARKLE_PUBLIC_ED_KEY` and `SPARKLE_PRIVATE_ED_KEY` (EdDSA
   keypair from Sparkle's `generate_keys`; private key never leaves CI secrets).
 
 In-app behavior: `UpdateService` checks the appcast once per launch, after a
