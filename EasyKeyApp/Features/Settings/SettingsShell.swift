@@ -42,6 +42,7 @@ struct SettingsShell: View {
             .toolbar(removing: .sidebarToggle)
         } detail: {
             detail
+                .id(coordinator.selectedSettingsSection)
                 .navigationTitle(localization.sectionTitle(coordinator.selectedSettingsSection))
                 .accessibilityIdentifier("SettingsDetail")
         }
