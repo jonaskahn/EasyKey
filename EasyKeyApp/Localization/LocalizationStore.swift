@@ -152,6 +152,9 @@ final class LocalizationStore: ObservableObject {
         locale = Locale(identifier: code)
     }
 
+    /// Registers system language change observer.
+    /// All NotificationCenter subscribers in this class must store their AnyCancellable
+    /// in a property (such as `defaultsObserver`); Combine automatically cancels on deinit.
     private func observeSystemLanguageChanges() {
         defaultsObserver = NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)
             .receive(on: RunLoop.main)
