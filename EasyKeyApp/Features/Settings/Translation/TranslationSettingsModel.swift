@@ -248,6 +248,14 @@ final class TranslationSettingsModel: ObservableObject {
         }
     }
 
+    func availability(of provider: TranslationProviderID) -> TranslationProviderAvailability {
+        TranslationProviderResolver.availability(
+            of: provider,
+            platformCapability: platformCapability,
+            configuredCloudProviders: storedCredentialProviders
+        )
+    }
+
     func setPreferredProvider(_ provider: TranslationProviderID) {
         guard selectableProviders.contains(provider) else { return }
         settingsStore.update {
