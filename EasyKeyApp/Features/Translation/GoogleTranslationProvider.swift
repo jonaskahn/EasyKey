@@ -5,8 +5,8 @@ import Foundation
 /// derived from settings or credential content.
 struct GoogleTranslationProvider: TranslationProviding {
     private enum Endpoint {
-        static let translate = URL(string: "https://translation.googleapis.com/language/translate/v2")!
-        static let languages = URL(string: "https://translation.googleapis.com/language/translate/v2/languages")!
+        static let translate = _validatedURL("https://translation.googleapis.com/language/translate/v2")
+        static let languages = _validatedURL("https://translation.googleapis.com/language/translate/v2/languages")
     }
 
     private static let requestTimeout: TimeInterval = 20

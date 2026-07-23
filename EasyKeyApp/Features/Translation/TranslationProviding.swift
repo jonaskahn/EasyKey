@@ -70,6 +70,13 @@ struct ValidatedTranslationEndpoint: Equatable, Sendable {
     }
 }
 
+func _validatedURL(_ string: String, file: StaticString = #file, line: UInt = #line) -> URL {
+    guard let url = URL(string: string) else {
+        preconditionFailure("Invalid URL constant at \(file):\(line): \(string)", file: file, line: line)
+    }
+    return url
+}
+
 enum TranslationNetworkSession {
     static let ephemeral: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
