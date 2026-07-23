@@ -4,6 +4,7 @@ import Foundation
 import SwiftUI
 
 /// Single observable resolver: semantic key → locale value for SwiftUI and AppKit.
+/// Injects `UserDefaults` (`.standard` by default) so extensions and isolated test suites can provide custom defaults.
 @MainActor
 final class LocalizationStore: ObservableObject {
     static let shared = LocalizationStore()
