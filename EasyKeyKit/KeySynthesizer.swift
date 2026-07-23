@@ -372,10 +372,13 @@ struct MacroExpander {
 
     private var macros: [Macro] = []
     private var trigger = ""
+    /// Secondary defense against macro self-recursion loops (primary defense is KeySynthesizer.isSelfPosted).
+    private(set) var inMacroExpansion = false
 
     mutating func update(macros: [Macro]) {
         self.macros = macros
         trigger = ""
+        inMacroExpansion = false
     }
 
     mutating func reset() {
@@ -389,7 +392,8 @@ struct MacroExpander {
         options: MacroOptions,
         language: InputLanguage
     ) -> MacroExpansion? {
-        guard options.enabled,
+        guard !inMacroExpansion,
+              options.enabled,
               language == .vietnamese || options.enabledInEnglish,
               modifiers.isEmpty
         else {
