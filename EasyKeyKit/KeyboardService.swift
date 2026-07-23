@@ -219,15 +219,16 @@ public final class KeyboardService {
             return Unmanaged.passUnretained(event)
         }
 
-        let result = processingQueue.sync {
-            pipeline.process(proxy: proxy, type: type, event: event, keyCode: keyCode)
+        let result = processingQueue.sync { () -> KeyboardProcessResult in
+            let result = pipeline.process(proxy: proxy, type: type, event: event, keyCode: keyCode)
+            record(
+                type: type,
+                disposition: result.disposition,
+                outputCount: result.outputCount,
+                startedAt: startedAt
+            )
+            return result
         }
-        record(
-            type: type,
-            disposition: result.disposition,
-            outputCount: result.outputCount,
-            startedAt: startedAt
-        )
         return result.suppressesOriginal ? nil : Unmanaged.passUnretained(event)
     }
 
