@@ -206,8 +206,10 @@ final class AppCoordinator: ObservableObject {
         keyboardService.start()
         translation.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
-        clipboardStartTask?.cancel()
-        clipboardStartTask = Task { [clipboard] in
+        let previousStartTask = clipboardStartTask
+        clipboardStartTask = Task { [clipboard, settingsStore] in
+            _ = await previousStartTask?.value
+            guard !Task.isCancelled else { return }
             await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
         }
         if settingsStore.settings.system.showSettingsAtLaunch {
@@ -226,12 +228,12 @@ final class AppCoordinator: ObservableObject {
         keyboardService.stop()
         translation.stop()
         settingsWindowPresenter.close()
-        let clipboardStartTask = clipboardStartTask
-        self.clipboardStartTask = nil
-        clipboardStartTask?.cancel()
+        let previousStartTask = clipboardStartTask
+        clipboardStartTask = nil
+        previousStartTask?.cancel()
         stopTask?.cancel()
         stopTask = Task { [clipboard, settingsStore] in
-            _ = await clipboardStartTask?.value
+            _ = await previousStartTask?.value
             await clipboard.stop()
             await settingsStore.saveNow()
         }
