@@ -91,6 +91,20 @@ public struct VietnameseEngine {
         }
 
         let previousCount = lastRenderedCount
+        if configuration.inputMethod == .vni,
+           let newTone = VietnameseCharacters.toneNumberKeys[character],
+           state.atoms.contains(where: { VietnameseCharacters.isVowel($0.base) }) {
+            let final = TelexComposer.trailingFinalConsonants(state.atoms)
+            if !VietnameseOrthography.toneIsValid(newTone, forFinal: final) {
+                // Drop invalid VNI tone key without appending to rawKeys
+                return EngineOutput(
+                    disposition: .suppress,
+                    edits: [],
+                    sessionEffect: .continueSession
+                )
+            }
+        }
+
         state.rawKeys.append(character)
         recompute()
 

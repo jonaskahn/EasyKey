@@ -375,6 +375,11 @@ public enum TelexComposer {
         atoms[index].mark = .none
     }
 
+    /// Processes a single VNI key.
+    ///
+    /// Invariant: A successful tone or diacritic mark assignment returns a tuple with `pending` undo state.
+    /// An invalid tone digit for the current final or an unmatched key returns `nil` without setting `pending`,
+    /// dropping the invalid key digit so it does not pollute raw text or break repeat-to-undo semantics.
     private static func processVNIKey(
         _ key: Character,
         atoms: inout [BufferAtom],
@@ -387,7 +392,7 @@ public enum TelexComposer {
             }
             let final = trailingFinalConsonants(atoms)
             guard VietnameseOrthography.toneIsValid(newTone, forFinal: final) else {
-                appendLiteral(key, to: &atoms)
+                // VNI: drop the invalid tone digit entirely.
                 return nil
             }
             let previous = tone

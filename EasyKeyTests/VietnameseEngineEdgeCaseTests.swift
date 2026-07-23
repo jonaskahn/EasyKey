@@ -390,4 +390,24 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: KeyEvent(kind: .backspace))
         XCTAssertEqual(engine.currentBuffer, "")
     }
+
+    func testVNIDropsInvalidToneNumberKey() {
+        let config = EngineConfiguration(inputMethod: .vni)
+        var engine = VietnameseEngine(configuration: config)
+        _ = engine.process(event: .char("a"))
+        _ = engine.process(event: .char("c"))
+        _ = engine.process(event: .char("2")) // 2 (hỏi) is invalid for checked final 'c'
+        XCTAssertEqual(engine.currentBuffer, "ac")
+    }
+
+    func testVNIUndoSemantics_OnValidAndInvalidTone() {
+        let config = EngineConfiguration(inputMethod: .vni)
+        var engine1 = VietnameseEngine(configuration: config)
+        typeKeys(&engine1, "a11")
+        XCTAssertEqual(engine1.currentBuffer, "a1")
+
+        var engine2 = VietnameseEngine(configuration: config)
+        typeKeys(&engine2, "ac22")
+        XCTAssertEqual(engine2.currentBuffer, "ac")
+    }
 }
