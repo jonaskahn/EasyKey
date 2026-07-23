@@ -62,6 +62,10 @@ struct SystemHealthCard: View {
             return localization.string(.healthPausedDetail)
         }
         if coordinator.keyboardHealth == .active {
+            if let latencyNanos = coordinator.keyboardService.medianCallbackLatencyNanoseconds() {
+                let ms = Double(latencyNanos) / 1_000_000.0
+                return "\(localization.string(.healthActiveDetail)) (\(String(format: "%.2f", ms)) ms)"
+            }
             return localization.string(.healthActiveDetail)
         }
         return localization.string(.healthProblemDetail)
