@@ -139,7 +139,7 @@ Spell checking runs when a word boundary is typed. Validation is structural and 
 
 When validation fails and automatic restoration is enabled, EasyKey replaces the transformed word with its exact raw keystrokes before inserting the boundary. This preserves English input such as `fix`.
 
-The configurable restore-word shortcut performs the same raw restoration immediately. After manual restoration, remaining keys in that word stay literal until the next boundary.
+The configurable restore-word shortcut performs the same raw restoration immediately. After manual restoration (`forceRaw`), typing a new non-boundary character commits the restored raw word and starts a new word.
 
 ## Optional Quick Telex Consonants
 

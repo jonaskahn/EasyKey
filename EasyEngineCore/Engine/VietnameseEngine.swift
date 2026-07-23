@@ -78,6 +78,10 @@ public struct VietnameseEngine {
             return .passThrough
         }
 
+        if state.forceRaw {
+            clearComposition()
+        }
+
         if isWordBreakCharacter(character) {
             return processWordBoundary(trailingChar: String(character))
         }
