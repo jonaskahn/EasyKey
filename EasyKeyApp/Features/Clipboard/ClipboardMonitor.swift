@@ -69,7 +69,7 @@ final class ClipboardMonitor {
     }
 
     func poll() {
-        guard options.isCaptureEnabled else { return }
+        guard options.isCaptureEnabled, !options.capturedKinds.isEmpty else { return }
         let current = reader.changeCount
         guard current != observedChangeCount else { return }
 
