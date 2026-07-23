@@ -54,9 +54,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func applicationWillTerminate(_: Notification) {
-        coordinator?.stop()
-    }
+    func applicationWillTerminate(_: Notification) {}
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard let coordinator = coordinator else { return .terminateNow }
