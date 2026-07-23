@@ -28,6 +28,13 @@ final class ViewRenderingTests: XCTestCase {
         XCTAssertNotNil(host)
     }
 
+    func testKeepOnTopTitlebarAccessory_InitWithCoder_ReturnsNilWithoutCrashing() {
+        let archiver = NSKeyedArchiver(requiringSecureCoding: false)
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: archiver.encodedData)
+        let accessory = KeepOnTopTitlebarAccessory(coder: unarchiver)
+        XCTAssertNil(accessory)
+    }
+
     func testContentView_Renders() {
         render { ContentView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
     }

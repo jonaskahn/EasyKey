@@ -1,4 +1,5 @@
 import AppKit
+import EasyEngineCore
 
 /// Titlebar-docked "keep on top" pin, shared by the clipboard and translation panels.
 /// Lives at the titlebar's trailing edge, opposite the system close button.
@@ -21,9 +22,10 @@ final class KeepOnTopTitlebarAccessory: NSTitlebarAccessoryViewController {
         refresh()
     }
 
-    @available(*, unavailable)
+    /// Programmatic-only. Dependencies (such as title closure) are not NSCoding-compliant by design.
     required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        AppLog.error(.app, "KeepOnTopTitlebarAccessory cannot be instantiated from coder; use init(isOn:title:)")
+        return nil
     }
 
     private func configureButton() {
