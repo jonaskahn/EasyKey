@@ -86,10 +86,9 @@ public final class SettingsRepository {
         do {
             decoded = try JSONDecoder().decode(EasyKeySettings.self, from: data)
         } catch {
-            let message = "Decode failed; current settings preserved: \(error.localizedDescription)"
-            diagnostic.entries.append(.init(severity: .warning, message: message))
+            let message = "Decode failed: \(error.localizedDescription)"
             AppLog.error(.settings, message)
-            return diagnostic
+            throw SettingsRepositoryError.malformedDocument(error.localizedDescription)
         }
         guard decoded.schemaVersion <= EasyKeySettings.currentSchemaVersion else {
             AppLog.error(.settings, "Import rejected: unsupported settings schema version \(decoded.schemaVersion)")
@@ -185,6 +184,7 @@ public final class SettingsRepository {
 public enum SettingsRepositoryError: Error, Equatable, Sendable {
     case importFileTooLarge
     case unsupportedSchemaVersion(Int)
+    case malformedDocument(String)
 }
 
 public struct EngineConfiguration: Equatable, Sendable {

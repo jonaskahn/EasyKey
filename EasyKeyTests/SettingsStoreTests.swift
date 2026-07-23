@@ -155,11 +155,15 @@ final class SettingsStoreTests: XCTestCase {
         await store.saveNow()
         let persistedSettings = try Data(contentsOf: settingsURL)
 
-        let diagnostic = try store.import(from: badURL)
+        XCTAssertThrowsError(try store.import(from: badURL)) { error in
+            guard case SettingsRepositoryError.malformedDocument = error else {
+                XCTFail("Expected malformedDocument error, got \(error)")
+                return
+            }
+        }
 
         XCTAssertEqual(store.settings.input.inputMethod, .vni)
         XCTAssertEqual(try Data(contentsOf: settingsURL), persistedSettings)
-        XCTAssertTrue(diagnostic.entries.contains { $0.severity == .warning })
 
         try FileManager.default.removeItem(at: tempDir)
     }
