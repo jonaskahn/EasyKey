@@ -145,14 +145,21 @@ extension AppCoordinator {
     }
 
     func observeSettings() {
+        var lastSettings: EasyKeySettings?
         var lastTranslationRuntimeObservation: TranslationRuntimeSettingsObservation?
         var lastTranslationPopoverObservation: TranslationPopoverSettingsObservation?
         var lastTranslationActivationObservation: TranslationActivationSettingsObservation?
         var lastSmartSwitchEnabled: Bool?
         settingsObserver = settingsStore.$settings.sink { [weak self] settings in
             guard let self else { return }
-            keyboardService.update(settings: settings)
-            macroStore.changeActiveEncoding(to: settings.input.encoding)
+            let delta = SettingsDelta.delta(from: lastSettings ?? settings, to: settings)
+            if lastSettings == nil || delta.inputChanged || delta.typingChanged || delta.compatibilityChanged {
+                keyboardService.update(settings: settings)
+            }
+            if lastSettings == nil || delta.inputChanged {
+                macroStore.changeActiveEncoding(to: settings.input.encoding)
+            }
+            lastSettings = settings
             updateDockVisibility(showDockIcon: settings.system.showDockIcon)
             updateStatusItem(settings: settings)
             if launchAtLoginSetting != settings.system.launchAtLogin {

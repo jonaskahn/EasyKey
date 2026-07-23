@@ -209,6 +209,21 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertEqual(store.settings, .defaults)
     }
 
+    func testSettingsDelta_IdenticalSettings_HasNoChanges() {
+        let s1 = EasyKeySettings()
+        let s2 = EasyKeySettings()
+        let delta = SettingsDelta.delta(from: s1, to: s2)
+        XCTAssertFalse(delta.hasAnyChange)
+
+        var s3 = s1
+        s3.system.showDockIcon = true
+        let deltaSystem = SettingsDelta.delta(from: s1, to: s3)
+        XCTAssertTrue(deltaSystem.hasAnyChange)
+        XCTAssertTrue(deltaSystem.systemChanged)
+        XCTAssertFalse(deltaSystem.inputChanged)
+        XCTAssertFalse(deltaSystem.typingChanged)
+    }
+
     func testOnSettingsChangeCallback() {
         let fileURL = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)

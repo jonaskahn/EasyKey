@@ -72,3 +72,37 @@ public struct EasyKeySettings: Codable, Equatable, Sendable {
         EasyKeySettings()
     }
 }
+
+public struct SettingsDelta: Equatable, Sendable {
+    public var schemaVersionChanged: Bool
+    public var inputChanged: Bool
+    public var typingChanged: Bool
+    public var macroChanged: Bool
+    public var compatibilityChanged: Bool
+    public var smartSwitchChanged: Bool
+    public var systemChanged: Bool
+    public var converterChanged: Bool
+    public var clipboardChanged: Bool
+    public var translationChanged: Bool
+
+    public var hasAnyChange: Bool {
+        schemaVersionChanged || inputChanged || typingChanged || macroChanged ||
+            compatibilityChanged || smartSwitchChanged || systemChanged ||
+            converterChanged || clipboardChanged || translationChanged
+    }
+
+    public static func delta(from old: EasyKeySettings, to new: EasyKeySettings) -> SettingsDelta {
+        SettingsDelta(
+            schemaVersionChanged: old.schemaVersion != new.schemaVersion,
+            inputChanged: old.input != new.input,
+            typingChanged: old.typing != new.typing,
+            macroChanged: old.macro != new.macro,
+            compatibilityChanged: old.compatibility != new.compatibility,
+            smartSwitchChanged: old.smartSwitch != new.smartSwitch,
+            systemChanged: old.system != new.system,
+            converterChanged: old.converter != new.converter,
+            clipboardChanged: old.clipboard != new.clipboard,
+            translationChanged: old.translation != new.translation
+        )
+    }
+}
