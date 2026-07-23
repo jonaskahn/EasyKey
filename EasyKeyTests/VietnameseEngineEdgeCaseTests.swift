@@ -410,4 +410,28 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         typeKeys(&engine2, "ac22")
         XCTAssertEqual(engine2.currentBuffer, "ac")
     }
+
+    func testSentenceStartCleared_OnBackspaceOrReset() {
+        let config = EngineConfiguration(uppercaseFirstCharacter: true)
+        var engine = VietnameseEngine(configuration: config)
+        _ = engine.process(event: .char("a"))
+        _ = engine.process(event: .char("."))
+        _ = engine.process(event: .char(" "))
+        // atSentenceStart is true; next char 'w' uppercases to 'W'
+        _ = engine.process(event: .char("w"))
+        XCTAssertEqual(engine.currentBuffer, "W")
+
+        // Backspace to empty buffer clears sentence start
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "")
+        _ = engine.process(event: .char("w"))
+        XCTAssertEqual(engine.currentBuffer, "w")
+
+        // Reset (arrow key) clears sentence start
+        _ = engine.process(event: .char("."))
+        _ = engine.process(event: .char(" "))
+        _ = engine.process(event: KeyEvent(kind: .leftArrow))
+        _ = engine.process(event: .char("w"))
+        XCTAssertEqual(engine.currentBuffer, "w")
+    }
 }

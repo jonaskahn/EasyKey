@@ -139,11 +139,15 @@ public struct VietnameseEngine {
 
     private mutating func processBackspace() -> EngineOutput {
         guard !state.isEmpty else {
+            atSentenceStart = false
             return .passThrough
         }
 
         let previousCount = lastRenderedCount
         state.rawKeys.removeLast()
+        if state.rawKeys.isEmpty {
+            atSentenceStart = false
+        }
         recompute()
 
         return EngineOutput(
@@ -190,6 +194,7 @@ public struct VietnameseEngine {
 
     private mutating func processReset() -> EngineOutput {
         clearComposition()
+        atSentenceStart = false
         return .passThrough
     }
 

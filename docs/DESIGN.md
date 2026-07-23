@@ -228,6 +228,7 @@ no custom `Animation` values are defined in the codebase.
 - Use `DesignScale.radiusSM`/`radiusMD` for any new rounded shape instead of
   a literal.
 - Keep content-layer backgrounds opaque; reserve translucency for chrome.
+- Capitalization context: sentence-start capitalization is set by sentence terminators (`.`, `!`, `?`, `\n`) and cleared when a character is typed, when backspace empties the composition, or when arrow keys/resets move focus away.
 
 **Don't:**
 - Don't add `.ultraThinMaterial`, `NSVisualEffectView`, `.glassEffect()`, or
