@@ -178,6 +178,8 @@ final class AppCoordinator: ObservableObject {
         await clipboard.model.clearAll()
     }
 
+    /// Test seam: `otherProcessIdentifiers` is injected so tests can stub the
+    /// running-applications query without spawning a second process.
     static func isOnlyInstanceForCurrentUser(
         otherProcessIdentifiers: (String) -> [pid_t] = { bundleIdentifier in
             NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).map(\.processIdentifier)
