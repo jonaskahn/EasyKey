@@ -1,3 +1,21 @@
+---
+id: "existing-telex"
+title: "Telex Rule Set"
+docforge_provenance:
+  schema: "2.0"
+  doc_id: "existing-telex"
+  path: "docs/TELEX.md"
+  generated_at: "2026-08-03T10:27:57+00:00"
+  generator:
+    name: "docforge"
+    version: "2.8.0"
+  tier: "diligence"
+  target_depth: "reference"
+  graph:
+    provider: "codegraph"
+    flow: "none"
+  sections: []
+---
 # Telex Rule Set
 
 This document defines EasyKey's implemented Telex behavior. When documentation, tests, and code disagree, this rule set and its conformance tests must be updated together.

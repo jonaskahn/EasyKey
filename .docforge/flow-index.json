@@ -1,0 +1,305 @@
+{
+  "version": "1.1",
+  "generated_at": "2026-08-03T08:35:56+00:00",
+  "project": "EasyKey",
+  "sources": [
+    ".docforge/tmp/flow-graph.json (docforge-derived)"
+  ],
+  "providers": [
+    "codegraph"
+  ],
+  "summary": {
+    "total": 7,
+    "main": 3,
+    "deferred": 4,
+    "placeholder": 0,
+    "documented": 3,
+    "skipped": 0,
+    "confirmed": 0
+  },
+  "flows": [
+    {
+      "name": "Clipboard history capture, persistence, and restore",
+      "slug": "clipboard-history",
+      "id": "flow-clipboard-history",
+      "display_name": "Clipboard history capture, persistence, and restore",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
+        "symbol": "clipboard-history"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 3,
+        "steps": 7,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "main",
+      "status": "documented",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/clipboard-history.md",
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
+        }
+      ],
+      "area": [
+        "clipboard"
+      ]
+    },
+    {
+      "name": "Translation via on-device or cloud providers",
+      "slug": "translation",
+      "id": "flow-translation",
+      "display_name": "Translation via on-device or cloud providers",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "translation"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 3,
+        "steps": 8,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "main",
+      "status": "documented",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/translation.md",
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Translation/TranslationModel.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyEngineCore/Translation/TranslationProviderResolver.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
+        }
+      ],
+      "area": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Keyboard typing transformation (Telex/VNI)",
+      "slug": "keyboard-typing",
+      "id": "flow-keyboard-typing",
+      "display_name": "Keyboard typing transformation (Telex/VNI)",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+        "symbol": "keyboard-typing"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 3,
+        "steps": 6,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "main",
+      "status": "documented",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/keyboard-typing.md",
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyKit/KeyboardService.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyKit/KeySynthesizer.swift"
+        }
+      ],
+      "area": [
+        "keyboard"
+      ]
+    },
+    {
+      "name": "Per-application language Smart Switch",
+      "slug": "smart-switch",
+      "id": "flow-smart-switch",
+      "display_name": "Per-application language Smart Switch",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+        "symbol": "smart-switch"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 2,
+        "steps": 3,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "deferred",
+      "status": "deferred",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Coordination/WorkspaceObserver.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Coordination/SmartSwitchController.swift"
+        }
+      ],
+      "area": [
+        "keyboard"
+      ]
+    },
+    {
+      "name": "Macro expansion from triggers",
+      "slug": "macro-expansion",
+      "id": "flow-macro-expansion",
+      "display_name": "Macro expansion from triggers",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "macro-expansion"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 2,
+        "steps": 3,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "deferred",
+      "status": "deferred",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyEngineCore/Settings/MacroStore.swift"
+        }
+      ],
+      "area": [
+        "keyboard"
+      ]
+    },
+    {
+      "name": "Launch-at-login helper registration and watchdog",
+      "slug": "login-helper",
+      "id": "flow-login-helper",
+      "display_name": "Launch-at-login helper registration and watchdog",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyApp/Coordination/LoginItemController.swift",
+        "symbol": "login-helper"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 2,
+        "steps": 2,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "deferred",
+      "status": "deferred",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/Coordination/LoginItemController.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyLoginHelper/main.swift"
+        }
+      ],
+      "area": [
+        "system-integration"
+      ]
+    },
+    {
+      "name": "Sparkle app updates",
+      "slug": "app-update",
+      "id": "flow-app-update",
+      "display_name": "Sparkle app updates",
+      "entry_ref": {
+        "kind": "internal",
+        "filePath": "EasyKeyApp/UpdateService.swift",
+        "symbol": "app-update"
+      },
+      "confidence": "candidate",
+      "reach": {
+        "boundaries": 2,
+        "steps": 3,
+        "churn": 0
+      },
+      "rank": 100,
+      "priority": "deferred",
+      "status": "deferred",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "evidence": [
+        {
+          "provider": "codegraph",
+          "path": "EasyKeyApp/UpdateService.swift"
+        },
+        {
+          "provider": "codegraph",
+          "path": ".github/workflows/publish-appcast.yml"
+        }
+      ],
+      "area": [
+        "system-integration"
+      ]
+    }
+  ]
+}

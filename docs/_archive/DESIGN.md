@@ -1,4 +1,20 @@
 ---
+id: "existing-design"
+title: "Design Notes"
+docforge_provenance:
+  schema: "2.0"
+  doc_id: "existing-design"
+  path: "docs/DESIGN.md"
+  generated_at: "2026-08-03T10:28:33+00:00"
+  generator:
+    name: "docforge"
+    version: "2.8.0"
+  tier: "diligence"
+  target_depth: "reference"
+  graph:
+    provider: "codegraph"
+    flow: "none"
+  sections: []
 radius:
   sm: 6   # inset fields / controls (text editors, shortcut chips, drop targets)
   md: 8   # cards / icons (status card, health card, app icon, onboarding icon)
@@ -6,58 +22,22 @@ spacing:
   unit: 8   # base grid
   subdivision: 4   # tight/inline spacing (icon-to-label, list rows)
 window:
-  settingsSize: { width: 700, minHeight: 440, maxHeight: 520 }   # width locked at 700
+  settingsSize:
+    width: 700   # width locked at 700
+    minHeight: 440
+    maxHeight: 520
   sidebarWidth: 192
   menuPopoverWidth: 380
 materials:
   policy: native-only   # no .ultraThinMaterial / NSVisualEffectView in content
 components:
   navigation: NavigationSplitView + List(.sidebar)
-  buttons: [.bordered, .borderedProminent]
+  buttons:
+    - .bordered
+    - .borderedProminent
   popover: NSPopover (system chrome, vibrant on macOS 26)
 ---
-
-# EasyKey Design System
-
-## 1. Overview / Philosophy
-
-EasyKey is a menu-bar Vietnamese input method app. Its UI has three surfaces:
-the menu-bar popover (`NSPopover`), the settings window (manual `NSWindow` +
-`NavigationSplitView`), and onboarding (full-window `SwiftUI` flow). All three
-are built from **100% native AppKit/SwiftUI controls** — no custom chrome, no
-custom materials, no hand-drawn glass.
-
-Guiding principles, in priority order:
-
-1. **Clarity** — status (keyboard active/paused/degraded) must read at a
-   glance; text and controls use system semantic styles, never custom fonts
-   or colors.
-2. **Deference** — chrome (titlebar, sidebar, popover background) recedes;
-   content (settings forms, status text) carries the visual weight.
-3. **Depth** — depth comes from the OS, not from the app. Glass, materials,
-   and elevation are owned by `NavigationSplitView`, `NSPopover`, and the
-   window server — EasyKey never re-implements them.
-
-**OS contract:** on macOS 26 ("Tahoe") the app auto-adopts Liquid Glass
-through its native components — no `.glassEffect()`, no `GlassEffectContainer`,
-no `NSGlassEffectView` calls exist anywhere in the codebase. On macOS 14/15 the
-same views render standard native chrome. There is exactly one glass-adjacent
-decision the app makes explicitly: giving the settings `NSWindow` a
-transparent titlebar plus `.unified` toolbar style (see §7), which is what
-unlocks the Tahoe unified titlebar and floating sidebar. Everything else is
-default behavior of stock components.
-
-## 2. Design tokens
-
-See the YAML front-matter above. Two radii, one spacing unit, one materials
-policy, no color tokens — colors are system semantic (§3), not app-owned.
-
-## 3. Colors
-
-No hex values, no custom `Color` assets. All color is system-semantic:
-
-| Role | Token | Where |
-|---|---|---|
+|---|---|
 | Primary text | `.primary` / `label` | headings, body |
 | Secondary text | `.secondary` / `secondaryLabel` | captions, subtitles |
 | Accent | `.tint` / `Color.accentColor` | selected state, primary buttons, drop-target border |

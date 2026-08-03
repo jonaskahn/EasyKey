@@ -1,3 +1,21 @@
+---
+id: "existing-problems"
+title: "Known Platform Problems"
+docforge_provenance:
+  schema: "2.0"
+  doc_id: "existing-problems"
+  path: "docs/PROBLEMS.md"
+  generated_at: "2026-08-03T10:27:57+00:00"
+  generator:
+    name: "docforge"
+    version: "2.8.0"
+  tier: "diligence"
+  target_depth: "reference"
+  graph:
+    provider: "codegraph"
+    flow: "none"
+  sections: []
+---
 # Known Platform Problems
 
 Issues below are caused by macOS system behavior EasyKey cannot control, not by EasyKey's own logic. They are documented here rather than tracked as bugs.

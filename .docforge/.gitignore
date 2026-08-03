@@ -1,0 +1,9 @@
+# Ephemeral run state and scratch space for Docforge
+tmp/
+audits/
+scratch/
+backups/
+cache/
+*.tmp
+*.log
+dashboard/

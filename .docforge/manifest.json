@@ -1,0 +1,4181 @@
+{
+  "version": "3.1",
+  "generated_at": "2026-08-03T08:30:19+00:00",
+  "project": {
+    "name": "EasyKey",
+    "root": "/Volumes/WS/Projects/Personal/EasyKey",
+    "tier": "diligence",
+    "profiles": {
+      "shapes": [
+        "desktop-app",
+        "library-sdk"
+      ],
+      "platforms": [
+        "macos"
+      ],
+      "frameworks": [
+        "swiftui",
+        "appkit"
+      ],
+      "concerns": [
+        "accessibility",
+        "localization",
+        "secure-storage",
+        "privacy",
+        "ai-ml",
+        "auto-update",
+        "login-helper"
+      ],
+      "audiences": [
+        "engineers",
+        "beginners"
+      ]
+    }
+  },
+  "discovery": [
+    {
+      "dimension": "shapes",
+      "id": "desktop-app",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKey.xcodeproj/project.pbxproj"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:sdkroot-=-macosx"
+      ],
+      "ambiguous_with": [
+        {
+          "dimension": "platforms",
+          "id": "macos",
+          "confidence": "candidate",
+          "cue": "content:sdkroot-=-macosx"
+        }
+      ]
+    },
+    {
+      "dimension": "shapes",
+      "id": "library-sdk",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKey.xcodeproj/project.pbxproj"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:com.apple.product-type.framework"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "platforms",
+      "id": "macos",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKey.xcodeproj/project.pbxproj",
+        "EasyKeyApp/AppCoordinator.swift",
+        "EasyKeyApp/AppDelegate.swift",
+        "EasyKeyApp/ContentView.swift",
+        "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "EasyKeyApp/Coordination/AppMainMenuInstaller.swift",
+        "EasyKeyApp/Coordination/LogExporter.swift",
+        "EasyKeyApp/Coordination/MenuPopoverView.swift",
+        "EasyKeyApp/Coordination/SettingsWindowPresenter.swift",
+        "EasyKeyApp/Coordination/SmartSwitchController.swift",
+        "EasyKeyApp/Coordination/StatusItemController.swift",
+        "EasyKeyApp/Coordination/StatusMenuActionTarget.swift",
+        "EasyKeyApp/Coordination/StatusMenuBuilder.swift",
+        "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardThumbnailLoader.swift",
+        "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift",
+        "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:import-appkit",
+        "content:sdkroot-=-macosx"
+      ],
+      "ambiguous_with": [
+        {
+          "dimension": "frameworks",
+          "id": "appkit",
+          "confidence": "candidate",
+          "cue": "content:import-appkit"
+        },
+        {
+          "dimension": "shapes",
+          "id": "desktop-app",
+          "confidence": "candidate",
+          "cue": "content:sdkroot-=-macosx"
+        }
+      ]
+    },
+    {
+      "dimension": "frameworks",
+      "id": "swiftui",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/AppDelegate.swift",
+        "EasyKeyApp/ContentView.swift",
+        "EasyKeyApp/Coordination/MenuPopoverView.swift",
+        "EasyKeyApp/Coordination/SettingsWindowPresenter.swift",
+        "EasyKeyApp/Coordination/StatusItemController.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardEntryRow.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "EasyKeyApp/Features/Onboarding/OnboardingView.swift",
+        "EasyKeyApp/Features/Settings/About/AboutSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Clipboard/ClipboardSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Encoding/EncodingSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Macros/MacroEditorSheet.swift",
+        "EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift",
+        "EasyKeyApp/Features/Settings/SettingsSection.swift",
+        "EasyKeyApp/Features/Settings/SettingsShell.swift",
+        "EasyKeyApp/Features/Settings/Shared/InterfaceLanguagePicker.swift",
+        "EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:import-swiftui"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "frameworks",
+      "id": "appkit",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/AppCoordinator.swift",
+        "EasyKeyApp/AppDelegate.swift",
+        "EasyKeyApp/ContentView.swift",
+        "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "EasyKeyApp/Coordination/AppMainMenuInstaller.swift",
+        "EasyKeyApp/Coordination/LogExporter.swift",
+        "EasyKeyApp/Coordination/MenuPopoverView.swift",
+        "EasyKeyApp/Coordination/SettingsWindowPresenter.swift",
+        "EasyKeyApp/Coordination/SmartSwitchController.swift",
+        "EasyKeyApp/Coordination/StatusItemController.swift",
+        "EasyKeyApp/Coordination/StatusMenuActionTarget.swift",
+        "EasyKeyApp/Coordination/StatusMenuBuilder.swift",
+        "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardThumbnailLoader.swift",
+        "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift",
+        "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift",
+        "EasyKeyApp/Features/Onboarding/OnboardingView.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:import-appkit"
+      ],
+      "ambiguous_with": [
+        {
+          "dimension": "platforms",
+          "id": "macos",
+          "confidence": "candidate",
+          "cue": "content:import-appkit"
+        }
+      ]
+    },
+    {
+      "dimension": "concerns",
+      "id": "accessibility",
+      "confidence": "candidate",
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "EasyKeyApp/Coordination/MenuPopoverView.swift",
+        "EasyKeyApp/Coordination/StatusItemController.swift",
+        "EasyKeyApp/Coordination/StatusMenuBuilder.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardActionCoordinator.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardEntryRow.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift",
+        "EasyKeyApp/Features/Onboarding/OnboardingView.swift",
+        "EasyKeyApp/Features/Settings/About/AboutSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Clipboard/ClipboardSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Encoding/EncodingSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Macros/MacroEditorSheet.swift",
+        "EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift",
+        "EasyKeyApp/Features/Settings/SettingsShell.swift",
+        "EasyKeyApp/Features/Settings/Shared/InterfaceLanguagePicker.swift",
+        "EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift",
+        "EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift",
+        "EasyKeyApp/Features/Settings/System/HealthPill.swift",
+        "EasyKeyApp/Features/Settings/System/SystemHealthCard.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:accessibility"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "localization",
+      "confidence": "confirmed",
+      "evidence": [
+        "EasyKeyApp/Localizable.xcstrings"
+      ],
+      "match_strength": "strong",
+      "cues": [
+        "path:easykeyapp"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "authentication",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift",
+        "EasyKeyApp/Features/Translation/GeminiTranslationProvider.swift",
+        "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:authentication"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "authorization",
+      "confidence": "candidate",
+      "evidence": [
+        "docs/RELEASE.md"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:authorization"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "notifications",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/Coordination/SettingsWindowPresenter.swift",
+        "EasyKeyApp/Coordination/StatusItemController.swift",
+        "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+        "EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift",
+        "EasyKeyApp/Features/Translation/MenuPopoverTranslationView.swift",
+        "EasyKeyApp/Features/Translation/TranslationPanelView.swift",
+        "EasyKeyApp/Features/Translation/TranslationTextEditor.swift",
+        "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+        "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift",
+        "EasyKeyTests/WorkspaceObserverTests.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:notification"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "background-processing",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/Coordination/MenuPopoverView.swift",
+        "EasyKeyApp/Features/Settings/Encoding/EncodingSettingsView.swift",
+        "EasyKeyApp/Features/Settings/Macros/MacroEditorSheet.swift",
+        "EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift",
+        "EasyKeyApp/Features/Settings/System/SystemHealthCard.swift",
+        "EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift",
+        "EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift",
+        "EasyKeyApp/Features/Translation/MenuPopoverTranslationView.swift",
+        "EasyKeyApp/Features/Translation/TranslationModel.swift",
+        "EasyKeyApp/Features/Translation/TranslationPanelView.swift",
+        "EasyKeyApp/Features/Translation/TranslationProviderIcon.swift",
+        "EasyKeyTests/KeyboardServiceIntegrationTests.swift",
+        "EasyKeyUITests/XCUITestHelpers.swift",
+        "docs/DESIGN.md"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:background"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "secure-storage",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyEngineCore/Translation/TranslationOptions.swift",
+        "EasyEngineCore/Translation/TranslationProviderResolver.swift",
+        "EasyKey.xcodeproj/project.pbxproj",
+        "EasyKeyApp/AppCoordinator.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+        "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift",
+        "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+        "EasyKeyApp/Features/Translation/TranslationProviding.swift",
+        "EasyKeyTests/AnthropicTranslationProviderTests.swift",
+        "EasyKeyTests/ClipboardHistoryModelTests.swift",
+        "EasyKeyTests/ClipboardPersistenceTests.swift",
+        "EasyKeyTests/ClipboardServicesExtendedTests.swift",
+        "EasyKeyTests/ClipboardServicesTests.swift",
+        "EasyKeyTests/ClipboardSupportTests.swift",
+        "EasyKeyTests/DeepLTranslationProviderTests.swift",
+        "EasyKeyTests/GeminiTranslationProviderTests.swift",
+        "EasyKeyTests/GoogleTranslationProviderTests.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:keychain",
+        "content:keystore"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "privacy",
+      "confidence": "confirmed",
+      "evidence": [
+        "docs/PRIVACY.md"
+      ],
+      "match_strength": "strong",
+      "cues": [
+        "path:privacy.md"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "analytics",
+      "confidence": "candidate",
+      "evidence": [
+        "README.md",
+        "docs/CONVENTIONS.md",
+        "docs/PRIVACY.md"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:analytics"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "media",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/Features/Translation/TranslationSpeechController.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:avfoundation"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "ai-ml",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyEngineCore/Translation/TranslationOptions.swift",
+        "EasyKey.xcodeproj/project.pbxproj",
+        "EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift",
+        "EasyKeyApp/Features/Settings/Translation/TranslationModelCatalog.swift",
+        "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift",
+        "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift",
+        "EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift",
+        "EasyKeyApp/Features/Translation/TranslationProviding.swift",
+        "EasyKeyTests/AppCoordinatorWiringTests.swift",
+        "EasyKeyTests/LocalizationTests.swift",
+        "EasyKeyTests/OpenAITranslationProviderTestSupport.swift",
+        "EasyKeyTests/OpenAITranslationProviderTests.swift",
+        "EasyKeyTests/TranslationModelCatalogTests.swift",
+        "EasyKeyTests/TranslationOptionsTests.swift",
+        "EasyKeyTests/TranslationPanelViewTests.swift",
+        "EasyKeyTests/TranslationSettingsModelTests.swift",
+        "docs/PRIVACY.md",
+        "docs/THIRD_PARTY_NOTICES.md"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:openai"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "auto-update",
+      "confidence": "candidate",
+      "evidence": [
+        ".github/workflows/publish-appcast.yml",
+        "EasyKey.xcodeproj/project.pbxproj",
+        "EasyKeyApp/UpdateService.swift",
+        "EasyKeyTests/UpdateServiceTestModeTests.swift",
+        "README.md",
+        "Scripts/archive.sh",
+        "Scripts/check-sparkle-pin.sh",
+        "Scripts/generate-appcast.py",
+        "docs/PRIVACY.md",
+        "docs/RELEASE.md",
+        "docs/THIRD_PARTY_NOTICES.md"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:sparkle"
+      ],
+      "ambiguous_with": []
+    },
+    {
+      "dimension": "concerns",
+      "id": "login-helper",
+      "confidence": "candidate",
+      "evidence": [
+        "EasyKeyApp/Coordination/LoginItemController.swift",
+        "EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements",
+        "EasyKeyTests/LoginHelperHardeningTests.swift",
+        "EasyKeyTests/LoginHelperWatchdogTests.swift"
+      ],
+      "match_strength": "weak",
+      "cues": [
+        "content:smappservice",
+        "path:easykeyloginhelper",
+        "path:easykeytests"
+      ],
+      "ambiguous_with": []
+    }
+  ],
+  "discovery_gate": null,
+  "documents": [
+    {
+      "id": "architecture_index",
+      "title": "Architecture",
+      "type": "folder-index",
+      "path": "docs/architecture/README.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 9,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "architecture_index",
+        "path": "docs/architecture/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/architecture_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 20
+    },
+    {
+      "id": "arch_high_level",
+      "title": "Arch High Level",
+      "type": "architecture-high-level",
+      "path": "docs/architecture/high-level.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/architecture/templates/architecture-high-level.md",
+      "instruction_file": "content/architecture/instructions/architecture-high-level.md",
+      "target_depth": "orientation",
+      "write_order": 10,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "arch_high_level",
+        "path": "docs/architecture/high-level.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/arch_high_level.md"
+      },
+      "contract_revision": "2.12.0",
+      "nav_order": 21
+    },
+    {
+      "id": "arch_low_level",
+      "title": "Arch Low Level",
+      "type": "architecture-low-level",
+      "path": "docs/architecture/low-level.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/architecture/templates/architecture-low-level.md",
+      "instruction_file": "content/architecture/instructions/architecture-low-level.md",
+      "target_depth": "deep-dive",
+      "write_order": 11,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "arch_low_level",
+        "path": "docs/architecture/low-level.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/arch_low_level.md"
+      },
+      "contract_revision": "2.12.0",
+      "nav_order": 23
+    },
+    {
+      "id": "architecture_constraints",
+      "title": "Architecture Constraints",
+      "type": "constraints",
+      "path": "docs/architecture/constraints.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "git_history"
+      ],
+      "scaffold_template": "content/architecture/templates/constraints.md",
+      "instruction_file": "content/architecture/instructions/constraints.md",
+      "target_depth": "deep-dive",
+      "write_order": 12,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "architecture_constraints",
+        "path": "docs/architecture/constraints.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/architecture_constraints.md"
+      },
+      "nav_order": 30
+    },
+    {
+      "id": "dependencies",
+      "title": "Dependencies",
+      "type": "dependencies-inventory",
+      "path": "docs/architecture/dependencies.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/architecture/templates/dependencies.md",
+      "instruction_file": "content/architecture/instructions/dependencies-inventory.md",
+      "target_depth": "deep-dive",
+      "write_order": 13,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "dependencies",
+        "path": "docs/architecture/dependencies.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/dependencies.md"
+      },
+      "nav_order": 31
+    },
+    {
+      "id": "tech_debt",
+      "title": "Tech Debt",
+      "type": "tech-debt-register",
+      "path": "docs/architecture/tech-debt.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "git_history"
+      ],
+      "scaffold_template": "content/architecture/templates/tech-debt.md",
+      "instruction_file": "content/architecture/instructions/tech-debt-register.md",
+      "target_depth": "deep-dive",
+      "write_order": 14,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "tech_debt",
+        "path": "docs/architecture/tech-debt.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/tech_debt.md"
+      },
+      "nav_order": 32
+    },
+    {
+      "id": "concepts_index",
+      "title": "Architecture concepts",
+      "type": "folder-index",
+      "path": "docs/architecture/concepts/README.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 15,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "concepts_index",
+        "path": "docs/architecture/concepts/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/concepts_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 25
+    },
+    {
+      "id": "app_lifecycle",
+      "title": "App Lifecycle",
+      "type": "application-lifecycle",
+      "path": "docs/architecture/application-lifecycle.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/architecture/templates/application-lifecycle.md",
+      "instruction_file": "content/architecture/instructions/application-lifecycle.md",
+      "target_depth": "deep-dive",
+      "write_order": 16,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "app_lifecycle",
+        "path": "docs/architecture/application-lifecycle.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/app_lifecycle.md"
+      },
+      "nav_order": 22
+    },
+    {
+      "id": "ai_integration",
+      "title": "Ai Integration",
+      "type": "ai-integration",
+      "path": "docs/architecture/ai-integration.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "concern",
+            "id": "ai-ml"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/architecture/templates/ai-integration.md",
+      "instruction_file": "content/architecture/instructions/ai-integration.md",
+      "target_depth": "deep-dive",
+      "write_order": 17,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "ai_integration",
+        "path": "docs/architecture/ai-integration.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/ai_integration.md"
+      },
+      "nav_order": 28
+    },
+    {
+      "id": "app_ui_state",
+      "title": "App Ui State",
+      "type": "ui-navigation-state",
+      "path": "docs/architecture/ui-and-state.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/architecture/templates/ui-navigation-state.md",
+      "instruction_file": "content/architecture/instructions/ui-navigation-state.md",
+      "target_depth": "deep-dive",
+      "write_order": 17,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "app_ui_state",
+        "path": "docs/architecture/ui-and-state.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:08+00:00",
+        "report_path": ".docforge/audits/app_ui_state.md"
+      }
+    },
+    {
+      "id": "platform_integration",
+      "title": "Platform Integration",
+      "type": "platform-integration",
+      "path": "docs/architecture/platform-integration.md",
+      "group": "architecture",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/architecture/templates/platform-integration.md",
+      "instruction_file": "content/architecture/instructions/platform-integration.md",
+      "target_depth": "deep-dive",
+      "write_order": 18,
+      "provenance_mode": "sections",
+      "audit_profile": "architecture",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "platform_integration",
+        "path": "docs/architecture/platform-integration.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/platform_integration.md"
+      }
+    },
+    {
+      "id": "product_index",
+      "title": "Product",
+      "type": "folder-index",
+      "path": "docs/product/README.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 19,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "product_index",
+        "path": "docs/product/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/product_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 10
+    },
+    {
+      "id": "product_overview",
+      "title": "Product Overview",
+      "type": "product-overview",
+      "path": "docs/product/overview.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/shared/generic.template.md",
+      "instruction_file": "content/product/instructions/product-overview.md",
+      "target_depth": "orientation",
+      "write_order": 20,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "product_overview",
+        "path": "docs/product/overview.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/product_overview.md"
+      }
+    },
+    {
+      "id": "flows_index",
+      "title": "Flows",
+      "type": "flow-index",
+      "path": "docs/flows/README.md",
+      "group": "flows",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/flows/flow-index.template.md",
+      "instruction_file": "content/flows/flow-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 21,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "flows_index",
+        "path": "docs/flows/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/flows_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 30
+    },
+    {
+      "id": "flow-clipboard-history",
+      "title": "Flow Clipboard History",
+      "type": "flow",
+      "path": "docs/flows/clipboard-history.md",
+      "group": "flows",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "flow"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_flow"
+          }
+        ],
+        "evidence": [
+          ".docforge/flow-index.json"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "flow_graph"
+      ],
+      "scaffold_template": "content/flows/flow.template.md",
+      "instruction_file": "content/flows/flows.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 22,
+      "provenance_mode": "sections",
+      "audit_profile": "flow",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "flow-clipboard-history",
+        "path": "docs/flows/clipboard-history.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/flow-clipboard-history.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "flow-keyboard-typing",
+      "title": "Flow Keyboard Typing",
+      "type": "flow",
+      "path": "docs/flows/keyboard-typing.md",
+      "group": "flows",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "flow"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_flow"
+          }
+        ],
+        "evidence": [
+          ".docforge/flow-index.json"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "flow_graph"
+      ],
+      "scaffold_template": "content/flows/flow.template.md",
+      "instruction_file": "content/flows/flows.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 22,
+      "provenance_mode": "sections",
+      "audit_profile": "flow",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "flow-keyboard-typing",
+        "path": "docs/flows/keyboard-typing.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/flow-keyboard-typing.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "flow-translation",
+      "title": "Flow Translation",
+      "type": "flow",
+      "path": "docs/flows/translation.md",
+      "group": "flows",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "flow"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_flow"
+          }
+        ],
+        "evidence": [
+          ".docforge/flow-index.json"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "flow_graph"
+      ],
+      "scaffold_template": "content/flows/flow.template.md",
+      "instruction_file": "content/flows/flows.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 22,
+      "provenance_mode": "sections",
+      "audit_profile": "flow",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "flow-translation",
+        "path": "docs/flows/translation.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/flow-translation.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "docs_index",
+      "title": "Documentation",
+      "type": "docs-index",
+      "path": "docs/README.md",
+      "group": "root",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/root/docs-index.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 30,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "beginners",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "docs_index",
+        "path": "docs/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:20+00:00",
+        "report_path": ".docforge/audits/docs_index.md"
+      },
+      "contract_revision": "2.11.0"
+    },
+    {
+      "id": "root_readme",
+      "title": "Repository README",
+      "type": "root-readme",
+      "path": "README.md",
+      "group": "root",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/root/root-readme.template.md",
+      "instruction_file": "content/root/root-readme.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 40,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "beginners",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "root_readme",
+        "path": "README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": null,
+      "contract_revision": "2.11.0"
+    },
+    {
+      "id": "quickstart",
+      "title": "Quickstart",
+      "type": "quickstart",
+      "path": "docs/product/quickstart.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/product/templates/quickstart.md",
+      "instruction_file": "content/product/instructions/quickstart.md",
+      "target_depth": "deep-dive",
+      "write_order": 41,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "beginners",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "quickstart",
+        "path": "docs/product/quickstart.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/quickstart.md"
+      }
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "type": "accessibility",
+      "path": "docs/product/accessibility.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "concern",
+            "id": "accessibility"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/product/templates/accessibility.md",
+      "instruction_file": "content/product/instructions/accessibility.md",
+      "target_depth": "deep-dive",
+      "write_order": 42,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "accessibility",
+        "path": "docs/product/accessibility.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/accessibility.md"
+      }
+    },
+    {
+      "id": "localization",
+      "title": "Localization",
+      "type": "localization",
+      "path": "docs/product/localization.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "concern",
+            "id": "localization"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/product/templates/localization.md",
+      "instruction_file": "content/product/instructions/localization.md",
+      "target_depth": "reference",
+      "write_order": 42,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "localization",
+        "path": "docs/product/localization.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/localization.md"
+      }
+    },
+    {
+      "id": "library_migrations_index",
+      "title": "Migrations",
+      "type": "folder-index",
+      "path": "docs/product/migrations/README.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 42,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "library_migrations_index",
+        "path": "docs/product/migrations/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/library_migrations_index.md"
+      },
+      "contract_revision": "2.11.0"
+    },
+    {
+      "id": "migration-settings",
+      "title": "Migration Settings",
+      "type": "migration",
+      "path": "docs/product/migrations/settings.md",
+      "group": "product",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "migration"
+          },
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_migration"
+          }
+        ],
+        "evidence": [
+          "path:EasyEngineCore/Settings/SettingsMigration.swift",
+          "path:EasyEngineCore/Settings/SettingsRepository.swift"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "git_history"
+      ],
+      "scaffold_template": "content/product/templates/migration.md",
+      "instruction_file": "content/product/instructions/migration.md",
+      "target_depth": "deep-dive",
+      "write_order": 43,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "migration-settings",
+        "path": "docs/product/migrations/settings.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/migration-settings.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "engineering_index",
+      "title": "Engineering",
+      "type": "folder-index",
+      "path": "docs/engineering/README.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 50,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "engineering_index",
+        "path": "docs/engineering/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/engineering_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 40
+    },
+    {
+      "id": "setup_guide",
+      "title": "Setup Guide",
+      "type": "setup-guide",
+      "path": "docs/engineering/setup.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/engineering/templates/setup.md",
+      "instruction_file": "content/engineering/instructions/setup-guide.md",
+      "target_depth": "deep-dive",
+      "write_order": 51,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "setup_guide",
+        "path": "docs/engineering/setup.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/setup_guide.md"
+      }
+    },
+    {
+      "id": "testing_guide",
+      "title": "Testing Guide",
+      "type": "testing-guide",
+      "path": "docs/engineering/testing.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/engineering/templates/testing-guide.md",
+      "instruction_file": "content/engineering/instructions/testing-guide.md",
+      "target_depth": "deep-dive",
+      "write_order": 52,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "testing_guide",
+        "path": "docs/engineering/testing.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/testing_guide.md"
+      }
+    },
+    {
+      "id": "conventions",
+      "title": "Conventions",
+      "type": "conventions",
+      "path": "docs/engineering/conventions.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          },
+          {
+            "kind": "condition",
+            "id": "conventions_source"
+          }
+        ],
+        "evidence": [
+          "docs/CONVENTIONS.md",
+          "docs/conventions.md"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/engineering/templates/conventions.md",
+      "instruction_file": "content/engineering/instructions/conventions.md",
+      "target_depth": "deep-dive",
+      "write_order": 53,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "conventions",
+        "path": "docs/engineering/conventions.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/conventions.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "release_guide",
+      "title": "Release Guide",
+      "type": "release-guide",
+      "path": "docs/engineering/release.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests",
+        "git_history"
+      ],
+      "scaffold_template": "content/engineering/templates/release-guide.md",
+      "instruction_file": "content/engineering/instructions/release-guide.md",
+      "target_depth": "deep-dive",
+      "write_order": 54,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "release_guide",
+        "path": "docs/engineering/release.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:09+00:00",
+        "report_path": ".docforge/audits/release_guide.md"
+      }
+    },
+    {
+      "id": "library_publishing",
+      "title": "Library Publishing",
+      "type": "publishing",
+      "path": "docs/engineering/publishing.md",
+      "group": "engineering",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests",
+        "git_history"
+      ],
+      "scaffold_template": "content/engineering/templates/publishing.md",
+      "instruction_file": "content/engineering/instructions/publishing.md",
+      "target_depth": "deep-dive",
+      "write_order": 57,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "library_publishing",
+        "path": "docs/engineering/publishing.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/library_publishing.md"
+      }
+    },
+    {
+      "id": "reference_index",
+      "title": "Reference",
+      "type": "folder-index",
+      "path": "docs/reference/README.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 60,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "reference_index",
+        "path": "docs/reference/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/reference_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 60
+    },
+    {
+      "id": "configuration",
+      "title": "Configuration",
+      "type": "configuration",
+      "path": "docs/reference/configuration.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/reference/templates/configuration.md",
+      "instruction_file": "content/reference/instructions/configuration.md",
+      "target_depth": "reference",
+      "write_order": 61,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "configuration",
+        "path": "docs/reference/configuration.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/configuration.md"
+      },
+      "nav_order": 61
+    },
+    {
+      "id": "limitations",
+      "title": "Limitations",
+      "type": "limitations-register",
+      "path": "docs/reference/limitations.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "git_history"
+      ],
+      "scaffold_template": "content/reference/templates/limitations.md",
+      "instruction_file": "content/reference/instructions/limitations-register.md",
+      "target_depth": "deep-dive",
+      "write_order": 62,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "limitations",
+        "path": "docs/reference/limitations.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/limitations.md"
+      },
+      "nav_order": 69
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "type": "glossary",
+      "path": "docs/reference/glossary.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/reference/templates/glossary.md",
+      "instruction_file": "content/shared/glossary.instruction.md",
+      "target_depth": "reference",
+      "write_order": 63,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "glossary",
+        "path": "docs/reference/glossary.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/glossary.md"
+      },
+      "nav_order": 70
+    },
+    {
+      "id": "tech_stack",
+      "title": "Tech Stack",
+      "type": "tech-stack",
+      "path": "docs/reference/tech-stack.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/reference/templates/tech-stack.md",
+      "instruction_file": "content/reference/instructions/tech-stack.md",
+      "target_depth": "reference",
+      "write_order": 63,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "tech_stack",
+        "path": "docs/reference/tech-stack.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/tech_stack.md"
+      },
+      "nav_order": 67
+    },
+    {
+      "id": "api_reference",
+      "title": "Api Reference",
+      "type": "api-reference",
+      "path": "docs/reference/api.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/reference/templates/api-reference.md",
+      "instruction_file": "content/reference/instructions/api-reference.md",
+      "target_depth": "reference",
+      "write_order": 64,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "api_reference",
+        "path": "docs/reference/api.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/api_reference.md"
+      },
+      "nav_order": 62
+    },
+    {
+      "id": "library_compatibility",
+      "title": "Library Compatibility",
+      "type": "compatibility",
+      "path": "docs/reference/compatibility.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "library-sdk"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/reference/templates/compatibility.md",
+      "instruction_file": "content/reference/instructions/compatibility.md",
+      "target_depth": "reference",
+      "write_order": 66,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "library_compatibility",
+        "path": "docs/reference/compatibility.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/library_compatibility.md"
+      },
+      "nav_order": 68
+    },
+    {
+      "id": "platform_compatibility",
+      "title": "Platform Compatibility",
+      "type": "platform-compatibility",
+      "path": "docs/reference/platform-compatibility.md",
+      "group": "reference",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests",
+        "git_history"
+      ],
+      "scaffold_template": "content/reference/templates/platform-compatibility.md",
+      "instruction_file": "content/reference/instructions/platform-compatibility.md",
+      "target_depth": "reference",
+      "write_order": 66,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "platform_compatibility",
+        "path": "docs/reference/platform-compatibility.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/platform_compatibility.md"
+      },
+      "nav_order": 68
+    },
+    {
+      "id": "operations_index",
+      "title": "Operations",
+      "type": "folder-index",
+      "path": "docs/operations/README.md",
+      "group": "operations",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 70,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "operators",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "operations_index",
+        "path": "docs/operations/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/operations_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 50
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment",
+      "type": "deployment",
+      "path": "docs/operations/deployment.md",
+      "group": "operations",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/operations/templates/deployment.md",
+      "instruction_file": "content/operations/instructions/deployment.md",
+      "target_depth": "deep-dive",
+      "write_order": 71,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "operators",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "deployment",
+        "path": "docs/operations/deployment.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/deployment.md"
+      }
+    },
+    {
+      "id": "distribution",
+      "title": "Distribution",
+      "type": "application-distribution",
+      "path": "docs/operations/distribution.md",
+      "group": "operations",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests",
+        "git_history"
+      ],
+      "scaffold_template": "content/operations/templates/application-distribution.md",
+      "instruction_file": "content/operations/instructions/application-distribution.md",
+      "target_depth": "deep-dive",
+      "write_order": 71,
+      "provenance_mode": "sections",
+      "audit_profile": "procedure",
+      "presentation": {
+        "primary_audience": "operators",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "distribution",
+        "path": "docs/operations/distribution.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/distribution.md"
+      }
+    },
+    {
+      "id": "observability",
+      "title": "Observability",
+      "type": "observability",
+      "path": "docs/operations/observability.md",
+      "group": "operations",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/operations/templates/observability.md",
+      "instruction_file": "content/operations/instructions/observability.md",
+      "target_depth": "deep-dive",
+      "write_order": 72,
+      "provenance_mode": "sections",
+      "audit_profile": "operations",
+      "presentation": {
+        "primary_audience": "operators",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "observability",
+        "path": "docs/operations/observability.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/observability.md"
+      }
+    },
+    {
+      "id": "runbooks_index",
+      "title": "Runbooks",
+      "type": "folder-index",
+      "path": "docs/operations/runbooks/README.md",
+      "group": "operations",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 73,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "operators",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "runbooks_index",
+        "path": "docs/operations/runbooks/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/runbooks_index.md"
+      },
+      "contract_revision": "2.11.0"
+    },
+    {
+      "id": "security_root",
+      "title": "Security Root",
+      "type": "security-policy",
+      "path": "SECURITY.md",
+      "group": "security",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/security/templates/root-security.md",
+      "instruction_file": "content/security/security-policy.instruction.md",
+      "target_depth": "router",
+      "write_order": 75,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "security-reviewers",
+        "code": "contract-only",
+        "related_docs": "traceability",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "security_root",
+        "path": "SECURITY.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "router",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:20+00:00",
+        "report_path": ".docforge/audits/security_root.md"
+      }
+    },
+    {
+      "id": "security_index",
+      "title": "Security",
+      "type": "folder-index",
+      "path": "docs/security/README.md",
+      "group": "security",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 76,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "security-reviewers",
+        "code": "contract-only",
+        "related_docs": "traceability",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "security_index",
+        "path": "docs/security/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/security_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 70
+    },
+    {
+      "id": "threat_model",
+      "title": "Threat Model",
+      "type": "threat-model",
+      "path": "docs/security/threat-model.md",
+      "group": "security",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph"
+      ],
+      "scaffold_template": "content/security/templates/threat-model.md",
+      "instruction_file": "content/security/threat-model.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 77,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "security-reviewers",
+        "code": "contract-only",
+        "related_docs": "traceability",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "threat_model",
+        "path": "docs/security/threat-model.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:10+00:00",
+        "report_path": ".docforge/audits/threat_model.md"
+      },
+      "contract_revision": "2.8.0"
+    },
+    {
+      "id": "data_handling",
+      "title": "Data Handling",
+      "type": "data-handling",
+      "path": "docs/security/data-handling.md",
+      "group": "security",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/security/templates/data-handling.md",
+      "instruction_file": "content/security/data-handling.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 78,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "security-reviewers",
+        "code": "contract-only",
+        "related_docs": "traceability",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "data_handling",
+        "path": "docs/security/data-handling.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/data_handling.md"
+      }
+    },
+    {
+      "id": "platform_permissions",
+      "title": "Platform Permissions",
+      "type": "platform-permissions",
+      "path": "docs/security/permissions.md",
+      "group": "security",
+      "selection": {
+        "origins": [
+          {
+            "kind": "shape",
+            "id": "desktop-app"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "code_graph",
+        "manifests"
+      ],
+      "scaffold_template": "content/security/templates/platform-permissions.md",
+      "instruction_file": "content/security/platform-permissions.instruction.md",
+      "target_depth": "deep-dive",
+      "write_order": 79,
+      "provenance_mode": "sections",
+      "audit_profile": "risk",
+      "presentation": {
+        "primary_audience": "security-reviewers",
+        "code": "contract-only",
+        "related_docs": "traceability",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "platform_permissions",
+        "path": "docs/security/permissions.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/platform_permissions.md"
+      },
+      "contract_revision": "2.12.0"
+    },
+    {
+      "id": "decisions_index",
+      "title": "Decision log",
+      "type": "decision-index",
+      "path": "docs/architecture/decisions/README.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/decision-index.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "router",
+      "write_order": 80,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "decisions_index",
+        "path": "docs/architecture/decisions/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "router",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/decisions_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 90
+    },
+    {
+      "id": "adr-cgevent-tap-input",
+      "title": "Adr Cgevent Tap Input",
+      "type": "adr",
+      "path": "docs/architecture/decisions/cgevent-tap-input.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:README.md",
+          "path:EasyKeyKit/Keyboard/KeyboardEventTap.swift"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-cgevent-tap-input",
+        "path": "docs/architecture/decisions/cgevent-tap-input.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-cgevent-tap-input.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "adr-encrypted-clipboard",
+      "title": "Adr Encrypted Clipboard",
+      "type": "adr",
+      "path": "docs/architecture/decisions/encrypted-clipboard.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:README.md",
+          "path:EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-encrypted-clipboard",
+        "path": "docs/architecture/decisions/encrypted-clipboard.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-encrypted-clipboard.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "adr-log-redaction",
+      "title": "Adr Log Redaction",
+      "type": "adr",
+      "path": "docs/architecture/decisions/log-redaction.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:EasyKeyApp/Coordination/LogExporter.swift",
+          "path:docs/RELEASE.md"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-log-redaction",
+        "path": "docs/architecture/decisions/log-redaction.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-log-redaction.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "adr-settings-delta",
+      "title": "Adr Settings Delta",
+      "type": "adr",
+      "path": "docs/architecture/decisions/settings-delta.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:EasyEngineCore/Settings/EasyKeySettings.swift",
+          "path:EasyKeyKit/KeyboardService.swift"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-settings-delta",
+        "path": "docs/architecture/decisions/settings-delta.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-settings-delta.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "adr-single-instance",
+      "title": "Adr Single Instance",
+      "type": "adr",
+      "path": "docs/architecture/decisions/single-instance.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:EasyKeyApp/AppCoordinator.swift",
+          "path:EasyKeyApp/AppDelegate.swift"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-single-instance",
+        "path": "docs/architecture/decisions/single-instance.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-single-instance.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "adr-sparkle-updates",
+      "title": "Adr Sparkle Updates",
+      "type": "adr",
+      "path": "docs/architecture/decisions/sparkle-updates.md",
+      "group": "records",
+      "selection": {
+        "origins": [
+          {
+            "kind": "dynamic",
+            "id": "adr"
+          },
+          {
+            "kind": "condition",
+            "id": "discovered_decision"
+          }
+        ],
+        "evidence": [
+          "path:EasyKeyApp/UpdateService.swift",
+          "path:.github/workflows/publish-appcast.yml"
+        ]
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/shared/adr.template.md",
+      "instruction_file": "content/shared/decision-records.instruction.md",
+      "target_depth": "reference",
+      "write_order": 81,
+      "provenance_mode": "sections",
+      "audit_profile": "decision",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "adr-sparkle-updates",
+        "path": "docs/architecture/decisions/sparkle-updates.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:20:11+00:00",
+        "report_path": ".docforge/audits/adr-sparkle-updates.md"
+      },
+      "contract_revision": "2.8.0",
+      "nav_order": 91
+    },
+    {
+      "id": "contributing_root",
+      "title": "Contributing Root",
+      "type": "contributing-router",
+      "path": "CONTRIBUTING.md",
+      "group": "contributing",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "manifests"
+      ],
+      "scaffold_template": "content/shared/generic.template.md",
+      "instruction_file": "content/contributing/contributing-router.instruction.md",
+      "target_depth": "router",
+      "write_order": 84,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "contributing_root",
+        "path": "CONTRIBUTING.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "router",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:20+00:00",
+        "report_path": ".docforge/audits/contributing_root.md"
+      }
+    },
+    {
+      "id": "contributing_index",
+      "title": "Contributing",
+      "type": "folder-index",
+      "path": "docs/contributing/README.md",
+      "group": "contributing",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [],
+      "scaffold_template": "content/shared/section-readme.template.md",
+      "instruction_file": "content/shared/folder-index.instruction.md",
+      "target_depth": "orientation",
+      "write_order": 85,
+      "provenance_mode": "sections",
+      "audit_profile": "router",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "contributing_index",
+        "path": "docs/contributing/README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:20+00:00",
+        "report_path": ".docforge/audits/contributing_index.md"
+      },
+      "contract_revision": "2.11.0",
+      "nav_order": 45
+    },
+    {
+      "id": "ownership",
+      "title": "Ownership",
+      "type": "ownership",
+      "path": "docs/contributing/ownership.md",
+      "group": "contributing",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "diligence"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/contributing/ownership.template.md",
+      "instruction_file": "content/contributing/ownership.instruction.md",
+      "target_depth": "reference",
+      "write_order": 86,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "engineers",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "ownership",
+        "path": "docs/contributing/ownership.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:19+00:00",
+        "report_path": ".docforge/audits/ownership.md"
+      }
+    },
+    {
+      "id": "changelog",
+      "title": "Changelog",
+      "type": "changelog",
+      "path": "CHANGELOG.md",
+      "group": "root",
+      "selection": {
+        "origins": [
+          {
+            "kind": "tier",
+            "id": "spine"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "complete",
+      "requires": [
+        "git_history"
+      ],
+      "scaffold_template": "content/root/changelog.template.md",
+      "instruction_file": "content/root/changelog.instruction.md",
+      "target_depth": "reference",
+      "write_order": 90,
+      "provenance_mode": "sections",
+      "audit_profile": "standard",
+      "presentation": {
+        "primary_audience": "beginners",
+        "code": "task-focused",
+        "related_docs": "compact",
+        "repository_paths": "actionable-only",
+        "source_evidence": "provenance-only"
+      },
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "changelog",
+        "path": "CHANGELOG.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "<TIER>",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      },
+      "audit": {
+        "mode": "cold-pass",
+        "verdict": "PASS",
+        "timestamp": "2026-08-03T09:56:20+00:00",
+        "report_path": ".docforge/audits/changelog.md"
+      }
+    },
+    {
+      "id": "existing-conventions",
+      "title": "Engineering Conventions",
+      "type": "kept-doc",
+      "path": "docs/_archive/CONVENTIONS.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 100,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-conventions",
+        "path": "docs/_archive/CONVENTIONS.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-design",
+      "title": "Design Notes",
+      "type": "kept-doc",
+      "path": "docs/_archive/DESIGN.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 101,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-design",
+        "path": "docs/_archive/DESIGN.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-privacy",
+      "title": "Privacy Policy",
+      "type": "kept-doc",
+      "path": "docs/_archive/PRIVACY.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 102,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-privacy",
+        "path": "docs/_archive/PRIVACY.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-problems",
+      "title": "Known Platform Problems",
+      "type": "kept-doc",
+      "path": "docs/_archive/PROBLEMS.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 103,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-problems",
+        "path": "docs/_archive/PROBLEMS.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-release",
+      "title": "Release Process",
+      "type": "kept-doc",
+      "path": "docs/_archive/RELEASE.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 104,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-release",
+        "path": "docs/_archive/RELEASE.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-telex",
+      "title": "Telex Rule Set",
+      "type": "kept-doc",
+      "path": "docs/_archive/TELEX.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 105,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-telex",
+        "path": "docs/_archive/TELEX.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    },
+    {
+      "id": "existing-third-party-notices",
+      "title": "Third-Party Notices",
+      "type": "kept-doc",
+      "path": "docs/_archive/THIRD_PARTY_NOTICES.md",
+      "group": "existing-docs",
+      "selection": {
+        "origins": [
+          {
+            "kind": "kept-existing",
+            "id": "existing-docs"
+          }
+        ],
+        "evidence": []
+      },
+      "status": "skipped",
+      "requires": [],
+      "target_depth": "reference",
+      "write_order": 106,
+      "provenance_mode": "manifest",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "existing-third-party-notices",
+        "path": "docs/_archive/THIRD_PARTY_NOTICES.md",
+        "generated_at": "2026-08-03T09:32:17+00:00",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "diligence",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": []
+      }
+    }
+  ],
+  "metadata": {
+    "total_documents": 66,
+    "planned": 0,
+    "in_progress": 0,
+    "generated": 0,
+    "needs_review": 0,
+    "complete": 65,
+    "skipped": 1,
+    "last_updated": "2026-08-03T09:56:20+00:00",
+    "summary": {
+      "total": 66,
+      "complete": 58,
+      "skipped": 8,
+      "in_progress": 0,
+      "generated": 0,
+      "needs_review": 0,
+      "last_updated": "2026-08-03T10:38:38+00:00"
+    }
+  }
+}
