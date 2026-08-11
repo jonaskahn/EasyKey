@@ -421,6 +421,40 @@ final class VietnameseEngineTonePlacementTests: XCTestCase {
         XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 4, insert: "việt"), .insert(" ")])
     }
 
+    func testTonelessCheckedFinalIsNotStructurallyValid() {
+        XCTAssertFalse(VietnameseOrthography.isValidWord("quiêt"))
+        XCTAssertFalse(VietnameseOrthography.isValidWord("quiet"))
+        XCTAssertFalse(VietnameseOrthography.isValidWord("tac"))
+        XCTAssertTrue(VietnameseOrthography.isValidWord("việt"))
+        XCTAssertTrue(VietnameseOrthography.isValidWord("tác"))
+    }
+
+    func testTonelessMarkedCheckedFinalAutoRestoresAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "quieet")
+        XCTAssertEqual(engine.currentBuffer, "quiêt")
+        let deleteCount = engine.currentBuffer.count
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(
+            output.edits,
+            [.replaceBackward(deleteCount: deleteCount, insert: "quieet"), .insert(" ")]
+        )
+    }
+
+    func testEnglishCheckedFinalShapesAutoRestoreAtBoundary() {
+        for raw in ["quiet", "habit", "tacit"] {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, raw)
+            let deleteCount = engine.currentBuffer.count
+            let output = engine.process(event: KeyEvent(kind: .space))
+            XCTAssertEqual(
+                output.edits,
+                [.replaceBackward(deleteCount: deleteCount, insert: raw), .insert(" ")],
+                "Expected raw restore for \(raw)"
+            )
+        }
+    }
+
     func testTonePlacement_StandaloneUOrGlide_OldAndNewStyles() {
         for style in [ToneStyle.old, ToneStyle.new] {
             var config = EngineConfiguration()

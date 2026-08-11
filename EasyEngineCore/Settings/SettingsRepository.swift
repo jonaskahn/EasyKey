@@ -127,7 +127,10 @@ public final class SettingsRepository {
             quickTelexConsonants: settings.typing.quickTelexConsonants,
             standaloneWShortcut: settings.typing.standaloneWShortcut,
             bracketShortcuts: settings.typing.bracketShortcuts,
-            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
+            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter,
+            liveConfidenceScoring: settings.typing.liveConfidenceScoring,
+            liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
+            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold
         )
     }
 
@@ -197,6 +200,9 @@ public struct EngineConfiguration: Equatable, Sendable {
     public var standaloneWShortcut: Bool
     public var bracketShortcuts: Bool
     public var uppercaseFirstCharacter: Bool
+    public var liveConfidenceScoring: Bool
+    public var liveConfidenceLowThreshold: Double
+    public var liveConfidenceHighThreshold: Double
 
     public init(
         inputMethod: InputMethod = .simpleTelex,
@@ -207,7 +213,10 @@ public struct EngineConfiguration: Equatable, Sendable {
         quickTelexConsonants: Bool = false,
         standaloneWShortcut: Bool = true,
         bracketShortcuts: Bool = true,
-        uppercaseFirstCharacter: Bool = false
+        uppercaseFirstCharacter: Bool = false,
+        liveConfidenceScoring: Bool = false,
+        liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
+        liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold
     ) {
         self.inputMethod = inputMethod
         self.outputEncoding = outputEncoding
@@ -218,6 +227,9 @@ public struct EngineConfiguration: Equatable, Sendable {
         self.standaloneWShortcut = standaloneWShortcut
         self.bracketShortcuts = bracketShortcuts
         self.uppercaseFirstCharacter = uppercaseFirstCharacter
+        self.liveConfidenceScoring = liveConfidenceScoring
+        self.liveConfidenceLowThreshold = liveConfidenceLowThreshold
+        self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
     }
 }
 

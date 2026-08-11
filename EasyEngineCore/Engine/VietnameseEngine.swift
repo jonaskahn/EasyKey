@@ -17,10 +17,36 @@ public struct VietnameseEngine {
     }
 
     public var currentBuffer: String {
-        if state.forceRaw {
+        if displaysRawKeystrokes {
             return state.rawText
         }
-        return TransformEngine.encode(state, configuration: configuration)
+        return composedBuffer
+    }
+
+    /// Whether the live buffer shows raw keystrokes (`forceRaw` or low live-confidence band).
+    public var displaysRawKeystrokes: Bool {
+        state.forceRaw || shouldDisplayRawKeystrokesFromLiveConfidence
+    }
+
+    private var composedBuffer: String {
+        TransformEngine.encode(state, configuration: configuration)
+    }
+
+    private var shouldDisplayRawKeystrokesFromLiveConfidence: Bool {
+        configuration.liveConfidenceScoring
+            && !state.isEmpty
+            && liveConfidenceBand == .low
+    }
+
+    private var liveConfidenceBand: LiveConfidenceBand {
+        VietnameseOrthography.liveConfidenceBand(
+            score: VietnameseOrthography.liveConfidenceScore(
+                rawKeys: state.rawKeys,
+                atoms: state.atoms
+            ),
+            lowThreshold: configuration.liveConfidenceLowThreshold,
+            highThreshold: configuration.liveConfidenceHighThreshold
+        )
     }
 
     public mutating func process(event: KeyEvent) -> EngineOutput {
@@ -185,7 +211,7 @@ public struct VietnameseEngine {
     }
 
     private func resolvedBoundaryText() -> String {
-        let composed = currentBuffer
+        let composed = composedBuffer
         let raw = state.rawText
         guard configuration.spellCheck, composed != raw else {
             return composed

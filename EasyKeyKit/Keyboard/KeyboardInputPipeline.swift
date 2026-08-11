@@ -96,6 +96,10 @@ final class KeyboardInputPipeline {
         !engine.state.isEmpty
     }
 
+    var encodedUnitCountForTesting: Int {
+        synthesizer.encodedUnitCount
+    }
+
     var activeAppBundleIdentifier: String? {
         activeBundleIdentifier
     }
@@ -236,7 +240,9 @@ final class KeyboardInputPipeline {
     private func apply(proxy: CGEventTapProxy, _ output: EngineOutput) -> Bool {
         let rule = currentCompatibilityRule()
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
-        let replacementUnits = encodedUnits(for: engine.state, configuration: engine.configuration)
+        let composedEncodedUnits: [String]? = engine.displaysRawKeystrokes
+            ? nil
+            : encodedUnits(for: engine.state, configuration: engine.configuration)
         let inChromiumAddressBar = isChromiumAddressBarContext()
         var focusedCaretUnknown = false
 
@@ -253,6 +259,7 @@ final class KeyboardInputPipeline {
             case let .insert(text):
                 guard synthesizer.insert(proxy: proxy, text) else { return false }
             case let .replaceBackward(deleteCount, insert):
+                let replacementUnits = composedEncodedUnits ?? insert.map(String.init)
                 let strategy = applyReplaceBackward(
                     proxy: proxy,
                     deleteCount: deleteCount,
@@ -497,7 +504,10 @@ extension KeyboardInputPipeline {
             quickTelexConsonants: settings.typing.quickTelexConsonants,
             standaloneWShortcut: settings.typing.standaloneWShortcut,
             bracketShortcuts: settings.typing.bracketShortcuts,
-            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter
+            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter,
+            liveConfidenceScoring: settings.typing.liveConfidenceScoring,
+            liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
+            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold
         )
         if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
             configuration.outputEncoding = .unicodeCombining

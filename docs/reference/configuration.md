@@ -169,6 +169,7 @@ means disabled.
 | Output encoding | `input.encoding` | `unicode` | settings document | No |
 | Language switch shortcut | `input.switchShortcut` | `⌥Z` (keyCode 6 + option) | settings document | No |
 | Spell check | `typing.spellCheck` | `true` | settings document | No |
+| Live confidence scoring | `typing.liveConfidenceScoring` | `false` | settings document | No |
 | Restore invalid words | `typing.restoreInvalidWord` | `true` | settings document | No |
 | Tone style | `typing.toneStyle` | `old` | settings document | No |
 | Quick Telex consonants | `typing.quickTelexConsonants` | `false` | settings document | No |

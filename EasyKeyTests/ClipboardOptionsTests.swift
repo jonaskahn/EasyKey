@@ -69,7 +69,7 @@ final class ClipboardOptionsTests: XCTestCase {
     }
 
     func testCurrentSchemaVersionIsSeven() {
-        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 8)
+        XCTAssertEqual(EasyKeySettings.currentSchemaVersion, 9)
     }
 
     private func legacySettingsDataWithoutClipboard(schemaVersion: Int) throws -> Data {

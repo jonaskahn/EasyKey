@@ -953,6 +953,9 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(opts.toneStyle, .old)
         XCTAssertFalse(opts.quickTelexConsonants)
         XCTAssertFalse(opts.uppercaseFirstCharacter)
+        XCTAssertFalse(opts.liveConfidenceScoring)
+        XCTAssertEqual(opts.liveConfidenceLowThreshold, LiveConfidenceDefaults.lowThreshold)
+        XCTAssertEqual(opts.liveConfidenceHighThreshold, LiveConfidenceDefaults.highThreshold)
     }
 
     func testInputSettings_DefaultValues() {

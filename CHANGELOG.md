@@ -115,7 +115,11 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [Unreleased]
 
-Nothing is unreleased: the `v0.0.7` tag sits on `main` at HEAD, so no commits are pending release. Changes will be recorded here when a new version is cut.
+## [0.0.8] - 2026-08-11
+
+**Added**
+
+- Optional Tier 2 live-confidence scoring: while typing, show raw keystrokes when the in-progress word looks unlikely to be Vietnamese; Tier 1 spell-check at word boundaries is unchanged (off by default).
 
 ## [0.0.7] - 2026-07-23
 

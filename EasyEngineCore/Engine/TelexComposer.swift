@@ -1,7 +1,7 @@
 import Foundation
 
 /// Deterministic Vietnamese composition from raw keystrokes. Implements the
-/// verified Telex / Simple Telex rule set documented in docs/TELEX.md:
+/// verified Telex / Simple Telex rule set documented in docs/_archive/TELEX.md:
 /// pair modifiers (aa, aw, ee, oo, ow, uw, dd), tone keys (s/f/r/x/j, z
 /// removes tone), full-Telex extensions (standalone `w`→ư, `[`→ơ, `]`→ư,
 /// `{`→Ơ, `}`→Ư), position-free marks and tones, repeat-to-undo, and

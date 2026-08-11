@@ -55,9 +55,52 @@ final class KeyboardPipelineCoverageTests: XCTestCase {
         var settings = EasyKeySettings.defaults
         settings.typing.restoreInvalidWord = true
         settings.typing.toneStyle = .new
+        settings.typing.liveConfidenceScoring = true
+        settings.typing.liveConfidenceLowThreshold = 0.4
+        settings.typing.liveConfidenceHighThreshold = 0.75
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: nil)
         XCTAssertTrue(config.autoRestoreKeys)
         XCTAssertEqual(config.toneStyle, .new)
+        XCTAssertTrue(config.liveConfidenceScoring)
+        XCTAssertEqual(config.liveConfidenceLowThreshold, 0.4)
+        XCTAssertEqual(config.liveConfidenceHighThreshold, 0.75)
+    }
+
+    func testProcess_LiveConfidenceRawDisplay_TracksInsertCharacterUnits() {
+        var settings = EasyKeySettings.defaults
+        settings.typing.liveConfidenceScoring = true
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventFactory: { keyCode, keyDown in
+                CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: keyDown)
+            }
+        )
+
+        func keyEvent(character: String, keyCode: UInt16) -> CGEvent {
+            guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else {
+                fatalError("Could not create event")
+            }
+            event.setIntegerValueField(.keyboardEventKeycode, value: Int64(keyCode))
+            let utf16 = Array(character.utf16)
+            utf16.withUnsafeBufferPointer { buffer in
+                event.keyboardSetUnicodeString(stringLength: buffer.count, unicodeString: buffer.baseAddress)
+            }
+            return event
+        }
+
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+        for (character, keyCode) in [("s", UInt16(1)), ("t", 17), ("r", 15)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            let result = pipeline.process(proxy: proxy, type: .keyDown, event: event, keyCode: keyCode)
+            XCTAssertTrue(result.suppressesOriginal, character)
+        }
+
+        XCTAssertEqual(pipeline.encodedUnitCountForTesting, 3)
+
+        let backspace = keyEvent(character: "", keyCode: 51)
+        let backspaceResult = pipeline.process(proxy: proxy, type: .keyDown, event: backspace, keyCode: 51)
+        XCTAssertTrue(backspaceResult.suppressesOriginal)
+        XCTAssertEqual(pipeline.encodedUnitCountForTesting, 2)
     }
 
     func testKeyCodeFromEventValid() {

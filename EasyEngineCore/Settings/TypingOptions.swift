@@ -9,6 +9,9 @@ public struct TypingOptions: Codable, Equatable, Sendable {
     public var bracketShortcuts: Bool
     public var restoreWordShortcut: Shortcut
     public var uppercaseFirstCharacter: Bool
+    public var liveConfidenceScoring: Bool
+    public var liveConfidenceLowThreshold: Double
+    public var liveConfidenceHighThreshold: Double
 
     public init(
         spellCheck: Bool = true,
@@ -18,7 +21,10 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         standaloneWShortcut: Bool = true,
         bracketShortcuts: Bool = true,
         restoreWordShortcut: Shortcut = .none,
-        uppercaseFirstCharacter: Bool = false
+        uppercaseFirstCharacter: Bool = false,
+        liveConfidenceScoring: Bool = false,
+        liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
+        liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold
     ) {
         self.spellCheck = spellCheck
         self.restoreInvalidWord = restoreInvalidWord
@@ -28,6 +34,9 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         self.bracketShortcuts = bracketShortcuts
         self.restoreWordShortcut = restoreWordShortcut
         self.uppercaseFirstCharacter = uppercaseFirstCharacter
+        self.liveConfidenceScoring = liveConfidenceScoring
+        self.liveConfidenceLowThreshold = liveConfidenceLowThreshold
+        self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -39,6 +48,9 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         case bracketShortcuts
         case restoreWordShortcut
         case uppercaseFirstCharacter
+        case liveConfidenceScoring
+        case liveConfidenceLowThreshold
+        case liveConfidenceHighThreshold
     }
 
     private enum LegacyCodingKeys: String, CodingKey {
@@ -62,5 +74,11 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         restoreWordShortcut = try container.decodeIfPresent(Shortcut.self, forKey: .restoreWordShortcut) ?? defaults.restoreWordShortcut
         uppercaseFirstCharacter = try container.decodeIfPresent(Bool.self, forKey: .uppercaseFirstCharacter) ?? defaults
             .uppercaseFirstCharacter
+        liveConfidenceScoring = try container.decodeIfPresent(Bool.self, forKey: .liveConfidenceScoring)
+            ?? defaults.liveConfidenceScoring
+        liveConfidenceLowThreshold = try container.decodeIfPresent(Double.self, forKey: .liveConfidenceLowThreshold)
+            ?? defaults.liveConfidenceLowThreshold
+        liveConfidenceHighThreshold = try container.decodeIfPresent(Double.self, forKey: .liveConfidenceHighThreshold)
+            ?? defaults.liveConfidenceHighThreshold
     }
 }

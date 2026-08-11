@@ -57,6 +57,11 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.spellCheck)
                 )
                 settingToggle(
+                    .typingLiveConfidenceScoring,
+                    description: .typingLiveConfidenceScoringDescription,
+                    isOn: setting(\.typing.liveConfidenceScoring)
+                )
+                settingToggle(
                     .typingRestoreInvalidWord,
                     description: .typingRestoreInvalidWordDescription,
                     isOn: setting(\.typing.restoreInvalidWord)

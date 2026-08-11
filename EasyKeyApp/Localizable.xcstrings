@@ -6948,6 +6948,40 @@
           }
         }
       }
+    },
+    "typing.liveConfidenceScoring": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live confidence scoring"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chấm điểm tin cậy khi gõ"
+          }
+        }
+      }
+    },
+    "typing.liveConfidenceScoring.description": {
+      "comment": "Live confidence scoring setting description",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "While typing, show raw keys when the word looks unlikely to be Vietnamese. Does not change spell-check at word boundaries."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi gõ, hiện phím thô nếu từ trông không giống tiếng Việt. Không đổi kiểm tra chính tả ở biên từ."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

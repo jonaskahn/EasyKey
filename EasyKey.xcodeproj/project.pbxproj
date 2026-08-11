@@ -257,6 +257,7 @@
 		T7000000000000000E /* KeyboardServiceStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T8000000000000000E /* KeyboardServiceStateTests.swift */; };
 		T7000000000000000F /* KeySynthesizerUtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T8000000000000000F /* KeySynthesizerUtilityTests.swift */; };
 		T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000010 /* KeyboardPipelineCoverageTests.swift */; };
+		T70000000000000011 /* LiveConfidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000011 /* LiveConfidenceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -527,7 +528,7 @@
 		E70000000000000000000004 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 		E70000000000000000000006 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../LICENSE; sourceTree = "<group>"; };
 		E70000000000000000000008 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../NOTICE; sourceTree = "<group>"; };
-		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../docs/THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
+		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../docs/_archive/THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
 		E700000000000000000000B2 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Resources/AppIcon.icns; sourceTree = "<group>"; };
 		E700000000000000000000C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeySettings.swift; sourceTree = "<group>"; };
@@ -594,6 +595,7 @@
 		T8000000000000000E /* KeyboardServiceStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceStateTests.swift; sourceTree = "<group>"; };
 		T8000000000000000F /* KeySynthesizerUtilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySynthesizerUtilityTests.swift; sourceTree = "<group>"; };
 		T80000000000000010 /* KeyboardPipelineCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPipelineCoverageTests.swift; sourceTree = "<group>"; };
+		T80000000000000011 /* LiveConfidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConfidenceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -782,6 +784,7 @@
 				A10B00000000000000000015 /* LocalizationTests.swift */,
 				C3D100000000000000000011 /* ArchitectureFitnessTests.swift */,
 				T80000000000000010 /* KeyboardPipelineCoverageTests.swift */,
+				T80000000000000011 /* LiveConfidenceTests.swift */,
 				T8000000000000000F /* KeySynthesizerUtilityTests.swift */,
 				T8000000000000000E /* KeyboardServiceStateTests.swift */,
 				T8000000000000000001 /* SessionStateTests.swift */,
@@ -1430,6 +1433,7 @@
 				A10B00000000000000000005 /* LocalizationTests.swift in Sources */,
 				C3D100000000000000000001 /* ArchitectureFitnessTests.swift in Sources */,
 				T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */,
+				T70000000000000011 /* LiveConfidenceTests.swift in Sources */,
 				T7000000000000000F /* KeySynthesizerUtilityTests.swift in Sources */,
 				T7000000000000000E /* KeyboardServiceStateTests.swift in Sources */,
 				T7000000000000000001 /* SessionStateTests.swift in Sources */,
@@ -1781,7 +1785,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1794,7 +1798,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1839,7 +1843,7 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyApp/EasyKeyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				EASYKEY_PRIVACY_POLICY_URL = "";
 				EASYKEY_SUPPORT_URL = "https://github.com/jonaskahn/EasyKey";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1848,7 +1852,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -1878,14 +1882,14 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = EasyKeyLoginHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1913,7 +1917,7 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyApp/EasyKeyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				EASYKEY_PRIVACY_POLICY_URL = "";
 				EASYKEY_SUPPORT_URL = "https://github.com/jonaskahn/EasyKey";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1922,7 +1926,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -1936,7 +1940,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1949,7 +1953,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1965,14 +1969,14 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = EasyKeyLoginHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1984,7 +1988,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1997,7 +2001,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2025,7 +2029,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2038,7 +2042,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
