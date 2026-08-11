@@ -192,7 +192,11 @@ final class KeyboardInputPipeline {
         guard settings.input.language == .vietnamese,
               settings.compatibility.otherLanguageSupport || !usesForeignInputSource
         else {
-            resetSession()
+            // Flush engine/synthesizer state but keep the macro trigger buffer:
+            // in English (or foreign-input-source) mode every keyDown lands in
+            // this branch, and resetSession() would wipe the partial trigger.
+            engine.reset()
+            synthesizer.resetEncodedUnits()
             return .bypassed
         }
 

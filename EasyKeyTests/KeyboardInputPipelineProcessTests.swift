@@ -58,12 +58,12 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         XCTAssertEqual(result.disposition, .suppressed)
     }
 
-    func testProcess_MacroDoesNotExpandInEnglishUnlessEnabled() {
+    func testProcess_VietnameseCategoryMacroDoesNotExpandInEnglish() {
         var settings = EasyKeySettings.defaults
         settings.input.language = .english
         settings.macro.enabled = true
         let pipeline = KeyboardInputPipeline(settings: settings)
-        pipeline.update(macros: [Macro(trigger: "sig", expansion: "Best regards")])
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "Best regards", category: .vietnamese)])
 
         for (character, keyCode) in [("s", UInt16(1)), ("i", 34), ("g", 5)] {
             let event = keyEvent(character: character, keyCode: keyCode)
@@ -74,6 +74,24 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
         XCTAssertFalse(result.suppressesOriginal)
         XCTAssertEqual(result.disposition, .bypassed)
+    }
+
+    func testProcess_EnglishCategoryMacroExpandsInEnglish() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.macro.enabled = true
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "Best regards", category: .english)])
+
+        for (character, keyCode) in [("s", UInt16(1)), ("i", 34), ("g", 5)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let delimiter = keyEvent(character: " ", keyCode: 49)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: delimiter, keyCode: 49)
+
+        XCTAssertTrue(result.suppressesOriginal)
+        XCTAssertEqual(result.disposition, .suppressed)
     }
 
     func testProcess_EmergencyShortcutPrecedesIgnoredApplication() {

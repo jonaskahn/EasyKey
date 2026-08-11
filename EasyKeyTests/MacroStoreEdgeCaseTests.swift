@@ -244,4 +244,87 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
         XCTAssertEqual(store.macros.count, 1)
         XCTAssertEqual(store.macros.first?.expansion, "hello")
     }
+
+    func testLegacyJSONWithoutCategory_DefaultsToVietnamese() throws {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+
+        let fileURL = directory.appendingPathComponent("macros.json")
+        let id = UUID()
+        let legacyDocument: [String: Any] = [
+            "id": id.uuidString,
+            "trigger": "sig",
+            "expansion": "best regards",
+            "isEnabled": true,
+            "createdAt": Date().timeIntervalSinceReferenceDate,
+            "updatedAt": Date().timeIntervalSinceReferenceDate,
+        ]
+        let data = try JSONSerialization.data(withJSONObject: [legacyDocument], options: [.prettyPrinted])
+        try data.write(to: fileURL)
+
+        let store = MacroStore(fileURL: fileURL)
+        XCTAssertEqual(store.macros.count, 1)
+        XCTAssertEqual(store.macros.first?.category, .vietnamese)
+    }
+
+    func testTSVExportIncludesCategory() throws {
+        let store = MacroStore()
+        _ = try store.add(trigger: "both", expansion: "hello", category: .both)
+        _ = try store.add(trigger: "en", expansion: "hi", category: .english)
+
+        let tsv = store.exportTSV()
+        XCTAssertTrue(tsv.contains("trigger\texpansion\tenabled\tcategory"))
+        XCTAssertTrue(tsv.contains("both\thello\t1\tboth"))
+        XCTAssertTrue(tsv.contains("en\thi\t1\tenglish"))
+    }
+
+    func testPreviewImportLegacyThreeColumn_DefaultsToVietnamese() throws {
+        let store = MacroStore()
+        let preview = try store.previewImport("trigger\texpansion\tenabled\nhello\tworld\t1")
+
+        XCTAssertEqual(preview.additions.count, 1)
+        XCTAssertEqual(preview.additions.first?.category, .vietnamese)
+    }
+
+    func testPreviewImportFourColumn_ParsesCategory() throws {
+        let store = MacroStore()
+        let preview = try store.previewImport("trigger\texpansion\tenabled\tcategory\nhello\tworld\t1\tenglish")
+
+        XCTAssertEqual(preview.additions.count, 1)
+        XCTAssertEqual(preview.additions.first?.category, .english)
+    }
+
+    func testDuplicateTriggerAllowedAcrossCategories() throws {
+        let store = MacroStore()
+        _ = try store.add(trigger: "cmp", expansion: "git commit", category: .english)
+        _ = try store.add(trigger: "cmp", expansion: "xin chào", category: .vietnamese)
+        XCTAssertEqual(store.macros.count, 2)
+    }
+
+    func testDuplicateTriggerRejectedWithinSameCategory() throws {
+        let store = MacroStore()
+        _ = try store.add(trigger: "cmp", expansion: "git commit", category: .english)
+        XCTAssertThrowsError(try store.add(trigger: "CMP", expansion: "other", category: .english)) {
+            XCTAssertEqual($0 as? MacroStoreError, .duplicateTrigger)
+        }
+    }
+
+    func testEditWithNilCategory_KeepsExistingCategory() throws {
+        let store = MacroStore()
+        let macro = try store.add(trigger: "cmp", expansion: "git commit", category: .both)
+
+        _ = try store.edit(id: macro.id, trigger: "cmp", expansion: "git push", isEnabled: true)
+
+        XCTAssertEqual(store.macros.first?.category, .both)
+    }
+
+    func testEditWithCategory_ChangesCategory() throws {
+        let store = MacroStore()
+        let macro = try store.add(trigger: "cmp", expansion: "git commit", category: .vietnamese)
+
+        _ = try store.edit(id: macro.id, trigger: "cmp", expansion: "git commit", isEnabled: true, category: .english)
+
+        XCTAssertEqual(store.macros.first?.category, .english)
+    }
 }

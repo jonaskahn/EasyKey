@@ -325,4 +325,54 @@ final class MacroExpanderCoverageTests: XCTestCase {
         )
         XCTAssertEqual(matched?.text, "by the way")
     }
+
+    private func expand(_ expander: inout MacroExpander, trigger: String, language: InputLanguage) -> MacroExpansion? {
+        for character in trigger {
+            _ = expander.consume(
+                character: character,
+                keyCode: 0,
+                modifiers: [],
+                options: MacroOptions(enabled: true),
+                language: language
+            )
+        }
+        return expander.consume(
+            character: "\n",
+            keyCode: 36,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: language
+        )
+    }
+
+    func testBothCategory_ExpandsInVietnameseAndEnglish() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way", category: .both)])
+        XCTAssertNotNil(expand(&expander, trigger: "btw", language: .vietnamese))
+        XCTAssertNotNil(expand(&expander, trigger: "btw", language: .english))
+    }
+
+    func testEnglishCategory_ExpandsOnlyInEnglish() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way", category: .english)])
+        XCTAssertNil(expand(&expander, trigger: "btw", language: .vietnamese))
+        XCTAssertNotNil(expand(&expander, trigger: "btw", language: .english))
+    }
+
+    func testVietnameseCategory_ExpandsOnlyInVietnamese() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "btw", expansion: "by the way", category: .vietnamese)])
+        XCTAssertNotNil(expand(&expander, trigger: "btw", language: .vietnamese))
+        XCTAssertNil(expand(&expander, trigger: "btw", language: .english))
+    }
+
+    func testSameTriggerDifferentCategories_MatchesByLanguage() {
+        var expander = MacroExpander()
+        expander.update(macros: [
+            Macro(trigger: "cmp", expansion: "git commit", category: .english),
+            Macro(trigger: "cmp", expansion: "xin chào", category: .vietnamese),
+        ])
+        XCTAssertEqual(expand(&expander, trigger: "cmp", language: .vietnamese)?.text, "xin chào")
+        XCTAssertEqual(expand(&expander, trigger: "cmp", language: .english)?.text, "git commit")
+    }
 }

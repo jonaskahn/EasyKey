@@ -1,10 +1,25 @@
 import Foundation
 
+public enum MacroCategory: String, Codable, CaseIterable, Sendable {
+    case vietnamese
+    case english
+    case both
+
+    public func matches(_ language: InputLanguage) -> Bool {
+        switch self {
+        case .vietnamese: language == .vietnamese
+        case .english: language == .english
+        case .both: true
+        }
+    }
+}
+
 public struct Macro: Codable, Equatable, Identifiable, Sendable {
     public let id: UUID
     public var trigger: String
     public var expansion: String
     public var isEnabled: Bool
+    public var category: MacroCategory
     public let createdAt: Date
     public var updatedAt: Date
 
@@ -13,6 +28,7 @@ public struct Macro: Codable, Equatable, Identifiable, Sendable {
         trigger: String,
         expansion: String,
         isEnabled: Bool = true,
+        category: MacroCategory = .vietnamese,
         createdAt: Date = Date(),
         updatedAt: Date = Date()
     ) {
@@ -20,8 +36,30 @@ public struct Macro: Codable, Equatable, Identifiable, Sendable {
         self.trigger = trigger
         self.expansion = expansion
         self.isEnabled = isEnabled
+        self.category = category
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case trigger
+        case expansion
+        case isEnabled
+        case category
+        case createdAt
+        case updatedAt
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        trigger = try container.decode(String.self, forKey: .trigger)
+        expansion = try container.decode(String.self, forKey: .expansion)
+        isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
+        category = try container.decodeIfPresent(MacroCategory.self, forKey: .category) ?? .vietnamese
+        createdAt = try container.decode(Date.self, forKey: .createdAt)
+        updatedAt = try container.decode(Date.self, forKey: .updatedAt)
     }
 }
 
@@ -83,8 +121,14 @@ public final class MacroStore {
     }
 
     @discardableResult
-    public func add(trigger: String, expansion: String, isEnabled: Bool = true, now: Date = Date()) throws -> Macro {
-        let macro = Macro(trigger: trigger, expansion: expansion, isEnabled: isEnabled, createdAt: now, updatedAt: now)
+    public func add(
+        trigger: String,
+        expansion: String,
+        isEnabled: Bool = true,
+        category: MacroCategory = .vietnamese,
+        now: Date = Date()
+    ) throws -> Macro {
+        let macro = Macro(trigger: trigger, expansion: expansion, isEnabled: isEnabled, category: category, createdAt: now, updatedAt: now)
         try validate(macro)
         var candidate = macrosByID
         candidate[macro.id] = macro
@@ -100,12 +144,16 @@ public final class MacroStore {
         trigger: String,
         expansion: String,
         isEnabled: Bool,
+        category: MacroCategory? = nil,
         now: Date = Date()
     ) throws -> Macro {
         guard var macro = macrosByID[id] else { throw MacroStoreError.unknownMacro }
         macro.trigger = trigger
         macro.expansion = expansion
         macro.isEnabled = isEnabled
+        if let category {
+            macro.category = category
+        }
         macro.updatedAt = now
         try validate(macro, excluding: id)
         var candidate = macrosByID
@@ -155,8 +203,8 @@ public final class MacroStore {
     }
 
     public func exportTSV() -> String {
-        (["trigger\texpansion\tenabled"] + macros.map {
-            "\($0.trigger)\t\($0.expansion)\t\($0.isEnabled ? "1" : "0")"
+        (["trigger\texpansion\tenabled\tcategory"] + macros.map {
+            "\($0.trigger)\t\($0.expansion)\t\($0.isEnabled ? "1" : "0")\t\($0.category.rawValue)"
         }).joined(separator: "\n") + "\n"
     }
 
@@ -177,15 +225,27 @@ public final class MacroStore {
         var unparseableRecords: [String] = []
         var seenTriggers: Set<String> = []
         for (offset, line) in text.split(whereSeparator: \.isNewline).enumerated() {
-            if offset == 0, line == "trigger\texpansion\tenabled" {
+            let fields = line.split(separator: "\t", omittingEmptySubsequences: false)
+            if offset == 0, fields.count == 3, line == "trigger\texpansion\tenabled" {
                 continue
             }
-            let fields = line.split(separator: "\t", omittingEmptySubsequences: false)
-            guard fields.count == 3, let isEnabled = Self.bool(from: String(fields[2])) else {
+            if offset == 0, fields.count == 4, line == "trigger\texpansion\tenabled\tcategory" {
+                continue
+            }
+            let category: MacroCategory
+            if fields.count == 3 {
+                category = .vietnamese
+            } else if fields.count == 4, let parsed = MacroCategory(rawValue: String(fields[3])) {
+                category = parsed
+            } else {
                 unparseableRecords.append(String(line))
                 continue
             }
-            let macro = Macro(trigger: String(fields[0]), expansion: String(fields[1]), isEnabled: isEnabled)
+            guard let isEnabled = Self.bool(from: String(fields[2])) else {
+                unparseableRecords.append(String(line))
+                continue
+            }
+            let macro = Macro(trigger: String(fields[0]), expansion: String(fields[1]), isEnabled: isEnabled, category: category)
             do {
                 try validateFields(macro)
             } catch {
@@ -193,11 +253,14 @@ public final class MacroStore {
                 continue
             }
             let normalizedTrigger = macro.trigger.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
-            guard seenTriggers.insert(normalizedTrigger).inserted else {
+            let triggerKey = "\(macro.category.rawValue):\(normalizedTrigger)"
+            guard seenTriggers.insert(triggerKey).inserted else {
                 unparseableRecords.append(String(line))
                 continue
             }
-            if let existing = macros.first(where: { $0.trigger.caseInsensitiveCompare(macro.trigger) == .orderedSame }) {
+            if let existing = macros.first(where: {
+                $0.category == macro.category && $0.trigger.caseInsensitiveCompare(macro.trigger) == .orderedSame
+            }) {
                 conflicts.append(MacroImportConflict(imported: macro, existing: existing))
             } else {
                 additions.append(macro)
@@ -220,6 +283,7 @@ public final class MacroStore {
                     trigger: replacement.trigger,
                     expansion: replacement.expansion,
                     isEnabled: replacement.isEnabled,
+                    category: replacement.category,
                     createdAt: conflict.existing.createdAt,
                     updatedAt: Date()
                 )
@@ -228,7 +292,7 @@ public final class MacroStore {
                 break
             case .rename:
                 var renamed = conflict.imported
-                renamed.trigger = availableTrigger(for: renamed.trigger, among: updated.values)
+                renamed.trigger = availableTrigger(for: renamed.trigger, among: updated.values, category: renamed.category)
                 updated[renamed.id] = renamed
             }
         }
@@ -250,7 +314,9 @@ public final class MacroStore {
     }
 
     private func validate(_ macro: Macro, among candidates: some Sequence<Macro>) throws {
-        if candidates.contains(where: { $0.trigger.caseInsensitiveCompare(macro.trigger) == .orderedSame }) {
+        if candidates.contains(where: {
+            $0.category == macro.category && $0.trigger.caseInsensitiveCompare(macro.trigger) == .orderedSame
+        }) {
             throw MacroStoreError.duplicateTrigger
         }
     }
@@ -267,8 +333,8 @@ public final class MacroStore {
         }
     }
 
-    private func availableTrigger(for trigger: String, among candidates: some Sequence<Macro>) -> String {
-        let existing = candidates.map(\.trigger)
+    private func availableTrigger(for trigger: String, among candidates: some Sequence<Macro>, category: MacroCategory) -> String {
+        let existing = candidates.filter { $0.category == category }.map(\.trigger)
         var number = 2
         var candidate = "\(trigger) \(number)"
         while existing.contains(where: { $0.caseInsensitiveCompare(candidate) == .orderedSame }) {

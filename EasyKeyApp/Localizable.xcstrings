@@ -1410,23 +1410,6 @@
         }
       }
     },
-    "macros.enabledInEnglish": {
-      "comment": "Toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Expand while typing English"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Thay thế cả khi gõ tiếng Anh"
-          }
-        }
-      }
-    },
     "macros.autoCapitalize": {
       "comment": "Toggle",
       "localizations": {
@@ -4160,23 +4143,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tự thay từ gõ tắt ngắn thành đoạn văn bản dài hơn ngay khi bạn gõ."
-          }
-        }
-      }
-    },
-    "macros.enabledInEnglish.description": {
-      "comment": "English macro setting description",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Expand triggers while typing English, not only Vietnamese."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Thay từ gõ tắt cả khi bạn gõ tiếng Anh, chứ không riêng tiếng Việt."
           }
         }
       }
@@ -6979,6 +6945,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Khi gõ, hiện phím thô nếu từ trông không giống tiếng Việt. Không đổi kiểm tra chính tả ở biên từ."
+          }
+        }
+      }
+    },
+    "language.both": {
+      "comment": "Macro category",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Both"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cả hai"
+          }
+        }
+      }
+    },
+    "macros.category": {
+      "comment": "Macro language category",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ngôn ngữ"
           }
         }
       }

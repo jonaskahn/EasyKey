@@ -153,7 +153,7 @@ extension AppCoordinator {
         settingsObserver = settingsStore.$settings.sink { [weak self] settings in
             guard let self else { return }
             let delta = SettingsDelta.delta(from: lastSettings ?? settings, to: settings)
-            if lastSettings == nil || delta.inputChanged || delta.typingChanged || delta.compatibilityChanged {
+            if lastSettings == nil || delta.inputChanged || delta.typingChanged || delta.compatibilityChanged || delta.macroChanged {
                 keyboardService.update(settings: settings)
             }
             if lastSettings == nil || delta.inputChanged {

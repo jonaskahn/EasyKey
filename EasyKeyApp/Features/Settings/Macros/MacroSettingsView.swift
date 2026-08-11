@@ -35,12 +35,6 @@ struct MacroSettingsView: View {
                 Section {
                     settingToggle(.macrosEnable, description: .macrosEnableDescription, isOn: setting(\.macro.enabled))
                     settingToggle(
-                        .macrosEnabledInEnglish,
-                        description: .macrosEnabledInEnglishDescription,
-                        isOn: setting(\.macro.enabledInEnglish)
-                    )
-                    .disabled(!settingsStore.settings.macro.enabled)
-                    settingToggle(
                         .macrosAutoCapitalize,
                         description: .macrosAutoCapitalizeDescription,
                         isOn: setting(\.macro.autoCapitalize)
@@ -77,6 +71,17 @@ struct MacroSettingsView: View {
                                         .lineLimit(1)
                                 }
                                 Spacer()
+                                Menu {
+                                    Button(localization.string(.languageVietnamese)) { setCategory(.vietnamese, for: macro) }
+                                    Button(localization.string(.languageEnglish)) { setCategory(.english, for: macro) }
+                                    Button(localization.string(.languageBoth)) { setCategory(.both, for: macro) }
+                                } label: {
+                                    Text(categoryTitle(macro.category))
+                                        .font(.callout)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .menuStyle(.borderlessButton)
+                                .fixedSize()
                                 Button(localization.string(.commonEdit)) { editing = macro }
                                     .buttonStyle(.bordered)
                                     .controlSize(.large)
@@ -111,6 +116,29 @@ struct MacroSettingsView: View {
                 coordinator.refreshMacros()
             } catch { message = localization.errorMessage(error) }
         })
+    }
+
+    func setCategory(_ category: MacroCategory, for macro: Macro) {
+        do {
+            _ = try coordinator.macroStore.edit(
+                id: macro.id,
+                trigger: macro.trigger,
+                expansion: macro.expansion,
+                isEnabled: macro.isEnabled,
+                category: category
+            )
+            coordinator.refreshMacros()
+        } catch {
+            message = localization.errorMessage(error)
+        }
+    }
+
+    func categoryTitle(_ category: MacroCategory) -> String {
+        switch category {
+        case .vietnamese: localization.string(.languageVietnamese)
+        case .english: localization.string(.languageEnglish)
+        case .both: localization.string(.languageBoth)
+        }
     }
 
     private func exportMacros() {

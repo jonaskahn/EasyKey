@@ -394,7 +394,6 @@ struct MacroExpander {
     ) -> MacroExpansion? {
         guard !inMacroExpansion,
               options.enabled,
-              language == .vietnamese || options.enabledInEnglish,
               modifiers.isEmpty
         else {
             trigger = ""
@@ -415,7 +414,9 @@ struct MacroExpander {
 
         defer { trigger = "" }
         guard let macro = macros.first(where: {
-            $0.isEnabled && $0.trigger.compare(trigger, options: .caseInsensitive) == .orderedSame
+            $0.isEnabled
+                && $0.category.matches(language)
+                && $0.trigger.compare(trigger, options: .caseInsensitive) == .orderedSame
         })
         else {
             return nil

@@ -1,6 +1,8 @@
 import AppKit
+import CoreGraphics
 import EasyEngineCore
 @testable import EasyKey
+@testable import EasyKeyKit
 import XCTest
 
 @MainActor
@@ -231,5 +233,49 @@ final class AppCoordinatorWiringTests: XCTestCase {
         let delegate = AppDelegate()
 
         delegate.applicationWillTerminate(Notification(name: NSApplication.willTerminateNotification))
+    }
+
+    private func fakeProxy() -> CGEventTapProxy {
+        unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
+    }
+
+    private func keyEvent(character: String, keyCode: UInt16) -> CGEvent {
+        guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else {
+            fatalError("Could not create event")
+        }
+        event.setIntegerValueField(.keyboardEventKeycode, value: Int64(keyCode))
+        let utf16 = Array(character.utf16)
+        utf16.withUnsafeBufferPointer { buffer in
+            event.keyboardSetUnicodeString(stringLength: buffer.count, unicodeString: buffer.baseAddress)
+        }
+        return event
+    }
+
+    private func typeThroughService(_ service: KeyboardService, chars: [(String, UInt16)], delimiter: (String, UInt16)) -> Bool {
+        for (character, keyCode) in chars {
+            _ = service.handleTapEvent(proxy: fakeProxy(), type: .keyDown, event: keyEvent(character: character, keyCode: keyCode))
+        }
+        let result = service.handleTapEvent(
+            proxy: fakeProxy(),
+            type: .keyDown,
+            event: keyEvent(character: delimiter.0, keyCode: delimiter.1)
+        )
+        return result == nil
+    }
+
+    func testObserveSettings_MacroToggleReachesKeyboardPipeline() {
+        coordinator.observeSettings()
+        _ = try? coordinator.macroStore.add(trigger: "sig", expansion: "Best regards", isEnabled: true, category: .both)
+        coordinator.refreshMacros()
+        coordinator.settingsStore.update { $0.input.language = .english }
+        coordinator.settingsStore.update { $0.macro.enabled = true }
+
+        let suppressed = typeThroughService(
+            coordinator.keyboardService,
+            chars: [("s", 1), ("i", 34), ("g", 5)],
+            delimiter: (" ", 49)
+        )
+
+        XCTAssertTrue(suppressed)
     }
 }

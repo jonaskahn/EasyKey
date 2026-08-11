@@ -11,6 +11,7 @@ struct MacroEditorSheet: View {
     @State private var trigger = ""
     @State private var expansion = ""
     @State private var enabled = true
+    @State private var category: MacroCategory = .vietnamese
     @State private var error: String?
 
     var body: some View {
@@ -34,6 +35,13 @@ struct MacroEditorSheet: View {
                 }
 
                 Toggle(localization.string(.commonEnabled), isOn: $enabled)
+
+                Picker(localization.string(.macrosCategory), selection: $category) {
+                    Text(localization.string(.languageVietnamese)).tag(MacroCategory.vietnamese)
+                    Text(localization.string(.languageEnglish)).tag(MacroCategory.english)
+                    Text(localization.string(.languageBoth)).tag(MacroCategory.both)
+                }
+                .pickerStyle(.segmented)
             }
             .formStyle(.grouped)
             .scrollDisabled(true)
@@ -61,15 +69,22 @@ struct MacroEditorSheet: View {
             trigger = macro?.trigger ?? ""
             expansion = macro?.expansion ?? ""
             enabled = macro?.isEnabled ?? true
+            category = macro?.category ?? .vietnamese
         }
     }
 
     func save() {
         do {
             if let macro {
-                _ = try coordinator.macroStore.edit(id: macro.id, trigger: trigger, expansion: expansion, isEnabled: enabled)
+                _ = try coordinator.macroStore.edit(
+                    id: macro.id,
+                    trigger: trigger,
+                    expansion: expansion,
+                    isEnabled: enabled,
+                    category: category
+                )
             } else {
-                _ = try coordinator.macroStore.add(trigger: trigger, expansion: expansion, isEnabled: enabled)
+                _ = try coordinator.macroStore.add(trigger: trigger, expansion: expansion, isEnabled: enabled, category: category)
             }
             coordinator.refreshMacros()
             dismiss()
