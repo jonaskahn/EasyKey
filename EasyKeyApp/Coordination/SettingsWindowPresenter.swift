@@ -12,7 +12,7 @@ final class SettingsWindowPresenter {
     }
 
     func present(settingsStore: SettingsStore, coordinator: AppCoordinator) {
-        AppMainMenuInstaller.installIfNeeded()
+        AppMainMenuInstaller.installIfNeeded(localization: localization)
         if let window = settingsWindow {
             window.title = localization.string(.settingsWindowTitle)
             window.makeKeyAndOrderFront(nil)

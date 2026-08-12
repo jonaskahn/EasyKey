@@ -15,16 +15,16 @@ struct ClipboardEntryRow: View {
         HStack(alignment: .top, spacing: 8) {
             leading
             VStack(alignment: .leading, spacing: 4) {
-                Text(ClipboardRowPresenter.primaryText(for: entry))
+                Text(ClipboardRowPresenter.primaryText(for: entry, imageDescription: imageDescription))
                     .lineLimit(2)
                     .font(.body)
                     .foregroundStyle(isUnavailable ? .secondary : .primary)
                 HStack(spacing: 4) {
                     if isUnavailable {
-                        Text(localization.string(.clipboardUnavailable))
+                        Text(localization.string(.clipboardFileUnavailable))
                             .foregroundStyle(.red)
                     }
-                    Text(ClipboardRowPresenter.metadata(for: entry, now: Date()))
+                    Text(ClipboardRowPresenter.metadata(for: entry, now: Date(), locale: localization.locale))
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -74,7 +74,14 @@ struct ClipboardEntryRow: View {
     }
 
     private var accessibilityLabel: String {
-        let parts = [ClipboardRowPresenter.primaryText(for: entry), ClipboardRowPresenter.metadata(for: entry, now: Date())]
+        let parts = [
+            ClipboardRowPresenter.primaryText(for: entry, imageDescription: imageDescription),
+            ClipboardRowPresenter.metadata(for: entry, now: Date(), locale: localization.locale),
+        ]
         return parts.joined(separator: ", ")
+    }
+
+    private func imageDescription(_ type: String) -> String {
+        localization.format(.clipboardPreviewImage, type)
     }
 }

@@ -134,7 +134,7 @@ struct PasteboardClassifier {
     }
 
     private func imageItem(typeIdentifier: String, data: Data, label: String) -> ClassifiedItem {
-        let preview = ClipboardItemPreview(primaryText: label + " image", typeLabel: label, byteCount: data.count)
+        let preview = ClipboardItemPreview(primaryText: label, typeLabel: label, byteCount: data.count)
         return ClassifiedItem(kind: .image, preview: preview, representations: [.data(typeIdentifier, data)])
     }
 

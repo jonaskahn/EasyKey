@@ -58,7 +58,10 @@ struct TranslationSettingsView: View {
 
                 if model.cmdCDoublePressEnabled {
                     HStack {
-                        Text(localization.format(.translationSettingsCmdCDoublePressWindow, String(model.cmdCDoublePressWindowMs)))
+                        Text(localization.format(
+                            .translationSettingsCmdCDoublePressWindow,
+                            localization.number(Double(model.cmdCDoublePressWindowMs))
+                        ))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Slider(value: cmdCDoublePressWindowBinding, in: 200 ... 800, step: 50)
@@ -255,12 +258,10 @@ struct TranslationSettingsView: View {
         let ms = preset.rawValue
         if ms >= 1000 {
             let seconds = Double(ms) / 1000.0
-            let formatted = seconds.truncatingRemainder(dividingBy: 1) == 0
-                ? String(format: "%.0f", seconds)
-                : String(format: "%.1f", seconds)
+            let formatted = localization.number(seconds, maximumFractionDigits: 1)
             return localization.format(.translationSettingsDelaySeconds, formatted)
         }
-        return localization.format(.translationSettingsDelayMilliseconds, String(ms))
+        return localization.format(.translationSettingsDelayMilliseconds, localization.number(Double(ms)))
     }
 }
 

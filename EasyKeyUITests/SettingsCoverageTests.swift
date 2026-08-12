@@ -258,12 +258,12 @@ final class SettingsCoverageTests: XCTestCase {
         XCTAssertTrue(hasContent)
     }
 
-    func testAboutSettingsHasGithubLink() {
+    func testAboutSettingsHasSiteLink() {
         launchToSection("about")
-        let githubLinks = app.links
-        if githubLinks.count == 0 {
-            let githubStaticTexts = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Github'"))
-            XCTAssertGreaterThanOrEqual(githubStaticTexts.count, 1)
+        let siteLinks = app.links.matching(NSPredicate(format: "label CONTAINS 'Official'"))
+        if siteLinks.count == 0 {
+            let siteTexts = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Official'"))
+            XCTAssertGreaterThanOrEqual(siteTexts.count, 1)
         }
     }
 

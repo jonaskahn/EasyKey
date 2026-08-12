@@ -62,13 +62,13 @@ final class LocalizationStoreSupplementTests: XCTestCase {
         }
     }
 
-    func testErrorMessage_NonMacroError_FallsBackToLocalizedDescription() {
+    func testErrorMessage_NonMacroError_UsesLocalizedFallback() {
         struct SampleError: Error, LocalizedError {
             var errorDescription: String? {
                 "sample failure"
             }
         }
-        XCTAssertEqual(store.errorMessage(SampleError()), "sample failure")
+        XCTAssertEqual(store.errorMessage(SampleError()), store.string(.commonError))
     }
 
     func testPreferenceBinding_GetAndSet() {

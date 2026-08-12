@@ -208,13 +208,51 @@ protocol SelectedTextSimulating: AnyObject {
     func copySelection(from app: NSRunningApplication?) -> String?
 }
 
-final class SystemSelectedTextSimulator: SelectedTextSimulating {
+/// Pasteboard surface the simulated-copy flow needs; protocol so tests can
+/// substitute a fake (NSPasteboard itself cannot be subclassed).
+protocol SelectedTextPasteboardAccessing: AnyObject {
+    var pasteboardItems: [NSPasteboardItem]? { get }
+    var changeCount: Int { get }
+    func clearContents() -> Int
+    func string(forType type: NSPasteboard.PasteboardType) -> String?
+    func writeObjects(_ objects: [NSPasteboardWriting]) -> Bool
+}
+
+final class SystemSelectedTextPasteboard: SelectedTextPasteboardAccessing {
     private let pasteboard: NSPasteboard
+
+    init(pasteboard: NSPasteboard = .general) {
+        self.pasteboard = pasteboard
+    }
+
+    var pasteboardItems: [NSPasteboardItem]? {
+        pasteboard.pasteboardItems
+    }
+
+    var changeCount: Int {
+        pasteboard.changeCount
+    }
+
+    func clearContents() -> Int {
+        pasteboard.clearContents()
+    }
+
+    func string(forType type: NSPasteboard.PasteboardType) -> String? {
+        pasteboard.string(forType: type)
+    }
+
+    func writeObjects(_ objects: [NSPasteboardWriting]) -> Bool {
+        pasteboard.writeObjects(objects)
+    }
+}
+
+final class SystemSelectedTextSimulator: SelectedTextSimulating {
+    private let pasteboard: SelectedTextPasteboardAccessing
     private let eventSource: CGEventSource?
     private let activationTimeBudget: TimeInterval
 
     init(
-        pasteboard: NSPasteboard = .general,
+        pasteboard: SelectedTextPasteboardAccessing = SystemSelectedTextPasteboard(),
         eventSource: CGEventSource? = CGEventSource(stateID: .privateState),
         activationTimeBudget: TimeInterval = 0.2
     ) {

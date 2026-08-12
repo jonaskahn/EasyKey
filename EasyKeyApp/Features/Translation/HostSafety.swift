@@ -2,7 +2,17 @@ import Foundation
 
 public enum HostSafety {
     public static func validate(host: String) -> Bool {
-        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+        validate(
+            host: host,
+            isTestEnvironment: ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        )
+    }
+
+    /// Test seam: the public entry point detects the XCTest environment and
+    /// short-circuits (the test host would otherwise reject every host it
+    /// resolves); tests pass `false` here to exercise the real validation.
+    static func validate(host: String, isTestEnvironment: Bool) -> Bool {
+        if isTestEnvironment {
             return true
         }
         let lower = host.lowercased()

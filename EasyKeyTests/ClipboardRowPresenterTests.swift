@@ -21,6 +21,7 @@ final class ClipboardRowPresenterTests: XCTestCase {
 
     func testFormattedBytesUsesFileStyle() {
         XCTAssertFalse(ClipboardRowPresenter.formattedBytes(2048).isEmpty)
+        XCTAssertFalse(ClipboardRowPresenter.formattedBytes(2048, locale: Locale(identifier: "vi")).isEmpty)
     }
 
     func testPrimaryTextAppendsItemCountForMixed() {
@@ -65,7 +66,7 @@ final class ClipboardRowPresenterTests: XCTestCase {
             source: ClipboardSource(applicationName: "Safari"),
             items: [item]
         )
-        let metadata = ClipboardRowPresenter.metadata(for: entry, now: now.addingTimeInterval(60))
+        let metadata = ClipboardRowPresenter.metadata(for: entry, now: now.addingTimeInterval(60), locale: Locale(identifier: "vi"))
         XCTAssertTrue(metadata.contains("PNG"))
         XCTAssertTrue(metadata.contains("Safari"))
     }

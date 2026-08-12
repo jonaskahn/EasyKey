@@ -53,6 +53,49 @@ final class AccessibilitySelectedTextReaderTests: XCTestCase {
         XCTAssertEqual(AccessibilitySelectedTextReader(access: failedSubrole).readSelectedText(), .inaccessible)
     }
 
+    func testReadSelectedText_ReturnsInaccessibleWhenRoleCannotBeRead() {
+        let noRole = FakeAccessibilitySelectedTextAccess(role: .noValue)
+        let failedRole = FakeAccessibilitySelectedTextAccess(role: .failed)
+
+        XCTAssertEqual(AccessibilitySelectedTextReader(access: noRole).readSelectedText(), .inaccessible)
+        XCTAssertEqual(AccessibilitySelectedTextReader(access: failedRole).readSelectedText(), .inaccessible)
+    }
+
+    func testSystemAccessibilityAccess_IsProcessTrusted_DoesNotCrash() {
+        let access = SystemAccessibilitySelectedTextAccess()
+        _ = access.isProcessTrusted
+    }
+
+    func testSystemAccessibilityAccess_FocusedElement_DoesNotCrash() {
+        let access = SystemAccessibilitySelectedTextAccess()
+        _ = access.focusedElement()
+    }
+
+    func testSystemAccessibilityAccess_StringAttribute_ReadsRoleAttribute() {
+        let access = SystemAccessibilitySelectedTextAccess()
+        let element = AccessibilityElementReference(AXUIElementCreateApplication(pid_t(getpid())))
+        let result = access.stringAttribute(kAXRoleAttribute as String, of: element)
+        if case .value = result {
+            // expected when the test host has accessibility trust
+        } else {
+            XCTAssertTrue(result == .failed || result == .noValue)
+        }
+    }
+
+    func testSystemAccessibilityAccess_StringAttribute_UnknownAttribute_ReturnsUnsupported() {
+        let access = SystemAccessibilitySelectedTextAccess()
+        let element = AccessibilityElementReference(AXUIElementCreateApplication(pid_t(getpid())))
+        let result = access.stringAttribute("AXNonExistentAttribute", of: element)
+        XCTAssertTrue(result == .unsupported || result == .failed || result == .noValue)
+    }
+
+    func testSystemAccessibilityAccess_StringAttribute_NonStringValue_ReturnsFailed() {
+        let access = SystemAccessibilitySelectedTextAccess()
+        let element = AccessibilityElementReference(AXUIElementCreateApplication(pid_t(getpid())))
+        let result = access.stringAttribute(kAXPositionAttribute as String, of: element)
+        XCTAssertTrue(result == .failed || result == .noValue || result == .unsupported)
+    }
+
     func testReadSelectedText_RejectsOversizedSelectionAtConfiguredLimit() {
         let accepted = FakeAccessibilitySelectedTextAccess(selectedText: .value("12345"))
         let oversized = FakeAccessibilitySelectedTextAccess(selectedText: .value("123456"))

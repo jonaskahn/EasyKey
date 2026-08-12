@@ -76,11 +76,19 @@ final class LocalizationStore: ObservableObject {
         String(format: string(key), locale: locale, arguments: arguments)
     }
 
+    func number(_ value: Double, maximumFractionDigits: Int = 0) -> String {
+        let formatter = NumberFormatter()
+        formatter.locale = locale
+        formatter.maximumFractionDigits = maximumFractionDigits
+        formatter.minimumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: value)) ?? String(value)
+    }
+
     func errorMessage(_ error: Error) -> String {
         if let macroError = error as? MacroStoreError {
             return macroErrorMessage(macroError)
         }
-        return error.localizedDescription
+        return string(.commonError)
     }
 
     func displayName(for language: InputLanguage) -> String {

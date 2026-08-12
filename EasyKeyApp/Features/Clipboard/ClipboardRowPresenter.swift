@@ -24,11 +24,14 @@ enum ClipboardRowPresenter {
         return lines.prefix(maxLines).joined(separator: "\n")
     }
 
-    static func primaryText(for entry: ClipboardEntry) -> String {
+    static func primaryText(for entry: ClipboardEntry, imageDescription: ((String) -> String)? = nil) -> String {
         guard let item = entry.items.first else { return "" }
         switch item.kind {
         case .text:
             return normalizedTextPreview(item.preview.primaryText)
+        case .image:
+            let type = item.preview.typeLabel ?? item.preview.primaryText
+            return imageDescription?(type) ?? "\(type) image"
         default:
             if entry.items.count > 1 {
                 return "\(item.preview.primaryText) +\(entry.items.count - 1)"
@@ -37,14 +40,14 @@ enum ClipboardRowPresenter {
         }
     }
 
-    static func metadata(for entry: ClipboardEntry, now: Date) -> String {
+    static func metadata(for entry: ClipboardEntry, now: Date, locale: Locale = .current) -> String {
         var parts: [String] = []
         if let item = entry.items.first {
             if let typeLabel = item.preview.typeLabel {
                 parts.append(typeLabel)
             }
             if let bytes = item.preview.byteCount {
-                parts.append(formattedBytes(bytes))
+                parts.append(formattedBytes(bytes, locale: locale))
             }
             if let width = item.preview.pixelWidth, let height = item.preview.pixelHeight {
                 parts.append("\(width)×\(height)")
@@ -53,18 +56,29 @@ enum ClipboardRowPresenter {
         if let name = entry.source?.applicationName {
             parts.append(name)
         }
-        parts.append(relativeTime(from: entry.capturedAt, to: now))
+        parts.append(relativeTime(from: entry.capturedAt, to: now, locale: locale))
         return parts.joined(separator: " · ")
     }
 
-    static func formattedBytes(_ count: Int) -> String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .file
-        return formatter.string(fromByteCount: Int64(count))
+    static func formattedBytes(_ count: Int, locale: Locale = .current) -> String {
+        let units = ["B", "KB", "MB", "GB", "TB"]
+        var value = Double(count)
+        var index = 0
+        while value >= 1000, index < units.indices.last! {
+            value /= 1000
+            index += 1
+        }
+        let formatter = NumberFormatter()
+        formatter.locale = locale
+        formatter.maximumFractionDigits = index == 0 ? 0 : 1
+        formatter.minimumFractionDigits = 0
+        let number = formatter.string(from: NSNumber(value: value)) ?? String(value)
+        return "\(number) \(units[index])"
     }
 
-    static func relativeTime(from date: Date, to now: Date) -> String {
+    static func relativeTime(from date: Date, to now: Date, locale: Locale = .current) -> String {
         let formatter = RelativeDateTimeFormatter()
+        formatter.locale = locale
         formatter.unitsStyle = .abbreviated
         return formatter.localizedString(for: date, relativeTo: now)
     }

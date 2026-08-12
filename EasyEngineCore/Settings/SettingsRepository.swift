@@ -30,7 +30,13 @@ public final class SettingsRepository {
     }
 
     public static var defaultFileURL: URL {
-        let fileManager = FileManager.default
+        resolveDefaultFileURL(fileManager: .default)
+    }
+
+    /// Test seam: resolves the default settings file URL with an injected
+    /// `FileManager` so the Application Support / Caches fallback chain is
+    /// reachable from tests. Production callers use `defaultFileURL`.
+    static func resolveDefaultFileURL(fileManager: FileManager) -> URL {
         let preferredParent: URL
         if let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
             preferredParent = appSupport

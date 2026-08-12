@@ -66,7 +66,7 @@ struct ClipboardSettingsView: View {
                 Text(localization.string(.clipboardSelectionAction))
             }
             if coordinator.clipboard.hotkeyConflict {
-                Text(localization.string(.clipboardUnavailable))
+                Text(localization.string(.clipboardErrorShortcutConflict))
                     .font(.caption)
                     .foregroundStyle(.red)
             }
@@ -136,7 +136,10 @@ struct ClipboardSettingsView: View {
             LabeledContent(localization.string(.clipboardDataEntries), value: "\(coordinator.clipboard.model.entryCount)")
             LabeledContent(
                 localization.string(.clipboardDataStorage),
-                value: ClipboardRowPresenter.formattedBytes(coordinator.clipboard.model.retainedByteCount)
+                value: ClipboardRowPresenter.formattedBytes(
+                    coordinator.clipboard.model.retainedByteCount,
+                    locale: localization.locale
+                )
             )
             Button(localization.string(.clipboardDataClearUnpinned)) { coordinator.clipboardClearUnpinned() }
             Button(localization.string(.clipboardDataClearAll), role: .destructive) { showClearAllConfirm = true }

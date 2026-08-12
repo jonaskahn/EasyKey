@@ -9,8 +9,7 @@ struct AboutSettingsView: View {
     @State private var showsThirdPartyNotices = false
 
     private static let author = "jonaskahn"
-    private static let githubDisplay = "Github"
-    private static let githubURL = URL(string: "https://jonaskahn.github.io/EasyKey/")
+    private static let siteURL = URL(string: "https://easykey.ifelse.one")
         ?? URL(fileURLWithPath: "/")
 
     var body: some View {
@@ -37,8 +36,8 @@ struct AboutSettingsView: View {
                     .textSelection(.enabled)
                 LabeledContent(localization.string(.aboutAuthor), value: Self.author)
                     .textSelection(.enabled)
-                LabeledContent(localization.string(.aboutGithub)) {
-                    Link(Self.githubDisplay, destination: Self.githubURL)
+                LabeledContent(localization.string(.aboutSite)) {
+                    Link(localization.string(.aboutSiteValue), destination: Self.siteURL)
                 }
             } header: {
                 Text(localization.string(.brandEasykey))

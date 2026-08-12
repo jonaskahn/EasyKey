@@ -32,7 +32,7 @@ final class LogExporterTests: XCTestCase {
     }
 
     func testPresentExportFailure_InTests_DoesNotCrash() {
-        LogExporter.presentExportFailure(message: "probe")
+        LogExporter.presentExportFailure()
     }
 
     func testWriteExport_NoMatchingEntries_AppendsEmptyMarker() throws {

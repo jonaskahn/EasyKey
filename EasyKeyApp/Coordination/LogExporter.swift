@@ -46,18 +46,18 @@ enum LogExporter {
             } catch {
                 await MainActor.run {
                     AppLog.error(.app, "Log export failed: \(error.localizedDescription)")
-                    presentExportFailure(message: error.localizedDescription)
+                    presentExportFailure()
                 }
             }
         }
     }
 
     @MainActor
-    static func presentExportFailure(message: String) {
+    static func presentExportFailure() {
         guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
         let alert = NSAlert()
-        alert.messageText = LocalizationStore.shared.string(.menuShowLogs)
-        alert.informativeText = message
+        alert.messageText = LocalizationStore.shared.string(.logsExportFailed)
+        alert.informativeText = LocalizationStore.shared.string(.logsExportFailedDetail)
         alert.alertStyle = .warning
         alert.runModal()
     }

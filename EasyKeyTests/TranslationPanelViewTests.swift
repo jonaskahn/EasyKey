@@ -121,14 +121,14 @@ final class TranslationPanelViewTests: XCTestCase {
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
 
         localization.setPreference(.english)
-        XCTAssertTrue(localization.format(.translationInstructions, "⌥ + A").contains("⌥ + A"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Return"))
         XCTAssertEqual(
             localization.string(.translationResultAnnouncement),
-            "Translation complete. Result ready."
+            "Translation ready."
         )
 
         localization.setPreference(.vietnamese)
-        XCTAssertTrue(localization.format(.translationInstructions, "⌥ + A").contains("⌥ + A"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Return"))
         XCTAssertEqual(localization.string(.translationTranslate), "Dịch")
     }
 
@@ -263,9 +263,9 @@ final class TranslationPanelViewTests: XCTestCase {
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
 
         localization.setPreference(.english)
-        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift+Enter"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift-Return"))
         localization.setPreference(.vietnamese)
-        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift+Enter"))
+        XCTAssertTrue(localization.string(.translationEditorInstructions).contains("Shift-Return"))
     }
 
     private func presentation(text: String, status: TranslationModel.Status) -> TranslationPanelPresentation {

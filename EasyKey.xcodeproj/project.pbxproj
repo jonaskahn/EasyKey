@@ -124,6 +124,12 @@
 		C271A2A1B0474C1485F4E158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B419D6AC3AB34C66B4FBE799 /* AppDelegate.swift */; };
 		C3D100000000000000000001 /* ArchitectureFitnessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D100000000000000000011 /* ArchitectureFitnessTests.swift */; };
 		CB00000000000000000000A2 /* EngineCoreCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */; };
+		CBA14E1B33D15B65C98F02 /* KitCoverageGapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA14E1B33D15B65C98F01 /* KitCoverageGapTests.swift */; };
+		CBB4132EA2343BD46ACB02 /* AppLogicCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB4132EA2343BD46ACB01 /* AppLogicCoverageTests.swift */; };
+		CB2DCF60D0EB7BB3DEAE02 /* ViewRenderingCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2DCF60D0EB7BB3DEAE01 /* ViewRenderingCoverageTests.swift */; };
+		CB77278F8B99EBB48F0A02 /* SelectedTextSimulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77278F8B99EBB48F0A01 /* SelectedTextSimulatorTests.swift */; };
+		CB5D64186FBBA194A97002 /* HostSafetyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5D64186FBBA194A97001 /* HostSafetyTests.swift */; };
+		CBE859C6E92738F86A4202 /* EngineCoverageGapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE859C6E92738F86A4201 /* EngineCoverageGapTests.swift */; };
 		CB0000000000000000000101 /* ClipboardOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000001 /* ClipboardOptions.swift */; };
 		CB0000000000000000000102 /* ClipboardEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000002 /* ClipboardEntry.swift */; };
 		CB0000000000000000000103 /* ClipboardHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0000000000000000000003 /* ClipboardHistory.swift */; };
@@ -494,6 +500,12 @@
 		CB0000000000000000000031 /* ClipboardEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardEntryRow.swift; sourceTree = "<group>"; };
 		CB0000000000000000000032 /* ClipboardSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSettingsView.swift; sourceTree = "<group>"; };
 		CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineCoreCoverageTests.swift; sourceTree = "<group>"; };
+		CBA14E1B33D15B65C98F01 /* KitCoverageGapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitCoverageGapTests.swift; sourceTree = "<group>"; };
+		CBB4132EA2343BD46ACB01 /* AppLogicCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogicCoverageTests.swift; sourceTree = "<group>"; };
+		CB2DCF60D0EB7BB3DEAE01 /* ViewRenderingCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRenderingCoverageTests.swift; sourceTree = "<group>"; };
+		CB77278F8B99EBB48F0A01 /* SelectedTextSimulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTextSimulatorTests.swift; sourceTree = "<group>"; };
+		CB5D64186FBBA194A97001 /* HostSafetyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostSafetyTests.swift; sourceTree = "<group>"; };
+		CBE859C6E92738F86A4201 /* EngineCoverageGapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineCoverageGapTests.swift; sourceTree = "<group>"; };
 		D000000000000000000002 /* TranslationTextEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationTextEditor.swift; sourceTree = "<group>"; };
 		D00AF1C9AC7F29ECE7A51E00 /* TranslationPlatformCapability.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPlatformCapability.swift; sourceTree = "<group>"; };
 		D138FB97146E42FA9D74ABB6 /* EasyKeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeyUITests.swift; sourceTree = "<group>"; };
@@ -824,6 +836,12 @@
 				CB0000000000000000000011 /* ClipboardOptionsTests.swift */,
 				CB0000000000000000000012 /* ClipboardHistoryTests.swift */,
 				CB00000000000000000000A1 /* EngineCoreCoverageTests.swift */,
+				CBA14E1B33D15B65C98F01 /* KitCoverageGapTests.swift */,
+				CBB4132EA2343BD46ACB01 /* AppLogicCoverageTests.swift */,
+				CB2DCF60D0EB7BB3DEAE01 /* ViewRenderingCoverageTests.swift */,
+				CB77278F8B99EBB48F0A01 /* SelectedTextSimulatorTests.swift */,
+				CB5D64186FBBA194A97001 /* HostSafetyTests.swift */,
+				CBE859C6E92738F86A4201 /* EngineCoverageGapTests.swift */,
 				CB0000000000000000000013 /* PasteboardClassifierTests.swift */,
 				CB0000000000000000000014 /* ClipboardMonitorTests.swift */,
 				CB0000000000000000000015 /* ClipboardPersistenceTests.swift */,
@@ -1473,6 +1491,12 @@
 				CB0000000000000000000111 /* ClipboardOptionsTests.swift in Sources */,
 				CB0000000000000000000112 /* ClipboardHistoryTests.swift in Sources */,
 				CB00000000000000000000A2 /* EngineCoreCoverageTests.swift in Sources */,
+				CBA14E1B33D15B65C98F02 /* KitCoverageGapTests.swift in Sources */,
+				CBB4132EA2343BD46ACB02 /* AppLogicCoverageTests.swift in Sources */,
+				CB2DCF60D0EB7BB3DEAE02 /* ViewRenderingCoverageTests.swift in Sources */,
+				CB77278F8B99EBB48F0A02 /* SelectedTextSimulatorTests.swift in Sources */,
+				CB5D64186FBBA194A97002 /* HostSafetyTests.swift in Sources */,
+				CBE859C6E92738F86A4202 /* EngineCoverageGapTests.swift in Sources */,
 				CB0000000000000000000113 /* PasteboardClassifierTests.swift in Sources */,
 				CB0000000000000000000114 /* ClipboardMonitorTests.swift in Sources */,
 				CB0000000000000000000115 /* ClipboardPersistenceTests.swift in Sources */,

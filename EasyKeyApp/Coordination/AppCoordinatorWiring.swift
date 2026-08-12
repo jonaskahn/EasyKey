@@ -118,6 +118,7 @@ extension AppCoordinator {
     }
 
     func refreshLocalizedChrome() {
+        AppMainMenuInstaller.installIfNeeded(localization: localization)
         settingsWindowPresenter.refreshTitle()
         handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
         updateStatusItem()

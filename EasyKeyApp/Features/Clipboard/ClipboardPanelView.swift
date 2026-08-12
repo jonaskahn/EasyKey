@@ -80,9 +80,7 @@ struct ClipboardPanelView: View {
     private var errorNotice: some View {
         HStack(spacing: 8) {
             Image(systemName: "exclamationmark.triangle.fill")
-            Text(model.limitNotice == nil
-                ? localization.string(.clipboardUnavailable)
-                : localization.string(.clipboardDataLimits))
+            Text(errorMessage)
             Spacer(minLength: 0)
         }
         .font(.caption)
@@ -90,6 +88,16 @@ struct ClipboardPanelView: View {
         .padding(.horizontal, 12)
         .padding(.bottom, 10)
         .accessibilityElement(children: .combine)
+    }
+
+    private var errorMessage: String {
+        if model.limitNotice != nil {
+            return localization.string(.clipboardErrorLimitReached)
+        }
+        if action.lastError != nil {
+            return localization.string(.clipboardErrorSelectionUnavailable)
+        }
+        return localization.string(.clipboardErrorHistoryUnavailable)
     }
 
     @ViewBuilder private var content: some View {

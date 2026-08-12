@@ -37,6 +37,19 @@ final class LocalizationTests: XCTestCase {
         }
     }
 
+    func testCatalogAndTypedKeysMatchExactly() throws {
+        XCTAssertEqual(Set(try catalog().keys), Set(L10nKey.allCases.map(\.rawValue)))
+    }
+
+    func testEveryCatalogEntryHasMatchingEnglishVietnamesePlaceholders() throws {
+        for (key, entry) in try catalog() {
+            let localizations = try XCTUnwrap(entry["localizations"] as? [String: Any], key)
+            let english = try localizedValue("en", from: localizations, key: key)
+            let vietnamese = try localizedValue("vi", from: localizations, key: key)
+            XCTAssertEqual(try placeholders(in: english), try placeholders(in: vietnamese), "Placeholder mismatch: \(key)")
+        }
+    }
+
     func testSemanticKeysMapToExpectedLocaleValues() {
         store.setPreference(.english)
         XCTAssertEqual(store.string(.onboardingWelcome), "Welcome")
@@ -65,7 +78,7 @@ final class LocalizationTests: XCTestCase {
     }
 
     func testTranslationCatalogHasMatchingEnglishVietnamesePlaceholders() throws {
-        let catalog = try translationCatalog()
+        let catalog = try catalog()
         let translationKeys = catalog.keys.filter { $0.hasPrefix("translation.") }
         XCTAssertFalse(translationKeys.isEmpty)
         XCTAssertEqual(
@@ -96,7 +109,6 @@ final class LocalizationTests: XCTestCase {
         let disclosure = store.format(.translationCloudDisclosureFirstUse, "DeepL", "DeepL")
         XCTAssertTrue(disclosure.contains("choose Translate"))
         XCTAssertTrue(disclosure.contains("source text"))
-        XCTAssertTrue(disclosure.contains("directly"))
         XCTAssertTrue(disclosure.contains("never sent"))
     }
 
@@ -183,9 +195,12 @@ final class LocalizationTests: XCTestCase {
         XCTAssertEqual(store.displayName(for: EncodingTable.cp1258), store.string(.domainEncodingCp1258))
     }
 
-    func testErrorMessage_ForNonMacroError_PropagatesLocalizedDescription() {
+    func testErrorMessage_ForNonMacroError_UsesLocalizedFallback() {
         let error = NSError(domain: "Test", code: 1, userInfo: [NSLocalizedDescriptionKey: "Boom"])
-        XCTAssertEqual(store.errorMessage(error), "Boom")
+        store.setPreference(.english)
+        XCTAssertEqual(store.errorMessage(error), "Something went wrong.")
+        store.setPreference(.vietnamese)
+        XCTAssertEqual(store.errorMessage(error), "Đã xảy ra lỗi.")
     }
 
     func testErrorMessage_ForAllMacroStoreErrors() {
@@ -287,7 +302,7 @@ final class LocalizationTests: XCTestCase {
         return bundleURL
     }
 
-    private func translationCatalog() throws -> [String: [String: Any]] {
+    private func catalog() throws -> [String: [String: Any]] {
         let url = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .deletingLastPathComponent()

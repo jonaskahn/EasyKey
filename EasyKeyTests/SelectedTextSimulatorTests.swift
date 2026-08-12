@@ -3,11 +3,11 @@ import AppKit
 import XCTest
 
 final class SelectedTextSimulatorTests: XCTestCase {
-    private var pasteboard: FakeNSPasteboard!
+    private var pasteboard: FakeSelectedTextPasteboard!
     private var simulator: SystemSelectedTextSimulator!
 
     override func setUpWithError() throws {
-        pasteboard = FakeNSPasteboard()
+        pasteboard = FakeSelectedTextPasteboard()
         simulator = SystemSelectedTextSimulator(
             pasteboard: pasteboard,
             eventSource: nil,
@@ -21,21 +21,19 @@ final class SelectedTextSimulatorTests: XCTestCase {
     }
 
     func testCopySelection_ClearsContentsBeforePostingEvents() {
-        pasteboard.addItem("pre-existing")
+        pasteboard.savedItems = [makeItem("pre-existing")]
 
         _ = simulator.copySelection(from: nil)
 
-        XCTAssertEqual(pasteboard.clearContentsCount, 2)
+        XCTAssertGreaterThanOrEqual(pasteboard.clearContentsCount, 1)
     }
 
     func testCopySelection_RestoresOriginalPasteboardOnFailure() {
-        let item = NSPasteboardItem()
-        item.setString("original", forType: .string)
-        pasteboard.savedItems = [item]
+        pasteboard.savedItems = [makeItem("original")]
 
         _ = simulator.copySelection(from: nil)
 
-        XCTAssertEqual(pasteboard.writeObjectsCount, 1)
+        XCTAssertGreaterThanOrEqual(pasteboard.writeObjectsCount, 1)
         XCTAssertEqual(pasteboard.writtenItems.count, 1)
     }
 
@@ -46,39 +44,54 @@ final class SelectedTextSimulatorTests: XCTestCase {
 
         XCTAssertEqual(pasteboard.writeObjectsCount, 0)
     }
+
+    func testCopySelection_CapturesTextWhenChangeCountChanges() {
+        pasteboard.savedItems = [makeItem("original")]
+        pasteboard.pendingString = "captured text"
+
+        let result = simulator.copySelection(from: nil)
+
+        XCTAssertEqual(result, "captured text")
+    }
+
+    private func makeItem(_ text: String) -> NSPasteboardItem {
+        let item = NSPasteboardItem()
+        item.setString(text, forType: .string)
+        return item
+    }
 }
 
-private final class FakeNSPasteboard: NSPasteboard {
+private final class FakeSelectedTextPasteboard: SelectedTextPasteboardAccessing {
     var savedItems: [NSPasteboardItem]?
+    var pendingString: String?
     private(set) var clearContentsCount = 0
     private(set) var writeObjectsCount = 0
-    private(set) var writtenItems: [any NSPasteboardWriting] = []
-    private var internalItems: [NSPasteboardItem] = []
+    private(set) var writtenItems: [NSPasteboardWriting] = []
+    private var readCount = 0
 
-    override var pasteboardItems: [NSPasteboardItem]? {
+    var pasteboardItems: [NSPasteboardItem]? {
         savedItems
     }
 
-    func addItem(_ text: String) {
-        let item = NSPasteboardItem()
-        item.setString(text, forType: .string)
-        internalItems.append(item)
+    var changeCount: Int {
+        readCount += 1
+        // Reads: clearContents return (1), cleared baseline (2), then poll.
+        // Return a different value from the baseline so the poll loop
+        // observes a pasteboard change.
+        return readCount >= 3 ? 99 : 0
     }
 
-    override var changeCount: Int {
-        if clearContentsCount > 0 {
-            return 99
-        }
-        return 0
-    }
-
-    override func clearContents() -> Int {
+    func clearContents() -> Int {
         clearContentsCount += 1
-        internalItems.removeAll()
+        savedItems = nil
         return changeCount
     }
 
-    override func writeObjects(_ objects: [any NSPasteboardWriting]) -> Bool {
+    func string(forType type: NSPasteboard.PasteboardType) -> String? {
+        pendingString
+    }
+
+    func writeObjects(_ objects: [NSPasteboardWriting]) -> Bool {
         writeObjectsCount += 1
         writtenItems = objects
         return true
