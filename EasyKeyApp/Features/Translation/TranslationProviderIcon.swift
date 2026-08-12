@@ -26,7 +26,7 @@ struct TranslationProviderPickerButton: View {
                 .frame(width: 34, height: 24)
                 .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(TranslationProviderTriggerButtonStyle())
         .accessibilityLabel(accessibilityLabel)
         .help(accessibilityLabel)
         .accessibilityIdentifier(accessibilityIdentifier)
@@ -38,9 +38,6 @@ struct TranslationProviderPickerButton: View {
     private var providerList: some View {
         VStack(alignment: .leading, spacing: 2) {
             row(provider: nil, title: chooseTitle, isSelected: selection == nil)
-            if !availableProviders.isEmpty {
-                Divider().padding(.vertical, 2)
-            }
             ForEach(availableProviders, id: \.self) { provider in
                 row(provider: provider, title: providerLabel(provider), isSelected: provider == selection)
             }
@@ -71,6 +68,19 @@ struct TranslationProviderPickerButton: View {
     }
 }
 
+private struct TranslationProviderTriggerButtonStyle: ButtonStyle {
+    @State private var isHovering = false
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(isHovering || configuration.isPressed ? Color.primary.opacity(0.08) : .clear)
+            )
+            .onHover { isHovering = $0 }
+    }
+}
+
 private struct TranslationProviderRowButtonStyle: ButtonStyle {
     @State private var isHovering = false
 
@@ -79,9 +89,16 @@ private struct TranslationProviderRowButtonStyle: ButtonStyle {
             .foregroundStyle(.primary)
             .background(
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(isHovering ? Color(nsColor: .selectedContentBackgroundColor).opacity(0.22) : .clear)
+                    .fill(highlightFill(isPressed: configuration.isPressed))
             )
             .onHover { isHovering = $0 }
+    }
+
+    private func highlightFill(isPressed: Bool) -> Color {
+        if isPressed {
+            return Color.accentColor.opacity(0.28)
+        }
+        return isHovering ? Color.accentColor.opacity(0.16) : .clear
     }
 }
 
@@ -158,10 +175,6 @@ public struct TranslationProviderIcon: View {
                 .foregroundStyle(color)
                 .padding(size * 0.09)
                 .background(Circle().fill(.white))
-                .overlay(
-                    Circle()
-                        .strokeBorder(.primary.opacity(0.22), lineWidth: max(0.5, size * 0.04))
-                )
                 .offset(x: size * 0.30, y: size * 0.30)
         }
     }
@@ -187,10 +200,6 @@ public struct TranslationProviderIcon: View {
         ZStack {
             RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
                 .fill(background)
-                .overlay {
-                    RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
-                        .strokeBorder(.primary.opacity(0.22), lineWidth: max(0.75, size * 0.055))
-                }
             content()
                 .foregroundStyle(.white)
         }
