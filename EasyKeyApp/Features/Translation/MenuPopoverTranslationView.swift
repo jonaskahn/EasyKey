@@ -81,6 +81,7 @@ struct MenuPopoverTranslationPresentation: Equatable {
 
 enum MenuPopoverTranslationAccessibility {
     static let section = "MenuPopoverTranslationSection"
+    static let providerPicker = "MenuPopoverTranslationProviderPicker"
     static let sourceLanguagePicker = "MenuPopoverTranslationSourceLanguagePicker"
     static let swapButton = "MenuPopoverTranslationSwapButton"
     static let targetLanguagePicker = "MenuPopoverTranslationTargetLanguagePicker"
@@ -133,10 +134,27 @@ struct MenuPopoverTranslationView: View {
                 if presentation.isTranslating {
                     ProgressView().controlSize(.small)
                 }
+                Spacer(minLength: 8)
+                providerControl
             }
             languageRow
         }
         .disabled(presentation.isTranslating)
+    }
+
+    private var providerControl: some View {
+        compactProvider
+    }
+
+    private var compactProvider: some View {
+        TranslationProviderPickerButton(
+            selection: model.providerID,
+            availableProviders: availableProviders,
+            providerLabel: providerName,
+            accessibilityLabel: providerAccessibilityLabel,
+            accessibilityIdentifier: MenuPopoverTranslationAccessibility.providerPicker,
+            onSelect: model.selectProvider
+        )
     }
 
     private var languageRow: some View {
@@ -341,6 +359,13 @@ struct MenuPopoverTranslationView: View {
 
     private var targetLanguageBinding: Binding<TranslationLanguage> {
         Binding(get: { model.targetLanguage }, set: model.setTargetLanguage)
+    }
+
+    private var providerAccessibilityLabel: String {
+        guard let providerID = model.providerID, availableProviders.contains(providerID) else {
+            return "\(localization.string(.translationProvider)): \(providerName(.apple))"
+        }
+        return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }
 
     private func providerName(_ provider: TranslationProviderID) -> String {

@@ -158,7 +158,7 @@ final class TranslationSettingsModel: ObservableObject {
     }
 
     var selectableProviders: [TranslationProviderID] {
-        var providers: [TranslationProviderID] = [.automatic]
+        var providers: [TranslationProviderID] = []
         if platformCapability.supportsAppleTranslation {
             providers.append(.apple)
         }
@@ -176,8 +176,8 @@ final class TranslationSettingsModel: ObservableObject {
     }
 
     var preferredProvider: TranslationProviderID {
-        let saved = settingsStore.settings.translation.preferredProviderID ?? .automatic
-        return selectableProviders.contains(saved) ? saved : .automatic
+        let saved = settingsStore.settings.translation.preferredProviderID ?? .apple
+        return selectableProviders.contains(saved) ? saved : .apple
     }
 
     var effectiveProvider: TranslationProviderID? {
@@ -258,9 +258,7 @@ final class TranslationSettingsModel: ObservableObject {
 
     func setPreferredProvider(_ provider: TranslationProviderID) {
         guard selectableProviders.contains(provider) else { return }
-        settingsStore.update {
-            $0.translation.preferredProviderID = provider == .automatic ? nil : provider
-        }
+        settingsStore.update { $0.translation.preferredProviderID = provider }
         objectWillChange.send()
     }
 

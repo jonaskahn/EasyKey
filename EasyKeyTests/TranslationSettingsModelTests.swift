@@ -92,15 +92,15 @@ final class TranslationSettingsModelTests: XCTestCase {
         let model = makeModel(supportsApple: false)
         XCTAssertFalse(model.selectableProviders.contains(.apple))
         XCTAssertFalse(model.visibleProviderCards.contains(.apple))
-        XCTAssertEqual(model.selectableProviders.first, .automatic)
+        XCTAssertEqual(model.selectableProviders, TranslationProviderResolver.cloudProviderOrder)
         XCTAssertEqual(model.visibleProviderCards, TranslationProviderResolver.cloudProviderOrder)
-        XCTAssertEqual(model.preferredProvider, .automatic)
+        XCTAssertEqual(model.preferredProvider, .apple)
         XCTAssertEqual(settingsStore.settings.translation.preferredProviderID, .apple)
     }
 
     func testRuntimeFilteringShowsAppleFirstOnMacOS15() {
         let model = makeModel(supportsApple: true)
-        XCTAssertEqual(model.selectableProviders.prefix(2), [.automatic, .apple])
+        XCTAssertEqual(model.selectableProviders.first, .apple)
         XCTAssertEqual(model.visibleProviderCards.first, .apple)
     }
 
@@ -357,8 +357,7 @@ final class TranslationSettingsModelTests: XCTestCase {
             + TranslationSettingsModel.cloudProviders.map(TranslationSettingsAccessibility.providerDisclosure)
             + [
                 TranslationSettingsAccessibility.enableToggle,
-                TranslationSettingsAccessibility.providerRow(.automatic),
-                TranslationSettingsAccessibility.providerSelection(.automatic),
+                TranslationSettingsAccessibility.providerSelection(.apple),
                 TranslationSettingsAccessibility.sourcePicker,
                 TranslationSettingsAccessibility.shortcutStatus,
                 TranslationSettingsAccessibility.disclosureReset,

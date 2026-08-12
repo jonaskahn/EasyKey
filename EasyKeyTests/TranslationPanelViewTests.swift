@@ -88,6 +88,7 @@ final class TranslationPanelViewTests: XCTestCase {
 
     func testAccessibilityIdentifiersAreUniqueAndNonempty() {
         let identifiers = [
+            TranslationPanelAccessibility.providerPicker,
             TranslationPanelAccessibility.sourceLanguagePicker,
             TranslationPanelAccessibility.swapButton,
             TranslationPanelAccessibility.targetLanguagePicker,
@@ -241,6 +242,7 @@ final class TranslationPanelViewTests: XCTestCase {
     func testPopoverAccessibilityIdentifiersAreUniqueAndNonempty() {
         let identifiers = [
             MenuPopoverTranslationAccessibility.section,
+            MenuPopoverTranslationAccessibility.providerPicker,
             MenuPopoverTranslationAccessibility.sourceLanguagePicker,
             MenuPopoverTranslationAccessibility.swapButton,
             MenuPopoverTranslationAccessibility.targetLanguagePicker,

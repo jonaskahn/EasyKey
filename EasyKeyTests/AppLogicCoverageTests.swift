@@ -589,7 +589,7 @@ extension AppLogicCoverageTests {
         let model = TranslationSettingsModel(settingsStore: store)
 
         XCTAssertFalse(model.visibleProviderCards.isEmpty)
-        XCTAssertEqual(model.selectableProviders.first, .automatic)
+        XCTAssertEqual(model.selectableProviders.first, .apple)
     }
 
     func testSettingsModel_CmdCDoublePressAccessorsAndSetters_NotifyCallback() {
@@ -1677,6 +1677,12 @@ extension AppLogicCoverageTests {
 extension AppLogicCoverageTests {
     func testAppMainMenuInstaller_NilMainMenu_CreatesMenuWithAppAndEditItems() {
         let previousMenu = NSApp.mainMenu
+        let previousLanguage = LocalizationStore.shared.preference
+        LocalizationStore.shared.setPreference(.english)
+        defer {
+            LocalizationStore.shared.setPreference(previousLanguage)
+            NSApp.mainMenu = previousMenu
+        }
         NSApp.mainMenu = nil
 
         AppMainMenuInstaller.installIfNeeded()
@@ -1684,11 +1690,16 @@ extension AppLogicCoverageTests {
         XCTAssertNotNil(NSApp.mainMenu)
         let hasEdit = NSApp.mainMenu?.items.contains { $0.submenu?.title == "Edit" } ?? false
         XCTAssertTrue(hasEdit)
-        NSApp.mainMenu = previousMenu
     }
 
     func testAppMainMenuInstaller_ExistingAppMenu_InsertsEditAtSecondPosition() {
         let previousMenu = NSApp.mainMenu
+        let previousLanguage = LocalizationStore.shared.preference
+        LocalizationStore.shared.setPreference(.english)
+        defer {
+            LocalizationStore.shared.setPreference(previousLanguage)
+            NSApp.mainMenu = previousMenu
+        }
         let menu = NSMenu()
         let appItem = NSMenuItem()
         appItem.submenu = NSMenu(title: "EasyKey")
@@ -1702,7 +1713,6 @@ extension AppLogicCoverageTests {
 
         let editIndex = menu.items.firstIndex { $0.submenu?.title == "Edit" }
         XCTAssertEqual(editIndex, 1)
-        NSApp.mainMenu = previousMenu
     }
 }
 

@@ -44,8 +44,9 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
         case keepUntilRestart
     }
 
-    /// `nil` represents the Automatic provider preference. A non-nil value
-    /// is always a concrete provider, never `TranslationProviderID.automatic`.
+    /// `nil` represents no explicit preference; provider resolution defaults
+    /// to Apple when available. A non-nil value is always a concrete provider,
+    /// never `TranslationProviderID.automatic`.
     public var preferredProviderID: TranslationProviderID?
     public var shortcut: Shortcut
     /// `nil` represents automatic source-language detection.
@@ -112,7 +113,7 @@ public struct TranslationOptions: Codable, Equatable, Sendable {
     }
 
     public init(
-        preferredProviderID: TranslationProviderID? = nil,
+        preferredProviderID: TranslationProviderID? = .apple,
         shortcut: Shortcut = Shortcut(keyCode: 8, modifiers: [.option]),
         defaultSourceLanguage: TranslationLanguage? = nil,
         openAIModelIdentifier: String = TranslationOptions.defaultOpenAIModelIdentifier,

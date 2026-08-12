@@ -4,7 +4,7 @@ import XCTest
 final class TranslationOptionsTests: XCTestCase {
     func testDefaults_MatchApprovedProductDecisions() {
         let options = TranslationOptions()
-        XCTAssertNil(options.preferredProviderID, "Automatic preference is represented as nil, not .automatic")
+        XCTAssertEqual(options.preferredProviderID, .apple, "Default provider preference is Apple")
         XCTAssertEqual(options.shortcut, Shortcut(keyCode: 8, modifiers: [.option]))
         XCTAssertNil(options.defaultSourceLanguage, "Default source is automatic detection")
         XCTAssertEqual(options.openAIModelIdentifier, TranslationOptions.defaultOpenAIModelIdentifier)

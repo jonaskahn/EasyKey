@@ -86,8 +86,8 @@ final class SettingsCoverageTests: XCTestCase {
 
     func testTranslationSettingsProviderSelectorExists() {
         launchToSection("translation")
-        let automaticProvider = app.descendants(matching: .any)["TranslationProvider-automatic"]
-        XCTAssertTrue(app.reveal(automaticProvider))
+        let appleProvider = app.descendants(matching: .any)["TranslationProviderDisclosure-apple"]
+        XCTAssertTrue(app.reveal(appleProvider))
     }
 
     func testTranslationSettingsEnableToggleExists() {

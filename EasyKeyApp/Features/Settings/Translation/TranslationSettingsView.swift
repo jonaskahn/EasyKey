@@ -277,22 +277,6 @@ private struct TranslationProviderSettings: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            VStack(spacing: 0) {
-                ProviderSelectionRow(
-                    provider: .automatic,
-                    providerName: providerName(.automatic),
-                    isSelected: model.preferredProvider == .automatic,
-                    isExpanded: false,
-                    status: nil,
-                    onSelect: { model.setPreferredProvider(.automatic) },
-                    onToggle: {}
-                )
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: DesignScale.radiusMD)
-                    .strokeBorder(Color(nsColor: .separatorColor))
-            }
-
             if model.visibleProviderCards.contains(.apple) {
                 providerGroup(
                     title: localization.string(.translationSettingsOnDeviceProviders),
@@ -313,17 +297,8 @@ private struct TranslationProviderSettings: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            VStack(spacing: 0) {
-                ForEach(providers, id: \.self) { provider in
-                    providerRow(provider)
-                    if provider != providers.last {
-                        Divider()
-                    }
-                }
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: DesignScale.radiusMD)
-                    .strokeBorder(Color(nsColor: .separatorColor))
+            ForEach(providers, id: \.self) { provider in
+                providerRow(provider)
             }
         }
     }
@@ -342,10 +317,6 @@ private struct TranslationProviderSettings: View {
                     expandedProvider = isExpanded ? nil : provider
                 }
             )
-
-            Divider()
-                .frame(height: isExpanded ? nil : 0)
-                .opacity(isExpanded ? 1 : 0)
 
             providerBody(provider)
                 .padding(.leading, 42)

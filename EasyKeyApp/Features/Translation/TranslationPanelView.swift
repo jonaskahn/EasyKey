@@ -2,6 +2,8 @@ import AppKit
 import EasyEngineCore
 import SwiftUI
 
+// swiftlint:disable file_length
+
 struct TranslationPanelActions {
     var openSettings: () -> Void
     var announceResult: (String) -> Void = { result in
@@ -17,6 +19,7 @@ struct TranslationPanelActions {
 }
 
 enum TranslationPanelAccessibility {
+    static let providerPicker = "TranslationProviderPicker"
     static let sourceLanguagePicker = "TranslationSourceLanguagePicker"
     static let swapButton = "TranslationSwapButton"
     static let targetLanguagePicker = "TranslationTargetLanguagePicker"
@@ -131,6 +134,8 @@ struct TranslationPanelView: View {
                 if presentation.isTranslating {
                     ProgressView().controlSize(.small)
                 }
+                Spacer(minLength: 8)
+                providerControl
             }
             HStack(spacing: 8) {
                 sourceLanguagePicker
@@ -149,6 +154,24 @@ struct TranslationPanelView: View {
             }
             .frame(maxWidth: .infinity)
         }
+    }
+
+    private var providerControl: some View {
+        TranslationProviderPickerButton(
+            selection: model.providerID,
+            availableProviders: availableProviders,
+            providerLabel: providerName,
+            accessibilityLabel: providerAccessibilityLabel,
+            accessibilityIdentifier: TranslationPanelAccessibility.providerPicker,
+            onSelect: model.selectProvider
+        )
+    }
+
+    private var providerAccessibilityLabel: String {
+        guard let providerID = model.providerID, availableProviders.contains(providerID) else {
+            return "\(localization.string(.translationProvider)): \(providerName(.apple))"
+        }
+        return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }
 
     private var sourceLanguagePicker: some View {

@@ -229,6 +229,11 @@ final class ViewRenderingCoverageTests: XCTestCase {
         pump(0.2)
     }
 
+    private func clickCenter(of view: NSView, in window: NSWindow) {
+        let point = view.convert(NSPoint(x: view.bounds.midX, y: view.bounds.midY), to: nil)
+        click(at: point, in: window)
+    }
+
     // MARK: - CloudTranslationSettingsCard
 
     func testCloudCard_DeepL_RendersEndpointPlanPicker() {
@@ -1322,6 +1327,71 @@ final class ViewRenderingCoverageTests: XCTestCase {
     }
 
     // MARK: - TranslationProviderIcon
+
+    func testTranslationProviderPickerButton_Popover_OpensAndSelectsProvider() {
+        var selected: TranslationProviderID?
+        let view = TranslationProviderPickerButton(
+            selection: nil,
+            availableProviders: [.deepL, .google, .openAI],
+            providerLabel: { $0.displayName },
+            accessibilityLabel: "Provider picker",
+            accessibilityIdentifier: "ProviderPickerProbe",
+            onSelect: { selected = $0 }
+        )
+        let host = NSHostingView(rootView: AnyView(view))
+        let fitting = host.fittingSize
+        host.frame = NSRect(origin: .zero, size: fitting)
+        let window = NSWindow(
+            contentRect: NSRect(origin: .zero, size: fitting),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false
+        )
+        window.animationBehavior = .none
+        window.contentView = host
+        window.makeKeyAndOrderFront(nil)
+        host.layoutSubtreeIfNeeded()
+
+        clickCenter(of: host, in: window)
+        pump()
+
+        let popoverWindow = NSApp.windows.first { candidate in
+            guard candidate !== window, candidate.isVisible,
+                  String(describing: type(of: candidate)).contains("Popover"),
+                  let content = candidate.contentView
+            else {
+                return false
+            }
+            return !findRowProxies(in: content).isEmpty
+        }
+        XCTAssertNotNil(popoverWindow, "Provider picker popover never opened")
+        if let popoverWindow, let content = popoverWindow.contentView {
+            let rows = findRowProxies(in: content)
+            if rows.count >= 1 {
+                let deepLRow = rows[0]
+                let point = deepLRow.convert(
+                    NSPoint(x: deepLRow.bounds.midX, y: deepLRow.bounds.midY),
+                    to: nil
+                )
+                click(at: point, in: popoverWindow)
+            }
+        }
+        pump()
+        XCTAssertEqual(selected, .deepL)
+        settleCloseWindow(window)
+    }
+
+    private func findRowProxies(in view: NSView?) -> [NSView] {
+        guard let view else { return [] }
+        var found: [NSView] = []
+        if type(of: view).description().contains("KeyViewProxy"), view.frame.height >= 20 {
+            found.append(view)
+        }
+        for subview in view.subviews {
+            found.append(contentsOf: findRowProxies(in: subview))
+        }
+        return found
+    }
 
     func testTranslationProviderIcon_AllProviders_Render() {
         let providers: [TranslationProviderID] = [

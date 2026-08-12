@@ -120,7 +120,7 @@ final class SettingsWorkflowTests: XCTestCase {
         app.launchArguments += ["--ui-skip-onboarding", "--ui-settings-section", "translation"]
         launchApp()
 
-        XCTAssertTrue(app.reveal(app.descendants(matching: .any)["TranslationProvider-automatic"]))
+        XCTAssertTrue(app.reveal(app.descendants(matching: .any)["TranslationProviderDisclosure-deepL"]))
         let detail = app.descendants(matching: .any)["SettingsDetail"]
         XCTAssertTrue(detail.exists)
         try app.performAccessibilityAudit { issue in

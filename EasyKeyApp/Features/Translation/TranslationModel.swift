@@ -100,7 +100,7 @@ final class TranslationModel: ObservableObject {
     }
 
     /// Programmatic provider change from settings, credential updates, or startup resolution.
-    /// Never re-triggers translation.
+    /// Never re-triggers translation; use `selectProvider` for the user-facing picker.
     func setProviderID(_ providerID: TranslationProviderID?) {
         guard providerID != self.providerID else { return }
         invalidateRequest()
@@ -109,6 +109,18 @@ final class TranslationModel: ObservableObject {
         if let providerID, !TranslationPronunciationPolicy.supports(providerID) {
             onPronunciationUnsupportedProvider()
         }
+    }
+
+    /// User-initiated provider change from the panel or popover picker. Unlike
+    /// `setProviderID`, this re-triggers translation when source text is already
+    /// present, since the user is explicitly asking to see it in a new provider.
+    /// Internal provider-refresh paths (credential changes, startup) must keep
+    /// calling `setProviderID` directly so they never fire a background
+    /// translation or cloud-disclosure prompt while the panel is hidden.
+    func selectProvider(_ providerID: TranslationProviderID?) {
+        setProviderID(providerID)
+        guard let providerID, providerID == self.providerID else { return }
+        retranslateIfNeeded()
     }
 
     /// Swapping languages has no programmatic caller today — every call comes
@@ -123,9 +135,9 @@ final class TranslationModel: ObservableObject {
     }
 
     /// Explicit translate intent. Text changes never call this on their own.
-    /// User-facing language selection calls this indirectly via
-    /// `retranslateIfNeeded()`; programmatic source-language and provider changes
-    /// never do. Invalid input (blank,
+    /// User-facing language and provider selection call this indirectly via
+    /// `retranslateIfNeeded()`; their programmatic counterparts
+    /// (`setSourceLanguage`, `setProviderID`) never do. Invalid input (blank,
     /// oversized, or an equal explicit source/target pair) is a silent no-op —
     /// callers disable the translate affordance for those states instead of
     /// surfacing an error.
