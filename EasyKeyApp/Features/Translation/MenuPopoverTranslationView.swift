@@ -81,7 +81,6 @@ struct MenuPopoverTranslationPresentation: Equatable {
 
 enum MenuPopoverTranslationAccessibility {
     static let section = "MenuPopoverTranslationSection"
-    static let providerPicker = "MenuPopoverTranslationProviderPicker"
     static let sourceLanguagePicker = "MenuPopoverTranslationSourceLanguagePicker"
     static let swapButton = "MenuPopoverTranslationSwapButton"
     static let targetLanguagePicker = "MenuPopoverTranslationTargetLanguagePicker"
@@ -134,16 +133,10 @@ struct MenuPopoverTranslationView: View {
                 if presentation.isTranslating {
                     ProgressView().controlSize(.small)
                 }
-                Spacer(minLength: 8)
-                providerControl
             }
             languageRow
         }
         .disabled(presentation.isTranslating)
-    }
-
-    private var providerControl: some View {
-        compactProvider
     }
 
     private var languageRow: some View {
@@ -280,18 +273,6 @@ struct MenuPopoverTranslationView: View {
             .foregroundStyle(.secondary)
     }
 
-    private var compactProvider: some View {
-        TranslationProviderPickerButton(
-            selection: model.providerID,
-            availableProviders: availableProviders,
-            chooseTitle: localization.string(.translationChooseProvider),
-            providerLabel: providerName,
-            accessibilityLabel: providerAccessibilityLabel,
-            accessibilityIdentifier: MenuPopoverTranslationAccessibility.providerPicker,
-            onSelect: model.selectProvider
-        )
-    }
-
     private var swapButton: some View {
         Button(action: model.swapLanguages) {
             Image(systemName: "arrow.left.arrow.right")
@@ -360,13 +341,6 @@ struct MenuPopoverTranslationView: View {
 
     private var targetLanguageBinding: Binding<TranslationLanguage> {
         Binding(get: { model.targetLanguage }, set: model.setTargetLanguage)
-    }
-
-    private var providerAccessibilityLabel: String {
-        guard let providerID = model.providerID, availableProviders.contains(providerID) else {
-            return localization.string(.translationChooseProvider)
-        }
-        return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }
 
     private func providerName(_ provider: TranslationProviderID) -> String {

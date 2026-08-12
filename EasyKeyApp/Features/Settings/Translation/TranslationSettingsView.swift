@@ -380,7 +380,7 @@ private struct ProviderSelectionRow: View {
     let status: ProviderStatus?
     let onSelect: () -> Void
     let onToggle: () -> Void
-
+    @State private var isHovering = false
     var body: some View {
         HStack(spacing: 10) {
             Button(action: onSelect) {
@@ -392,9 +392,7 @@ private struct ProviderSelectionRow: View {
             .accessibilityLabel(providerName)
             .accessibilityValue(isSelected ? "Selected" : "Not selected")
             .accessibilityIdentifier(TranslationSettingsAccessibility.providerSelection(provider))
-
             TranslationProviderIcon(provider: provider, size: 18)
-
             Button(action: onToggle) {
                 HStack(spacing: 8) {
                     Text(providerName)
@@ -425,18 +423,23 @@ private struct ProviderSelectionRow: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
+        .background(
+            isSelected
+                ? Color.accentColor.opacity(isHovering ? 0.18 : 0.12)
+                : Color.primary.opacity(isHovering ? 0.06 : 0),
+            in: RoundedRectangle(cornerRadius: DesignScale.radiusMD, style: .continuous)
+        )
+        .contentShape(RoundedRectangle(cornerRadius: DesignScale.radiusMD, style: .continuous))
+        .onHover { isHovering = $0 }
     }
 }
-
 private struct ProviderStatus {
     let provider: TranslationProviderID
     let status: TranslationCredentialStatus?
 }
-
 private struct ProviderStatusBadge: View {
     let status: ProviderStatus
     @ObservedObject private var localization = LocalizationStore.shared
-
     var body: some View {
         Text(text)
             .font(.caption2.weight(.medium))
@@ -475,7 +478,6 @@ private struct ProviderStatusBadge: View {
 
 private struct AppleTranslationSettingsCard: View {
     @ObservedObject private var localization = LocalizationStore.shared
-
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(localization.string(.translationSettingsAppleLocal))
@@ -491,7 +493,6 @@ private struct AppleTranslationSettingsCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 4)
     }
-
     private func openLanguageSettings() {
         guard let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings.extension") else { return }
         NSWorkspace.shared.open(url)

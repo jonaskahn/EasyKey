@@ -487,42 +487,6 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(callCount, 1)
     }
 
-    func testSelectProvider_WithNonEmptySourceText_SchedulesRetranslate() async {
-        let response = TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
-        let provider = FakeTranslationProvider(behavior: .success(response))
-        let model = TranslationModel(
-            inputLanguage: .vietnamese,
-            providerID: .deepL,
-            providerLookup: { requestedID in requestedID == .google ? provider : nil }
-        )
-        model.setAutoTranslateDelay(0.05)
-        model.setSourceText("hello")
-
-        model.selectProvider(.google)
-        await waitUntil { model.status != .idle }
-        await waitUntil { model.status != .translating }
-
-        XCTAssertEqual(model.status, .succeeded(response))
-    }
-
-    func testSelectProvider_WithEmptySourceText_DoesNotSchedule() async {
-        let provider = FakeTranslationProvider(behavior: .success(
-            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
-        ))
-        let model = TranslationModel(
-            inputLanguage: .vietnamese,
-            providerID: .deepL,
-            providerLookup: { requestedID in requestedID == .google ? provider : nil }
-        )
-        model.setAutoTranslateDelay(0.05)
-
-        model.selectProvider(.google)
-        try? await Task.sleep(nanoseconds: 150_000_000)
-
-        let callCount = await provider.callCount
-        XCTAssertEqual(callCount, 0)
-    }
-
     func testSetProviderID_NeverSchedulesRetranslateEvenWithSourceText() async {
         let provider = FakeTranslationProvider(behavior: .success(
             TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
