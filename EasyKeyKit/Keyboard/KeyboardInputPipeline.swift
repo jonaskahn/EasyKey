@@ -133,6 +133,11 @@ final class KeyboardInputPipeline {
         macroExpander.reset()
     }
 
+    private func resetCompositionPreservingMacroTrigger() {
+        engine.resetComposition()
+        synthesizer.resetEncodedUnits()
+    }
+
     func setCmdCDoublePressHandler(windowMs: Int, handler: @escaping @MainActor () -> Void) {
         cmdCDoublePressWindowMs = windowMs
         cmdCDoublePressHandler = handler
@@ -227,17 +232,21 @@ final class KeyboardInputPipeline {
               )
         else { return nil }
         engine.reset()
+        let rule = currentCompatibilityRule()
+        let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
+        let inChromiumAddressBar = isChromiumAddressBarContext()
         guard synthesizer.postMacroExpansion(
             proxy: proxy,
             backspaceCount: expansion.triggerLength,
             text: expansion.text,
-            physicalKeyCode: keyCode
+            physicalKeyCode: keyCode,
+            useSelectionReplacement: isSpotlight,
+            breakAutocomplete: inChromiumAddressBar
         )
         else {
             resetSession()
             return .passed
         }
-        synthesizer.resetEncodedUnits()
         return KeyboardProcessResult(suppressesOriginal: true, outputCount: 2, disposition: .suppressed)
     }
 
@@ -475,7 +484,7 @@ private extension KeyboardInputPipeline {
             return restoreRawKeys(proxy: proxy)
         }
         invalidateSpotlightCache()
-        resetComposition()
+        resetCompositionPreservingMacroTrigger()
         return .passed
     }
 

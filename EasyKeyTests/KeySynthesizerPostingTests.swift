@@ -145,6 +145,111 @@ final class KeySynthesizerPostingTests: XCTestCase {
         XCTAssertEqual(synthesizer.encodedUnitCount, 1)
     }
 
+    func testPostMacroExpansion_RemovesTriggerAndTracksExpansionUnits() {
+        let synthesizer = KeySynthesizer()
+        synthesizer.trackEncodedUnits(["s", "i", "g"])
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "Best regards",
+            physicalKeyCode: 49,
+            useSelectionReplacement: false,
+            breakAutocomplete: false
+        )
+
+        XCTAssertTrue(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 12)
+    }
+
+    func testPostMacroExpansion_WithoutTrackedTrigger_FallsBackToLogicalBackspaceCount() {
+        let synthesizer = KeySynthesizer()
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "abc",
+            physicalKeyCode: 49,
+            useSelectionReplacement: false,
+            breakAutocomplete: false
+        )
+
+        XCTAssertTrue(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 3)
+    }
+
+    func testPostMacroExpansion_WithBreakAutocomplete_Posts() {
+        let synthesizer = KeySynthesizer()
+        synthesizer.trackEncodedUnits(["s", "i", "g"])
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "Best regards",
+            physicalKeyCode: 49,
+            useSelectionReplacement: false,
+            breakAutocomplete: true
+        )
+
+        XCTAssertTrue(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 12)
+    }
+
+    func testPostMacroExpansion_WithSelectionReplacement_Posts() {
+        let synthesizer = KeySynthesizer()
+        synthesizer.trackEncodedUnits(["s", "i", "g"])
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "Best regards",
+            physicalKeyCode: 49,
+            useSelectionReplacement: true,
+            breakAutocomplete: false
+        )
+
+        XCTAssertTrue(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 12)
+    }
+
+    func testPostMacroExpansion_EventCreationFailure_ReturnsFalseWithoutTracking() {
+        let synthesizer = KeySynthesizer(
+            focusedTextReplacer: { _, _ in .failed },
+            eventFactory: { _, _ in nil }
+        )
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "Best regards",
+            physicalKeyCode: 49,
+            useSelectionReplacement: false,
+            breakAutocomplete: false
+        )
+
+        XCTAssertFalse(posted)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 0)
+    }
+
+    func testPostMacroExpansion_WithPendingEmptyCharacter_AccountsForItInDeletion() {
+        let synthesizer = KeySynthesizer()
+        synthesizer.trackEncodedUnits(["s", "i", "g"])
+        synthesizer.insertEmptyCharacter(proxy: fakeProxy(), "\u{200B}")
+
+        let posted = synthesizer.postMacroExpansion(
+            proxy: fakeProxy(),
+            backspaceCount: 3,
+            text: "abc",
+            physicalKeyCode: 49,
+            useSelectionReplacement: false,
+            breakAutocomplete: false
+        )
+
+        XCTAssertTrue(posted)
+        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
+        XCTAssertEqual(synthesizer.encodedUnitCount, 3)
+    }
+
     func testIsSelfPosted_ForPostedEvent_IsTrue() {
         let synthesizer = KeySynthesizer()
         guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true) else {

@@ -28,7 +28,7 @@ public struct Macro: Codable, Equatable, Identifiable, Sendable {
         trigger: String,
         expansion: String,
         isEnabled: Bool = true,
-        category: MacroCategory = .vietnamese,
+        category: MacroCategory = .both,
         createdAt: Date = Date(),
         updatedAt: Date = Date()
     ) {
@@ -57,7 +57,7 @@ public struct Macro: Codable, Equatable, Identifiable, Sendable {
         trigger = try container.decode(String.self, forKey: .trigger)
         expansion = try container.decode(String.self, forKey: .expansion)
         isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
-        category = try container.decodeIfPresent(MacroCategory.self, forKey: .category) ?? .vietnamese
+        category = try container.decodeIfPresent(MacroCategory.self, forKey: .category) ?? .both
         createdAt = try container.decode(Date.self, forKey: .createdAt)
         updatedAt = try container.decode(Date.self, forKey: .updatedAt)
     }
@@ -125,7 +125,7 @@ public final class MacroStore {
         trigger: String,
         expansion: String,
         isEnabled: Bool = true,
-        category: MacroCategory = .vietnamese,
+        category: MacroCategory = .both,
         now: Date = Date()
     ) throws -> Macro {
         let macro = Macro(trigger: trigger, expansion: expansion, isEnabled: isEnabled, category: category, createdAt: now, updatedAt: now)
@@ -234,7 +234,7 @@ public final class MacroStore {
             }
             let category: MacroCategory
             if fields.count == 3 {
-                category = .vietnamese
+                category = .both
             } else if fields.count == 4, let parsed = MacroCategory(rawValue: String(fields[3])) {
                 category = parsed
             } else {

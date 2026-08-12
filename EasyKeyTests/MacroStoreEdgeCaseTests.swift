@@ -245,7 +245,7 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
         XCTAssertEqual(store.macros.first?.expansion, "hello")
     }
 
-    func testLegacyJSONWithoutCategory_DefaultsToVietnamese() throws {
+    func testLegacyJSONWithoutCategory_DefaultsToBoth() throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -265,7 +265,7 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
 
         let store = MacroStore(fileURL: fileURL)
         XCTAssertEqual(store.macros.count, 1)
-        XCTAssertEqual(store.macros.first?.category, .vietnamese)
+        XCTAssertEqual(store.macros.first?.category, .both)
     }
 
     func testTSVExportIncludesCategory() throws {
@@ -279,12 +279,12 @@ final class MacroStoreEdgeCaseTests: XCTestCase {
         XCTAssertTrue(tsv.contains("en\thi\t1\tenglish"))
     }
 
-    func testPreviewImportLegacyThreeColumn_DefaultsToVietnamese() throws {
+    func testPreviewImportLegacyThreeColumn_DefaultsToBoth() throws {
         let store = MacroStore()
         let preview = try store.previewImport("trigger\texpansion\tenabled\nhello\tworld\t1")
 
         XCTAssertEqual(preview.additions.count, 1)
-        XCTAssertEqual(preview.additions.first?.category, .vietnamese)
+        XCTAssertEqual(preview.additions.first?.category, .both)
     }
 
     func testPreviewImportFourColumn_ParsesCategory() throws {

@@ -11,7 +11,7 @@ struct MacroEditorSheet: View {
     @State private var trigger = ""
     @State private var expansion = ""
     @State private var enabled = true
-    @State private var category: MacroCategory = .vietnamese
+    @State private var category: MacroCategory = .both
     @State private var error: String?
 
     var body: some View {
@@ -22,29 +22,28 @@ struct MacroEditorSheet: View {
             Form {
                 TextField(localization.string(.macrosTrigger), text: $trigger)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(localization.string(.macrosExpansionField))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    TextEditor(text: $expansion)
-                        .scrollContentBackground(.hidden)
-                        .frame(minHeight: 120)
-                        .padding(4)
-                        .background(.quaternary, in: RoundedRectangle(cornerRadius: DesignScale.radiusSM))
-                        .accessibilityLabel(localization.string(.macrosExpansionField))
-                }
-
-                Toggle(localization.string(.commonEnabled), isOn: $enabled)
-
                 Picker(localization.string(.macrosCategory), selection: $category) {
                     Text(localization.string(.languageVietnamese)).tag(MacroCategory.vietnamese)
                     Text(localization.string(.languageEnglish)).tag(MacroCategory.english)
                     Text(localization.string(.languageBoth)).tag(MacroCategory.both)
                 }
                 .pickerStyle(.segmented)
+
+                Toggle(localization.string(.commonEnabled), isOn: $enabled)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(localization.string(.macrosExpansionField))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    TextEditor(text: $expansion)
+                        .scrollContentBackground(.hidden)
+                        .frame(minHeight: 96)
+                        .padding(4)
+                        .background(.quaternary, in: RoundedRectangle(cornerRadius: DesignScale.radiusSM))
+                        .accessibilityLabel(localization.string(.macrosExpansionField))
+                }
             }
             .formStyle(.grouped)
-            .scrollDisabled(true)
 
             if let error {
                 Text(error).foregroundStyle(.red).font(.caption)
@@ -69,7 +68,7 @@ struct MacroEditorSheet: View {
             trigger = macro?.trigger ?? ""
             expansion = macro?.expansion ?? ""
             enabled = macro?.isEnabled ?? true
-            category = macro?.category ?? .vietnamese
+            category = macro?.category ?? .both
         }
     }
 

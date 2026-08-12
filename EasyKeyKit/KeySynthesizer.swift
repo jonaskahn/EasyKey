@@ -187,14 +187,44 @@ public final class KeySynthesizer {
         proxy: CGEventTapProxy,
         backspaceCount: Int,
         text: String,
-        physicalKeyCode: UInt16
+        physicalKeyCode: UInt16,
+        useSelectionReplacement: Bool,
+        breakAutocomplete: Bool
     ) -> Bool {
-        guard let deletionEvents = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: backspaceCount),
-              let insertionEvents = makeUnicodeEvents(text),
+        let encodedUnits = text.map(String.init)
+
+        if useSelectionReplacement {
+            let selectionCount = macroExpansionSelectionCount(backspaceCount)
+            guard let selectionEvents = makePhysicalKeyEvents(
+                keyCode: 123,
+                modifiers: .maskShift,
+                count: selectionCount
+            ), let insertionEvents = makeUnicodeEvents(text),
+            let delimiterEvents = makePhysicalKeyEvents(keyCode: physicalKeyCode, modifiers: [], count: 1)
+            else { return false }
+            _ = prepareDeleteForSelection(deleteCount: backspaceCount)
+            post(selectionEvents, proxy: proxy)
+            post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
+            post(delimiterEvents, proxy: proxy)
+            return true
+        }
+
+        let physicalCount = macroExpansionDeleteCount(backspaceCount)
+        guard let insertionEvents = makeUnicodeEvents(text),
+              let breakEvents = makeUnicodeEvents(breakAutocomplete ? "\u{202F}" : ""),
+              let breakBackspaceEvents = makePhysicalKeyEvents(
+                  keyCode: 51,
+                  modifiers: [],
+                  count: breakAutocomplete ? 1 : 0
+              ),
+              let deletionEvents = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: physicalCount),
               let delimiterEvents = makePhysicalKeyEvents(keyCode: physicalKeyCode, modifiers: [], count: 1)
         else { return false }
+        post(breakEvents, proxy: proxy, encodedUnits: [])
+        post(breakBackspaceEvents, proxy: proxy)
+        _ = prepareDelete(deleteCount: backspaceCount)
         post(deletionEvents, proxy: proxy)
-        post(insertionEvents, proxy: proxy, encodedUnits: text.map(String.init))
+        post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
         post(delimiterEvents, proxy: proxy)
         return true
     }
@@ -290,6 +320,20 @@ public final class KeySynthesizer {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
         return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemes }
+    }
+
+    private func macroExpansionDeleteCount(_ logicalCount: Int) -> Int {
+        guard encodedUnitStack.count >= logicalCount else {
+            return logicalCount + (pendingEmptyCharacter ? 1 : 0)
+        }
+        return physicalDeleteCount(logicalCount)
+    }
+
+    private func macroExpansionSelectionCount(_ logicalCount: Int) -> Int {
+        guard encodedUnitStack.count >= logicalCount else {
+            return logicalCount + (pendingEmptyCharacter ? 1 : 0)
+        }
+        return selectionDeleteCount(logicalCount)
     }
 
     private func removeEncodedUnits(_ logicalCount: Int) -> Int {
