@@ -3,12 +3,14 @@ import Foundation
 public enum MacroCategory: String, Codable, CaseIterable, Sendable {
     case vietnamese
     case english
+    case nineX
+    case genZ
     case both
 
     public func matches(_ language: InputLanguage) -> Bool {
         switch self {
-        case .vietnamese: language == .vietnamese
-        case .english: language == .english
+        case .vietnamese, .nineX: language == .vietnamese
+        case .english, .genZ: language == .english
         case .both: true
         }
     }
@@ -181,6 +183,28 @@ public final class MacroStore {
         try save(candidate)
         macrosByID = candidate
         refreshEncodedExpansions()
+    }
+
+    /// Inserts sample macros, silently skipping any trigger that already exists
+    /// in the same category. Returns the number of macros actually added.
+    @discardableResult
+    public func insertSamples(_ samples: [Macro]) throws -> Int {
+        var candidate = macrosByID
+        var added = 0
+        for sample in samples {
+            do {
+                try validate(sample, among: candidate.values)
+            } catch MacroStoreError.duplicateTrigger {
+                continue
+            }
+            candidate[sample.id] = sample
+            added += 1
+        }
+        guard added > 0 else { return 0 }
+        try save(candidate)
+        macrosByID = candidate
+        refreshEncodedExpansions()
+        return added
     }
 
     public func changeActiveEncoding(to encoding: EncodingTable) {

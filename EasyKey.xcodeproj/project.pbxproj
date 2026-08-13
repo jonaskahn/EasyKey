@@ -101,9 +101,11 @@
 		985E8568EF8A49E7A283B811 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E1EA900B51458EACCD1D27 /* main.swift */; };
 		9BAC994EB6A51E74AE4A8FB6 /* SystemOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC0612AC5D7B1F0E29F98B0 /* SystemOptions.swift */; };
 		A10000000000000000000001 /* MacroStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* MacroStore.swift */; };
+		EA1000000000000000000002 /* MacroSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1000000000000000000001 /* MacroSamples.swift */; };
 		A10000000000000000000002 /* SmartSwitchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* SmartSwitchStore.swift */; };
 		A10000000000000000000003 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* Converter.swift */; };
 		A10000000000000000000004 /* MacroStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* MacroStoreTests.swift */; };
+		EA1000000000000000000004 /* MacroSamplesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1000000000000000000003 /* MacroSamplesTests.swift */; };
 		A10000000000000000000005 /* SmartSwitchStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* SmartSwitchStoreTests.swift */; };
 		A10000000000000000000006 /* ConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000016 /* ConverterTests.swift */; };
 		A10B00000000000000000001 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B00000000000000000011 /* AppLanguage.swift */; };
@@ -494,9 +496,11 @@
 		9D777379253BAE3560A35C82 /* TranslationProviderResolver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderResolver.swift; sourceTree = "<group>"; };
 		A09961C6FDCE4392ABAFDDC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000011 /* MacroStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroStore.swift; sourceTree = "<group>"; };
+		EA1000000000000000000001 /* MacroSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroSamples.swift; sourceTree = "<group>"; };
 		A10000000000000000000012 /* SmartSwitchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchStore.swift; sourceTree = "<group>"; };
 		A10000000000000000000013 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		A10000000000000000000014 /* MacroStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroStoreTests.swift; sourceTree = "<group>"; };
+		EA1000000000000000000003 /* MacroSamplesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroSamplesTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000015 /* SmartSwitchStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchStoreTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000016 /* ConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterTests.swift; sourceTree = "<group>"; };
 		A10B00000000000000000011 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
@@ -898,6 +902,7 @@
 				62B556BAD32F418FAD67CB45 /* VietnameseEngineTestSupport.swift */,
 				F384BEA9F2729325F0565987 /* SettingsStoreTests.swift */,
 				A10000000000000000000014 /* MacroStoreTests.swift */,
+				EA1000000000000000000003 /* MacroSamplesTests.swift */,
 				A10000000000000000000015 /* SmartSwitchStoreTests.swift */,
 				A10000000000000000000016 /* ConverterTests.swift */,
 				E40000000000000000000014 /* AppCompatibilityTests.swift */,
@@ -1166,6 +1171,7 @@
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000011 /* MacroStore.swift */,
+				EA1000000000000000000001 /* MacroSamples.swift */,
 				A8B632391EC6966DBEF74EAC /* MacroOptions.swift */,
 			);
 			path = Macros;
@@ -1653,6 +1659,7 @@
 				B1C36F466D9E4017B01EB030 /* VietnameseEngineTestSupport.swift in Sources */,
 				6C5864B53D040B6C5FE1CC36 /* SettingsStoreTests.swift in Sources */,
 				A10000000000000000000004 /* MacroStoreTests.swift in Sources */,
+				EA1000000000000000000004 /* MacroSamplesTests.swift in Sources */,
 				A10000000000000000000005 /* SmartSwitchStoreTests.swift in Sources */,
 				A10000000000000000000006 /* ConverterTests.swift in Sources */,
 				E40000000000000000000005 /* AppCompatibilityTests.swift in Sources */,
@@ -1825,6 +1832,7 @@
 				EA200ED3B90B2F1AEBC248D2 /* SettingsRepository.swift in Sources */,
 				D1A600000000000000000001 /* AppLog.swift in Sources */,
 				A10000000000000000000001 /* MacroStore.swift in Sources */,
+				EA1000000000000000000002 /* MacroSamples.swift in Sources */,
 				A10000000000000000000002 /* SmartSwitchStore.swift in Sources */,
 				A10000000000000000000003 /* Converter.swift in Sources */,
 				5931D651115FF7A4C52016EA /* TranslationProviderID.swift in Sources */,

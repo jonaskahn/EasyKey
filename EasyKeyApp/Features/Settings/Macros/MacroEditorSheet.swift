@@ -25,6 +25,8 @@ struct MacroEditorSheet: View {
                 Picker(localization.string(.macrosCategory), selection: $category) {
                     Text(localization.string(.languageVietnamese)).tag(MacroCategory.vietnamese)
                     Text(localization.string(.languageEnglish)).tag(MacroCategory.english)
+                    Text(localization.string(.languageNineX)).tag(MacroCategory.nineX)
+                    Text(localization.string(.languageGenZ)).tag(MacroCategory.genZ)
                     Text(localization.string(.languageBoth)).tag(MacroCategory.both)
                 }
                 .pickerStyle(.segmented)

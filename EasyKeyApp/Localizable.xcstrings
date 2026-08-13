@@ -35,6 +35,40 @@
         }
       }
     },
+    "language.genZ":     {
+      "comment": "Macro category for Generation Z slang",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gen Z"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gen Z"
+          }
+        }
+      }
+    },
+    "language.nineX":     {
+      "comment": "Macro category for 1990s Vietnamese teen slang",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9x"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9x"
+          }
+        }
+      }
+    },
     "language.vietnamese": {
       "comment": "Interface language option",
       "localizations": {
@@ -1590,6 +1624,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gõ tắt"
+          }
+        }
+      }
+    },
+    "macros.samplesNone":     {
+      "comment": "Message when all sample triggers already exist",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No examples added; all triggers already exist."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thêm mẫu nào; tất cả mục đều đã tồn tại."
+          }
+        }
+      }
+    },
+    "macros.samplesAdded":     {
+      "comment": "Success format %lld = count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Added %lld examples. Existing triggers were skipped."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đã thêm %lld mẫu. Mục trùng đã được bỏ qua."
+          }
+        }
+      }
+    },
+    "macros.addAllSamples":     {
+      "comment": "Menu item to add every bundled sample pack",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add all examples"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm tất cả mẫu"
+          }
+        }
+      }
+    },
+    "macros.addSamples":     {
+      "comment": "Button to add bundled sample macros",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add examples"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thêm mẫu"
           }
         }
       }

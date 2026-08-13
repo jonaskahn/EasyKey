@@ -28,6 +28,19 @@ struct MacroSettingsView: View {
                 Button(localization.string(.commonExport)) { exportMacros() }
                     .buttonStyle(.bordered)
                     .controlSize(.large)
+                Menu {
+                    Button(localization.string(.languageEnglish)) { addSamples([.english]) }
+                    Button(localization.string(.languageVietnamese)) { addSamples([.vietnamese]) }
+                    Button(localization.string(.languageNineX)) { addSamples([.nineX]) }
+                    Button(localization.string(.languageGenZ)) { addSamples([.genZ]) }
+                    Divider()
+                    Button(localization.string(.macrosAddAllSamples)) { addSamples(MacroSamplePack.allCases) }
+                } label: {
+                    Label(localization.string(.macrosAddSamples), systemImage: "text.badge.plus")
+                }
+                .menuStyle(.button)
+                .buttonStyle(.bordered)
+                .controlSize(.large)
             }
             .padding()
 
@@ -74,6 +87,8 @@ struct MacroSettingsView: View {
                                 Menu {
                                     Button(localization.string(.languageVietnamese)) { setCategory(.vietnamese, for: macro) }
                                     Button(localization.string(.languageEnglish)) { setCategory(.english, for: macro) }
+                                    Button(localization.string(.languageNineX)) { setCategory(.nineX, for: macro) }
+                                    Button(localization.string(.languageGenZ)) { setCategory(.genZ, for: macro) }
                                     Button(localization.string(.languageBoth)) { setCategory(.both, for: macro) }
                                 } label: {
                                     Text(categoryTitle(macro.category))
@@ -137,7 +152,21 @@ struct MacroSettingsView: View {
         switch category {
         case .vietnamese: localization.string(.languageVietnamese)
         case .english: localization.string(.languageEnglish)
+        case .nineX: localization.string(.languageNineX)
+        case .genZ: localization.string(.languageGenZ)
         case .both: localization.string(.languageBoth)
+        }
+    }
+
+    func addSamples(_ packs: [MacroSamplePack]) {
+        do {
+            let added = try coordinator.macroStore.insertSamples(packs.flatMap(\.macros))
+            coordinator.refreshMacros()
+            message = added > 0
+                ? localization.format(.macrosSamplesAdded, added)
+                : localization.string(.macrosSamplesNone)
+        } catch {
+            message = localization.errorMessage(error)
         }
     }
 
