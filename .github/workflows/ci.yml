@@ -73,6 +73,11 @@ jobs:
 
   test:
     runs-on: macos-15
+    # Healthy shards finish in 2-29 minutes. A hung test (e.g. a system
+    # permission dialog nobody dismisses on the hosted runner) must fail the
+    # shard here instead of pending until the 6-hour runner cap or a manual
+    # cancel, which left the coverage job waiting forever.
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -339,6 +344,7 @@ jobs:
   coverage:
     needs: test
     runs-on: macos-15
+    timeout-minutes: 30
     env:
       COVERAGE_THRESHOLD: "90"
     steps:

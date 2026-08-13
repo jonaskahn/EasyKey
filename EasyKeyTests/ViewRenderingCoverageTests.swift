@@ -1021,24 +1021,21 @@ final class ViewRenderingCoverageTests: XCTestCase {
         let window = windowRender {
             AboutSettingsView(settingsStore: coordinator.settingsStore)
         }
+        defer { settleCloseWindow(window) }
+
         let baseWindowCount = NSApp.windows.count
-        let content = window.contentView
-        guard let content else {
+        guard let content = window.contentView else {
             XCTFail("Missing content view")
-            settleCloseWindow(window)
             return
         }
         let candidates: [CGFloat] = [340, 360, 380, 400, 420, 440, 460, 480]
         for yOffset in candidates {
             let point = content.convert(NSPoint(x: 200, y: yOffset), to: nil)
             click(at: point, in: window)
-            pump(0.1)
             if NSApp.windows.count > baseWindowCount {
-                settleCloseWindow(window)
                 return
             }
         }
-        settleCloseWindow(window)
         XCTFail("Licenses sheet never opened")
     }
 

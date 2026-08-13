@@ -103,6 +103,7 @@ public final class KeyboardService {
 
         setHealth(.requestingPermission)
         AppLog.notice(.keyboard, "Requesting Accessibility permission")
+        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
         let promptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         AXIsProcessTrustedWithOptions([promptKey: true] as CFDictionary)
     }

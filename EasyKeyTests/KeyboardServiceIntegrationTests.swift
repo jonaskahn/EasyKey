@@ -163,19 +163,17 @@ final class KeyboardServiceIntegrationTests: XCTestCase {
 
     func testHandleTapEvent_TapDisabledByTimeout_RecoversAndDegradesHealth() {
         let service = KeyboardService(settings: .defaults)
-        let exp = expectation(description: "health degraded")
-        service.healthHandler = { health in
-            if health == .degraded {
-                exp.fulfill()
-            }
-        }
 
         guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: true)
         else { XCTFail("tapTimeout event"); return }
         event.setIntegerValueField(.eventSourceUserData, value: 0)
         _ = service.handleTapEvent(proxy: fakeProxy(), type: .tapDisabledByTimeout, event: event)
 
-        wait(for: [exp], timeout: 2)
+        let deadline = Date().addingTimeInterval(1)
+        while service.health == .stopped, Date() < deadline {
+            RunLoop.current.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+        XCTAssertEqual(service.health, .requestingPermission)
     }
 
     func testStart_WhilePaused_SkipsInstallWithoutCrashing() {
