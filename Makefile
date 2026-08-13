@@ -26,7 +26,11 @@ COVERAGE_THRESHOLD ?= 90
 SHARDS_DIR = $(BUILD_DIR)/Shards
 MERGED_XCRESULT = $(BUILD_DIR)/Merged.xcresult
 
-# Per-shard test filters (mirror .github/workflows/ci.yml).
+# Per-shard test filters. NOTE: NOT a mirror of .github/workflows/ci.yml — CI
+# splits unit tests across 4 shards and UI tests across 5 (+1 known-broken)
+# because each CI shard gets its own runner. Locally all shards share one Mac
+# (see test-parallel note), so grouping is coarse: one unit shard + 3 UI shards
+# that bound test time and isolate failures.
 FILTER_unit = -only-testing:EasyKeyTests
 FILTER_ui-1 = -only-testing:EasyKeyUITests/SettingsCoverageTests
 FILTER_ui-2 = -only-testing:EasyKeyUITests/SettingsInteractionTests
@@ -46,13 +50,18 @@ coverage: test
 	@$(MAKE) --no-print-directory coverage-gate \
 		XCRESULT="$(shell ls -td $(BUILD_DIR)/Logs/Test/*.xcresult | head -1)"
 
-# Parallel sharded run: build once, then run each shard concurrently, merge, gate.
-# NOTE: all shards share one UserDefaults domain on a single Mac, so UI shards can
-# flake here. If you see spurious failures, fall back to serial `make test`.
+# Sharded run: build once, run each shard, merge, gate.
+# NOTE: shards CANNOT run concurrently on one Mac — every UI shard launches the
+# same EasyKey.app bundle, so one shard's app.launch()/terminate() kills the
+# other shards' app instances mid-test ("Lost connection to the application"
+# failures, infinite hangs). EasyKeyTests is app-hosted (TEST_HOST = EasyKey.app),
+# so the unit shard dies the same way whenever a UI shard relaunches the app.
+# CI runs each shard on its own runner instead; locally the shards exist to bound
+# test time, isolate failures, and merge coverage — not to parallelize.
 test-parallel: build-for-testing
 	@rm -rf "$(SHARDS_DIR)" && mkdir -p "$(SHARDS_DIR)"
-	@echo "Running shards in parallel: $(SHARDS)"
-	@$(MAKE) --no-print-directory -j$(words $(SHARDS)) $(addprefix shard-,$(SHARDS))
+	@echo "Running shards serially: $(SHARDS)"
+	@$(MAKE) --no-print-directory -j1 $(addprefix shard-,$(SHARDS))
 	@$(MAKE) --no-print-directory coverage-gate \
 		XCRESULT="$(shell echo $(addsuffix .xcresult,$(addprefix $(SHARDS_DIR)/,$(SHARDS))))" \
 		MERGE=1
@@ -64,8 +73,13 @@ build-for-testing:
 	$(XCODEBUILD) -enableCodeCoverage YES build-for-testing
 
 # shard-<name>: run one shard's filter against the already-built product.
+# Per-test timeouts bound a hung test so the shard fails instead of stalling
+# the whole run forever (mirrors ci.yml's timeout-minutes intent).
 shard-%:
 	$(XCODEBUILD) -enableCodeCoverage YES \
+		-test-timeouts-enabled YES \
+		-default-test-execution-time-allowance 600 \
+		-maximum-test-execution-time-allowance 600 \
 		-resultBundlePath "$(SHARDS_DIR)/$*.xcresult" \
 		$(FILTER_$*) \
 		test-without-building
@@ -168,7 +182,7 @@ help:
 	@echo "    make build          Debug build → build/Build/Products/Debug/EasyKey.app"
 	@echo "    make run            Build debug + launch app"
 	@echo "    make test           Unit + UI tests, serial (with code coverage)"
-	@echo "    make test-parallel  Sharded parallel run (faster; UI shards may flake)"
+	@echo "    make test-parallel  Sharded run (serial locally; bounds test time)"
 	@echo "    make coverage       Serial run + enforce $(COVERAGE_THRESHOLD)% coverage gate"
 	@echo "    make coverage-parallel  Sharded parallel run + coverage gate"
 	@echo "    make lint           Run SwiftLint (brew install swiftlint)"

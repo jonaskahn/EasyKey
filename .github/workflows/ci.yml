@@ -313,6 +313,8 @@ jobs:
         # can't pass on a GitHub-hosted macOS runner (see matrix comment above / fix-test.md).
         # No -retry-tests-on-failure: a test-process crash makes xcodebuild re-run the
         # ENTIRE shard, which is how a single SIGSEGV turned into multi-hour runs.
+        # Per-test timeouts (10 min max) bound a hung test so the shard fails in
+        # minutes instead of pending until the job's 60-minute timeout.
         continue-on-error: ${{ matrix.shard == 'ui-known-broken-on-hosted-runner' }}
         run: |
           xcodebuild test \
@@ -323,6 +325,9 @@ jobs:
             -clonedSourcePackagesDirPath build/SourcePackages \
             -resultBundlePath build/TestResults.xcresult \
             -enableCodeCoverage YES \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 600 \
+            -maximum-test-execution-time-allowance 600 \
             ${{ matrix.filter }}
 
       - name: Fail shards that executed zero tests
