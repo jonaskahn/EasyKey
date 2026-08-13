@@ -6,33 +6,47 @@
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-90%25-brightgreen?style=flat-square" alt="90% coverage gate"></a>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/download-Releases-111111?style=flat-square" alt="Download EasyKey"></a>
   <br><br>
-  <i>Fast, private Vietnamese typing for macOS with some sweets</i>
+  <i>Fast, private Vietnamese typing for macOS</i>
 </p>
 
 ---
 
-EasyKey is a native Vietnamese input utility built for accurate typing across macOS. It combines a clean-room Telex and VNI engine with per-application preferences, text expansion, legacy encoding support, and practical compatibility controls.
+EasyKey is a native Vietnamese input utility that lives in your menu bar: type Vietnamese in any app, keep a private clipboard history, expand macros, and translate — all processed locally on your Mac.
 
 ```text
 vieejt nam  →  việt nam
 ```
 
-Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit. Apple Translation is on-device on macOS 15 or later. Optional cloud translation sends source text directly to the selected provider only from EasyKey translation surfaces. EasyKey includes no analytics or telemetry.
+## 🚀 Install
 
-## ✨ Highlights
+1. Download the latest universal DMG from [GitHub Releases](https://github.com/jonaskahn/EasyKey/releases/latest).
+2. Open the DMG, drag **EasyKey** into **Applications**, and launch it.
+3. Grant **Accessibility** access when prompted (required for system-wide typing).
+4. EasyKey runs from the menu bar.
 
-- ⌨️ Telex, VNI, and Simple Telex typing rules
-- 🔤 Unicode, Unicode Combining, TCVN3, VNI-Windows, CP1258
-- 🧩 Trigger-based macro expansions with import/export
-- 🔀 Smart Switch remembers language per application
-- 📋 Private clipboard manager with optional encrypted history
-- 🌍 Apple on-device translation or cloud providers
-- 🛠️ Per-application compatibility and ignore lists
-- 🚀 Signed Sparkle updates, English/Vietnamese localization
+> Current builds are ad-hoc signed (not notarized). If macOS blocks the app: Control-click **EasyKey** → **Open**, confirm, or use **System Settings → Privacy & Security → Open Anyway**.
 
-See [Telex Rule Set](./docs/flows/telex.md) for exact full Telex, Simple Telex, tone-placement, undo, and restoration behavior.
+## 🖊️ Usage
 
-> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. This is a macOS detection-timing limitation, not an EasyKey defect — see [Known Platform Problems](./docs/reference/limitations.md). If it persists, restarting EasyKey usually helps.
+### ⌨️ Vietnamese typing
+
+Pick an input method in **Settings → Typing** (Telex, Simple Telex, or VNI; Simple Telex is the default) and just type — Vietnamese is composed in any app. Press `⌥Z` to switch languages. EasyKey remembers the language and encoding per app, so switching to one app doesn't disturb another.
+
+### 📋 Clipboard manager (`⌥V`)
+
+Copy anything — text, URLs, images, file references — then press `⌥V` to search, pin, or paste from recent history. Off by default: enable it in **Settings → Clipboard**. History stays in memory unless you opt into encrypted on-device persistence.
+
+### 🌍 Translation (`⌥C`)
+
+Press `⌥C`, type or paste text, and get a translation in place. Apple Translation runs fully on-device on macOS 15+; or connect a cloud provider (DeepL, Google, OpenAI, Anthropic, Gemini, OpenRouter, Groq) in **Settings → Translation**.
+
+### 🧩 Macros
+
+In **Settings → Macros**, set a trigger such as `addr` and an expansion; typing the trigger expands it in any app.
+
+### 🛠️ Compatibility
+
+In **Settings → System**, pause EasyKey in specific apps or force a language per app — useful for terminals, games, or apps that need literal keystrokes.
 
 ## ⌨️ Default Shortcuts
 
@@ -46,15 +60,12 @@ All shortcuts are configurable in Settings.
 
 ## 🔒 Private by Design
 
-EasyKey processes keyboard transformation and preferences on your Mac. General keyboard input is never translated or uploaded. Apple Translation runs on-device on macOS 15 or later.
+- Everything is processed on your Mac — no analytics, no telemetry, no typing logs.
+- Cloud translation is opt-in: source text goes directly to the provider you choose (never through an EasyKey server), after a first-use disclosure.
+- Credentials are stored in device-only Keychain items.
+- Clipboard persistence, if enabled, is AES-GCM encrypted with a device-only key.
 
-Cloud translation is optional. In the translation editor, menu popover, or `⌥A` panel, user-entered or captured source text is sent directly to the selected provider when you translate or when the configured auto-translation delay expires. Each edit resets that delay. A first-use disclosure identifies every cloud provider before its first request. EasyKey does not proxy requests through its own service.
-
-Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./docs/security/data-handling.md) for data flows and provider links.
-
-Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
-
-The **clipboard manager is off by default**. When enabled, it keeps local history for copied text, URLs, images, and file references. Concealed, transient, and auto-generated content is rejected. History remains in memory unless **Keep history after restart** is enabled; then it is AES-GCM encrypted on-device with an unlocked-this-device-only, non-synchronizing Keychain key. Disabling persistence deletes stored data. Clipboard content is never logged or uploaded. Ignored-applications filtering is best effort, not a security boundary, because macOS cannot always identify a clipboard change's source application.
+See [data handling and provider links](./docs/security/data-handling.md) for details.
 
 ## 📸 Screenshots
 
@@ -68,151 +79,19 @@ The **clipboard manager is off by default**. When enabled, it keeps local histor
 - Apple silicon or Intel Mac
 - Accessibility permission
 
-## 📦 Installation
+> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct — a macOS detection-timing limitation, not an EasyKey defect. See [limitations](./docs/reference/limitations.md).
 
-1. Download the latest universal DMG from [GitHub Releases](https://github.com/jonaskahn/EasyKey/releases/latest).
-2. Open `EasyKey-<version>-universal.dmg`.
-3. Drag **EasyKey** into **Applications**.
-4. Launch EasyKey and grant Accessibility access when prompted.
+## 🛠️ For Developers
 
-Current public builds are universal and ad-hoc signed, but not Developer ID notarized. On first launch, macOS may block the application:
-
-1. Control-click **EasyKey** in **Applications**, then choose **Open**.
-2. Confirm **Open** in the security dialog.
-3. If needed, open **System Settings → Privacy & Security** and choose **Open Anyway**.
-
-EasyKey runs primarily from the menu bar. Typing transformation remains unavailable until Accessibility access is granted.
-
----
-
-## 🛠️ Build from Source
-
-Requires Xcode 15+, Git, and command-line developer tools. SwiftLint and SwiftFormat are optional.
-
-```bash
-git clone https://github.com/jonaskahn/EasyKey.git
-cd EasyKey
-make build
-make test
-make run
-```
-
-Create a local universal DMG without signing or notarization credentials:
-
-```bash
-make local-dmg
-```
-
-Output: `build/EasyKey-<version>-universal.dmg`
-
-Direct Xcode build:
-
-```bash
-xcodebuild \
-  -project EasyKey.xcodeproj \
-  -scheme EasyKeyApp \
-  -configuration Debug \
-  -destination "platform=macOS"
-```
-
-### Make Commands
-
-Run `make` or `make help` for the complete command reference.
-
-| Development | Purpose |
-|---------|---------|
-| `make build` | Build the debug application |
-| `make run` | Build and launch EasyKey |
-| `make test` | Run unit and UI tests serially with code coverage |
-| `make test-parallel` | Build once, then run tests as parallel shards (faster) |
-| `make coverage` | Run tests and enforce the 90% coverage gate |
-| `make coverage-parallel` | Sharded parallel run plus the coverage gate |
-| `make lint` | Run SwiftLint when installed |
-| `make format` | Run SwiftFormat when installed |
-
-| Quality and Cleanup | Purpose |
-|---------|---------|
-| `make qa` | Run the full QA gate and verify generated artifacts |
-| `make clean` | Remove build artifacts |
-| `make clean-local` | Quit EasyKey and remove local app and test data |
-| `make clean-all` | Remove build artifacts and local data |
-
-| Release | Purpose |
-|---------|---------|
-| `make release` | Build an unsigned universal Release application |
-| `make local-dmg` | Package an ad-hoc signed universal DMG |
-| `make archive` | Create a signed archive using Developer ID configuration |
-| `make export` | Export the application from an archive |
-| `make verify-arch` | Verify arm64 and x86_64 architectures |
-| `make verify-release` | Run release integrity checks |
-| `make dmg` | Build, notarize, staple, and verify a signed universal DMG |
-
-Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./docs/engineering/release.md) for the complete release process.
-
-### Architecture
-
-```text
-EasyKey/
-├── EasyKeyApp/             # SwiftUI and AppKit application shell
-│   ├── Features/           # Onboarding and settings feature slices
-│   ├── Coordination/       # Menu bar, windows, login item, and app wiring
-│   └── Settings/           # Observable settings integration
-├── EasyKeyKit/             # macOS keyboard-service adapters
-│   └── Keyboard/           # Event tap, input pipeline, and diagnostics
-├── EasyEngineCore/         # Framework-independent domain logic
-│   ├── Engine/             # Transformation rules, tones, and encodings
-│   ├── Settings/
-│   ├── Macros/
-│   ├── SmartSwitch/
-│   ├── Converter/
-│   ├── Clipboard/
-│   ├── Translation/
-│   └── Diagnostics/
-├── EasyKeyLoginHelper/     # Launch-at-login helper
-├── EasyKeyTests/           # Unit and architecture fitness tests
-├── EasyKeyUITests/         # User-interface tests
-├── Fixtures/               # Behavioral test fixtures
-├── Scripts/                # QA, packaging, and release automation
-└── EasyKey.xcodeproj/
-```
-
-Dependencies point inward: `EasyKeyApp → EasyKeyKit → EasyEngineCore`
-
-- **EasyEngineCore** contains the independent typing domain and has no AppKit, SwiftUI, or Combine dependency.
-- **EasyKeyKit** adapts domain behavior to macOS event taps, keyboard pipelines, and synthesis.
-- **EasyKeyApp** provides feature-oriented UI, coordination, localization, settings, and update delivery.
-
-Engineering practices and architectural rules are documented in [CONVENTIONS.md](./docs/engineering/rulebook.md).
-
-### Quality
-
-- CI-enforced 90% line-coverage threshold, excluding the login helper
-- CI splits tests into parallel shards, then merges the result bundles for the coverage gate
-- Unit, UI, behavioral fixture, and architecture fitness tests
-- Universal arm64 and x86_64 release verification
-- SwiftLint and SwiftFormat support
-- Public API documentation and production force-unwrap restrictions
-
-```bash
-make test
-make qa
-```
-
-`make test-parallel` runs the same shards locally. All shards share one `UserDefaults`
-domain on a single Mac, so UI shards may flake; use `make test` for a reliable serial run.
-
----
+- Build and test from source: [engineering/setup.md](./docs/engineering/setup.md)
+- Release process: [engineering/release.md](./docs/engineering/release.md)
+- Engineering conventions: [engineering/rulebook.md](./docs/engineering/rulebook.md)
+- Exact Telex rules: [flows/telex.md](./docs/flows/telex.md)
 
 ## 🙏 Acknowledgements
 
-EasyKey was inspired by [OpenKey](https://github.com/tuyenvm/OpenKey) by Mai Vũ Tuyên and [UniKey](https://www.unikey.org/) by Phạm Kim Long.
-
-Heartfelt thanks to both authors for their pioneering work and lasting contributions to Vietnamese typing software.
-
----
+Inspired by [OpenKey](https://github.com/tuyenvm/OpenKey) by Mai Vũ Tuyên and [UniKey](https://www.unikey.org/) by Phạm Kim Long — heartfelt thanks to both authors for their pioneering work on Vietnamese typing software.
 
 ## 📄 License and Notices
 
-EasyKey is available under the [MIT License](./LICENSE).
-
-This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./docs/THIRD_PARTY_NOTICES.md) for third-party acknowledgements.
+EasyKey is available under the [MIT License](./LICENSE). This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./docs/THIRD_PARTY_NOTICES.md) for third-party acknowledgements.
