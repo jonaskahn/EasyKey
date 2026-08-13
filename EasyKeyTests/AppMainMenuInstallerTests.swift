@@ -23,12 +23,12 @@ final class AppMainMenuInstallerTests: XCTestCase {
         )
     }
 
-    func testInstallIfNeeded_UpdatesExistingMenuTitlesForSelectedLanguage() {
+    func testInstallIfNeeded_UpdatesExistingMenuTitlesForSelectedLanguage() throws {
         let previous = NSApp.mainMenu
         defer { NSApp.mainMenu = previous }
 
         let suite = "one.ifelse.easykey.menu-tests.\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suite)!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
         localization.setPreference(.english)

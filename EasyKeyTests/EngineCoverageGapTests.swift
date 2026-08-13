@@ -243,7 +243,7 @@ private final class StubFileManager: FileManager {
 
     override func urls(
         for directory: FileManager.SearchPathDirectory,
-        in domainMask: FileManager.SearchPathDomainMask
+        in _: FileManager.SearchPathDomainMask
     ) -> [URL] {
         if directory == .cachesDirectory, let cachesURL {
             return [cachesURL]

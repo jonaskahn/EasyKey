@@ -1,11 +1,11 @@
 import AppKit
 import AVFoundation
 import Carbon
-import Translation
 import CryptoKit
 import EasyEngineCore
 @testable import EasyKey
 import SwiftUI
+import Translation
 import XCTest
 
 /// Coverage additions for app-layer coordination and feature logic. Each
@@ -31,7 +31,7 @@ final class AppLogicCoverageTests: XCTestCase {
 @MainActor
 func appLogicWaitForCondition(timeout: TimeInterval = 3, condition: @escaping () -> Bool) async {
     let deadline = Date().addingTimeInterval(timeout)
-    while !condition() && Date() < deadline {
+    while !condition(), Date() < deadline {
         try? await Task.sleep(for: .milliseconds(20))
     }
 }
@@ -176,15 +176,18 @@ extension AppLogicCoverageTests {
 // MARK: - ClipboardServices.swift
 
 extension AppLogicCoverageTests {
-    func testStartWithLoadPersisted_LoadsHistory() async {
+    func testStartWithLoadPersisted_LoadsHistory() async throws {
         let now = AppLogicCoverageTests.defaultNow
         var options = ClipboardOptions(isCaptureEnabled: false)
         options.persistsHistory = true
         let keyStore = InMemoryClipboardKeyStore()
-        let seeding = ClipboardServices(
+        let seeding = try ClipboardServices(
             options: options,
             applicationSupportDirectory: directory,
-            localization: LocalizationStore(defaults: UserDefaults(suiteName: "applogic-\(UUID().uuidString)")!, bundle: .main),
+            localization: LocalizationStore(
+                defaults: XCTUnwrap(UserDefaults(suiteName: "applogic-\(UUID().uuidString)")),
+                bundle: .main
+            ),
             keyProvider: keyStore,
             reader: FakePasteboardReader(),
             hotKeyRegistrar: FakeHotKeyRegistrar(),
@@ -205,10 +208,13 @@ extension AppLogicCoverageTests {
         await seeding.model.flushPendingSave()
         await seeding.stop()
 
-        let services = ClipboardServices(
+        let services = try ClipboardServices(
             options: options,
             applicationSupportDirectory: directory,
-            localization: LocalizationStore(defaults: UserDefaults(suiteName: "applogic-\(UUID().uuidString)")!, bundle: .main),
+            localization: LocalizationStore(
+                defaults: XCTUnwrap(UserDefaults(suiteName: "applogic-\(UUID().uuidString)")),
+                bundle: .main
+            ),
             keyProvider: keyStore,
             reader: FakePasteboardReader(),
             hotKeyRegistrar: FakeHotKeyRegistrar(),
@@ -262,12 +268,15 @@ extension AppLogicCoverageTests {
         XCTAssertNil(services.action.lastError)
     }
 
-    func testMonitorCapture_WithRealFrontmost_SourcesEntryFromApplication() async {
+    func testMonitorCapture_WithRealFrontmost_SourcesEntryFromApplication() async throws {
         let reader = FakePasteboardReader()
-        let services = ClipboardServices(
+        let services = try ClipboardServices(
             options: ClipboardOptions(isCaptureEnabled: true),
             applicationSupportDirectory: directory,
-            localization: LocalizationStore(defaults: UserDefaults(suiteName: "applogic-\(UUID().uuidString)")!, bundle: .main),
+            localization: LocalizationStore(
+                defaults: XCTUnwrap(UserDefaults(suiteName: "applogic-\(UUID().uuidString)")),
+                bundle: .main
+            ),
             keyProvider: InMemoryClipboardKeyStore(),
             reader: reader,
             hotKeyRegistrar: FakeHotKeyRegistrar(),
@@ -645,7 +654,9 @@ extension AppLogicCoverageTests {
         )
         model.loadModelCatalog(for: .openAI)
         await appLogicWaitForCondition(timeout: 2) {
-            if case .loaded = model.modelCatalogStates[.openAI] { return true }
+            if case .loaded = model.modelCatalogStates[.openAI] {
+                return true
+            }
             return false
         }
 
@@ -685,7 +696,6 @@ extension AppLogicCoverageTests {
 
         XCTAssertNil(identifier)
     }
-
 }
 
 // MARK: - SmartSwitchController.swift
@@ -693,7 +703,7 @@ extension AppLogicCoverageTests {
 extension AppLogicCoverageTests {
     func testRememberChoiceIfNeeded_WhenFrontmostIsExternalApp_UpdatesStoredChoice() throws {
         let suiteName = "AppLogicSmartSwitch-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suiteName)!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("AppLogicSmartSwitch-\(UUID().uuidString)", isDirectory: true)
@@ -760,7 +770,7 @@ extension AppLogicCoverageTests {
 // MARK: - AppTranslationRuntime.swift
 
 extension AppLogicCoverageTests {
-    func testAppTranslationRuntime_ActivateFromDoubleCmdC_SeedsCapturedTextAndShowsPanel() {
+    func testAppTranslationRuntime_ActivateFromDoubleCmdC_SeedsCapturedTextAndShowsPanel() throws {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("AppLogicRuntime-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -769,7 +779,7 @@ extension AppLogicCoverageTests {
             $0.translation.isEnabled = true
             $0.translation.showInMenuPopover = false
         }
-        let defaults = UserDefaults(suiteName: "AppLogicRuntime-\(UUID().uuidString)")!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicRuntime-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicRuntime-\(UUID().uuidString)") }
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
         let capture = TestTranslationCapture()
@@ -815,8 +825,8 @@ extension AppLogicCoverageTests {
 // MARK: - ClipboardPanelPresenter.swift
 
 extension AppLogicCoverageTests {
-    func testClipboardPanelPresenter_ToggleWhenShown_ClosesPanel() {
-        let defaults = UserDefaults(suiteName: "AppLogicClipPanel-\(UUID().uuidString)")!
+    func testClipboardPanelPresenter_ToggleWhenShown_ClosesPanel() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicClipPanel-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicClipPanel-\(UUID().uuidString)") }
         let presenter = ClipboardPanelPresenter(userDefaults: defaults)
 
@@ -827,8 +837,8 @@ extension AppLogicCoverageTests {
         XCTAssertFalse(presenter.isShown)
     }
 
-    func testClipboardPanelPresenter_SecondShow_ReusesPanel() {
-        let defaults = UserDefaults(suiteName: "AppLogicClipPanel-\(UUID().uuidString)")!
+    func testClipboardPanelPresenter_SecondShow_ReusesPanel() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicClipPanel-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicClipPanel-\(UUID().uuidString)") }
         let presenter = ClipboardPanelPresenter(userDefaults: defaults)
 
@@ -838,8 +848,6 @@ extension AppLogicCoverageTests {
         XCTAssertTrue(presenter.isShown)
         presenter.close()
     }
-
-
 }
 
 // MARK: - LogExporter.swift
@@ -861,9 +869,9 @@ extension AppLogicCoverageTests {
 // MARK: - OpenAICompatibleTranslationProvider.swift
 
 extension AppLogicCoverageTests {
-    func testOpenAICompatible_InvalidEndpoint_ThrowsProviderUnavailable() async {
-        let provider = OpenAICompatibleTranslationProvider(
-            endpoint: URL(string: "http://insecure.example.com/v1/chat")!,
+    func testOpenAICompatible_InvalidEndpoint_ThrowsProviderUnavailable() async throws {
+        let provider = try OpenAICompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "http://insecure.example.com/v1/chat")),
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
@@ -880,9 +888,9 @@ extension AppLogicCoverageTests {
         }
     }
 
-    func testOpenAICompatible_DisclosureIdentity_CarriesEndpointOrigin() {
-        let provider = OpenAICompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/chat")!,
+    func testOpenAICompatible_DisclosureIdentity_CarriesEndpointOrigin() throws {
+        let provider = try OpenAICompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/chat")),
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(),
@@ -899,8 +907,8 @@ extension AppLogicCoverageTests {
             return (Data(), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         defer { AppLogicURLProtocol.requestHandler = nil }
-        let provider = OpenAICompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/chat")!,
+        let provider = try OpenAICompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/chat")),
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
@@ -928,8 +936,8 @@ extension AppLogicCoverageTests {
             return (Data(response.utf8), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         defer { AppLogicURLProtocol.requestHandler = nil }
-        let provider = OpenAICompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/chat")!,
+        let provider = try OpenAICompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/chat")),
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
@@ -941,7 +949,7 @@ extension AppLogicCoverageTests {
         XCTAssertEqual(response.translatedText, "Xin chào")
     }
 
-    func testOpenAICompatible_ContentStrippedToEmpty_ThrowsInvalidResponse() async {
+    func testOpenAICompatible_ContentStrippedToEmpty_ThrowsInvalidResponse() async throws {
         AppLogicURLProtocol.requestHandler = { request in
             let response = """
             {"choices":[{"message":{"content":"<think>only thinking</think>"}}]}
@@ -949,8 +957,8 @@ extension AppLogicCoverageTests {
             return (Data(response.utf8), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         defer { AppLogicURLProtocol.requestHandler = nil }
-        let provider = OpenAICompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/chat")!,
+        let provider = try OpenAICompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/chat")),
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
@@ -971,9 +979,9 @@ extension AppLogicCoverageTests {
 // MARK: - AnthropicCompatibleTranslationProvider.swift
 
 extension AppLogicCoverageTests {
-    func testAnthropicCompatible_InvalidEndpoint_ThrowsProviderUnavailable() async {
-        let provider = AnthropicCompatibleTranslationProvider(
-            endpoint: URL(string: "http://insecure.example.com/v1/messages")!,
+    func testAnthropicCompatible_InvalidEndpoint_ThrowsProviderUnavailable() async throws {
+        let provider = try AnthropicCompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "http://insecure.example.com/v1/messages")),
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
@@ -990,9 +998,9 @@ extension AppLogicCoverageTests {
         }
     }
 
-    func testAnthropicCompatible_DisclosureIdentity_CarriesEndpointOrigin() {
-        let provider = AnthropicCompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/messages")!,
+    func testAnthropicCompatible_DisclosureIdentity_CarriesEndpointOrigin() throws {
+        let provider = try AnthropicCompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/messages")),
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(),
@@ -1009,8 +1017,8 @@ extension AppLogicCoverageTests {
             return (Data(), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         defer { AppLogicURLProtocol.requestHandler = nil }
-        let provider = AnthropicCompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/messages")!,
+        let provider = try AnthropicCompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/messages")),
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
@@ -1038,8 +1046,8 @@ extension AppLogicCoverageTests {
             return (Data(response.utf8), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         defer { AppLogicURLProtocol.requestHandler = nil }
-        let provider = AnthropicCompatibleTranslationProvider(
-            endpoint: URL(string: "https://api.example.com/v1/messages")!,
+        let provider = try AnthropicCompatibleTranslationProvider(
+            endpoint: XCTUnwrap(URL(string: "https://api.example.com/v1/messages")),
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
@@ -1212,7 +1220,10 @@ extension AppLogicCoverageTests {
 extension AppLogicCoverageTests {
     func testDeepLValidateCredential_OversizedResponse_ThrowsInvalidResponse() async {
         MockDeepLURLProtocol.requestHandler = { request in
-            (Data(repeating: 0x41, count: 2 * 1024 * 1024), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
+            (
+                Data(repeating: 0x41, count: 2 * 1024 * 1024),
+                HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            )
         }
         defer { MockDeepLURLProtocol.requestHandler = nil }
         let configuration = URLSessionConfiguration.ephemeral
@@ -1436,8 +1447,7 @@ extension AppLogicCoverageTests {
 
 // MARK: - WorkspaceObserver.swift
 
-extension AppLogicCoverageTests {
-}
+extension AppLogicCoverageTests {}
 
 // MARK: - TranslationCredentialStore.swift
 
@@ -1580,7 +1590,7 @@ extension AppLogicCoverageTests {
 // MARK: - StatusMenuActionTarget.swift
 
 extension AppLogicCoverageTests {
-    func testStatusMenuActionTarget_ClipboardHistoryAction_ShowsClipboardPanel() throws {
+    func testStatusMenuActionTarget_ClipboardHistoryAction_ShowsClipboardPanel() {
         let (coordinator, tempDirectory) = TestCoordinatorFactory.make()
         defer { try? FileManager.default.removeItem(at: tempDirectory) }
         let target = StatusMenuActionTarget()
@@ -1595,9 +1605,9 @@ extension AppLogicCoverageTests {
 // MARK: - LocalizationStore.swift
 
 extension AppLogicCoverageTests {
-    func testLocalizationStore_SystemPreferenceRespondsToSystemLanguageChange() {
+    func testLocalizationStore_SystemPreferenceRespondsToSystemLanguageChange() throws {
         let suiteName = "AppLogicLocalization-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suiteName)!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
         defaults.set("system", forKey: AppLanguage.storageKey)
         let store = LocalizationStore(defaults: defaults, bundle: .main)
@@ -1804,8 +1814,7 @@ extension AppLogicCoverageTests {
 
 // MARK: - LoginItemController.swift
 
-extension AppLogicCoverageTests {
-}
+extension AppLogicCoverageTests {}
 
 // MARK: - TranslationModel.swift
 
@@ -1970,7 +1979,10 @@ extension AppLogicCoverageTests {
     func testAppleTranslationSessionBridge_AttachWithDefaultSleep_CancellationCompletesAttach() async {
         let bridge = AppleTranslationSessionBridge()
         let session = TranslationSession(installedSource: Locale.Language(identifier: "en"), target: Locale.Language(identifier: "vi"))
-        let configuration = TranslationSession.Configuration(source: Locale.Language(identifier: "en"), target: Locale.Language(identifier: "vi"))
+        let configuration = TranslationSession.Configuration(
+            source: Locale.Language(identifier: "en"),
+            target: Locale.Language(identifier: "vi")
+        )
 
         let attachTask = Task { await bridge.attach(session, configuration: configuration) }
         try? await Task.sleep(for: .milliseconds(100))
@@ -2000,8 +2012,8 @@ extension AppLogicCoverageTests {
 // MARK: - TranslationPanelPresenter.swift (default-closure paths)
 
 extension AppLogicCoverageTests {
-    func testTranslationPanelPresenter_ToggleWithCapturedApplication_ShowsThenCloses() {
-        let defaults = UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)")!
+    func testTranslationPanelPresenter_ToggleWithCapturedApplication_ShowsThenCloses() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicPanel-\(UUID().uuidString)") }
         let presenter = TranslationPanelPresenter(
             translation: AppLogicNoopTranslationCanceller(),
@@ -2020,8 +2032,8 @@ extension AppLogicCoverageTests {
         XCTAssertFalse(presenter.isShown)
     }
 
-    func testTranslationPanelPresenter_ShowWithDefaultClosures_UsesSystemDefaults() {
-        let defaults = UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)")!
+    func testTranslationPanelPresenter_ShowWithDefaultClosures_UsesSystemDefaults() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicPanel-\(UUID().uuidString)") }
         let presenter = TranslationPanelPresenter(
             translation: AppLogicNoopTranslationCanceller(),
@@ -2036,8 +2048,8 @@ extension AppLogicCoverageTests {
         presenter.close()
     }
 
-    func testTranslationPanelPresenter_HandleGlobalClickWithExemptFrontmost_KeepsPanelOpen() {
-        let defaults = UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)")!
+    func testTranslationPanelPresenter_HandleGlobalClickWithExemptFrontmost_KeepsPanelOpen() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "AppLogicPanel-\(UUID().uuidString)"))
         defer { defaults.removePersistentDomain(forName: "AppLogicPanel-\(UUID().uuidString)") }
         var frontmost: NSRunningApplication? = NSRunningApplication.current
         let presenter = TranslationPanelPresenter(
@@ -2123,7 +2135,7 @@ extension AppLogicCoverageTests {
 
     func testSmartSwitch_RememberChoiceWithIgnoredFrontmost_DoesNotRecord() throws {
         let suiteName = "AppLogicSmartSwitch-\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suiteName)!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("AppLogicSmartSwitch-\(UUID().uuidString)", isDirectory: true)

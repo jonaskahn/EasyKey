@@ -87,7 +87,7 @@ private final class FakeSelectedTextPasteboard: SelectedTextPasteboardAccessing 
         return changeCount
     }
 
-    func string(forType type: NSPasteboard.PasteboardType) -> String? {
+    func string(forType _: NSPasteboard.PasteboardType) -> String? {
         pendingString
     }
 

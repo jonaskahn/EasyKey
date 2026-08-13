@@ -101,7 +101,9 @@ final class KitCoverageGapTests: XCTestCase {
         let pipeline = KeyboardInputPipeline(
             settings: settings,
             eventFactory: { keyCode, keyDown in
-                if keyCode == 51 { return nil }
+                if keyCode == 51 {
+                    return nil
+                }
                 return CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: keyDown)
             }
         )
@@ -179,7 +181,9 @@ final class KitCoverageGapTests: XCTestCase {
         let pipeline = KeyboardInputPipeline(
             settings: settings,
             eventFactory: { keyCode, keyDown in
-                if failBackspace, keyCode == 51 { return nil }
+                if failBackspace, keyCode == 51 {
+                    return nil
+                }
                 return CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: keyDown)
             }
         )

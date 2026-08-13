@@ -38,7 +38,7 @@ final class LocalizationTests: XCTestCase {
     }
 
     func testCatalogAndTypedKeysMatchExactly() throws {
-        XCTAssertEqual(Set(try catalog().keys), Set(L10nKey.allCases.map(\.rawValue)))
+        XCTAssertEqual(try Set(catalog().keys), Set(L10nKey.allCases.map(\.rawValue)))
     }
 
     func testEveryCatalogEntryHasMatchingEnglishVietnamesePlaceholders() throws {

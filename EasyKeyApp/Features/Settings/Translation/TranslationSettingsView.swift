@@ -62,8 +62,8 @@ struct TranslationSettingsView: View {
                             .translationSettingsCmdCDoublePressWindow,
                             localization.number(Double(model.cmdCDoublePressWindowMs))
                         ))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                         Slider(value: cmdCDoublePressWindowBinding, in: 200 ... 800, step: 50)
                             .accessibilityIdentifier(TranslationSettingsAccessibility.cmdCDoublePressWindowSlider)
                     }
@@ -404,10 +404,12 @@ private struct ProviderSelectionRow: View {
         .onHover { isHovering = $0 }
     }
 }
+
 private struct ProviderStatus {
     let provider: TranslationProviderID
     let status: TranslationCredentialStatus?
 }
+
 private struct ProviderStatusBadge: View {
     let status: ProviderStatus
     @ObservedObject private var localization = LocalizationStore.shared
@@ -464,6 +466,7 @@ private struct AppleTranslationSettingsCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 4)
     }
+
     private func openLanguageSettings() {
         guard let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings.extension") else { return }
         NSWorkspace.shared.open(url)

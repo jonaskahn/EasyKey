@@ -1,6 +1,5 @@
-import XCTest
-
 @testable import EasyKey
+import XCTest
 
 final class HostSafetyTests: XCTestCase {
     private func validate(_ host: String) -> Bool {

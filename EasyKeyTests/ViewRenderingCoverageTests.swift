@@ -20,7 +20,7 @@ private actor CoverageFakeProvider: TranslationProviding {
         self.behavior = behavior
     }
 
-    func translate(_ request: TranslationRequest) async throws -> TranslationResponse {
+    func translate(_: TranslationRequest) async throws -> TranslationResponse {
         callCount += 1
         switch behavior {
         case let .success(response):
@@ -220,7 +220,8 @@ final class ViewRenderingCoverageTests: XCTestCase {
             eventNumber: 0,
             clickCount: 1,
             pressure: 0
-        ) else {
+        )
+        else {
             XCTFail("Could not create mouse events")
             return
         }
@@ -312,7 +313,6 @@ final class ViewRenderingCoverageTests: XCTestCase {
         XCTAssertGreaterThan(NSApp.windows.count, 1)
         settleCloseWindow(window)
     }
-
 
     func testCloudCard_ModelPicker_DisabledWithoutCredentials_Renders() {
         coordinator.settingsStore.update { $0.translation.openAIModelIdentifier = "gpt-4o" }
@@ -632,7 +632,7 @@ final class ViewRenderingCoverageTests: XCTestCase {
         XCTAssertEqual(updated.category, .both)
     }
 
-    func testMacroSettingsView_EnabledBindingFailure_SetsErrorMessage() throws {
+    func testMacroSettingsView_EnabledBindingFailure_SetsErrorMessage() {
         let view = MacroSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
         let staleMacro = Macro(trigger: "missing", expansion: "never existed")
 
@@ -667,7 +667,8 @@ final class ViewRenderingCoverageTests: XCTestCase {
             with: .keyUp, location: .zero, modifierFlags: [], timestamp: 0,
             windowNumber: window.windowNumber, context: nil, characters: "\r",
             charactersIgnoringModifiers: "\r", isARepeat: false, keyCode: code
-        ) else {
+        )
+        else {
             XCTFail("Could not create key events")
             return
         }
@@ -675,14 +676,14 @@ final class ViewRenderingCoverageTests: XCTestCase {
         window.sendEvent(up)
     }
 
-    func testMacroEditorSheet_SaveNewMacro_AddsAndRefreshes() throws {
+    func testMacroEditorSheet_SaveNewMacro_AddsAndRefreshes() {
         let view = MacroEditorSheet(macro: nil, coordinator: coordinator)
         render { view }
         view.save()
         XCTAssertTrue(coordinator.macroStore.macros.isEmpty)
     }
 
-    func testMacroEditorSheet_SaveWithError_RendersErrorMessage() throws {
+    func testMacroEditorSheet_SaveWithError_RendersErrorMessage() {
         let staleMacro = Macro(trigger: "gone", expansion: "not in store")
         let view = MacroEditorSheet(macro: staleMacro, coordinator: coordinator)
         view.save()
