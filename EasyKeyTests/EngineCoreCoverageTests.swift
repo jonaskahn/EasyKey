@@ -956,6 +956,7 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertFalse(opts.liveConfidenceScoring)
         XCTAssertEqual(opts.liveConfidenceLowThreshold, LiveConfidenceDefaults.lowThreshold)
         XCTAssertEqual(opts.liveConfidenceHighThreshold, LiveConfidenceDefaults.highThreshold)
+        XCTAssertTrue(opts.iosUniKeyLikeMode)
     }
 
     func testInputSettings_DefaultValues() {

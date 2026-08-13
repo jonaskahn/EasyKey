@@ -62,6 +62,11 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.liveConfidenceScoring)
                 )
                 settingToggle(
+                    .typingIOSUniKeyLikeMode,
+                    description: .typingIOSUniKeyLikeModeDescription,
+                    isOn: setting(\.typing.iosUniKeyLikeMode)
+                )
+                settingToggle(
                     .typingRestoreInvalidWord,
                     description: .typingRestoreInvalidWordDescription,
                     isOn: setting(\.typing.restoreInvalidWord)

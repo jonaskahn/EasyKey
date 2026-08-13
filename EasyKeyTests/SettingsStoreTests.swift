@@ -51,6 +51,7 @@ final class SettingsStoreTests: XCTestCase {
         settings.input.inputMethod = .vni
         settings.input.encoding = .tcvn3
         settings.typing.quickTelexConsonants = true
+        settings.typing.iosUniKeyLikeMode = false
         settings.macro.enabled = true
         settings.smartSwitch.enabled = true
         settings.system.launchAtLogin = true
@@ -140,6 +141,7 @@ final class SettingsStoreTests: XCTestCase {
         let decoded = try JSONDecoder().decode(TypingOptions.self, from: data)
         XCTAssertTrue(decoded.quickTelexConsonants)
         XCTAssertEqual(decoded.toneStyle, .old)
+        XCTAssertTrue(decoded.iosUniKeyLikeMode)
     }
 
     func testImportInvalidFilePreservesCurrentSettings() async throws {

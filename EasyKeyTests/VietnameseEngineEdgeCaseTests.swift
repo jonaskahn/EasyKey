@@ -234,7 +234,8 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
     func testQuadrupleDCyclesBackToDstroke() {
         var engine = VietnameseEngine()
         typeKeys(&engine, "dddd")
-        XCTAssertEqual(engine.currentBuffer, "dđ")
+        // Repeat-to-undo freezes the rest of the word (iOS-UniKey-like mode).
+        XCTAssertEqual(engine.currentBuffer, "ddd")
     }
 
     func testTripleDUppercasePreservesCase() {
@@ -446,5 +447,158 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         // Typing a character after restore commits the raw word and starts a new composition
         _ = engine.process(event: .char("s"))
         XCTAssertEqual(engine.currentBuffer, "s")
+    }
+
+    // MARK: - iOS-UniKey-like mode (repeat-to-undo freezes the word)
+
+    func testTripleEVowelEscapesToLiteralAndFreezesWord() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "seeen")
+        XCTAssertEqual(engine.currentBuffer, "seen")
+    }
+
+    func testAllVowelRepeatEscapes() {
+        for (raw, expected) in [("aaa", "aa"), ("eee", "ee"), ("ooo", "oo")] {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, raw)
+            XCTAssertEqual(engine.currentBuffer, expected, "Expected \(raw) to become \(expected)")
+        }
+    }
+
+    func testWRepeatEscapes() {
+        for (raw, expected) in [("aww", "aw"), ("oww", "ow"), ("uww", "uw")] {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, raw)
+            XCTAssertEqual(engine.currentBuffer, expected, "Expected \(raw) to become \(expected)")
+        }
+    }
+
+    func testToneRepeatEscapes() {
+        for (raw, expected) in [("ass", "as"), ("aff", "af"), ("arr", "ar"), ("axx", "ax"), ("ajj", "aj")] {
+            var engine = VietnameseEngine()
+            typeKeys(&engine, raw)
+            XCTAssertEqual(engine.currentBuffer, expected, "Expected \(raw) to become \(expected)")
+        }
+    }
+
+    func testDifferentToneReplacementDoesNotEscape() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tasf")
+        XCTAssertEqual(engine.currentBuffer, "tà")
+    }
+
+    func testZRemovalDoesNotEscape() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tasz")
+        XCTAssertEqual(engine.currentBuffer, "ta")
+    }
+
+    func testEscapedWordKeepsFollowingKeysLiteral() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "resstore")
+        XCTAssertEqual(engine.currentBuffer, "restore")
+    }
+
+    func testEscapedWordIgnoresToneKeys() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "tasste")
+        XCTAssertEqual(engine.currentBuffer, "taste")
+    }
+
+    func testEscapedWordIgnoresToneOnLaterModifier() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "aaas")
+        XCTAssertEqual(engine.currentBuffer, "aas")
+    }
+
+    func testEscapedWordIgnoresMarkOnLaterVowel() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "dddaa")
+        XCTAssertEqual(engine.currentBuffer, "ddaa")
+    }
+
+    func testEscapedWordCommitsCorrectedTextAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "seeen")
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 4, insert: "seen"), .insert(" ")])
+    }
+
+    func testEscapedWordCommitsRestoreAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "resstore")
+        let output = engine.process(event: KeyEvent(kind: .space))
+        XCTAssertEqual(output.edits, [.replaceBackward(deleteCount: 7, insert: "restore"), .insert(" ")])
+    }
+
+    func testEscapedModeEndsAtBoundary() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "seeen")
+        _ = engine.process(event: KeyEvent(kind: .space))
+        typeKeys(&engine, "as")
+        XCTAssertEqual(engine.currentBuffer, "á")
+    }
+
+    func testEscapedModeEndsAtPunctuation() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "seeen")
+        let output = engine.process(event: .char(","))
+        XCTAssertEqual(output.sessionEffect, .resetSession)
+        XCTAssertEqual(engine.currentBuffer, "")
+        typeKeys(&engine, "as")
+        XCTAssertEqual(engine.currentBuffer, "á")
+    }
+
+    func testBackspaceRemovingEscapeResumesTelex() {
+        var engine = VietnameseEngine()
+        typeKeys(&engine, "seeen")
+        XCTAssertEqual(engine.currentBuffer, "seen")
+        // Raw keys are s,e,e,e; removing n still leaves the escape key.
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "see")
+        // Removing the third e exits escape; normal Telex resumes.
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "sê")
+        _ = engine.process(event: KeyEvent(kind: .backspace))
+        XCTAssertEqual(engine.currentBuffer, "se")
+        _ = engine.process(event: .char("e"))
+        XCTAssertEqual(engine.currentBuffer, "sê")
+    }
+
+    func testEscapedModeOverridesLowConfidenceRawDisplay() {
+        var engine = VietnameseEngine(
+            configuration: EngineConfiguration(
+                liveConfidenceScoring: true,
+                liveConfidenceLowThreshold: 1.01,
+                liveConfidenceHighThreshold: 1.02
+            )
+        )
+        typeKeys(&engine, "seeen")
+        XCTAssertEqual(engine.currentBuffer, "seen")
+        XCTAssertFalse(engine.displaysRawKeystrokes)
+    }
+
+    func testSimpleTelexEscapedMode() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .simpleTelex))
+        typeKeys(&engine, "seeen")
+        XCTAssertEqual(engine.currentBuffer, "seen")
+    }
+
+    func testDisabledIOSUniKeyLikeModeKeepsCycling() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(iosUniKeyLikeMode: false))
+        typeKeys(&engine, "dddd")
+        XCTAssertEqual(engine.currentBuffer, "dđ")
+        var vowelEngine = VietnameseEngine(configuration: EngineConfiguration(iosUniKeyLikeMode: false))
+        typeKeys(&vowelEngine, "aaaa")
+        XCTAssertEqual(vowelEngine.currentBuffer, "aâ")
+    }
+
+    func testVNIRepeatUndoDoesNotFreezeWord() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(inputMethod: .vni))
+        typeKeys(&engine, "aa11")
+        // Repeat digit undoes the tone but keeps VNI transformation active.
+        XCTAssertEqual(engine.currentBuffer, "aa1")
+        _ = engine.process(event: .char("1"))
+        XCTAssertEqual(engine.currentBuffer, "aá1")
     }
 }

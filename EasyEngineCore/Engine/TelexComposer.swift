@@ -31,10 +31,14 @@ public enum TelexComposer {
     struct Composition: Equatable, Sendable {
         var atoms: [BufferAtom]
         var tone: Tone
+        /// True when a Telex repeat-to-undo explicitly cancelled a transformation;
+        /// the rest of the word is then kept literal (iOS-UniKey-like mode).
+        var isEscaped: Bool
 
-        init(atoms: [BufferAtom], tone: Tone) {
+        init(atoms: [BufferAtom], tone: Tone, isEscaped: Bool = false) {
             self.atoms = atoms
             self.tone = tone
+            self.isEscaped = isEscaped
         }
 
         static let empty = Composition(atoms: [], tone: .none)
@@ -67,19 +71,29 @@ public enum TelexComposer {
 
     /// Recomposes the full buffer from raw keystrokes. Words are short, so a
     /// single deterministic pass per edit keeps every state transition exact.
+    /// When `iosUniKeyLikeMode` is enabled, the first repeat-to-undo (a key
+    /// that cancels its own mark or tone) freezes the remainder of the word as
+    /// literal text, matching iOS UniKey-style input for English words.
     static func compose(rawKeys: [Character], configuration: EngineConfiguration) -> Composition {
         let profile = profile(for: configuration)
         var atoms: [BufferAtom] = []
         var tone: Tone = .none
         var pending: (key: Character, undo: PendingUndo)?
+        var escaped = false
 
         for key in rawKeys {
             let lower = Character(String(key).lowercased())
+
+            if escaped {
+                appendLiteral(key, to: &atoms)
+                continue
+            }
 
             if let active = pending, active.key == lower {
                 apply(undo: active.undo, atoms: &atoms, tone: &tone)
                 appendLiteral(key, to: &atoms)
                 pending = nil
+                escaped = profile.isTelexFamily && configuration.iosUniKeyLikeMode
                 continue
             }
             pending = nil
@@ -91,8 +105,10 @@ public enum TelexComposer {
             }
         }
 
-        normalizeVietnameseNucleus(atoms: &atoms, tone: tone)
-        return Composition(atoms: atoms, tone: tone)
+        if !escaped {
+            normalizeVietnameseNucleus(atoms: &atoms, tone: tone)
+        }
+        return Composition(atoms: atoms, tone: tone, isEscaped: escaped)
     }
 
     /// Ordered tone-target algorithm (bamboo-core / vi-rs): single vowel,

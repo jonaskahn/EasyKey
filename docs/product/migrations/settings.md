@@ -107,7 +107,7 @@ docforge_provenance:
 
 _Last reviewed: 2026-08-03_
 
-This guide covers the settings-storage migration path in `EasyEngineCore/Settings`: any `settings.json` document written by a release before schema 8 loads into the current repository as a schema-8 document. The earliest shipped documents (0.0.1, commit `8e480af`) already carried `"schemaVersion": 3` — `EasyKeySettings.currentSchemaVersion == 3` at that commit, written by synthesized Codable; no release ever shipped a document without the marker. A document missing the key is tolerated by the current decoder (it defaults to the current schema), but that is decoder tolerance, not a state any release produced. Target: `EasyKeySettings.currentSchemaVersion == 8` on current HEAD. The migration is additive and automatic on load; the breaking changes below are the behaviors a reader must know when handling settings files or imports.
+This guide covers the settings-storage migration path in `EasyEngineCore/Settings`: any `settings.json` document written by a release before schema 8 loads into the current repository as a schema-10 document. The earliest shipped documents (0.0.1, commit `8e480af`) already carried `"schemaVersion": 3` — `EasyKeySettings.currentSchemaVersion == 3` at that commit, written by synthesized Codable; no release ever shipped a document without the marker. A document missing the key is tolerated by the current decoder (it defaults to the current schema), but that is decoder tolerance, not a state any release produced. Target: `EasyKeySettings.currentSchemaVersion == 10` on current HEAD. The migration is additive and automatic on load; the breaking changes below are the behaviors a reader must know when handling settings files or imports.
 
 ## Breaking changes, in order
 
@@ -136,7 +136,7 @@ while schemaVersion < EasyKeySettings.currentSchemaVersion {
 }
 ```
 
-Schema history: 3 (0.0.1, commit `8e480af`) → 4 (0.0.2, clipboard added, commit `b6ab8c5`) → 5 (translation, commit `e0feaf6`) → 7 (provider expansion, commit `8e22c85`) → 8 (engine reimplementation, commit `3c88ddd`). `migrateStep` is currently a reserved no-op returning the document unchanged — every completed step so far was **field addition**, which the tolerant decoder below handles; the loop exists so a future real transformation has an ordered place to run. On write, the document is re-encoded pretty-printed with sorted keys.
+Schema history: 3 (0.0.1, commit `8e480af`) → 4 (0.0.2, clipboard added, commit `b6ab8c5`) → 5 (translation, commit `e0feaf6`) → 7 (provider expansion, commit `8e22c85`) → 8 (engine reimplementation, commit `3c88ddd`) → 9 (live confidence scoring, commit `f59172b`) → 10 (iOS-UniKey-like mode). `migrateStep` is currently a reserved no-op returning the document unchanged — every completed step so far was **field addition**, which the tolerant decoder below handles; the loop exists so a future real transformation has an ordered place to run. On write, the document is re-encoded pretty-printed with sorted keys.
 
 ### Missing root fields decode with defaults
 
@@ -182,7 +182,7 @@ Coverage you can target directly:
 - `EasyKeyTests/SettingsRepositoryMigrationTests.swift` — `testSettingsMigration_BumpsSchemaVersion` feeds a `schemaVersion: 1` document into `SettingsMigration.migrate` and asserts the result carries `currentSchemaVersion`.
 - `EasyKeyTests/SettingsRepositoryEdgeCaseTests.swift` — covers `testImport_FileTooLarge_Throws`, `testImportRejectsFutureSchemaAndPreservesCurrentSettings` (`unsupportedSchemaVersion(999)`), `testLoadWithInvalidJSON`, and `testSaveToReadOnlyDirectory_DoesNotCrash`.
 
-Manual check: export settings, rewrite the exported file's `schemaVersion` to an old value (or delete the key), import it, and confirm the file on disk is rewritten with `"schemaVersion": 8` and that unrelated groups were preserved.
+Manual check: export settings, rewrite the exported file's `schemaVersion` to an old value (or delete the key), import it, and confirm the file on disk is rewritten with `"schemaVersion": 10` and that unrelated groups were preserved.
 
 ## Rollback
 

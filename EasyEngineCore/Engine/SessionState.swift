@@ -44,19 +44,24 @@ public struct SessionState: Equatable, Sendable {
     public var isDisabled: Bool
     /// When true the buffer renders raw keys verbatim (per-word restore).
     public var forceRaw: Bool
+    /// True when Telex repeat-to-undo froze the rest of the word as literal
+    /// text (iOS-UniKey-like mode). Derived deterministically from `rawKeys`.
+    public var isEscaped: Bool
 
     public init(
         rawKeys: [Character] = [],
         atoms: [BufferAtom] = [],
         tone: Tone = .none,
         isDisabled: Bool = false,
-        forceRaw: Bool = false
+        forceRaw: Bool = false,
+        isEscaped: Bool = false
     ) {
         self.rawKeys = rawKeys
         self.atoms = atoms
         self.tone = tone
         self.isDisabled = isDisabled
         self.forceRaw = forceRaw
+        self.isEscaped = isEscaped
     }
 
     public var isEmpty: Bool {
@@ -88,5 +93,6 @@ public struct SessionState: Equatable, Sendable {
         atoms = []
         tone = .none
         forceRaw = false
+        isEscaped = false
     }
 }

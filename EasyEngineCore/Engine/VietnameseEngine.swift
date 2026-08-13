@@ -23,9 +23,17 @@ public struct VietnameseEngine {
         return composedBuffer
     }
 
-    /// Whether the live buffer shows raw keystrokes (`forceRaw` or low live-confidence band).
+    /// Whether the live buffer shows raw keystrokes (`forceRaw` or low
+    /// live-confidence band). An explicit Telex escape overrides the live
+    /// band so the corrected literal word stays visible.
     public var displaysRawKeystrokes: Bool {
-        state.forceRaw || shouldDisplayRawKeystrokesFromLiveConfidence
+        if state.forceRaw {
+            return true
+        }
+        if state.isEscaped {
+            return false
+        }
+        return shouldDisplayRawKeystrokesFromLiveConfidence
     }
 
     private var composedBuffer: String {
@@ -149,6 +157,7 @@ public struct VietnameseEngine {
         let composition = TelexComposer.compose(rawKeys: state.rawKeys, configuration: configuration)
         state.atoms = composition.atoms
         state.tone = composition.tone
+        state.isEscaped = composition.isEscaped
         lastRenderedCount = currentBuffer.count
     }
 
@@ -213,6 +222,11 @@ public struct VietnameseEngine {
     private func resolvedBoundaryText() -> String {
         let composed = composedBuffer
         let raw = state.rawText
+        if state.isEscaped {
+            // The user explicitly cancelled Telex conversion; commit the
+            // corrected word rather than the raw escape keystrokes.
+            return composed
+        }
         guard configuration.spellCheck, composed != raw else {
             return composed
         }

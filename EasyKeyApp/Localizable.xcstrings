@@ -6770,6 +6770,40 @@
         }
       }
     },
+    "typing.iosUniKeyLikeMode": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS-UniKey-like mode"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chế độ giống iOS-UniKey"
+          }
+        }
+      }
+    },
+    "typing.iosUniKeyLikeMode.description": {
+      "comment": "iOS-UniKey-like mode setting description",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After repeating a Telex key to remove its mark, keep the rest of that word literal until a space or punctuation. For example, seeen becomes seen and resstore becomes restore."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khi gõ lặp phím Telex để bỏ dấu, giữ nguyên phần còn lại của từ cho đến khoảng trắng hoặc dấu câu. Ví dụ: seeen thành seen và resstore thành restore."
+          }
+        }
+      }
+    },
     "language.both": {
       "comment": "Macro category",
       "localizations": {

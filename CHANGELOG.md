@@ -115,6 +115,10 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [Unreleased]
 
+**Added**
+
+- Optional iOS-UniKey-like mode (on by default): after repeating a Telex key to remove its mark, the rest of that word stays literal until a space or punctuation, so `seeen` becomes `seen` and `resstore` becomes `restore` instead of re-applying diacritics.
+
 ## [0.0.8] - 2026-08-11
 
 **Added**

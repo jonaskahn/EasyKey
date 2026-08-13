@@ -136,7 +136,8 @@ public final class SettingsRepository {
             uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter,
             liveConfidenceScoring: settings.typing.liveConfidenceScoring,
             liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
-            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold
+            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold,
+            iosUniKeyLikeMode: settings.typing.iosUniKeyLikeMode
         )
     }
 
@@ -209,6 +210,7 @@ public struct EngineConfiguration: Equatable, Sendable {
     public var liveConfidenceScoring: Bool
     public var liveConfidenceLowThreshold: Double
     public var liveConfidenceHighThreshold: Double
+    public var iosUniKeyLikeMode: Bool
 
     public init(
         inputMethod: InputMethod = .simpleTelex,
@@ -222,7 +224,8 @@ public struct EngineConfiguration: Equatable, Sendable {
         uppercaseFirstCharacter: Bool = false,
         liveConfidenceScoring: Bool = false,
         liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
-        liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold
+        liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold,
+        iosUniKeyLikeMode: Bool = true
     ) {
         self.inputMethod = inputMethod
         self.outputEncoding = outputEncoding
@@ -236,6 +239,7 @@ public struct EngineConfiguration: Equatable, Sendable {
         self.liveConfidenceScoring = liveConfidenceScoring
         self.liveConfidenceLowThreshold = liveConfidenceLowThreshold
         self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
+        self.iosUniKeyLikeMode = iosUniKeyLikeMode
     }
 }
 

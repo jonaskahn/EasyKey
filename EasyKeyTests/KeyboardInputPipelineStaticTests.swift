@@ -71,10 +71,12 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
         var settings = EasyKeySettings.defaults
         settings.typing.restoreInvalidWord = true
         settings.typing.toneStyle = .new
+        settings.typing.iosUniKeyLikeMode = false
 
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: nil)
         XCTAssertTrue(config.autoRestoreKeys)
         XCTAssertEqual(config.toneStyle, .new)
+        XCTAssertFalse(config.iosUniKeyLikeMode)
     }
 
     func testKeyCodeFromEvent() {

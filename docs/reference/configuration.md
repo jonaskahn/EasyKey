@@ -171,6 +171,7 @@ means disabled.
 | Spell check | `typing.spellCheck` | `true` | settings document | No |
 | Live confidence scoring | `typing.liveConfidenceScoring` | `false` | settings document | No |
 | Restore invalid words | `typing.restoreInvalidWord` | `true` | settings document | No |
+| iOS-UniKey-like mode | `typing.iosUniKeyLikeMode` | `true` | settings document | No |
 | Tone style | `typing.toneStyle` | `old` | settings document | No |
 | Quick Telex consonants | `typing.quickTelexConsonants` | `false` | settings document | No |
 | Standalone `w` → `ư` | `typing.standaloneWShortcut` | `true` | settings document | No |
@@ -326,7 +327,7 @@ falling back to Caches, then temp). Writes are atomic, pretty-printed,
 sorted-key, debounced 300 ms, and queued on a serial utility queue. Every
 root field decodes with `decodeIfPresent` and its current default, so older
 documents migrate without resetting unrelated preferences; `schemaVersion` is
-currently 8. Import validation: file size ≤ 1 MiB
+currently 10. Import validation: file size ≤ 1 MiB
 (`SettingsRepository.maxImportFileBytes`), schema version ≤ current, otherwise
 `SettingsRepositoryError`. The app layer wraps the repository in the
 `@MainActor` `ObservableSettingsStore` (`SettingsStore`), which exposes

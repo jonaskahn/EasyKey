@@ -520,7 +520,8 @@ extension KeyboardInputPipeline {
             uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter,
             liveConfidenceScoring: settings.typing.liveConfidenceScoring,
             liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
-            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold
+            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold,
+            iosUniKeyLikeMode: settings.typing.iosUniKeyLikeMode
         )
         if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
             configuration.outputEncoding = .unicodeCombining

@@ -294,6 +294,8 @@ enum L10nKey: String, CaseIterable, Sendable {
     case typingBracketShortcutsDescription = "typing.bracketShortcuts.description"
     case typingInputMethod = "typing.inputMethod"
     case typingInputMethodDescription = "typing.inputMethod.description"
+    case typingIOSUniKeyLikeMode = "typing.iosUniKeyLikeMode"
+    case typingIOSUniKeyLikeModeDescription = "typing.iosUniKeyLikeMode.description"
     case typingLanguage = "typing.language"
     case typingLanguageDescription = "typing.language.description"
     case typingLiveConfidenceScoring = "typing.liveConfidenceScoring"

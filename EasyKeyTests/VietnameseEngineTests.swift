@@ -120,7 +120,8 @@ final class VietnameseEngineTests: XCTestCase {
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
         _ = engine.process(event: .char("a"))
-        XCTAssertEqual(engine.currentBuffer, "aâ")
+        // Repeat-to-undo freezes the rest of the word (iOS-UniKey-like mode).
+        XCTAssertEqual(engine.currentBuffer, "aaa")
     }
 
     func testTelexDoubleDProducesDstroke() {
