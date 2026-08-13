@@ -160,22 +160,18 @@ Each concern lives in its own section with a README that routes to the detailed 
 | [Contributing](contributing/README.md) | Who owns what in the repository and how to route your contribution |
 <!-- docforge-children:end -->
 
-## Archived pre-Docforge documents
+## Hand-written rule documents
 
-These hand-written documents predate this documentation set. They were
-superseded by the generated sections above and archived to `docs/_archive/`;
-they are kept for history and reference only, and their topics are now owned
-by the documents the sections above route to:
+A few hand-written documents predate this documentation set and remain
+canonical for their topics; they live at the locations below rather than in
+an archive:
 
-| Document | Answers (historical) | Now owned by |
+| Document | Answers | Location |
 |---|---|---|
-| [CONVENTIONS.md](engineering/conventions.md) | Engineering rules (dependency direction, error handling, testing) | [engineering/conventions.md](engineering/conventions.md) |
-| [DESIGN.md](architecture/README.md) | Design notes behind the app's behavior and UI | [architecture/](architecture/README.md) |
-| [PRIVACY.md](security/data-handling.md) | Data flows, provider links, and the privacy posture | [security/data-handling.md](security/data-handling.md) |
-| [PROBLEMS.md](reference/limitations.md) | Known platform problems and their workarounds | [reference/limitations.md](reference/limitations.md) |
-| [RELEASE.md](engineering/release.md) | The complete release process and its credentials | [engineering/release.md](engineering/release.md) |
-| [TELEX.md](flows/keyboard-typing.md) | The exact Telex and Simple Telex rule set | [flows/keyboard-typing.md](flows/keyboard-typing.md) |
-| `THIRD_PARTY_NOTICES.md` (archived) | Third-party acknowledgements | — |
+| Telex rule set | Exact full Telex and Simple Telex rules: modifiers, tone keys, tone placement, undo, spell validation, defaults | [flows/telex.md](flows/telex.md) |
+| Engineering rulebook | The authoritative engineering conventions (naming, structure, error handling, testing, review) that [conventions.md](engineering/conventions.md) grounds itself in | [engineering/rulebook.md](engineering/rulebook.md) |
+| Design tokens | Design scale, materials policy, typography, components, iconography, motion, accessibility | [architecture/design.md](architecture/design.md) |
+| Third-party notices | Acknowledgments for bundled components (Sparkle, bsdiff, sais-lite, ed25519) | [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) |
 
 ## Related root documents
 

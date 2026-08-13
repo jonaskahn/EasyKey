@@ -4,7 +4,7 @@ title: "Telex Rule Set"
 docforge_provenance:
   schema: "2.0"
   doc_id: "existing-telex"
-  path: "docs/TELEX.md"
+  path: "docs/flows/telex.md"
   generated_at: "2026-08-03T10:27:57+00:00"
   generator:
     name: "docforge"

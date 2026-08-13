@@ -965,6 +965,40 @@
         }
       }
     },
+    "typing.literalTechnicalTokens": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type technical tokens literally"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gõ nguyên văn các cụm kỹ thuật"
+          }
+        }
+      }
+    },
+    "typing.literalTechnicalTokens.description": {
+      "comment": "Toggle description",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip Vietnamese conversion for words starting with /, @, #, !, or :."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua gõ tiếng Việt cho các từ bắt đầu bằng /, @, #, ! hoặc :."
+          }
+        }
+      }
+    },
     "typing.spellCheck": {
       "comment": "Toggle",
       "localizations": {

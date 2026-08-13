@@ -123,6 +123,7 @@ This section owns *how the system is built*: structure, constraints, dependencie
 | Know the hard limits and deliberate non-goals before proposing something new | [constraints.md](constraints.md) |
 | Check what the app depends on and what a dependency failure costs | [dependencies.md](dependencies.md) |
 | Understand how typing and translation behave per OS service | [platform-integration.md](platform-integration.md) |
+| Review the design tokens and UI conventions before touching a view | [design.md](design.md) |
 | Review deferred work before planning a change | [tech-debt.md](tech-debt.md) |
 
 ## Detailed documentation
@@ -136,6 +137,7 @@ This section owns *how the system is built*: structure, constraints, dependencie
 | [Dependencies and integrations](dependencies.md) | What does the repository depend on — runtime libraries, platform SDKs, development tooling, external services — and what happens if a dependency disappears? |
 | [Application lifecycle](application-lifecycle.md) | How does the app launch, run, sleep, and terminate — and who owns each lifecycle state? |
 | [Platform integration](platform-integration.md) | Which OS services does EasyKey actually integrate, what does each one require, and what happens when a service is unavailable? |
+| [Design tokens and UI conventions](design.md) | What design tokens, materials policy, components, and accessibility conventions does the UI follow? |
 | [AI integration](ai-integration.md) | What reaches a translation model, through which provider, and what happens to the result? |
 | [UI navigation and state](ui-and-state.md) | How do the app's five surfaces navigate between each other, and who owns the state behind them? |
 | [Technical debt](tech-debt.md) | Which known shortcuts and deferred work exist, what does each cost, and how will it be paid down? |

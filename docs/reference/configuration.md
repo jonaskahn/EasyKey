@@ -146,7 +146,8 @@ _Last reviewed: 2026-08-03_
 EasyKey reads two configuration surfaces: a JSON settings document on disk
 (`settings.json`, owned by `SettingsRepository`) and a handful of
 `UserDefaults` keys owned by the app layer. Cloud credentials never appear in
-either — they live in the Keychain (see `PRIVACY.md`).
+either — they live in the Keychain (see
+[data-handling.md](../security/data-handling.md)).
 Release-time behavior is additionally parameterized by CI environment
 variables documented at the end. `Sensitive` means "must not be logged or
 committed"; every row below defaults to `No` unless marked.
@@ -177,6 +178,7 @@ means disabled.
 | Standalone `w` → `ư` | `typing.standaloneWShortcut` | `true` | settings document | No |
 | Bracket shortcuts (`[` `]` …) | `typing.bracketShortcuts` | `true` | settings document | No |
 | Restore-word shortcut | `typing.restoreWordShortcut` | `none` | settings document | No |
+| Literal technical tokens | `typing.literalTechnicalTokens` | `true` | settings document | No |
 | Uppercase first character | `typing.uppercaseFirstCharacter` | `false` | settings document | No |
 
 ## Translation
@@ -327,7 +329,7 @@ falling back to Caches, then temp). Writes are atomic, pretty-printed,
 sorted-key, debounced 300 ms, and queued on a serial utility queue. Every
 root field decodes with `decodeIfPresent` and its current default, so older
 documents migrate without resetting unrelated preferences; `schemaVersion` is
-currently 10. Import validation: file size ≤ 1 MiB
+currently 11. Import validation: file size ≤ 1 MiB
 (`SettingsRepository.maxImportFileBytes`), schema version ≤ current, otherwise
 `SettingsRepositoryError`. The app layer wraps the repository in the
 `@MainActor` `ObservableSettingsStore` (`SettingsStore`), which exposes
@@ -337,7 +339,7 @@ currently 10. Import validation: file size ≤ 1 MiB
 ## Release pipeline environment
 
 Release builds read build-setting substitutions and CI variables — documented
-end-to-end in `RELEASE.md`; local builds leave feed and
+end-to-end in [release.md](../engineering/release.md); local builds leave feed and
 key values empty so Sparkle is disabled rather than pointed at an untrusted
 endpoint. Secrets are never printed and never committed; they are injected by
 the CI secret environment at release time.

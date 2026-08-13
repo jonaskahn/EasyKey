@@ -211,6 +211,7 @@ public struct EngineConfiguration: Equatable, Sendable {
     public var liveConfidenceLowThreshold: Double
     public var liveConfidenceHighThreshold: Double
     public var iosUniKeyLikeMode: Bool
+    public var literalTechnicalTokens: Bool
 
     public init(
         inputMethod: InputMethod = .simpleTelex,
@@ -225,7 +226,8 @@ public struct EngineConfiguration: Equatable, Sendable {
         liveConfidenceScoring: Bool = false,
         liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
         liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold,
-        iosUniKeyLikeMode: Bool = true
+        iosUniKeyLikeMode: Bool = true,
+        literalTechnicalTokens: Bool = true
     ) {
         self.inputMethod = inputMethod
         self.outputEncoding = outputEncoding
@@ -240,6 +242,7 @@ public struct EngineConfiguration: Equatable, Sendable {
         self.liveConfidenceLowThreshold = liveConfidenceLowThreshold
         self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
         self.iosUniKeyLikeMode = iosUniKeyLikeMode
+        self.literalTechnicalTokens = literalTechnicalTokens
     }
 }
 

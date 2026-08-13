@@ -199,7 +199,7 @@ _Last reviewed: 2026-08-03_
 
 These conventions are the ones the repository actually enforces or documents;
 each is grounded in a lint rule, a CI check, a script, or a named rule in
-[CONVENTIONS.md](conventions.md). The rulebook there is authoritative;
+[rulebook.md](rulebook.md). The rulebook there is authoritative;
 this page orders conventions by how often a contributor collides with them.
 
 ## Style
@@ -245,7 +245,7 @@ phrases for values, and Boolean names phrased as assertions (`isEnabled`,
 `hasPermission`, `shouldRestoreInput`). Avoid technical placeholders such as
 `manager`, `helper`, `data`, or `handler`.
 
-**Evidence:** CONVENTIONS.md section 1.1 documents the naming rules with
+**Evidence:** rulebook.md section 1.1 documents the naming rules with
 before-and-after examples.
 
 ```swift
@@ -254,7 +254,7 @@ var isMonitoring: Bool
 ```
 
 **If not followed:** review rejection; names are a stated review criterion
-(CONVENTIONS.md section 12). There is no automated check.
+(rulebook.md section 12). There is no automated check.
 
 ### Comments at public boundaries
 
@@ -263,7 +263,7 @@ type documentation, and public or internal API docs. No comments inside
 private implementations, no `MARK` sections, TODOs, commented-out code, or
 redundant restatements.
 
-**Evidence:** CONVENTIONS.md section 2 enumerates permitted and forbidden
+**Evidence:** rulebook.md section 2 enumerates permitted and forbidden
 comments and directs rationale to documentation or tests.
 
 **If not followed:** review rejection; no automated check.
@@ -282,7 +282,7 @@ application types. Dependency cycles are architecture defects.
 
 **Evidence:** enforced by source-scanning fitness tests
 (`EasyKeyTests/ArchitectureFitnessTests.swift`) that fail on forbidden
-`import` lines, and documented in CONVENTIONS.md section 5.1 and the README
+`import` lines, and documented in rulebook.md section 5.1 and the README
 architecture section.
 
 **If not followed:** the unit test shard fails in CI, and `make test` fails
@@ -295,7 +295,7 @@ enums for values and state machines; default classes to `final`; use
 composition over inheritance; start with `private` access and widen only for
 a concrete caller.
 
-**Evidence:** CONVENTIONS.md section 1.3.
+**Evidence:** rulebook.md section 1.3.
 
 **If not followed:** review rejection; no automated check.
 
@@ -306,7 +306,7 @@ protocol only at a genuine boundary (multiple implementations, test
 substitution, platform isolation) and do not add dependency-injection
 frameworks — ordinary Swift initialization is the norm.
 
-**Evidence:** CONVENTIONS.md section 5.3 states both rules explicitly.
+**Evidence:** rulebook.md section 5.3 states both rules explicitly.
 
 **If not followed:** review rejection; no automated check.
 
@@ -319,7 +319,7 @@ One rule is enforced by a fitness test; the rest are review gates.
 **Convention:** never force unwrap or use `try!` in production code unless an
 invariant makes failure impossible and nearby text explains that invariant.
 
-**Evidence:** CONVENTIONS.md section 1.4 states the rule; the README lists
+**Evidence:** rulebook.md section 1.4 states the rule; the README lists
 "production force-unwrap restrictions" among enforced quality practices.
 SwiftLint does not enable the `force_unwrapping` rule, so enforcement is
 review-based.
@@ -333,7 +333,7 @@ explained invariant adjacent to the unwrap.
 recoverable failure; throw when callers can recover, retry, or add context.
 Never swallow failures with empty `catch` blocks or indiscriminate `try?`.
 
-**Evidence:** CONVENTIONS.md section 3.
+**Evidence:** rulebook.md section 3.
 
 **If not followed:** review rejection; no automated check.
 
@@ -342,7 +342,7 @@ Never swallow failures with empty `catch` blocks or indiscriminate `try?`.
 **Convention:** never log keystrokes, clipboard contents, secrets, tokens, or
 private user data. Log only the metadata needed to diagnose failure.
 
-**Evidence:** CONVENTIONS.md sections 3 and 10, plus a fitness test that
+**Evidence:** rulebook.md sections 3 and 10, plus a fitness test that
 scans translation log calls for content, credential, and request-body
 references (`testTranslationLogsDoNotReferenceContentCredentialsOrRequestBodies`
 in `EasyKeyTests/ArchitectureFitnessTests.swift`).
@@ -385,7 +385,7 @@ dependency cycles, sensitive data reaching logs — are encoded as automated
 fitness tests.
 
 **Evidence:** `EasyKeyTests/ArchitectureFitnessTests.swift` and the matching
-rule in CONVENTIONS.md section 9.
+rule in rulebook.md section 9.
 
 **If not followed:** the unit shard fails.
 
@@ -395,7 +395,7 @@ rule in CONVENTIONS.md section 9.
 never normalize reruns as the solution. Retrying transient failures is
 acceptable only as a CI mechanism, not as a resolution.
 
-**Evidence:** CONVENTIONS.md section 9 states the rule; the Makefile documents
+**Evidence:** rulebook.md section 9 states the rule; the Makefile documents
 the shared-`UserDefaults` flake risk for parallel UI shards and prescribes
 the serial `make test` fallback; CI keeps the known-broken hosted-runner UI
 tests in a dedicated shard with an explicit reason and continue-on-error.

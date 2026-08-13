@@ -30,9 +30,9 @@ Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGE
 - 🛠️ Per-application compatibility and ignore lists
 - 🚀 Signed Sparkle updates, English/Vietnamese localization
 
-See [Telex Rule Set](./docs/TELEX.md) for exact full Telex, Simple Telex, tone-placement, undo, and restoration behavior.
+See [Telex Rule Set](./docs/flows/telex.md) for exact full Telex, Simple Telex, tone-placement, undo, and restoration behavior.
 
-> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. This is a macOS detection-timing limitation, not an EasyKey defect — see [Known Platform Problems](./docs/PROBLEMS.md). If it persists, restarting EasyKey usually helps.
+> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. This is a macOS detection-timing limitation, not an EasyKey defect — see [Known Platform Problems](./docs/reference/limitations.md). If it persists, restarting EasyKey usually helps.
 
 ## ⌨️ Default Shortcuts
 
@@ -50,7 +50,7 @@ EasyKey processes keyboard transformation and preferences on your Mac. General k
 
 Cloud translation is optional. In the translation editor, menu popover, or `⌥A` panel, user-entered or captured source text is sent directly to the selected provider when you translate or when the configured auto-translation delay expires. Each edit resets that delay. A first-use disclosure identifies every cloud provider before its first request. EasyKey does not proxy requests through its own service.
 
-Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./docs/PRIVACY.md) for data flows and provider links.
+Cloud credentials use device-only, non-synchronizing Keychain items. EasyKey does not persist source text, results, or history, and collects no usage data. Providers handle submitted text under their own terms. Credential validation and signed Sparkle update checks are separate network activity; validation does not submit source text. See [Privacy](./docs/security/data-handling.md) for data flows and provider links.
 
 Accessibility permission is required because EasyKey observes and transforms keyboard events system-wide. The permission can be reviewed or revoked at any time in **System Settings → Privacy & Security → Accessibility**.
 
@@ -147,7 +147,7 @@ Run `make` or `make help` for the complete command reference.
 | `make verify-release` | Run release integrity checks |
 | `make dmg` | Build, notarize, staple, and verify a signed universal DMG |
 
-Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./docs/RELEASE.md) for the complete release process.
+Signed distribution requires Developer ID, notarization, and Sparkle release credentials. See [RELEASE.md](./docs/engineering/release.md) for the complete release process.
 
 ### Architecture
 
@@ -182,7 +182,7 @@ Dependencies point inward: `EasyKeyApp → EasyKeyKit → EasyEngineCore`
 - **EasyKeyKit** adapts domain behavior to macOS event taps, keyboard pipelines, and synthesis.
 - **EasyKeyApp** provides feature-oriented UI, coordination, localization, settings, and update delivery.
 
-Engineering practices and architectural rules are documented in [CONVENTIONS.md](./docs/CONVENTIONS.md).
+Engineering practices and architectural rules are documented in [CONVENTIONS.md](./docs/engineering/rulebook.md).
 
 ### Quality
 

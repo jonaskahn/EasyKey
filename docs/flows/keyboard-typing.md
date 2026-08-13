@@ -185,7 +185,7 @@ docforge_provenance:
 
 _Last reviewed: 2026-08-03_
 
-EasyKey intercepts system-wide keystrokes and transforms them into Vietnamese text per the active input method (Telex, Simple Telex, or VNI) before they reach the frontmost app, and expands macro triggers while typing. The keyboard service, its health/pause states, and the Smart Switch per-app language override all hang off this flow.
+EasyKey intercepts system-wide keystrokes and transforms them into Vietnamese text per the active input method (Telex, Simple Telex, or VNI) before they reach the frontmost app, and expands macro triggers while typing. The keyboard service, its health/pause states, and the Smart Switch per-app language override all hang off this flow. The exact Telex / Simple Telex rule set is authoritative in [telex.md](telex.md); this page covers how the flow behaves end to end.
 
 ## Trigger and actors
 
@@ -308,6 +308,16 @@ Branches ordered by how often the trigger actually takes them.
 **Then:** the switch shortcut toggles the input language and suppresses the event; the restore shortcut calls `VietnameseEngine.restoreRawKeys`, which replaces the composed word with the raw keystrokes and freezes transformation per word (`KeyboardInputPipeline.swift:175-182`, `456-483`; `VietnameseEngine.swift:60-73`).
 
 **Rejoins at:** step 1 (switch) or step 6 (restore edits are applied and posted).
+
+### Literal technical tokens
+
+**Branches from step:** 4
+
+**Condition:** `typing.literalTechnicalTokens` is on (default) and the next character begins a new whitespace-delimited token (start of input or right after a word boundary) and is one of `/`, `@`, `#`, `!`, or `:`.
+
+**Then:** the engine enters literal mode for that token: the prefix and every following character — including punctuation — are passed through verbatim (suppressed and re-inserted) instead of being composed as Vietnamese, so slash commands, mentions, references, shell mode, and shortcodes in coding agents and chat apps type as-is. The mode ends at the next space, tab, or return, and Vietnamese transformation resumes for the following token. Backspace deletes the literal characters one at a time and exits literal mode once the prefix itself is removed; arrow keys, escape, and session resets cancel it. A lone `!` still counts as a sentence terminator for capitalization.
+
+**Rejoins at:** step 6 (literal keystrokes are inserted as synthesized events) or step 1 (after the token's whitespace).
 
 **Other rules:** sentence-start capitalization applies per configuration when the buffer is empty (`VietnameseEngine.swift:90-95`); spell check with `autoRestoreKeys` decides whether an invalid composed word reverts to raw keys at word boundaries (`VietnameseEngine.swift:187-197`); mouse events and flags changes always reset composition state (`KeyboardInputPipeline.swift:158-167`).
 

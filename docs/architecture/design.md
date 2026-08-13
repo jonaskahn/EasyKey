@@ -4,7 +4,7 @@ title: "Design Notes"
 docforge_provenance:
   schema: "2.0"
   doc_id: "existing-design"
-  path: "docs/DESIGN.md"
+  path: "docs/architecture/design.md"
   generated_at: "2026-08-03T10:28:33+00:00"
   generator:
     name: "docforge"

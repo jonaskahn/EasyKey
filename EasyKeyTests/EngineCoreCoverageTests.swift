@@ -957,6 +957,24 @@ final class EngineCoreCoverageTests: XCTestCase {
         XCTAssertEqual(opts.liveConfidenceLowThreshold, LiveConfidenceDefaults.lowThreshold)
         XCTAssertEqual(opts.liveConfidenceHighThreshold, LiveConfidenceDefaults.highThreshold)
         XCTAssertTrue(opts.iosUniKeyLikeMode)
+        XCTAssertTrue(opts.literalTechnicalTokens)
+    }
+
+    func testTypingOptions_LiteralTechnicalTokensRoundTrip() throws {
+        var opts = TypingOptions()
+        opts.literalTechnicalTokens = false
+        let data = try JSONEncoder().encode(opts)
+        let decoded = try JSONDecoder().decode(TypingOptions.self, from: data)
+        XCTAssertFalse(decoded.literalTechnicalTokens)
+    }
+
+    func testTypingOptions_LegacyDecodeMissingLiteralTechnicalTokensDefaultsToTrue() throws {
+        let data = try JSONEncoder().encode(TypingOptions())
+        var object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        object.removeValue(forKey: "literalTechnicalTokens")
+        let legacyData = try JSONSerialization.data(withJSONObject: object)
+        let decoded = try JSONDecoder().decode(TypingOptions.self, from: legacyData)
+        XCTAssertTrue(decoded.literalTechnicalTokens)
     }
 
     func testInputSettings_DefaultValues() {

@@ -87,7 +87,7 @@ _A bound without a traceable source reads as an opinion, not a fact a reviewer c
 | Keychain scope | All EasyKey items are device-only and non-synchronizing (`kSecAttrSynchronizable = false`, `WhenUnlockedThisDeviceOnly`) | `EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift`, `EasyKeyApp/Features/Translation/TranslationCredentialStore.swift` | Clipboard history and provider keys must not roam or leave the device | Enabling iCloud Keychain sync would trade privacy for convenience — not planned |
 | Clipboard history | Capture off by default; defaults cap 100 entries / 7-day retention | `EasyEngineCore/Clipboard/ClipboardOptions.swift` | Privacy-first posture; user-raised limits | User-configurable already; no hard ceiling |
 | Single instance | One process per user session; a second launch terminates | `EasyKeyApp/AppCoordinator.swift` (`isOnlyInstanceForCurrentUser`) + decision `single-instance` | One event tap; avoids duplicate key handling | Multi-instance support — not planned |
-| Spotlight typing | Inherently degraded: no public API for Spotlight's internal focus/completion; EasyKey polls `CGWindowListCopyWindowInfo` with a 0.3 s detection lag | `docs/PROBLEMS.md`, `EasyKeyKit/Keyboard/SpotlightWindowDetector.swift` | Platform limitation imposed by Apple's Spotlight implementation | None — outside EasyKey's control |
+| Spotlight typing | Inherently degraded: no public API for Spotlight's internal focus/completion; EasyKey polls `CGWindowListCopyWindowInfo` with a 0.3 s detection lag | `docs/reference/limitations.md`, `EasyKeyKit/Keyboard/SpotlightWindowDetector.swift` | Platform limitation imposed by Apple's Spotlight implementation | None — outside EasyKey's control |
 
 ## Boundaries
 

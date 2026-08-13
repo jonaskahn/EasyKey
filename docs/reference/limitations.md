@@ -95,7 +95,8 @@ _Last reviewed: 2026-08-03_
 Read this before building on EasyKey. Several limits are deliberate
 consequences of macOS platform behavior or of the app's privacy posture —
 they are trade-offs, not defects — and are tracked in
-[PROBLEMS.md](limitations.md) or the product README
+this document's [known-limitations table](#known-limitations) or the product
+README
 ([product overview](../product/overview.md)) rather than as open bugs.
 
 ## Known limitations
@@ -104,7 +105,7 @@ Design constraints and deliberate trade-offs — the shape of the system, not de
 
 | Area | Limitation | Impact | Workaround | Tracking |
 |---|---|---|---|---|
-| Spotlight typing | Typing Vietnamese into Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. Spotlight never activates as an `NSRunningApplication`, exposes no usable `AXUIElement` focus, and its autocomplete eats plain backspace, so EasyKey falls back to a selection-replacement workaround gated on a 0.3 s `CGWindowListCopyWindowInfo` detection cache. | Users who start typing immediately after invoking Spotlight see a moment of literal keystrokes or duplicated characters (`ttttuyền`). | Pause a beat before typing, or retype; restarting EasyKey helps if it persists. No API exists to fix it from outside Spotlight. | [PROBLEMS.md](limitations.md) |
+| Spotlight typing | Typing Vietnamese into Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. Spotlight never activates as an `NSRunningApplication`, exposes no usable `AXUIElement` focus, and its autocomplete eats plain backspace, so EasyKey falls back to a selection-replacement workaround gated on a 0.3 s `CGWindowListCopyWindowInfo` detection cache. | Users who start typing immediately after invoking Spotlight see a moment of literal keystrokes or duplicated characters (`ttttuyền`). | Pause a beat before typing, or retype; restarting EasyKey helps if it persists. No API exists to fix it from outside Spotlight. | This page |
 | Ignored-applications filtering | The ignored-application lists (typing and clipboard) are best-effort filters, not a security boundary: macOS cannot always identify the source application of a clipboard change or focus event. | Content copied in an ignored app can still be captured; typing rules can still apply where a filter missed the app. | Do not rely on these lists for confidentiality; disable capture entirely when it matters. | [product overview](../product/overview.md), `ClipboardSource` in `ClipboardEntry.swift` |
 | Clipboard source attribution | `ClipboardSource.applicationName` / `bundleIdentifier` are advisory: macOS exposes no pasteboard source, so attribution can be missing or wrong. | The clipboard panel may show no source or a misattributed one. | Treat source display as informational only. | `ClipboardEntry.swift` |
 | Accessory app windows | The app runs as an accessory (`LSUIElement`, activation policy `.accessory`), so its windows do not appear in the Dock or Cmd-Tab and cannot reliably become the key window in normal operation. | Users cannot switch to EasyKey like a regular app; paste-in-place and panel focus depend on panel subclasses overriding `canBecomeKey`. | Panels are presented from the menu bar; Settings opens from the menu. No workaround needed for normal use. | `AppDelegate.swift`, `Info.plist` |
@@ -149,4 +150,4 @@ Beyond these figures the system is untested rather than known to fail.
 - On macOS 14, translation settings expose cloud providers only; the Apple card is hidden because the platform capability is false.
 - Manual release gates in [RELEASE.md](../engineering/release.md) require re-testing the login helper after reboot and after macOS upgrade, Accessibility reauthorization when bundle identity or signing team changes, and a Sparkle rejection test with an unsigned archive.
 - `make test-parallel` is a sharded convenience; treat its failures as suspicious until confirmed by a serial `make test` run.
-- Spotlight behavior notes in [PROBLEMS.md](limitations.md) apply to every macOS version EasyKey supports.
+- Spotlight behavior notes above apply to every macOS version EasyKey supports.

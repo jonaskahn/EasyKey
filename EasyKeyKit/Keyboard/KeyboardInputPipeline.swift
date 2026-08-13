@@ -521,7 +521,8 @@ extension KeyboardInputPipeline {
             liveConfidenceScoring: settings.typing.liveConfidenceScoring,
             liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
             liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold,
-            iosUniKeyLikeMode: settings.typing.iosUniKeyLikeMode
+            iosUniKeyLikeMode: settings.typing.iosUniKeyLikeMode,
+            literalTechnicalTokens: settings.typing.literalTechnicalTokens
         )
         if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
             configuration.outputEncoding = .unicodeCombining

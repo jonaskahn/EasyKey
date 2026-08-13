@@ -86,7 +86,7 @@ docforge_provenance:
 
 _Last reviewed: 2026-08-03_
 
-This section is the working guide for anyone building, testing, or shipping EasyKey: how to set up a development environment, how the test suites are organized, which conventions the repository actually enforces, and the exact procedure for cutting a release. Engineers new to the project should start here; the rulebook these guides ground themselves in lives in [CONVENTIONS.md](conventions.md).
+This section is the working guide for anyone building, testing, or shipping EasyKey: how to set up a development environment, how the test suites are organized, which conventions the repository actually enforces, and the exact procedure for cutting a release. Engineers new to the project should start here; the rulebook these guides ground themselves in lives in [rulebook.md](rulebook.md).
 
 ## At a glance
 
@@ -94,7 +94,7 @@ The engineering workflow runs from a Makefile-driven toolchain: local setup buil
 
 ## Scope and boundaries
 
-This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, release procedure, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)), the operational channels that carry the released artifact ([operations](../operations/README.md)), or the canonical rulebook, which lives in [CONVENTIONS.md](conventions.md) and is the authoritative source for conventions.
+This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, release procedure, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)), the operational channels that carry the released artifact ([operations](../operations/README.md)), or the canonical rulebook, which lives in [rulebook.md](rulebook.md) and is the authoritative source for conventions.
 
 ## Start here
 

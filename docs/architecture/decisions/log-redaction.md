@@ -71,7 +71,7 @@ docforge_provenance:
 
 ## Decision
 
-We chose **export-time pattern redaction with `0600` output permissions**. `LogExporter.redact(_:)` replaces common credential shapes — OpenAI-style `sk-…` keys, Google `AIzaSy…` keys, and `x-api-key:` headers — with `[REDACTED]`, applied to every OSLog entry message before it is written; `writeExport` then sets POSIX permissions `0600` on the output file. Category filtering to `.app`, `.keyboard`, `.settings` remains the first gate, and [docs/PRIVACY.md](../../security/data-handling.md) was updated in the same commit to state that diagnostic log exports perform pattern redaction on credentials and restrict output permissions to 0600.
+We chose **export-time pattern redaction with `0600` output permissions**. `LogExporter.redact(_:)` replaces common credential shapes — OpenAI-style `sk-…` keys, Google `AIzaSy…` keys, and `x-api-key:` headers — with `[REDACTED]`, applied to every OSLog entry message before it is written; `writeExport` then sets POSIX permissions `0600` on the output file. Category filtering to `.app`, `.keyboard`, `.settings` remains the first gate, and [docs/security/data-handling.md](../../security/data-handling.md) was updated in the same commit to state that diagnostic log exports perform pattern redaction on credentials and restrict output permissions to 0600.
 
 ## Decision drivers
 
@@ -104,4 +104,4 @@ We chose **export-time pattern redaction with `0600` output permissions**. `LogE
 
 ## Confirmation
 
-`LogExporterTests` pins the redaction behavior and the permission attribute on the output file, and the [docs/PRIVACY.md](../../security/data-handling.md) statement keeps the promise visible. Tests run under `make test`; the 90% line-coverage gate is enforced by `make coverage` and CI.
+`LogExporterTests` pins the redaction behavior and the permission attribute on the output file, and the [docs/security/data-handling.md](../../security/data-handling.md) statement keeps the promise visible. Tests run under `make test`; the 90% line-coverage gate is enforced by `make coverage` and CI.

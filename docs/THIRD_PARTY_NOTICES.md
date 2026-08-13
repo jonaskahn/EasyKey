@@ -27,8 +27,9 @@ text from an EasyKey translation surface. Apple Translation is available locally
 on supported macOS versions.
 Provider names and links identify interoperability and data handling only. No
 provider sponsors, endorses, or is affiliated with EasyKey. EasyKey does not
-bundle provider SDKs or provider software. See [PRIVACY.md](./PRIVACY.md) for
-current official privacy and data-handling links.
+bundle provider SDKs or provider software. See
+[security/data-handling.md](security/data-handling.md) for current official
+privacy and data-handling links.
 
 ## Sparkle 2.9.4
 

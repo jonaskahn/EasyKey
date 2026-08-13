@@ -113,17 +113,13 @@ _Last reviewed: 2026-08-03_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
 
-## [Unreleased]
-
-**Added**
-
-- Optional iOS-UniKey-like mode (on by default): after repeating a Telex key to remove its mark, the rest of that word stays literal until a space or punctuation, so `seeen` becomes `seen` and `resstore` becomes `restore` instead of re-applying diacritics.
-
 ## [0.0.8] - 2026-08-11
 
 **Added**
 
 - Optional Tier 2 live-confidence scoring: while typing, show raw keystrokes when the in-progress word looks unlikely to be Vietnamese; Tier 1 spell-check at word boundaries is unchanged (off by default).
+- Optional iOS-UniKey-like mode (on by default): after repeating a Telex key to remove its mark, the rest of that word stays literal until a space or punctuation, so `seeen` becomes `seen` and `resstore` becomes `restore` instead of re-applying diacritics.
+- Optional literal technical tokens (on by default): words starting with `/`, `@`, `#`, `!`, or `:` type as-is without Vietnamese conversion — slash commands, mentions, references, shell mode, and shortcodes in coding agents and chat apps — with Vietnamese resuming after the next space.
 
 ## [0.0.7] - 2026-07-23
 

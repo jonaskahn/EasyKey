@@ -63,7 +63,7 @@ There is no automated owner-declaration file — no Code Owners file exists anyw
 
 | Area | Responsibility boundary | Escalation |
 |---|---|---|
-| `docs/` | All documentation: architecture, operations, product, security, contributing. Review authority over documentation changes lives with the section READMEs and this ownership map; conventions apply per [CONVENTIONS.md](../engineering/conventions.md) | Open an issue on the repository → primary developer |
+| `docs/` | All documentation: architecture, operations, product, security, contributing. Review authority over documentation changes lives with the section READMEs and this ownership map; conventions apply per [rulebook.md](../engineering/rulebook.md) | Open an issue on the repository → primary developer |
 | `EasyKeyApp/` | The macOS app shell: app lifecycle, menu-bar status item, window coordination, features (clipboard, settings, onboarding), and update service. Owns user-facing behavior and feature integration | Open an issue on the repository → primary developer |
 | `EasyEngineCore/` | The engine and shared domain layer: Telex/VNI input engine, settings model and storage, diagnostics and logging primitives. Owns core behavior and its tests | Open an issue on the repository → primary developer |
 | `EasyKeyKit/` | The keyboard pipeline: CGEvent tap, keyboard service, hotkeys, permission handling. Owns the input path and its availability states | Open an issue on the repository → primary developer |

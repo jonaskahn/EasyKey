@@ -6,10 +6,21 @@ import Foundation
 public struct VietnameseEngine {
     private static let sentenceTerminators: Set<String> = [".", "!", "?", "\n"]
 
+    /// Prefixes that mark a whitespace-delimited token as technical (slash
+    /// commands, mentions, references, shell mode, shortcodes) so the whole
+    /// token types literally without Vietnamese conversion.
+    private static let technicalTokenPrefixes: Set<Character> = ["/", "@", "#", "!", ":"]
+
     public internal(set) var state: SessionState
     public var configuration: EngineConfiguration
     private var atSentenceStart = true
     private var lastRenderedCount = 0
+    /// True when the next character begins a fresh token (start of input or
+    /// right after a word boundary), so a leading technical prefix can be
+    /// recognized before any Vietnamese composition begins.
+    private var atTokenStart = true
+    private var isLiteralToken = false
+    private var literalTokenCharacters: [Character] = []
 
     public init(configuration: EngineConfiguration = EngineConfiguration()) {
         state = SessionState()
@@ -81,10 +92,14 @@ public struct VietnameseEngine {
 
     public mutating func reset() {
         clearComposition()
+        endLiteralToken()
         atSentenceStart = true
+        atTokenStart = true
     }
 
     /// Clears current word state while preserving sentence-capitalization context.
+    /// A literal token is intentionally left intact so modifier-key transitions
+    /// (e.g. Shift before an uppercase letter inside a mention) do not break it.
     public mutating func resetComposition() {
         clearComposition()
     }
@@ -107,10 +122,36 @@ public struct VietnameseEngine {
     }
 
     private mutating func processCharacter(_ character: Character, event: KeyEvent) -> EngineOutput {
+        if atTokenStart, configuration.literalTechnicalTokens,
+           Self.technicalTokenPrefixes.contains(character) {
+            isLiteralToken = true
+            atTokenStart = false
+            literalTokenCharacters = [character]
+            return EngineOutput(
+                disposition: .suppress,
+                edits: [.insert(String(character))],
+                sessionEffect: .continueSession
+            )
+        }
+
         if event.hasModifiers {
             clearComposition()
+            if !isLiteralToken {
+                atTokenStart = true
+            }
             return .passThrough
         }
+
+        if isLiteralToken {
+            literalTokenCharacters.append(character)
+            return EngineOutput(
+                disposition: .suppress,
+                edits: [.insert(String(character))],
+                sessionEffect: .continueSession
+            )
+        }
+
+        atTokenStart = false
 
         if state.forceRaw {
             clearComposition()
@@ -179,6 +220,17 @@ public struct VietnameseEngine {
     private mutating func processBackspace() -> EngineOutput {
         guard !state.isEmpty else {
             atSentenceStart = false
+            if isLiteralToken {
+                literalTokenCharacters.removeLast()
+                if literalTokenCharacters.isEmpty {
+                    endLiteralToken()
+                }
+                return EngineOutput(
+                    disposition: .suppress,
+                    edits: [.deleteBackward(1)],
+                    sessionEffect: .continueSession
+                )
+            }
             return .passThrough
         }
 
@@ -200,6 +252,13 @@ public struct VietnameseEngine {
         if Self.sentenceTerminators.contains(trailingChar) {
             atSentenceStart = true
         }
+
+        if isLiteralToken {
+            endLiteralToken()
+            return .passThrough
+        }
+
+        atTokenStart = true
 
         guard !state.isEmpty else {
             return .passThrough
@@ -237,6 +296,7 @@ public struct VietnameseEngine {
     }
 
     private mutating func processReset() -> EngineOutput {
+        endLiteralToken()
         clearComposition()
         atSentenceStart = false
         return .passThrough
@@ -245,5 +305,15 @@ public struct VietnameseEngine {
     private mutating func clearComposition() {
         state.reset()
         lastRenderedCount = 0
+    }
+
+    private mutating func endLiteralToken() {
+        if let last = literalTokenCharacters.last,
+           Self.sentenceTerminators.contains(String(last)) {
+            atSentenceStart = true
+        }
+        literalTokenCharacters = []
+        isLiteralToken = false
+        atTokenStart = true
     }
 }

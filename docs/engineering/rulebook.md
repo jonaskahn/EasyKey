@@ -4,7 +4,7 @@ title: "Engineering Conventions"
 docforge_provenance:
   schema: "2.0"
   doc_id: "existing-conventions"
-  path: "docs/CONVENTIONS.md"
+  path: "docs/engineering/rulebook.md"
   generated_at: "2026-08-03T10:27:57+00:00"
   generator:
     name: "docforge"

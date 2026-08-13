@@ -103,7 +103,7 @@ _Last reviewed: 2026-08-03_
 
 This is the procedure for shipping an EasyKey release: versioning, build,
 verification, publication through the Sparkle update channel, and rollback.
-The authoritative release document is [RELEASE.md](release.md); the record
+This page is the authoritative release document; the record
 of what changed in each release lives in [CHANGELOG.md](../../CHANGELOG.md).
 
 ## Prerequisites
@@ -115,7 +115,7 @@ Before starting a release:
 - The version number is bumped in `EasyKey.xcodeproj/project.pbxproj`
   (`MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`) and recorded in
   [CHANGELOG.md](../../CHANGELOG.md).
-- Release inputs are available (RELEASE.md "Required Release Inputs"):
+- Release inputs are available ("Required Release Inputs" above):
   `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, `SPARKLE_FEED_URL`,
   `SPARKLE_PUBLIC_ED_KEY`, `EASYKEY_SUPPORT_URL`, `EASYKEY_PRIVACY_POLICY_URL`,
   and `NOTARY_KEYCHAIN_PROFILE` (or the Apple ID notarization variables
@@ -143,7 +143,7 @@ tag must match it — both release workflows abort when the tag is not
 ## Build
 
 1. Run the QA gate before packaging a candidate — `make qa` — verify:
-   `Phase 8 automated QA gate passed.` (required by RELEASE.md).
+   `Phase 8 automated QA gate passed.` (required by the release guide).
 2. Signed distribution — `make dmg` — verify: `Release verification passed:
    build/export/EasyKey.app` and `build/EasyKey-<version>-universal.dmg`
    exists. This target runs the full sequence: release configuration check,
@@ -173,7 +173,7 @@ maintainer performing the release.
    `THIRD_PARTY_NOTICES.md`, rejects development material under
    `fixtures/`, `sources/`, `diagnostics/`, or `capture/` paths, and rejects
    tracked `build/` output.
-3. Manual release gates (RELEASE.md): fresh, upgrade, and uninstall/reinstall
+3. Manual release gates: fresh, upgrade, and uninstall/reinstall
    installs; login helper after reboot and macOS upgrade; Accessibility stays
    authorized after replacing the app in place; Sparkle rejects an unsigned or
    incorrectly signed update archive; archive contents limited to EasyKey

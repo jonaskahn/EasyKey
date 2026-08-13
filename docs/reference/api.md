@@ -290,7 +290,7 @@ output instructs the caller to replace the current focused text.
 
 | Type | Public surface |
 |---|---|
-| `EasyKeySettings` | `schemaVersion` (currently 10) + 9 option groups (`input`, `typing`, `macro`, `compatibility`, `smartSwitch`, `system`, `converter`, `clipboard`, `translation`); forgiving decoder |
+| `EasyKeySettings` | `schemaVersion` (currently 11) + 9 option groups (`input`, `typing`, `macro`, `compatibility`, `smartSwitch`, `system`, `converter`, `clipboard`, `translation`); forgiving decoder |
 | `SettingsRepository` | `init(fileURL:)`, `update(_:)`, `reset()`, `export(to:)`, `import(from:)`, `load()`, `saveNow()`, `configurationSnapshot`, `onSettingsChange`, `defaultFileURL`, `maxImportFileBytes = 1_048_576` |
 | `SettingsMigration` | `migrate(_ data: Data) -> Data` (stepwise `schemaVersion` bump) |
 | `SettingsDelta` | `delta(from:to:)` — per-group change flags, `hasAnyChange` |

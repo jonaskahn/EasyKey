@@ -110,7 +110,7 @@ The latency signal is the only one with a derived, user-visible value: `SystemHe
 
 ## Logging
 
-All logging goes through `AppLog` (`EasyEngineCore/Diagnostics/AppLog.swift`), which wraps OSLog with the fixed subsystem `one.ifelse.easykey` and nine named categories. Levels are `debug`, `info`, `notice`, and `error`; messages are interpolated with `privacy: .private` for debug/info/notice and `privacy: .public` for errors. The facility's doc comment states the hard rule: "Never log raw keystroke content", mirrored by [CONVENTIONS.md](../engineering/conventions.md) ("Never record raw keyboard input or clipboard payloads in logs or analytics").
+All logging goes through `AppLog` (`EasyEngineCore/Diagnostics/AppLog.swift`), which wraps OSLog with the fixed subsystem `one.ifelse.easykey` and nine named categories. Levels are `debug`, `info`, `notice`, and `error`; messages are interpolated with `privacy: .private` for debug/info/notice and `privacy: .public` for errors. The facility's doc comment states the hard rule: "Never log raw keystroke content", mirrored by [rulebook.md](../engineering/rulebook.md) ("Never record raw keyboard input or clipboard payloads in logs or analytics").
 
 | Category | Emitters | What it records |
 |---|---|---|

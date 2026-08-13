@@ -300,6 +300,8 @@ enum L10nKey: String, CaseIterable, Sendable {
     case typingLanguageDescription = "typing.language.description"
     case typingLiveConfidenceScoring = "typing.liveConfidenceScoring"
     case typingLiveConfidenceScoringDescription = "typing.liveConfidenceScoring.description"
+    case typingLiteralTechnicalTokens = "typing.literalTechnicalTokens"
+    case typingLiteralTechnicalTokensDescription = "typing.literalTechnicalTokens.description"
     case typingQuickTelexConsonants = "typing.quickTelexConsonants"
     case typingQuickTelexConsonantsDescription = "typing.quickTelexConsonants.description"
     case typingRestoreInvalidWord = "typing.restoreInvalidWord"

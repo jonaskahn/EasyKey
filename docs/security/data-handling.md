@@ -158,6 +158,29 @@ key.
 side is not evidenced here and is out of repository scope); the app keeps no
 persisted copy.
 
+### Provider data handling and retention links
+
+Provider-side handling and retention of submitted source text depend on each
+provider's terms, account tier, and account controls; nothing in this
+repository controls or evidences them. First use of each cloud provider shows
+a disclosure naming the provider and explaining that source text is
+transferred to it before the request proceeds; declining cancels the request,
+and consent can be reset in Translation settings. Requests go directly to the
+selected provider — they never pass through an EasyKey server. Provider names
+and links identify interoperability and provider-controlled data handling
+only; they do not imply sponsorship, affiliation, or endorsement. Links
+reviewed on July 19, 2026:
+
+- [DeepL Privacy Policy](https://www.deepl.com/privacy)
+- [Google Cloud Translation data usage](https://cloud.google.com/translate/data-usage)
+- [OpenAI API data controls](https://platform.openai.com/docs/guides/your-data)
+- [Anthropic Privacy Center](https://privacy.anthropic.com/)
+- [Gemini API Additional Terms](https://ai.google.dev/gemini-api/terms)
+- [OpenRouter Privacy Policy](https://openrouter.ai/privacy)
+- [Groq Privacy Policy](https://groq.com/privacy-policy/)
+- A user-configured OpenAI-compatible or Anthropic-compatible endpoint is
+  governed by that endpoint's published terms.
+
 ## Cloud translation credentials (secret)
 
 | Stage | Behavior |
@@ -220,5 +243,6 @@ The repository evidences the following, and nothing beyond it:
   evidenced anywhere in the repository.
 
 Limits: provider-side handling and retention of submitted translation text are
-governed by provider terms (links in `docs/PRIVACY.md`); nothing in this
-repository controls or evidences them.
+governed by provider terms (links in [Provider data handling and
+retention links](#provider-data-handling-and-retention-links)); nothing in
+this repository controls or evidences them.

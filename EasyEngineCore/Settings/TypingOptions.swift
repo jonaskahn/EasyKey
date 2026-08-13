@@ -13,6 +13,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
     public var liveConfidenceLowThreshold: Double
     public var liveConfidenceHighThreshold: Double
     public var iosUniKeyLikeMode: Bool
+    public var literalTechnicalTokens: Bool
 
     public init(
         spellCheck: Bool = true,
@@ -26,7 +27,8 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         liveConfidenceScoring: Bool = false,
         liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
         liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold,
-        iosUniKeyLikeMode: Bool = true
+        iosUniKeyLikeMode: Bool = true,
+        literalTechnicalTokens: Bool = true
     ) {
         self.spellCheck = spellCheck
         self.restoreInvalidWord = restoreInvalidWord
@@ -40,6 +42,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         self.liveConfidenceLowThreshold = liveConfidenceLowThreshold
         self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
         self.iosUniKeyLikeMode = iosUniKeyLikeMode
+        self.literalTechnicalTokens = literalTechnicalTokens
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -55,6 +58,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         case liveConfidenceLowThreshold
         case liveConfidenceHighThreshold
         case iosUniKeyLikeMode
+        case literalTechnicalTokens
     }
 
     private enum LegacyCodingKeys: String, CodingKey {
@@ -86,5 +90,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
             ?? defaults.liveConfidenceHighThreshold
         iosUniKeyLikeMode = try container.decodeIfPresent(Bool.self, forKey: .iosUniKeyLikeMode)
             ?? defaults.iosUniKeyLikeMode
+        literalTechnicalTokens = try container.decodeIfPresent(Bool.self, forKey: .literalTechnicalTokens)
+            ?? defaults.literalTechnicalTokens
     }
 }

@@ -72,6 +72,11 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.restoreInvalidWord)
                 )
                 settingToggle(
+                    .typingLiteralTechnicalTokens,
+                    description: .typingLiteralTechnicalTokensDescription,
+                    isOn: setting(\.typing.literalTechnicalTokens)
+                )
+                settingToggle(
                     .typingQuickTelexConsonants,
                     description: .typingQuickTelexConsonantsDescription,
                     isOn: setting(\.typing.quickTelexConsonants)

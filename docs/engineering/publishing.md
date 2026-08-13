@@ -137,7 +137,7 @@ library-evolution (ABI) stability for external consumers is not in effect.
 
 The stability contract that does exist is process-level, not ABI-level: the
 conventions require public API documentation at public boundaries
-(CONVENTIONS.md section 2), the README lists "Public API documentation"
+(rulebook.md section 2), the README lists "Public API documentation"
 among enforced quality practices, and the fitness tests keep the dependency
 direction stable. Those protect in-repo consumers; they do not constitute a
 versioned public API.

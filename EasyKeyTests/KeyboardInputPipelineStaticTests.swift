@@ -72,11 +72,18 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
         settings.typing.restoreInvalidWord = true
         settings.typing.toneStyle = .new
         settings.typing.iosUniKeyLikeMode = false
+        settings.typing.literalTechnicalTokens = false
 
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: nil)
         XCTAssertTrue(config.autoRestoreKeys)
         XCTAssertEqual(config.toneStyle, .new)
         XCTAssertFalse(config.iosUniKeyLikeMode)
+        XCTAssertFalse(config.literalTechnicalTokens)
+    }
+
+    func testEngineConfigurationTypingOptions_LiteralTechnicalTokensDefaultsToTrue() {
+        let config = KeyboardInputPipeline.engineConfiguration(for: .defaults, rule: nil)
+        XCTAssertTrue(config.literalTechnicalTokens)
     }
 
     func testKeyCodeFromEvent() {

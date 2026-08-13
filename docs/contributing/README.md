@@ -66,11 +66,11 @@ This section routes contributors to how EasyKey is built on: the repository-leve
 
 ## At a glance
 
-Contributing to EasyKey means following one repository-level process (owned by [CONTRIBUTING.md](../../CONTRIBUTING.md)), one rulebook (owned by [CONVENTIONS.md](../engineering/conventions.md)), and the concrete engineering workflows for building, testing, and releasing (owned by the [engineering](../engineering/README.md) section). Detailed documentation materialized inside this section will be listed below as it is written; today the routing is to the owning documents themselves.
+Contributing to EasyKey means following one repository-level process (owned by [CONTRIBUTING.md](../../CONTRIBUTING.md)), one rulebook (owned by [rulebook.md](../engineering/rulebook.md)), and the concrete engineering workflows for building, testing, and releasing (owned by the [engineering](../engineering/README.md) section). Detailed documentation materialized inside this section will be listed below as it is written; today the routing is to the owning documents themselves.
 
 ## Scope and boundaries
 
-This section owns *contribution routing*: who works on what and which process applies. It does not own the engineering workflow itself (setup, testing, conventions, release — see [engineering](../engineering/README.md)) or the rulebook ([CONVENTIONS.md](../engineering/conventions.md)); both are linked from here rather than restated. The repository-level contribution process lives in [CONTRIBUTING.md](../../CONTRIBUTING.md), the root router for this section.
+This section owns *contribution routing*: who works on what and which process applies. It does not own the engineering workflow itself (setup, testing, conventions, release — see [engineering](../engineering/README.md)) or the rulebook ([rulebook.md](../engineering/rulebook.md)); both are linked from here rather than restated. The repository-level contribution process lives in [CONTRIBUTING.md](../../CONTRIBUTING.md), the root router for this section.
 
 ## Start here
 
@@ -80,7 +80,7 @@ This section owns *contribution routing*: who works on what and which process ap
 | Set up your machine and build the project | [setup](../engineering/setup.md) |
 | Run the tests your change will be gated on | [testing](../engineering/testing.md) |
 | Follow the enforced style and design conventions | [conventions](../engineering/conventions.md) |
-| Read the authoritative rulebook | [CONVENTIONS.md](../engineering/conventions.md) |
+| Read the authoritative rulebook | [rulebook.md](../engineering/rulebook.md) |
 
 ## Detailed documentation
 
@@ -94,5 +94,5 @@ This section owns *contribution routing*: who works on what and which process ap
 
 - [Documentation home](../README.md) — the parent index of all sections.
 - [Contributing guide](../../CONTRIBUTING.md) — the root router for the contribution process (related, not a child).
-- [CONVENTIONS.md](../engineering/conventions.md) — the authoritative engineering rulebook (related, not a child).
+- [rulebook.md](../engineering/rulebook.md) — the authoritative engineering rulebook (related, not a child).
 - [Engineering](../engineering/README.md) — setup, testing, conventions, and release for contributors.
