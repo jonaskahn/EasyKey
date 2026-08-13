@@ -14,6 +14,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
     public var liveConfidenceHighThreshold: Double
     public var iosUniKeyLikeMode: Bool
     public var literalTechnicalTokens: Bool
+    public var ignoreFunctionKeys: Bool
 
     public init(
         spellCheck: Bool = true,
@@ -28,7 +29,8 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         liveConfidenceLowThreshold: Double = LiveConfidenceDefaults.lowThreshold,
         liveConfidenceHighThreshold: Double = LiveConfidenceDefaults.highThreshold,
         iosUniKeyLikeMode: Bool = true,
-        literalTechnicalTokens: Bool = true
+        literalTechnicalTokens: Bool = true,
+        ignoreFunctionKeys: Bool = true
     ) {
         self.spellCheck = spellCheck
         self.restoreInvalidWord = restoreInvalidWord
@@ -43,6 +45,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         self.liveConfidenceHighThreshold = liveConfidenceHighThreshold
         self.iosUniKeyLikeMode = iosUniKeyLikeMode
         self.literalTechnicalTokens = literalTechnicalTokens
+        self.ignoreFunctionKeys = ignoreFunctionKeys
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -59,6 +62,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
         case liveConfidenceHighThreshold
         case iosUniKeyLikeMode
         case literalTechnicalTokens
+        case ignoreFunctionKeys
     }
 
     private enum LegacyCodingKeys: String, CodingKey {
@@ -92,5 +96,7 @@ public struct TypingOptions: Codable, Equatable, Sendable {
             ?? defaults.iosUniKeyLikeMode
         literalTechnicalTokens = try container.decodeIfPresent(Bool.self, forKey: .literalTechnicalTokens)
             ?? defaults.literalTechnicalTokens
+        ignoreFunctionKeys = try container.decodeIfPresent(Bool.self, forKey: .ignoreFunctionKeys)
+            ?? defaults.ignoreFunctionKeys
     }
 }

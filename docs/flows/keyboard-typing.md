@@ -207,7 +207,7 @@ EasyKey intercepts system-wide keystrokes and transforms them into Vietnamese te
 
 1. **CGEvent tap captures system-wide keys.** `KeyboardEventTap.install` creates a `.cgSessionEventTap` at `.headInsertEventTap` for key and mouse events and adds its run-loop source; the callback runs on the main thread and forwards to `KeyboardService.handleTapEvent` (`KeyboardEventTap.swift:32-57`, `102-114`).
 2. **KeyboardService routes the event.** `handleTapEvent` lets self-posted events pass through untouched (`KeySynthesizer.isSelfPosted`), recovers `.tapDisabledByTimeout`/`.tapDisabledByUserInput` events, and runs `pipeline.process` on the serial `processingQueue`; a result with `suppressesOriginal` returns `nil` so the original event never reaches the app (`KeyboardService.swift:206-233`).
-3. **Pipeline applies transformation with Smart Switch language.** `process` checks the emergency pause shortcut, ignored applications (bypass + session reset), flags changes, mouse events (composition reset), the language-switch shortcut, the restore-word shortcut, and macros; when the language is Vietnamese and the input source is usable it normalizes the event and calls `engine.process` (`KeyboardInputPipeline.swift:146-209`).
+3. **Pipeline applies transformation with Smart Switch language.** `process` checks the emergency pause shortcut, ignored applications (bypass + session reset), flags changes, mouse events (composition reset), the language-switch shortcut, the restore-word shortcut, ignored function keys (flush + pass through when `typing.ignoreFunctionKeys` is on), and macros; when the language is Vietnamese and the input source is usable it normalizes the event and calls `engine.process` (`KeyboardInputPipeline.swift:110-182`).
 4. **Engine transforms per Telex/VNI rules.** `VietnameseEngine.process` feeds each keystroke into the buffer; `TelexComposer.compose` recomputes atoms and tone per keystroke — ordered tone placement (`toneTargetIndex`), position-free marks, repeat-to-undo (`PendingUndo`), checked-final tone restriction, quick consonants, standalone `w`/bracket shortcuts, and VNI digit rules (`VietnameseEngine.swift:75-162`; `TelexComposer.swift:70-96`, `102-137`). When live confidence scoring is enabled, low-confidence words may display raw keystrokes while composing; word boundaries still flush with Tier 1 spell-check restoration rules (`VietnameseEngine.swift` `resolvedBoundaryText`).
 5. **Macro expansion with loop detection.** `MacroExpander.consume` accumulates the trigger up to `MacroStore.maximumTriggerLength` and expands on a delimiter key (space, tab, return) when macros are enabled; `inMacroExpansion` guards re-entry as a secondary defense, and the primary defense is `KeySynthesizer.isSelfPosted` on the emitted events (`KeySynthesizer.swift:365-428`, `343-362`).
 6. **KeySynthesizer emits transformed output.** The pipeline's `apply` turns engine edits into posted events: `replaceBackward` (focused-text atomic replacement, selection replacement for Spotlight, physical backspace, or autocomplete-breaking), `deleteBackward`, and `insert` of unicode events tracked as encoded units; compatibility workarounds insert empty characters where needed (`KeyboardInputPipeline.swift:236-285`; `KeySynthesizer.swift:87-164`).
@@ -265,7 +265,17 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** the current keyboard input source is foreign (no English in `kTISPropertyInputSourceLanguages`) and `settings.compatibility.otherLanguageSupport` is off.
 
-**Then:** the event passes through and the session resets (`KeyboardInputPipeline.swift:188-193`, `570-579`); `KeyboardService.refreshInputSource` recomputes this on wake and start.
+**Then:** the event passes through and the session resets (`KeyboardInputPipeline.swift:158-166`); `KeyboardService.refreshInputSource` recomputes this on wake and start.
+
+**Rejoins at:** step 1.
+
+### Function keys while typing Vietnamese
+
+**Branches from step:** 3
+
+**Condition:** `typing.ignoreFunctionKeys` is on (default) and the keyDown is a function key (F1–F20).
+
+**Then:** the engine and synthesizer state are flushed and the event passes through untouched (disposition `.bypassed`), so function keys reach the active app instead of being composed as Vietnamese input. EasyKey shortcuts bound to a function key still take precedence because shortcut checks run first (`KeyboardInputPipeline.swift:148-152`).
 
 **Rejoins at:** step 1.
 
@@ -305,7 +315,7 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** the configured switch shortcut (keyDown or flagsChanged) or the restore-word shortcut matches with Vietnamese active.
 
-**Then:** the switch shortcut toggles the input language and suppresses the event; the restore shortcut calls `VietnameseEngine.restoreRawKeys`, which replaces the composed word with the raw keystrokes and freezes transformation per word (`KeyboardInputPipeline.swift:175-182`, `456-483`; `VietnameseEngine.swift:60-73`).
+**Then:** the switch shortcut toggles the input language and suppresses the event; the restore shortcut calls `VietnameseEngine.restoreRawKeys`, which replaces the composed word with the raw keystrokes and freezes transformation per word (`KeyboardInputPipeline.swift:139-146`, `350-364`, `378-390`; `VietnameseEngine.swift:60-73`).
 
 **Rejoins at:** step 1 (switch) or step 6 (restore edits are applied and posted).
 
@@ -319,7 +329,7 @@ Branches ordered by how often the trigger actually takes them.
 
 **Rejoins at:** step 6 (literal keystrokes are inserted as synthesized events) or step 1 (after the token's whitespace).
 
-**Other rules:** sentence-start capitalization applies per configuration when the buffer is empty (`VietnameseEngine.swift:90-95`); spell check with `autoRestoreKeys` decides whether an invalid composed word reverts to raw keys at word boundaries (`VietnameseEngine.swift:187-197`); mouse events and flags changes always reset composition state (`KeyboardInputPipeline.swift:158-167`).
+**Other rules:** sentence-start capitalization applies per configuration when the buffer is empty (`VietnameseEngine.swift:90-95`); spell check with `autoRestoreKeys` decides whether an invalid composed word reverts to raw keys at word boundaries (`VietnameseEngine.swift:187-197`); mouse events and flags changes always reset composition state (`KeyboardInputPipeline.swift:126-135`, `350-364`).
 
 ## Failure and recovery
 
@@ -365,7 +375,7 @@ Ordered by blast radius, most severe first. Evidence is the health states and re
 
 **Detected by:** `KeySynthesizer` event-creation failures (`makeUnicodeEvents`/`makePhysicalKeyEvents` returning nil, or a replacement strategy of `.failed`); `apply` returns false.
 
-**Immediate response:** the session resets and the original event passes through unmodified (`KeyboardInputPipeline.swift:204-208`, `264-266`).
+**Immediate response:** the session resets and the original event passes through unmodified (`KeyboardInputPipeline.swift:158-166`, `178-181`).
 
 **State left behind:** composition is cleared; the app received raw keystrokes.
 

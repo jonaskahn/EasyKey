@@ -106,4 +106,19 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
         let keyCode = KeyboardInputPipeline.keyCode(from: event)
         XCTAssertNotNil(keyCode)
     }
+
+    func testIsFunctionKey_AllFunctionKeys() {
+        let functionKeyCodes: [UInt16] = [122, 120, 99, 118, 96, 97, 98, 100, 101, 109,
+                                          103, 111, 105, 107, 113, 106, 64, 79, 80, 90]
+        for keyCode in functionKeyCodes {
+            XCTAssertTrue(KeyboardKeyCode.isFunctionKey(keyCode), "keyCode \(keyCode) should be a function key")
+        }
+    }
+
+    func testIsFunctionKey_NonFunctionKeys() {
+        let otherKeyCodes: [UInt16] = [0, 6, 36, 48, 49, 51, 53, 117, 123, 124, 125, 126]
+        for keyCode in otherKeyCodes {
+            XCTAssertFalse(KeyboardKeyCode.isFunctionKey(keyCode), "keyCode \(keyCode) is not a function key")
+        }
+    }
 }

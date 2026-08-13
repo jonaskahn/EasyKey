@@ -145,6 +145,12 @@ final class KeyboardInputPipeline {
             return restoreRawKeys(proxy: proxy)
         }
 
+        if settings.typing.ignoreFunctionKeys, KeyboardKeyCode.isFunctionKey(keyCode) {
+            engine.reset()
+            synthesizer.resetEncodedUnits()
+            return .bypassed
+        }
+
         if let macroResult = processMacro(proxy: proxy, keyCode: keyCode, event: event) {
             return macroResult
         }

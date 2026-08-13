@@ -67,6 +67,11 @@ struct TypingSettingsView: View {
                     isOn: setting(\.typing.iosUniKeyLikeMode)
                 )
                 settingToggle(
+                    .typingIgnoreFunctionKeys,
+                    description: .typingIgnoreFunctionKeysDescription,
+                    isOn: setting(\.typing.ignoreFunctionKeys)
+                )
+                settingToggle(
                     .typingRestoreInvalidWord,
                     description: .typingRestoreInvalidWordDescription,
                     isOn: setting(\.typing.restoreInvalidWord)

@@ -6940,6 +6940,40 @@
         }
       }
     },
+    "typing.ignoreFunctionKeys": {
+      "comment": "Toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pass function keys through"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bỏ qua phím chức năng"
+          }
+        }
+      }
+    },
+    "typing.ignoreFunctionKeys.description": {
+      "comment": "Pass function keys through setting description",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Let F1–F12 reach the active app instead of being treated as Vietnamese input while typing."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cho phép F1–F12 đi thẳng tới ứng dụng đang dùng thay vì bị xử lý như phím gõ tiếng Việt."
+          }
+        }
+      }
+    },
     "language.both": {
       "comment": "Macro category",
       "localizations": {

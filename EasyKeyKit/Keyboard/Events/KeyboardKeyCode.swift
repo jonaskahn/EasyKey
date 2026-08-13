@@ -18,4 +18,13 @@ enum KeyboardKeyCode {
     static let rightArrow: UInt16 = 124
     static let downArrow: UInt16 = 125
     static let upArrow: UInt16 = 126
+
+    static let functionKeyCodes: Set<UInt16> = [
+        122, 120, 99, 118, 96, 97, 98, 100, 101, 109,
+        103, 111, 105, 107, 113, 106, 64, 79, 80, 90,
+    ]
+
+    static func isFunctionKey(_ keyCode: UInt16) -> Bool {
+        functionKeyCodes.contains(keyCode)
+    }
 }

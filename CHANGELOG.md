@@ -113,6 +113,12 @@ _Last reviewed: 2026-08-03_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
 
+## [Unreleased]
+
+**Fixed**
+
+- Function keys (F1–F20) no longer get swallowed while typing Vietnamese: a new pass-function-keys-through option (on by default) flushes the composition and lets function keys reach the active app.
+
 ## [0.0.8] - 2026-08-11
 
 **Added**

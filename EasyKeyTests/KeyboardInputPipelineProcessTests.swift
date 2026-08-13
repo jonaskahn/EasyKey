@@ -442,4 +442,55 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 8)
         XCTAssertFalse(activated)
     }
+
+    func testProcess_FunctionKeyPassesThroughWhenIgnoredByDefault() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        let event = keyEvent(character: "\u{10}", keyCode: 111)
+
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 111)
+
+        XCTAssertEqual(result.disposition, .bypassed)
+        XCTAssertFalse(result.suppressesOriginal)
+    }
+
+    func testProcess_FunctionKeyMidCompositionFlushesAndPassesThrough() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        let aDown = keyEvent(character: "a", keyCode: 0)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: aDown, keyCode: 0)
+        XCTAssertTrue(pipeline.isComposing)
+
+        let f12Down = keyEvent(character: "\u{10}", keyCode: 111)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: f12Down, keyCode: 111)
+
+        XCTAssertEqual(result.disposition, .bypassed)
+        XCTAssertFalse(pipeline.isComposing)
+    }
+
+    func testProcess_FunctionKeyWhenIgnoringDisabled_IsSuppressed() {
+        var settings = EasyKeySettings.defaults
+        settings.typing.ignoreFunctionKeys = false
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        let event = keyEvent(character: "\u{10}", keyCode: 111)
+
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 111)
+
+        XCTAssertEqual(result.disposition, .suppressed)
+    }
+
+    func testProcess_FunctionKeyBoundAsSwitchShortcutStillTogglesLanguage() {
+        var settings = EasyKeySettings.defaults
+        settings.input.switchShortcut = Shortcut(keyCode: 111)
+        let pipeline = KeyboardInputPipeline(settings: settings)
+        let expectation = expectation(description: "toggle language")
+        pipeline.onLanguageToggleRequested = { language in
+            XCTAssertEqual(language, .english)
+            expectation.fulfill()
+        }
+
+        let event = keyEvent(character: "\u{10}", keyCode: 111)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: 111)
+
+        XCTAssertEqual(result.disposition, .suppressed)
+        wait(for: [expectation], timeout: 1.0)
+    }
 }
