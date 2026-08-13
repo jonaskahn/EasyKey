@@ -6,6 +6,9 @@ import SwiftUI
 final class SettingsWindowPresenter {
     private let localization: LocalizationStore
     private var settingsWindow: NSWindow?
+    private lazy var windowDelegate = SettingsWindowDelegate { [weak self] window in
+        self?.clearIfNeeded(window)
+    }
 
     init(localization: LocalizationStore) {
         self.localization = localization
@@ -44,8 +47,7 @@ final class SettingsWindowPresenter {
             window.titlebarAppearsTransparent = true
         }
         window.center()
-        SettingsWindowDelegate.shared.coordinator = coordinator
-        window.delegate = SettingsWindowDelegate.shared
+        window.delegate = windowDelegate
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         settingsWindow = window
@@ -85,13 +87,16 @@ final class SettingsWindowPresenter {
 
 /// Clears the presenter's settings-window retain when the user closes it,
 /// so the next open recreates a live window instead of ordering a closed one.
+/// Each presenter owns its delegate; no shared mutable state.
 final class SettingsWindowDelegate: NSObject, NSWindowDelegate {
-    static let shared = SettingsWindowDelegate()
+    private let onClose: (NSWindow) -> Void
 
-    weak var coordinator: AppCoordinator?
+    init(onClose: @escaping (NSWindow) -> Void) {
+        self.onClose = onClose
+    }
 
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
-        coordinator?.clearSettingsWindowIfNeeded(window)
+        onClose(window)
     }
 }

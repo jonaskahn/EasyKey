@@ -1,4 +1,17 @@
 import CoreGraphics
+import EasyEngineCore
+
+extension TranslationOptions.PanelSize {
+    var cgSize: CGSize {
+        switch self {
+        case .compact: CGSize(width: 440, height: 500)
+        case .small: CGSize(width: 480, height: 530)
+        case .medium: CGSize(width: 520, height: 560)
+        case .large: CGSize(width: 620, height: 660)
+        case .extraLarge: CGSize(width: 720, height: 780)
+        }
+    }
+}
 
 struct TranslationPanelScreenGeometry: Equatable {
     let frame: CGRect

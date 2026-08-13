@@ -57,7 +57,7 @@ final class SettingsRepositoryEdgeCaseTests: XCTestCase {
             $0.input.encoding = .tcvn3
             $0.typing.restoreInvalidWord = true
         }
-        let snapshot = repo.configurationSnapshot
+        let snapshot = EngineConfiguration(settings: repo.settings)
         XCTAssertEqual(snapshot.inputMethod, .vni)
         XCTAssertEqual(snapshot.outputEncoding, .tcvn3)
         XCTAssertTrue(snapshot.autoRestoreKeys)

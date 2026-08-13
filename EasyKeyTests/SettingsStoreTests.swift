@@ -131,7 +131,7 @@ final class SettingsStoreTests: XCTestCase {
             $0.input.inputMethod = .simpleTelex
             $0.typing.restoreInvalidWord = false
         }
-        let snapshot = store.configurationSnapshot
+        let snapshot = EngineConfiguration(settings: store.settings)
         XCTAssertEqual(snapshot.inputMethod, .simpleTelex)
         XCTAssertFalse(snapshot.autoRestoreKeys)
     }

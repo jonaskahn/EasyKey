@@ -393,7 +393,8 @@ final class AnthropicCompatProviderTests: XCTestCase {
             providerID: providerID,
             modelIdentifier: model,
             credentialStore: store,
-            session: session ?? anthropicCompatibleMockSession()
+            session: session ?? anthropicCompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
     }
 
@@ -546,7 +547,8 @@ final class AnthropicCompatProviderTests: XCTestCase {
             providerID: .anthropicCompatible,
             modelIdentifier: "claude-3-5-haiku",
             credentialStore: InMemoryTranslationCredentialStore(),
-            session: anthropicCompatibleMockSession()
+            session: anthropicCompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
         await assertTranslationError(.missingCredentials(provider: .anthropicCompatible)) {
             try await missing.translate(self.makeRequest())
@@ -562,7 +564,8 @@ final class AnthropicCompatProviderTests: XCTestCase {
             providerID: .anthropicCompatible,
             modelIdentifier: "claude-3-5-haiku",
             credentialStore: ThrowingCredentialStore(),
-            session: anthropicCompatibleMockSession()
+            session: anthropicCompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
         do {
             _ = try await unreadable.translate(makeRequest())

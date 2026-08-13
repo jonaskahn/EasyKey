@@ -25,4 +25,22 @@ public enum TransformEngine {
             toneStyle: configuration.toneStyle
         )
     }
+
+    /// Per-atom encoded units of the buffer. Platform layers use the UTF-16
+    /// counts of these units for deletion counting without inspecting engine
+    /// internals.
+    public static func encodeUnits(
+        _ state: SessionState,
+        configuration: EngineConfiguration
+    ) -> [String] {
+        let toneTarget = TelexComposer.toneTargetIndex(atoms: state.atoms, style: configuration.toneStyle)
+        return state.atoms.enumerated().map { index, atom in
+            encode(
+                atoms: [atom],
+                tone: index == toneTarget ? state.tone : .none,
+                encoding: configuration.outputEncoding,
+                toneStyle: configuration.toneStyle
+            )
+        }
+    }
 }

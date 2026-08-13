@@ -1091,7 +1091,11 @@ final class ViewRenderingCoverageTests: XCTestCase {
 
     func testEncodingSettingsView_Renders() {
         render {
-            EncodingSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+            EncodingSettingsView(
+                settingsStore: coordinator.settingsStore,
+                coordinator: coordinator,
+                copyPreviewAction: { _ in }
+            )
         }
     }
 

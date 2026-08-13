@@ -8,8 +8,6 @@ public final class KeySynthesizer {
 
     enum ReplacementStrategy: Equatable {
         case failed
-        case atomicFocusedText
-        case atomicFocusedTextCaretUnknown
         case selectionReplacement
         case breakAutocompleteAndBackspace
         case physicalBackspace
@@ -28,7 +26,6 @@ public final class KeySynthesizer {
 
     private static let selfPostedEventMarker: Int64 = 0x45_4153_594B_4559
 
-    private let focusedTextReplacer: ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult
     private let eventFactory: EventFactory
     private let eventPoster: EventPoster
     private var encodedUnitStack: [EncodedUnit] = []
@@ -36,7 +33,6 @@ public final class KeySynthesizer {
 
     public init() {
         let eventSource = CGEventSource(stateID: .privateState)
-        focusedTextReplacer = FocusedElementInspector.replaceFocusedText
         eventFactory = { keyCode, keyDown in
             CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(keyCode), keyDown: keyDown)
         }
@@ -44,11 +40,9 @@ public final class KeySynthesizer {
     }
 
     init(
-        focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult,
         eventFactory: EventFactory? = nil,
         eventPoster: @escaping EventPoster = { event, proxy in event.tapPostEvent(proxy) }
     ) {
-        self.focusedTextReplacer = focusedTextReplacer
         self.eventPoster = eventPoster
         if let eventFactory {
             self.eventFactory = eventFactory
@@ -99,28 +93,9 @@ public final class KeySynthesizer {
         deleteCount: Int,
         insert text: String,
         encodedUnits: [String],
-        useFocusedTextReplacement: Bool,
         useSelectionReplacement: Bool = false,
         breakAutocomplete: Bool = false
     ) -> ReplacementStrategy {
-        if useFocusedTextReplacement,
-           !pendingEmptyCharacter,
-           deleteCount >= 0,
-           deleteCount <= encodedUnitStack.count {
-            let deletedLengths = encodedUnitStack.suffix(deleteCount).map(\.utf16Count)
-            switch focusedTextReplacer(deletedLengths, text) {
-            case .succeeded:
-                _ = removeEncodedUnits(deleteCount)
-                trackEncodedUnits(encodedUnits)
-                return .atomicFocusedText
-            case .valueChangedCaretUnknown:
-                resetEncodedUnits()
-                return .atomicFocusedTextCaretUnknown
-            case .failed:
-                break
-            }
-        }
-
         if useSelectionReplacement {
             let selectionCount = selectionDeleteCount(deleteCount)
             guard let selectionEvents = makePhysicalKeyEvents(
@@ -135,7 +110,7 @@ public final class KeySynthesizer {
             return .selectionReplacement
         }
 
-        let shouldBreakAutocomplete = breakAutocomplete || useFocusedTextReplacement
+        let shouldBreakAutocomplete = breakAutocomplete
         guard let insertionEvents = makeUnicodeEvents(text),
               let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? "\u{202F}" : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(

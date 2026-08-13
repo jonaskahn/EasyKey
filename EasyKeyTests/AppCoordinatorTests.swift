@@ -175,11 +175,6 @@ final class AppCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
-    func testClearSettingsWindowIfNeeded_DoesNotCrash() {
-        let window = NSWindow()
-        coordinator.clearSettingsWindowIfNeeded(window)
-    }
-
     func testRestartKeyboardService_WhenNotPaused_RefreshesPermission() {
         coordinator.restartKeyboardService()
     }

@@ -59,6 +59,89 @@ private final class FakeModelCatalog: TranslationModelCatalogProviding, @uncheck
     }
 }
 
+private final class GatedModelCatalog: TranslationModelCatalogProviding, @unchecked Sendable {
+    private typealias Continuation = AsyncStream<Result<[TranslationModelCatalogEntry], TranslationModelCatalogError>>.Continuation
+
+    private struct Pending {
+        let provider: TranslationProviderID
+        let continuation: Continuation
+    }
+
+    private let lock = NSLock()
+    private var waiters: [Pending] = []
+
+    var pendingProviders: [TranslationProviderID] {
+        lock.lock()
+        defer { lock.unlock() }
+        return waiters.map(\.provider)
+    }
+
+    func fetchModels(
+        for provider: TranslationProviderID
+    ) async throws(TranslationModelCatalogError) -> [TranslationModelCatalogEntry] {
+        let stream = AsyncStream<Result<[TranslationModelCatalogEntry], TranslationModelCatalogError>> { continuation in
+            lock.lock()
+            waiters.append(Pending(provider: provider, continuation: continuation))
+            lock.unlock()
+        }
+        for await result in stream {
+            switch result {
+            case let .success(entries): return entries
+            case let .failure(error): throw error
+            }
+        }
+        throw TranslationModelCatalogError.requestFailed(status: -1)
+    }
+
+    func resolve(
+        _ provider: TranslationProviderID,
+        with result: Result<[TranslationModelCatalogEntry], TranslationModelCatalogError>
+    ) {
+        lock.lock()
+        guard let index = waiters.firstIndex(where: { $0.provider == provider }) else {
+            lock.unlock()
+            return
+        }
+        let waiter = waiters.remove(at: index)
+        lock.unlock()
+        waiter.continuation.yield(result)
+        waiter.continuation.finish()
+    }
+}
+
+@MainActor
+private final class GatedCredentialValidator: TranslationCredentialValidating {
+    private struct Pending {
+        let provider: TranslationProviderID
+        let continuation: CheckedContinuation<Bool, any Error>
+    }
+
+    private var waiters: [Pending] = []
+
+    var pendingProviders: [TranslationProviderID] {
+        waiters.map(\.provider)
+    }
+
+    func validate(
+        _: String,
+        for provider: TranslationProviderID,
+        options _: TranslationOptions
+    ) async throws -> Bool {
+        try await withCheckedThrowingContinuation { continuation in
+            waiters.append(Pending(provider: provider, continuation: continuation))
+        }
+    }
+
+    func resolve(_ provider: TranslationProviderID, with result: Result<Bool, any Error>) {
+        guard let index = waiters.lastIndex(where: { $0.provider == provider }) else { return }
+        let waiter = waiters.remove(at: index)
+        switch result {
+        case let .success(valid): waiter.continuation.resume(returning: valid)
+        case let .failure(error): waiter.continuation.resume(throwing: error)
+        }
+    }
+}
+
 @MainActor
 final class TranslationSettingsModelTests: XCTestCase {
     private var directory: URL!
@@ -531,17 +614,124 @@ final class TranslationSettingsModelTests: XCTestCase {
         XCTAssertNil(model.modelCatalogStates[.deepL])
     }
 
+    func testLoadModelCatalog_DeleteWhileLoadingStaysIdle() async {
+        let gated = GatedModelCatalog()
+        let model = makeModel(modelCatalog: gated)
+        model.saveCredential("test-key", for: .openAI)
+        await waitUntil { gated.pendingProviders.contains(.openAI) }
+        model.deleteCredential(for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .idle)
+        gated.resolve(.openAI, with: .success([
+            TranslationModelCatalogEntry(identifier: "gpt-4.1", displayName: "GPT 4.1"),
+        ]))
+        await waitForMainActorDrain()
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .idle)
+    }
+
+    func testLoadModelCatalog_SecondLoadWins() async {
+        let gated = GatedModelCatalog()
+        let model = makeModel(modelCatalog: gated)
+        model.saveCredential("test-key", for: .openAI)
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+        await waitUntil { gated.pendingProviders.count == 1 }
+
+        model.loadModelCatalog(for: .openAI)
+        await waitUntil { gated.pendingProviders.count == 2 }
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+
+        gated.resolve(.openAI, with: .success([
+            TranslationModelCatalogEntry(identifier: "stale", displayName: "Stale"),
+        ]))
+        await waitForMainActorDrain()
+        XCTAssertEqual(model.modelCatalogStates[.openAI], .loading)
+
+        gated.resolve(.openAI, with: .success([
+            TranslationModelCatalogEntry(identifier: "fresh", displayName: "Fresh"),
+        ]))
+        await waitForMainActorDrain()
+        let currentIdentifier = model.modelIdentifier(for: .openAI) ?? ""
+        XCTAssertEqual(
+            model.modelCatalogStates[.openAI],
+            .loaded([
+                TranslationModelCatalogEntry(identifier: "fresh", displayName: "Fresh"),
+                TranslationModelCatalogEntry(identifier: currentIdentifier, displayName: currentIdentifier),
+            ])
+        )
+    }
+
+    func testValidateCredential_CanceledByDeletionCannotSave() async {
+        let gated = GatedCredentialValidator()
+        let model = makeModel(credentialValidator: gated)
+        let validation = Task {
+            await model.validateCredential("stale-key", for: .openAI)
+        }
+        await waitUntil { !gated.pendingProviders.isEmpty }
+
+        model.deleteCredential(for: .openAI)
+        gated.resolve(.openAI, with: .success(true))
+        let saved = await validation.value
+        XCTAssertFalse(saved)
+        XCTAssertEqual(model.credentialStatuses[.openAI], .missing)
+        XCTAssertFalse(model.storedCredentialProviders.contains(.openAI))
+        XCTAssertNil(try credentialStore.credential(for: .openAI))
+    }
+
+    func testValidateCredential_StaleFailureCannotReplaceNewerSuccess() async {
+        let gated = GatedCredentialValidator()
+        let model = makeModel(credentialValidator: gated)
+        let stale = Task {
+            await model.validateCredential("stale-key", for: .openAI)
+        }
+        await waitUntil { gated.pendingProviders.count == 1 }
+
+        let newer = Task {
+            await model.validateCredential("newer-key", for: .openAI)
+        }
+        await waitUntil { gated.pendingProviders.count == 2 }
+
+        gated.resolve(.openAI, with: .success(true))
+        let newerResult = await newer.value
+        XCTAssertTrue(newerResult)
+        XCTAssertEqual(model.credentialStatuses[.openAI], .ready)
+        XCTAssertEqual(try credentialStore.credential(for: .openAI), "newer-key")
+
+        gated.resolve(.openAI, with: .success(false))
+        let staleResult = await stale.value
+        XCTAssertFalse(staleResult)
+        XCTAssertEqual(model.credentialStatuses[.openAI], .ready)
+        XCTAssertEqual(try credentialStore.credential(for: .openAI), "newer-key")
+    }
+
     private func makeModel(
         supportsApple: Bool = false,
-        shortcutApplier: TranslationSettingsModel.ShortcutApplier? = nil
+        shortcutApplier: TranslationSettingsModel.ShortcutApplier? = nil,
+        credentialValidator: TranslationCredentialValidating? = nil,
+        modelCatalog: TranslationModelCatalogProviding? = nil
     ) -> TranslationSettingsModel {
         TranslationSettingsModel(
             settingsStore: settingsStore,
             platformCapability: TranslationPlatformCapability(supportsAppleTranslation: supportsApple),
             credentialStore: credentialStore,
-            credentialValidator: validator,
+            credentialValidator: credentialValidator ?? validator,
+            modelCatalog: modelCatalog,
             shortcutApplier: shortcutApplier
         )
+    }
+
+    private func waitForMainActorDrain() async {
+        for _ in 0 ..< 20 {
+            await Task.yield()
+        }
+    }
+
+    private func waitUntil(_ condition: @MainActor () -> Bool) async {
+        for _ in 0 ..< 1000 {
+            if condition() {
+                return
+            }
+            await Task.yield()
+        }
+        XCTFail("Timed out waiting for condition")
     }
 }
 

@@ -29,8 +29,8 @@ final class TranslationSettingsModel: ObservableObject {
     let modelCatalog: TranslationModelCatalogProviding
     private var catalogGenerations: [TranslationProviderID: UInt64] = [:]
     private var catalogTasks: [TranslationProviderID: Task<Void, Never>] = [:]
-    private var validationTask: Task<Void, Never>?
-    private var validationGeneration: UInt64 = 0
+    private var validationGenerations: [TranslationProviderID: UInt64] = [:]
+    private var validationTasks: [TranslationProviderID: Task<Bool, Never>] = [:]
     var shortcutApplier: ShortcutApplier?
     var onCredentialsChange: (() -> Void)?
     var onEnabledChange: (() -> Void)?
@@ -325,34 +325,48 @@ final class TranslationSettingsModel: ObservableObject {
             lastCredentialErrorProvider = provider
             return false
         }
+        cancelValidation(for: provider)
+        let generation = validationGenerations[provider] ?? 0
         credentialStatuses[provider] = .validating
-        do {
-            let valid = try await credentialValidator.validate(
-                trimmed,
-                for: provider,
-                options: settingsStore.settings.translation
-            )
-            guard valid else {
+        let task = Task<Bool, Never> {
+            do {
+                let valid = try await credentialValidator.validate(
+                    trimmed,
+                    for: provider,
+                    options: settingsStore.settings.translation
+                )
+                guard generation == validationGenerations[provider] ?? 0,
+                      credentialStatuses[provider] != .missing
+                else { return false }
+                guard valid else {
+                    credentialStatuses[provider] = .invalid
+                    lastCredentialErrorProvider = provider
+                    return false
+                }
+                try credentialStore.save(trimmed, for: provider)
+                storedCredentialProviders.insert(provider)
+                credentialStatuses[provider] = .ready
+                lastCredentialErrorProvider = nil
+                onCredentialsChange?()
+                loadModelCatalog(for: provider)
+                return true
+            } catch is CancellationError {
+                return false
+            } catch {
+                guard generation == validationGenerations[provider] ?? 0 else { return false }
+                AppLog.error(.translation, "Failed to validate credential for \(provider.rawValue): \(error)")
                 credentialStatuses[provider] = .invalid
                 lastCredentialErrorProvider = provider
                 return false
             }
-            try credentialStore.save(trimmed, for: provider)
-            storedCredentialProviders.insert(provider)
-            credentialStatuses[provider] = .ready
-            lastCredentialErrorProvider = nil
-            onCredentialsChange?()
-            loadModelCatalog(for: provider)
-            return true
-        } catch {
-            AppLog.error(.translation, "Failed to validate credential for \(provider.rawValue): \(error)")
-            credentialStatuses[provider] = .invalid
-            lastCredentialErrorProvider = provider
-            return false
         }
+        validationTasks[provider] = task
+        return await task.value
     }
 
     func deleteCredential(for provider: TranslationProviderID) {
+        cancelValidation(for: provider)
+        cancelModelCatalogLoad(for: provider)
         do {
             try credentialStore.deleteCredential(for: provider)
             storedCredentialProviders.remove(provider)
@@ -388,35 +402,6 @@ final class TranslationSettingsModel: ObservableObject {
         }
     }
 
-    func loadModelCatalog(for provider: TranslationProviderID) {
-        guard provider.isOfficialAIModelProvider,
-              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready || provider == .openRouter
-        else { return }
-        cancelModelCatalogLoad(for: provider)
-        modelCatalogStates[provider] = .loading
-        let catalog = modelCatalog
-        catalogTasks[provider] = Task { [weak self] in
-            let entries: [TranslationModelCatalogEntry]
-            do {
-                entries = try await catalog.fetchModels(for: provider)
-            } catch {
-                await MainActor.run {
-                    self?.modelCatalogStates[provider] = .failed
-                }
-                return
-            }
-            let currentID = self?.modelIdentifier(for: provider)
-            var merged = entries
-            if let currentID,
-               !merged.contains(where: { $0.identifier == currentID }) {
-                merged.append(TranslationModelCatalogEntry(identifier: currentID, displayName: currentID))
-            }
-            await MainActor.run {
-                self?.modelCatalogStates[provider] = .loaded(merged)
-            }
-        }
-    }
-
     static func isValidModelIdentifier(_ identifier: String, for provider: TranslationProviderID) -> Bool {
         let length = identifier.utf8.count
         guard (1 ... maximumModelIdentifierLength).contains(length) else { return false }
@@ -426,11 +411,59 @@ final class TranslationSettingsModel: ObservableObject {
         }
         return identifier.unicodeScalars.allSatisfy(allowed.contains)
     }
+}
+
+extension TranslationSettingsModel {
+    func loadModelCatalog(for provider: TranslationProviderID) {
+        guard provider.isOfficialAIModelProvider,
+              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready || provider == .openRouter
+        else { return }
+        cancelModelCatalogLoad(for: provider)
+        let generation = catalogGenerations[provider] ?? 0
+        modelCatalogStates[provider] = .loading
+        let catalog = modelCatalog
+        catalogTasks[provider] = Task { [weak self] in
+            let entries: [TranslationModelCatalogEntry]
+            do {
+                entries = try await catalog.fetchModels(for: provider)
+            } catch {
+                self?.applyCatalogResult(entries: nil, for: provider, generation: generation)
+                return
+            }
+            var merged = entries
+            if let self, let currentID = self.modelIdentifier(for: provider),
+               !merged.contains(where: { $0.identifier == currentID }) {
+                merged.append(TranslationModelCatalogEntry(identifier: currentID, displayName: currentID))
+            }
+            self?.applyCatalogResult(entries: merged, for: provider, generation: generation)
+        }
+    }
+
+    func applyCatalogResult(
+        entries: [TranslationModelCatalogEntry]?,
+        for provider: TranslationProviderID,
+        generation: UInt64
+    ) {
+        guard catalogGenerations[provider] == generation,
+              credentialStatuses[provider] == .saved || credentialStatuses[provider] == .ready || provider == .openRouter
+        else { return }
+        if let entries {
+            modelCatalogStates[provider] = .loaded(entries)
+        } else {
+            modelCatalogStates[provider] = .failed
+        }
+    }
 
     func cancelModelCatalogLoad(for provider: TranslationProviderID) {
         catalogTasks[provider]?.cancel()
         catalogTasks[provider] = nil
         catalogGenerations[provider] = (catalogGenerations[provider] ?? 0) &+ 1
+    }
+
+    func cancelValidation(for provider: TranslationProviderID) {
+        validationTasks[provider]?.cancel()
+        validationTasks[provider] = nil
+        validationGenerations[provider] = (validationGenerations[provider] ?? 0) &+ 1
     }
 }
 

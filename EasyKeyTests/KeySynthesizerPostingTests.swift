@@ -45,7 +45,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
 
     func testPostUnicodeText_EventCreationFailureDoesNotTrackUnits() {
         let synthesizer = KeySynthesizer(
-            focusedTextReplacer: { _, _ in .failed },
             eventFactory: { _, _ in nil }
         )
 
@@ -100,21 +99,7 @@ final class KeySynthesizerPostingTests: XCTestCase {
             proxy: fakeProxy(),
             deleteCount: 1,
             insert: "oa",
-            encodedUnits: ["o", "a"],
-            useFocusedTextReplacement: false
-        )
-        XCTAssertEqual(synthesizer.encodedUnitCount, 3)
-    }
-
-    func testReplaceBackward_WithFocusedTextReplacementFallback() {
-        let synthesizer = KeySynthesizer()
-        synthesizer.trackEncodedUnits(["h", "o"])
-        synthesizer.replaceBackward(
-            proxy: fakeProxy(),
-            deleteCount: 1,
-            insert: "oa",
-            encodedUnits: ["o", "a"],
-            useFocusedTextReplacement: true
+            encodedUnits: ["o", "a"]
         )
         XCTAssertEqual(synthesizer.encodedUnitCount, 3)
     }
@@ -127,7 +112,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
             deleteCount: 1,
             insert: "oa",
             encodedUnits: ["o", "a"],
-            useFocusedTextReplacement: false,
             breakAutocomplete: true
         )
         XCTAssertEqual(synthesizer.encodedUnitCount, 3)
@@ -139,8 +123,7 @@ final class KeySynthesizerPostingTests: XCTestCase {
             proxy: fakeProxy(),
             deleteCount: 0,
             insert: "x",
-            encodedUnits: ["x"],
-            useFocusedTextReplacement: false
+            encodedUnits: ["x"]
         )
         XCTAssertEqual(synthesizer.encodedUnitCount, 1)
     }
@@ -214,7 +197,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
 
     func testPostMacroExpansion_EventCreationFailure_ReturnsFalseWithoutTracking() {
         let synthesizer = KeySynthesizer(
-            focusedTextReplacer: { _, _ in .failed },
             eventFactory: { _, _ in nil }
         )
 
@@ -303,7 +285,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
 
     func testPostPhysicalKey_EventCreationFailure_DoesNotCrash() {
         let synthesizer = KeySynthesizer(
-            focusedTextReplacer: { _, _ in .failed },
             eventFactory: { _, _ in nil }
         )
         synthesizer.postPhysicalKey(proxy: fakeProxy(), keyCode: 6)

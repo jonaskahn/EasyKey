@@ -32,44 +32,6 @@ final class KitCoverageGapTests: XCTestCase {
 
     // MARK: - FocusedElementInspector
 
-    func testReplacement_ValidCase_ProducesValueAndCaret() {
-        let result = FocusedElementInspector.replacement(
-            value: "hell",
-            selectedRange: NSRange(location: 4, length: 0),
-            deletedUnitLengths: [1, 1, 1, 1],
-            replacement: "hi"
-        )
-        XCTAssertEqual(result?.value, "hi")
-        XCTAssertEqual(result?.caretRange, NSRange(location: 2, length: 0))
-    }
-
-    func testReplacement_OutOfBoundsSelection_ReturnsNil() {
-        XCTAssertNil(FocusedElementInspector.replacement(
-            value: "abc",
-            selectedRange: NSRange(location: 1, length: 3),
-            deletedUnitLengths: [],
-            replacement: "x"
-        ))
-    }
-
-    func testReplacement_NegativeDeletedUnitLength_ReturnsNil() {
-        XCTAssertNil(FocusedElementInspector.replacement(
-            value: "abc",
-            selectedRange: NSRange(location: 2, length: 0),
-            deletedUnitLengths: [-1],
-            replacement: "x"
-        ))
-    }
-
-    func testReplacement_DeletedLengthOverflow_ReturnsNil() {
-        XCTAssertNil(FocusedElementInspector.replacement(
-            value: "abc",
-            selectedRange: NSRange(location: 0, length: 0),
-            deletedUnitLengths: [Int.max, 1],
-            replacement: "x"
-        ))
-    }
-
     func testIsChromiumAddressBar_DoesNotCrash() {
         _ = FocusedElementInspector.isChromiumAddressBar()
         _ = FocusedElementInspector.isChromiumAddressBar()

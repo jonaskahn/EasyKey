@@ -19,23 +19,29 @@ struct AnthropicCompatibleTranslationProvider: TranslationProviding, Translation
     private let modelIdentifier: String
     private let credentialStore: TranslationCredentialStoring
     private let session: URLSession
+    private let hostResolver: HostResolver
 
     init(
         endpoint: URL,
         providerID: TranslationProviderID,
         modelIdentifier: String,
         credentialStore: TranslationCredentialStoring,
-        session: URLSession = TranslationNetworkSession.ephemeral
+        session: URLSession = TranslationNetworkSession.ephemeral,
+        hostResolver: HostResolver = .system
     ) {
         self.endpoint = ValidatedTranslationEndpoint(endpoint)
         self.providerID = providerID
         self.modelIdentifier = modelIdentifier
         self.credentialStore = credentialStore
         self.session = session
+        self.hostResolver = hostResolver
     }
 
     nonisolated func translate(_ request: TranslationRequest) async throws -> TranslationResponse {
         guard let endpoint else {
+            throw EasyEngineCore.TranslationError.providerUnavailable(provider: providerID, httpStatus: nil)
+        }
+        guard await endpoint.validateHostSafety(resolver: hostResolver) else {
             throw EasyEngineCore.TranslationError.providerUnavailable(provider: providerID, httpStatus: nil)
         }
         guard Self.isValidModelIdentifier(modelIdentifier) else {

@@ -41,6 +41,12 @@ public final class KeyboardService {
     public var pauseHandler: (@MainActor @Sendable (Bool) -> Void)?
     public var languageToggleHandler: (@MainActor @Sendable (InputLanguage) -> Void)?
 
+    private enum DesiredServiceState {
+        case stopped
+        case running
+        case paused
+    }
+
     private let processingQueue = DispatchQueue(label: "com.easykey.keyboard-event-processing")
     private let eventTap: KeyboardEventTap
     private let pipeline: KeyboardInputPipeline
@@ -48,6 +54,7 @@ public final class KeyboardService {
 
     private var didRequestAccessibilityPrompt = false
     private var isPaused = false
+    private var desiredState: DesiredServiceState = .stopped
 
     public init(settings: EasyKeySettings = .defaults) {
         eventTap = KeyboardEventTap(eventMask: KeyboardInputPipeline.makeEventMask())
@@ -65,16 +72,15 @@ public final class KeyboardService {
 
     public func start() {
         AppLog.info(.keyboard, "KeyboardService start requested")
+        if desiredState != .paused {
+            desiredState = .running
+        }
         eventTap.installWorkspaceObserversIfNeeded(
             onSleep: { [weak self] in
-                AppLog.notice(.keyboard, "System sleep — tearing down event tap")
-                self?.eventTap.tearDown()
-                self?.setHealth(.degraded)
+                self?.handleSystemSleep()
             },
             onWake: { [weak self] in
-                AppLog.notice(.keyboard, "System wake — refreshing permission")
-                self?.refreshInputSource()
-                self?.refreshPermission()
+                self?.handleSystemWake()
             }
         )
         refreshInputSource()
@@ -84,6 +90,7 @@ public final class KeyboardService {
 
     public func stop() {
         AppLog.info(.keyboard, "KeyboardService stop requested")
+        desiredState = .stopped
         eventTap.tearDown()
         setHealth(.stopped)
     }
@@ -107,9 +114,7 @@ public final class KeyboardService {
             setHealth(.requestingPermission)
             return
         }
-        if !isPaused {
-            startIfPermitted()
-        }
+        startIfPermitted()
     }
 
     public func update(settings: EasyKeySettings) {
@@ -172,6 +177,7 @@ public final class KeyboardService {
     public func setPaused(_ paused: Bool) {
         guard paused != isPaused else { return }
         isPaused = paused
+        desiredState = paused ? .paused : .running
         AppLog.info(.keyboard, "Keyboard pause=\(paused)")
         if paused {
             eventTap.tearDown()
@@ -182,8 +188,24 @@ public final class KeyboardService {
         pauseHandler?(paused)
     }
 
+    private func handleSystemSleep() {
+        AppLog.notice(.keyboard, "System sleep — tearing down event tap")
+        eventTap.tearDown()
+        if desiredState == .running {
+            setHealth(.degraded)
+        } else {
+            setHealth(.stopped)
+        }
+    }
+
+    public func handleSystemWake() {
+        AppLog.notice(.keyboard, "System wake — refreshing permission")
+        refreshInputSource()
+        startIfPermitted()
+    }
+
     private func startIfPermitted() {
-        guard !isPaused else {
+        guard desiredState == .running else {
             setHealth(.stopped)
             return
         }

@@ -319,34 +319,22 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         _ = SpotlightWindowDetector.isSpotlightWindowVisible()
     }
 
-    func testProcess_SpotlightToneRewrite_NeverInvokesFocusedTextReplacer() {
-        var replacerCallCount = 0
+    func testProcess_SpotlightToneRewrite_DoesNotCrash() {
         let pipeline = KeyboardInputPipeline(
             settings: .defaults,
-            spotlightVisibilityProvider: { true },
-            focusedTextReplacer: { _, _ in
-                replacerCallCount += 1
-                return .succeeded
-            }
+            spotlightVisibilityProvider: { true }
         )
 
         for (character, keyCode) in [("c", UInt16(8)), ("a", 0), ("s", 1)] {
             let event = keyEvent(character: character, keyCode: keyCode)
             _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
         }
-
-        XCTAssertEqual(replacerCallCount, 0)
     }
 
-    func testProcess_SpotlightPlainBackspace_NeverInvokesFocusedTextReplacer() {
-        var replacerCallCount = 0
+    func testProcess_SpotlightPlainBackspace_DoesNotCrash() {
         let pipeline = KeyboardInputPipeline(
             settings: .defaults,
-            spotlightVisibilityProvider: { true },
-            focusedTextReplacer: { _, _ in
-                replacerCallCount += 1
-                return .succeeded
-            }
+            spotlightVisibilityProvider: { true }
         )
 
         let insert = keyEvent(character: "a", keyCode: 0)
@@ -354,8 +342,6 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
         let backspace = keyEvent(character: "", keyCode: 51)
         _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: backspace, keyCode: 51)
-
-        XCTAssertEqual(replacerCallCount, 0)
     }
 
     func testSpotlightReplacementBreaksAutocomplete() {

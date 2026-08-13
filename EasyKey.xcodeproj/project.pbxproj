@@ -29,7 +29,6 @@
 		0D0000000000000000000001 /* TranslationHotKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000011 /* TranslationHotKeyController.swift */; };
 		0D0000000000000000000002 /* TranslationHotKeyControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000012 /* TranslationHotKeyControllerTests.swift */; };
 		0D1EE682B3ACE4B0912FB5AA /* TranslationLanguagePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87209C7080056B3BB1899893 /* TranslationLanguagePolicy.swift */; };
-		0DABA53C8B38708A5BF05A27 /* FocusedElementInspectorExtendedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */; };
 		0E0000000000000000000001 /* TranslationPanelGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000011 /* TranslationPanelGeometry.swift */; };
 		0E0000000000000000000002 /* TranslationPanelPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000012 /* TranslationPanelPresenter.swift */; };
 		0E0000000000000000000003 /* TranslationPanelGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0000000000000000000013 /* TranslationPanelGeometryTests.swift */; };
@@ -265,6 +264,7 @@
 		T7000000000000000F /* KeySynthesizerUtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T8000000000000000F /* KeySynthesizerUtilityTests.swift */; };
 		T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000010 /* KeyboardPipelineCoverageTests.swift */; };
 		T70000000000000011 /* LiveConfidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000011 /* LiveConfidenceTests.swift */; };
+		T70000000000000012 /* KeyboardServiceSleepWakeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000012 /* KeyboardServiceSleepWakeTests.swift */; };
 		EAF1000000000000000001 /* AccessibilityRePromptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000001 /* AccessibilityRePromptTests.swift */; };
 		EAF1000000000000000002 /* AppCoordinatorConcurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000002 /* AppCoordinatorConcurrencyTests.swift */; };
 		EAF1000000000000000003 /* AppCoordinatorLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000003 /* AppCoordinatorLifecycleTests.swift */; };
@@ -446,7 +446,6 @@
 		190000000000000000000012 /* AppTranslationRuntimeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppTranslationRuntimeTests.swift; sourceTree = "<group>"; };
 		201F21301E9E70A2110E6424 /* AppleTranslationProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppleTranslationProvider.swift; sourceTree = "<group>"; };
 		21559D828E582B968D3AA715 /* LoginItemControllerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LoginItemControllerTests.swift; sourceTree = "<group>"; };
-		21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FocusedElementInspectorExtendedTests.swift; sourceTree = "<group>"; };
 		261F1F9474E725EF68D7E268 /* InputLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputLanguage.swift; sourceTree = "<group>"; };
 		269D3453A4B74B408D59CD25 /* EasyKeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyKeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2819AC3316AE0E5E6D8B30F4 /* SessionSlotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionSlotTests.swift; sourceTree = "<group>"; };
@@ -664,6 +663,7 @@
 		T8000000000000000F /* KeySynthesizerUtilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySynthesizerUtilityTests.swift; sourceTree = "<group>"; };
 		T80000000000000010 /* KeyboardPipelineCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPipelineCoverageTests.swift; sourceTree = "<group>"; };
 		T80000000000000011 /* LiveConfidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConfidenceTests.swift; sourceTree = "<group>"; };
+		T80000000000000012 /* KeyboardServiceSleepWakeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceSleepWakeTests.swift; sourceTree = "<group>"; };
 		EAF0000000000000000001 /* AccessibilityRePromptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityRePromptTests.swift; sourceTree = "<group>"; };
 		EAF0000000000000000002 /* AppCoordinatorConcurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorConcurrencyTests.swift; sourceTree = "<group>"; };
 		EAF0000000000000000003 /* AppCoordinatorLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorLifecycleTests.swift; sourceTree = "<group>"; };
@@ -908,6 +908,7 @@
 				C3D100000000000000000011 /* ArchitectureFitnessTests.swift */,
 				T80000000000000010 /* KeyboardPipelineCoverageTests.swift */,
 				T80000000000000011 /* LiveConfidenceTests.swift */,
+				T80000000000000012 /* KeyboardServiceSleepWakeTests.swift */,
 				T8000000000000000F /* KeySynthesizerUtilityTests.swift */,
 				T8000000000000000E /* KeyboardServiceStateTests.swift */,
 				T8000000000000000001 /* SessionStateTests.swift */,
@@ -965,7 +966,6 @@
 				CB000000000000000000001C /* ClipboardServicesTests.swift */,
 				826B069B63CAB9F507B95A89 /* PasteboardWriterTests.swift */,
 				D75D875F0735D136E9542350 /* ClipboardServicesExtendedTests.swift */,
-				21D53C8262AF4EE3C94EF717 /* FocusedElementInspectorExtendedTests.swift */,
 				D2DF03ED65A4917065897163 /* ClipboardViewRenderingTests.swift */,
 				3C08BD3931A44B293EB5A997 /* TranslationDomainModelTests.swift */,
 				6691B8BA3A72E9D3F537B01F /* TranslationOptionsTests.swift */,
@@ -1663,6 +1663,7 @@
 				C3D100000000000000000001 /* ArchitectureFitnessTests.swift in Sources */,
 				T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */,
 				T70000000000000011 /* LiveConfidenceTests.swift in Sources */,
+				T70000000000000012 /* KeyboardServiceSleepWakeTests.swift in Sources */,
 				T7000000000000000F /* KeySynthesizerUtilityTests.swift in Sources */,
 				T7000000000000000E /* KeyboardServiceStateTests.swift in Sources */,
 				T7000000000000000001 /* SessionStateTests.swift in Sources */,
@@ -1719,7 +1720,6 @@
 				CB000000000000000000011B /* ClipboardSupportTests.swift in Sources */,
 				CB000000000000000000011C /* ClipboardServicesTests.swift in Sources */,
 				DED6A441A373996EE5D502C9 /* ClipboardServicesExtendedTests.swift in Sources */,
-				0DABA53C8B38708A5BF05A27 /* FocusedElementInspectorExtendedTests.swift in Sources */,
 				F6C312116761392F0816341B /* ClipboardViewRenderingTests.swift in Sources */,
 				6564FD75350FD924485121D7 /* TranslationDomainModelTests.swift in Sources */,
 				964A2BFCDE41DD944D33C81E /* TranslationOptionsTests.swift in Sources */,

@@ -11,8 +11,7 @@ struct ValidatedTranslationEndpoint: Equatable, Sendable {
               let host = components.host?.lowercased(),
               !host.isEmpty,
               components.user == nil,
-              components.password == nil,
-              HostSafety.validate(host: host)
+              components.password == nil
         else { return nil }
 
         components.scheme = "https"
@@ -36,6 +35,15 @@ struct ValidatedTranslationEndpoint: Equatable, Sendable {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let url = URL(string: trimmed) else { return nil }
         self.init(url)
+    }
+
+    /// SSRF guard, run off the main actor and immediately before a request
+    /// uses the endpoint.
+    func validateHostSafety(resolver: HostResolver = .system) async -> Bool {
+        guard let host = url.host else { return false }
+        return await Task.detached(priority: .utility) {
+            HostSafety.validate(host: host, resolver: resolver)
+        }.value
     }
 }
 

@@ -8,6 +8,17 @@ struct EncodingSettingsView: View {
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var localization = LocalizationStore.shared
     @State private var input = ""
+    private let copyPreviewAction: (String) -> Void
+
+    init(
+        settingsStore: SettingsStore,
+        coordinator: AppCoordinator,
+        copyPreviewAction: @escaping (String) -> Void
+    ) {
+        self.settingsStore = settingsStore
+        self.coordinator = coordinator
+        self.copyPreviewAction = copyPreviewAction
+    }
 
     var body: some View {
         Form {
@@ -91,8 +102,7 @@ struct EncodingSettingsView: View {
     }
 
     func copyPreview() {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(preview, forType: .string)
+        copyPreviewAction(preview)
     }
 
     private func setting<T>(_ keyPath: WritableKeyPath<EasyKeySettings, T>) -> Binding<T> {

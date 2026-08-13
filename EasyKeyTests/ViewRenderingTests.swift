@@ -61,13 +61,33 @@ final class ViewRenderingTests: XCTestCase {
     }
 
     func testEncodingSettingsView_Renders() {
-        render { EncodingSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator) }
+        render {
+            EncodingSettingsView(
+                settingsStore: coordinator.settingsStore,
+                coordinator: coordinator,
+                copyPreviewAction: { _ in }
+            )
+        }
     }
 
-    func testEncodingSettingsView_CopyPreviewAndPreviewAccessors() {
-        let view = EncodingSettingsView(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+    func testEncodingSettingsView_CopyPreviewUsesInjectedWriterAndSuppressesMonitor() {
+        let suppressor = ClipboardWriteSuppressor()
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name("ViewRenderingTests-\(UUID().uuidString)"))
+        let writer = PasteboardWriter(pasteboard: pasteboard, suppressor: suppressor)
+        var copiedText: String?
+        let view = EncodingSettingsView(
+            settingsStore: coordinator.settingsStore,
+            coordinator: coordinator,
+            copyPreviewAction: { text in
+                copiedText = text
+                XCTAssertTrue(writer.copyText(text))
+            }
+        )
         _ = view.preview
         view.copyPreview()
+        XCTAssertEqual(copiedText, view.preview)
+        XCTAssertEqual(pasteboard.string(forType: .string), view.preview)
+        XCTAssertTrue(suppressor.shouldSuppress(pasteboard.changeCount))
     }
 
     func testBehaviorSettingsView_Renders() {

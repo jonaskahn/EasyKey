@@ -57,8 +57,4 @@ final class SettingsStore: ObservableObject {
     func saveNow() async {
         await repository.saveNow()
     }
-
-    var configurationSnapshot: EngineConfiguration {
-        repository.configurationSnapshot
-    }
 }

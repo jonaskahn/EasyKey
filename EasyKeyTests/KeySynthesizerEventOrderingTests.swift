@@ -19,7 +19,6 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
     ) -> KeySynthesizer {
         posted = []
         return KeySynthesizer(
-            focusedTextReplacer: { _, _ in .failed },
             eventFactory: eventFactory,
             eventPoster: { [self] event, _ in
                 posted.append(Self.describe(event))
@@ -90,7 +89,6 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
             deleteCount: 1,
             insert: "a",
             encodedUnits: ["a"],
-            useFocusedTextReplacement: false,
             breakAutocomplete: true
         )
         XCTAssertEqual(strategy, .breakAutocompleteAndBackspace)
@@ -183,7 +181,6 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
             deleteCount: 1,
             insert: "x",
             encodedUnits: ["x"],
-            useFocusedTextReplacement: false,
             breakAutocomplete: false
         )
         XCTAssertEqual(strategy, .physicalBackspace)

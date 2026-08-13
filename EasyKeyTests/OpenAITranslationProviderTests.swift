@@ -421,7 +421,8 @@ final class OpenAICompatibleTranslationProviderTests: XCTestCase {
             providerID: providerID,
             modelIdentifier: model,
             credentialStore: store,
-            session: session ?? openAICompatibleMockSession()
+            session: session ?? openAICompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
     }
 
@@ -567,7 +568,8 @@ final class OpenAICompatibleTranslationProviderTests: XCTestCase {
             providerID: .openAICompatible,
             modelIdentifier: "gpt-4o-mini",
             credentialStore: InMemoryTranslationCredentialStore(),
-            session: openAICompatibleMockSession()
+            session: openAICompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
         await assertTranslationError(.missingCredentials(provider: .openAICompatible)) {
             try await missing.translate(self.makeRequest())
@@ -583,7 +585,8 @@ final class OpenAICompatibleTranslationProviderTests: XCTestCase {
             providerID: .openAICompatible,
             modelIdentifier: "gpt-4o-mini",
             credentialStore: ThrowingCredentialStore(),
-            session: openAICompatibleMockSession()
+            session: openAICompatibleMockSession(),
+            hostResolver: HostResolver { _ in [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])] }
         )
         do {
             _ = try await unreadable.translate(makeRequest())

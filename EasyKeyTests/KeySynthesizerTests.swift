@@ -84,31 +84,8 @@ final class KeySynthesizerTests: XCTestCase {
         XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
     }
 
-    func testFocusedReplacementSuccessKeepsEncodedStackAligned() {
-        var receivedLengths: [Int] = []
-        let synthesizer = KeySynthesizer { lengths, text in
-            receivedLengths = lengths
-            return text == "uye\u{302}\u{300}n" ? .succeeded : .failed
-        }
-        synthesizer.trackEncodedUnits(["t", "u", "y", "e", "n"])
-
-        let strategy = synthesizer.replaceBackward(
-            proxy: fakeProxy(),
-            deleteCount: 4,
-            insert: "uye\u{302}\u{300}n",
-            encodedUnits: ["u", "y", "e\u{302}\u{300}", "n"],
-            useFocusedTextReplacement: true
-        )
-
-        XCTAssertEqual(strategy, .atomicFocusedText)
-        XCTAssertEqual(receivedLengths, [1, 1, 1, 1])
-        XCTAssertEqual(synthesizer.encodedUnitCount, 5)
-        XCTAssertEqual(synthesizer.prepareDelete(deleteCount: 4), 6)
-        XCTAssertEqual(synthesizer.encodedUnitCount, 1)
-    }
-
-    func testFocusedReplacementFailureUsesPhysicalFallbackAndKeepsStackAligned() {
-        let synthesizer = KeySynthesizer { _, _ in .failed }
+    func testSelectionReplacement_WithoutFocusedReplacement() {
+        let synthesizer = KeySynthesizer()
         synthesizer.trackEncodedUnits(["t", "u", "y", "e", "n"])
 
         let strategy = synthesizer.replaceBackward(
@@ -116,39 +93,6 @@ final class KeySynthesizerTests: XCTestCase {
             deleteCount: 4,
             insert: "uyền",
             encodedUnits: ["u", "y", "ề", "n"],
-            useFocusedTextReplacement: true
-        )
-
-        XCTAssertEqual(strategy, .breakAutocompleteAndBackspace)
-        XCTAssertEqual(synthesizer.encodedUnitCount, 5)
-    }
-
-    func testFocusedReplacementWithUnknownCaretResetsStackWithoutFallback() {
-        let synthesizer = KeySynthesizer { _, _ in .valueChangedCaretUnknown }
-        synthesizer.trackEncodedUnits(["t", "u"])
-
-        let strategy = synthesizer.replaceBackward(
-            proxy: fakeProxy(),
-            deleteCount: 1,
-            insert: "ư",
-            encodedUnits: ["ư"],
-            useFocusedTextReplacement: true
-        )
-
-        XCTAssertEqual(strategy, .atomicFocusedTextCaretUnknown)
-        XCTAssertEqual(synthesizer.encodedUnitCount, 0)
-    }
-
-    func testSelectionReplacement_UsedWhenFocusedReplacementFails() {
-        let synthesizer = KeySynthesizer { _, _ in .failed }
-        synthesizer.trackEncodedUnits(["t", "u", "y", "e", "n"])
-
-        let strategy = synthesizer.replaceBackward(
-            proxy: fakeProxy(),
-            deleteCount: 4,
-            insert: "uyền",
-            encodedUnits: ["u", "y", "ề", "n"],
-            useFocusedTextReplacement: true,
             useSelectionReplacement: true
         )
 

@@ -25,15 +25,13 @@ final class KeyboardInputPipeline {
         settings: EasyKeySettings,
         spotlightVisibilityProvider: @escaping SpotlightVisibilityProvider = SpotlightWindowDetector.isSpotlightWindowVisible,
         chromiumAddressBarDetector: @escaping ChromiumAddressBarDetector = FocusedElementInspector.isChromiumAddressBar,
-        focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult =
-            FocusedElementInspector.replaceFocusedText,
         eventFactory: KeySynthesizer.EventFactory? = nil,
         now: @escaping () -> CFAbsoluteTime = CFAbsoluteTimeGetCurrent
     ) {
         self.settings = settings
         chromiumResolver = ChromiumAddressBarContextResolver(detector: chromiumAddressBarDetector, now: now)
         spotlightResolver = SpotlightContextResolver(provider: spotlightVisibilityProvider, now: now)
-        synthesizer = KeySynthesizer(focusedTextReplacer: focusedTextReplacer, eventFactory: eventFactory)
+        synthesizer = KeySynthesizer(eventFactory: eventFactory)
         engine = VietnameseEngine(configuration: Self.engineConfiguration(for: settings, rule: nil))
     }
 
@@ -208,11 +206,10 @@ final class KeyboardInputPipeline {
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
         let composedEncodedUnits: [String]? = engine.displaysRawKeystrokes
             ? nil
-            : encodedUnits(for: engine.state, configuration: engine.configuration)
+            : engine.renderedUnits
         let inChromiumAddressBar = isChromiumAddressBarContext()
-        var focusedCaretUnknown = false
 
-        editLoop: for edit in output.edits {
+        for edit in output.edits {
             switch edit {
             case let .deleteBackward(count):
                 guard applyDeleteBackward(
@@ -234,12 +231,8 @@ final class KeyboardInputPipeline {
                     isSpotlight: isSpotlight,
                     inChromiumAddressBar: inChromiumAddressBar
                 )
-                focusedCaretUnknown = focusedCaretUnknown || strategy == .atomicFocusedTextCaretUnknown
                 if strategy == .failed {
                     return false
-                }
-                if focusedCaretUnknown {
-                    break editLoop
                 }
             }
         }
@@ -251,7 +244,7 @@ final class KeyboardInputPipeline {
                 guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{2060}") else { return false }
             }
         }
-        if output.sessionEffect == .resetSession || focusedCaretUnknown {
+        if output.sessionEffect == .resetSession {
             resetSession()
         }
         return true
@@ -268,7 +261,6 @@ final class KeyboardInputPipeline {
             deleteCount: count,
             insert: "",
             encodedUnits: [],
-            useFocusedTextReplacement: false,
             useSelectionReplacement: isSpotlight,
             breakAutocomplete: inChromiumAddressBar
         ) != .failed
@@ -287,7 +279,6 @@ final class KeyboardInputPipeline {
             deleteCount: deleteCount,
             insert: insert,
             encodedUnits: replacementUnits,
-            useFocusedTextReplacement: false,
             useSelectionReplacement: isSpotlight,
             breakAutocomplete: Self.shouldBreakAutocomplete(
                 inChromiumAddressBar: inChromiumAddressBar,
@@ -316,18 +307,6 @@ final class KeyboardInputPipeline {
 
     private func invalidateSpotlightCache() {
         spotlightResolver.invalidate()
-    }
-
-    private func encodedUnits(for state: SessionState, configuration: EngineConfiguration) -> [String] {
-        let toneTarget = TelexComposer.toneTargetIndex(atoms: state.atoms, style: configuration.toneStyle)
-        return state.atoms.enumerated().map { index, atom in
-            TransformEngine.encode(
-                atoms: [atom],
-                tone: index == toneTarget ? state.tone : .none,
-                encoding: configuration.outputEncoding,
-                toneStyle: configuration.toneStyle
-            )
-        }
     }
 
     private func currentCompatibilityRule() -> AppCompatibilityRule? {

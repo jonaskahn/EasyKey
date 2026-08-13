@@ -3,11 +3,7 @@ import XCTest
 
 final class HostSafetyTests: XCTestCase {
     private func validate(_ host: String) -> Bool {
-        HostSafety.validate(host: host, isTestEnvironment: false)
-    }
-
-    func testValidate_TestEnvironment_ReturnsTrue() {
-        XCTAssertTrue(HostSafety.validate(host: "http://192.168.1.1"))
+        HostSafety.validate(host: host)
     }
 
     func testValidate_ForbiddenSuffixes_AreRejected() {
@@ -80,5 +76,17 @@ final class HostSafetyTests: XCTestCase {
     func testValidate_EdgeOfPrivateRanges_AreAccepted() {
         XCTAssertTrue(validate("172.32.0.1"))
         XCTAssertTrue(validate("100.128.0.1"))
+    }
+
+    func testValidate_InjectedResolverDrivesDecision() {
+        let publicResolver = HostResolver { _ in
+            [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])]
+        }
+        let privateResolver = HostResolver { _ in
+            [ResolvedHostAddress(family: .ipv4, bytes: [192, 168, 1, 1])]
+        }
+        XCTAssertTrue(HostSafety.validate(host: "unresolvable.example.com", resolver: publicResolver))
+        XCTAssertFalse(HostSafety.validate(host: "unresolvable.example.com", resolver: privateResolver))
+        XCTAssertFalse(HostSafety.validate(host: "anything.example.com", resolver: HostResolver { _ in [] }))
     }
 }

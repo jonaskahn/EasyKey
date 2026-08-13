@@ -1,4 +1,5 @@
 @testable import EasyEngineCore
+@testable import EasyKey
 import XCTest
 
 final class TranslationOptionsTests: XCTestCase {

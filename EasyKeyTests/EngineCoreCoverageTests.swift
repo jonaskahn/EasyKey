@@ -715,9 +715,17 @@ final class EngineCoreCoverageTests: XCTestCase {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("ek-cfg-\(UUID().uuidString).json")
         let repo = SettingsRepository(fileURL: url)
-        let config = repo.configurationSnapshot
+        let config = EngineConfiguration(settings: repo.settings)
         XCTAssertEqual(config.inputMethod, .simpleTelex)
         XCTAssertEqual(config.outputEncoding, .unicode)
+    }
+
+    func testConfigurationBuilderIncludesLiteralTechnicalTokens() {
+        var settings = EasyKeySettings.defaults
+        settings.typing.literalTechnicalTokens = false
+        XCTAssertFalse(EngineConfiguration(settings: settings).literalTechnicalTokens)
+        settings.typing.literalTechnicalTokens = true
+        XCTAssertTrue(EngineConfiguration(settings: settings).literalTechnicalTokens)
     }
 
     func testEasyKeySettings_RoundTrip_ThroughJSON() throws {

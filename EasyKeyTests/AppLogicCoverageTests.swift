@@ -866,6 +866,10 @@ extension AppLogicCoverageTests {
     }
 }
 
+private let appLogicPublicHostResolver = HostResolver { _ in
+    [ResolvedHostAddress(family: .ipv4, bytes: [8, 8, 8, 8])]
+}
+
 // MARK: - OpenAICompatibleTranslationProvider.swift
 
 extension AppLogicCoverageTests {
@@ -875,7 +879,8 @@ extension AppLogicCoverageTests {
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
-            session: URLSession.shared
+            session: URLSession.shared,
+            hostResolver: appLogicPublicHostResolver
         )
 
         do {
@@ -894,7 +899,8 @@ extension AppLogicCoverageTests {
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(),
-            session: URLSession.shared
+            session: URLSession.shared,
+            hostResolver: appLogicPublicHostResolver
         )
 
         XCTAssertEqual(provider.disclosureIdentity.providerID, .openAICompatible)
@@ -912,7 +918,8 @@ extension AppLogicCoverageTests {
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
-            session: AppLogicURLProtocol.session()
+            session: AppLogicURLProtocol.session(),
+            hostResolver: appLogicPublicHostResolver
         )
         let task = Task { try await provider.translate(appLogicSampleRequest) }
         try? await Task.sleep(for: .milliseconds(100))
@@ -941,7 +948,8 @@ extension AppLogicCoverageTests {
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
-            session: AppLogicURLProtocol.session()
+            session: AppLogicURLProtocol.session(),
+            hostResolver: appLogicPublicHostResolver
         )
 
         let response = try await provider.translate(appLogicSampleRequest)
@@ -962,7 +970,8 @@ extension AppLogicCoverageTests {
             providerID: .openAICompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.openAICompatible: "key"]),
-            session: AppLogicURLProtocol.session()
+            session: AppLogicURLProtocol.session(),
+            hostResolver: appLogicPublicHostResolver
         )
 
         do {
@@ -985,7 +994,8 @@ extension AppLogicCoverageTests {
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
-            session: URLSession.shared
+            session: URLSession.shared,
+            hostResolver: appLogicPublicHostResolver
         )
 
         do {
@@ -1004,7 +1014,8 @@ extension AppLogicCoverageTests {
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(),
-            session: URLSession.shared
+            session: URLSession.shared,
+            hostResolver: appLogicPublicHostResolver
         )
 
         XCTAssertEqual(provider.disclosureIdentity.providerID, .anthropicCompatible)
@@ -1022,7 +1033,8 @@ extension AppLogicCoverageTests {
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
-            session: AppLogicURLProtocol.session()
+            session: AppLogicURLProtocol.session(),
+            hostResolver: appLogicPublicHostResolver
         )
         let task = Task { try await provider.translate(appLogicSampleRequest) }
         try? await Task.sleep(for: .milliseconds(100))
@@ -1051,7 +1063,8 @@ extension AppLogicCoverageTests {
             providerID: .anthropicCompatible,
             modelIdentifier: "model",
             credentialStore: InMemoryTranslationCredentialStore(credentials: [.anthropicCompatible: "key"]),
-            session: AppLogicURLProtocol.session()
+            session: AppLogicURLProtocol.session(),
+            hostResolver: appLogicPublicHostResolver
         )
 
         let response = try await provider.translate(appLogicSampleRequest)

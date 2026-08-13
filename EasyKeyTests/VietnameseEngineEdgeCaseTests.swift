@@ -601,4 +601,39 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         _ = engine.process(event: .char("1"))
         XCTAssertEqual(engine.currentBuffer, "aá1")
     }
+
+    func testRenderedUnits_UnicodeSingleAtomMatchesBuffer() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
+        typeKeys(&engine, "aas")
+        XCTAssertEqual(engine.currentBuffer, "ấ")
+        XCTAssertEqual(engine.renderedUnits, ["ấ"])
+        XCTAssertEqual(engine.renderedUnits[0].utf16.count, 1)
+    }
+
+    func testRenderedUnits_UnicodeConcatEqualsWholeBufferEncoding() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicode))
+        typeKeys(&engine, "chaos")
+        let units = engine.renderedUnits
+        XCTAssertEqual(units, ["c", "h", "á", "o"])
+        XCTAssertEqual(units.joined(), engine.currentBuffer)
+        XCTAssertEqual(units.joined(), TransformEngine.encode(engine.state, configuration: engine.configuration))
+    }
+
+    func testRenderedUnits_CombiningEncodingCountsPerAtomUTF16() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicodeCombining))
+        typeKeys(&engine, "aas")
+        let units = engine.renderedUnits
+        XCTAssertEqual(units.count, engine.state.atoms.count)
+        XCTAssertEqual(units[0], engine.currentBuffer)
+        XCTAssertEqual(units.reduce(0) { $0 + $1.utf16.count }, engine.currentBuffer.utf16.count)
+    }
+
+    func testRenderedUnits_LegacyEncodingConcatMatchesWholeBuffer() {
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .cp1258))
+        typeKeys(&engine, "aas")
+        let units = engine.renderedUnits
+        XCTAssertEqual(units.count, engine.state.atoms.count)
+        XCTAssertEqual(units.joined(), engine.currentBuffer)
+        XCTAssertGreaterThan(units[0].utf16.count, 0)
+    }
 }

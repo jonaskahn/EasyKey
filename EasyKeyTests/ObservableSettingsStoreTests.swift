@@ -64,7 +64,7 @@ final class ObservableSettingsStoreTests: XCTestCase {
 
     func testConfigurationSnapshot_ReflectsCurrentSettings() {
         store.update { $0.input.inputMethod = .vni }
-        XCTAssertEqual(store.configurationSnapshot.inputMethod, .vni)
+        XCTAssertEqual(EngineConfiguration(settings: store.settings).inputMethod, .vni)
     }
 
     func testDefaultFileURL_IsStable() {

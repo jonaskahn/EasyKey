@@ -3,6 +3,16 @@ import Combine
 import EasyEngineCore
 import EasyKeyKit
 
+/// Lifecycle seam for the clipboard feature so `AppCoordinator` can serialize
+/// rapid start/stop sequences in tests with a controllable fake.
+@MainActor
+protocol ClipboardLifecycleManaging: AnyObject {
+    func start(loadPersisted: Bool) async
+    func stop() async
+}
+
+extension ClipboardServices: ClipboardLifecycleManaging {}
+
 @MainActor
 final class AppCoordinator: ObservableObject {
     typealias LoginItemStatus = LoginItemController.Status
@@ -66,6 +76,7 @@ final class AppCoordinator: ObservableObject {
     var launchAtLoginSetting: Bool?
     var ignoredApplicationsSetting: [String]?
     var clipboardOptionsSetting: ClipboardOptions?
+    private let clipboardLifecycle: ClipboardLifecycleManaging
     private var clipboardStartTask: Task<Void, Never>?
     private var stopTask: Task<Void, Never>?
 
@@ -83,7 +94,8 @@ final class AppCoordinator: ObservableObject {
         workspaceObserver: WorkspaceObserver? = nil,
         updateService: UpdateService? = nil,
         clipboardServices: ClipboardServices? = nil,
-        translationDependencies: AppTranslationRuntime.Dependencies? = nil
+        translationDependencies: AppTranslationRuntime.Dependencies? = nil,
+        clipboardLifecycle: ClipboardLifecycleManaging? = nil
     ) {
         let settingsStore = settingsStore ?? SettingsStore()
         let localization = localization ?? .shared
@@ -121,6 +133,7 @@ final class AppCoordinator: ObservableObject {
             applicationSupportDirectory: SettingsStore.defaultFileURL.deletingLastPathComponent(),
             localization: localization
         )
+        self.clipboardLifecycle = clipboardLifecycle ?? clipboard
         currentApplicationName = localization.string(.smartSwitchNoActiveApp)
         currentAppSmartSwitchStatus = localization.string(.smartSwitchOff)
         configureKeyboardService()
@@ -191,7 +204,8 @@ final class AppCoordinator: ObservableObject {
     }
 
     func start() {
-        stopTask?.cancel()
+        let previousStop = stopTask
+        previousStop?.cancel()
         stopTask = nil
         guard settingsObserver == nil else { return }
         AppLog.info(.app, "AppCoordinator start")
@@ -209,10 +223,12 @@ final class AppCoordinator: ObservableObject {
         translation.start()
         clipboardOptionsSetting = settingsStore.settings.clipboard
         let previousStartTask = clipboardStartTask
-        clipboardStartTask = Task { [clipboard, settingsStore] in
+        let lifecycle = clipboardLifecycle
+        clipboardStartTask = Task { [settingsStore, lifecycle] in
             _ = await previousStartTask?.value
+            _ = await previousStop?.value
             guard !Task.isCancelled else { return }
-            await clipboard.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
+            await lifecycle.start(loadPersisted: settingsStore.settings.clipboard.persistsHistory)
         }
         if settingsStore.settings.system.showSettingsAtLaunch {
             showSettings()
@@ -233,12 +249,16 @@ final class AppCoordinator: ObservableObject {
         let previousStartTask = clipboardStartTask
         clipboardStartTask = nil
         previousStartTask?.cancel()
-        stopTask?.cancel()
-        stopTask = Task { [clipboard, settingsStore] in
+        let previousStop = stopTask
+        let lifecycle = clipboardLifecycle
+        stopTask = Task { [settingsStore, lifecycle] in
             _ = await previousStartTask?.value
-            await clipboard.stop()
+            _ = await previousStop?.value
+            guard !Task.isCancelled else { return }
+            await lifecycle.stop()
             await settingsStore.saveNow()
         }
+        previousStop?.cancel()
     }
 
     func awaitShutdown() async {
@@ -273,10 +293,6 @@ final class AppCoordinator: ObservableObject {
         } else {
             showSettings(section: preferredSection)
         }
-    }
-
-    func clearSettingsWindowIfNeeded(_ window: NSWindow) {
-        settingsWindowPresenter.clearIfNeeded(window)
     }
 
     func requestAccessibilityPermission() {
@@ -314,7 +330,7 @@ final class AppCoordinator: ObservableObject {
         if wasPaused {
             keyboardService.setPaused(false)
         } else {
-            keyboardService.refreshPermission()
+            keyboardService.start()
         }
     }
 

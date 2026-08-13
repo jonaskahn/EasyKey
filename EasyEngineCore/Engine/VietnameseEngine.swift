@@ -55,6 +55,13 @@ public struct VietnameseEngine {
         TransformEngine.encode(state, configuration: configuration)
     }
 
+    /// Plain rendering metadata for the current buffer: the per-atom encoded
+    /// units the platform layer emits when replacing the buffer, so it can
+    /// compute UTF-16 deletion counts without reading engine internals.
+    public var renderedUnits: [String] {
+        TransformEngine.encodeUnits(state, configuration: configuration)
+    }
+
     private var shouldDisplayRawKeystrokesFromLiveConfidence: Bool {
         configuration.liveConfidenceScoring
             && !state.isEmpty

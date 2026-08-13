@@ -40,6 +40,16 @@ final class PasteboardWriter {
         self.payloadStore = payloadStore
     }
 
+    /// Copies plain text, preserving the clearContents → setString → mark order
+    /// so the clipboard monitor suppresses our own writes.
+    @discardableResult
+    func copyText(_ text: String) -> Bool {
+        pasteboard.clearContents()
+        guard pasteboard.setString(text, forType: .string) else { return false }
+        suppressor.markWritten(changeCount: pasteboard.changeCount)
+        return true
+    }
+
     /// Writes the converter output, preserving an optional HTML representation.
     @discardableResult
     func copyConvertedText(_ text: String, preservingHTML html: Data?) -> Bool {

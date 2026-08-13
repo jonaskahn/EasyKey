@@ -53,10 +53,42 @@ final class SettingsWindowPresenterTests: XCTestCase {
         presenter.close()
     }
 
-    func testWindowDelegate_ClearsCoordinatorReference() {
-        let delegate = SettingsWindowDelegate.shared
-        delegate.coordinator = coordinator
-        let window = NSWindow()
-        delegate.windowWillClose(Notification(name: NSWindow.willCloseNotification, object: window))
+    func testWindowDelegates_ArePerPresenterInstances() {
+        let otherPresenter = SettingsWindowPresenter(localization: localization)
+        presenter.present(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+        otherPresenter.present(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+
+        let delegates = NSApp.windows
+            .compactMap { $0.delegate as? SettingsWindowDelegate }
+        XCTAssertGreaterThanOrEqual(delegates.count, 2)
+        XCTAssertFalse(
+            delegates[0] === delegates[1],
+            "Each presenter must own its delegate; a shared instance allows another presenter to overwrite it"
+        )
+        presenter.close()
+        otherPresenter.close()
+    }
+
+    func testWindowClose_ClearsRetain_SoNextPresentCreatesNewWindow() {
+        presenter.present(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+        guard let window = NSApp.windows.first(where: { $0.delegate is SettingsWindowDelegate }) else {
+            XCTFail("No settings window found")
+            return
+        }
+
+        window.close()
+
+        presenter.present(settingsStore: coordinator.settingsStore, coordinator: coordinator)
+        guard let visibleWindow = NSApp.windows
+            .first(where: { $0.delegate is SettingsWindowDelegate && $0.isVisible })
+        else {
+            XCTFail("No visible settings window after re-present")
+            return
+        }
+        XCTAssertFalse(
+            visibleWindow === window,
+            "Presenter should recreate the window after the delegate cleared the closed one"
+        )
+        presenter.close()
     }
 }

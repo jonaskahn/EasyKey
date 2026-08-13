@@ -101,7 +101,7 @@ extension AppCoordinator {
         }
         workspaceObserver.onWake = { [weak self] in
             self?.keyboardService.resetSession()
-            self?.keyboardService.refreshPermission()
+            self?.keyboardService.handleSystemWake()
             self?.clipboard.handleWake()
         }
     }

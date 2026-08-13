@@ -65,7 +65,13 @@ struct SettingsShell: View {
         case .typing:
             TypingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
         case .encoding:
-            EncodingSettingsView(settingsStore: settingsStore, coordinator: coordinator)
+            EncodingSettingsView(
+                settingsStore: settingsStore,
+                coordinator: coordinator,
+                copyPreviewAction: { text in
+                    _ = coordinator.clipboard.writer.copyText(text)
+                }
+            )
         case .translation:
             TranslationSettingsView(model: translationSettingsModel)
         case .clipboard:
