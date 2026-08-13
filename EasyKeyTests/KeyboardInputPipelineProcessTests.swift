@@ -148,6 +148,48 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         XCTAssertEqual(result.disposition, .passed)
     }
 
+    func testProcess_ShiftFlagsChangedPreservesUppercaseVowelComposition() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        let aDown = keyEvent(character: "A", keyCode: 0, flags: .maskShift)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: aDown, keyCode: 0)
+        let shiftUp = keyEvent(character: "", keyCode: 56)
+        let shiftResult = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: shiftUp, keyCode: 56)
+        XCTAssertEqual(shiftResult.disposition, .passed)
+        XCTAssertTrue(pipeline.isComposing, "Shift release must not flush the uppercase vowel")
+        let sDown = keyEvent(character: "s", keyCode: 1)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: sDown, keyCode: 1)
+        XCTAssertEqual(pipeline.composedTextForTesting, "Á")
+    }
+
+    func testProcess_ShiftFlagsChangedPreservesMidWordUppercaseComposition() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        let mDown = keyEvent(character: "m", keyCode: 0)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: mDown, keyCode: 0)
+        let shiftDown = keyEvent(character: "", keyCode: 56)
+        _ = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: shiftDown, keyCode: 56)
+        let aDown = keyEvent(character: "A", keyCode: 0, flags: .maskShift)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: aDown, keyCode: 0)
+        let shiftUp = keyEvent(character: "", keyCode: 56)
+        _ = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: shiftUp, keyCode: 56)
+        let iDown = keyEvent(character: "i", keyCode: 34)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: iDown, keyCode: 34)
+        let sDown = keyEvent(character: "s", keyCode: 1)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: sDown, keyCode: 1)
+        XCTAssertEqual(pipeline.composedTextForTesting, "mÁi")
+    }
+
+    func testProcess_ControlFlagsChangedStillResetsComposition() {
+        let pipeline = KeyboardInputPipeline(settings: .defaults)
+        let aDown = keyEvent(character: "a", keyCode: 0)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: aDown, keyCode: 0)
+        let controlDown = keyEvent(character: "", keyCode: 59, flags: .maskControl)
+        _ = pipeline.process(proxy: fakeProxy(), type: .flagsChanged, event: controlDown, keyCode: 59)
+        XCTAssertFalse(pipeline.isComposing, "Control flags change should flush the composition")
+        let sDown = keyEvent(character: "s", keyCode: 1)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: sDown, keyCode: 1)
+        XCTAssertEqual(pipeline.composedTextForTesting, "s")
+    }
+
     func testProcess_KeyUpEvent_Passes() {
         let pipeline = KeyboardInputPipeline(settings: .defaults)
         let event = keyEvent(character: "a", keyCode: 0)

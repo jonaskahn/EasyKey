@@ -57,6 +57,10 @@ final class KeyboardInputPipeline {
         synthesizer.encodedUnitCount
     }
 
+    var composedTextForTesting: String {
+        engine.currentBuffer
+    }
+
     var currentSettings: EasyKeySettings {
         settings
     }
@@ -348,8 +352,21 @@ private extension KeyboardInputPipeline {
             return restoreRawKeys(proxy: proxy)
         }
         invalidateSpotlightCache()
-        resetCompositionPreservingMacroTrigger()
+        if !Self.isShiftFlagsChange(keyCode: keyCode, modifiers: Self.modifiers(from: event)) {
+            resetCompositionPreservingMacroTrigger()
+        }
         return .passed
+    }
+
+    /// Shift press/release must not flush the in-progress composition, otherwise
+    /// a word whose first letter is typed with Shift (e.g. "A" + tone key)
+    /// loses its vowel before the tone key arrives.
+    private static func isShiftFlagsChange(keyCode: UInt16?, modifiers: Shortcut.ModifierFlags) -> Bool {
+        guard modifiers.isDisjoint(with: [.control, .option, .command]) else { return false }
+        if let keyCode {
+            return keyCode == KeyboardKeyCode.leftShift || keyCode == KeyboardKeyCode.rightShift
+        }
+        return modifiers.contains(.shift)
     }
 
     func restoreRawKeys(proxy: CGEventTapProxy) -> KeyboardProcessResult {

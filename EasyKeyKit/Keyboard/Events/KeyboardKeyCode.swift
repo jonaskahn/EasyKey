@@ -8,6 +8,9 @@ enum KeyboardKeyCode {
     static let escape: UInt16 = 53
     static let p: UInt16 = 35
 
+    static let leftShift: UInt16 = 56
+    static let rightShift: UInt16 = 60
+
     static let backspace: UInt16 = 51
     static let forwardDelete: UInt16 = 117
 
