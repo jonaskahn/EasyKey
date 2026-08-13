@@ -113,19 +113,25 @@ _Last reviewed: 2026-08-03_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
 
-## [Unreleased]
-
-**Fixed**
-
-- Function keys (F1–F20) no longer get swallowed while typing Vietnamese: a new pass-function-keys-through option (on by default) flushes the composition and lets function keys reach the active app.
-
-## [0.0.8] - 2026-08-11
+## [0.0.8] - 2026-08-13
 
 **Added**
 
 - Optional Tier 2 live-confidence scoring: while typing, show raw keystrokes when the in-progress word looks unlikely to be Vietnamese; Tier 1 spell-check at word boundaries is unchanged (off by default).
 - Optional iOS-UniKey-like mode (on by default): after repeating a Telex key to remove its mark, the rest of that word stays literal until a space or punctuation, so `seeen` becomes `seen` and `resstore` becomes `restore` instead of re-applying diacritics.
 - Optional literal technical tokens (on by default): words starting with `/`, `@`, `#`, `!`, or `:` type as-is without Vietnamese conversion — slash commands, mentions, references, shell mode, and shortcodes in coding agents and chat apps — with Vietnamese resuming after the next space.
+- Macros can expand in a chosen language zone: English only, Vietnamese only, or both.
+- Built-in sample macros: ready-made expansions can be added from the macro editor with one click.
+
+**Fixed**
+
+- Function keys (F1–F20) no longer get swallowed while typing Vietnamese: a new pass-function-keys-through option (on by default) flushes the composition and lets function keys reach the active app.
+- Telex tone marks now compose correctly after an uppercase vowel, and releasing Shift mid-word no longer drops the pending mark.
+- Macros now expand in Chrome/Spotlight contexts, and the macro editor sheet no longer clips its content.
+
+**Changed**
+
+- Translation defaults to Apple on-device translation; the automatic provider option is removed, provider selection happens in settings, and translation settings copy is localized in English and Vietnamese.
 
 ## [0.0.7] - 2026-07-23
 
