@@ -1,3 +1,4 @@
+import EasyEngineCore
 @testable import EasyKey
 import XCTest
 

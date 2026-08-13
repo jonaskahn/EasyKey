@@ -3,6 +3,10 @@ import Foundation
 /// Streaming Vietnamese input engine. Raw keystrokes are the source of truth;
 /// every edit recomputes the composed buffer via `TelexComposer`, which makes
 /// backspace, repeat-to-undo, and word restoration exact.
+///
+/// VNI tone digits that are invalid for the current checked final are dropped
+/// without appending to raw keys, and an escaped session commits the corrected
+/// word rather than the raw escape keystrokes.
 public struct VietnameseEngine {
     private static let sentenceTerminators: Set<String> = [".", "!", "?", "\n"]
 
@@ -58,8 +62,8 @@ public struct VietnameseEngine {
     }
 
     private var liveConfidenceBand: LiveConfidenceBand {
-        VietnameseOrthography.liveConfidenceBand(
-            score: VietnameseOrthography.liveConfidenceScore(
+        LiveConfidence.band(
+            score: LiveConfidence.score(
                 rawKeys: state.rawKeys,
                 atoms: state.atoms
             ),
@@ -175,7 +179,6 @@ public struct VietnameseEngine {
            state.atoms.contains(where: { VietnameseCharacters.isVowel($0.base) }) {
             let final = TelexComposer.trailingFinalConsonants(state.atoms)
             if !VietnameseOrthography.toneIsValid(newTone, forFinal: final) {
-                // Drop invalid VNI tone key without appending to rawKeys
                 return EngineOutput(
                     disposition: .suppress,
                     edits: [],
@@ -282,8 +285,6 @@ public struct VietnameseEngine {
         let composed = composedBuffer
         let raw = state.rawText
         if state.isEscaped {
-            // The user explicitly cancelled Telex conversion; commit the
-            // corrected word rather than the raw escape keystrokes.
             return composed
         }
         guard configuration.spellCheck, composed != raw else {

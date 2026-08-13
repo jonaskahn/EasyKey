@@ -1,7 +1,10 @@
 import Foundation
 
-public enum SettingsMigration {
-    public static func migrate(_ data: Data) -> Data {
+/// Applies per-version schema migrations to persisted settings. The
+/// per-version step is currently a passthrough reserved for future field
+/// migrations; the version-bump loop itself is exercised by tests.
+enum SettingsMigration {
+    static func migrate(_ data: Data) -> Data {
         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
               var schemaVersion = json["schemaVersion"] as? Int
         else {
@@ -19,7 +22,6 @@ public enum SettingsMigration {
     }
 
     private static func migrateStep(_ dict: [String: Any], from _: Int, to _: Int) -> [String: Any] {
-        // Reserved for future per-version field migrations
         return dict
     }
 }

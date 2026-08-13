@@ -4,6 +4,7 @@ import Foundation
 
 public final class KeySynthesizer {
     typealias EventFactory = (UInt16, Bool) -> CGEvent?
+    typealias EventPoster = (CGEvent, CGEventTapProxy) -> Void
 
     enum ReplacementStrategy: Equatable {
         case failed
@@ -15,8 +16,8 @@ public final class KeySynthesizer {
     }
 
     private struct EncodedUnit {
-        let utf16: Int
-        let graphemes: Int
+        let utf16Count: Int
+        let graphemeCount: Int
     }
 
     private struct UnicodeEventPair {
@@ -29,6 +30,7 @@ public final class KeySynthesizer {
 
     private let focusedTextReplacer: ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult
     private let eventFactory: EventFactory
+    private let eventPoster: EventPoster
     private var encodedUnitStack: [EncodedUnit] = []
     private var pendingEmptyCharacter = false
 
@@ -38,13 +40,16 @@ public final class KeySynthesizer {
         eventFactory = { keyCode, keyDown in
             CGEvent(keyboardEventSource: eventSource, virtualKey: CGKeyCode(keyCode), keyDown: keyDown)
         }
+        eventPoster = { event, proxy in event.tapPostEvent(proxy) }
     }
 
     init(
         focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult,
-        eventFactory: EventFactory? = nil
+        eventFactory: EventFactory? = nil,
+        eventPoster: @escaping EventPoster = { event, proxy in event.tapPostEvent(proxy) }
     ) {
         self.focusedTextReplacer = focusedTextReplacer
+        self.eventPoster = eventPoster
         if let eventFactory {
             self.eventFactory = eventFactory
         } else {
@@ -58,7 +63,7 @@ public final class KeySynthesizer {
     @discardableResult
     public func postBackspace(proxy: CGEventTapProxy, count: Int = 1) -> Bool {
         guard count > 0 else { return true }
-        guard let events = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: count) else { return false }
+        guard let events = makePhysicalKeyEvents(keyCode: KeyboardKeyCode.backspace, modifiers: [], count: count) else { return false }
         post(events, proxy: proxy)
         return true
     }
@@ -78,7 +83,12 @@ public final class KeySynthesizer {
     @discardableResult
     public func postShiftLeft(proxy: CGEventTapProxy, count: Int) -> Bool {
         guard count > 0 else { return true }
-        guard let events = makePhysicalKeyEvents(keyCode: 123, modifiers: .maskShift, count: count) else { return false }
+        guard let events = makePhysicalKeyEvents(
+            keyCode: KeyboardKeyCode.leftArrow,
+            modifiers: .maskShift,
+            count: count
+        )
+        else { return false }
         post(events, proxy: proxy)
         return true
     }
@@ -97,7 +107,7 @@ public final class KeySynthesizer {
            !pendingEmptyCharacter,
            deleteCount >= 0,
            deleteCount <= encodedUnitStack.count {
-            let deletedLengths = encodedUnitStack.suffix(deleteCount).map(\.utf16)
+            let deletedLengths = encodedUnitStack.suffix(deleteCount).map(\.utf16Count)
             switch focusedTextReplacer(deletedLengths, text) {
             case .succeeded:
                 _ = removeEncodedUnits(deleteCount)
@@ -114,7 +124,7 @@ public final class KeySynthesizer {
         if useSelectionReplacement {
             let selectionCount = selectionDeleteCount(deleteCount)
             guard let selectionEvents = makePhysicalKeyEvents(
-                keyCode: 123,
+                keyCode: KeyboardKeyCode.leftArrow,
                 modifiers: .maskShift,
                 count: selectionCount
             ), let insertionEvents = makeUnicodeEvents(text)
@@ -129,12 +139,12 @@ public final class KeySynthesizer {
         guard let insertionEvents = makeUnicodeEvents(text),
               let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? "\u{202F}" : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
-                  keyCode: 51,
+                  keyCode: KeyboardKeyCode.backspace,
                   modifiers: [],
                   count: shouldBreakAutocomplete ? 1 : 0
               ),
               let deletionEvents = makePhysicalKeyEvents(
-                  keyCode: 51,
+                  keyCode: KeyboardKeyCode.backspace,
                   modifiers: [],
                   count: physicalDeleteCount(deleteCount)
               )
@@ -196,7 +206,7 @@ public final class KeySynthesizer {
         if useSelectionReplacement {
             let selectionCount = macroExpansionSelectionCount(backspaceCount)
             guard let selectionEvents = makePhysicalKeyEvents(
-                keyCode: 123,
+                keyCode: KeyboardKeyCode.leftArrow,
                 modifiers: .maskShift,
                 count: selectionCount
             ), let insertionEvents = makeUnicodeEvents(text),
@@ -213,11 +223,11 @@ public final class KeySynthesizer {
         guard let insertionEvents = makeUnicodeEvents(text),
               let breakEvents = makeUnicodeEvents(breakAutocomplete ? "\u{202F}" : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
-                  keyCode: 51,
+                  keyCode: KeyboardKeyCode.backspace,
                   modifiers: [],
                   count: breakAutocomplete ? 1 : 0
               ),
-              let deletionEvents = makePhysicalKeyEvents(keyCode: 51, modifiers: [], count: physicalCount),
+              let deletionEvents = makePhysicalKeyEvents(keyCode: KeyboardKeyCode.backspace, modifiers: [], count: physicalCount),
               let delimiterEvents = makePhysicalKeyEvents(keyCode: physicalKeyCode, modifiers: [], count: 1)
         else { return false }
         post(breakEvents, proxy: proxy, encodedUnits: [])
@@ -253,7 +263,7 @@ public final class KeySynthesizer {
 
     func trackEncodedUnits(_ encodedUnits: [String]) {
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(utf16: $0.utf16.count, graphemes: $0.count)
+            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
         })
     }
 
@@ -301,25 +311,25 @@ public final class KeySynthesizer {
             units.withUnsafeBufferPointer { buffer in
                 keyDown.keyboardSetUnicodeString(stringLength: buffer.count, unicodeString: buffer.baseAddress)
             }
-            keyDown.tapPostEvent(proxy)
-            keyUp.tapPostEvent(proxy)
+            eventPoster(keyDown, proxy)
+            eventPoster(keyUp, proxy)
         }
 
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(utf16: $0.utf16.count, graphemes: $0.count)
+            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
         })
     }
 
     private func physicalDeleteCount(_ logicalCount: Int) -> Int {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.utf16 }
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.utf16Count }
     }
 
     private func selectionDeleteCount(_ logicalCount: Int) -> Int {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemes }
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemeCount }
     }
 
     private func macroExpansionDeleteCount(_ logicalCount: Int) -> Int {
@@ -341,7 +351,7 @@ public final class KeySynthesizer {
         var deletedUnits = 0
         for _ in 0 ..< min(logicalCount, encodedUnitStack.count) {
             let unit = encodedUnitStack.removeLast()
-            deletedUnits += unit.utf16
+            deletedUnits += unit.utf16Count
         }
         return deletedUnits
     }
@@ -351,7 +361,7 @@ public final class KeySynthesizer {
         var deletedGraphemes = 0
         for _ in 0 ..< min(logicalCount, encodedUnitStack.count) {
             let unit = encodedUnitStack.removeLast()
-            deletedGraphemes += unit.graphemes
+            deletedGraphemes += unit.graphemeCount
         }
         return deletedGraphemes
     }
@@ -379,8 +389,8 @@ public final class KeySynthesizer {
 
     private func post(_ events: [(keyDown: CGEvent, keyUp: CGEvent)], proxy: CGEventTapProxy) {
         for event in events {
-            event.keyDown.tapPostEvent(proxy)
-            event.keyUp.tapPostEvent(proxy)
+            eventPoster(event.keyDown, proxy)
+            eventPoster(event.keyUp, proxy)
         }
     }
 
@@ -403,71 +413,5 @@ public final class KeySynthesizer {
         }
 
         return chunks
-    }
-}
-
-struct MacroExpansion {
-    let triggerLength: Int
-    let text: String
-}
-
-struct MacroExpander {
-    private static let delimiterKeyCodes: Set<UInt16> = [36, 48, 49]
-
-    private var macros: [Macro] = []
-    private var trigger = ""
-    /// Secondary defense against macro self-recursion loops (primary defense is KeySynthesizer.isSelfPosted).
-    private(set) var inMacroExpansion = false
-
-    mutating func update(macros: [Macro]) {
-        self.macros = macros
-        trigger = ""
-        inMacroExpansion = false
-    }
-
-    mutating func reset() {
-        trigger = ""
-    }
-
-    mutating func consume(
-        character: Character,
-        keyCode: UInt16,
-        modifiers: Shortcut.ModifierFlags,
-        options: MacroOptions,
-        language: InputLanguage
-    ) -> MacroExpansion? {
-        guard !inMacroExpansion,
-              options.enabled,
-              modifiers.isEmpty
-        else {
-            trigger = ""
-            return nil
-        }
-
-        guard Self.delimiterKeyCodes.contains(keyCode) else {
-            guard !character.isWhitespace else {
-                trigger = ""
-                return nil
-            }
-            trigger.append(character)
-            if trigger.count > MacroStore.maximumTriggerLength {
-                trigger.removeFirst(trigger.count - MacroStore.maximumTriggerLength)
-            }
-            return nil
-        }
-
-        defer { trigger = "" }
-        guard let macro = macros.first(where: {
-            $0.isEnabled
-                && $0.category.matches(language)
-                && $0.trigger.compare(trigger, options: .caseInsensitive) == .orderedSame
-        })
-        else {
-            return nil
-        }
-        let text = options.autoCapitalize
-            ? MacroStore.matchCapitalization(of: trigger, in: macro.expansion)
-            : macro.expansion
-        return MacroExpansion(triggerLength: trigger.count, text: text)
     }
 }

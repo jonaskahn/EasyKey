@@ -6,6 +6,11 @@ import Foundation
 /// removes tone), full-Telex extensions (standalone `w`→ư, `[`→ơ, `]`→ư,
 /// `{`→Ơ, `}`→Ư), position-free marks and tones, repeat-to-undo, and
 /// checked-final tone restriction. VNI digit rules share the same pipeline.
+///
+/// VNI invariant: a successful tone or diacritic assignment returns a pending
+/// undo state; an invalid tone digit for the current final or an unmatched
+/// key returns `nil` without pending state, dropping the digit so it never
+/// pollutes raw text or repeat-to-undo semantics.
 public enum TelexComposer {
     private struct Profile: Equatable, Sendable {
         var isTelexFamily: Bool
@@ -391,11 +396,6 @@ public enum TelexComposer {
         atoms[index].mark = .none
     }
 
-    /// Processes a single VNI key.
-    ///
-    /// Invariant: A successful tone or diacritic mark assignment returns a tuple with `pending` undo state.
-    /// An invalid tone digit for the current final or an unmatched key returns `nil` without setting `pending`,
-    /// dropping the invalid key digit so it does not pollute raw text or break repeat-to-undo semantics.
     private static func processVNIKey(
         _ key: Character,
         atoms: inout [BufferAtom],
@@ -408,7 +408,6 @@ public enum TelexComposer {
             }
             let final = trailingFinalConsonants(atoms)
             guard VietnameseOrthography.toneIsValid(newTone, forFinal: final) else {
-                // VNI: drop the invalid tone digit entirely.
                 return nil
             }
             let previous = tone

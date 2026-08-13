@@ -34,6 +34,43 @@ jobs:
       - name: Lint
         run: swiftlint lint
 
+  structure:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Check test target registration
+        # Fails when a tracked test file is missing from its Xcode target's
+        # Sources phase; a dropped test file would otherwise make CI shards
+        # silently execute fewer tests.
+        run: Scripts/check-test-registration.sh
+
+      - name: Build EasyEngineCore standalone
+        run: |
+          xcodebuild \
+            -project EasyKey.xcodeproj \
+            -target EasyEngineCore \
+            -configuration Debug \
+            -destination "platform=macOS" \
+            build
+
+      - name: Build EasyKeyKit standalone
+        # Guards the explicit EasyKeyKit -> EasyEngineCore target dependency:
+        # without it, Kit builds only when the app happens to link Core first.
+        run: |
+          xcodebuild \
+            -project EasyKey.xcodeproj \
+            -target EasyKeyKit \
+            -configuration Debug \
+            -destination "platform=macOS" \
+            build
+
   test:
     runs-on: macos-15
     strategy:
@@ -77,6 +114,7 @@ jobs:
               -only-testing:EasyKeyTests/KeyboardServicePauseIsolationTests
               -only-testing:EasyKeyTests/SettingsRepositoryMigrationTests
               -only-testing:EasyKeyTests/UpdateServiceTestModeTests
+              -only-testing:EasyKeyTests/KeySynthesizerEventOrderingTests
           - shard: unit-2
             filter: >-
               -only-testing:EasyKeyTests/AppLogicCoverageTests
@@ -109,6 +147,8 @@ jobs:
               -only-testing:EasyKeyTests/KeyboardInputPipelineAppSwitchTests
               -only-testing:EasyKeyTests/KeyboardTapIsolationTests
               -only-testing:EasyKeyTests/SettingsStoreAsyncWriteTests
+              -only-testing:EasyKeyTests/CommandCDoublePressBoundaryTests
+              -only-testing:EasyKeyTests/KeyboardPipelineCacheTimingTests
               -skip-testing:EasyKeyTests/AppLogicCoverageTests/testAppleTranslationSessionBridge_AttachWithDefaultSleep_CancellationCompletesAttach
               -skip-testing:EasyKeyTests/AppLogicCoverageTests/testAppleTranslationSessionBridge_TranslateWithNoDeliveredSession_RequestsConfigurationAndThrows
           # The two testAppleTranslationSessionBridge_* tests above construct a real
@@ -279,6 +319,14 @@ jobs:
             -resultBundlePath build/TestResults.xcresult \
             -enableCodeCoverage YES \
             ${{ matrix.filter }}
+
+      - name: Fail shards that executed zero tests
+        # xcodebuild succeeds when a filter matches no tests at all (e.g. a
+        # suite dropped from the target), which would turn this shard
+        # false-green. The known-broken shard is exempt: a test-process crash
+        # at launch can legitimately leave it with zero executed tests.
+        if: matrix.shard != 'ui-known-broken-on-hosted-runner'
+        run: Scripts/check-shard-tests.sh build/TestResults.xcresult
 
       - name: Upload shard result bundle
         if: always()

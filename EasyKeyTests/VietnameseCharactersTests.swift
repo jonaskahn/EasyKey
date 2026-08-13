@@ -96,14 +96,6 @@ final class VietnameseCharactersTests: XCTestCase {
         XCTAssertNil(result)
     }
 
-    func testToneMarkKeys() {
-        XCTAssertEqual(VietnameseCharacters.toneMarkKeys[.acute], ["s", "S"])
-        XCTAssertEqual(VietnameseCharacters.toneMarkKeys[.grave], ["f", "F"])
-        XCTAssertEqual(VietnameseCharacters.toneMarkKeys[.hook], ["r", "R"])
-        XCTAssertEqual(VietnameseCharacters.toneMarkKeys[.tilde], ["x", "X"])
-        XCTAssertEqual(VietnameseCharacters.toneMarkKeys[.dotBelow], ["j", "J"])
-    }
-
     func testToneNumberKeys() {
         XCTAssertEqual(VietnameseCharacters.toneNumberKeys["1"], .acute)
         XCTAssertEqual(VietnameseCharacters.toneNumberKeys["2"], .grave)
@@ -117,18 +109,5 @@ final class VietnameseCharactersTests: XCTestCase {
         XCTAssertEqual(VietnameseCharacters.diacriticNumberKeys["7"], .horn)
         XCTAssertEqual(VietnameseCharacters.diacriticNumberKeys["8"], .breve)
         XCTAssertEqual(VietnameseCharacters.diacriticNumberKeys["9"], .stroke)
-    }
-
-    func testStartConsonantsAreCanonicalVietnameseOnsets() {
-        let single = Set([
-            "b", "c", "d", "đ", "g", "h", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "x",
-        ])
-        let combined = Set([
-            "ch", "gh", "gi", "kh", "ng", "ngh", "nh", "ph", "th", "tr", "qu",
-        ])
-
-        XCTAssertEqual(VietnameseCharacters.startConsonants, single.union(combined))
-        XCTAssertFalse(VietnameseCharacters.startConsonants.contains("dg"))
-        XCTAssertFalse(VietnameseCharacters.startConsonants.contains("dh"))
     }
 }

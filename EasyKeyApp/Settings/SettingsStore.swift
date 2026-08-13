@@ -5,7 +5,7 @@ import SwiftUI
 
 /// App-layer observable wrapper around the framework-free `SettingsRepository`.
 @MainActor
-final class ObservableSettingsStore: ObservableObject {
+final class SettingsStore: ObservableObject {
     @Published private(set) var settings: EasyKeySettings
 
     private let repository: SettingsRepository
@@ -62,5 +62,3 @@ final class ObservableSettingsStore: ObservableObject {
         repository.configurationSnapshot
     }
 }
-
-typealias SettingsStore = ObservableSettingsStore

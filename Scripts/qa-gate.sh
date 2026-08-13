@@ -12,6 +12,7 @@ xcodebuild test \
 
 exit_status=0
 "$project_root/Scripts/verify-qa-artifacts.sh" || exit_status=1
+"$project_root/Scripts/check-test-registration.sh" || exit_status=1
 
 (( exit_status == 0 )) || exit 1
 

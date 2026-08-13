@@ -1,4 +1,5 @@
 import CoreGraphics
+import EasyEngineCore
 @testable import EasyKeyKit
 import XCTest
 
@@ -14,9 +15,10 @@ final class KeyboardServiceLatencyTests: XCTestCase {
             return
         }
 
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
         let start = DispatchTime.now().uptimeNanoseconds
         for _ in 0 ..< 500 {
-            _ = service.handleTapEvent(proxy: nil, type: .keyDown, event: event)
+            _ = service.handleTapEvent(proxy: proxy, type: .keyDown, event: event)
         }
         let elapsed = DispatchTime.now().uptimeNanoseconds - start
 

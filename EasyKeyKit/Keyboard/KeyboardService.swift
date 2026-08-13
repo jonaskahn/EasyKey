@@ -251,7 +251,7 @@ public final class KeyboardService {
             typeRawValue: type.rawValue,
             disposition: disposition,
             outputCount: outputCount,
-            bundleIdentifier: pipeline.activeAppBundleIdentifier,
+            bundleIdentifier: pipeline.activeApplicationBundleIdentifier,
             startedAt: startedAt
         )
     }

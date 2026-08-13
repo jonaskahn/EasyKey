@@ -145,7 +145,7 @@ final class EngineCoverageGapTests: XCTestCase {
 
     func testLiveConfidence_LongNoModifierRun_AppliesLongPenalty() {
         let atoms = Array("bbbbbbbb").map { BufferAtom(base: $0) }
-        let score = VietnameseOrthography.liveConfidenceScore(
+        let score = LiveConfidence.score(
             rawKeys: Array("bbbbbbbb"),
             atoms: atoms
         )

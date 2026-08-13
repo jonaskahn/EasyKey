@@ -25,7 +25,7 @@ public enum AppLog {
         return map
     }()
 
-    public static func logger(_ category: Category) -> Logger {
+    static func logger(_ category: Category) -> Logger {
         loggers[category] ?? Logger(subsystem: subsystem, category: category.rawValue)
     }
 
@@ -43,13 +43,5 @@ public enum AppLog {
 
     public static func error(_ category: Category, _ message: String) {
         logger(category).error("\(message, privacy: .public)")
-    }
-}
-
-/// Centralized bundle and target identifiers used across the application.
-public enum AppIdentifiers {
-    public static let main = "one.ifelse.easykey"
-    public static var loginHelper: String {
-        main + ".LoginHelper"
     }
 }

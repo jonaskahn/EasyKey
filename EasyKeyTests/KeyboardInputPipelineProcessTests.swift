@@ -222,7 +222,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
     func testSetActiveApplication_UpdatesSnapshotAndConfiguresRule() {
         let pipeline = KeyboardInputPipeline(settings: .defaults)
         pipeline.setActiveApplication("com.apple.Safari")
-        XCTAssertEqual(pipeline.activeBundleIdentifierSnapshot, "com.apple.Safari")
+        XCTAssertEqual(pipeline.activeApplicationBundleIdentifier, "com.apple.Safari")
     }
 
     func testSetActiveApplication_ChromiumBundle_UsesAddressBarPath() {

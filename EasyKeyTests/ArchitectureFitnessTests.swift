@@ -122,11 +122,16 @@ final class ArchitectureFitnessTests: XCTestCase {
     }
 
     private func swiftFiles(in directory: URL) throws -> [URL] {
-        let values = try FileManager.default.contentsOfDirectory(
+        var files: [URL] = []
+        let enumerator = FileManager.default.enumerator(
             at: directory,
             includingPropertiesForKeys: [.isRegularFileKey],
             options: [.skipsHiddenFiles]
         )
-        return values.filter { $0.pathExtension == "swift" }
+        while let item = enumerator?.nextObject() as? URL {
+            guard item.pathExtension == "swift" else { continue }
+            files.append(item)
+        }
+        return files
     }
 }

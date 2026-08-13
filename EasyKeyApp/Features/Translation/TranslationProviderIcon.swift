@@ -100,16 +100,16 @@ private struct TranslationProviderRowButtonStyle: ButtonStyle {
     }
 }
 
-public struct TranslationProviderIcon: View {
-    public let provider: TranslationProviderID
-    public var size: CGFloat = 16
+struct TranslationProviderIcon: View {
+    let provider: TranslationProviderID
+    var size: CGFloat = 16
 
-    public init(provider: TranslationProviderID, size: CGFloat = 16) {
+    init(provider: TranslationProviderID, size: CGFloat = 16) {
         self.provider = provider
         self.size = size
     }
 
-    public var body: some View {
+    var body: some View {
         Group {
             switch provider {
             case .automatic: automaticIcon

@@ -31,7 +31,7 @@ public struct EngineOutput: Equatable, Sendable {
         self.sessionEffect = sessionEffect
     }
 
-    public static let passThrough = EngineOutput(disposition: .pass)
+    static let passThrough = EngineOutput(disposition: .pass)
 
-    public static let suppress = EngineOutput(disposition: .suppress)
+    static let suppress = EngineOutput(disposition: .suppress)
 }

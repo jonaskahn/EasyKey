@@ -18,6 +18,7 @@ final class ClipboardPanelPresenter {
     private static let keepOnTopDefaultsKey = "panel.clipboard.keepOnTop"
 
     private let userDefaults: UserDefaults
+    private let localization: LocalizationStore
     private var panel: ClipboardPanel?
     private var titlebarAccessory: KeepOnTopTitlebarAccessory?
     private var globalClickMonitor: Any?
@@ -33,8 +34,9 @@ final class ClipboardPanelPresenter {
         panel?.isVisible ?? false
     }
 
-    init(userDefaults: UserDefaults = .standard) {
+    init(userDefaults: UserDefaults = .standard, localization: LocalizationStore = .shared) {
         self.userDefaults = userDefaults
+        self.localization = localization
         keepOnTop = userDefaults.bool(forKey: Self.keepOnTopDefaultsKey)
     }
 
@@ -93,10 +95,10 @@ final class ClipboardPanelPresenter {
         panel.hidesOnDeactivate = false
         panel.isReleasedWhenClosed = false
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
-        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { on in
+        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { [localization] on in
             on
-                ? LocalizationStore.shared.string(.commonUnkeepOnTop)
-                : LocalizationStore.shared.string(.commonKeepOnTop)
+                ? localization.string(.commonUnkeepOnTop)
+                : localization.string(.commonKeepOnTop)
         }
         accessory.onToggle = { [weak self] on in self?.setKeepOnTop(on) }
         panel.addTitlebarAccessoryViewController(accessory)

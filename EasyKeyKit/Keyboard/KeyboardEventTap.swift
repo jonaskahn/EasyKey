@@ -9,7 +9,7 @@ final class KeyboardEventTap {
     private let eventMask: CGEventMask
     private var eventTap: CFMachPort?
     private var eventTapRunLoopSource: CFRunLoopSource?
-    private var workspaceObservers: [NSObjectProtocol] = []
+    private let sleepWakeObserver = KeyboardSleepWakeObserver()
     private weak var service: KeyboardService?
 
     var isInstalled: Bool {
@@ -22,7 +22,7 @@ final class KeyboardEventTap {
 
     deinit {
         tearDown()
-        removeWorkspaceObservers()
+        sleepWakeObserver.remove()
     }
 
     func bind(to service: KeyboardService) {
@@ -75,27 +75,7 @@ final class KeyboardEventTap {
         onSleep: @escaping () -> Void,
         onWake: @escaping () -> Void
     ) {
-        guard workspaceObservers.isEmpty else { return }
-        let notificationCenter = NSWorkspace.shared.notificationCenter
-        workspaceObservers = [
-            notificationCenter.addObserver(
-                forName: NSWorkspace.willSleepNotification,
-                object: nil,
-                queue: .main
-            ) { _ in onSleep() },
-            notificationCenter.addObserver(
-                forName: NSWorkspace.didWakeNotification,
-                object: nil,
-                queue: .main
-            ) { _ in onWake() },
-        ]
-    }
-
-    private func removeWorkspaceObservers() {
-        for observer in workspaceObservers {
-            NSWorkspace.shared.notificationCenter.removeObserver(observer)
-        }
-        workspaceObservers.removeAll()
+        sleepWakeObserver.install(onSleep: onSleep, onWake: onWake)
     }
 }
 

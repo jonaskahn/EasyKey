@@ -6,14 +6,14 @@ import XCTest
 final class ObservableSettingsStoreTests: XCTestCase {
     private var tempDirectory: URL!
     private var fileURL: URL!
-    private var store: ObservableSettingsStore!
+    private var store: SettingsStore!
 
     override func setUpWithError() throws {
         tempDirectory = FileManager.default.temporaryDirectory
-            .appendingPathComponent("ObservableSettingsStoreTests-\(UUID().uuidString)")
+            .appendingPathComponent("SettingsStoreTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
         fileURL = tempDirectory.appendingPathComponent("settings.json")
-        store = ObservableSettingsStore(fileURL: fileURL)
+        store = SettingsStore(fileURL: fileURL)
     }
 
     override func tearDownWithError() throws {
@@ -68,6 +68,6 @@ final class ObservableSettingsStoreTests: XCTestCase {
     }
 
     func testDefaultFileURL_IsStable() {
-        XCTAssertEqual(ObservableSettingsStore.defaultFileURL, ObservableSettingsStore.defaultFileURL)
+        XCTAssertEqual(SettingsStore.defaultFileURL, SettingsStore.defaultFileURL)
     }
 }

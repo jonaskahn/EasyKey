@@ -47,7 +47,7 @@ public struct KeyEvent: Equatable, Sendable {
         control || option || command
     }
 
-    public static func char(_ character: Character, shift: Bool = false, capsLock: Bool = false) -> KeyEvent {
+    static func char(_ character: Character, shift: Bool = false, capsLock: Bool = false) -> KeyEvent {
         KeyEvent(kind: .character(character), shift: shift, capsLock: capsLock)
     }
 }

@@ -1,3 +1,4 @@
+import EasyEngineCore
 @testable import EasyKeyKit
 import XCTest
 
@@ -9,7 +10,7 @@ final class KeyboardServicePauseIsolationTests: XCTestCase {
 
         var invoked = false
         var isMain = false
-        service.pauseHandler = { _ in
+        service.pauseHandler = { (_: Bool) in
             invoked = true
             isMain = Thread.isMainThread
         }

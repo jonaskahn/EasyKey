@@ -53,7 +53,7 @@ enum TestCoordinatorFactory {
             .appendingPathComponent("AppCoordinatorTests-\(UUID().uuidString)")
         try? FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
 
-        let settingsStore = ObservableSettingsStore(fileURL: tempDirectory.appendingPathComponent("settings.json"))
+        let settingsStore = SettingsStore(fileURL: tempDirectory.appendingPathComponent("settings.json"))
         let macroStore = MacroStore(fileURL: tempDirectory.appendingPathComponent("macros.json"))
         let smartSwitchStore = SmartSwitchStore(fileURL: tempDirectory.appendingPathComponent("smart-switch.json"))
         let localizationSuiteName = "one.ifelse.easykey.coordinator-tests.\(UUID().uuidString)"

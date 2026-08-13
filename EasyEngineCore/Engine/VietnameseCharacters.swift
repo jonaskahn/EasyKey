@@ -121,16 +121,11 @@ public enum VietnameseCharacters {
         return toneRow[markIndex]
     }
 
-    public static let lowerD: Character = "d"
-    public static let upperD: Character = "D"
-    public static let lowerDStroke: Character = "đ"
-    public static let upperDStroke: Character = "Đ"
-
     public static func d(withStroke: Bool, uppercase: Bool) -> Character {
         if withStroke {
-            return uppercase ? upperDStroke : lowerDStroke
+            return uppercase ? "Đ" : "đ"
         }
-        return uppercase ? upperD : lowerD
+        return uppercase ? "D" : "d"
     }
 
     public static let vowels: Set<Character> = [
@@ -148,14 +143,6 @@ public enum VietnameseCharacters {
         "Y",
     ]
 
-    public static let toneMarkKeys: [Tone: Set<Character>] = [
-        .acute: ["s", "S"],
-        .grave: ["f", "F"],
-        .hook: ["r", "R"],
-        .tilde: ["x", "X"],
-        .dotBelow: ["j", "J"],
-    ]
-
     public static let toneNumberKeys: [Character: Tone] = [
         "1": .acute,
         "2": .grave,
@@ -169,11 +156,6 @@ public enum VietnameseCharacters {
         "7": .horn,
         "8": .breve,
         "9": .stroke,
-    ]
-
-    public static let startConsonants: Set<String> = [
-        "b", "c", "d", "đ", "g", "h", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "x",
-        "ch", "gh", "gi", "kh", "ng", "ngh", "nh", "ph", "th", "tr", "qu",
     ]
 
     public static func isVowel(_ character: Character) -> Bool {

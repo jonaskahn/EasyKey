@@ -1,11 +1,13 @@
 import CoreGraphics
+import EasyEngineCore
 @testable import EasyKeyKit
 import XCTest
 
 @MainActor
 final class KeyboardTapIsolationTests: XCTestCase {
     func testKeyboardEventTapCallback_RunsOnMainThread() {
-        let settings = EasyKeySettings()
+        var settings = EasyKeySettings()
+        settings.input.language = .english
         let service = KeyboardService(settings: settings)
         let unmanagedService = Unmanaged.passUnretained(service)
         let opaquePointer = unmanagedService.toOpaque()
@@ -16,8 +18,9 @@ final class KeyboardTapIsolationTests: XCTestCase {
             return
         }
 
+        let proxy = unsafeBitCast(UInt(0), to: CGEventTapProxy.self)
         let result = keyboardEventTapCallback(
-            proxy: nil as CGEventTapProxy?,
+            proxy: proxy,
             type: .keyDown,
             event: event,
             userInfo: opaquePointer

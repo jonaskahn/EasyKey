@@ -57,7 +57,7 @@ final class ClipboardServices: ObservableObject {
         model.onPayloadsRemoved = { [weak thumbnailLoader] references in
             thumbnailLoader?.remove(references: references)
         }
-        let presenter = ClipboardPanelPresenter()
+        let presenter = ClipboardPanelPresenter(localization: localization)
         let action = ClipboardActionCoordinator(
             writeEntry: { [weak writer] entry in
                 guard let writer else { throw PasteboardWriteError.unavailableRepresentation }

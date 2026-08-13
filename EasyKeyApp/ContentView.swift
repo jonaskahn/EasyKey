@@ -6,8 +6,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var settingsStore: SettingsStore
     @ObservedObject var coordinator: AppCoordinator
-    @ObservedObject private var localization = LocalizationStore.shared
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(AppLanguage.onboardingCompletedKey) private var hasCompletedOnboarding = false
 
     var body: some View {
         Group {

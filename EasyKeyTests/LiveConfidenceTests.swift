@@ -5,7 +5,7 @@ final class LiveConfidenceTests: XCTestCase {
     func testIllegalOnsetRunScoresBelowLowThreshold() {
         let atoms = atoms(from: "str")
 
-        let score = VietnameseOrthography.liveConfidenceScore(
+        let score = LiveConfidence.score(
             rawKeys: Array("str"),
             atoms: atoms
         )
@@ -20,7 +20,7 @@ final class LiveConfidenceTests: XCTestCase {
             configuration: EngineConfiguration()
         )
 
-        let score = VietnameseOrthography.liveConfidenceScore(
+        let score = LiveConfidence.score(
             rawKeys: Array("viet"),
             atoms: viet.atoms
         )
@@ -34,7 +34,7 @@ final class LiveConfidenceTests: XCTestCase {
             configuration: EngineConfiguration()
         )
 
-        let score = VietnameseOrthography.liveConfidenceScore(
+        let score = LiveConfidence.score(
             rawKeys: Array("nguoiw"),
             atoms: nguoiw.atoms
         )
@@ -44,11 +44,11 @@ final class LiveConfidenceTests: XCTestCase {
     }
 
     func testLongNoModifierEnglishLikeRunDepressesScoreBelowShortIllegalRun() {
-        let shortIllegal = VietnameseOrthography.liveConfidenceScore(
+        let shortIllegal = LiveConfidence.score(
             rawKeys: Array("bb"),
             atoms: atoms(from: "bb")
         )
-        let longEnglish = VietnameseOrthography.liveConfidenceScore(
+        let longEnglish = LiveConfidence.score(
             rawKeys: Array("bbbccc"),
             atoms: atoms(from: "bbbccc")
         )
@@ -183,7 +183,7 @@ final class LiveConfidenceTests: XCTestCase {
     }
 
     private func band(for score: Double) -> LiveConfidenceBand {
-        VietnameseOrthography.liveConfidenceBand(
+        LiveConfidence.band(
             score: score,
             lowThreshold: LiveConfidenceDefaults.lowThreshold,
             highThreshold: LiveConfidenceDefaults.highThreshold

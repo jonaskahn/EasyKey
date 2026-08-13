@@ -1,3 +1,4 @@
+import EasyEngineCore
 @testable import EasyKey
 import Security
 import XCTest
@@ -10,7 +11,7 @@ private final class RecordingSecItemAccess: SecItemAccessing, @unchecked Sendabl
     func copyMatching(_ query: [String: Any]) -> (status: OSStatus, result: CFTypeRef?) {
         lastBaseQuery = query
         if hasCredential {
-            return (errSecSuccess, kCFBooleanTrue)
+            return (errSecSuccess, Data("stored-secret".utf8) as CFTypeRef)
         }
         return (errSecItemNotFound, nil)
     }
@@ -35,7 +36,7 @@ private final class RecordingSecItemAccess: SecItemAccessing, @unchecked Sendabl
 final class KeychainAccessibilityMigrationTests: XCTestCase {
     func testSave_OnUpdate_ReAssertsAccessibilityAttribute() throws {
         let access = RecordingSecItemAccess()
-        let store = TranslationCredentialStore(service: "test-service", access: access)
+        let store = KeychainTranslationCredentialStore(service: "test-service", access: access)
 
         try store.save("new-secret", for: .google)
 
@@ -49,7 +50,7 @@ final class KeychainAccessibilityMigrationTests: XCTestCase {
 
     func testBaseQuery_IncludesDataProtectionKeychainFlag() throws {
         let access = RecordingSecItemAccess()
-        let store = TranslationCredentialStore(service: "test-service", access: access)
+        let store = KeychainTranslationCredentialStore(service: "test-service", access: access)
 
         _ = try store.credential(for: .google)
 

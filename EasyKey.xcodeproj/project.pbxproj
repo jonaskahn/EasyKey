@@ -265,9 +265,63 @@
 		T7000000000000000F /* KeySynthesizerUtilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T8000000000000000F /* KeySynthesizerUtilityTests.swift */; };
 		T70000000000000010 /* KeyboardPipelineCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000010 /* KeyboardPipelineCoverageTests.swift */; };
 		T70000000000000011 /* LiveConfidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T80000000000000011 /* LiveConfidenceTests.swift */; };
+		EAF1000000000000000001 /* AccessibilityRePromptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000001 /* AccessibilityRePromptTests.swift */; };
+		EAF1000000000000000002 /* AppCoordinatorConcurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000002 /* AppCoordinatorConcurrencyTests.swift */; };
+		EAF1000000000000000003 /* AppCoordinatorLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000003 /* AppCoordinatorLifecycleTests.swift */; };
+		EAF1000000000000000004 /* CarbonHotKeyIsolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000004 /* CarbonHotKeyIsolationTests.swift */; };
+		EAF1000000000000000005 /* EasyKeySettingsDeltaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000005 /* EasyKeySettingsDeltaTests.swift */; };
+		EAF1000000000000000006 /* KeyboardInputPipelineAppSwitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000006 /* KeyboardInputPipelineAppSwitchTests.swift */; };
+		EAF1000000000000000007 /* KeyboardInputPipelineLanguageToggleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000007 /* KeyboardInputPipelineLanguageToggleTests.swift */; };
+		EAF1000000000000000008 /* KeyboardInputPipelineSettingsUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000008 /* KeyboardInputPipelineSettingsUpdateTests.swift */; };
+		EAF1000000000000000009 /* KeyboardServiceLatencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000009 /* KeyboardServiceLatencyTests.swift */; };
+		EAF100000000000000000A /* KeyboardServicePauseIsolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000A /* KeyboardServicePauseIsolationTests.swift */; };
+		EAF100000000000000000B /* KeyboardTapIsolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000B /* KeyboardTapIsolationTests.swift */; };
+		EAF100000000000000000C /* KeychainAccessibilityMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000C /* KeychainAccessibilityMigrationTests.swift */; };
+		EAF100000000000000000D /* LoginHelperHardeningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000D /* LoginHelperHardeningTests.swift */; };
+		EAF100000000000000000E /* LoginHelperWatchdogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000E /* LoginHelperWatchdogTests.swift */; };
+		EAF100000000000000000F /* SettingsRepositoryMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF000000000000000000F /* SettingsRepositoryMigrationTests.swift */; };
+		EAF1000000000000000010 /* SettingsStoreAsyncWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000010 /* SettingsStoreAsyncWriteTests.swift */; };
+		EAF1000000000000000011 /* SmartSwitchStoreAsyncSaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000011 /* SmartSwitchStoreAsyncSaveTests.swift */; };
+		EAF1000000000000000012 /* SynthesizePasteIsolationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000012 /* SynthesizePasteIsolationTests.swift */; };
+		EAF1000000000000000013 /* UpdateServiceTestModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000013 /* UpdateServiceTestModeTests.swift */; };
+		EAF1000000000000000014 /* ValidatedTranslationEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF0000000000000000014 /* ValidatedTranslationEndpointTests.swift */; };
+		EAF50000000000000000001 /* KeySynthesizerEventOrderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF40000000000000000001 /* KeySynthesizerEventOrderingTests.swift */; };
+		EAF50000000000000000002 /* CommandCDoublePressBoundaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF40000000000000000002 /* CommandCDoublePressBoundaryTests.swift */; };
+		EAF50000000000000000003 /* KeyboardPipelineCacheTimingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF40000000000000000003 /* KeyboardPipelineCacheTimingTests.swift */; };
+		EAF70000000000000000001 /* EngineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF60000000000000000001 /* EngineConfiguration.swift */; };
+		EAF70000000000000000002 /* EncodingCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF60000000000000000002 /* EncodingCodec.swift */; };
+		EAF70000000000000000003 /* LiveConfidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF60000000000000000003 /* LiveConfidence.swift */; };
+		EAF70000000000000000004 /* AppIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF60000000000000000004 /* AppIdentifiers.swift */; };
+		EAFA000000000000000001 /* KeyboardMacroExpander.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF9000000000000000001 /* KeyboardMacroExpander.swift */; };
+		EAFA000000000000000002 /* KeyboardProcessResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF9000000000000000002 /* KeyboardProcessResult.swift */; };
+		EAFA000000000000000003 /* KeyboardMacroExpanderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF9000000000000000003 /* KeyboardMacroExpanderTests.swift */; };
+		EAFC000000000000000001 /* CGKeyboardEventAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFB000000000000000001 /* CGKeyboardEventAdapter.swift */; };
+		EAFC000000000000000002 /* KeyboardKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFB000000000000000002 /* KeyboardKeyCode.swift */; };
+		EAFC000000000000000003 /* KeyboardEngineConfigurationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFB000000000000000003 /* KeyboardEngineConfigurationFactory.swift */; };
+		EAFC000000000000000004 /* KeyboardInputSourceInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFB000000000000000004 /* KeyboardInputSourceInspector.swift */; };
+		EAFE000000000000000001 /* CommandCDoublePressDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFD000000000000000001 /* CommandCDoublePressDetector.swift */; };
+		EAFE000000000000000002 /* ChromiumAddressBarContextResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFD000000000000000002 /* ChromiumAddressBarContextResolver.swift */; };
+		EAFE000000000000000003 /* SpotlightContextResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFD000000000000000003 /* SpotlightContextResolver.swift */; };
+		EB00000000000000000001 /* KeyboardSleepWakeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFF000000000000000001 /* KeyboardSleepWakeObserver.swift */; };
+		EB030000000000000000001 /* TranslationProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000001 /* TranslationProviderRegistry.swift */; };
+		EB030000000000000000002 /* TranslationDisclosureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000002 /* TranslationDisclosureController.swift */; };
+		EB030000000000000000003 /* ValidatedTranslationEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000003 /* ValidatedTranslationEndpoint.swift */; };
+		EB030000000000000000004 /* TranslationNetworkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000004 /* TranslationNetworkSession.swift */; };
+		EB030000000000000000005 /* TranslationProviderPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000005 /* TranslationProviderPresentation.swift */; };
+		EB030000000000000000006 /* TranslationPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000006 /* TranslationPanel.swift */; };
+		EB030000000000000000007 /* TranslationPanelEventMonitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB020000000000000000007 /* TranslationPanelEventMonitoring.swift */; };
+		EB05000000000000000001 /* EasyKeyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB04000000000000000001 /* EasyKeyApp.swift */; };
+		EB05000000000000000002 /* LiveTranslationCredentialValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB04000000000000000002 /* LiveTranslationCredentialValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EAF2000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9527389DB43494FA2D5813D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDF1F8AC35D14B95968C1E7D;
+			remoteInfo = EasyEngineCore;
+		};
 		5121268D91DA4281B14A9F40 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E9527389DB43494FA2D5813D /* Project object */;
@@ -576,7 +630,7 @@
 		F2A100000000000000000003 /* SmartSwitchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchController.swift; sourceTree = "<group>"; };
 		F2A100000000000000000004 /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
 		F2A100000000000000000005 /* MenuPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPopoverView.swift; sourceTree = "<group>"; };
-		F2A100000000000000000006 /* ObservableSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSettingsStore.swift; sourceTree = "<group>"; };
+		F2A100000000000000000006 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		F2A100000000000000000007 /* WorkspaceObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceObserver.swift; sourceTree = "<group>"; };
 		F2A100000000000000000008 /* StatusMenuBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuBuilder.swift; sourceTree = "<group>"; };
 		F2A100000000000000000009 /* StatusMenuActionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuActionTarget.swift; sourceTree = "<group>"; };
@@ -610,6 +664,53 @@
 		T8000000000000000F /* KeySynthesizerUtilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySynthesizerUtilityTests.swift; sourceTree = "<group>"; };
 		T80000000000000010 /* KeyboardPipelineCoverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPipelineCoverageTests.swift; sourceTree = "<group>"; };
 		T80000000000000011 /* LiveConfidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConfidenceTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000001 /* AccessibilityRePromptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityRePromptTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000002 /* AppCoordinatorConcurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorConcurrencyTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000003 /* AppCoordinatorLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorLifecycleTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000004 /* CarbonHotKeyIsolationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbonHotKeyIsolationTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000005 /* EasyKeySettingsDeltaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeySettingsDeltaTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000006 /* KeyboardInputPipelineAppSwitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputPipelineAppSwitchTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000007 /* KeyboardInputPipelineLanguageToggleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputPipelineLanguageToggleTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000008 /* KeyboardInputPipelineSettingsUpdateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputPipelineSettingsUpdateTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000009 /* KeyboardServiceLatencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServiceLatencyTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000A /* KeyboardServicePauseIsolationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardServicePauseIsolationTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000B /* KeyboardTapIsolationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardTapIsolationTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000C /* KeychainAccessibilityMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccessibilityMigrationTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000D /* LoginHelperHardeningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHelperHardeningTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000E /* LoginHelperWatchdogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHelperWatchdogTests.swift; sourceTree = "<group>"; };
+		EAF000000000000000000F /* SettingsRepositoryMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepositoryMigrationTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000010 /* SettingsStoreAsyncWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreAsyncWriteTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000011 /* SmartSwitchStoreAsyncSaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSwitchStoreAsyncSaveTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000012 /* SynthesizePasteIsolationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthesizePasteIsolationTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000013 /* UpdateServiceTestModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateServiceTestModeTests.swift; sourceTree = "<group>"; };
+		EAF0000000000000000014 /* ValidatedTranslationEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedTranslationEndpointTests.swift; sourceTree = "<group>"; };
+		EAF40000000000000000001 /* KeySynthesizerEventOrderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySynthesizerEventOrderingTests.swift; sourceTree = "<group>"; };
+		EAF40000000000000000002 /* CommandCDoublePressBoundaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCDoublePressBoundaryTests.swift; sourceTree = "<group>"; };
+		EAF40000000000000000003 /* KeyboardPipelineCacheTimingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPipelineCacheTimingTests.swift; sourceTree = "<group>"; };
+		EAF60000000000000000001 /* EngineConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineConfiguration.swift; sourceTree = "<group>"; };
+		EAF60000000000000000002 /* EncodingCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingCodec.swift; sourceTree = "<group>"; };
+		EAF60000000000000000003 /* LiveConfidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConfidence.swift; sourceTree = "<group>"; };
+		EAF60000000000000000004 /* AppIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIdentifiers.swift; sourceTree = "<group>"; };
+		EAF9000000000000000001 /* KeyboardMacroExpander.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMacroExpander.swift; sourceTree = "<group>"; };
+		EAF9000000000000000002 /* KeyboardProcessResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardProcessResult.swift; sourceTree = "<group>"; };
+		EAF9000000000000000003 /* KeyboardMacroExpanderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMacroExpanderTests.swift; sourceTree = "<group>"; };
+		EAFB000000000000000001 /* CGKeyboardEventAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGKeyboardEventAdapter.swift; sourceTree = "<group>"; };
+		EAFB000000000000000002 /* KeyboardKeyCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardKeyCode.swift; sourceTree = "<group>"; };
+		EAFB000000000000000003 /* KeyboardEngineConfigurationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEngineConfigurationFactory.swift; sourceTree = "<group>"; };
+		EAFB000000000000000004 /* KeyboardInputSourceInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputSourceInspector.swift; sourceTree = "<group>"; };
+		EAFD000000000000000001 /* CommandCDoublePressDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCDoublePressDetector.swift; sourceTree = "<group>"; };
+		EAFD000000000000000002 /* ChromiumAddressBarContextResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromiumAddressBarContextResolver.swift; sourceTree = "<group>"; };
+		EAFD000000000000000003 /* SpotlightContextResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightContextResolver.swift; sourceTree = "<group>"; };
+		EAFF000000000000000001 /* KeyboardSleepWakeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSleepWakeObserver.swift; sourceTree = "<group>"; };
+		EB020000000000000000001 /* TranslationProviderRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderRegistry.swift; sourceTree = "<group>"; };
+		EB020000000000000000002 /* TranslationDisclosureController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationDisclosureController.swift; sourceTree = "<group>"; };
+		EB020000000000000000003 /* ValidatedTranslationEndpoint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValidatedTranslationEndpoint.swift; sourceTree = "<group>"; };
+		EB020000000000000000004 /* TranslationNetworkSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationNetworkSession.swift; sourceTree = "<group>"; };
+		EB020000000000000000005 /* TranslationProviderPresentation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationProviderPresentation.swift; sourceTree = "<group>"; };
+		EB020000000000000000006 /* TranslationPanel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanel.swift; sourceTree = "<group>"; };
+		EB020000000000000000007 /* TranslationPanelEventMonitoring.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TranslationPanelEventMonitoring.swift; sourceTree = "<group>"; };
+		EB04000000000000000001 /* EasyKeyApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EasyKeyApp.swift; sourceTree = "<group>"; };
+		EB04000000000000000002 /* LiveTranslationCredentialValidator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Translation/LiveTranslationCredentialValidator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -676,6 +777,13 @@
 			isa = PBXGroup;
 			children = (
 				190000000000000000000011 /* AppTranslationRuntime.swift */,
+				EB020000000000000000001 /* TranslationProviderRegistry.swift */,
+				EB020000000000000000002 /* TranslationDisclosureController.swift */,
+				EB020000000000000000003 /* ValidatedTranslationEndpoint.swift */,
+				EB020000000000000000004 /* TranslationNetworkSession.swift */,
+				EB020000000000000000005 /* TranslationProviderPresentation.swift */,
+				EB020000000000000000006 /* TranslationPanel.swift */,
+				EB020000000000000000007 /* TranslationPanelEventMonitoring.swift */,
 				080000000000000000000016 /* HostSafety.swift */,
 				5E8E93247014A2C907E697D2 /* TranslationProviding.swift */,
 				68D7C77472F6D2B70383BF33 /* TranslationModel.swift */,
@@ -707,12 +815,11 @@
 			isa = PBXGroup;
 			children = (
 				B419D6AC3AB34C66B4FBE799 /* AppDelegate.swift */,
-				450039CDBC04409A92A5A361 /* AppCoordinator.swift */,
+				EB04000000000000000001 /* EasyKeyApp.swift */,
 				F2C100000000000000000001 /* Coordination */,
 				D1D0BCE4C95F4598A349E3E4 /* ContentView.swift */,
 				F1C100000000000000000001 /* Features */,
 				F2C100000000000000000002 /* Settings */,
-				E70000000000000000000004 /* UpdateService.swift */,
 				A10B00000000000000000020 /* Localization */,
 				A10B00000000000000000014 /* Localizable.xcstrings */,
 				121F12885E8840E3AB8887BD /* EasyKeyApp.entitlements */,
@@ -784,6 +891,7 @@
 		8F9DE67692914E5486C72269 /* EasyKeyTests */ = {
 			isa = PBXGroup;
 			children = (
+				EAF9000000000000000003 /* KeyboardMacroExpanderTests.swift */,
 				7FFE2ABD90F34C43804837CF /* VietnameseEngineTests.swift */,
 				C3D2A1B0C3D2A1B00000000002 /* VietnameseEngineLiteralTokenTests.swift */,
 				684796F2B4EE467F9FCFA3C3 /* VietnameseEngineTonePlacementTests.swift */,
@@ -886,17 +994,102 @@
 				160000000000000000000012 /* TranslationPanelViewTests.swift */,
 				170000000000000000000013 /* TranslationSettingsModelTests.swift */,
 				170000000000000000000015 /* TranslationModelCatalogTests.swift */,
+				EAF0000000000000000001 /* AccessibilityRePromptTests.swift */,
+				EAF0000000000000000002 /* AppCoordinatorConcurrencyTests.swift */,
+				EAF0000000000000000003 /* AppCoordinatorLifecycleTests.swift */,
+				EAF0000000000000000004 /* CarbonHotKeyIsolationTests.swift */,
+				EAF0000000000000000005 /* EasyKeySettingsDeltaTests.swift */,
+				EAF0000000000000000006 /* KeyboardInputPipelineAppSwitchTests.swift */,
+				EAF0000000000000000007 /* KeyboardInputPipelineLanguageToggleTests.swift */,
+				EAF0000000000000000008 /* KeyboardInputPipelineSettingsUpdateTests.swift */,
+				EAF0000000000000000009 /* KeyboardServiceLatencyTests.swift */,
+				EAF000000000000000000A /* KeyboardServicePauseIsolationTests.swift */,
+				EAF000000000000000000B /* KeyboardTapIsolationTests.swift */,
+				EAF000000000000000000C /* KeychainAccessibilityMigrationTests.swift */,
+				EAF000000000000000000D /* LoginHelperHardeningTests.swift */,
+				EAF000000000000000000E /* LoginHelperWatchdogTests.swift */,
+				EAF000000000000000000F /* SettingsRepositoryMigrationTests.swift */,
+				EAF0000000000000000010 /* SettingsStoreAsyncWriteTests.swift */,
+				EAF0000000000000000011 /* SmartSwitchStoreAsyncSaveTests.swift */,
+				EAF0000000000000000012 /* SynthesizePasteIsolationTests.swift */,
+				EAF0000000000000000013 /* UpdateServiceTestModeTests.swift */,
+				EAF0000000000000000014 /* ValidatedTranslationEndpointTests.swift */,
+				EAF40000000000000000001 /* KeySynthesizerEventOrderingTests.swift */,
+				EAF40000000000000000002 /* CommandCDoublePressBoundaryTests.swift */,
+				EAF40000000000000000003 /* KeyboardPipelineCacheTimingTests.swift */,
 			);
 			path = EasyKeyTests;
+			sourceTree = "<group>";
+		};
+
+		EAF8000000000000000001 /* Context */ = {
+			isa = PBXGroup;
+			children = (
+				E40000000000000000000011 /* AppCompatibility.swift */,
+				EAFB000000000000000004 /* KeyboardInputSourceInspector.swift */,
+				EAFD000000000000000002 /* ChromiumAddressBarContextResolver.swift */,
+				EAFD000000000000000003 /* SpotlightContextResolver.swift */,
+			);
+			path = Context;
+			sourceTree = "<group>";
+		};
+		EAF8000000000000000002 /* Synthesis */ = {
+			isa = PBXGroup;
+			children = (
+				E40000000000000000000012 /* KeySynthesizer.swift */,
+			);
+			path = Synthesis;
+			sourceTree = "<group>";
+		};
+		EAF8000000000000000003 /* Diagnostics */ = {
+			isa = PBXGroup;
+			children = (
+				E40000000000000000000016 /* KeyboardDiagnosticsRecorder.swift */,
+			);
+			path = Diagnostics;
+			sourceTree = "<group>";
+		};
+		EAF8000000000000000005 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				EAFB000000000000000001 /* CGKeyboardEventAdapter.swift */,
+				EAFB000000000000000002 /* KeyboardKeyCode.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		EAF8000000000000000004 /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				EAF9000000000000000001 /* KeyboardMacroExpander.swift */,
+				EAF9000000000000000002 /* KeyboardProcessResult.swift */,
+				EAFB000000000000000003 /* KeyboardEngineConfigurationFactory.swift */,
+				EAFD000000000000000001 /* CommandCDoublePressDetector.swift */,
+			);
+			path = Processing;
+			sourceTree = "<group>";
+		};
+		EAF8000000000000000005 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				EAFB000000000000000001 /* CGKeyboardEventAdapter.swift */,
+				EAFB000000000000000002 /* KeyboardKeyCode.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		EB01000000000000000001 /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				EAFF000000000000000001 /* KeyboardSleepWakeObserver.swift */,
+			);
+			path = Lifecycle;
 			sourceTree = "<group>";
 		};
 		9B4FE432A5344A07B7A935D7 /* EasyKeyKit */ = {
 			isa = PBXGroup;
 			children = (
 				312B34B0F7E84E4EA5E6A2CE /* EasyKeyKit.swift */,
-				E40000000000000000000011 /* AppCompatibility.swift */,
-				E40000000000000000000012 /* KeySynthesizer.swift */,
-				E40000000000000000000013 /* KeyboardService.swift */,
 				E40000000000000000000019 /* Keyboard */,
 				502E9E6850B947D0A3F2822E /* Info.plist */,
 			);
@@ -932,6 +1125,9 @@
 		C3C100000000000000000001 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				EAF60000000000000000003 /* LiveConfidence.swift */,
+				EAF60000000000000000002 /* EncodingCodec.swift */,
+				EAF60000000000000000001 /* EngineConfiguration.swift */,
 				52EA87E37B32432E92A80DEC /* VietnameseEngine.swift */,
 				3C21BF699B666622991918A7 /* VietnameseEncoding.swift */,
 				FAFD59368E7979149B6AC5EA /* KeyEvent.swift */,
@@ -1038,6 +1234,7 @@
 		D1A600000000000000000010 /* Diagnostics */ = {
 			isa = PBXGroup;
 			children = (
+				EAF60000000000000000004 /* AppIdentifiers.swift */,
 				D1A600000000000000000002 /* AppLog.swift */,
 			);
 			path = Diagnostics;
@@ -1066,11 +1263,17 @@
 		E40000000000000000000019 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				E40000000000000000000016 /* KeyboardDiagnosticsRecorder.swift */,
+				E40000000000000000000013 /* KeyboardService.swift */,
 				E40000000000000000000017 /* KeyboardEventTap.swift */,
 				E40000000000000000000018 /* KeyboardInputPipeline.swift */,
 				E4000000000000000000001B /* FocusedElementInspector.swift */,
 				E4000000000000000000001C /* SpotlightWindowDetector.swift */,
+				EAF8000000000000000001 /* Context */,
+				EAF8000000000000000002 /* Synthesis */,
+				EAF8000000000000000003 /* Diagnostics */,
+				EAF8000000000000000004 /* Processing */,
+				EAF8000000000000000005 /* Events */,
+				EB01000000000000000001 /* Lifecycle */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -1101,6 +1304,7 @@
 				F1A100000000000000000002 /* SettingsSection.swift */,
 				F1A100000000000000000003 /* SettingsShell.swift */,
 				170000000000000000000011 /* TranslationSettingsModel.swift */,
+				EB04000000000000000002 /* LiveTranslationCredentialValidator.swift */,
 				170000000000000000000012 /* TranslationSettingsView.swift */,
 				170000000000000000000016 /* CloudTranslationSettingsCard.swift */,
 				170000000000000000000014 /* TranslationModelCatalog.swift */,
@@ -1210,6 +1414,8 @@
 				F2A10000000000000000000A /* AppCoordinatorWiring.swift */,
 				F2A100000000000000000007 /* WorkspaceObserver.swift */,
 				D1A600000000000000000004 /* LogExporter.swift */,
+				450039CDBC04409A92A5A361 /* AppCoordinator.swift */,
+				E70000000000000000000004 /* UpdateService.swift */,
 			);
 			path = Coordination;
 			sourceTree = "<group>";
@@ -1217,7 +1423,7 @@
 		F2C100000000000000000002 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				F2A100000000000000000006 /* ObservableSettingsStore.swift */,
+				F2A100000000000000000006 /* SettingsStore.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1331,6 +1537,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EAF3000000000000000001 /* PBXTargetDependency */,
 			);
 			name = EasyKeyKit;
 			productName = EasyKeyKit;
@@ -1541,6 +1748,30 @@
 				160000000000000000000002 /* TranslationPanelViewTests.swift in Sources */,
 				170000000000000000000003 /* TranslationSettingsModelTests.swift in Sources */,
 				170000000000000000000005 /* TranslationModelCatalogTests.swift in Sources */,
+				EAF1000000000000000001 /* AccessibilityRePromptTests.swift in Sources */,
+				EAF1000000000000000002 /* AppCoordinatorConcurrencyTests.swift in Sources */,
+				EAF1000000000000000003 /* AppCoordinatorLifecycleTests.swift in Sources */,
+				EAF1000000000000000004 /* CarbonHotKeyIsolationTests.swift in Sources */,
+				EAF1000000000000000005 /* EasyKeySettingsDeltaTests.swift in Sources */,
+				EAF1000000000000000006 /* KeyboardInputPipelineAppSwitchTests.swift in Sources */,
+				EAF1000000000000000007 /* KeyboardInputPipelineLanguageToggleTests.swift in Sources */,
+				EAF1000000000000000008 /* KeyboardInputPipelineSettingsUpdateTests.swift in Sources */,
+				EAF1000000000000000009 /* KeyboardServiceLatencyTests.swift in Sources */,
+				EAF100000000000000000A /* KeyboardServicePauseIsolationTests.swift in Sources */,
+				EAF100000000000000000B /* KeyboardTapIsolationTests.swift in Sources */,
+				EAF100000000000000000C /* KeychainAccessibilityMigrationTests.swift in Sources */,
+				EAF100000000000000000D /* LoginHelperHardeningTests.swift in Sources */,
+				EAF100000000000000000E /* LoginHelperWatchdogTests.swift in Sources */,
+				EAF100000000000000000F /* SettingsRepositoryMigrationTests.swift in Sources */,
+				EAF1000000000000000010 /* SettingsStoreAsyncWriteTests.swift in Sources */,
+				EAF1000000000000000011 /* SmartSwitchStoreAsyncSaveTests.swift in Sources */,
+				EAF1000000000000000012 /* SynthesizePasteIsolationTests.swift in Sources */,
+				EAF1000000000000000013 /* UpdateServiceTestModeTests.swift in Sources */,
+				EAF1000000000000000014 /* ValidatedTranslationEndpointTests.swift in Sources */,
+				EAF50000000000000000001 /* KeySynthesizerEventOrderingTests.swift in Sources */,
+				EAF50000000000000000002 /* CommandCDoublePressBoundaryTests.swift in Sources */,
+				EAF50000000000000000003 /* KeyboardPipelineCacheTimingTests.swift in Sources */,
+				EAFA000000000000000003 /* KeyboardMacroExpanderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1606,6 +1837,10 @@
 				7BB9C6F79097370580D2B325 /* TranslationOptions.swift in Sources */,
 				4A987E27279319E1B91B6F7E /* TranslationPlatformCapability.swift in Sources */,
 				A2F1A10CE892C541721BC0E3 /* TranslationProviderResolver.swift in Sources */,
+				EAF70000000000000000001 /* EngineConfiguration.swift in Sources */,
+				EAF70000000000000000002 /* EncodingCodec.swift in Sources */,
+				EAF70000000000000000003 /* LiveConfidence.swift in Sources */,
+				EAF70000000000000000004 /* AppIdentifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1696,6 +1931,15 @@
 				0F0000000000000000000001 /* TranslationSpeechController.swift in Sources */,
 				160000000000000000000001 /* TranslationPanelView.swift in Sources */,
 				190000000000000000000001 /* AppTranslationRuntime.swift in Sources */,
+				EB030000000000000000001 /* TranslationProviderRegistry.swift in Sources */,
+				EB030000000000000000002 /* TranslationDisclosureController.swift in Sources */,
+				EB030000000000000000003 /* ValidatedTranslationEndpoint.swift in Sources */,
+				EB030000000000000000004 /* TranslationNetworkSession.swift in Sources */,
+				EB030000000000000000005 /* TranslationProviderPresentation.swift in Sources */,
+				EB030000000000000000006 /* TranslationPanel.swift in Sources */,
+				EB030000000000000000007 /* TranslationPanelEventMonitoring.swift in Sources */,
+				EB05000000000000000001 /* EasyKeyApp.swift in Sources */,
+				EB05000000000000000002 /* LiveTranslationCredentialValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1712,12 +1956,27 @@
 				E40000000000000000000008 /* KeyboardInputPipeline.swift in Sources */,
 				E4000000000000000000000B /* FocusedElementInspector.swift in Sources */,
 				E4000000000000000000000C /* SpotlightWindowDetector.swift in Sources */,
+				EAFA000000000000000001 /* KeyboardMacroExpander.swift in Sources */,
+				EAFA000000000000000002 /* KeyboardProcessResult.swift in Sources */,
+				EAFC000000000000000001 /* CGKeyboardEventAdapter.swift in Sources */,
+				EAFC000000000000000002 /* KeyboardKeyCode.swift in Sources */,
+				EAFC000000000000000003 /* KeyboardEngineConfigurationFactory.swift in Sources */,
+				EAFC000000000000000004 /* KeyboardInputSourceInspector.swift in Sources */,
+				EAFE000000000000000001 /* CommandCDoublePressDetector.swift in Sources */,
+				EAFE000000000000000002 /* ChromiumAddressBarContextResolver.swift in Sources */,
+				EAFE000000000000000003 /* SpotlightContextResolver.swift in Sources */,
+				EB00000000000000000001 /* KeyboardSleepWakeObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EAF3000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDF1F8AC35D14B95968C1E7D /* EasyEngineCore */;
+			targetProxy = EAF2000000000000000001 /* PBXContainerItemProxy */;
+		};
 		2E5C98CA51FC42F39A3FBE93 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D99FC80B25BB44FABF10D117 /* EasyKeyApp */;

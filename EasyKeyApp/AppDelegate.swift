@@ -1,27 +1,6 @@
 import AppKit
 import SwiftUI
 
-@main
-struct EasyKeyAppMain: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    init() {
-        configureUITestingDefaultsIfNeeded()
-    }
-
-    var body: some Scene {
-        Settings {
-            if let coordinator = appDelegate.coordinator {
-                ContentView(
-                    settingsStore: coordinator.settingsStore,
-                    coordinator: coordinator
-                )
-                .localized()
-            }
-        }
-    }
-}
-
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private(set) var coordinator: AppCoordinator?
 
@@ -81,20 +60,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-private func configureUITestingDefaultsIfNeeded() {
-    let arguments = ProcessInfo.processInfo.arguments
-    guard arguments.contains("--uitesting") else { return }
+enum UITestingLaunchConfiguration {
+    static func configureDefaultsIfNeeded() {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard arguments.contains("--uitesting") else { return }
 
-    UserDefaults.standard.set(arguments.contains("--ui-skip-onboarding"), forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.set(arguments.contains("--ui-skip-onboarding"), forKey: AppLanguage.onboardingCompletedKey)
 
-    if let languageIndex = arguments.firstIndex(of: "--ui-language"),
-       arguments.indices.contains(languageIndex + 1) {
-        let code = arguments[languageIndex + 1]
-        if AppLanguage(rawValue: code) != nil || code == "system" {
-            UserDefaults.standard.set(code, forKey: AppLanguage.storageKey)
-            return
+        if let languageIndex = arguments.firstIndex(of: "--ui-language"),
+           arguments.indices.contains(languageIndex + 1) {
+            let code = arguments[languageIndex + 1]
+            if AppLanguage(rawValue: code) != nil || code == "system" {
+                UserDefaults.standard.set(code, forKey: AppLanguage.storageKey)
+                return
+            }
         }
-    }
 
-    UserDefaults.standard.set(AppLanguage.english.rawValue, forKey: AppLanguage.storageKey)
+        UserDefaults.standard.set(AppLanguage.english.rawValue, forKey: AppLanguage.storageKey)
+    }
 }

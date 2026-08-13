@@ -708,7 +708,7 @@ extension AppLogicCoverageTests {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("AppLogicSmartSwitch-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let settingsStore = ObservableSettingsStore(fileURL: directory.appendingPathComponent("settings.json"))
+        let settingsStore = SettingsStore(fileURL: directory.appendingPathComponent("settings.json"))
         let smartSwitchStore = SmartSwitchStore(fileURL: directory.appendingPathComponent("smart-switch.json"))
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
         let controller = SmartSwitchController(
@@ -2140,7 +2140,7 @@ extension AppLogicCoverageTests {
         let directory = FileManager.default.temporaryDirectory
             .appendingPathComponent("AppLogicSmartSwitch-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: directory) }
-        let settingsStore = ObservableSettingsStore(fileURL: directory.appendingPathComponent("settings.json"))
+        let settingsStore = SettingsStore(fileURL: directory.appendingPathComponent("settings.json"))
         let smartSwitchStore = SmartSwitchStore(fileURL: directory.appendingPathComponent("smart-switch.json"))
         let localization = LocalizationStore(defaults: defaults, bundle: .main)
         let controller = SmartSwitchController(

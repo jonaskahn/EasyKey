@@ -3,11 +3,16 @@ import Foundation
 /// Ring buffer for keyboard event-tap diagnostics used by `KeyboardService`.
 final class KeyboardDiagnosticsRecorder {
     private let capacity: Int
+    private let uptimeNanoseconds: () -> UInt64
     private var enabled = true
     private var diagnostics: [KeyboardService.Diagnostic] = []
 
-    init(capacity: Int = 128) {
+    init(
+        capacity: Int = 128,
+        uptimeNanoseconds: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds }
+    ) {
         self.capacity = capacity
+        self.uptimeNanoseconds = uptimeNanoseconds
     }
 
     func setEnabled(_ enabled: Bool) {
@@ -40,7 +45,7 @@ final class KeyboardDiagnosticsRecorder {
             disposition: disposition,
             outputCount: outputCount,
             bundleIdentifier: bundleIdentifier,
-            callbackDurationNanoseconds: DispatchTime.now().uptimeNanoseconds - startedAt
+            callbackDurationNanoseconds: uptimeNanoseconds() - startedAt
         )
         diagnostics.append(diagnostic)
         if diagnostics.count > capacity {

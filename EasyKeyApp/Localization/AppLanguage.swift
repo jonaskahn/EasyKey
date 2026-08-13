@@ -12,6 +12,7 @@ enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
 
     /// Persisted UserDefaults key shared with legacy `@AppStorage("interfaceLanguage")`.
     static let storageKey = "interfaceLanguage"
+    static let onboardingCompletedKey = "hasCompletedOnboarding"
 
     /// Language codes we ship translations for.
     static let supportedCodes: Set<String> = ["en", "vi"]

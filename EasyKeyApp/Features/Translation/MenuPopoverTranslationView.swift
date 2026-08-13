@@ -48,36 +48,7 @@ enum MenuPopoverTranslationLayout {
     }
 }
 
-struct MenuPopoverTranslationPresentation: Equatable {
-    let resultText: String
-    let error: TranslationError?
-    let isTranslating: Bool
-    let canTranslate: Bool
-    let setupRequired: Bool
-
-    init(
-        sourceText: String,
-        sourceLanguage: TranslationLanguage?,
-        targetLanguage: TranslationLanguage,
-        providerID: TranslationProviderID?,
-        availableProviders: [TranslationProviderID],
-        status: TranslationModel.Status
-    ) {
-        let presentation = TranslationPanelPresentation(
-            sourceText: sourceText,
-            sourceLanguage: sourceLanguage,
-            targetLanguage: targetLanguage,
-            providerID: providerID,
-            availableProviders: availableProviders,
-            status: status
-        )
-        resultText = presentation.resultText
-        error = presentation.error
-        isTranslating = presentation.isTranslating
-        canTranslate = presentation.canTranslate
-        setupRequired = presentation.setupRequired
-    }
-}
+typealias MenuPopoverTranslationPresentation = TranslationPanelPresentation
 
 enum MenuPopoverTranslationAccessibility {
     static let section = "MenuPopoverTranslationSection"

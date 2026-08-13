@@ -13,9 +13,14 @@ final class SynthesizePasteIsolationTests: XCTestCase {
         }
         KeySynthesizer.markAsSelfPosted(down)
 
-        XCTAssertTrue(
+        XCTAssertNotEqual(
+            down.getIntegerValueField(.eventSourceUserData),
+            0,
+            "Event marked with KeySynthesizer.markAsSelfPosted must carry the self-posted marker"
+        )
+        XCTAssertFalse(
             KeySynthesizer.isSelfPosted(down),
-            "Event marked with KeySynthesizer.markAsSelfPosted must be recognized as self-posted"
+            "isSelfPosted additionally requires a private event source, which the system only attributes to events actually posted to a tap"
         )
     }
 }

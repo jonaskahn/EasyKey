@@ -14,166 +14,6 @@ protocol TranslationSpeechStopping: AnyObject {
 extension TranslationModel: TranslationCancelling {}
 
 @MainActor
-protocol TranslationPanelWindow: AnyObject {
-    var isVisible: Bool { get }
-    var windowNumber: Int { get }
-    func replaceContent(_ content: AnyView)
-    func setFrameOrigin(_ point: CGPoint)
-    func setContentSize(_ size: CGSize)
-    func makeKeyAndOrderFront()
-    func orderOut()
-    func setCloseHandler(_ handler: @escaping () -> Void)
-    func containsWindowNumber(_ windowNumber: Int) -> Bool
-    func addTitlebarAccessory(_ viewController: NSTitlebarAccessoryViewController)
-}
-
-final class TranslationPanel: NSPanel, TranslationPanelWindow {
-    private var closeHandler: (() -> Void)?
-
-    init(size: CGSize) {
-        super.init(
-            contentRect: NSRect(origin: .zero, size: size),
-            styleMask: [.titled, .closable, .fullSizeContentView, .nonactivatingPanel],
-            backing: .buffered,
-            defer: false
-        )
-        titleVisibility = .hidden
-        titlebarAppearsTransparent = true
-        isFloatingPanel = true
-        level = .floating
-        hidesOnDeactivate = false
-        isReleasedWhenClosed = false
-        becomesKeyOnlyIfNeeded = false
-        collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
-    }
-
-    override var canBecomeKey: Bool {
-        true
-    }
-
-    override var canBecomeMain: Bool {
-        true
-    }
-
-    override func close() {
-        if let closeHandler {
-            closeHandler()
-        } else {
-            super.close()
-        }
-    }
-
-    func replaceContent(_ content: AnyView) {
-        contentView = NSHostingView(rootView: content)
-    }
-
-    func makeKeyAndOrderFront() {
-        makeKeyAndOrderFront(nil)
-    }
-
-    func orderOut() {
-        orderOut(nil)
-    }
-
-    func setCloseHandler(_ handler: @escaping () -> Void) {
-        closeHandler = handler
-    }
-
-    func containsWindowNumber(_ windowNumber: Int) -> Bool {
-        guard let eventWindow = NSApp.window(withWindowNumber: windowNumber) else {
-            return windowNumber == self.windowNumber
-        }
-
-        var candidate: NSWindow? = eventWindow
-        while let window = candidate {
-            if window === self {
-                return true
-            }
-            candidate = window.parent
-        }
-        return false
-    }
-
-    func addTitlebarAccessory(_ viewController: NSTitlebarAccessoryViewController) {
-        addTitlebarAccessoryViewController(viewController)
-    }
-}
-
-enum TranslationPanelLocalEvent: Equatable {
-    case escape
-    case keyDown
-    case mouseDownInsidePanel
-    case mouseDownOutsidePanel
-}
-
-final class TranslationPanelMonitorRegistration {
-    private var removeAction: (() -> Void)?
-
-    init(removeAction: @escaping () -> Void) {
-        self.removeAction = removeAction
-    }
-
-    deinit {
-        invalidate()
-    }
-
-    func invalidate() {
-        removeAction?()
-        removeAction = nil
-    }
-}
-
-@MainActor
-protocol TranslationPanelEventMonitoring: AnyObject {
-    func addLocalMonitor(
-        isPanelOwnedWindow: @escaping (Int) -> Bool,
-        handler: @escaping (TranslationPanelLocalEvent) -> Bool
-    ) -> TranslationPanelMonitorRegistration?
-    func addGlobalClickMonitor(handler: @escaping () -> Void) -> TranslationPanelMonitorRegistration?
-}
-
-@MainActor
-final class SystemTranslationPanelEventMonitor: TranslationPanelEventMonitoring {
-    func addLocalMonitor(
-        isPanelOwnedWindow: @escaping (Int) -> Bool,
-        handler: @escaping (TranslationPanelLocalEvent) -> Bool
-    ) -> TranslationPanelMonitorRegistration? {
-        guard let monitor = NSEvent.addLocalMonitorForEvents(
-            matching: [.keyDown, .leftMouseDown, .rightMouseDown],
-            handler: { event in
-                let localEvent: TranslationPanelLocalEvent
-                switch event.type {
-                case .keyDown:
-                    localEvent = event.keyCode == 53 ? .escape : .keyDown
-                case .leftMouseDown, .rightMouseDown:
-                    localEvent = isPanelOwnedWindow(event.windowNumber)
-                        ? .mouseDownInsidePanel
-                        : .mouseDownOutsidePanel
-                default:
-                    return event
-                }
-                return handler(localEvent) ? nil : event
-            }
-        )
-        else {
-            return nil
-        }
-        return TranslationPanelMonitorRegistration { NSEvent.removeMonitor(monitor) }
-    }
-
-    func addGlobalClickMonitor(handler: @escaping () -> Void) -> TranslationPanelMonitorRegistration? {
-        guard let monitor = NSEvent.addGlobalMonitorForEvents(
-            matching: [.leftMouseDown, .rightMouseDown],
-            handler: { _ in handler() }
-        )
-        else {
-            return nil
-        }
-        return TranslationPanelMonitorRegistration { NSEvent.removeMonitor(monitor) }
-    }
-}
-
-@MainActor
 final class TranslationPanelPresenter {
     static let panelSize = CGSize(width: 520, height: 560)
     private static let keepOnTopDefaultsKey = "panel.translation.keepOnTop"
@@ -194,6 +34,7 @@ final class TranslationPanelPresenter {
     private let screenGeometries: () -> [TranslationPanelScreenGeometry]
     private let isFrontmostAppExemptFromOutsideClickDismissal: () -> Bool
     private let userDefaults: UserDefaults
+    private let localization: LocalizationStore
     private var panel: TranslationPanelWindow?
     private var titlebarAccessory: KeepOnTopTitlebarAccessory?
     private var localMonitor: TranslationPanelMonitorRegistration?
@@ -220,7 +61,8 @@ final class TranslationPanelPresenter {
         isFrontmostAppExemptFromOutsideClickDismissal: @escaping () -> Bool = {
             TranslationPanelPresenter.frontmostAppIsSystemTranslationService()
         },
-        userDefaults: UserDefaults = .standard
+        userDefaults: UserDefaults = .standard,
+        localization: LocalizationStore = .shared
     ) {
         self.translation = translation
         self.speech = speech
@@ -232,6 +74,7 @@ final class TranslationPanelPresenter {
         self.screenGeometries = screenGeometries
         self.isFrontmostAppExemptFromOutsideClickDismissal = isFrontmostAppExemptFromOutsideClickDismissal
         self.userDefaults = userDefaults
+        self.localization = localization
         keepOnTop = userDefaults.bool(forKey: Self.keepOnTopDefaultsKey)
     }
 
@@ -299,10 +142,10 @@ final class TranslationPanelPresenter {
         panel.setCloseHandler { [weak self] in
             self?.close()
         }
-        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { on in
+        let accessory = KeepOnTopTitlebarAccessory(isOn: keepOnTop) { [localization] on in
             on
-                ? LocalizationStore.shared.string(.commonUnkeepOnTop)
-                : LocalizationStore.shared.string(.commonKeepOnTop)
+                ? localization.string(.commonUnkeepOnTop)
+                : localization.string(.commonKeepOnTop)
         }
         accessory.onToggle = { [weak self] on in self?.setKeepOnTop(on) }
         panel.addTitlebarAccessory(accessory)

@@ -64,7 +64,7 @@ enum ClipboardRowPresenter {
         let units = ["B", "KB", "MB", "GB", "TB"]
         var value = Double(count)
         var index = 0
-        while value >= 1000, index < units.indices.last! {
+        while value >= 1000, index < units.count - 1 {
             value /= 1000
             index += 1
         }

@@ -8,7 +8,7 @@ final class SmartSwitchControllerTests: XCTestCase {
     private var defaults: UserDefaults!
     private var localizationDefaults: UserDefaults!
     private var localizationSuiteName: String!
-    private var settingsStore: ObservableSettingsStore!
+    private var settingsStore: SettingsStore!
     private var smartSwitchStore: SmartSwitchStore!
     private var localization: LocalizationStore!
     private var controller: SmartSwitchController!
@@ -19,7 +19,7 @@ final class SmartSwitchControllerTests: XCTestCase {
             .appendingPathComponent("SmartSwitchControllerTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
 
-        settingsStore = ObservableSettingsStore(fileURL: tempDirectory.appendingPathComponent("settings.json"))
+        settingsStore = SettingsStore(fileURL: tempDirectory.appendingPathComponent("settings.json"))
         smartSwitchStore = SmartSwitchStore(fileURL: tempDirectory.appendingPathComponent("smart-switch.json"))
 
         localizationSuiteName = "one.ifelse.easykey.smartswitch-tests.\(UUID().uuidString)"

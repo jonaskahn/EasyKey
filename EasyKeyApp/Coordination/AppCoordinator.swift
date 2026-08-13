@@ -69,7 +69,7 @@ final class AppCoordinator: ObservableObject {
     private var clipboardStartTask: Task<Void, Never>?
     private var stopTask: Task<Void, Never>?
 
-    /// Composition-root initializer. Production uses `AppCoordinator.shared` defaults;
+    /// Composition-root initializer. Production uses `AppCoordinator.makeDefault()`;
     /// tests may inject stores and collaborators.
     init(
         settingsStore: SettingsStore? = nil,

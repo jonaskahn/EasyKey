@@ -38,15 +38,15 @@ public extension BufferAtom? {
 /// composed result derived from it by `TelexComposer`. Keeping raw keys makes
 /// exact repeat-to-undo, backspace, and word restoration trivial.
 public struct SessionState: Equatable, Sendable {
-    public var rawKeys: [Character]
-    public var atoms: [BufferAtom]
-    public var tone: Tone
-    public var isDisabled: Bool
+    public internal(set) var rawKeys: [Character]
+    public internal(set) var atoms: [BufferAtom]
+    public internal(set) var tone: Tone
+    public internal(set) var isDisabled: Bool
     /// When true the buffer renders raw keys verbatim (per-word restore).
-    public var forceRaw: Bool
+    public internal(set) var forceRaw: Bool
     /// True when Telex repeat-to-undo froze the rest of the word as literal
     /// text (iOS-UniKey-like mode). Derived deterministically from `rawKeys`.
-    public var isEscaped: Bool
+    public internal(set) var isEscaped: Bool
 
     public init(
         rawKeys: [Character] = [],

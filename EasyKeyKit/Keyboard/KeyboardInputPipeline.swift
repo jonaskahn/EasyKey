@@ -3,42 +3,10 @@ import CoreGraphics
 import EasyEngineCore
 import Foundation
 
-// swiftlint:disable file_length
-
-struct KeyboardProcessResult {
-    let suppressesOriginal: Bool
-    let outputCount: Int
-    let disposition: KeyboardService.Diagnostic.Disposition
-
-    static let passed = KeyboardProcessResult(suppressesOriginal: false, outputCount: 0, disposition: .passed)
-    static let suppressed = KeyboardProcessResult(suppressesOriginal: true, outputCount: 0, disposition: .suppressed)
-    static let bypassed = KeyboardProcessResult(suppressesOriginal: false, outputCount: 0, disposition: .bypassed)
-}
-
 /// Applies Vietnamese engine transforms and posts synthesized key events.
 final class KeyboardInputPipeline {
-    private static let specialKeyKinds: [UInt16: KeyEvent.Kind] = [
-        51: .backspace,
-        117: .forwardDelete,
-        123: .leftArrow,
-        124: .rightArrow,
-        125: .downArrow,
-        126: .upArrow,
-        36: .return,
-        48: .tab,
-        53: .escape,
-        49: .space,
-    ]
-
     typealias SpotlightVisibilityProvider = () -> Bool
     typealias ChromiumAddressBarDetector = () -> Bool
-
-    private struct AddressBarCache {
-        var value: Bool?
-        var updatedAt: CFAbsoluteTime = 0
-        var isRefreshing = false
-        var generation: UInt = 0
-    }
 
     private let synthesizer: KeySynthesizer
     private var engine: VietnameseEngine
@@ -46,19 +14,9 @@ final class KeyboardInputPipeline {
     private var macroExpander = MacroExpander()
     private var activeBundleIdentifier: String?
     private var usesForeignInputSource = false
-    private let chromiumAddressBarDetector: ChromiumAddressBarDetector
-    private let addressBarStateQueue = DispatchQueue(label: "com.easykey.chromium-address-cache")
-    private var addressBarCache = AddressBarCache()
-    private let spotlightVisibilityProvider: SpotlightVisibilityProvider
-    private var cachedIsSpotlightVisible: Bool?
-    private var spotlightCacheTime: CFAbsoluteTime = 0
-
-    private static let addressBarCacheTTL: CFAbsoluteTime = 1.5
-    private static let spotlightCacheTTL: CFAbsoluteTime = 0.3
-
-    private var cmdCDoublePressHandler: (@MainActor () -> Void)?
-    private var cmdCDoublePressWindowMs: Int = 400
-    private var lastCmdCTimestamp: UInt64?
+    private let chromiumResolver: ChromiumAddressBarContextResolver
+    private let spotlightResolver: SpotlightContextResolver
+    private let cmdCDoublePressDetector = CommandCDoublePressDetector()
 
     var onTogglePause: (() -> Void)?
     var onLanguageToggleRequested: ((InputLanguage) -> Void)?
@@ -69,11 +27,12 @@ final class KeyboardInputPipeline {
         chromiumAddressBarDetector: @escaping ChromiumAddressBarDetector = FocusedElementInspector.isChromiumAddressBar,
         focusedTextReplacer: @escaping ([Int], String) -> FocusedElementInspector.FocusedTextReplacementResult =
             FocusedElementInspector.replaceFocusedText,
-        eventFactory: KeySynthesizer.EventFactory? = nil
+        eventFactory: KeySynthesizer.EventFactory? = nil,
+        now: @escaping () -> CFAbsoluteTime = CFAbsoluteTimeGetCurrent
     ) {
         self.settings = settings
-        self.spotlightVisibilityProvider = spotlightVisibilityProvider
-        self.chromiumAddressBarDetector = chromiumAddressBarDetector
+        chromiumResolver = ChromiumAddressBarContextResolver(detector: chromiumAddressBarDetector, now: now)
+        spotlightResolver = SpotlightContextResolver(provider: spotlightVisibilityProvider, now: now)
         synthesizer = KeySynthesizer(focusedTextReplacer: focusedTextReplacer, eventFactory: eventFactory)
         engine = VietnameseEngine(configuration: Self.engineConfiguration(for: settings, rule: nil))
     }
@@ -98,10 +57,6 @@ final class KeyboardInputPipeline {
 
     var encodedUnitCountForTesting: Int {
         synthesizer.encodedUnitCount
-    }
-
-    var activeAppBundleIdentifier: String? {
-        activeBundleIdentifier
     }
 
     var currentSettings: EasyKeySettings {
@@ -139,16 +94,14 @@ final class KeyboardInputPipeline {
     }
 
     func setCmdCDoublePressHandler(windowMs: Int, handler: @escaping @MainActor () -> Void) {
-        cmdCDoublePressWindowMs = windowMs
-        cmdCDoublePressHandler = handler
+        cmdCDoublePressDetector.setHandler(windowMs: windowMs, handler: handler)
     }
 
     func clearCmdCDoublePressHandler() {
-        cmdCDoublePressHandler = nil
-        lastCmdCTimestamp = nil
+        cmdCDoublePressDetector.clearHandler()
     }
 
-    var activeBundleIdentifierSnapshot: String? {
+    var activeApplicationBundleIdentifier: String? {
         activeBundleIdentifier
     }
 
@@ -350,58 +303,19 @@ final class KeyboardInputPipeline {
         else {
             return false
         }
-
-        return addressBarStateQueue.sync {
-            let now = CFAbsoluteTimeGetCurrent()
-            if let value = addressBarCache.value,
-               now - addressBarCache.updatedAt < Self.addressBarCacheTTL {
-                return value
-            }
-            if !addressBarCache.isRefreshing {
-                addressBarCache.isRefreshing = true
-                let generation = addressBarCache.generation
-                let detector = chromiumAddressBarDetector
-                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    let detected = detector()
-                    self?.addressBarStateQueue.async { [weak self] in
-                        guard let self, self.addressBarCache.generation == generation else { return }
-                        self.addressBarCache.value = detected
-                        self.addressBarCache.updatedAt = CFAbsoluteTimeGetCurrent()
-                        self.addressBarCache.isRefreshing = false
-                    }
-                }
-            }
-            return addressBarCache.value ?? false
-        }
+        return chromiumResolver.resolve()
     }
 
     private func invalidateAddressBarCache() {
-        addressBarStateQueue.sync {
-            addressBarCache.value = nil
-            addressBarCache.updatedAt = 0
-            addressBarCache.isRefreshing = false
-            addressBarCache.generation &+= 1
-        }
+        chromiumResolver.invalidate()
     }
 
     private func isSpotlightContext() -> Bool {
-        let now = CFAbsoluteTimeGetCurrent()
-        if let cached = cachedIsSpotlightVisible,
-           now - spotlightCacheTime < Self.spotlightCacheTTL {
-            return cached
-        }
-        let visible = spotlightVisibilityProvider()
-        if visible != cachedIsSpotlightVisible {
-            AppLog.debug(.keyboard, "Spotlight visibility changed visible=\(visible)")
-        }
-        cachedIsSpotlightVisible = visible
-        spotlightCacheTime = now
-        return visible
+        spotlightResolver.resolve()
     }
 
     private func invalidateSpotlightCache() {
-        cachedIsSpotlightVisible = nil
-        spotlightCacheTime = 0
+        spotlightResolver.invalidate()
     }
 
     private func encodedUnits(for state: SessionState, configuration: EngineConfiguration) -> [String] {
@@ -439,36 +353,7 @@ final class KeyboardInputPipeline {
     }
 
     private func detectCmdCDoublePress(keyCode: UInt16, event: CGEvent) {
-        guard let handler = cmdCDoublePressHandler else { return }
-        guard keyCode == UInt16(kVK_ANSI_C),
-              event.flags.contains(.maskCommand),
-              !event.flags.contains(.maskAlternate),
-              !event.flags.contains(.maskControl)
-        else {
-            lastCmdCTimestamp = nil
-            return
-        }
-
-        let now = event.timestamp
-
-        if let last = lastCmdCTimestamp,
-           timestampDeltaMs(lhs: last, rhs: now) <= Double(cmdCDoublePressWindowMs) {
-            lastCmdCTimestamp = nil
-            DispatchQueue.main.async { handler() }
-            return
-        }
-
-        lastCmdCTimestamp = now
-    }
-
-    private func timestampDeltaMs(lhs: UInt64, rhs: UInt64) -> Double {
-        let delta: UInt64
-        if rhs >= lhs {
-            delta = rhs - lhs
-        } else {
-            delta = lhs - rhs
-        }
-        return Double(delta) / 1_000_000.0
+        cmdCDoublePressDetector.record(keyCode: keyCode, event: event)
     }
 }
 
@@ -508,26 +393,7 @@ extension KeyboardInputPipeline {
         for settings: EasyKeySettings,
         rule: AppCompatibilityRule?
     ) -> EngineConfiguration {
-        var configuration = EngineConfiguration(
-            inputMethod: settings.input.inputMethod,
-            outputEncoding: settings.input.encoding,
-            spellCheck: settings.typing.spellCheck,
-            autoRestoreKeys: settings.typing.restoreInvalidWord,
-            toneStyle: settings.typing.toneStyle,
-            quickTelexConsonants: settings.typing.quickTelexConsonants,
-            standaloneWShortcut: settings.typing.standaloneWShortcut,
-            bracketShortcuts: settings.typing.bracketShortcuts,
-            uppercaseFirstCharacter: settings.typing.uppercaseFirstCharacter,
-            liveConfidenceScoring: settings.typing.liveConfidenceScoring,
-            liveConfidenceLowThreshold: settings.typing.liveConfidenceLowThreshold,
-            liveConfidenceHighThreshold: settings.typing.liveConfidenceHighThreshold,
-            iosUniKeyLikeMode: settings.typing.iosUniKeyLikeMode,
-            literalTechnicalTokens: settings.typing.literalTechnicalTokens
-        )
-        if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
-            configuration.outputEncoding = .unicodeCombining
-        }
-        return configuration
+        KeyboardEngineConfigurationFactory.make(for: settings, rule: rule)
     }
 
     static func shouldBreakAutocomplete(
@@ -539,83 +405,34 @@ extension KeyboardInputPipeline {
     }
 
     static func keyCode(from event: CGEvent) -> UInt16? {
-        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-        guard keyCode >= 0, keyCode <= Int64(UInt16.max) else { return nil }
-        return UInt16(keyCode)
+        CGKeyboardEventAdapter.keyCode(from: event)
     }
 
     static func normalize(event: CGEvent, keyCode: UInt16) -> KeyEvent {
-        let modifiers = modifiers(from: event)
-        return KeyEvent(
-            kind: keyKind(for: keyCode, event: event),
-            shift: modifiers.contains(.shift),
-            capsLock: event.flags.contains(.maskAlphaShift),
-            control: modifiers.contains(.control),
-            option: modifiers.contains(.option),
-            command: modifiers.contains(.command)
-        )
+        CGKeyboardEventAdapter.normalize(event: event, keyCode: keyCode)
     }
 
     static func modifiers(from event: CGEvent) -> Shortcut.ModifierFlags {
-        var modifiers: Shortcut.ModifierFlags = []
-        if event.flags.contains(.maskShift) {
-            modifiers.insert(.shift)
-        }
-        if event.flags.contains(.maskControl) {
-            modifiers.insert(.control)
-        }
-        if event.flags.contains(.maskAlternate) {
-            modifiers.insert(.option)
-        }
-        if event.flags.contains(.maskCommand) {
-            modifiers.insert(.command)
-        }
-        return modifiers
+        CGKeyboardEventAdapter.modifiers(from: event)
     }
 
     static func isMouseEvent(_ type: CGEventType) -> Bool {
-        switch type {
-        case .leftMouseDown, .rightMouseDown, .otherMouseDown,
-             .leftMouseDragged, .rightMouseDragged, .otherMouseDragged:
-            true
-        default:
-            false
-        }
+        CGKeyboardEventAdapter.isMouseEvent(type)
     }
 
     static func makeEventMask() -> CGEventMask {
-        let types: [CGEventType] = [
-            .keyDown, .keyUp, .flagsChanged,
-            .leftMouseDown, .rightMouseDown, .otherMouseDown,
-            .leftMouseDragged, .rightMouseDragged, .otherMouseDragged,
-        ]
-        return types.reduce(0) { $0 | (CGEventMask(1) << $1.rawValue) }
+        CGKeyboardEventAdapter.makeEventMask()
     }
 
     static func isCurrentInputSourceForeign() -> Bool {
-        guard let source = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue(),
-              let languages = TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages)
-        else {
-            return false
-        }
-        let languageCodes = Unmanaged<CFArray>.fromOpaque(languages).takeUnretainedValue() as NSArray
-        guard let languageCodes = languageCodes as? [String] else { return false }
-        return !languageCodes.contains { $0.lowercased().hasPrefix("en") }
+        KeyboardInputSourceInspector.isCurrentInputSourceForeign()
     }
 
     private static func keyKind(for keyCode: UInt16, event: CGEvent) -> KeyEvent.Kind {
-        specialKeyKinds[keyCode] ?? character(from: event).map(KeyEvent.Kind.character) ?? .other
+        CGKeyboardEventAdapter.keyKind(for: keyCode, event: event)
     }
 
     private static func character(from event: CGEvent) -> Character? {
-        var length = 0
-        var buffer = [UniChar](repeating: 0, count: 8)
-        event.keyboardGetUnicodeString(
-            maxStringLength: buffer.count,
-            actualStringLength: &length,
-            unicodeString: &buffer
-        )
-        guard length > 0 else { return nil }
-        return String(utf16CodeUnits: buffer, count: length).first
+        CGKeyboardEventAdapter.character(from: event)
     }
 }

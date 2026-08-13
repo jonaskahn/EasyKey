@@ -280,7 +280,7 @@ final class KitCoverageGapTests: XCTestCase {
     func testSetActiveApplication_UpdatesBundleSnapshot() {
         let pipeline = KeyboardInputPipeline(settings: .defaults)
         pipeline.setActiveApplication("com.apple.Safari")
-        XCTAssertEqual(pipeline.activeBundleIdentifierSnapshot, "com.apple.Safari")
+        XCTAssertEqual(pipeline.activeApplicationBundleIdentifier, "com.apple.Safari")
     }
 
     func testSetUsesForeignInputSource_ResetsSession() {
