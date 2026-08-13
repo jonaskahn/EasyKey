@@ -47,11 +47,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             coordinator.selectedSettingsSection = section
         }
         coordinator.start()
+        writeUITestReadinessIfNeeded()
         if isUITesting {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
                 coordinator.showSettings()
+                writeUITestReadinessIfNeeded()
             }
         }
+    }
+
+    /// Deterministic startup signal for CI smoke tests: when
+    /// `EASYKEY_UITEST_READY_FILE` is set, writes `ready=1` plus the platform
+    /// capability after the coordinator has fully started. On macOS 14 the
+    /// Apple Translation surface must be disabled, so the file also reports
+    /// `appleTranslationSupported` for assertion.
+    private func writeUITestReadinessIfNeeded() {
+        guard let path = ProcessInfo.processInfo.environment["EASYKEY_UITEST_READY_FILE"] else { return }
+        let supportsApple = coordinator?.translation.platformCapability.supportsAppleTranslation ?? false
+        let content = "ready=1\nappleTranslationSupported=\(supportsApple)\n"
+        try? content.write(toFile: path, atomically: true, encoding: .utf8)
     }
 
     func applicationWillTerminate(_: Notification) {}

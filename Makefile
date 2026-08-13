@@ -8,7 +8,7 @@ XCODEBUILD = xcodebuild -project "$(PROJECT)" -scheme "$(SCHEME)" -destination "
 
 .DEFAULT_GOAL := help
 
-.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-all qa archive export verify-arch verify-release dmg local-dmg help
+.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-all qa archive export verify-arch verify-compatibility verify-release dmg local-dmg help
 
 # `make` with no args prints grouped help. `make all` still builds.
 all: build
@@ -125,6 +125,11 @@ release-config-check:
 verify-arch:
 	Scripts/verify-arch.sh
 
+# macOS 14 deployment verification: Mach-O minos, weak Translation linkage,
+# and Info.plist minimum-system-version checks across the whole app bundle.
+verify-compatibility:
+	Scripts/verify-macos-compatibility.sh
+
 verify-release:
 	Scripts/verify-release.sh
 
@@ -185,6 +190,7 @@ help:
 	@echo "    make archive        Create signed archive (needs Developer ID env)"
 	@echo "    make export         Export .app from archive"
 	@echo "    make verify-arch    Confirm arm64 + x86_64 in exported app"
+	@echo "    make verify-compatibility  Confirm macOS 14 deployment target + weak Translation linkage"
 	@echo "    make verify-release Full release verification"
 	@echo "    make dmg            Signed + notarized universal DMG (needs release secrets)"
 	@echo ""

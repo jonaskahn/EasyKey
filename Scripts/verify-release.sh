@@ -9,6 +9,7 @@ release_local="${RELEASE_LOCAL:-0}"
 [[ -d "$app_path" ]] || { print -u2 "App not found: $app_path"; exit 1; }
 
 "$project_root/Scripts/verify-arch.sh" "$app_path"
+"$project_root/Scripts/verify-macos-compatibility.sh" "$app_path"
 
 if [[ "$release_local" == "1" ]]; then
     print "Local release: skipping Developer ID codesign/spctl assessment."

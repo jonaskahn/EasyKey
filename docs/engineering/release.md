@@ -167,20 +167,29 @@ maintainer performing the release.
 
 1. `make verify-arch` — verify: `Architecture verification passed for:
    build/export/EasyKey.app` (every Mach-O binary contains arm64 and x86_64).
-2. `make verify-release` — verify: the same message; the script also runs
+2. `make verify-compatibility` — verify: `macOS compatibility verification
+   passed` — every Mach-O slice declares `minos <= 14.0`, the macOS 15+
+   `Translation` frameworks stay weak-linked, and every `Info.plist` records
+   `LSMinimumSystemVersion <= 14.0`. Runs automatically inside
+   `make verify-release` and the macOS 14 compatibility CI workflow.
+3. `make verify-release` — verify: the same message; the script also runs
    `codesign --verify --deep --strict`, `spctl` assessment, `stapler
    validate` on the DMG, confirms the bundled `LICENSE`, `NOTICE`, and
    `THIRD_PARTY_NOTICES.md`, rejects development material under
    `fixtures/`, `sources/`, `diagnostics/`, or `capture/` paths, and rejects
    tracked `build/` output.
-3. Manual release gates: fresh, upgrade, and uninstall/reinstall
+4. Manual release gates: fresh, upgrade, and uninstall/reinstall
    installs; login helper after reboot and macOS upgrade; Accessibility stays
    authorized after replacing the app in place; Sparkle rejects an unsigned or
    incorrectly signed update archive; archive contents limited to EasyKey
    binaries, Sparkle, MIT `LICENSE`, `NOTICE`, and reviewed
    `THIRD_PARTY_NOTICES.md`; privacy copy matches runtime behavior; provider
    data-handling URLs reviewed; English/Vietnamese localization checks and
-   accessibility passes on macOS 14.
+   accessibility passes on macOS 14. Runtime macOS 14 coverage is additionally
+   automated by the blocking Sonoma smoke jobs in
+   `.github/workflows/compatibility.yml` (self-hosted arm64 + x86_64 runners;
+   each launches the universal app and asserts the readiness signal and the
+   disabled Apple Translation surface).
 
 ## Publication
 

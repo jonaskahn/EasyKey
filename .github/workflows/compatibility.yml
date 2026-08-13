@@ -1,0 +1,86 @@
+name: macOS 14 compatibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compat-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Builds the universal Release app and enforces the macOS 14 deployment
+  # contract statically: every Mach-O slice declares minos <= 14.0, the
+  # macOS 15+ Translation frameworks stay weak-linked, and every Info.plist
+  # records LSMinimumSystemVersion <= 14.0.
+  macos14-compatibility:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build universal Release app
+        run: Scripts/build-universal-release.sh
+
+      - name: Verify macOS 14 compatibility
+        run: Scripts/verify-macos-compatibility.sh "build/Build/Products/Release/EasyKey.app"
+
+      - name: Verify architecture coverage
+        run: |
+          REQUIRED_ARCHS="arm64 x86_64" \
+          APP_PATH="build/Build/Products/Release/EasyKey.app" \
+          Scripts/verify-arch.sh
+
+      - name: Upload universal app
+        uses: actions/upload-artifact@v5
+        with:
+          name: easykey-universal-app
+          path: build/Build/Products/Release/EasyKey.app
+          retention-days: 7
+
+  # Launch smoke tests on real macOS 14 Sonoma runners (self-hosted; register
+  # runners with labels [self-hosted, macOS, sonoma, ARM64] and
+  # [self-hosted, macOS, sonoma, X64]). Each asserts the host OS/arch, launches
+  # the universal app with the readiness signal, and confirms Apple Translation
+  # is disabled on macOS 14.
+  sonoma-smoke-arm64:
+    needs: macos14-compatibility
+    runs-on: [self-hosted, macOS, sonoma, ARM64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download universal app
+        uses: actions/download-artifact@v5
+        with:
+          name: easykey-universal-app
+          path: smoke
+
+      - name: Smoke test on macOS 14 (arm64)
+        run: Scripts/verify-sonoma-smoke.sh "smoke/EasyKey.app" arm64
+
+  sonoma-smoke-x64:
+    needs: macos14-compatibility
+    runs-on: [self-hosted, macOS, sonoma, X64]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download universal app
+        uses: actions/download-artifact@v5
+        with:
+          name: easykey-universal-app
+          path: smoke
+
+      - name: Smoke test on macOS 14 (x86_64)
+        run: Scripts/verify-sonoma-smoke.sh "smoke/EasyKey.app" x86_64
