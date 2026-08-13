@@ -1771,13 +1771,14 @@ extension AppLogicCoverageTests {
 // MARK: - UpdateService.swift
 
 extension AppLogicCoverageTests {
-    func testUpdateService_StartWithConfiguredBundle_StartsUpdater() throws {
+    func testUpdateService_StartWithConfiguredBundle_DoesNotCreateLiveUpdaterInTestMode() throws {
         let bundle = try makeUpdateServiceBundle(feedURL: "https://example.com/appcast.xml", publicKey: "a-real-key")
         let service = UpdateService(bundle: bundle)
 
         service.start()
 
         XCTAssertTrue(service.isConfigured)
+        XCTAssertFalse(service.hasLiveUpdater, "A test process must never instantiate a live Sparkle updater")
     }
 
     private func makeUpdateServiceBundle(feedURL: String, publicKey: String) throws -> Bundle {

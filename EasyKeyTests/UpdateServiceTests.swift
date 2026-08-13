@@ -61,6 +61,36 @@ final class UpdateServiceTests: XCTestCase {
         XCTAssertTrue(service.isConfigured)
     }
 
+    func testValidConfiguration_InTestMode_ReportsConfiguredWithoutLiveUpdater() throws {
+        let bundle = try makeBundle(feedURL: "https://example.com/appcast.xml", publicKey: "a-real-key")
+        let service = UpdateService(bundle: bundle)
+        XCTAssertTrue(service.isConfigured)
+        XCTAssertFalse(service.hasLiveUpdater, "Sparkle must never be instantiated in a test process")
+    }
+
+    func testValidConfiguration_OutsideTestMode_CreatesLiveUpdater() throws {
+        let bundle = try makeBundle(feedURL: "https://example.com/appcast.xml", publicKey: "a-real-key")
+        let service = UpdateService(bundle: bundle, isTesting: false)
+        XCTAssertTrue(service.isConfigured)
+        XCTAssertTrue(service.hasLiveUpdater)
+    }
+
+    func testStart_ConfiguredBundle_InTestMode_DoesNotStartLiveUpdater() throws {
+        let bundle = try makeBundle(feedURL: "https://example.com/appcast.xml", publicKey: "a-real-key")
+        let service = UpdateService(bundle: bundle)
+        service.start()
+        XCTAssertTrue(service.isConfigured)
+        XCTAssertFalse(service.hasLiveUpdater)
+    }
+
+    func testCheckForUpdates_ConfiguredBundle_InTestMode_DoesNothing() throws {
+        let bundle = try makeBundle(feedURL: "https://example.com/appcast.xml", publicKey: "a-real-key")
+        let service = UpdateService(bundle: bundle)
+        service.checkForUpdates()
+        XCTAssertTrue(service.isConfigured)
+        XCTAssertFalse(service.hasLiveUpdater)
+    }
+
     func testStart_UnconfiguredService_DoesNotCrash() throws {
         let bundle = try makeBundle(feedURL: nil, publicKey: nil)
         let service = UpdateService(bundle: bundle)
