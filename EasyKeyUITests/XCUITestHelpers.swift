@@ -8,27 +8,42 @@ extension XCUIElement {
     /// for a control nested in a clipped `ScrollView` (e.g. the `SettingsDetail` panes) calling
     /// `click()` then throws "Unable to find hit point" and aborts the test.
     ///
-    /// When the element does not report hittable in time we fall back to a coordinate click. That
-    /// bypasses the hit-point search (so it never throws) while still landing on the element's frame
-    /// center — which advances flows whose later assertions depend on the click actually registering
-    /// (onboarding step navigation, the sidebar toggle), unlike simply skipping it.
+    /// When the element does not report hittable in time we scroll it into view (via `reveal`)
+    /// and retry. As a last resort we fall back to a coordinate click, but only when the element's
+    /// frame actually intersects the window — a click at a frame that lies outside the window would
+    /// land on the desktop and silently no-op.
     ///
-    /// A background/non-key window eats its first click as a plain activation (AppKit's standard
-    /// click-through prevention) without running the control's action — so one coordinate click can
-    /// silently no-op. On both branches we briefly recheck `isHittable` after the click: if the
-    /// window woke up as a result (or the click was consumed as window activation), we issue a
-    /// follow-up `click()` so the action actually fires.
+    /// A hittable element implies the window is key, so a successful `isHittable` click fires the
+    /// action exactly once. Only in the coordinate-fallback path can the first click be eaten as a
+    /// plain window activation (AppKit's click-through prevention); there we re-check after the
+    /// click and issue a follow-up click once the window woke up.
     @discardableResult
     func clickWhenHittable(timeout: TimeInterval = 5) -> Bool {
         let predicate = NSPredicate(format: "isHittable == true")
         let expectation = XCTNSPredicateExpectation(predicate: predicate, object: self)
-        let result = XCTWaiter().wait(for: [expectation], timeout: timeout)
-        if result == .completed, isHittable {
+        if XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed, isHittable {
             click()
-            return confirmWindowKeyThenClick(predicate: predicate)
+            return true
         }
+
+        // Off-screen inside a scroll view: scroll it into view and retry.
+        if exists, XCUIApplication().reveal(self) {
+            let retry = XCTNSPredicateExpectation(predicate: predicate, object: self)
+            if XCTWaiter().wait(for: [retry], timeout: 2) == .completed, isHittable {
+                click()
+                return true
+            }
+        }
+
         let elementFrame = frame
         guard exists, elementFrame.width > 0, elementFrame.height > 0 else { return false }
+        let windowFrame = XCUIApplication().windows.firstMatch.frame
+        let intersects = windowFrame.width > 0
+            && elementFrame.maxY > windowFrame.minY
+            && elementFrame.minY < windowFrame.maxY
+            && elementFrame.maxX > windowFrame.minX
+            && elementFrame.minX < windowFrame.maxX
+        guard intersects else { return false }
         coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).click()
         return confirmWindowKeyThenClick(predicate: predicate)
     }
@@ -58,28 +73,40 @@ extension XCUIApplication {
         return true
     }
 
-    /// Reveals `element` inside a scrollable ancestor by swiping up at most `maximumSwipes` times.
-    /// Uses a coordinate-based drag so it never throws "Unable to find hit point" when the window
-    /// is not yet key.
+    /// Reveals `element` inside a scrollable ancestor by scrolling the `SettingsDetail` scroll
+    /// view until the element's frame intersects the window.
+    ///
+    /// Mouse drags do NOT scroll `NSScrollView` on macOS (only scroll wheel events do), so a
+    /// drag-based "swipe" loop leaves off-screen rows untouched and the element never becomes
+    /// hittable. Use the native `scroll(byDeltaX:deltaY:)` API instead, which synthesizes real
+    /// scroll-wheel events.
     @discardableResult
-    func reveal(_ element: XCUIElement, maximumSwipes: Int = 5) -> Bool {
-        for _ in 0 ..< maximumSwipes {
-            let settingsDetail = descendants(matching: .any)["SettingsDetail"]
-            let window = windows.firstMatch
+    func reveal(_ element: XCUIElement, maximumScrolls: Int = 15) -> Bool {
+        let window = windows.firstMatch
+        let settingsDetail = descendants(matching: .any)["SettingsDetail"]
+        guard element.exists, window.exists, settingsDetail.exists else { return element.exists }
+
+        for _ in 0 ..< maximumScrolls {
             let elementFrame = element.frame
-            if element.exists,
-               window.exists,
+            if elementFrame.width > 0,
                elementFrame.maxY > window.frame.minY,
                elementFrame.minY < window.frame.maxY {
-                return true
+                return element.isHittable || elementFrame.maxY <= window.frame.maxY
             }
-            guard settingsDetail.exists else { return false }
-            let detailFrame = settingsDetail.frame
-            guard detailFrame.width > 0, detailFrame.height > 0 else { return false }
-            let start = settingsDetail.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.8))
-            let end = settingsDetail.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2))
-            start.click(forDuration: 0.01, thenDragTo: end)
+            // Scroll toward the element: down if it is below the window, up if above.
+            if elementFrame.maxY > window.frame.minY {
+                settingsDetail.scroll(byDeltaX: 0, deltaY: -80)
+            } else {
+                settingsDetail.scroll(byDeltaX: 0, deltaY: 80)
+            }
+            Thread.sleep(forTimeInterval: 0.1)
         }
-        return element.exists
+
+        // Final in-window check: `exists` alone is not enough — scroll-view children exist
+        // even when scrolled out of the visible area.
+        let elementFrame = element.frame
+        return elementFrame.width > 0
+            && elementFrame.maxY > window.frame.minY
+            && elementFrame.minY < window.frame.maxY
     }
 }
