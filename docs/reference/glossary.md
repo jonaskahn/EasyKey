@@ -1,11 +1,12 @@
 ---
 id: "glossary"
 title: "Glossary"
+description: "Repository terms, precise definitions, owning document links."
 docforge_provenance:
   schema: "2.0"
   doc_id: "glossary"
   path: "docs/reference/glossary.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:10:54Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,59 +18,75 @@ docforge_provenance:
   sections:
     - id: "glossary"
       sources:
-        - path: "docs/_archive/TELEX.md"
+        - path: "docs/flows/telex.md"
           role: "doc"
-          git_blob: "7a6c47e94add2cf0a95722716c29874a29c7d37b"
+          git_blob: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
+          git_blob_normalized: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
         - path: "EasyEngineCore/Engine/EncodingTable.swift"
           role: "code"
           git_blob: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          git_blob_normalized: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+          git_blob_normalized: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
         - path: "EasyEngineCore/Converter/Converter.swift"
           role: "code"
-          git_blob: "bbc951650e27a7e9f4d364fec0d1cd16dc9f4be3"
+          git_blob: "0b990e8ce2106458e1816fd16ebb3613049cac21"
+          git_blob_normalized: "0b990e8ce2106458e1816fd16ebb3613049cac21"
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
           role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
+          git_blob_normalized: "694b512e15a06e34e7df216ba74a4fc133e27f69"
         - path: "EasyEngineCore/Macros/MacroStore.swift"
           role: "code"
-          git_blob: "b8a7256fcac4629b3824c752dd654f849170de08"
+          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift"
           role: "code"
-          git_blob: "bc617726039dace9295116be51b3bd4ce96a73de"
+          git_blob: "c69905a6edc47571188e5d81a8de6c1f117bbcaf"
+          git_blob_normalized: "c69905a6edc47571188e5d81a8de6c1f117bbcaf"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
           role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
-        - path: "EasyKeyApp/UpdateService.swift"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-        - path: "docs/_archive/RELEASE.md"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+        - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
         - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
-        - path: "EasyKeyKit/KeyboardService.swift"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           role: "code"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "code"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
-        - path: "docs/_archive/PRIVACY.md"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
+          git_blob_normalized: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
+        - path: "docs/security/data-handling.md"
           role: "doc"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
+          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
       unresolved: []
 ---
 # Glossary
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Terms are defined as the code and the owning documents use them. When casual
 usage differs, the code meaning is authoritative and the discrepancy is noted.
@@ -87,10 +104,10 @@ usage differs, the code meaning is authoritative and the discrepancy is noted.
 | Smart Switch | The per-application input-memory feature: when enabled, EasyKey records the language (and optionally encoding) choice per application via `SmartSwitchStore.handleAppFocus` and reapplies it when that application comes to the front. "Smart Switch preferences" in casual usage means the `SmartSwitchPreference` records the store keeps. | `SmartSwitchStore.swift` |
 | Macro trigger | The typed abbreviation (`Macro.trigger`) that, when completed and recognized, expands to `Macro.expansion` text. Limits: 128 characters per trigger, 16384 per expansion. | `MacroStore.swift` |
 | Clipboard fingerprint | A stable SHA-256 digest computed over canonical ordered representations of a copy event (`PasteboardClassifier.fingerprint(of:)`), used to deduplicate history entries. | `PasteboardClassifier.swift` |
-| AES-GCM sealed | Clipboard history persisted in encrypted form using `CryptoKit` AES-GCM with a 256-bit key stored in a device-only, non-synchronizing Keychain item. "Sealed" means the combined nonce+ciphertext+tag output of `AES.GCM.seal`. | `ClipboardPersistence.swift`, [PRIVACY.md](../security/data-handling.md) |
-| Appcast | A Sparkle-format RSS feed (`appcast.xml`) listing release items with signed enclosure URLs. `UpdateService` fetches it over HTTPS and verifies every update with Sparkle's EdDSA signature before installation; entries are appended by `Scripts/generate-appcast.py`. | [RELEASE.md](../engineering/release.md), `UpdateService.swift` |
+| AES-GCM sealed | Clipboard history persisted in encrypted form using `CryptoKit` AES-GCM with a 256-bit key stored in a device-only, non-synchronizing Keychain item. "Sealed" means the combined nonce+ciphertext+tag output of `AES.GCM.seal`. | `ClipboardPersistence.swift`, [data-handling.md](../security/data-handling.md) |
+| Appcast | A Sparkle-format RSS feed (`appcast.xml`) listing release items with signed enclosure URLs. `UpdateService` configures Sparkle's `SPUStandardUpdaterController`, which fetches the feed over HTTPS and verifies every update with the appcast's EdDSA signature before installation; entries are appended by `Scripts/generate-appcast.py`. | [release.md](../engineering/release.md), `UpdateService.swift` |
 | Accessory app | A macOS application with `LSUIElement` set (activation policy `.accessory`): no Dock icon, no Cmd-Tab entry, menu-bar resident. EasyKey runs this way; its windows cannot normally become key and it installs its own Edit-menu commands because accessory apps lack the system Edit menu. | [Info.plist](../../EasyKeyApp/Info.plist), `AppDelegate.swift` |
 | Accessibility permission | The macOS Accessibility (AX) authorization EasyKey requires to observe and transform keyboard events system-wide via the Accessibility API and a `CGEvent` tap. Requested through `KeyboardService.requestAccessibilityPermission`; typing stays unavailable until granted. | `KeyboardService.swift`, [product overview](../product/overview.md) |
 | Auto-translate delay | The idle delay (`TranslationOptions.autoTranslateDelayMs`, presets 250–1500 ms, default 500) after which the translation model automatically submits the current source text; every edit resets the timer (`scheduleAutoTranslate`). | `TranslationOptions.swift`, `TranslationModel.swift` |
-| Disclosure prompt | The first-use prompt shown before a cloud translation request, naming the provider and explaining that source text is transferred to it. Declining cancels the request; acknowledgement is tracked per provider in `acknowledgedCloudDisclosureProviders` and can be reset in settings. | [PRIVACY.md](../security/data-handling.md), `TranslationModel.swift` |
+| Disclosure prompt | The first-use prompt shown before a cloud translation request, naming the provider and explaining that source text is transferred to it. Declining cancels the request; acknowledgement is tracked per provider in `acknowledgedCloudDisclosureProviders` and can be reset in settings. | [data-handling.md](../security/data-handling.md), `TranslationModel.swift` |
 | Encoding conversion | The standalone converter feature (`Converter`) that rewrites text between the supported encodings (`ConverterTransform`, `EncodingCodec`/`EncodingFactory`), independent of typing output encoding. | `Converter.swift` |

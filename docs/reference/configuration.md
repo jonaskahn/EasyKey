@@ -1,11 +1,12 @@
 ---
 id: "configuration"
 title: "Configuration"
+description: "Every read setting, default, scope, sensitivity, and validation rule."
 docforge_provenance:
   schema: "2.0"
   doc_id: "configuration"
   path: "docs/reference/configuration.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:10:54Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,34 +20,42 @@ docforge_provenance:
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
           role: "code"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
+          git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
       unresolved: []
     - id: "input-and-typing"
       sources:
         - path: "EasyEngineCore/Settings/InputSettings.swift"
           role: "code"
           git_blob: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
+          git_blob_normalized: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
         - path: "EasyEngineCore/Settings/TypingOptions.swift"
           role: "code"
-          git_blob: "301556d3f6530ff3b8613343a5b6c5e77ed152cf"
+          git_blob: "b7458b09ce8e75a249842da240922d814df3a291"
+          git_blob_normalized: "b7458b09ce8e75a249842da240922d814df3a291"
         - path: "EasyEngineCore/Settings/Shortcut.swift"
           role: "code"
           git_blob: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
+          git_blob_normalized: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
       unresolved: []
     - id: "translation"
       sources:
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           role: "code"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
         - path: "EasyEngineCore/Translation/TranslationProviderResolver.swift"
           role: "code"
           git_blob: "9fe5786ed549713c4631839352100124f86cba13"
+          git_blob_normalized: "9fe5786ed549713c4631839352100124f86cba13"
         - path: "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift"
           role: "code"
-          git_blob: "6380a5fed49e57b42d37bb611ddcb6d26661ee43"
+          git_blob: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
+          git_blob_normalized: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
       unresolved: []
     - id: "clipboard"
       sources:
@@ -61,10 +70,12 @@ docforge_provenance:
       sources:
         - path: "EasyEngineCore/Macros/MacroOptions.swift"
           role: "code"
-          git_blob: "0163b8653a26c74939460a3a9fffae513cfc82ea"
+          git_blob: "f441f099f9e38246440534312b3349b8948f240c"
+          git_blob_normalized: "f441f099f9e38246440534312b3349b8948f240c"
         - path: "EasyEngineCore/Macros/MacroStore.swift"
           role: "code"
-          git_blob: "b8a7256fcac4629b3824c752dd654f849170de08"
+          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
       unresolved: []
     - id: "smart-switch"
       sources:
@@ -100,48 +111,70 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Localization/AppLanguage.swift"
           role: "code"
-          git_blob: "1051771cdc25ef48d1f98e213e03a7f651f4196e"
+          git_blob: "2add0345da3e50e736e3f18c12f4db48f21b6793"
+          git_blob_normalized: "2add0345da3e50e736e3f18c12f4db48f21b6793"
         - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
       unresolved: []
     - id: "panel-display-preferences"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift"
           role: "code"
-          git_blob: "ff8c6cb8cd91f1c22aa0970efd389359ee01cd83"
+          git_blob: "8534225de880a5b203911ce6c594d927574545bf"
+          git_blob_normalized: "8534225de880a5b203911ce6c594d927574545bf"
         - path: "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift"
           role: "code"
-          git_blob: "c4db933b5e640c60680df6bc917baa1db669947e"
+          git_blob: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
+          git_blob_normalized: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
       unresolved: []
     - id: "settings-document"
       sources:
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
         - path: "EasyEngineCore/Settings/SettingsMigration.swift"
           role: "code"
-          git_blob: "faf8ce6b4248f9966298919b3e3b12fedef614d5"
-        - path: "EasyKeyApp/Settings/ObservableSettingsStore.swift"
+          git_blob: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
+          git_blob_normalized: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
+        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           role: "code"
-          git_blob: "c77772d40545b8e15ea62a6ca49d25eace1d355a"
+          git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
+          git_blob_normalized: "65074f5684006b032e635e9bcf80ad7bf37f4929"
       unresolved: []
     - id: "release-pipeline-environment"
       sources:
-        - path: "docs/_archive/RELEASE.md"
+        - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
         - path: "Makefile"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+        - path: "Scripts/notarize.sh"
+          role: "code"
+          git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+        - path: "Scripts/generate-appcast.py"
+          role: "code"
+          git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
+          role: "code"
+          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
       unresolved: []
 ---
 # Configuration
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey reads two configuration surfaces: a JSON settings document on disk
 (`settings.json`, owned by `SettingsRepository`) and a handful of
@@ -185,14 +218,15 @@ means disabled.
 
 Source: `EasyKeySettings.translation`
 (`TranslationOptions.swift`).
-`preferredProviderID == nil` is the Automatic preference, resolved per-launch by
-`TranslationProviderResolver.resolveEffectiveProvider` (Apple on macOS 15+,
-else the first configured cloud provider in `cloudProviderOrder`). API keys are
-Keychain items, never settings.
+The default preferred provider is Apple (`.apple`). Selecting "Automatic"
+stores `nil`, resolved per-launch by
+`TranslationProviderResolver.resolveEffectiveProvider` — Apple on macOS 15+,
+otherwise the first configured cloud provider in `cloudProviderOrder`. API
+keys are Keychain items, never settings.
 
 | Setting | Source | Default | Scope | Sensitive |
 |---|---|---|---|---|
-| Preferred provider (nil = Automatic) | `translation.preferredProviderID` | `nil` | settings document | No |
+| Preferred provider | `translation.preferredProviderID` | `apple` (Apple); `nil` when Automatic is selected | settings document | No |
 | Open translate shortcut | `translation.shortcut` | `⌥C` (keyCode 8 + option) | settings document | No |
 | Default source language (nil = detect) | `translation.defaultSourceLanguage` | `nil` | settings document | No |
 | OpenAI model | `translation.openAIModelIdentifier` | `gpt-4o-mini` | settings document | No |
@@ -234,15 +268,17 @@ derived, never filtered).
 
 Source: `EasyKeySettings.macro`
 (`MacroOptions.swift`) plus
-per-macro state in `MacroStore` (trigger/expansion/enabled; see
+per-macro state in `MacroStore` (trigger/expansion/enabled/category; see
 `MacroStore.swift`). Validation
 limits: trigger ≤ 128 characters, expansion ≤ 16384 characters.
 
 | Setting | Source | Default | Scope | Sensitive |
 |---|---|---|---|---|
 | Macros enabled | `macro.enabled` | `false` | settings document | No |
-| Macros in English input | `macro.enabledInEnglish` | `false` | settings document | No |
 | Auto-capitalize expansions | `macro.autoCapitalize` | `false` | settings document | No |
+
+Which input languages a macro applies to is per-macro (`Macro.category`:
+`vietnamese`, `english`, `nineX`, `genZ`, or `both`), not a global option.
 
 ## Smart Switch
 
@@ -332,7 +368,7 @@ documents migrate without resetting unrelated preferences; `schemaVersion` is
 currently 11. Import validation: file size ≤ 1 MiB
 (`SettingsRepository.maxImportFileBytes`), schema version ≤ current, otherwise
 `SettingsRepositoryError`. The app layer wraps the repository in the
-`@MainActor` `ObservableSettingsStore` (`SettingsStore`), which exposes
+`@MainActor` `SettingsStore` (`ObservableObject`), which exposes
 `update`, key-path `binding`, `reset`, `export`, `import`, `load`, and
 `saveNow`.
 
@@ -341,17 +377,21 @@ currently 11. Import validation: file size ≤ 1 MiB
 Release builds read build-setting substitutions and CI variables — documented
 end-to-end in [release.md](../engineering/release.md); local builds leave feed and
 key values empty so Sparkle is disabled rather than pointed at an untrusted
-endpoint. Secrets are never printed and never committed; they are injected by
-the CI secret environment at release time.
+endpoint (`UpdateService.hasReleaseConfiguration` rejects placeholder `$(` values).
+The release workflow currently runs `make local-dmg` — ad-hoc signed, not
+notarized — because Developer ID signing and notarization are staged but
+disabled pending an Apple certificate; the certificate-import step was removed
+from the release workflow and `make dmg` remains the fully signed path for when
+it is re-enabled. Secrets are never printed and never committed; they are
+injected by the CI secret environment at release time.
 
 | Variable | Consumed as | Default | Scope | Sensitive |
 |---|---|---|---|---|
 | `SPARKLE_FEED_URL` | `Info.plist` `SUFeedURL` | empty (updates off) | CI variable | No |
 | `SPARKLE_PUBLIC_ED_KEY` | `Info.plist` `SUPublicEDKey` | empty (updates off) | CI secret | Yes |
-| `SPARKLE_PRIVATE_ED_KEY` | `sign_update` (appcast signing) | — | CI secret | Yes |
+| `SPARKLE_PRIVATE_ED_KEY` | appcast signing (`sign_update`) | — | CI secret | Yes |
 | `EASYKEY_SUPPORT_URL` | `Info.plist` `EasyKeySupportURL` | — | CI variable | No |
 | `EASYKEY_PRIVACY_POLICY_URL` | `Info.plist` `EasyKeyPrivacyPolicyURL` | — | CI variable | No |
-| `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM` | signing | — | CI secret | Yes |
-| `BUILD_CERTIFICATE_BASE64`, `BUILD_CERTIFICATE_PASSWORD`, `KEYCHAIN_PASSWORD` | certificate import | — | CI secret | Yes |
-| `NOTARY_APPLE_ID`, `NOTARY_APP_SPECIFIC_PASSWORD` | notarization (CI); `NOTARY_KEYCHAIN_PROFILE` for local notarytool | — | CI secret | Yes |
+| `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM` | signing (staged; not consumed by the current release workflow) | — | CI secret | Yes |
+| `APPLE_ID`, `APPLE_TEAM_ID`, `APPLE_APP_SPECIFIC_PASSWORD` | notarization (Apple ID alternative); `NOTARY_KEYCHAIN_PROFILE` for local notarytool | — | CI secret | Yes |
 | `ARCHS`, `REQUIRED_ARCHS`, `TARGET_NAME`, `TAG_NAME` | DMG matrix build (`make local-dmg`) | per workflow matrix | workflow-internal | No |

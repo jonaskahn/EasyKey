@@ -1,11 +1,12 @@
 ---
 id: "library_publishing"
 title: "Library Publishing"
+description: "Artifacts, version source, build/sign, registry/channel, verification, rollback/deprecation"
 docforge_provenance:
   schema: "2.0"
   doc_id: "library_publishing"
   path: "docs/engineering/publishing.md"
-  generated_at: "2026-08-03T08:44:07Z"
+  generated_at: "2026-08-13T11:07:59Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,10 +19,10 @@ docforge_provenance:
     - id: "artifacts"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -30,7 +31,7 @@ docforge_provenance:
     - id: "build-sign-publish"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -39,20 +40,20 @@ docforge_provenance:
           git_blob: "e170e5fc9d887543ed6fffe7b757544380376ae1"
           role: "code"
         - path: "Scripts/verify-release.sh"
-          git_blob: "3f24484dc3151e3bdfeace2c7610df3444474d15"
+          git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
       unresolved: []
     - id: "api-stability"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
-        - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
-          role: "doc"
+        - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
+          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
+          role: "test"
       unresolved: []
     - id: "verify"
       sources:
@@ -60,7 +61,7 @@ docforge_provenance:
           git_blob: "3a880113167f02293703e9c864a819543a1afd59"
           role: "code"
         - path: "Scripts/verify-release.sh"
-          git_blob: "3f24484dc3151e3bdfeace2c7610df3444474d15"
+          git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
@@ -71,11 +72,11 @@ docforge_provenance:
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
       unresolved: []
 ---
@@ -137,8 +138,7 @@ library-evolution (ABI) stability for external consumers is not in effect.
 
 The stability contract that does exist is process-level, not ABI-level: the
 conventions require public API documentation at public boundaries
-(rulebook.md section 2), the README lists "Public API documentation"
-among enforced quality practices, and the fitness tests keep the dependency
+(rulebook.md section 2), and the fitness tests keep the dependency
 direction stable. Those protect in-repo consumers; they do not constitute a
 versioned public API.
 

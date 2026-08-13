@@ -1,11 +1,12 @@
 ---
 id: "testing_guide"
 title: "Testing Guide"
+description: "Test layers, commands, fixtures, isolation, failure diagnosis"
 docforge_provenance:
   schema: "2.0"
   doc_id: "testing_guide"
   path: "docs/engineering/testing.md"
-  generated_at: "2026-08-03T08:44:07Z"
+  generated_at: "2026-08-13T11:07:59Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,7 +19,7 @@ docforge_provenance:
     - id: "unit"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "EasyKeyTests/ConformanceFixtureTests.swift"
           git_blob: "86b87fdcec1e9b90c339592597c8565e9b36b63e"
@@ -30,10 +31,10 @@ docforge_provenance:
     - id: "integration"
       sources:
         - path: "EasyKeyTests/KeyboardServiceIntegrationTests.swift"
-          git_blob: "f9fc2b7a29d5360099851ebc6454f799486620c6"
+          git_blob: "26ed22b3c0375603aec217223dcbfe9fd9c0f632"
           role: "test"
         - path: "EasyKeyTests/TestSupport.swift"
-          git_blob: "150530232d14abbfb2ab947a16ff99de0c321bf7"
+          git_blob: "9088abc3286fe2add1b67a644ac31dc0cae8aba5"
           role: "test"
         - path: "Scripts/verify-qa-artifacts.sh"
           git_blob: "11ce62a91f372b4527c134c17645b8c7b655f51b"
@@ -42,13 +43,13 @@ docforge_provenance:
     - id: "end-to-end"
       sources:
         - path: "EasyKeyUITests/SettingsWorkflowTests.swift"
-          git_blob: "b166dfbec3b9cd289fab739de3d01855c1d4db42"
+          git_blob: "905a28816cd2da97036679836b96568312c9399e"
           role: "test"
         - path: "EasyKeyUITests/XCUITestHelpers.swift"
           git_blob: "927d11506575a7f1c678d6128e1335ec3ad6dd27"
           role: "test"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "coverage-gate"
@@ -57,19 +58,22 @@ docforge_provenance:
           git_blob: "062819eb35129c6a6cd891d330643dee7a45db1a"
           role: "code"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "diagnosing-failures"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/check-coverage.sh"
           git_blob: "062819eb35129c6a6cd891d330643dee7a45db1a"
           role: "code"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
+          role: "code"
+        - path: "Scripts/check-shard-tests.sh"
+          git_blob: "f008ddd17453154f759285e9b6575874063ee228"
           role: "code"
       unresolved: []
 ---
@@ -79,7 +83,9 @@ _Last reviewed: 2026-08-03_
 
 Tests are organized by layer and live in two bundles: `EasyKeyTests` (unit and
 integration) and `EasyKeyUITests` (end-to-end). The full suite is serial by
-default; the same shards CI uses are available locally.
+default; `make test-parallel` runs the local shard set (`unit`, `ui-1`, `ui-2`,
+`ui-3`) that mirrors CI's sharding approach, while CI runs finer shards — four
+unit shards and five UI shards, plus a non-blocking known-broken shard.
 
 ## Unit
 
@@ -137,7 +143,8 @@ make test
 
 UI tests launch the real app with `XCUIApplication` on the host desktop.
 Faster sharded variants are `make test-parallel` (unit plus `ui-1`, `ui-2`,
-`ui-3` shards) and the CI matrix with additional UI shards.
+`ui-3` shards) and CI's finer matrix (four unit shards and five UI shards,
+plus a non-blocking known-broken shard).
 
 **Covers:** settings interaction, navigation, workflow (onboarding through
 settings), accessibility, and clipboard-panel behavior via the
@@ -180,7 +187,8 @@ with `Coverage gate failed: <value>% < 90%`.
 |---|---|---|
 | A unit test fails after an engine change | The change altered expected behavior, or a conformance fixture encodes the old behavior | Run the single test with `-only-testing:EasyKeyTests/<TestClass>` and inspect the matching entry in `Fixtures/sample-telex.json` |
 | UI tests flake under `make test-parallel` | Shared `UserDefaults` domain contention between shards on one Mac | Rerun serially with `make test` |
-| UI test fails only in CI, passes locally | Hosted runners cannot reliably make an AppKit window key; the `ui-known-broken-on-hosted-runner` shard is exempted from merge (continue-on-error) | Treat the local pass as authoritative; move those tests to a runner with a real logged-in GUI session if they must gate |
+| UI test fails only in CI, passes locally | Hosted runners cannot reliably make an AppKit window key, and constructing a real `TranslationSession` crashes the test process (SIGSEGV) because the hosted runner has no system translation daemon; affected tests live in the `ui-known-broken-on-hosted-runner` shard, which is exempted from merge (continue-on-error) | Treat the local pass as authoritative; move those tests to a runner with a real logged-in GUI session if they must gate |
+| A CI shard is green but executed zero tests | The shard's `-only-testing` filter matched nothing, usually because a suite was dropped from the Xcode target | `Scripts/check-shard-tests.sh` fails any shard whose result bundle shows zero executed tests; `Scripts/check-test-registration.sh` catches the underlying target-registration gap before it ships |
 | `Coverage gate failed` | Changed code lacks tests | Open the merged `.xcresult` in Xcode and inspect uncovered lines |
 | `Result bundle not found` from the coverage gate | No `.xcresult` was produced by a previous run | Run `make test` once before `make coverage` |
 | Test bundle fails to build locally | SPM dependency resolution issue | `make clean` then `make test`; CI resolves packages with `-resolvePackageDependencies` first |

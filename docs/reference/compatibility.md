@@ -1,11 +1,12 @@
 ---
 id: "library_compatibility"
 title: "Library Compatibility"
+description: "Supported versions/platforms, tested matrix, deprecation behavior"
 docforge_provenance:
   schema: "2.0"
   doc_id: "library_compatibility"
   path: "docs/reference/compatibility.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:11:02Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,52 +19,63 @@ docforge_provenance:
     - id: "compatibility"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
       unresolved: []
     - id: "in-repo-frameworks"
       sources:
         - path: "EasyKeyKit/EasyKeyKit.swift"
+          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
           role: "code"
-          git_blob: "76482ec56440968c9f78d2fce59c0c3cfa7d0ca1"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
+          git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "docs/engineering/conventions.md"
+          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
         - path: "CHANGELOG.md"
+          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob_normalized: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
           role: "doc"
-          git_blob: "2da41e48235762ea13ff11b79fe8553d7df2ff96"
       unresolved: []
     - id: "external-dependencies"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
-        - path: "docs/_archive/THIRD_PARTY_NOTICES.md"
+        - path: "docs/THIRD_PARTY_NOTICES.md"
+          git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
+          git_blob_normalized: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
           role: "doc"
-          git_blob: "8c0da23df063ee46dc734994bdd9b6e365eb7a72"
       unresolved: []
     - id: "distribution-and-versioning"
       sources:
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
         - path: "EasyKeyKit/EasyKeyKit.swift"
+          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
           role: "code"
-          git_blob: "76482ec56440968c9f78d2fce59c0c3cfa7d0ca1"
         - path: "CHANGELOG.md"
+          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob_normalized: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
           role: "doc"
-          git_blob: "2da41e48235762ea13ff11b79fe8553d7df2ff96"
       unresolved: []
 ---
 # Compatibility
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Compatibility here covers the frameworks and libraries built into this
 repository. Newest first. "Tested by" means CI or a named test suite runs
@@ -92,7 +104,7 @@ helper track the marketing version (currently 0.0.8, see
 
 | Dependency | Version | Pinned | Tested by |
 |---|---|---|---|
-| Sparkle (SPM package, app updates) | 2.9.4 | exact version in the project file | release gates in [RELEASE.md](../engineering/release.md) (unsigned-archive rejection test); `THIRD_PARTY_NOTICES.md` (archived) |
+| Sparkle (SPM package, app updates) | 2.9.4 | exact version in the project file | release gates in [RELEASE.md](../engineering/release.md) (unsigned-archive rejection test); [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) |
 
 Everything else builds against the macOS system SDK (SwiftUI, AppKit,
 Combine, OSLog, CryptoKit, ServiceManagement, XCTest/XCUITest). No other

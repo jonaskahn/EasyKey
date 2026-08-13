@@ -1,11 +1,12 @@
 ---
 id: "ai_integration"
 title: "Ai Integration"
+description: "Model/provider boundary, prompts/inputs, outputs, evaluation, safety, privacy, failure"
 docforge_provenance:
   schema: "2.0"
   doc_id: "ai_integration"
   path: "docs/architecture/ai-integration.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:10:56Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,40 +20,40 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "promptinput-surface"
       sources:
         - path: "EasyKeyApp/Features/Translation/SelectedTextCapture.swift"
           role: "code"
-          git_blob: "9dcda2f02bf3f5110956dd12a292859a5789f6fd"
+          git_blob: "c4124fe1499209bf7096f8bbdecb394d8df95f80"
         - path: "EasyEngineCore/Translation/TranslationRequest.swift"
           role: "code"
           git_blob: "58f100adfd94b13ed6e9a0689983a9446f8491f0"
         - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           role: "code"
-          git_blob: "275d4aa9b65469565580f4a241d4d4a6cbadb3aa"
+          git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
       unresolved: []
     - id: "output-handling"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift"
           role: "code"
-          git_blob: "c4db933b5e640c60680df6bc917baa1db669947e"
+          git_blob: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
       unresolved: []
     - id: "safety-and-evaluation"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift"
           role: "code"
-          git_blob: "6380a5fed49e57b42d37bb611ddcb6d26661ee43"
+          git_blob: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
         - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           role: "code"
-          git_blob: "275d4aa9b65469565580f4a241d4d4a6cbadb3aa"
+          git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
       unresolved: []
     - id: "failure-and-fallback"
       sources:
@@ -67,10 +68,10 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
-        - path: "docs/_archive/PRIVACY.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+        - path: "docs/security/data-handling.md"
           role: "doc"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
@@ -78,9 +79,9 @@ docforge_provenance:
 ---
 # AI integration
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
-EasyKey has no trained or fine-tuned model of its own — model-quality claims are therefore out of scope. This document covers the integration boundary only: what reaches a model, through which provider, and what happens to the result. Translation runs either on-device (Apple Translation, macOS 15+) or through a user-configured cloud provider; typing itself never touches a model.
+EasyKey has no trained or fine-tuned model of its own — model-quality claims are therefore out of scope. This document covers the integration boundary only: what reaches a model, through which provider, and what happens to the result. Translation runs either on-device (Apple Translation, macOS 15+) or through a user-configured cloud provider; the runtime resolves the active provider from platform capability and configured credentials. Typing itself never touches a model.
 
 ```mermaid
 flowchart LR
@@ -99,8 +100,8 @@ Scoping before a request reaches the network:
 
 - **Selection capture is capped.** `AccessibilitySelectedTextReader` reads the focused element's selected text only for supported roles (text field, text area, combo box, static text, web area) and refuses secure fields; oversized selections (`> TranslationRequest.maximumSourceTextLength`) and blank results are rejected before any request.
 - **Fallback capture restores the pasteboard.** When AX reading fails, `SystemSelectedTextSimulator` posts a simulated Cmd+C, saves and restores the user's pasteboard items, and only then submits.
-- **Endpoints are fixed or validated.** Built-in providers use compile-time-validated URLs (`_validatedURL`); user-supplied "compatible" endpoints are rejected by `EasyKeyApp/Features/Translation/HostSafety.swift` unless they resolve to public, non-private, non-loopback hosts.
-- **Auto-translate is time-boxed.** The configured auto-translation delay resets on every edit, so partial typing does not send a stream of half-formed requests.
+- **Endpoints are fixed or validated.** Built-in providers use compile-time-validated URLs (`_validatedURL`); user-supplied "compatible" endpoints are rejected by `HostSafety` unless they resolve to public, non-private, non-loopback hosts.
+- **Auto-translate is time-boxed.** Every user edit invalidates the pending request and reschedules the debounced auto-translate (`setSourceTextFromUserInput` → `scheduleAutoTranslate`), so partial typing does not send a stream of half-formed requests.
 
 ## Output handling
 
@@ -110,7 +111,7 @@ The provider response lands in the translation model and is rendered in the tran
 
 ## Safety and evaluation
 
-**Safety controls:** no content filtering is applied to either direction — source text is sent verbatim and completions are shown verbatim. The controls that do exist are structural: first-use disclosure identifies each cloud provider before its first request (`TranslationDisclosureController`); credentials are validated against the provider's own endpoints before first use (`EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift` probes provider model endpoints); user-supplied endpoints are host-validated; and the Apple provider is availability-gated per OS.
+**Safety controls:** no content filtering is applied to either direction — source text is sent verbatim and completions are shown verbatim. The controls that do exist are structural: first-use disclosure identifies each cloud provider before its first request (`TranslationDisclosureController`); credentials are validated against the provider's own endpoints before first use (`TranslationSettingsModel` probes provider model endpoints via `LiveTranslationCredentialValidator`); user-supplied endpoints are host-validated; and the Apple provider is availability-gated per OS.
 
 **Evaluation evidence:** each provider adapter has a dedicated unit suite (`AppleTranslationProviderTests`, `GoogleTranslationProviderTests`, `DeepLTranslationProviderTests`, `OpenAICompatibleTranslationProviderTests`, credential-validation suites under `EasyKeyTests/`), and selected-text capture has its own suite (`SelectedTextCaptureTests`). Translation output quality is not evaluated by this repository — for cloud models that evaluation belongs to each provider; for Apple Translation it is Apple's model lifecycle, not EasyKey's.
 
@@ -125,7 +126,9 @@ The provider response lands in the translation model and is rendered in the tran
 ## Privacy boundary
 
 - **Does user data leave the system in the prompt?** Yes, but only under explicit conditions: a cloud provider must be selected and configured, and a request is sent only from a translation surface (editor, popover, or hotkey panel) when the user translates or the configured auto-translate delay elapses after an edit. Typing and clipboard content never reach a provider.
-- **Is it retained by the provider?** EasyKey does not know — providers handle submitted text under their own terms (documented per-provider in [PRIVACY.md](../security/data-handling.md)). EasyKey itself does not proxy, log, or persist source text, results, or history.
+- **Is it retained by the provider?** EasyKey does not know — providers handle submitted text under their own terms (documented per-provider in [data-handling.md](../security/data-handling.md)). EasyKey itself does not proxy or log source text, results, or history, and writes nothing to disk; an in-memory session (source text + result) is held until app restart under the default `sessionPersistence = .keepUntilRestart` policy and cleared on surface close only under `.clearOnClose` ([data-handling.md](../security/data-handling.md)).
 - **Credentials:** API keys live in the user's Keychain, device-only and non-synchronizing (`KeychainTranslationCredentialStore`); validation is a live endpoint check that does not submit source text.
 
 See [data-handling](../security/data-handling.md) for the data-flow classification and [threat-model](../security/threat-model.md) for the model/provider call as an external trust boundary.
+
+Model-quality or safety claims for a self-trained model would belong to a model lifecycle document, not here — this repository trains no model.

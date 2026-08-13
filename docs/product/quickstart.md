@@ -1,11 +1,12 @@
 ---
 id: "quickstart"
 title: "Quickstart"
+description: "Shortest verified path to first useful result, prerequisites, expected output, next links"
 docforge_provenance:
   schema: "2.0"
   doc_id: "quickstart"
   path: "docs/product/quickstart.md"
-  generated_at: "2026-08-03T08:43:54Z"
+  generated_at: "2026-08-13T11:09:28Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,25 +19,37 @@ docforge_provenance:
     - id: "getting-to-your-first-result"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          role: "doc"
+        - path: "docs/engineering/setup.md"
+          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob_normalized: "661a622a02eec68ef83e91a441f1dee551b683c5"
           role: "doc"
         - path: "Fixtures/sample-telex.json"
           git_blob: "a904b2094b8299dee38b8667525a24a75e759017"
+          git_blob_normalized: "a904b2094b8299dee38b8667525a24a75e759017"
           role: "test"
-        - path: "docs/_archive/TELEX.md"
-          git_blob: "7a6c47e94add2cf0a95722716c29874a29c7d37b"
+        - path: "docs/flows/telex.md"
+          git_blob: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
+          git_blob_normalized: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
           role: "doc"
       unresolved: []
     - id: "what-next"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          role: "doc"
+        - path: "docs/engineering/setup.md"
+          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob_normalized: "661a622a02eec68ef83e91a441f1dee551b683c5"
           role: "doc"
       unresolved: []
 ---
 # Quickstart
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 **Prerequisites:** macOS 14.0 or later (Apple silicon or Intel). Typing stays off until you grant Accessibility access — EasyKey asks for it on first launch, and you can review it later in **System Settings → Privacy & Security → Accessibility**.
 
@@ -58,12 +71,12 @@ Then type this in any app (Notes, Mail, your editor):
 vieejt nam
 ```
 
-**Expected output:** the text transforms live into **việt nam** while you type, and the menu-bar icon shows the keyboard as active. The transform `vieejt nam → việt nam` is the engine's documented behavior ([README](../README.md), [Telex rule set](../flows/keyboard-typing.md)) and is exercised by the engine's fixture tests (`Fixtures/sample-telex.json`, e.g. `v i e t s → viết`); this quickstart's GUI steps were written from those sources and were not re-executed on a Mac in this session.
+**Expected output:** the text transforms live into **việt nam** while you type, and the menu-bar icon shows the keyboard as active. The transform `vieejt nam → việt nam` is the engine's documented behavior ([README](../README.md), [Telex rule set](../flows/telex.md)) and is exercised by the engine's fixture tests (`Fixtures/sample-telex.json`, e.g. `v i e t s → viết`); this quickstart's GUI steps were written from those sources and were not re-executed on a Mac in this session.
 
-The app is not Developer ID notarized yet, so on the very first launch macOS may ask you to control-click EasyKey and choose **Open**; full install notes, build-from-source commands (`make build`, `make test`), and troubleshooting live in the [README](../README.md).
+The app is not Developer ID notarized yet, so on the very first launch macOS may ask you to control-click EasyKey and choose **Open**; full install notes and troubleshooting live in the [README](../README.md), and build-from-source commands (`make build`, `make test`) live in the [setup guide](../engineering/setup.md).
 
 ## What next
 
-- Full setup and build from source: [README](../README.md)
+- Full setup and build from source: [Setup guide](../engineering/setup.md)
 - What this does: [Product Overview](overview.md)
-- Typing rules in depth: [Telex rule set](../flows/keyboard-typing.md)
+- Typing rules in depth: [Telex rule set](../flows/telex.md)

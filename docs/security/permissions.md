@@ -1,11 +1,12 @@
 ---
 id: "platform_permissions"
 title: "Platform Permissions"
+description: "Requested capability, trigger, user value, denial behavior, settings/recovery, manifest evidence"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_permissions"
   path: "docs/security/permissions.md"
-  generated_at: "2026-08-03T08:45:41Z"
+  generated_at: "2026-08-13T11:23:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,20 +18,25 @@ docforge_provenance:
   sections:
     - id: "accessibility-keyboard-event-tap"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          git_blob_normalized: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
         - path: "EasyKeyApp/Features/Onboarding/OnboardingView.swift"
           git_blob: "6607f26cd0e27f49ac6d0e77492557411063e170"
+          git_blob_normalized: "6607f26cd0e27f49ac6d0e77492557411063e170"
           role: "code"
         - path: "EasyKeyApp/Features/Settings/System/SystemHealthCard.swift"
-          git_blob: "5fe0c69e5c0be68ba8d102710418aeade56f6c0f"
+          git_blob: "45184202082f9947ebb6885a1f9e694d0cb2844d"
+          git_blob_normalized: "45184202082f9947ebb6885a1f9e694d0cb2844d"
           role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+          git_blob_normalized: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
           role: "code"
       unresolved: []
     - id: "login-item-smappservice"
@@ -45,37 +51,45 @@ docforge_provenance:
     - id: "network-clients-translation-and-update-no-system-prompt"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
+          git_blob_normalized: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
+          git_blob_normalized: "a58ea2ffd3149408365009e036353d1c130b3056"
           role: "code"
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
       unresolved: []
     - id: "capabilities-without-system-prompts"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
           git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+          git_blob_normalized: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
-          git_blob: "b9179d71d130b93c4f9f9dbe198eb5153be42637"
+          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
+          git_blob_normalized: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
           role: "code"
         - path: "EasyKeyApp/EasyKeyApp.entitlements"
           git_blob: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+          git_blob_normalized: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
           role: "config"
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
       unresolved: []
 ---
 # Permissions
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey requests exactly one TCC-gated capability — Accessibility — and
 registers one login item. Everything else it touches (pasteboard, network,
@@ -161,8 +175,9 @@ and pinned public key are build-time values (`SUFeedURL`, `SUPublicEDKey` in
 **Evidence:** `TranslationProviding.swift` (ephemeral `URLSession` with no
 cookies, cache, or credential storage); `GoogleTranslationProvider.swift`
 (fixed endpoints, key headers, validation without source text);
-`UpdateService.swift` (Sparkle configured only with HTTPS feed and EdDSA key);
-`Info.plist` (`SUFeedURL`, `SUPublicEDKey`).
+`UpdateService.swift` (Sparkle configured only when an HTTPS feed and EdDSA
+public key are present — `hasReleaseConfiguration`); `Info.plist` (`SUFeedURL`,
+`SUPublicEDKey`).
 
 ## Capabilities without system prompts
 

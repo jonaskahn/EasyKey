@@ -1,11 +1,12 @@
 ---
 id: "flow-translation"
 title: "Flow Translation"
+description: "How EasyKey translates selected text via on-device or cloud providers: trigger, actors, steps, branches, failures, outcome"
 docforge_provenance:
   schema: "2.0"
   doc_id: "flow-translation"
   path: "docs/flows/translation.md"
-  generated_at: "2026-08-03T08:45:44Z"
+  generated_at: "2026-08-13T11:26:41Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,28 +20,28 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "trigger-and-actors"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationHotKeyController.swift"
           role: "doc"
           git_blob: "ad247765954ce0e9d9b5fb916b55266444c6d6cd"
         - path: "EasyKeyApp/Features/Translation/SelectedTextCapture.swift"
           role: "doc"
-          git_blob: "9dcda2f02bf3f5110956dd12a292859a5789f6fd"
+          git_blob: "c4124fe1499209bf7096f8bbdecb394d8df95f80"
       unresolved: []
     - id: "happy-path"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
         - path: "EasyEngineCore/Translation/TranslationProviderResolver.swift"
           role: "doc"
           git_blob: "9fe5786ed549713c4631839352100124f86cba13"
@@ -49,10 +50,10 @@ docforge_provenance:
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
           role: "doc"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
         - path: "EasyKeyApp/Features/Translation/TranslationPanelView.swift"
           role: "doc"
-          git_blob: "dea98809c34261c9b62dede8476d6c21bb3f5d1a"
+          git_blob: "c8d9509469aa9b5635140df6ff25594ed72f5c9a"
       unresolved: []
     - id: "branches-and-rules"
       sources:
@@ -61,10 +62,10 @@ docforge_provenance:
           git_blob: "9fe5786ed549713c4631839352100124f86cba13"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           role: "doc"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
       unresolved: []
     - id: "automatic-provider-resolution-falls-back-to-apple-or-first-configured-cloud-provider"
       sources:
@@ -76,10 +77,10 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
       unresolved: []
     - id: "provider-missing-credentials-or-unsupported-on-platform"
       sources:
@@ -97,22 +98,22 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           role: "doc"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
       unresolved: []
     - id: "session-persistence-clear-on-close"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "pronunciation-only-for-apple-and-google"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
       unresolved: []
     - id: "failure-and-recovery"
       sources:
@@ -127,16 +128,16 @@ docforge_provenance:
           git_blob: "b214166c0c4a16d48731844087c4810f4af89ca9"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
           role: "doc"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
       unresolved: []
     - id: "no-provider-configured-or-credentials-missing"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "network-failure-or-timeout"
       sources:
@@ -154,7 +155,7 @@ docforge_provenance:
           git_blob: "b40632097ad4d67ea9163229a114eae843760511"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
       unresolved: []
     - id: "apple-language-pack-not-installed"
       sources:
@@ -166,27 +167,27 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
       unresolved: []
     - id: "outcome"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "doc"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
           role: "doc"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
       unresolved: []
 ---
 # Translation via on-device or cloud providers
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey captures the selected text (or the user's typed input), resolves an on-device or cloud provider, and renders a translation in the floating panel or the menu-bar popover. The translate hotkey, the double-Command-C gesture, and the menu popover all drive this flow.
 
 ## Trigger and actors
 
-**Trigger:** user action — the translation hotkey registered with Carbon (`CarbonTranslationHotKeyRegistrar`, `TranslationHotKeyController.swift:141`), a double Command-C press detected by the keyboard pipeline, or the menu-bar popover's translate affordance; each routes to `AppTranslationRuntime.activate()` (`AppTranslationRuntime.swift:317-335`).
+**Trigger:** user action — the translation hotkey registered with Carbon (`CarbonTranslationHotKeyRegistrar`, `TranslationHotKeyController.swift:141`), a double Command-C press detected by the keyboard pipeline, or the menu-bar popover's translate affordance; each routes to `AppTranslationRuntime.activate()` (`AppTranslationRuntime.swift:234-244`).
 
 **Preconditions:** translation is enabled (`TranslationOptions.isEnabled`); the runtime has started (`start()`); for selected-text capture, the accessibility fallback needs the app to be trusted.
 
@@ -204,14 +205,14 @@ EasyKey captures the selected text (or the user's typed input), resolves an on-d
 
 ## Happy path
 
-1. **Activation.** The Carbon hotkey handler, double-Command-C detector, or popover calls `activate()`; it returns when `isEnabled` is false, otherwise captures the previously active application and shows the panel (`AppTranslationRuntime.swift:325-335`).
-2. **Source text submitted.** `SelectedTextCaptureCoordinator.capture` reads `AXSelectedText` from the focused element (text field, text area, web area, etc.); if that is unavailable, it simulates Command-C in the previous application and restores the pasteboard; the result lands in `model.setSourceText` (`SelectedTextCapture.swift:169-205`; `TranslationModel.swift:56-61`).
-3. **Auto-translate scheduled.** `scheduleAutoTranslate` sleeps for the configured delay (`autoTranslateDelayMs`, presets 250–1500 ms, default 500 ms) then calls `translate()`; every source edit cancels and reschedules the timer (`TranslationModel.swift:218-231`; `TranslationOptions.swift:78-88`).
+1. **Activation.** The Carbon hotkey handler, double-Command-C detector, or popover calls `activate()`; it returns when `isEnabled` is false, otherwise captures the selected text and shows the panel beside the previously active application (`AppTranslationRuntime.swift:234-244`).
+2. **Source text submitted.** `SelectedTextCaptureCoordinator.capture` reads `AXSelectedText` from the focused element (text field, text area, web area, etc.); if that is unavailable, it simulates Command-C in the previous application and restores the pasteboard; the result lands in `model.setSourceText` (`SelectedTextCapture.swift:169-196, 264-288`; `TranslationModel.swift:56-61`).
+3. **Auto-translate scheduled.** `scheduleAutoTranslate` sleeps for the configured delay (`autoTranslateDelayMs`, presets 250–1500 ms, default 500 ms) then calls `translate()`; every user source edit cancels and reschedules the timer (`TranslationModel.swift:217-230`; `TranslationOptions.swift:68-78`).
 4. **Provider resolved.** `TranslationProviderResolver.resolveEffectiveProvider` picks the explicit preference when available; otherwise Apple on macOS 15+, otherwise the first configured cloud provider in `cloudProviderOrder`; nothing available resolves to `.setupRequired` (`TranslationProviderResolver.swift:72-93`).
-5. **First-use cloud disclosure gate.** For a cloud provider not yet acknowledged, `TranslationDisclosureController.request` shows an alert naming the provider (and endpoint origin when custom); declining stops the request (`AppTranslationRuntime.swift:48-65`).
+5. **First-use cloud disclosure gate.** For a cloud provider not yet acknowledged, `TranslationDisclosureController.request` shows an alert naming the provider (and endpoint origin when custom); declining stops the request (`TranslationDisclosureController.swift:30-47`; `TranslationModel.swift:165-182`).
 6. **Credentials read.** Cloud adapters fetch their key from `KeychainTranslationCredentialStore` — one account per provider, `kSecAttrAccessibleWhenUnlockedThisDeviceOnly`, `kSecAttrSynchronizable: false` (`TranslationCredentialStore.swift:76-155`).
-7. **Request dispatched.** `TranslationModel.translate` looks the provider up in the registry and calls `provider.translate(request)` inside a cancellable task; adapters use an ephemeral `URLSession` (no cache, cookies, or credential storage) and validated HTTPS endpoints (`TranslationModel.swift:145-191`; `TranslationProviding.swift:73-90`).
-8. **Response rendered.** The panel or popover binds `model.status`; a matching generation applies `.succeeded(response)` or `.failed(error)`, and stale responses from cancelled or superseded requests are dropped (`TranslationModel.swift:252-264`).
+7. **Request dispatched.** `TranslationModel.translate` looks the provider up in the registry and calls `provider.translate(request)` inside a cancellable task; adapters use an ephemeral `URLSession` (no cache, cookies, or credential storage) and validated HTTPS endpoints (`TranslationModel.swift:144-190`; `TranslationNetworkSession.swift:3-13`).
+8. **Response rendered.** The panel or popover binds `model.status`; a matching generation applies `.succeeded(response)` or `.failed(error)`, and stale responses from cancelled or superseded requests are dropped (`TranslationModel.swift:251-263`).
 
 ```mermaid
 sequenceDiagram
@@ -247,7 +248,7 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** the provider is a cloud provider in `cloudProviderOrder`, the user has not acknowledged it (per-provider in settings, or per endpoint-origin in memory), and the user cancels the alert.
 
-**Then:** `TranslationModel` finishes with `.cancelled`; no network request is made (`AppTranslationRuntime.swift:48-65`; `TranslationModel.swift:172-183`).
+**Then:** `TranslationModel` finishes with `.cancelled`; no network request is made (`TranslationDisclosureController.swift:30-47`; `TranslationModel.swift:171-182`).
 
 **Rejoins at:** ends the flow (status shows the cancelled error; source text is preserved).
 
@@ -257,17 +258,17 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** the resolved provider's adapter cannot be constructed — `configuredCloudProviders` excludes it (no Keychain credential) or Apple is not supported on macOS 14 and earlier (`TranslationProviderResolver.swift:31-45`).
 
-**Then:** `TranslationProviderResolver.availability` reports `.missingCredentials` or `.unsupportedOnPlatform`; `makeAppleComponents` never registers Apple on unsupported systems; the model's `providerLookup` returns nil and `translate()` fails with `.noProviderConfigured` (`TranslationModel.swift:148-150`).
+**Then:** `TranslationProviderResolver.availability` reports `.missingCredentials` or `.unsupportedOnPlatform`; `makeAppleComponents` never registers Apple on unsupported systems (`AppTranslationRuntime.swift:386-399`); the model's `providerLookup` returns nil and `translate()` fails with `.noProviderConfigured` (`TranslationModel.swift:147-150`).
 
-**Rejoins at:** step 1 — saving a credential or upgrading macOS triggers `refreshProviders`, which re-resolves and updates the model's provider (`AppTranslationRuntime.swift:360-385`).
+**Rejoins at:** step 1 — saving a credential or upgrading macOS triggers `refreshProviders`, which re-resolves and updates the model's provider (`AppTranslationRuntime.swift:274-294`).
 
 ### Each source edit reschedules the auto-translate delay
 
 **Branches from step:** 3
 
-**Condition:** the user edits source text (`setSourceTextFromUserInput`) or the source changes programmatically with a non-blank result.
+**Condition:** the user edits source text (`setSourceTextFromUserInput`) and the edited text is non-blank.
 
-**Then:** the pending auto-translate task is cancelled and re-scheduled with the configured delay; a blank source never schedules (`TranslationModel.swift:63-71`, `218-231`).
+**Then:** the pending auto-translate task is cancelled and re-scheduled with the configured delay; a blank source never schedules (`TranslationModel.swift:63-71, 217-230`).
 
 **Rejoins at:** step 3 (new countdown).
 
@@ -277,7 +278,7 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** `TranslationOptions.sessionPersistence == .clearOnClose` (default is `.keepUntilRestart`).
 
-**Then:** `handleSurfaceClosed` calls `model.clearSession()`, wiping source text and result but keeping provider and language selections (`AppTranslationRuntime.swift:302-309`; `TranslationModel.swift:208-212`).
+**Then:** `handleSurfaceClosed` calls `model.clearSession()`, wiping source text and result but keeping provider and language selections (`AppTranslationRuntime.swift:215-218`; `TranslationModel.swift:207-211`).
 
 **Rejoins at:** step 1 (next activation starts blank).
 
@@ -287,11 +288,11 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** the active provider is Apple or Google (the only providers `TranslationPronunciationPolicy.supports`).
 
-**Then:** `TranslationSpeechController` can speak the result; switching to any other provider stops speech (`TranslationModel.swift:5-9`, `105-113`).
+**Then:** `TranslationSpeechController` can speak the result; switching to any other provider stops speech (`TranslationModel.swift:5-9, 104-112`).
 
 **Rejoins at:** step 8.
 
-**Other rules:** source text is capped at `TranslationRequest.maximumSourceTextLength` (5000 chars) and a blank source or an explicit source equal to the target silently produces no request (`TranslationRequest.swift:8-36`); only preset auto-translate delays are accepted by the settings model (`TranslationSettingsModel.swift:315-319`); endpoint-validating adapters only accept https URLs whose host passes `HostSafety.validate` (`TranslationProviding.swift:35-71`).
+**Other rules:** source text is capped at `TranslationRequest.maximumSourceTextLength` (5000 chars) and a blank source or an explicit source equal to the target silently produces no request (`TranslationRequest.swift:8-36`); only preset auto-translate delays are accepted by the settings model (`EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:225-226`); endpoint-validating adapters only accept https URLs whose host passes `HostSafety.validate` (`ValidatedTranslationEndpoint.swift:8-15, 42-47`).
 
 ## Failure and recovery
 
@@ -301,11 +302,11 @@ Ordered by how often they occur. Evidence is the normalized `TranslationError` s
 
 **Detected by:** resolution returning `.setupRequired`, or `providerLookup` returning nil in `translate()`.
 
-**Immediate response:** fail fast — `status = .failed(.noProviderConfigured)`; the panel disables the translate affordance (`TranslationModel.swift:145-150`).
+**Immediate response:** fail fast — `status = .failed(.noProviderConfigured)`; the panel disables the translate affordance (`TranslationModel.swift:147-150`; `TranslationPanelView.swift:62-64`).
 
 **State left behind:** nothing queued; source text remains editable.
 
-**Recovery:** user saves credentials in settings (or macOS is upgraded to 15+); `settingsModel.onCredentialsChange` triggers `refreshProviders` and the provider is re-resolved.
+**Recovery:** user saves credentials in settings (or macOS is upgraded to 15+); `settingsModel.onCredentialsChange` triggers `refreshProviders` and the provider is re-resolved (`AppTranslationRuntime.swift:131, 269-272`).
 
 **Escalation boundary:** none.
 
@@ -325,7 +326,7 @@ Ordered by how often they occur. Evidence is the normalized `TranslationError` s
 
 **Detected by:** non-2xx status or a malformed/undersized provider body; adapters throw `.rateLimitExceeded`, `.providerUnavailable(provider:httpStatus:)`, `.requestTooLarge`, or `.invalidResponse`.
 
-**Immediate response:** fail fast; the error is normalized by `TranslationModel.normalize` and published to the panel (`TranslationModel.swift:275-283`).
+**Immediate response:** fail fast; the error is normalized by `TranslationModel.normalize` and published to the panel (`TranslationModel.swift:274-282`).
 
 **State left behind:** nothing persisted; the request is safe to repeat.
 
@@ -349,7 +350,7 @@ Ordered by how often they occur. Evidence is the normalized `TranslationError` s
 
 **Detected by:** the request task being cancelled — panel dismissed, popover collapsed, app stopping, or a newer request superseding it.
 
-**Immediate response:** `.cancelled` is finished only if the generation still matches; otherwise the stale result is discarded silently (`TranslationModel.swift:162-191`, `252-264`).
+**Immediate response:** `.cancelled` is finished only if the generation still matches; otherwise the stale result is discarded silently (`TranslationModel.swift:169-189, 194-202, 251-263`).
 
 **State left behind:** the in-flight request is aborted; source text and selections are untouched.
 
@@ -359,7 +360,7 @@ Ordered by how often they occur. Evidence is the normalized `TranslationError` s
 
 ## Outcome
 
-**On success:** the translated response is rendered in the floating panel or menu popover with `status = .succeeded`; Apple and Google results can be spoken aloud. No source text, translation, prompt, or credential is persisted (`TranslationOptions.swift:4-6`).
+**On success:** the translated response is rendered in the floating panel or menu popover with `status = .succeeded`; Apple and Google results can be spoken aloud. No source text, translation, prompt, or credential is persisted (`TranslationOptions.swift:3-5`).
 
 **On safe failure:** `status = .failed` with a normalized, display-safe `TranslationError`; source text and provider/language selections remain intact, and no stale or partial result is ever applied.
 

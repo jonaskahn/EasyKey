@@ -1,11 +1,12 @@
 ---
 id: "dependencies"
 title: "Dependencies"
+description: "Direct dependencies/integrations, purpose, criticality, failure behavior"
 docforge_provenance:
   schema: "2.0"
   doc_id: "dependencies"
   path: "docs/architecture/dependencies.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:08:46Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -26,27 +27,27 @@ docforge_provenance:
         - path: "EasyKey.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
           role: "manifest"
           git_blob: "feb7b4ba06bf6bec15596f2320b7974cbb0a6a78"
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
       unresolved: []
     - id: "development-dependencies"
       sources:
         - path: "Makefile"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
         - path: "Scripts/qa-gate.sh"
           role: "config"
-          git_blob: "6cc6488bf99423e199fc6d9fdb04ff9283a12208"
+          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
       unresolved: []
     - id: "external-services"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           role: "code"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
@@ -58,10 +59,10 @@ docforge_provenance:
           git_blob: "b214166c0c4a16d48731844087c4810f4af89ca9"
         - path: "EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift"
           role: "code"
-          git_blob: "794a1cebc1383077804548226dc3773ea2b888f4"
+          git_blob: "c7dc2b3350c5a424d0ebbd588b5b2bac12ff495c"
         - path: "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift"
           role: "code"
-          git_blob: "6380a5fed49e57b42d37bb611ddcb6d26661ee43"
+          git_blob: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
       unresolved: []
     - id: "sparkle-update-feed"
       sources:
@@ -70,7 +71,7 @@ docforge_provenance:
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
         - path: "docs/architecture/decisions/sparkle-updates.md"
           role: "doc"
-          git_blob: "6c0243290e6675cc6c695a74efd072f87759d6fb"
+          git_blob: "3af37ac1be4c6c854fb7d0f0fd19e72d10b8061a"
       unresolved: []
     - id: "cloud-translation-providers"
       sources:
@@ -82,13 +83,13 @@ docforge_provenance:
           git_blob: "363614188d90243d0959536f6c96b4380790198e"
         - path: "EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift"
           role: "code"
-          git_blob: "794a1cebc1383077804548226dc3773ea2b888f4"
+          git_blob: "c7dc2b3350c5a424d0ebbd588b5b2bac12ff495c"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
         - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           role: "code"
-          git_blob: "275d4aa9b65469565580f4a241d4d4a6cbadb3aa"
+          git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
       unresolved: []
     - id: "apple-on-device-translation"
       sources:
@@ -100,27 +101,27 @@ docforge_provenance:
       sources:
         - path: "Scripts/qa-gate.sh"
           role: "config"
-          git_blob: "6cc6488bf99423e199fc6d9fdb04ff9283a12208"
+          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
         - path: "Scripts/check-sparkle-pin.sh"
           role: "config"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
         - path: "Makefile"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
       unresolved: []
     - id: "generated-inventory"
       sources:
         - path: "EasyKey.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
           role: "manifest"
           git_blob: "feb7b4ba06bf6bec15596f2320b7974cbb0a6a78"
-        - path: "docs/_archive/THIRD_PARTY_NOTICES.md"
+        - path: "docs/THIRD_PARTY_NOTICES.md"
           role: "doc"
-          git_blob: "8c0da23df063ee46dc734994bdd9b6e365eb7a72"
+          git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
       unresolved: []
 ---
 # Dependencies and integrations
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 The repository's dependency surface is deliberately small: one third-party runtime library (Sparkle), the Apple platform SDKs, and the optional cloud translation providers that are pure network integrations. Platform services (Accessibility, Keychain, event tap) are documented in [platform-integration.md](platform-integration.md).
 
@@ -179,10 +180,10 @@ _Repeat per service — direct integrations only._
 ## Dependency policy
 
 - **Criteria for adding one:** a dependency must earn its place — the bar is high because the codebase deliberately ships one runtime library. New additions are assessed on maintenance signals, licence compatibility, security history, and whether an existing dependency or the SDK already covers the need.
-- **Who approves:** the maintainer; the QA gate (`Scripts/qa-gate.sh`) runs in CI and locally before release.
-- **Review cadence:** every release runs the gate (coverage threshold, lint, archive/verify scripts via `make qa`); the dependency surface is re-checked there and on any update to `Package.resolved`.
+- **Who approves:** the maintainer; the QA gate (`Scripts/qa-gate.sh`) runs locally before release and lint/coverage gates run in CI.
+- **Review cadence:** every release runs `make qa` (`Scripts/qa-gate.sh`: full test run with coverage, artifact verification, test-registration check); CI additionally enforces lint and the coverage threshold. The dependency surface is re-checked there and on any update to `Package.resolved`.
 - **Update policy:** pinned versions (Sparkle exact-revision pin, toolchain SHA-256 pin); CVE triage happens at release time through the gate; majors require a manual decision recorded in the release notes.
 
 ## Generated inventory
 
-There is no generated SBOM in this repository. The nearest machine-readable dependency records are `Package.resolved` (SwiftPM pins — the single source of truth for Sparkle) and the human-maintained third-party notices file (`THIRD_PARTY_NOTICES.md` (archived)). If an SBOM is introduced it should be CycloneDX (built for vulnerability and dependency-risk tracking; carries the NTIA minimum fields of supplier, name, version, PURL, dependency relationship, author, timestamp) — that matches this document's risk-oriented purpose better than an SPDX license view. Until then, this document is the judgment layer: rationale, criticality, and failure behaviour for each direct dependency.
+There is no generated SBOM in this repository. The nearest machine-readable dependency records are `Package.resolved` (SwiftPM pins — the single source of truth for Sparkle) and the third-party notices file at [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). If an SBOM is introduced it should be CycloneDX (built for vulnerability and dependency-risk tracking; carries the NTIA minimum fields of supplier, name, version, PURL, dependency relationship, author, timestamp) — that matches this document's risk-oriented purpose better than an SPDX license view. Until then, this document is the judgment layer: rationale, criticality, and failure behaviour for each direct dependency.

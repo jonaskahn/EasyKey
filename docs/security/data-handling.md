@@ -1,11 +1,12 @@
 ---
 id: "data_handling"
 title: "Data Handling"
+description: "Data classes, lifecycle, access, retention, deletion"
 docforge_provenance:
   schema: "2.0"
   doc_id: "data_handling"
   path: "docs/security/data-handling.md"
-  generated_at: "2026-08-03T08:45:41Z"
+  generated_at: "2026-08-13T11:23:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,61 +19,77 @@ docforge_provenance:
     - id: "keystroke-input-transient"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          git_blob_normalized: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
       unresolved: []
     - id: "clipboard-history-and-payloads-confidential"
       sources:
         - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
           git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+          git_blob_normalized: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
           git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+          git_blob_normalized: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           git_blob: "cf479dc1990e259036d4ce3784f8539195e38f41"
+          git_blob_normalized: "cf479dc1990e259036d4ce3784f8539195e38f41"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
           git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
+          git_blob_normalized: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
           role: "code"
       unresolved: []
     - id: "translation-source-text-and-results-confidential-transient"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
+          git_blob_normalized: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
+          git_blob_normalized: "a58ea2ffd3149408365009e036353d1c130b3056"
           role: "code"
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/TranslationModel.swift"
-          git_blob: "dbeb3c07bd87de658d4a81c926b44de2dd18b405"
+          git_blob: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
+          git_blob_normalized: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
           role: "code"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
-          role: "doc"
+        - path: "EasyKeyApp/Features/Translation/TranslationDisclosureController.swift"
+          git_blob: "9795c7fc78539e5b7758259157d1f3ae63dff87a"
+          git_blob_normalized: "9795c7fc78539e5b7758259157d1f3ae63dff87a"
+          role: "code"
       unresolved: []
     - id: "cloud-translation-credentials-secret"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
+          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
           role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
       unresolved: []
     - id: "clipboard-persistence-key-secret"
@@ -87,31 +104,52 @@ docforge_provenance:
     - id: "settings-macros-and-preferences-internal"
       sources:
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
       unresolved: []
     - id: "diagnostic-logs-and-exports-internal"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
+          git_blob_normalized: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
       unresolved: []
     - id: "compliance-evidence"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/product/overview.md"
+          git_blob: "463e7774ac299d864da913a20fcda7ee75171eb4"
+          git_blob_normalized: "463e7774ac299d864da913a20fcda7ee75171eb4"
           role: "doc"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
+          git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          git_blob_normalized: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
+          git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
+          git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+          git_blob_normalized: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+          role: "code"
+        - path: "EasyKeyApp/Coordination/LogExporter.swift"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          role: "code"
       unresolved: []
 ---
 # Data handling
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 This document classifies the data classes the repository actually distinguishes
 and states, per class, the lifecycle the code implements. Retention authority
@@ -138,7 +176,7 @@ Accessibility-trusted process has the same OS-level visibility.
 |---|---|
 | Collected | `NSPasteboard` polling every 0.3 s while capture is enabled; capture defaults to off (`ClipboardOptions.isCaptureEnabled = false`); events carrying Concealed/Transient/AutoGenerated or password-manager markers are rejected before any payload read; per-event cap 10 MiB, retained cap 100 MiB |
 | Used | Search, pin, copy, and paste through the clipboard panel; payloads are referenced by opaque keys; in-memory history is the single live store (`ClipboardHistoryModel`) |
-| Retained | Memory-only by default (`persistsHistory = false`); when persistence is enabled, the manifest and payloads are sealed with AES-GCM under a Keychain-held key in `Application Support/EasyKey`; retention defaults to 100 entries and 7 days with pinned entries (max 25) exempt from pruning |
+| Retained | Memory-only by default (`persistsHistory = false`); when persistence is enabled, the manifest and payloads are sealed with AES-GCM under a Keychain-held key in `Application Support/EasyKey/Clipboard`; retention defaults to 100 entries and 7 days with pinned entries (max 25) exempt from pruning |
 | Deleted | `clearAll()` calls `deleteAll()`, which removes the persistence directory and deletes the Keychain key; disabling persistence triggers the same deletion; per-entry remove, unpinned clear, age/count pruning, and orphan-payload removal all delete immediately |
 
 **Access:** the app process in memory; on disk, ciphertext is readable by local
@@ -149,7 +187,7 @@ key.
 
 | Stage | Behavior |
 |---|---|
-| Collected | Only from EasyKey translation surfaces (translation editor, menu popover, Option+A panel) as `request.sourceText`; general keyboard input is never submitted; first use of each cloud provider requires a disclosure prompt |
+| Collected | Only from EasyKey translation surfaces (translation editor, menu popover, Option+C panel) as `request.sourceText`; general keyboard input is never submitted; first use of each cloud provider requires a disclosure prompt |
 | Used | Submitted directly to the selected provider over the validated HTTPS endpoint; results rendered in the translation panel; no intermediate service |
 | Retained | Not persisted to disk; an in-memory session (source text, result) survives panel close under the default `sessionPersistence = .keepUntilRestart` and is held until the app restarts |
 | Deleted | Nothing stored on disk to delete; the in-memory session is dropped on panel close only when `sessionPersistence = .clearOnClose` — the default `.keepUntilRestart` clears it at app restart (`AppTranslationRuntime.handleSurfaceClosed` → `TranslationModel.clearSession`) |

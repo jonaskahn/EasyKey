@@ -1,11 +1,12 @@
 ---
 id: "setup_guide"
 title: "Setup Guide"
+description: "Prerequisites, install, configuration, run, verification, recovery"
 docforge_provenance:
   schema: "2.0"
   doc_id: "setup_guide"
   path: "docs/engineering/setup.md"
-  generated_at: "2026-08-03T08:44:07Z"
+  generated_at: "2026-08-13T11:07:59Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,25 +19,28 @@ docforge_provenance:
     - id: "prerequisites"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/reference/tech-stack.md"
+          git_blob: "d73c28f8dd37e7d2b0d77404c798830dc4aa4485"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          role: "code"
+        - path: "Scripts/notarize.sh"
+          git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
           role: "code"
       unresolved: []
     - id: "steps"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -49,19 +53,25 @@ docforge_provenance:
     - id: "verify"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/qa-gate.sh"
-          git_blob: "6cc6488bf99423e199fc6d9fdb04ff9283a12208"
+          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
+          role: "code"
+        - path: "Scripts/verify-qa-artifacts.sh"
+          git_blob: "11ce62a91f372b4527c134c17645b8c7b655f51b"
+          role: "code"
+        - path: "Scripts/check-test-registration.sh"
+          git_blob: "4a36185850f52eac0e1796f1313b86b1a666c322"
           role: "code"
       unresolved: []
     - id: "common-problems"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
@@ -71,7 +81,7 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "7a094e2c60f68ffca552947082f4330c2806213a"
+          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
       unresolved: []
 ---
 # Local setup
@@ -98,12 +108,13 @@ non-secret environment variables — `SPARKLE_FEED_URL`, `SPARKLE_PUBLIC_ED_KEY`
 configuration is baked into the build (`Scripts/archive.sh` enforces HTTPS).
 Signed distribution adds Apple Developer credentials (Developer ID Application
 certificate, team identifier, notarization profile) — Apple Developer Program,
-held by the repository owner; see [RELEASE.md](release.md).
+held by the repository owner; see the [release guide](release.md).
 
 ## Steps
 
-1. Clone the repository and enter it. The public archive URL is listed in the
-   Build from Source section of [product overview](../product/overview.md).
+1. Clone the repository and enter it. The repository is public; the release
+   badge at the top of the [README](../../README.md) links to the public
+   release page.
 
    ```bash
    git clone <REPOSITORY_URL>
@@ -179,7 +190,8 @@ Phase 8 automated QA gate passed.
 `make qa` runs the full test suite, then `Scripts/verify-qa-artifacts.sh`
 checks that the fixture-driven engine conformance test, the keyboard-service
 integration test host, the settings workflow UI tests, and the fixture data
-under `Fixtures/` are all present.
+under `Fixtures/` are all present, and `Scripts/check-test-registration.sh`
+fails when a tracked test file is missing from its Xcode target.
 
 ## Common problems
 
@@ -200,8 +212,9 @@ exits successfully. Run `brew install swiftlint` to enable the check.
 `make test`; the Makefile documents this limitation.
 
 **`make local-dmg` fails with "SPARKLE_PUBLIC_ED_KEY environment variable is
-not set"** — the release configuration check requires all four variables to
-be exported in the current shell; export them as in step 7.
+not set"** — the Makefile's release-config check catches a missing
+`SPARKLE_PUBLIC_ED_KEY` first, and `Scripts/archive.sh` then requires all
+four variables (with HTTPS enforcement); export them as in step 7.
 
 **Odd behavior persists across runs (stale preferences, leftovers)** — wipe
 build artifacts and local app and test data with `make clean-all`. The local

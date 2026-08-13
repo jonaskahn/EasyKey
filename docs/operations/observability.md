@@ -1,11 +1,12 @@
 ---
 id: "observability"
 title: "Observability"
+description: "Signals, ownership, correlation, alert intent, blind spots"
 docforge_provenance:
   schema: "2.0"
   doc_id: "observability"
   path: "docs/operations/observability.md"
-  generated_at: "2026-08-03T08:42:11Z"
+  generated_at: "2026-08-13T11:23:28Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,37 +19,37 @@ docforge_provenance:
     - id: "signals"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "EasyKeyApp/Features/Settings/System/SystemHealthCard.swift"
-          git_blob: "5fe0c69e5c0be68ba8d102710418aeade56f6c0f"
+          git_blob: "45184202082f9947ebb6885a1f9e694d0cb2844d"
           role: "code"
-        - path: "EasyKeyKit/Keyboard/KeyboardDiagnosticsRecorder.swift"
-          git_blob: "e7415e6b4f2ed14c259f6b9208b331118d8a2582"
+        - path: "EasyKeyKit/Keyboard/Diagnostics/KeyboardDiagnosticsRecorder.swift"
+          git_blob: "5b06cb65f184556907e6ae44d093dc4fae536505"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
       unresolved: []
     - id: "logging"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "log-export"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyKeyApp/Coordination/StatusMenuBuilder.swift"
           git_blob: "a377dcfb9ea8265d43b9e2b802c1cc90edc0cb67"
@@ -60,40 +61,40 @@ docforge_provenance:
           git_blob: "41325adb028f17e1f2fb0a7cb7983c23c93824fe"
           role: "code"
         - path: "EasyKeyApp/Features/Settings/System/SystemHealthCard.swift"
-          git_blob: "5fe0c69e5c0be68ba8d102710418aeade56f6c0f"
+          git_blob: "45184202082f9947ebb6885a1f9e694d0cb2844d"
           role: "code"
-        - path: "EasyKeyKit/Keyboard/KeyboardDiagnosticsRecorder.swift"
-          git_blob: "e7415e6b4f2ed14c259f6b9208b331118d8a2582"
+        - path: "EasyKeyKit/Keyboard/Diagnostics/KeyboardDiagnosticsRecorder.swift"
+          git_blob: "5b06cb65f184556907e6ae44d093dc4fae536505"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
       unresolved: []
     - id: "correlation"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
       unresolved: []
     - id: "blind-spots"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
       unresolved: []
 ---
 # Observability
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey is a local menu-bar utility with no server components, so observability is entirely on-device. The system emits three kinds of signals — OSLog entries under a single subsystem, an in-memory keyboard-diagnostics ring buffer, and derived health state surfaced in the UI — and by design collects no analytics, telemetry, or crash reports. Everything below is visible only on the machine where the app runs, and there is no alerting infrastructure: every "alert intent" in this document is log-only or on-screen, and nothing ever pages a human.
 
@@ -106,7 +107,7 @@ EasyKey is a local menu-bar utility with no server components, so observability 
 | Errors | `AppLog.error(...)` per category — event-tap install, translation providers, login item, settings, export | unified log + Show Logs export | maintainer | log-only — no paging exists |
 | Saturation (CPU / memory / energy) | none instrumented | — | — | not observable — see Blind spots |
 
-The latency signal is the only one with a derived, user-visible value: `SystemHealthCard` appends the median callback latency in milliseconds to its detail line when the service is active. Traffic is recorded per key event — each record carries the event type, a disposition (`passed`, `suppressed`, `bypassed`, `selfPosted`, `disabled`), the number of output events, and the frontmost app's bundle identifier — but the ring buffer is never logged or exported. Errors span real failure modes: event-tap install failures ("Event tap install skipped: service unbound"), translation provider response failures ("DeepL response decoding failed"), login-item configuration failures, settings load/write failures, and log-export failures.
+The latency signal is the only one with a derived, user-visible value: `SystemHealthCard` appends the median callback latency in milliseconds to its detail line when the service is active. Traffic is recorded per key event — each record carries the event type, a disposition (`passed`, `suppressed`, `bypassed`, `selfPosted`, `disabled`), the number of output events, and the frontmost app's bundle identifier — but the ring buffer is never logged or exported. Errors span real failure modes: event-tap install failures ("CGEvent tap install failed"), translation provider response failures ("DeepL response decoding failed"), login-item configuration failures, settings load/write failures, and log-export failures.
 
 ## Logging
 
@@ -124,11 +125,11 @@ All logging goes through `AppLog` (`EasyEngineCore/Diagnostics/AppLog.swift`), w
 | loginItem | `LoginItemController` | login-item configure results |
 | translation | DeepL and Google providers, `TranslationSettingsModel` | provider response failures, credential save/validate/delete results |
 
-Entries are visible in the unified log (Console.app or `log show`); nothing is shipped off-device. [product overview](../product/overview.md) states the product guarantee: "EasyKey includes no analytics or telemetry."
+Entries are visible in the unified log (Console.app or `log show`); nothing is shipped off-device. [product overview](../product/overview.md) states the product guarantee: "EasyKey collects no analytics or telemetry."
 
 ## Log export
 
-Menu bar → **Show Logs** (`StatusMenuBuilder` item `menuShowLogs`) triggers `AppCoordinator` → `LogExporter.exportAndReveal()`. The export (`LogExporter.swift`) reads `OSLogStore(scope: .currentProcessIdentifier)` for the last 60 minutes, filters to the `one.ifelse.easykey` subsystem and the three safe categories `app`, `keyboard`, `settings`, and caps at 2000 entries. Each line is `[timestamp] [category] message`; the file header records subsystem, export time, and lookback seconds. Three credential patterns are redacted to `[REDACTED]` before writing — `sk-...` API keys, `AIzaSy...` Google keys, and `x-api-key: ...` headers. The output goes to the system temporary directory as `EasyKeyLogs/easykey-<yyyyMMdd-HHmmss>.log` with POSIX permissions `0600`, then is revealed in Finder. On failure the app presents an NSAlert ("Log export failed: …") unless running under UI tests, and logs the error through `AppLog.error(.app, ...)`.
+Menu bar → **Show Logs** (`StatusMenuBuilder` item `menuShowLogs`) triggers `AppCoordinator` → `LogExporter.exportAndReveal()`. The export (`LogExporter.swift`) reads `OSLogStore(scope: .currentProcessIdentifier)` for the last 60 minutes, filters to the `one.ifelse.easykey` subsystem and the three safe categories `app`, `keyboard`, `settings`, and caps at 2000 entries. Each line is `[timestamp] [category] message`; the file header records subsystem, export time, and lookback seconds. Three credential patterns are redacted to `[REDACTED]` before writing — `sk-...` API keys, `AIzaSy...` Google keys, and `x-api-key: ...` headers. The output goes to the system temporary directory as `EasyKeyLogs/easykey-<yyyyMMdd-HHmmss>.log` with POSIX permissions `0600`, then is revealed in Finder. On failure the app logs "Log export failed: …" through `AppLog.error(.app, ...)` and presents a localized NSAlert ("Couldn't export logs" / "Try again.") unless running under UI tests.
 
 ## Status and health
 
@@ -150,7 +151,7 @@ log show --predicate 'subsystem == "one.ifelse.easykey"' --last 1h --info --debu
 
 ## Blind spots
 
-- **Crash reporting: none.** The repository has no crash reporter and no symbolication pipeline; crashes are invisible until reproduced locally. [PRIVACY.md](../security/data-handling.md) and [product overview](../product/overview.md) promise "no analytics or telemetry" — that is a product guarantee and simultaneously the main observability limit: usage, feature adoption, and error rates across the user base are unknown.
+- **Crash reporting: none.** The repository has no crash reporter and no symbolication pipeline; crashes are invisible until reproduced locally. [data-handling.md](../security/data-handling.md) and [product overview](../product/overview.md) promise "no analytics or telemetry" — that is a product guarantee and simultaneously the main observability limit: usage, feature adoption, and error rates across the user base are unknown.
 - **Saturation is unobserved.** No CPU, memory, or energy instrumentation exists; performance problems surface only as callback-latency medians while the settings window happens to be open.
 - **The ring buffer is ephemeral and bounded.** 128 events, in memory only — lost on quit, never persisted, never exported (bundle identifiers of frontmost apps at event time stay local by design).
 - **Exports exclude six categories.** Show Logs covers only `app`, `keyboard`, `settings`; engine, synth, smartSwitch, update, loginItem, and translation entries are invisible to exports (still present in the unified log).

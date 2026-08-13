@@ -1,11 +1,12 @@
 ---
 id: "adr-single-instance"
 title: "Adr Single Instance"
+description: "Decision: terminate at launch when another instance is already running for the current user."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-single-instance"
   path: "docs/architecture/decisions/single-instance.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,43 +19,43 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
           role: "code"
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "code"
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "history"
       unresolved: []
     - id: "decision"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "code"
         - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
           role: "code"
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "history"
       unresolved: []
     - id: "consequences"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "code"
         - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
           role: "code"
       unresolved: []
     - id: "confirmation"
       sources:
         - path: "EasyKeyTests/AppCoordinatorTests.swift"
-          git_blob: "29208ffb39f97fd9fbfe48192a415da517263b0b"
+          git_blob: "5a9fc0f92803914f6b82f175f9f15693ee1c492b"
           role: "test"
-        - path: "EasyKeyApp/AppCoordinator.swift"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
           role: "history"
       unresolved: []
 ---

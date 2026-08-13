@@ -1,11 +1,12 @@
 ---
 id: "api_reference"
 title: "Api Reference"
+description: "Public surface, inputs/outputs, auth contract, limits, errors, compatibility source"
 docforge_provenance:
   schema: "2.0"
   doc_id: "api_reference"
   path: "docs/reference/api.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:11:02Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,77 +19,101 @@ docforge_provenance:
     - id: "api-reference"
       sources:
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+          git_blob_normalized: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
         - path: "EasyEngineCore/Engine/KeyEvent.swift"
+          git_blob: "a4a486d2f583d6d3568be91be5387b7a321d03c9"
+          git_blob_normalized: "a4a486d2f583d6d3568be91be5387b7a321d03c9"
           role: "code"
-          git_blob: "b2bd5087c8246182a4e4c53024392248117be16a"
         - path: "EasyEngineCore/Engine/EngineOutput.swift"
+          git_blob: "06aec453bfbcc6af20d8ac5f918571fe43fe3249"
+          git_blob_normalized: "06aec453bfbcc6af20d8ac5f918571fe43fe3249"
           role: "code"
-          git_blob: "c4990fd43fd23f1ac914077a4c35ac832d47e765"
         - path: "EasyEngineCore/Engine/EncodingTable.swift"
-          role: "code"
           git_blob: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          git_blob_normalized: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          role: "code"
         - path: "EasyEngineCore/Engine/InputLanguage.swift"
-          role: "code"
           git_blob: "53381339582e91206ed1e64249e68782d597dd65"
+          git_blob_normalized: "53381339582e91206ed1e64249e68782d597dd65"
+          role: "code"
         - path: "EasyEngineCore/Engine/InputMethod.swift"
-          role: "code"
           git_blob: "819d471dfb0b167a557e274a2af9d2cdbf2e13bb"
-        - path: "EasyEngineCore/Engine/TelexComposer.swift"
+          git_blob_normalized: "819d471dfb0b167a557e274a2af9d2cdbf2e13bb"
           role: "code"
-          git_blob: "2c149f54f6b74d7d626ed673e7274ffa41b6d6ed"
+        - path: "EasyEngineCore/Engine/TelexComposer.swift"
+          git_blob: "2b42730f8b4154642ee53fa92ccc8d9bc63a093b"
+          git_blob_normalized: "2b42730f8b4154642ee53fa92ccc8d9bc63a093b"
+          role: "code"
       unresolved: []
     - id: "source-of-truth"
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
+          git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
-        - path: "EasyKeyKit/KeySynthesizer.swift"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
+          git_blob_normalized: "d9d56d371db322150cd74a358258fe7243989bab"
           role: "code"
-          git_blob: "99f808f9edc0749da8a9ee907120389ced90c8f1"
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
         - path: "EasyKeyKit/EasyKeyKit.swift"
+          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
           role: "code"
-          git_blob: "76482ec56440968c9f78d2fce59c0c3cfa7d0ca1"
       unresolved: []
     - id: "typing-engine"
       sources:
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+          git_blob_normalized: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
         - path: "EasyEngineCore/Engine/KeyEvent.swift"
+          git_blob: "a4a486d2f583d6d3568be91be5387b7a321d03c9"
+          git_blob_normalized: "a4a486d2f583d6d3568be91be5387b7a321d03c9"
           role: "code"
-          git_blob: "b2bd5087c8246182a4e4c53024392248117be16a"
         - path: "EasyEngineCore/Engine/EngineOutput.swift"
+          git_blob: "06aec453bfbcc6af20d8ac5f918571fe43fe3249"
+          git_blob_normalized: "06aec453bfbcc6af20d8ac5f918571fe43fe3249"
           role: "code"
-          git_blob: "c4990fd43fd23f1ac914077a4c35ac832d47e765"
         - path: "EasyEngineCore/Engine/EncodingTable.swift"
-          role: "code"
           git_blob: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          git_blob_normalized: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          role: "code"
         - path: "EasyEngineCore/Engine/TelexComposer.swift"
+          git_blob: "2b42730f8b4154642ee53fa92ccc8d9bc63a093b"
+          git_blob_normalized: "2b42730f8b4154642ee53fa92ccc8d9bc63a093b"
           role: "code"
-          git_blob: "2c149f54f6b74d7d626ed673e7274ffa41b6d6ed"
         - path: "EasyEngineCore/Engine/VietnameseTones.swift"
-          role: "code"
           git_blob: "0fc336e259b2c120d8590cc602a2b6c9459d42a1"
+          git_blob_normalized: "0fc336e259b2c120d8590cc602a2b6c9459d42a1"
+          role: "code"
+        - path: "EasyEngineCore/Engine/EngineConfiguration.swift"
+          git_blob: "300fdc2bd48af4f46cf2e9cd6f51dab9114c1781"
+          git_blob_normalized: "300fdc2bd48af4f46cf2e9cd6f51dab9114c1781"
+          role: "code"
       unresolved: []
     - id: "encoding-conversion"
       sources:
         - path: "EasyEngineCore/Converter/Converter.swift"
+          git_blob: "0b990e8ce2106458e1816fd16ebb3613049cac21"
+          git_blob_normalized: "0b990e8ce2106458e1816fd16ebb3613049cac21"
           role: "code"
-          git_blob: "bbc951650e27a7e9f4d364fec0d1cd16dc9f4be3"
         - path: "EasyEngineCore/Engine/EncodingTable.swift"
-          role: "code"
           git_blob: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          git_blob_normalized: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
+          role: "code"
       unresolved: []
     - id: "macros"
       sources:
         - path: "EasyEngineCore/Macros/MacroStore.swift"
+          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
           role: "code"
-          git_blob: "b8a7256fcac4629b3824c752dd654f849170de08"
       unresolved: []
     - id: "smart-switch"
       sources:
@@ -111,79 +136,101 @@ docforge_provenance:
     - id: "translation"
       sources:
         - path: "EasyEngineCore/Translation/TranslationProviderResolver.swift"
-          role: "code"
           git_blob: "9fe5786ed549713c4631839352100124f86cba13"
+          git_blob_normalized: "9fe5786ed549713c4631839352100124f86cba13"
+          role: "code"
         - path: "EasyEngineCore/Translation/TranslationLanguage.swift"
-          role: "code"
           git_blob: "93ca62cf9efab0493a297a5bbebd867de4252bca"
+          git_blob_normalized: "93ca62cf9efab0493a297a5bbebd867de4252bca"
+          role: "code"
         - path: "EasyEngineCore/Translation/TranslationOptions.swift"
+          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
           role: "code"
-          git_blob: "1c0c39a3d9bc405c47c447ac21c90b0d9545d89f"
         - path: "EasyEngineCore/Translation/TranslationLanguagePolicy.swift"
-          role: "code"
           git_blob: "a72cd8efe7adac6b7149dff6c6f49570abe5174b"
+          git_blob_normalized: "a72cd8efe7adac6b7149dff6c6f49570abe5174b"
+          role: "code"
         - path: "EasyEngineCore/Translation/SupportedLanguages.swift"
-          role: "code"
           git_blob: "0091dea40cb4db68095afd1afe3127b319402260"
-        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
+          git_blob_normalized: "0091dea40cb4db68095afd1afe3127b319402260"
           role: "code"
+        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
           git_blob: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
+          git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
+          role: "code"
+        - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
+          git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
+          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
+          role: "code"
       unresolved: []
     - id: "settings"
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
+          git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
         - path: "EasyEngineCore/Settings/SettingsMigration.swift"
+          git_blob: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
+          git_blob_normalized: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
           role: "code"
-          git_blob: "faf8ce6b4248f9966298919b3e3b12fedef614d5"
         - path: "EasyEngineCore/Settings/Shortcut.swift"
-          role: "code"
           git_blob: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
+          git_blob_normalized: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
+          role: "code"
       unresolved: []
     - id: "diagnostics"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
+          git_blob_normalized: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
       unresolved: []
     - id: "keyboard-adapters-easykeykit"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
-        - path: "EasyKeyKit/KeySynthesizer.swift"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
+          git_blob_normalized: "d9d56d371db322150cd74a358258fe7243989bab"
           role: "code"
-          git_blob: "99f808f9edc0749da8a9ee907120389ced90c8f1"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          git_blob_normalized: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
           role: "code"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
+          git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
+          role: "code"
       unresolved: []
     - id: "app-compatibility-rules"
       sources:
-        - path: "EasyKeyKit/AppCompatibility.swift"
-          role: "code"
+        - path: "EasyKeyKit/Keyboard/Context/AppCompatibility.swift"
           git_blob: "9e4015582e88c1ee9962337e65cb62d7df586a96"
+          git_blob_normalized: "9e4015582e88c1ee9962337e65cb62d7df586a96"
+          role: "code"
       unresolved: []
     - id: "deprecated-api"
       sources:
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
       unresolved: []
 ---
 # API reference
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 **Source of truth:** the `public` declarations in the in-repo frameworks
 `EasyEngineCore` and `EasyKeyKit` — there is no generated schema or
@@ -213,14 +260,17 @@ AppKit, SwiftUI, or Combine (see [tech-stack.md](tech-stack.md)).
 
 One streaming engine consumes raw keystrokes and emits edit instructions.
 The buffer is recomputed from source keystrokes on every edit, which makes
-backspace, repeat-to-undo, and word restoration exact.
+backspace, repeat-to-undo, and word restoration exact. With
+`literalTechnicalTokens` enabled, a token starting with a technical prefix
+(`/`, `@`, `#`, `!`, `:`) at a word boundary is passed through
+untransformed until the token ends.
 
 | Type | Public surface |
 |---|---|
 | `VietnameseEngine` | `init(configuration:)`, `process(event: KeyEvent) -> EngineOutput`, `currentBuffer`, `reset()`, `resetComposition()`, `restoreRawKeys()`, `state: SessionState` |
 | `KeyEvent` | `kind` (`character`, `backspace`, `space`, `return`, `tab`, arrows, `escape`, `forwardDelete`, `other`), modifier flags, `isUppercase` |
 | `EngineOutput` | `disposition` (`pass`/`suppress`), `edits` (`deleteBackward`/`insert`/`replaceBackward`), `sessionEffect`, `passThrough`/`suppress` statics |
-| `EngineConfiguration` | `inputMethod`, `outputEncoding`, `spellCheck`, `autoRestoreKeys`, `toneStyle`, `quickTelexConsonants`, `standaloneWShortcut`, `bracketShortcuts`, `uppercaseFirstCharacter` |
+| `EngineConfiguration` | `inputMethod`, `outputEncoding`, `spellCheck`, `autoRestoreKeys`, `toneStyle`, `quickTelexConsonants`, `standaloneWShortcut`, `bracketShortcuts`, `uppercaseFirstCharacter`, `liveConfidenceScoring`, `liveConfidenceLowThreshold`, `liveConfidenceHighThreshold`, `iosUniKeyLikeMode`, `literalTechnicalTokens` |
 | `SessionState` | composition state exposed by the engine |
 | `TelexComposer` | rule application shared by the engine |
 | `EncodingTable` | `unicode`, `unicodeCombining`, `tcvn3`, `vniWindows`, `cp1258` |
@@ -239,15 +289,16 @@ output instructs the caller to replace the current focused text.
 | `Converter` | conversion entry point between encodings |
 | `ConverterTransform` | transform cases (e.g. Unicode ↔ legacy) |
 | `ConverterConfiguration` | source/destination encoding pair |
-| `EncodingCodec`, `EncodingFactory`, `VietnameseEncoding` | codec protocol and factory |
+| `VietnameseEncoding` (protocol), `EncodingFactory` | public encoding protocol and factory; the shared codec (`EncodingCodec`) is internal to EasyEngineCore |
 | `UnicodePrecomposedEncoding`, `UnicodeCombiningEncoding`, `VNIWindowsEncoding`, `TCVN3Encoding`, `CP1258Encoding` | concrete encodings |
 
 ## Macros
 
 | Type | Public surface |
 |---|---|
-| `Macro` | `id`, `trigger`, `expansion`, `isEnabled`, `createdAt`, `updatedAt` |
-| `MacroStore` | `add(trigger:expansion:isEnabled:)`, `edit`, `delete(id:)`, `replaceAll`, `search(_:)`, `changeActiveEncoding(to:)`, `encodedExpansion(for:)`, `export(to:)`, `previewImport(from:)`, `macros`; limits `maximumTriggerLength = 128`, `maximumExpansionLength = 16384` |
+| `Macro` | `id`, `trigger`, `expansion`, `isEnabled`, `category`, `createdAt`, `updatedAt` |
+| `MacroStore` | `add(trigger:expansion:isEnabled:category:now:)`, `edit`, `delete(id:)`, `replaceAll`, `insertSamples(_:)`, `search(_:)`, `changeActiveEncoding(to:)`, `encodedExpansion(for:)`, `expansion(forTypedTrigger:autoCapitalize:)`, `export(to:)`, `exportTSV()`, `previewImport(from:)`, `apply(_:resolvingConflicts:)`, `macros`; limits `maximumTriggerLength = 128`, `maximumExpansionLength = 16384` |
+| `MacroCategory` | language zones: `vietnamese`, `english`, `nineX`, `genZ`, `both` |
 | `MacroStoreError`, `MacroImportPreview`, `MacroImportResolution`, `MacroImportConflict` | validation and import result types |
 
 ## Smart Switch
@@ -285,18 +336,22 @@ output instructs the caller to replace the current focused text.
 | `TranslationOptions` | full policy surface — defaults and validation in [configuration.md](configuration.md) |
 | `TranslationLanguagePolicy` | `swapped(source:target:)`, `defaultTarget(forInput:)` |
 | `TranslationRequest`, `TranslationResponse`, `TranslationError`, `SupportedLanguages` | request/response model, error cases, language catalog |
+| `TranslationProviding` | per-provider `translate(_:) async throws -> TranslationResponse`; cloud providers authenticate with an API key resolved from the Keychain-backed credential store (`TranslationCredentialStore`) and sent in the provider-specific request header (`x-goog-api-key`, `Authorization: Bearer`, etc.); the Apple on-device provider needs no credential |
 
 ## Settings
 
 | Type | Public surface |
 |---|---|
 | `EasyKeySettings` | `schemaVersion` (currently 11) + 9 option groups (`input`, `typing`, `macro`, `compatibility`, `smartSwitch`, `system`, `converter`, `clipboard`, `translation`); forgiving decoder |
-| `SettingsRepository` | `init(fileURL:)`, `update(_:)`, `reset()`, `export(to:)`, `import(from:)`, `load()`, `saveNow()`, `configurationSnapshot`, `onSettingsChange`, `defaultFileURL`, `maxImportFileBytes = 1_048_576` |
-| `SettingsMigration` | `migrate(_ data: Data) -> Data` (stepwise `schemaVersion` bump) |
+| `SettingsRepository` | `init(fileURL:)`, `settings` (public read-only current configuration), `update(_:)`, `reset()`, `export(to:)`, `import(from:)`, `load()`, `saveNow()`, `onSettingsChange`, `defaultFileURL`, `maxImportFileBytes = 1_048_576` |
 | `SettingsDelta` | `delta(from:to:)` — per-group change flags, `hasAnyChange` |
 | `Shortcut` | key code + modifier option set; `none`, `modifiersOnly`, `isActive`, `displayLabel` |
 | `SettingsRepositoryError`, `ImportDiagnostics` | import validation errors and diagnostics |
 | `InputSettings`, `TypingOptions`, `MacroOptions`, `CompatibilityOptions`, `SystemOptions`, `ConverterOptions`, `ClipboardOptions`, `TranslationOptions` | per-group option structs |
+
+Schema migration (`SettingsMigration`, the stepwise `schemaVersion` bump) is
+internal to EasyEngineCore — it is no longer public API, though the
+version-bump loop remains exercised by tests.
 
 ## Diagnostics
 

@@ -1,11 +1,12 @@
 ---
 id: "arch_low_level"
 title: "Arch Low Level"
+description: "Module/component responsibilities and their interfaces (or, for `infrastructure-platform`, resource-group / stack responsibilities and apply order); one..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "arch_low_level"
   path: "docs/architecture/low-level.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:08:46Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,90 +18,90 @@ docforge_provenance:
   sections:
     - id: "low-level-architecture"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "layout"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
       unresolved: []
     - id: "selected-whiteboxes"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "easykeyapp"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "easykeykit"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
       unresolved: []
     - id: "easyenginecore"
       sources:
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
       unresolved: []
     - id: "components"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "appcoordinator"
       sources:
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "keyboardservice"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
           role: "code"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
       unresolved: []
     - id: "keyboardinputpipeline"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           role: "code"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
       unresolved: []
     - id: "keysynthesizer"
       sources:
-        - path: "EasyKeyKit/KeySynthesizer.swift"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           role: "code"
-          git_blob: "99f808f9edc0749da8a9ee907120389ced90c8f1"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
         - path: "EasyKeyKit/Keyboard/FocusedElementInspector.swift"
           role: "code"
-          git_blob: "d48f008671a75050e76bd506d2dbdc7360601bba"
+          git_blob: "2f61fac3a31d989c03784cff00519097d0d50f7b"
       unresolved: []
     - id: "vietnameseengine"
       sources:
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
         - path: "EasyEngineCore/Engine/VietnameseCharacters.swift"
           role: "code"
-          git_blob: "48462a659d8da3ada7895f47862392e6f4725b24"
+          git_blob: "a1a5b9f9a009e7fa0b0f1bc10620f497269d4823"
       unresolved: []
     - id: "settingsrepository"
       sources:
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
       unresolved: []
     - id: "smartswitchstore"
       sources:
@@ -121,48 +122,48 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "runtime-scenario"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
       unresolved: []
     - id: "keydown-to-composed-text"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           role: "code"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
-        - path: "EasyKeyKit/KeySynthesizer.swift"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           role: "code"
-          git_blob: "99f808f9edc0749da8a9ee907120389ced90c8f1"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
       unresolved: []
     - id: "data-model"
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
           role: "code"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
       unresolved: []
     - id: "significant-subsystems"
       sources:
         - path: "docs/architecture/concepts/README.md"
           role: "doc"
-          git_blob: "95a8e6b48746a7d8bf2755392e95153b1d839438"
+          git_blob: "7f4c435022ed209357ce5b9a50ca9e2899668396"
       unresolved: []
     - id: "cross-cutting-concerns"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
           role: "code"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
       unresolved: []
 ---
 # Low-level architecture
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Component-level decomposition. Zooms into the five blocks named in [high-level.md](high-level.md). It never becomes a Level-4 code or class document.
 
@@ -171,7 +172,7 @@ Component-level decomposition. Zooms into the five blocks named in [high-level.m
 ```text docforge-role=structure
 EasyKey/
 ├── EasyKeyApp/           App shell: status item, Settings scene, clipboard, translation, coordination
-├── EasyKeyKit/           Keyboard event tap, input pipeline, key synthesis, AX replacement
+├── EasyKeyKit/           Keyboard event tap, input pipeline, key synthesis
 ├── EasyEngineCore/       Framework-free domain: engine, settings, macros, smart switch, converter
 ├── EasyKeyLoginHelper/   Embedded SMAppService login item that launches the host
 ├── EasyKeyTests/         Unit + integration tests (one suite per feature area)
@@ -220,7 +221,7 @@ _Repeat per component inside these whiteboxes — the ones material to the decom
 - **Owns:** the single settings observer, the clipboard start/stop task chain, and the published state every surface renders from.
 - **Invariant:** all coordinator code runs on the main actor; a task chain guarantees clipboard `start`/`stop` never overlap (previous task is awaited before the next starts).
 - **Failure boundary:** `stop()` cancels observers and tasks but waits for the clipboard flush and `settingsStore.saveNow()` before `awaitShutdown` returns; a hard kill skips the flush and loses at most the debounced settings write.
-- **Key paths:** `EasyKeyApp/AppCoordinator.swift`, `EasyKeyApp/Coordination/AppCoordinatorWiring.swift`
+- **Key paths:** `EasyKeyApp/Coordination/AppCoordinator.swift`, `EasyKeyApp/Coordination/AppCoordinatorWiring.swift`
 
 ### KeyboardService
 
@@ -234,13 +235,13 @@ _Repeat per component inside these whiteboxes — the ones material to the decom
 - **Owns:** the event-tap lifecycle and the health/pause published state consumed by `HealthPill` and the status item.
 - **Invariant:** events posted by KeySynthesizer's own marker (`selfPostedEventMarker`) are passed through untouched — the service never re-processes its own output.
 - **Failure boundary:** a `tapDisabledByTimeout`/`tapDisabledByUserInput` event tears the tap down, sets health to `degraded`, and re-requests permission; pipeline failures never crash the app (failures degrade to pass-through).
-- **Key paths:** `EasyKeyKit/KeyboardService.swift`, `EasyKeyKit/Keyboard/KeyboardEventTap.swift`
+- **Key paths:** `EasyKeyKit/Keyboard/KeyboardService.swift`, `EasyKeyKit/Keyboard/KeyboardEventTap.swift`
 
 ### KeyboardInputPipeline
 
 **Responsibility:** turns each raw event into either a suppressed edit or a pass-through: shortcut matching (language switch, restore-word), macro expansion, per-application compatibility rules, Spotlight/Chromium-address-bar detection, and engine invocation.
 
-**Technology:** CoreGraphics event normalization; `AppCompatibilityRule` workarounds from `EasyKeyKit/AppCompatibility.swift`.
+**Technology:** CoreGraphics event normalization; `AppCompatibilityRule` workarounds from `EasyKeyKit/Keyboard/Context/AppCompatibility.swift`.
 
 **Public contract:** `process(proxy:type:event:keyCode:) -> KeyboardProcessResult`, `update(settings:)`, `update(macros:)`, `setActiveApplication(_:)`, `resetSession()`.
 
@@ -252,17 +253,17 @@ _Repeat per component inside these whiteboxes — the ones material to the decom
 
 ### KeySynthesizer
 
-**Responsibility:** applies engine edits to the focused element — AX value+caret replacement when possible, else synthesized physical key events (backspace bursts + typed text) — with per-app replacement strategies.
+**Responsibility:** applies engine edits to the focused application by synthesizing physical key events — backspace bursts plus typed text — with per-app replacement strategies (atomic focused text, selection replacement, break-autocomplete, physical backspace). It never writes through the accessibility API.
 
-**Technology:** CoreGraphics (`CGEvent`), ApplicationServices (`AXUIElement`), `FocusedElementInspector`.
+**Technology:** CoreGraphics (`CGEvent`) only; no `AXUIElement` writes exist anywhere in the edit path.
 
 **Public contract:** `postBackspace(proxy:count:) -> Bool`, `postUnicodeText(proxy:_:) -> Bool`, `postPhysicalKey(proxy:keyCode:modifiers:) -> Bool`, `postShiftLeft(proxy:count:) -> Bool`; static `markAsSelfPosted(_:)`, `isSelfPosted(_:)`. (Edit application itself is `KeyboardInputPipeline`'s private `apply(proxy:_:)`.)
 
-- **Talks to:** -> FocusedElementInspector — reads value/selected range, writes value+caret.
+- **Talks to:** -> the event-tap proxy — posts synthesized `CGEvent`s back into the stream. (Read-only `FocusedElementInspector` AX reads belong to the pipeline's Chromium address-bar detection, not to synthesis.)
 - **Owns:** the replacement-strategy decision (atomic focused text, selection replacement, break-autocomplete, physical backspace) and the self-posted-event marker that prevents feedback loops.
-- **Invariant:** synthesized events are always tagged with the self-posted marker before posting; AX writes only ever touch settable attributes.
-- **Failure boundary:** AX replacement failure falls back to physical key events; total failure returns false and the pipeline passes the original through.
-- **Key paths:** `EasyKeyKit/KeySynthesizer.swift`, `EasyKeyKit/Keyboard/FocusedElementInspector.swift`
+- **Invariant:** synthesized events are always tagged with the self-posted marker before posting.
+- **Failure boundary:** a synthesis step that fails returns false and the pipeline passes the original event through; a non-idempotent edit is never retried.
+- **Key paths:** `EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift`, `EasyKeyKit/Keyboard/FocusedElementInspector.swift`
 
 ### VietnameseEngine
 
@@ -275,7 +276,7 @@ _Repeat per component inside these whiteboxes — the ones material to the decom
 - **Talks to:** (none outward — leaf of the typing path).
 - **Owns:** `SessionState` (rawKeys, atoms, tone, forceRaw), sentence-start capitalization, VNI tone validity, spell-check/auto-restore of invalid words.
 - **Invariant:** invalid VNI tone digits are dropped without being appended to `rawKeys`; composition never emits an edit without a preceding replace-backward of the rendered count.
-- **Failure boundary:** the engine is a value type with no I/O; every event path either produces edits or returns `.passThrough` — there is no partial state to corrupt.
+- **Failure boundary:** the engine is a value type with no I/O; every event path either emits edits (`disposition .suppress`) or returns `.pass` — there is no partial state to corrupt.
 - **Key paths:** `EasyEngineCore/Engine/VietnameseEngine.swift`, `EasyEngineCore/Engine/VietnameseCharacters.swift`
 
 ### SettingsRepository
@@ -286,11 +287,11 @@ _Repeat per component inside these whiteboxes — the ones material to the decom
 
 **Public contract:** `update(_ transform:)`, `reset()`, `export(to:)`, `import(from:) -> ImportDiagnostics`, `load()`, `saveNow()`.
 
-- **Talks to:** -> ObservableSettingsStore — publishes `settings` changes into SwiftUI.
+- **Talks to:** -> SettingsStore (app layer) — pushes new `settings` through `onSettingsChange`; the store publishes them into SwiftUI.
 - **Owns:** the settings file at `~/Library/Application Support/EasyKey/settings.json` and the migration chain.
 - **Invariant:** writes are debounced 300 ms and atomic; a write is never issued concurrently with another (serialized `writeQueue`).
 - **Failure boundary:** a corrupt or unsupported-schema file falls back to `.defaults`; import errors throw typed `SettingsRepositoryError` values the UI can present.
-- **Key paths:** `EasyEngineCore/Settings/SettingsRepository.swift`, `EasyKeyApp/Settings/ObservableSettingsStore.swift`
+- **Key paths:** `EasyEngineCore/Settings/SettingsRepository.swift`, `EasyKeyApp/Settings/SettingsStore.swift`
 
 ### SmartSwitchStore
 
@@ -353,14 +354,14 @@ sequenceDiagram
   E-->>P: EngineOutput(disposition, edits)
   alt composition valid
     P->>K: apply(proxy, edits)
-    K-->>P: true (AX replace or posted fallback)
+    K-->>P: true (synthesized edits posted)
     P-->>S: suppressed
   else apply failed
     P-->>S: passed-through original
   end
 ```
 
-Outcome on the success path: the original keyDown is suppressed and the focused element shows the composed syllable — delivered either by `FocusedElementInspector` atomic replacement or, when AX writes fail, by posted physical key events. On the failure path the original event passes through untouched, so the user always sees at worst the raw typing, never a duplicated or corrupted edit.
+Outcome on the success path: the original keyDown is suppressed and the focused element shows the composed syllable, delivered as synthesized physical key events (backspace bursts plus typed text) with the per-app replacement strategy. On the failure path the original event passes through untouched, so the user always sees at worst the raw typing, never a duplicated or corrupted edit.
 
 ## Data model
 
@@ -386,7 +387,7 @@ The ones worth a full deep-dive get their own folder under [concepts/](concepts/
 
 | Concern | Where it lives | Notes |
 |---|---|---|
-| Configuration | `EasyEngineCore/Settings/SettingsRepository.swift` + `EasyKeyApp/Settings/ObservableSettingsStore.swift` | See [configuration](../reference/configuration.md) |
+| Configuration | `EasyEngineCore/Settings/SettingsRepository.swift` + `EasyKeyApp/Settings/SettingsStore.swift` | See [configuration](../reference/configuration.md) |
 | Error handling | Typed errors (`SettingsRepositoryError`, `MacroStoreError`, `ClipboardPersistenceError`, `TranslationError`) surfaced per surface | No fatal errors on user input paths |
 | Logging | `EasyEngineCore/Diagnostics/AppLog.swift` (os.Logger, privacy-tagged) | See [log-redaction](decisions/log-redaction.md) |
 | Authentication | `KeychainTranslationCredentialStore` + `KeychainClipboardKeyStore` | Device-only, non-synchronizing |

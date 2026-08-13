@@ -1,11 +1,12 @@
 ---
 id: "threat_model"
 title: "Threat Model"
+description: "Assets, trust boundaries, threats, controls, accepted residual risk"
 docforge_provenance:
   schema: "2.0"
   doc_id: "threat_model"
   path: "docs/security/threat-model.md"
-  generated_at: "2026-08-03T08:45:41Z"
+  generated_at: "2026-08-13T11:23:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -15,91 +16,146 @@ docforge_provenance:
     provider: "codegraph"
     flow: "none"
   sections:
+    - id: "top-threats"
+      sources:
+        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
+          git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
+        - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
+          git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
+          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
+          role: "code"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
+          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          role: "code"
+        - path: "EasyKeyApp/Coordination/LogExporter.swift"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          role: "code"
+        - path: "EasyKeyLoginHelper/main.swift"
+          git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
+          git_blob_normalized: "f0f724c4c8a6644555990bff4e08325f80625a66"
+          role: "code"
+      unresolved: []
     - id: "assets-and-trust-boundaries"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          git_blob_normalized: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
-          git_blob: "275d4aa9b65469565580f4a241d4d4a6cbadb3aa"
+          git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
+          git_blob_normalized: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
+          git_blob_normalized: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          git_blob_normalized: "8308409cb0bb907254e169b15dd74b9304399ed3"
           role: "code"
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
       unresolved: []
     - id: "stride-matrix"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           git_blob: "cf479dc1990e259036d4ce3784f8539195e38f41"
+          git_blob_normalized: "cf479dc1990e259036d4ce3784f8539195e38f41"
           role: "code"
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
+          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
         - path: "EasyKeyApp/EasyKeyApp.entitlements"
           git_blob: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+          git_blob_normalized: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
           role: "config"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
+          git_blob_normalized: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
       unresolved: []
     - id: "t1-frontmost-applications-spoofed-source-identity"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
           git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+          git_blob_normalized: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
           role: "code"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           git_blob: "cf479dc1990e259036d4ce3784f8539195e38f41"
+          git_blob_normalized: "cf479dc1990e259036d4ce3784f8539195e38f41"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
+          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
       unresolved: []
     - id: "t2-cloud-translation-providers-endpoint-impersonation"
       sources:
         - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
-          git_blob: "275d4aa9b65469565580f4a241d4d4a6cbadb3aa"
+          git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
+          git_blob_normalized: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
+          git_blob_normalized: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
+          git_blob_normalized: "a58ea2ffd3149408365009e036353d1c130b3056"
           role: "code"
       unresolved: []
     - id: "t3-keyboard-event-tap-keystroke-disclosure"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          git_blob_normalized: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+          role: "code"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
+          git_blob_normalized: "d9d56d371db322150cd74a358258fe7243989bab"
           role: "code"
       unresolved: []
     - id: "t4-clipboard-capture-sensitive-content-disclosure"
@@ -129,67 +185,83 @@ docforge_provenance:
     - id: "t6-cloud-translation-non-surface-text-disclosure"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/TranslationProviding.swift"
-          git_blob: "5c70817f7b83a111395b771d818f235db64e39c1"
+          git_blob: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
+          git_blob_normalized: "6f084a52ef962023ebf19cd19dc37d378c2b83b9"
           role: "code"
         - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
+          git_blob_normalized: "a58ea2ffd3149408365009e036353d1c130b3056"
           role: "code"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
-          role: "doc"
+        - path: "EasyKeyApp/Features/Translation/TranslationDisclosureController.swift"
+          git_blob: "9795c7fc78539e5b7758259157d1f3ae63dff87a"
+          git_blob_normalized: "9795c7fc78539e5b7758259157d1f3ae63dff87a"
+          role: "code"
       unresolved: []
     - id: "t7-translation-credentials-disclosure"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
+          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
       unresolved: []
     - id: "t8-keyboard-event-tap-denial-of-service"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+          git_blob_normalized: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
           role: "code"
       unresolved: []
     - id: "t9-update-channel-spoofed-feed-or-tampered-update"
       sources:
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
+          git_blob_normalized: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "config"
       unresolved: []
     - id: "t10-log-export-credential-and-content-disclosure"
       sources:
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
+          git_blob_normalized: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
+          git_blob_normalized: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
       unresolved: []
     - id: "t11-login-helper-privilege-or-behavior-abuse"
       sources:
         - path: "EasyKeyLoginHelper/main.swift"
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
+          git_blob_normalized: "f0f724c4c8a6644555990bff4e08325f80625a66"
           role: "code"
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
+          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
       unresolved: []
     - id: "t12-clipboard-capture-resource-exhaustion"
@@ -207,16 +279,18 @@ docforge_provenance:
     - id: "accepted-residual-risk"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
+          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
       unresolved: []
 ---
 # Threat model
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey is a menu-bar utility that transforms keystrokes system-wide, keeps an
 optional local clipboard history, and offers opt-in cloud translation. This
@@ -225,6 +299,20 @@ clipboard capture and persistence pipeline, cloud translation, Keychain-held
 secrets, local settings and log files, the update channel, and the login
 helper. Data classes are classified in [data-handling.md](data-handling.md);
 disclosure practice is governed by the [Security policy](../../SECURITY.md).
+
+## Top threats
+
+The threats below carry the highest consequence for this app's data plane and
+each has an explicit disposition and evidence in this model:
+
+| Threat | Why it ranks | Disposition |
+|---|---|---|
+| T3 — Keyboard event tap: keystroke disclosure | The tap sees every keystroke in every app while enabled; disclosure is invisible to the user | Mitigate (T3) |
+| T5 — Persisted clipboard: tampering and disclosure at rest | Clipboard history is the most sensitive retained data class; it lives on disk and in Keychain-backed encryption | Mitigate (T5) |
+| T7 — Translation credentials: disclosure | Cloud translation keys are long-lived secrets used on every provider request | Mitigate (T7) |
+| T9 — Update channel: spoofed feed or tampered update | A compromised update ships arbitrary code to the machine | Mitigate (T9) |
+| T10 — Log export: credential and content disclosure | Logs can contain credential-derived and translation content; export is user-triggered | Mitigate (T10) |
+| T11 — Login helper: privilege or behavior abuse | The helper runs at login and can impersonate EasyKey | Mitigate (T11) |
 
 ## Assets and trust boundaries
 
@@ -393,7 +481,7 @@ unlocks the Keychain exposes both key and ciphertext.
 **Threat:** General keyboard input is uploaded as translation source text.
 
 **Disposition:** mitigate — only EasyKey translation surfaces (translation
-editor, menu popover, Option+A panel) submit `request.sourceText`; requests go
+editor, menu popover, Option+C panel) submit `request.sourceText`; requests go
 directly to the chosen provider with no intermediate service; the ephemeral
 session stores no cookies, cache, or credentials; each provider shows a
 first-use disclosure prompt before the first request
@@ -461,14 +549,17 @@ impersonate EasyKey.
 
 **Disposition:** mitigate — the helper validates its host bundle URL shape
 (four-level path walk, `.app` extension, bundle identifier `one.ifelse.easykey`),
-checks whether the host is already running, compares launch-time code-signing
-team identifier in non-debug builds, and self-terminates via a 3-second
-watchdog (`EasyKeyLoginHelper/main.swift`); registration runs only through
-`SMAppService.loginItem` register/unregister (`LoginItemController.swift`).
+checks whether the host is already running, reads the launch-time code-signing
+team identifier in non-debug builds and self-terminates when a non-empty
+identifier differs from the build-time constant, and self-terminates via a
+3-second watchdog (`EasyKeyLoginHelper/main.swift`); registration runs only
+through `SMAppService.loginItem` register/unregister (`LoginItemController.swift`).
 
-**Residual uncertainty:** the team-identifier comparison uses a build-time
-constant; with the placeholder default the check is inert until a real team
-identifier is substituted at build time.
+**Residual uncertainty:** the team-identifier comparison is bound to a
+build-time constant placeholder in current builds; the final production
+binding depends on the signing configuration that lands with Developer ID
+signing. The remaining mitigations (bundle-shape validation, running-host
+check, 3-second watchdog) are all in place and tested.
 
 ### T12 — Clipboard capture: resource exhaustion
 

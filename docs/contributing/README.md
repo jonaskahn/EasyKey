@@ -1,11 +1,12 @@
 ---
 id: "contributing_index"
 title: "Contributing"
+description: "Section overview for contributing: how EasyKey is built on, and the reader question each contributing document answers"
 docforge_provenance:
   schema: "2.0"
   doc_id: "contributing_index"
   path: "docs/contributing/README.md"
-  generated_at: "2026-08-03T09:30:00Z"
+  generated_at: "2026-08-13T12:08:16Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,56 +18,74 @@ docforge_provenance:
   sections:
     - id: "contributing"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "README.md"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+        - path: "CONTRIBUTING.md"
+          role: "doc"
+          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+        - path: "docs/contributing/ownership.md"
+          role: "doc"
+          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
       unresolved: []
     - id: "at-a-glance"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+        - path: "docs/contributing/ownership.md"
+          role: "doc"
+          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+        - path: "docs/contributing/ownership.md"
+          role: "doc"
+          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
       unresolved: []
     - id: "start-here"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+        - path: "docs/contributing/ownership.md"
+          role: "doc"
+          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+        - path: "docs/engineering/setup.md"
+          role: "doc"
+          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "7a094e2c60f68ffca552947082f4330c2806213a"
-        - path: "docs/engineering/conventions.md"
-          role: "doc"
-          git_blob: "02aad5e1cfff5c78508b1911053d5bf32be31889"
+          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "45f25725b0e6b57a8e60ddaa6c8a7101b0d2bbb4"
+          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
       unresolved: []
     - id: "related-sections"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "docs/README.md"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
+        - path: "docs/engineering/README.md"
+          role: "doc"
+          git_blob: "eb772ae315052f41c6bd2267dbc0886260ba0447"
       unresolved: []
 ---
 # Contributing
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
-This section routes contributors to how EasyKey is built on: the repository-level contribution contract, the enforced conventions, and the engineering workflows for setup, testing, and shipping. Anyone planning to change the codebase should start with the root [Contributing guide](../../CONTRIBUTING.md), which owns the overall contribution process; this page is its section-level router.
+This section routes contributors to how EasyKey is built on: who owns what in the repository, and the engineering workflows for setup, testing, and shipping. Anyone planning to change the codebase should start with the root [Contributing guide](../../CONTRIBUTING.md), which owns the overall contribution process; this page is its section-level router.
 
 ## At a glance
 
-Contributing to EasyKey means following one repository-level process (owned by [CONTRIBUTING.md](../../CONTRIBUTING.md)), one rulebook (owned by [rulebook.md](../engineering/rulebook.md)), and the concrete engineering workflows for building, testing, and releasing (owned by the [engineering](../engineering/README.md) section). Detailed documentation materialized inside this section will be listed below as it is written; today the routing is to the owning documents themselves.
+Contributing to EasyKey means following one repository-level process (owned by [CONTRIBUTING.md](../../CONTRIBUTING.md)) and the concrete engineering workflows for building, testing, and releasing (owned by the [engineering](../engineering/README.md) section). The one detailed document materialized inside this section is the ownership map; the rulebook that conventions ground themselves in lives in [rulebook.md](../engineering/rulebook.md).
 
 ## Scope and boundaries
 
@@ -77,10 +96,9 @@ This section owns *contribution routing*: who works on what and which process ap
 | You want to | Read |
 |---|---|
 | Understand the overall contribution process before opening a change | [Contributing guide](../../CONTRIBUTING.md) |
+| Know who owns each area of the repository tree | [ownership.md](ownership.md) |
 | Set up your machine and build the project | [setup](../engineering/setup.md) |
 | Run the tests your change will be gated on | [testing](../engineering/testing.md) |
-| Follow the enforced style and design conventions | [conventions](../engineering/conventions.md) |
-| Read the authoritative rulebook | [rulebook.md](../engineering/rulebook.md) |
 
 ## Detailed documentation
 
@@ -94,5 +112,4 @@ This section owns *contribution routing*: who works on what and which process ap
 
 - [Documentation home](../README.md) — the parent index of all sections.
 - [Contributing guide](../../CONTRIBUTING.md) — the root router for the contribution process (related, not a child).
-- [rulebook.md](../engineering/rulebook.md) — the authoritative engineering rulebook (related, not a child).
 - [Engineering](../engineering/README.md) — setup, testing, conventions, and release for contributors.

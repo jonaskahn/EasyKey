@@ -1,11 +1,12 @@
 ---
 id: "operations_index"
 title: "Operations"
+description: "Section overview for operations: how EasyKey is delivered and observed, and the reader question each operations document answers"
 docforge_provenance:
   schema: "2.0"
   doc_id: "operations_index"
   path: "docs/operations/README.md"
-  generated_at: "2026-08-03T09:30:00Z"
+  generated_at: "2026-08-13T12:08:16Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,68 +20,83 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+        - path: "docs/operations/distribution.md"
+          role: "doc"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "c31adeb4073e1768bc7db93d5cc451396144eea6"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "bd705a76d0cadaa3a012d9df184894aba8f88c5f"
+          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+        - path: "docs/operations/runbooks/README.md"
+          role: "doc"
+          git_blob: "6f157aa906a341f96c5ef98309b4c2da881cd856"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "c31adeb4073e1768bc7db93d5cc451396144eea6"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "bd705a76d0cadaa3a012d9df184894aba8f88c5f"
+          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "c31adeb4073e1768bc7db93d5cc451396144eea6"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "bd705a76d0cadaa3a012d9df184894aba8f88c5f"
+          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
         - path: "docs/operations/runbooks/README.md"
           role: "doc"
-          git_blob: "462235533292404e5eeedb505a0dab08dff7f042"
+          git_blob: "6f157aa906a341f96c5ef98309b4c2da881cd856"
       unresolved: []
     - id: "related-sections"
       sources:
+        - path: "docs/README.md"
+          role: "doc"
+          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
         - path: "docs/engineering/README.md"
           role: "doc"
-          git_blob: "7363e3a9e0edd2b57706aa64e4ef319af6728bc6"
+          git_blob: "eb772ae315052f41c6bd2267dbc0886260ba0447"
+        - path: "docs/reference/README.md"
+          role: "doc"
+          git_blob: "9f1b4e19d4bea1b2eaaa8bec65db8b75f160b7be"
+        - path: "docs/security/README.md"
+          role: "doc"
+          git_blob: "ab0ce417c4410bdd0685d53be13089243bccb2be"
       unresolved: []
 ---
 # Operations
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
-This section covers how a running EasyKey is delivered and watched: the single deployable artifact and its release channel, the two distribution channels that carry it, and the on-device signals that exist for diagnosing it. Operators and engineers answering "how does this app get built, shipped, and observed?" start here.
+This section covers how a running EasyKey is delivered and watched: the single deployable artifact and its release channel, the distribution channels that carry it, and the on-device signals that exist for diagnosing it. Operators and engineers answering "how does this app get built, shipped, and observed?" start here.
 
 ## At a glance
 
@@ -88,7 +104,7 @@ EasyKey has exactly one deployable artifact — a universal DMG — and one deli
 
 ## Scope and boundaries
 
-This section owns *delivery and observation*: deployment of the artifact, distribution channels, and on-device observability. It does not own the release procedure itself, which is an engineering workflow ([engineering](../engineering/README.md)), nor the security posture around the channels ([security](../security/README.md)). Incident recovery, where documented, is owned by the runbooks area of this section; nothing here restates the steps a child document owns.
+This section owns *delivery and observation*: deployment of the artifact, distribution channels, and on-device observability. It does not own the release procedure itself, which is an engineering workflow ([engineering](../engineering/README.md)), nor the security posture around the channels ([security](../security/README.md)). Incident recovery, where documented, is owned by the runbooks area of this section; the runbooks index is honest about what is not written yet. Nothing here restates the steps a child document owns.
 
 ## Start here
 
@@ -97,6 +113,7 @@ This section owns *delivery and observation*: deployment of the artifact, distri
 | Understand how the app is built, packaged, and delivered to the release channel | [deployment.md](deployment.md) |
 | See how users receive updates and how each channel authenticates the artifact | [distribution.md](distribution.md) |
 | Diagnose the app from its on-device signals | [observability.md](observability.md) |
+| Find a step-by-step recovery procedure for an operational incident | [runbooks/README.md](runbooks/README.md) |
 
 ## Detailed documentation
 
@@ -106,7 +123,7 @@ This section owns *delivery and observation*: deployment of the artifact, distri
 | [Deployment](deployment.md) | How is the app built, packaged, and delivered to its single public release channel? |
 | [Distribution](distribution.md) | What channels ship the app, and how is the artifact discovered and authenticated in each? |
 | [Observability](observability.md) | What signals does the app emit on-device, and what can — and deliberately cannot — be observed? |
-| [Runbooks](runbooks/README.md) | What step-by-step recovery procedures exist for operational incidents, and where does release rollback live until runbooks are written? |
+| [Runbooks](runbooks/README.md) | What step-by-step recovery procedures exist for operational incidents — and what is the honest state before runbooks are written? |
 <!-- docforge-children:end -->
 
 ## Related sections
@@ -114,3 +131,4 @@ This section owns *delivery and observation*: deployment of the artifact, distri
 - [Documentation home](../README.md) — the parent index of all sections.
 - [Engineering](../engineering/README.md) — the release workflow that produces the artifact this section delivers.
 - [Reference](../reference/README.md) — platform compatibility and configuration facts the operations steps depend on.
+- [Security](../security/README.md) — the update-channel threats these distribution facts are part of.

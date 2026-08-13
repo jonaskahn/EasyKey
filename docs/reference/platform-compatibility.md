@@ -1,11 +1,12 @@
 ---
 id: "platform_compatibility"
 title: "Platform Compatibility"
+description: "OS/device/architecture matrix, minimums, tested evidence, degradation, deprecation"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_compatibility"
   path: "docs/reference/platform-compatibility.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:11:02Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,58 +19,83 @@ docforge_provenance:
     - id: "platform-compatibility"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
       unresolved: []
     - id: "supported-platforms"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
-        - path: "docs/_archive/RELEASE.md"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
         - path: "Makefile"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+        - path: "Scripts/verify-macos-compatibility.sh"
+          git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
+          git_blob_normalized: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
+          role: "code"
+        - path: "Scripts/verify-macos-compatibility.sh"
+          git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
+          git_blob_normalized: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
+          role: "history"
       unresolved: []
     - id: "feature-level-requirements"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
-          role: "code"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
-        - path: "EasyKeyApp/UpdateService.swift"
+          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-        - path: "docs/_archive/RELEASE.md"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          role: "code"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
       unresolved: []
     - id: "deprecation-horizon"
       sources:
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
-        - path: "docs/_archive/RELEASE.md"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          role: "history"
       unresolved: []
 ---
 # Platform compatibility
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Minimums are tested evidence, not aspiration: every row is backed by the
 declared deployment target and/or CI and release-gate configuration. "Tested
@@ -91,7 +117,7 @@ The app is macOS-only; there are no iOS, iPadOS, or watchOS targets.
 | Feature | Requirement | Degradation when unmet |
 |---|---|---|
 | Keyboard transformation | Accessibility permission (`KeyboardService.requestAccessibilityPermission`); system-wide event tap | typing stays untransformed until granted — the app runs, the feature does not |
-| On-device Apple Translation | macOS 15+ (`TranslationPlatformCapability` computed with `if #available(macOS 15.0, *)`) | on macOS 14 the Apple provider is unavailable; Automatic resolution falls back to the first configured cloud provider |
+| On-device Apple Translation | macOS 15+ (`TranslationPlatformCapability` is constructed by the app layer; Apple Translation is gated with `if #available(macOS 15.0, *)` in `AppTranslationRuntime`) | on macOS 14 the Apple provider is unavailable; Automatic resolution falls back to the first configured cloud provider |
 | Cloud translation providers | macOS 14+; optional per-provider API key in Keychain | provider cards hidden or marked setup-required until credentials exist |
 | Sparkle updates | macOS 14+; HTTPS feed URL and EdDSA public key supplied at build time | update checks disabled — local builds ship with empty `SUFeedURL`/`SUPublicEDKey` |
 | Launch at login | macOS 14+; `SMAppService.loginItem` (login helper target) | setting reports `unsupported`/`failed` status in the System settings card |

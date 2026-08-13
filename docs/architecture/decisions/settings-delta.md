@@ -1,11 +1,12 @@
 ---
 id: "adr-settings-delta"
 title: "Adr Settings Delta"
+description: "Decision: gate keyboard service reconfiguration on a SettingsDelta diff so unrelated settings changes do not reset composition."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-settings-delta"
   path: "docs/architecture/decisions/settings-delta.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,49 +19,49 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
           role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "history"
       unresolved: []
     - id: "decision"
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "history"
       unresolved: []
     - id: "consequences"
       sources:
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "b42c58c6e3f1eba416bca3c809ba579441fe87cc"
+          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
           role: "code"
       unresolved: []
     - id: "confirmation"
       sources:
         - path: "EasyKeyTests/EasyKeySettingsDeltaTests.swift"
-          git_blob: "61ffe1c5516c87bd6d62b03162641660483d2d31"
+          git_blob: "8b092d1808cc94e552bc253357ad6d48ae518cf1"
           role: "test"
         - path: "EasyKeyTests/SettingsStoreTests.swift"
-          git_blob: "f0012503b72984f8103e11ec188c205a9231e1da"
+          git_blob: "ffaf13343514802d0e886585a19de68f559a9932"
           role: "test"
         - path: "EasyKeyTests/KeyboardInputPipelineSettingsUpdateTests.swift"
-          git_blob: "0407bb4956dd4aea845783d31bbc30517d47b8fe"
+          git_blob: "475c904d74eb56ab5926893df930314d626fd76e"
           role: "test"
       unresolved: []
 ---
@@ -83,7 +84,7 @@ docforge_provenance:
 
 ## Decision
 
-We chose **the `SettingsDelta` struct**. `EasyKeySettings.delta(from:to:)` computes one boolean per top-level settings section (`input`, `typing`, `compatibility`, `macro`, `smartSwitch`, `system`, `converter`, `clipboard`, `translation`, `schemaVersion`) plus `hasAnyChange`. In `AppCoordinatorWiring.observeSettings`, the keyboard service is reconfigured only when `inputChanged || typingChanged || compatibilityChanged` (or on first observation), and the macro store's active encoding follows only `inputChanged`. `KeyboardService.update(settings:)` still applies the settings themselves to the engine pipeline; the delta only decides when the update is pushed.
+We chose **the `SettingsDelta` struct**. `EasyKeySettings.delta(from:to:)` computes one boolean per top-level settings section (`input`, `typing`, `compatibility`, `macro`, `smartSwitch`, `system`, `converter`, `clipboard`, `translation`, `schemaVersion`) plus `hasAnyChange`. In `AppCoordinatorWiring.observeSettings`, the keyboard service is reconfigured only when `inputChanged || typingChanged || compatibilityChanged || macroChanged` (or on first observation) — `macroChanged` joined the gate in commit 4f87b7f — and the macro store's active encoding follows only `inputChanged`. `KeyboardService.update(settings:)` still applies the settings themselves to the engine pipeline; the delta only decides when the update is pushed.
 
 ## Decision drivers
 
@@ -102,7 +103,7 @@ We chose **the `SettingsDelta` struct**. `EasyKeySettings.delta(from:to:)` compu
 
 ## Consequences
 
-**Positive:** typing is no longer interrupted by unrelated settings changes; the keyboard service only reconfigures when input, typing, or compatibility semantics actually changed; `SettingsDelta` is `Equatable`/`Sendable` and unit-tested in isolation.
+**Positive:** typing is no longer interrupted by unrelated settings changes; the keyboard service only reconfigures when input, typing, compatibility, or macro semantics actually changed; `SettingsDelta` is `Equatable`/`Sendable` and unit-tested in isolation.
 
 **Negative:** every future top-level settings section must add a flag to `SettingsDelta` and a call-site decision — forgetting the flag silently degrades to "never update" for that section; the diff is per-section, not per-key, so coarse-grained changes still propagate (the engine reconfiguration cost is low, so this is acceptable).
 

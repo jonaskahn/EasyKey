@@ -1,11 +1,12 @@
 ---
 id: "tech_stack"
 title: "Tech Stack"
+description: "Detected languages/versions; runtimes/SDKs; primary frameworks per layer; datastores and messaging; build/package/dependency-management tooling; test and CI..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "tech_stack"
   path: "docs/reference/tech-stack.md"
-  generated_at: "2026-08-03T08:48:15Z"
+  generated_at: "2026-08-13T11:11:02Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,100 +19,124 @@ docforge_provenance:
     - id: "tech-stack"
       sources:
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
       unresolved: []
     - id: "language-and-toolchain"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "docs/engineering/conventions.md"
+          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
       unresolved: []
     - id: "frameworks"
       sources:
         - path: "EasyEngineCore/Diagnostics/AppLog.swift"
+          git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
+          git_blob_normalized: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
-          git_blob: "5fc4b67c2fd3e17d5ba285cabad24e5e112951fa"
-        - path: "EasyKeyApp/Settings/ObservableSettingsStore.swift"
+        - path: "EasyKeyApp/Settings/SettingsStore.swift"
+          git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
+          git_blob_normalized: "65074f5684006b032e635e9bcf80ad7bf37f4929"
           role: "code"
-          git_blob: "c77772d40545b8e15ea62a6ca49d25eace1d355a"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
-          role: "code"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
-        - path: "EasyKeyApp/UpdateService.swift"
+          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-        - path: "docs/_archive/THIRD_PARTY_NOTICES.md"
+          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          role: "code"
+        - path: "docs/THIRD_PARTY_NOTICES.md"
+          git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
+          git_blob_normalized: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
           role: "doc"
-          git_blob: "8c0da23df063ee46dc734994bdd9b6e365eb7a72"
       unresolved: []
     - id: "persistence"
       sources:
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
+          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           role: "code"
-          git_blob: "f718fcf9ea3a84f0aa770650c15c8c059e450a19"
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
-        - path: "EasyEngineCore/Macros/MacroStore.swift"
+          git_blob_normalized: "694b512e15a06e34e7df216ba74a4fc133e27f69"
           role: "code"
-          git_blob: "b8a7256fcac4629b3824c752dd654f849170de08"
+        - path: "EasyEngineCore/Macros/MacroStore.swift"
+          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          role: "code"
       unresolved: []
     - id: "testing-and-quality"
       sources:
         - path: "Makefile"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
         - path: ".swiftlint.yml"
-          role: "config"
           git_blob: "90631d6319ce50e321f2e8f6936145b08d98d92f"
-        - path: ".swiftformat"
+          git_blob_normalized: "90631d6319ce50e321f2e8f6936145b08d98d92f"
           role: "config"
+        - path: ".swiftformat"
           git_blob: "ac27429273e1daa282d4a73177cebd2dae238705"
+          git_blob_normalized: "ac27429273e1daa282d4a73177cebd2dae238705"
+          role: "config"
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
       unresolved: []
     - id: "build-and-release"
       sources:
         - path: "Makefile"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
         - path: "Scripts/generate-appcast.py"
-          role: "code"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
-        - path: "docs/_archive/RELEASE.md"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          role: "code"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "manifest"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
       unresolved: []
     - id: "why-this-stack-shape"
       sources:
         - path: "README.md"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
-        - path: "docs/_archive/CONVENTIONS.md"
+        - path: "docs/engineering/conventions.md"
+          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
           role: "doc"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
       unresolved: []
 ---
 # Tech stack
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Declared versions where the repository states them; otherwise marked
 unavailable rather than inferred from imports. Layer grouping follows what a
@@ -119,17 +144,17 @@ maintainer would change together.
 
 | Layer | Technology | Version | Evidence path |
 |---|---|---|---|
-| Language | Swift, Swift 5 language mode | Swift 5.0 (`SWIFT_VERSION`); Xcode 15+ required | `EasyKey.xcodeproj/project.pbxproj`, [CONVENTIONS.md](../engineering/conventions.md), [product overview](../product/overview.md) |
+| Language | Swift, Swift 5 language mode | Swift 5.0 (`SWIFT_VERSION`); Xcode 15+ required | `EasyKey.xcodeproj/project.pbxproj`, [CONVENTIONS.md](../engineering/conventions.md), [setup](../engineering/setup.md) |
 | Minimum OS | macOS | 14.0 (`MACOSX_DEPLOYMENT_TARGET`, `LSMinimumSystemVersion`) | `EasyKey.xcodeproj/project.pbxproj`, `EasyKeyApp/Info.plist` |
 | Application shell | SwiftUI + AppKit (`NSApplicationDelegate`, `NSPanel` subclasses, `NSWorkspace`) | system SDK | `EasyKeyApp/` |
 | Domain logic | EasyEngineCore — framework-free typing, settings, macros, smart switch, converter, clipboard, translation | in-repo, no external dependency | `EasyEngineCore/` |
 | Keyboard adapters | EasyKeyKit — `CGEvent` tap, Accessibility focus, event synthesis | in-repo | `EasyKeyKit/` |
-| Reactive | Combine (`ObservableObject`/`@Published`) | system SDK | `EasyKeyApp/Settings/ObservableSettingsStore.swift` |
+| Reactive | Combine (`ObservableObject`/`@Published`) | system SDK | `EasyKeyApp/Settings/SettingsStore.swift` |
 | Logging | OSLog (`Logger`, subsystem `one.ifelse.easykey`) | system SDK | `EasyEngineCore/Diagnostics/AppLog.swift` |
 | Crypto | CryptoKit AES-GCM (clipboard persistence) | system SDK | `EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift` |
 | System integration | ServiceManagement (`SMAppService.loginItem`) | system SDK | `EasyKeyApp/Coordination/LoginItemController.swift` |
 | In-app purchases | StoreKit | not used | absence of StoreKit imports in `EasyKeyApp/`, `EasyKeyKit/`, `EasyEngineCore/` |
-| Updates | Sparkle 2 (SPM package, pinned exact 2.9.4; EdDSA-signed appcast) | 2.9.4 | `EasyKey.xcodeproj/project.pbxproj`, `THIRD_PARTY_NOTICES.md` (archived), `EasyKeyApp/UpdateService.swift` |
+| Updates | Sparkle 2 (SPM package, pinned exact 2.9.4; EdDSA-signed appcast) | 2.9.4 | `EasyKey.xcodeproj/project.pbxproj`, [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md), `EasyKeyApp/Coordination/UpdateService.swift` |
 | Persistence | Foundation `JSONEncoder`/`JSONDecoder` documents (`settings.json`, macro and Smart Switch documents) | system SDK | `EasyEngineCore/Settings/SettingsRepository.swift`, `SmartSwitchStore.swift`, `MacroStore.swift` |
 | Unit tests | XCTest | system SDK | `EasyKeyTests/` |
 | UI tests | XCUITest | system SDK | `EasyKeyUITests/` |
@@ -143,9 +168,10 @@ maintainer would change together.
 Swift compiles in Swift 5 language mode across all targets
 (`SWIFT_VERSION = 5.0`); [CONVENTIONS.md](../engineering/conventions.md) forbids
 introducing Swift 6-only syntax without an explicit migration. Xcode 15+ is
-the documented build requirement ([product overview](../product/overview.md)); the CI
-pipeline selects the latest stable Xcode on macOS 15 runners. The only
-external Swift package is Sparkle, pinned to exact version 2.9.4.
+the documented build requirement ([setup](../engineering/setup.md)); the CI
+pipeline selects the latest stable Xcode (`setup-xcode` `latest-stable`) on
+macOS 15 runners. The only external Swift package is Sparkle, pinned to exact
+version 2.9.4.
 
 ## Frameworks
 
@@ -154,7 +180,7 @@ The app deliberately keeps Apple frameworks at the edges:
 rule enforced by `ArchitectureFitnessTests`), `EasyKeyKit` adapts the domain
 to macOS event taps and accessibility, and `EasyKeyApp` owns UI,
 localization, coordination, and updates. Combine appears only at the
-app layer (`ObservableSettingsStore`); CryptoKit only in clipboard
+app layer (`SettingsStore`, an `ObservableObject`); CryptoKit only in clipboard
 persistence; ServiceManagement only in the login-item controller; Sparkle
 only in `UpdateService`. StoreKit is not used — there are no purchases in
 the app.

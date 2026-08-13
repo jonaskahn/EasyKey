@@ -1,11 +1,12 @@
 ---
 id: "adr-sparkle-updates"
 title: "Adr Sparkle Updates"
+description: "Decision: deliver signed updates via Sparkle 2 with an HTTPS appcast, EdDSA verification, and a release-gated publish pipeline."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-sparkle-updates"
   path: "docs/architecture/decisions/sparkle-updates.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,11 +18,11 @@ docforge_provenance:
   sections:
     - id: "context-and-problem-statement"
       sources:
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
@@ -32,14 +33,14 @@ docforge_provenance:
       unresolved: []
     - id: "decision"
       sources:
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
       unresolved: []
     - id: "consequences"
@@ -47,11 +48,11 @@ docforge_provenance:
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "history"
       unresolved: []
     - id: "confirmation"
@@ -60,7 +61,7 @@ docforge_provenance:
           git_blob: "7a3f3c8bac4aa57271b3d8a71f14b4bb863f5ceb"
           role: "test"
         - path: "EasyKeyTests/UpdateServiceTestModeTests.swift"
-          git_blob: "c424d171b14b52a2e252ab65961808ad0177df7e"
+          git_blob: "4ef94413106d776b70962e78b95be7ad8e48693d"
           role: "test"
         - path: "Scripts/test-release-config.sh"
           git_blob: "801f5bc80c467c8b10670db13775136c5d4d517f"
@@ -107,9 +108,9 @@ We chose **Sparkle 2**. `UpdateService` wraps `SPUStandardUpdaterController` and
 
 **Positive:** every delivered update is EdDSA-signed and verified before install; the update channel is disabled in local and test builds so it never polls an unconfigured endpoint; the Sparkle dependency is supply-chain-pinned (SHA256 pin enforced by `check-sparkle-pin.sh`), and the EdDSA public key is a parameterized build setting rather than a committed constant.
 
-**Negative:** release engineering carries real weight — the `SPARKLE_PUBLIC_ED_KEY`/`SPARKLE_PRIVATE_ED_KEY` keypair must be generated and protected as release secrets; the appcast must be hosted and regenerated per release; update timing is partly out of the app's control (Sparkle's scheduler plus a randomized startup delay).
+**Negative:** release engineering carries real weight — the `SPARKLE_PUBLIC_ED_KEY`/`SPARKLE_PRIVATE_ED_KEY` keypair must be generated and protected as release secrets; the appcast must be hosted and regenerated per release; update timing is out of the app's control beyond Sparkle's standard schedule (the release guide states there is no custom delay, randomization, or check cadence in EasyKey).
 
-**Neutral:** update-check timing relies on Sparkle's default behavior (a check after the startup delay, then Sparkle's own scheduler interval); a manual "Check for Updates" path remains for users.
+**Neutral:** update-check timing relies entirely on Sparkle's standard schedule — `UpdateService.start()` calls `startUpdater()` and Sparkle takes over, with no custom delay, randomization, or check cadence in EasyKey; a manual "Check for Updates" path remains for users.
 
 ## Revisit if
 

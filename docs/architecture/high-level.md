@@ -1,11 +1,12 @@
 ---
 id: "arch_high_level"
 title: "Arch High Level"
+description: "Context, deployable or provisioned blocks labeled with implementing technology (e.g. 'React SPA', 'PostgreSQL 15', or for `infrastructure-platform`..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "arch_high_level"
   path: "docs/architecture/high-level.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:08:46Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,7 +20,7 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
@@ -28,37 +29,37 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
-          git_blob: "8ecc5922afe0e99166cbcf3425afd2514b887ae2"
-        - path: "EasyKeyApp/UpdateService.swift"
+          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "containers-and-blackboxes"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
         - path: "EasyKeyLoginHelper/main.swift"
           role: "code"
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
       unresolved: []
     - id: "relationship-matrix"
       sources:
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
           role: "code"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
-        - path: "EasyKeyKit/KeyboardService.swift"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           role: "code"
-          git_blob: "ce4d89e4d4d777c094e6bb2db46da198fae68c52"
+          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
       unresolved: []
     - id: "boundaries-and-invariants"
       sources:
@@ -71,38 +72,38 @@ docforge_provenance:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
           role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
-        - path: "EasyKeyApp/AppCoordinator.swift"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
-          git_blob: "64de70b72c5fac1e218063377a05fbd4fb6adafa"
+          git_blob: "815b5dad186802739e0969eb509af2469570b583"
         - path: "README.md"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
       unresolved: []
     - id: "stable-by-design"
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
         - path: "docs/architecture/decisions/README.md"
           role: "doc"
-          git_blob: "6f0b80df275ccf5bd2bdf030d5f86daa7d9d18cf"
+          git_blob: "ad8debde7e8cd020a9daf7e45a19dbf49cc933d9"
       unresolved: []
     - id: "why-it-is-like-this"
       sources:
         - path: "docs/architecture/decisions/README.md"
           role: "doc"
-          git_blob: "6f0b80df275ccf5bd2bdf030d5f86daa7d9d18cf"
+          git_blob: "ad8debde7e8cd020a9daf7e45a19dbf49cc933d9"
         - path: "docs/architecture/tech-debt.md"
           role: "doc"
-          git_blob: "413d6c52fc6560568453ef5b6cb6f5dcbf78e575"
+          git_blob: "fd7aaf133fa703b39e1daeed3405c7687f56d5eb"
         - path: "docs/architecture/constraints.md"
           role: "doc"
-          git_blob: "d57bfc3d6113872611941d5248978223c80a3bad"
+          git_blob: "35b54a3188d12f5479f1409ea5f1da7b7ca87656"
       unresolved: []
 ---
 # High-level architecture
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey is a macOS menu-bar utility that turns raw keystrokes into Vietnamese text (Telex, Simple Telex, and VNI rule sets), keeps a private clipboard history, and translates selected or typed text through on-device or cloud providers. It owns the "type Vietnamese in any application, with per-application preferences, without a telemetry trail" capability: transformation runs entirely on the Mac, the app behaves as a menu-bar accessory (`LSUIElement`), and it is distributed as a universal DMG with Sparkle updates.
 
@@ -164,7 +165,7 @@ _One row per material edge between blocks, or between a block and an external ac
 
 ## Stable by design
 
-This document changes once or twice a year: blocks are named at the level of targets and responsibilities, not classes. A claim here that a routine refactor would falsify — e.g. exactly which component posts a synthesized key — is written too close to the code and belongs in [low-level.md](low-level.md). Per-app compatibility rules, spotlight workarounds, and event-mask details live there and in [PROBLEMS.md](../reference/limitations.md), not here.
+This document changes once or twice a year: blocks are named at the level of targets and responsibilities, not classes. A claim here that a routine refactor would falsify — e.g. exactly which component posts a synthesized key — is written too close to the code and belongs in [low-level.md](low-level.md). Per-app compatibility rules, spotlight workarounds, and event-mask details live there and in [limitations](../reference/limitations.md), not here.
 
 ## Why it is like this
 

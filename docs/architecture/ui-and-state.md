@@ -1,11 +1,12 @@
 ---
 id: "app_ui_state"
 title: "App Ui State"
+description: "Surfaces, navigation, state ownership, transitions, restoration, error presentation"
 docforge_provenance:
   schema: "2.0"
   doc_id: "app_ui_state"
   path: "docs/architecture/ui-and-state.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:10:56Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -31,19 +32,22 @@ docforge_provenance:
           git_blob: "9858ae5651e3792442d734b39868dbdac404dc9d"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
           role: "code"
-          git_blob: "e5b6d9a47e88e742e3b303ec1001d1492538fbb0"
+          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+        - path: "EasyKeyApp/Coordination/MenuPopoverView.swift"
+          role: "code"
+          git_blob: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
       unresolved: []
     - id: "settings-window"
       sources:
         - path: "EasyKeyApp/Features/Settings/SettingsShell.swift"
           role: "code"
-          git_blob: "82e0b617c929f5076a9b20f517e48af17e7a3f98"
+          git_blob: "ac421d465a7411b025c3048197dc288787253e87"
         - path: "EasyKeyApp/ContentView.swift"
           role: "code"
-          git_blob: "29467061dbb69c39c281d3d7ed3c2a0006179562"
+          git_blob: "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f"
         - path: "EasyKeyApp/Coordination/SettingsWindowPresenter.swift"
           role: "code"
-          git_blob: "b01c95cc650c238cc2b57dd47860d5a729dcda42"
+          git_blob: "6f4e1a0edbb132c69319f982e2c88663e2d74d4e"
         - path: "EasyKeyApp/Features/Settings/SettingsSection.swift"
           role: "code"
           git_blob: "eb182d8c4afbb691e697cf0eee605d774361995c"
@@ -52,7 +56,7 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "code"
-          git_blob: "b9179d71d130b93c4f9f9dbe198eb5153be42637"
+          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift"
           role: "code"
           git_blob: "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
@@ -64,7 +68,7 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
@@ -76,12 +80,12 @@ docforge_provenance:
           git_blob: "6607f26cd0e27f49ac6d0e77492557411063e170"
         - path: "EasyKeyApp/ContentView.swift"
           role: "code"
-          git_blob: "29467061dbb69c39c281d3d7ed3c2a0006179562"
+          git_blob: "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f"
       unresolved: []
 ---
 # UI navigation and state
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey has five surfaces — the menu-bar status item with popover, the Settings window, the clipboard panel, the translation panel, and the onboarding flow (which renders inside the settings window's content area). There is no `NavigationStack`-style hierarchy; navigation is a small set of intentional transitions between these surfaces, all owned by `AppCoordinator`-published state, and the transient popovers are torn down before the Settings window is presented (the close-then-present ordering is handled by dispatching to the next run-loop pass to avoid an AppKit popover race).
 
@@ -97,8 +101,6 @@ stateDiagram-v2
   SettingsWindow --> MenuBar: close
 ```
 
-_Repeat the `##` block below per surface._
-
 ## Menu bar status item and popover
 
 **State owner:** `StatusItemController` (the `NSStatusItem`/`NSPopover` pair) with `AppCoordinator` published state feeding the menu snapshot.
@@ -109,7 +111,7 @@ _Repeat the `##` block below per surface._
 
 **Restoration on process death:** none — the popover does not exist across launches; the status item is reinstalled at launch with state rebuilt from settings.
 
-**Error presentation:** keyboard health (`HealthPill`) and pause state render in the popover and menu; permission-request state routes "open settings" to the System section (`showSettingsFromPopover`).
+**Error presentation:** keyboard health renders as the popover status symbol/title (`MenuPopoverView` state symbol and color) and in the status-menu title (`menuBarStateTitle`); pause state renders in both; the `HealthPill` appears on the onboarding Accessibility step; permission-request state routes "open settings" to the System section (`showSettingsFromPopover`).
 
 ## Settings window
 

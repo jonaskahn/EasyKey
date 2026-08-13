@@ -1,11 +1,12 @@
 ---
 id: "platform_integration"
 title: "Platform Integration"
+description: "OS services, adapters, permissions boundary, callbacks, failure and fallback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_integration"
   path: "docs/architecture/platform-integration.md"
-  generated_at: "2026-08-03T10:00:00Z"
+  generated_at: "2026-08-13T11:10:56Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,30 +18,36 @@ docforge_provenance:
   sections:
     - id: "platform-integration"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
       unresolved: []
     - id: "accessibility"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
         - path: "EasyKeyKit/Keyboard/FocusedElementInspector.swift"
           role: "code"
-          git_blob: "d48f008671a75050e76bd506d2dbdc7360601bba"
+          git_blob: "2f61fac3a31d989c03784cff00519097d0d50f7b"
         - path: "EasyKeyApp/Features/Translation/SelectedTextCapture.swift"
           role: "code"
-          git_blob: "9dcda2f02bf3f5110956dd12a292859a5789f6fd"
+          git_blob: "c4124fe1499209bf7096f8bbdecb394d8df95f80"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
+          role: "code"
+          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
       unresolved: []
     - id: "cgevent-tap"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
           role: "code"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           role: "code"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+        - path: "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift"
+          role: "code"
+          git_blob: "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8"
       unresolved: []
     - id: "nsworkspace-notifications"
       sources:
@@ -64,7 +71,7 @@ docforge_provenance:
           git_blob: "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
-          git_blob: "c4df84fdde3f664cd167d91ce3a64b387e6ef30e"
+          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
       unresolved: []
     - id: "login-item"
       sources:
@@ -77,7 +84,7 @@ docforge_provenance:
       unresolved: []
     - id: "sparkle-updates"
       sources:
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
         - path: "EasyKeyApp/Info.plist"
@@ -91,16 +98,19 @@ docforge_provenance:
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           role: "code"
-          git_blob: "e18b247e57d0c2fe0d761cdff8230d5f4d4e7a2c"
+          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+        - path: "EasyKeyKit/Keyboard/Context/KeyboardInputSourceInspector.swift"
+          role: "code"
+          git_blob: "368cb48f12a963ce755cce110cee897f888aa603"
       unresolved: []
     - id: "spotlight-detection"
       sources:
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
           role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
-        - path: "docs/_archive/PROBLEMS.md"
+        - path: "docs/reference/limitations.md"
           role: "doc"
-          git_blob: "acb0eac12772c9857d236b931083ae0de175c6fe"
+          git_blob: "8e3e23bf6b098a52db5efcd4e4328dfea588b6e1"
       unresolved: []
     - id: "integration-surface"
       sources:
@@ -111,13 +121,13 @@ docforge_provenance:
 ---
 # Platform integration
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 Every OS service and platform adapter this repository actually integrates, one section each. Permission rationale and scope live in [permissions](../security/permissions.md); this document names which permission each integration requires and what happens when the service is unavailable.
 
 ## Accessibility
 
-**Used for:** the two halves of the typing feature — gating system-wide keyboard observation (`AXIsProcessTrusted` / `AXIsProcessTrustedWithOptions` prompt) and reading/writing the focused element's text value and caret range (`FocusedElementInspector`, and `AccessibilitySelectedTextReader` for translation selection capture).
+**Used for:** the two halves of the typing feature — gating system-wide keyboard observation (`AXIsProcessTrusted` / `AXIsProcessTrustedWithOptions` prompt) and contextual reads of the focused element. Text edits no longer go through `AXUIElement` writes: composition output is applied as synthesized CGEvent sequences (`KeySynthesizer`) posted into the tap. The AX reads that remain are `FocusedElementInspector` (identifies the Chromium address bar via AX description "Address and search bar"/"Address field" or an identifier containing "omnibox") and `AccessibilitySelectedTextReader` (role-gated selected-text capture for translation).
 
 **Permission boundary:** see [permissions](../security/permissions.md) — the app must be listed under System Settings → Privacy & Security → Accessibility; revoking it disables typing immediately.
 
@@ -131,9 +141,9 @@ Every OS service and platform adapter this repository actually integrates, one s
 
 **Permission boundary:** requires Accessibility trust (the tap is created only after `AXIsProcessTrusted()` passes).
 
-**Callback contract:** the C callback `keyboardEventTapCallback` fires on the main run loop for every masked event and forwards to `KeyboardService.handleTapEvent(proxy:type:event:)`, which returns a suppressed-or-passed event.
+**Callback contract:** the C callback `keyboardEventTapCallback` asserts the main thread and forwards via `MainActor.assumeIsolated` to `KeyboardService.handleTapEvent(proxy:type:event:)`, which processes the event on the serial processing queue and returns a suppressed original (nil) or the passed event.
 
-**Fallback if unavailable:** a `tapDisabledByTimeout` / `tapDisabledByUserInput` event tears the tap down, sets health to `.degraded`, and re-requests permission; on sleep the tap is torn down pre-emptively and reinstalled on wake. Install failure sets health to `.failed` (surfaced in the System health card).
+**Fallback if unavailable:** a `tapDisabledByTimeout` / `tapDisabledByUserInput` event tears the tap down, sets health to `.degraded`, and re-requests permission (`recoverTapAfterDisable`); on sleep the tap is torn down pre-emptively via the sleep/wake observer (`handleSystemSleep`) and reinstalled on wake. Install failure sets health to `.failed` (surfaced in the System health card).
 
 ## NSWorkspace notifications
 
@@ -187,7 +197,7 @@ Every OS service and platform adapter this repository actually integrates, one s
 
 ## Input source query
 
-**Used for:** detecting a non-English ("foreign") input source via `TISCopyCurrentKeyboardInputSource`, feeding the pipeline's `usesForeignInputSource` flag so composition adapts.
+**Used for:** detecting a non-English ("foreign") input source via `TISCopyCurrentKeyboardInputSource` — the pipeline's `isCurrentInputSourceForeign()` delegates to `KeyboardInputSourceInspector`, which treats any layout whose languages contain no "en"-prefixed code as foreign and feeds the pipeline's `usesForeignInputSource` flag so composition adapts.
 
 **Permission boundary:** none — TIS is a read-only public API.
 
@@ -203,7 +213,7 @@ Every OS service and platform adapter this repository actually integrates, one s
 
 **Callback contract:** polled from the pipeline; a detected Spotlight window switches composition to the selection-replacement workaround.
 
-**Fallback if unavailable:** during the detection lag, keystrokes bypass the workaround and can look briefly broken; the app self-corrects — a documented platform limitation ([PROBLEMS.md](../reference/limitations.md)).
+**Fallback if unavailable:** during the detection lag, keystrokes bypass the workaround and can look briefly broken; the app self-corrects — a documented platform limitation ([limitations.md](../reference/limitations.md)).
 
 ## Integration surface
 

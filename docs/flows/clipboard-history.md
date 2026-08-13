@@ -1,11 +1,12 @@
 ---
 id: "flow-clipboard-history"
 title: "Flow Clipboard History"
+description: "How EasyKey captures, persists, and restores clipboard history: trigger, actors, steps, branches, failures, outcome"
 docforge_provenance:
   schema: "2.0"
   doc_id: "flow-clipboard-history"
   path: "docs/flows/clipboard-history.md"
-  generated_at: "2026-08-03T08:45:44Z"
+  generated_at: "2026-08-13T11:26:41Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -25,7 +26,7 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "doc"
-          git_blob: "b9179d71d130b93c4f9f9dbe198eb5153be42637"
+          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
           role: "doc"
           git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
@@ -40,7 +41,7 @@ docforge_provenance:
           git_blob: "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift"
           role: "doc"
-          git_blob: "bc617726039dace9295116be51b3bd4ce96a73de"
+          git_blob: "c69905a6edc47571188e5d81a8de6c1f117bbcaf"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
           role: "doc"
           git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
@@ -52,10 +53,10 @@ docforge_provenance:
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift"
           role: "doc"
-          git_blob: "ff8c6cb8cd91f1c22aa0970efd389359ee01cd83"
+          git_blob: "8534225de880a5b203911ce6c594d927574545bf"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
           role: "doc"
-          git_blob: "826034db91264087528b1ee7f099e593ac0da75d"
+          git_blob: "416ccb45f9c073e353ab50177994636a5c32ecd1"
       unresolved: []
     - id: "branches-and-rules"
       sources:
@@ -142,7 +143,7 @@ docforge_provenance:
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
         - path: "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
           role: "doc"
-          git_blob: "826034db91264087528b1ee7f099e593ac0da75d"
+          git_blob: "416ccb45f9c073e353ab50177994636a5c32ecd1"
       unresolved: []
     - id: "persistence-save-or-load-failure"
       sources:
@@ -160,7 +161,7 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
           role: "doc"
-          git_blob: "826034db91264087528b1ee7f099e593ac0da75d"
+          git_blob: "416ccb45f9c073e353ab50177994636a5c32ecd1"
       unresolved: []
     - id: "hotkey-registration-conflict"
       sources:
@@ -175,13 +176,13 @@ docforge_provenance:
           git_blob: "b5c73082b5feadc873d486809f9897959f411d3d"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "doc"
-          git_blob: "b9179d71d130b93c4f9f9dbe198eb5153be42637"
+          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
       unresolved: []
     - id: "outcome"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "doc"
-          git_blob: "b9179d71d130b93c4f9f9dbe198eb5153be42637"
+          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
           role: "doc"
           git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
@@ -189,7 +190,7 @@ docforge_provenance:
 ---
 # Clipboard history capture, persistence, and restore
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 EasyKey captures every external clipboard change into a searchable history, optionally seals it to disk, and restores an entry by rewriting the pasteboard (and optionally pasting into the previously focused app). The clipboard panel, its hotkey, and the status menu all rely on this flow.
 
@@ -217,8 +218,8 @@ EasyKey captures every external clipboard change into a searchable history, opti
 3. **Capture staged as one transaction.** `ClipboardHistoryModel.capture` inserts the entry into a candidate history, computes payload eviction (orphans dropped, new references kept), and projects the retained-byte total; only then does it commit history and payloads together (`ClipboardHistoryModel.swift:69-93`).
 4. **History sealed to disk (when persistence is on).** `scheduleSave` debounces, then `ClipboardPersistence.save` seals the JSON manifest and each payload file with AES-GCM and writes them atomically (`ClipboardPersistence.swift:53-85`).
 5. **Key provisioned.** `ClipboardPersistence.save` uses `keyProvider.existingKey() ?? keyProvider.createKey()`; `KeychainClipboardKeyStore` stores the key as `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` with `kSecAttrSynchronizable: false` (`ClipboardKeyStore.swift:42-68`).
-6. **History shown in the clipboard panel.** The hotkey or status menu toggles `ClipboardPanelPresenter.show`, which hosts `ClipboardPanelView` beside the pointer and remembers the previously active application (`ClipboardPanelPresenter.swift:49`).
-7. **Entry restored.** `PasteboardWriter.copy` rebuilds `NSPasteboardItem`s (string, file URL, or payload-referenced data representations), clears the pasteboard, writes them, and calls `suppressor.markWritten(changeCount:)` so the resulting change is not re-captured (`PasteboardWriter.swift:57-62`).
+6. **History shown in the clipboard panel.** The hotkey or status menu toggles `ClipboardPanelPresenter.show`, which hosts `ClipboardPanelView` beside the pointer and remembers the previously active application (`ClipboardPanelPresenter.swift:51-61`).
+7. **Entry restored.** `PasteboardWriter.copy` rebuilds `NSPasteboardItem`s (string, file URL, or payload-referenced data representations), clears the pasteboard, writes them, and calls `suppressor.markWritten(changeCount:)` so the resulting change is not re-captured (`PasteboardWriter.swift:67-107`).
 
 ```mermaid
 sequenceDiagram
@@ -351,13 +352,13 @@ Ordered by blast radius, most severe first. Evidence is the error paths and noti
 
 ### Restore payload unavailable
 
-**Detected by:** `PasteboardWriter.makeItems` — a file URL whose file no longer exists (`PasteboardWriteError.unavailableRepresentation`) or a payload reference missing from the store (`PasteboardWriter.swift:74-92`).
+**Detected by:** `PasteboardWriter.makeItems` — a file URL whose file no longer exists (`PasteboardWriteError.unavailableRepresentation`) or a payload reference missing from the store (`PasteboardWriter.swift:74-107`).
 
 **Immediate response:** the action fails with `lastError = .unavailable`; the panel stays open; no paste is synthesized.
 
 **State left behind:** nothing is written; the entry remains in history.
 
-**Recovery:** user retries or picks another entry — the pasteboard is never partially written because items are fully built before `writeObjects` (`PasteboardWriter.swift:57-62`).
+**Recovery:** user retries or picks another entry — the pasteboard is never partially written because items are fully built before `writeObjects` (`PasteboardWriter.swift:67-71`).
 
 **Escalation boundary:** none.
 

@@ -1,11 +1,12 @@
 ---
 id: "runbooks_index"
 title: "Runbooks"
+description: "Runbook documentation overview: what runbooks are, scope, and the reader question each runbook answers"
 docforge_provenance:
   schema: "2.0"
   doc_id: "runbooks_index"
   path: "docs/operations/runbooks/README.md"
-  generated_at: "2026-08-03T09:24:12Z"
+  generated_at: "2026-08-13T12:05:04Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,56 +18,71 @@ docforge_provenance:
   sections:
     - id: "at-a-glance"
       sources:
+        - path: "docs/operations/README.md"
+          role: "doc"
+          git_blob: "aec2487a702a755dcfd080d0d8921cbe0b3bb2bf"
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "c31adeb4073e1768bc7db93d5cc451396144eea6"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "bd705a76d0cadaa3a012d9df184894aba8f88c5f"
+          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
+        - path: "docs/architecture/platform-integration.md"
+          role: "doc"
+          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
       unresolved: []
     - id: "start-here"
       sources:
-        - path: "docs/operations/distribution.md"
-          role: "doc"
-          git_blob: "c31adeb4073e1768bc7db93d5cc451396144eea6"
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+        - path: "docs/operations/distribution.md"
+          role: "doc"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
         - path: "docs/architecture/platform-integration.md"
           role: "doc"
-          git_blob: "79fced1ae49f8a341d0420ecc16652bea43ab2aa"
+          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
+        - path: "docs/operations/observability.md"
+          role: "doc"
+          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+        - path: "docs/operations/distribution.md"
+          role: "doc"
+          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
       unresolved: []
     - id: "related-sections"
       sources:
-        - path: "docs/operations/deployment.md"
+        - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "a049cb233da59da928a4566ad8bd2f2f104eac2c"
+          git_blob: "aec2487a702a755dcfd080d0d8921cbe0b3bb2bf"
+        - path: "docs/README.md"
+          role: "doc"
+          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
       unresolved: []
 ---
 # Runbooks
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-13_
 
 This section is where EasyKey's runbooks live: step-by-step recovery procedures for operational incidents — a bad release, a lost permission, a broken update channel. It exists so the operator (in practice the project's maintainer) has a checklist to follow under pressure instead of reconstructing the procedure from memory. No runbooks are written yet; the procedures they would contain are owned by the operations documents below, which this README routes to.
 
 ## At a glance
 
-A runbook here would capture the manual, maintainer-only recovery procedures: rolling back a release by regenerating the appcast, and recovering from lost system permissions. Today both topics are owned by existing operations documents — [deployment](../deployment.md) and [distribution](../distribution.md) cover release rollback, and [platform integration](../../architecture/platform-integration.md) with [observability](../observability.md) cover permission loss — so those documents are the working substitutes until runbooks materialize.
+A runbook here would capture the manual, maintainer-only recovery procedures: rolling back a release by regenerating the appcast, and recovering from lost system permissions. Today both topics are owned by existing operations documents — the [deployment](../deployment.md) and [distribution](../distribution.md) documents cover release rollback, and [platform integration](../../architecture/platform-integration.md) with [observability](../observability.md) cover permission loss — so those documents are the working substitutes until runbooks materialize.
 
 ## Scope and boundaries
 
@@ -76,7 +92,7 @@ A document belongs here when it is a runbook: a procedure to recover from a know
 - permission loss, health states, and log export — owned by [platform integration](../../architecture/platform-integration.md) and [observability](../observability.md);
 - permission rationale and security policy — owned by the [permissions](../../security/permissions.md) document.
 
-The deployment document states the boundary explicitly: incident recovery belongs to this runbooks section, not to the deployment procedure itself.
+The deployment document routes incident recovery to this runbooks section rather than carrying the procedure itself.
 
 ## Start here
 
@@ -89,7 +105,7 @@ The deployment document states the boundary explicitly: incident recovery belong
 ## Detailed documentation
 
 <!-- docforge-children:start -->
-No runbooks are written yet, and none are selected in this run — an empty section is the honest state, not a missing deliverable. When an incident produces a repeatable recovery procedure, it belongs here as a numbered runbook; until then the operations documents above own those topics.
+No runbooks are written yet, and none are selected in this run — an empty section is the honest state, not a missing deliverable. When an incident produces a repeatable recovery procedure, it belongs here as a numbered runbook; until then, the rollback procedures in [deployment](../deployment.md) and [distribution](../distribution.md) own those topics.
 <!-- docforge-children:end -->
 
 ## Related sections

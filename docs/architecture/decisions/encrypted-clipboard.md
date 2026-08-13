@@ -1,11 +1,12 @@
 ---
 id: "adr-encrypted-clipboard"
 title: "Adr Encrypted Clipboard"
+description: "Decision: encrypt persisted clipboard history with AES-GCM under a device-only, non-synchronizing Keychain key."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-encrypted-clipboard"
   path: "docs/architecture/decisions/encrypted-clipboard.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,7 +19,10 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          role: "doc"
+        - path: "docs/product/overview.md"
+          git_blob: "463e7774ac299d864da913a20fcda7ee75171eb4"
           role: "doc"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
@@ -39,7 +43,10 @@ docforge_provenance:
           git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          role: "doc"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
       unresolved: []
     - id: "consequences"
@@ -51,7 +58,7 @@ docforge_provenance:
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
       unresolved: []
     - id: "confirmation"
@@ -72,7 +79,7 @@ docforge_provenance:
 
 ## Context and problem statement
 
-The clipboard manager captures copied text, URLs, images, and file references. It is off by default and history stays in memory unless "Keep history after restart" is enabled — but once persistence exists, clipboard content sits at rest in the app's Application Support directory, readable by any process running as the user. The "Private by Design" posture in [product overview](../../product/overview.md) rules out plaintext history: "History remains in memory unless Keep history after restart is enabled; then it is AES-GCM encrypted on-device with an unlocked-this-device-only, non-synchronizing Keychain key. Disabling persistence deletes stored data." The opt-in clipboard manager shipped in commit b6ab8c5 with this design in place.
+The clipboard manager captures copied text, URLs, images, and file references. It is off by default and history stays in memory unless "Keep history after restart" is enabled — but once persistence exists, clipboard content sits at rest in the app's Application Support directory, readable by any process running as the user. The "Private by Design" posture rules out plaintext history: the [README](../../../README.md) states that clipboard persistence, if enabled, is AES-GCM encrypted with a device-only key, and [product overview](../../product/overview.md) describes the manager as off by default, optionally persisting an AES-GCM-encrypted history that stays on this device. The opt-in clipboard manager shipped in commit b6ab8c5 with this design in place.
 
 ## Considered options
 
@@ -83,7 +90,7 @@ The clipboard manager captures copied text, URLs, images, and file references. I
 
 ## Decision
 
-We chose **AES-GCM with a device-only Keychain key**. `ClipboardPersistence` is an actor that seals the history manifest and every image/RTF payload with `AES.GCM.seal`, writes sealed `.ekc`/`.ekp` files, and bounds every read by size; `KeychainClipboardKeyStore` stores a 256-bit key with `kSecAttrSynchronizable = false` and `kSecAttrAccessibleWhenUnlockedThisDeviceOnly`, using the data-protection Keychain outside test runs. History is off by default; `deleteAll()` removes the on-disk directory and deletes the Keychain key, and `ClipboardHistoryModel.clearAll()`/`disablePersistence` advance a generation counter so no queued save can commit after the state is cleared. [product overview](../../product/overview.md) documents the user-visible contract: disabling persistence deletes stored data.
+We chose **AES-GCM with a device-only Keychain key**. `ClipboardPersistence` is an actor that seals the history manifest and every image/RTF payload with `AES.GCM.seal`, writes sealed `.ekc`/`.ekp` files, and bounds every read by size; `KeychainClipboardKeyStore` stores a 256-bit key with `kSecAttrSynchronizable = false` and `kSecAttrAccessibleWhenUnlockedThisDeviceOnly`, using the data-protection Keychain outside test runs. History is off by default; `deleteAll()` removes the on-disk directory and deletes the Keychain key, and `ClipboardHistoryModel.clearAll()`/`disablePersistence` advance a generation counter so no queued save can commit after the state is cleared. [Data handling](../../security/data-handling.md) documents the lifecycle contract: disabling persistence triggers the same deletion as `clearAll()` — the persistence directory and the Keychain key are both removed.
 
 ## Decision drivers
 

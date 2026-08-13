@@ -1,11 +1,12 @@
 ---
 id: "release_guide"
 title: "Release Guide"
+description: "Prerequisites, versioning, build, verification, publication, rollback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "release_guide"
   path: "docs/engineering/release.md"
-  generated_at: "2026-08-03T08:44:07Z"
+  generated_at: "2026-08-13T11:07:59Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,20 +18,23 @@ docforge_provenance:
   sections:
     - id: "prerequisites"
       sources:
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
-          role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
+        - path: "Scripts/archive.sh"
+          git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          role: "code"
+        - path: "Scripts/notarize.sh"
+          git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          role: "code"
       unresolved: []
     - id: "version"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "3fc1f4a80e4851be8a519efbb99f80102a4b41d4"
+          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
         - path: "CHANGELOG.md"
-          git_blob: "2da41e48235762ea13ff11b79fe8553d7df2ff96"
+          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
           role: "doc"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
@@ -39,7 +43,7 @@ docforge_provenance:
     - id: "build"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -57,20 +61,26 @@ docforge_provenance:
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
       unresolved: []
     - id: "verification"
       sources:
         - path: "Scripts/verify-release.sh"
-          git_blob: "3f24484dc3151e3bdfeace2c7610df3444474d15"
+          git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
         - path: "Scripts/verify-arch.sh"
           git_blob: "3a880113167f02293703e9c864a819543a1afd59"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
-          role: "doc"
+        - path: "Scripts/verify-macos-compatibility.sh"
+          git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
+          role: "code"
+        - path: "Scripts/verify-sonoma-smoke.sh"
+          git_blob: "3e1af0b9c1b4b5b6f55fa6c89ac3b8689ff85fb7"
+          role: "code"
+        - path: "Scripts/qa-gate.sh"
+          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
+          role: "code"
       unresolved: []
     - id: "publication"
       sources:
@@ -80,10 +90,7 @@ docforge_provenance:
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
-          role: "doc"
-        - path: "EasyKeyApp/UpdateService.swift"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
           role: "code"
       unresolved: []
@@ -92,9 +99,6 @@ docforge_provenance:
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
-          role: "doc"
       unresolved: []
 ---
 # Release guide
@@ -115,11 +119,13 @@ Before starting a release:
 - The version number is bumped in `EasyKey.xcodeproj/project.pbxproj`
   (`MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`) and recorded in
   [CHANGELOG.md](../../CHANGELOG.md).
-- Release inputs are available ("Required Release Inputs" above):
+- Release inputs are available:
   `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, `SPARKLE_FEED_URL`,
-  `SPARKLE_PUBLIC_ED_KEY`, `EASYKEY_SUPPORT_URL`, `EASYKEY_PRIVACY_POLICY_URL`,
-  and `NOTARY_KEYCHAIN_PROFILE` (or the Apple ID notarization variables
-  `APPLE_ID`, `APPLE_TEAM_ID`, `APPLE_APP_SPECIFIC_PASSWORD`).
+  `SPARKLE_PUBLIC_ED_KEY`, `EASYKEY_SUPPORT_URL`, `EASYKEY_PRIVACY_POLICY_URL`
+  (all enforced by `Scripts/archive.sh`, which also requires the three URLs to
+  be HTTPS), and `NOTARY_KEYCHAIN_PROFILE` (or the Apple ID notarization
+  variables `APPLE_ID`, `APPLE_TEAM_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, per
+  `Scripts/notarize.sh`).
 - Credentials are stored in Keychain or CI secrets — never committed.
 
 Access you will need, and who grants it: the Apple Developer Program account
@@ -186,10 +192,10 @@ maintainer performing the release.
    `THIRD_PARTY_NOTICES.md`; privacy copy matches runtime behavior; provider
    data-handling URLs reviewed; English/Vietnamese localization checks and
    accessibility passes on macOS 14. Runtime macOS 14 coverage is additionally
-   automated by the blocking Sonoma smoke jobs in
-   `.github/workflows/compatibility.yml` (self-hosted arm64 + x86_64 runners;
-   each launches the universal app and asserts the readiness signal and the
-   disabled Apple Translation surface).
+   automated by the blocking Sonoma smoke jobs in the macOS 14 compatibility
+   workflow (`compatibility.yml`; self-hosted arm64 + x86_64 runners; each
+   launches the universal app via `Scripts/verify-sonoma-smoke.sh` and asserts
+   the readiness signal and the disabled Apple Translation surface).
 
 ## Publication
 
@@ -211,7 +217,8 @@ maintainer performing the release.
    `Scripts/generate-appcast.py` — verify: the appcast served at the
    configured `SPARKLE_FEED_URL` contains a new `<item>` whose enclosure URL
    resolves and whose `edSignature` is present.
-4. In-app: `UpdateService` (`EasyKeyApp/UpdateService.swift`) configures
+4. In-app: `UpdateService`
+   (`EasyKeyApp/Coordination/UpdateService.swift`) configures
    `SPUStandardUpdaterController` with `startingUpdater: false`; `start()`,
    called from `AppCoordinator.start()` at launch, calls `startUpdater()` and
    Sparkle's standard schedule takes over — there is no custom delay,

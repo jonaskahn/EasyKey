@@ -1,11 +1,12 @@
 ---
 id: "adr-cgevent-tap-input"
 title: "Adr Cgevent Tap Input"
+description: "Decision: intercept keystrokes system-wide with a CGEvent tap gated on the macOS Accessibility API instead of Input Method Kit."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-cgevent-tap-input"
   path: "docs/architecture/decisions/cgevent-tap-input.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,37 +19,37 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "history"
       unresolved: []
     - id: "decision"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
+          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
       unresolved: []
     - id: "consequences"
       sources:
-        - path: "EasyKeyKit/KeyboardService.swift"
-          git_blob: "3d2db069ec81fb639d6eb9a6fc69121580854d31"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
+          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "2df63cc191f2509471b02cfad60b8a3113be0933"
+          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
           role: "code"
       unresolved: []
     - id: "confirmation"
@@ -57,10 +58,10 @@ docforge_provenance:
           git_blob: "34fe9f0d10a99dda28277ea6fe9580099a28da77"
           role: "test"
         - path: "EasyKeyTests/KeyboardServiceIntegrationTests.swift"
-          git_blob: "f9fc2b7a29d5360099851ebc6454f799486620c6"
+          git_blob: "26ed22b3c0375603aec217223dcbfe9fd9c0f632"
           role: "test"
         - path: "EasyKeyTests/AccessibilityRePromptTests.swift"
-          git_blob: "07bc3348a7176166847b29729ccbbbd7b680a834"
+          git_blob: "110dd186b210bffd474dddc7e3513ea2643eaf8c"
           role: "test"
       unresolved: []
 ---
@@ -72,7 +73,7 @@ docforge_provenance:
 
 ## Context and problem statement
 
-EasyKey is a menu-bar Vietnamese typing utility that must transform keystrokes in every application before the target app receives them: the engine composes Telex/VNI sequences, suppresses the original key, and posts synthesized replacement events. The macOS input architecture makes this hard: ordinary apps only see keystrokes after the input source has handled them, and the system input-method surface (Input Method Kit) binds to a focused text-input client, which an accessory menu-bar app has no reason to hold. The first release (commit 8e480af) therefore shipped a single architecture: observe and mutate keyboard events system-wide through the Accessibility API and a `CGEvent` tap, with typing processed entirely locally. [product overview](../../product/overview.md) states the contract explicitly: "Typing is processed locally. EasyKey uses the macOS Accessibility API and a `CGEvent` tap instead of Input Method Kit."
+EasyKey is a menu-bar Vietnamese typing utility that must transform keystrokes in every application before the target app receives them: the engine composes Telex/VNI sequences, suppresses the original key, and posts synthesized replacement events. The macOS input architecture makes this hard: ordinary apps only see keystrokes after the input source has handled them, and the system input-method surface (Input Method Kit) binds to a focused text-input client, which an accessory menu-bar app has no reason to hold. The first release (commit 8e480af) therefore shipped a single architecture: observe and mutate keyboard events system-wide through the Accessibility API and a `CGEvent` tap, with typing processed entirely locally. The [README](../../../README.md) "Private by Design" section states everything is processed on the Mac with no analytics, telemetry, or typing logs, and [product overview](../../product/overview.md) describes the mechanism: EasyKey observes the keyboard through the macOS Accessibility API (the one permission it requires) and rewrites keystrokes into correctly marked Vietnamese text, app by app.
 
 ## Considered options
 

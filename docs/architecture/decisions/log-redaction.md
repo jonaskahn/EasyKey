@@ -1,11 +1,12 @@
 ---
 id: "adr-log-redaction"
 title: "Adr Log Redaction"
+description: "Decision: redact credential patterns in log exports and restrict export file permissions to 0600."
 docforge_provenance:
   schema: "2.0"
   doc_id: "adr-log-redaction"
   path: "docs/architecture/decisions/log-redaction.md"
-  generated_at: "2026-08-03T08:44:33Z"
+  generated_at: "2026-08-13T11:25:23Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -18,37 +19,37 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "history"
       unresolved: []
     - id: "decision"
       sources:
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "history"
       unresolved: []
     - id: "consequences"
       sources:
         - path: "EasyKeyApp/Coordination/LogExporter.swift"
-          git_blob: "3d1a645db3bcb360f93a997575bcae4bb88071c9"
+          git_blob: "d4cb310fd2cb020302eb4ecac9ccb154505493d7"
           role: "code"
-        - path: "docs/_archive/PRIVACY.md"
-          git_blob: "4fab52de09cef3d41e3f25c500a4ab0df475a2b1"
+        - path: "docs/security/data-handling.md"
+          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
       unresolved: []
     - id: "confirmation"
       sources:
         - path: "EasyKeyTests/LogExporterTests.swift"
-          git_blob: "bff153b766b934917dc91a10e680c42b811a23f3"
+          git_blob: "c5572d7c10c1d47fa67a42a051f8d4ce232c38c7"
           role: "test"
       unresolved: []
 ---
@@ -71,7 +72,7 @@ docforge_provenance:
 
 ## Decision
 
-We chose **export-time pattern redaction with `0600` output permissions**. `LogExporter.redact(_:)` replaces common credential shapes — OpenAI-style `sk-…` keys, Google `AIzaSy…` keys, and `x-api-key:` headers — with `[REDACTED]`, applied to every OSLog entry message before it is written; `writeExport` then sets POSIX permissions `0600` on the output file. Category filtering to `.app`, `.keyboard`, `.settings` remains the first gate, and [docs/security/data-handling.md](../../security/data-handling.md) was updated in the same commit to state that diagnostic log exports perform pattern redaction on credentials and restrict output permissions to 0600.
+We chose **export-time pattern redaction with `0600` output permissions**. `LogExporter.redact(_:)` replaces common credential shapes — OpenAI-style `sk-…` keys, Google `AIzaSy…` keys, and `x-api-key:` headers — with `[REDACTED]`, applied to every OSLog entry message before it is written; `writeExport` then sets POSIX permissions `0600` on the output file. Category filtering to `.app`, `.keyboard`, `.settings` remains the first gate, and the privacy statement — added in the same commit to `docs/PRIVACY.md`, since re-homed into [docs/security/data-handling.md](../../security/data-handling.md) — states that diagnostic log exports perform pattern redaction on credentials and restrict output permissions to 0600.
 
 ## Decision drivers
 

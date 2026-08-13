@@ -1,11 +1,12 @@
 ---
 id: "conventions"
 title: "Conventions"
+description: "Evidenced style, structure, error, testing, and review conventions"
 docforge_provenance:
   schema: "2.0"
   doc_id: "conventions"
   path: "docs/engineering/conventions.md"
-  generated_at: "2026-08-03T08:44:07Z"
+  generated_at: "2026-08-13T11:07:59Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -17,8 +18,8 @@ docforge_provenance:
   sections:
     - id: "style"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: ".swiftlint.yml"
           git_blob: "90631d6319ce50e321f2e8f6936145b08d98d92f"
@@ -36,13 +37,13 @@ docforge_provenance:
           git_blob: "ac27429273e1daa282d4a73177cebd2dae238705"
           role: "config"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "swift-5-language-mode"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: ".swiftformat"
           git_blob: "ac27429273e1daa282d4a73177cebd2dae238705"
@@ -50,83 +51,83 @@ docforge_provenance:
       unresolved: []
     - id: "names-reveal-intent"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "comments-at-public-boundaries"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "structure"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
-        - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
-          role: "doc"
+        - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
+          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
+          role: "test"
       unresolved: []
     - id: "dependency-direction"
       sources:
         - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
-          git_blob: "0a523166b5328f0077ccd0da84a40d707138d5d7"
+          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
           role: "test"
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "types-stay-cohesive"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "explicit-dependency-injection"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "error-handling"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "no-force-unwraps-in-production"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
-        - path: "README.md"
-          git_blob: "8a49fce7363abdb421327cd946dd2c356d9d1c1a"
-          role: "doc"
+        - path: ".swiftlint.yml"
+          git_blob: "90631d6319ce50e321f2e8f6936145b08d98d92f"
+          role: "config"
       unresolved: []
     - id: "model-expected-outcomes-in-return-types"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "sensitive-data-never-logged"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
-          git_blob: "0a523166b5328f0077ccd0da84a40d707138d5d7"
+          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
           role: "test"
       unresolved: []
     - id: "testing"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "90-coverage-gate"
@@ -135,7 +136,7 @@ docforge_provenance:
           git_blob: "062819eb35129c6a6cd891d330643dee7a45db1a"
           role: "code"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "fixture-driven-engine-conformance"
@@ -153,43 +154,43 @@ docforge_provenance:
     - id: "architecture-rules-as-tests"
       sources:
         - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
-          git_blob: "0a523166b5328f0077ccd0da84a40d707138d5d7"
+          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
           role: "test"
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
       unresolved: []
     - id: "flaky-tests-are-defects"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "review"
       sources:
-        - path: "docs/_archive/CONVENTIONS.md"
-          git_blob: "878c15dcb2e9f1fd811a7432688b8b20c6b72512"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
       unresolved: []
     - id: "ci-gates-every-change"
       sources:
         - path: "Makefile"
-          git_blob: "b8fa0059c061eef05cb083ae69e8e7d46336aa64"
+          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
           role: "config"
       unresolved: []
     - id: "qa-gate-before-release-candidates"
       sources:
-        - path: "docs/_archive/RELEASE.md"
-          git_blob: "c749b17a004e3cf47af6af61e82db4aa9d40494d"
+        - path: "docs/engineering/release.md"
+          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
         - path: "Scripts/qa-gate.sh"
-          git_blob: "6cc6488bf99423e199fc6d9fdb04ff9283a12208"
+          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
           role: "code"
       unresolved: []
 ---
@@ -282,8 +283,7 @@ application types. Dependency cycles are architecture defects.
 
 **Evidence:** enforced by source-scanning fitness tests
 (`EasyKeyTests/ArchitectureFitnessTests.swift`) that fail on forbidden
-`import` lines, and documented in rulebook.md section 5.1 and the README
-architecture section.
+`import` lines, and documented in rulebook.md section 5.1.
 
 **If not followed:** the unit test shard fails in CI, and `make test` fails
 locally.
@@ -319,10 +319,8 @@ One rule is enforced by a fitness test; the rest are review gates.
 **Convention:** never force unwrap or use `try!` in production code unless an
 invariant makes failure impossible and nearby text explains that invariant.
 
-**Evidence:** rulebook.md section 1.4 states the rule; the README lists
-"production force-unwrap restrictions" among enforced quality practices.
-SwiftLint does not enable the `force_unwrapping` rule, so enforcement is
-review-based.
+**Evidence:** rulebook.md section 1.4 states the rule; `.swiftlint.yml` does
+not enable the `force_unwrapping` rule, so enforcement is review-based.
 
 **If not followed:** review rejection; the documented exception is an
 explained invariant adjacent to the unwrap.
@@ -410,11 +408,15 @@ CI gates every change; the release QA gate is owned by the maintainer.
 ### CI gates every change
 
 **Requirement:** every push and pull request against `main` must pass the CI
-workflow: formatting and lint, all test shards, and the 90% coverage gate.
+workflow: formatting and lint, the structure job (test-target registration
+plus standalone `EasyEngineCore` and `EasyKeyKit` builds), all test shards,
+and the 90% coverage gate.
 
 **Enforced by:** the CI workflow (`ci.yml`); the lint job runs
-`swiftformat --lint .` and `swiftlint lint`, the test job runs the sharded
-matrix, and the coverage job merges result bundles and enforces the
+`swiftformat --lint .` and `swiftlint lint`, the structure job runs
+`Scripts/check-test-registration.sh` and builds each framework standalone,
+the test job runs the sharded matrix and fails shards that executed zero
+tests, and the coverage job merges result bundles and enforces the
 threshold.
 
 **Applies to:** every push and pull request to `main`.
