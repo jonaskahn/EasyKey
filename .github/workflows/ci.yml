@@ -199,6 +199,10 @@ jobs:
               -only-testing:EasyKeyTests/KeyboardInputPipelineLanguageToggleTests
               -only-testing:EasyKeyTests/LoginHelperHardeningTests
               -only-testing:EasyKeyTests/SmartSwitchStoreAsyncSaveTests
+              # Real-window click-then-verify (sheet presentation) — hosted runners
+              # cannot key an AppKit window, so presentation blocks the shard for the
+              # full per-test timeout. Runs in the known-broken shard for coverage.
+              -skip-testing:EasyKeyTests/ViewRenderingCoverageTests/testAboutSettingsView_OpenLicensesButton_PresentsSheet
           - shard: unit-4
             filter: >-
               -only-testing:EasyKeyTests/VietnameseEngineEdgeCaseTests
@@ -292,6 +296,7 @@ jobs:
               -only-testing:EasyKeyUITests/SettingsWorkflowTests/testTranslationSettingsExpandsProviderBeforeConfiguringCredentials
               -only-testing:EasyKeyTests/AppLogicCoverageTests/testAppleTranslationSessionBridge_AttachWithDefaultSleep_CancellationCompletesAttach
               -only-testing:EasyKeyTests/AppLogicCoverageTests/testAppleTranslationSessionBridge_TranslateWithNoDeliveredSession_RequestsConfigurationAndThrows
+              -only-testing:EasyKeyTests/ViewRenderingCoverageTests/testAboutSettingsView_OpenLicensesButton_PresentsSheet
     steps:
       - name: Checkout
         uses: actions/checkout@v5

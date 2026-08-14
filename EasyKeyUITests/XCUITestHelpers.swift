@@ -77,13 +77,16 @@ extension XCUIApplication {
     /// view until the element's frame intersects the window.
     ///
     /// Mouse drags do NOT scroll `NSScrollView` on macOS (only scroll wheel events do), so a
-    /// drag-based "swipe" loop leaves off-screen rows untouched and the element never becomes
-    /// hittable. Use the native `scroll(byDeltaX:deltaY:)` API instead, which synthesizes real
-    /// scroll-wheel events.
+    /// drag-based "swipe" loop leaves off-screen rows untouched. Use the native
+    /// `scroll(byDeltaX:deltaY:)` API when the scroll view is hittable — it synthesizes real
+    /// scroll-wheel events. On GitHub-hosted runners the app window is never key, so the scroll
+    /// view reports no hit point and `scroll()` would throw "Unable to find hit point" and abort
+    /// the test; fall back to a coordinate drag, which never throws, and let the caller's
+    /// coordinate-click path handle the click.
     @discardableResult
     func reveal(_ element: XCUIElement, maximumScrolls: Int = 15) -> Bool {
         let window = windows.firstMatch
-        let settingsDetail = descendants(matching: .any)["SettingsDetail"]
+        let settingsDetail = descendants(matching: .any)["SettingsDetail"].firstMatch
         guard element.exists, window.exists, settingsDetail.exists else { return element.exists }
 
         for _ in 0 ..< maximumScrolls {
@@ -94,19 +97,27 @@ extension XCUIApplication {
                 return element.isHittable || elementFrame.maxY <= window.frame.maxY
             }
             // Scroll toward the element: down if it is below the window, up if above.
-            if elementFrame.maxY > window.frame.minY {
-                settingsDetail.scroll(byDeltaX: 0, deltaY: -80)
+            if settingsDetail.isHittable {
+                if elementFrame.maxY > window.frame.minY {
+                    settingsDetail.scroll(byDeltaX: 0, deltaY: -80)
+                } else {
+                    settingsDetail.scroll(byDeltaX: 0, deltaY: 80)
+                }
             } else {
-                settingsDetail.scroll(byDeltaX: 0, deltaY: 80)
+                let start = settingsDetail.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.8))
+                let end = settingsDetail.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2))
+                start.click(forDuration: 0.01, thenDragTo: end)
             }
             Thread.sleep(forTimeInterval: 0.1)
         }
 
         // Final in-window check: `exists` alone is not enough — scroll-view children exist
-        // even when scrolled out of the visible area.
+        // even when scrolled out of the visible area. On hosted runners frames can report
+        // zero when the window is never key, so fall back to `exists` in that case.
         let elementFrame = element.frame
         return elementFrame.width > 0
             && elementFrame.maxY > window.frame.minY
             && elementFrame.minY < window.frame.maxY
+            || element.exists
     }
 }

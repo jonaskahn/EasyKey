@@ -62,6 +62,11 @@ final class KitCoverageGapTests: XCTestCase {
         settings.macro.enabled = true
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            // Pin the spotlight detector: this test exercises the physical-backspace
+            // synthesis-failure path, and a visible Spotlight window (e.g. on CI
+            // runners) would route macro expansion through selection replacement,
+            // which never synthesizes backspace.
+            spotlightVisibilityProvider: { false },
             eventFactory: { keyCode, keyDown in
                 if keyCode == 51 {
                     return nil
@@ -142,6 +147,11 @@ final class KitCoverageGapTests: XCTestCase {
         var failBackspace = false
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            // Pin the spotlight detector: this test exercises the physical-backspace
+            // synthesis-failure path, and a visible Spotlight window (e.g. on CI
+            // runners) would route restore through selection replacement, which
+            // never synthesizes backspace.
+            spotlightVisibilityProvider: { false },
             eventFactory: { keyCode, keyDown in
                 if failBackspace, keyCode == 51 {
                     return nil

@@ -1018,6 +1018,12 @@ final class ViewRenderingCoverageTests: XCTestCase {
     }
 
     func testAboutSettingsView_OpenLicensesButton_PresentsSheet() {
+        // Real-window click-then-verify: sheet presentation needs the window to
+        // become key. Hosted runners never key an AppKit window, so the click
+        // blocks the main thread for the full per-test timeout (see ci.yml
+        // known-broken shard). Fail fast there instead of hanging the shard.
+        executionTimeAllowance = 30
+
         let window = windowRender {
             AboutSettingsView(settingsStore: coordinator.settingsStore)
         }
