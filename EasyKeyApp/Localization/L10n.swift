@@ -301,6 +301,7 @@ enum L10nKey: String, CaseIterable, Sendable {
     case systemMenuBarIconStyleStyle10 = "system.menuBarIconStyle.style10"
     case systemMenuBarIconStyleStyle11 = "system.menuBarIconStyle.style11"
     case systemMenuBarIconStyleStyle12 = "system.menuBarIconStyle.style12"
+    case systemMenuBarIconScale = "system.menuBarIconScale"
     case systemOpenSettingsAtLaunch = "system.openSettingsAtLaunch"
     case systemOpenSettingsAtLaunchDescription = "system.openSettingsAtLaunch.description"
     case systemShowDockIcon = "system.showDockIcon"

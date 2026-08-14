@@ -2869,6 +2869,23 @@
         }
       }
     },
+    "system.menuBarIconScale": {
+      "comment": "Menu bar icon scale picker title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menu bar icon scale"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tỷ lệ biểu tượng thanh menu"
+          }
+        }
+      }
+    },
     "system.openSettingsAtLaunch": {
       "comment": "Toggle",
       "localizations": {

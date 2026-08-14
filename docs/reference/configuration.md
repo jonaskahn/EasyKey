@@ -321,6 +321,7 @@ menu popover widths are raw pixel values (280–640).
 | Show Dock icon | `system.showDockIcon` | `false` | settings document | No |
 | Gray menu-bar icon | `system.grayMenuIcon` | `false` | settings document | No |
 | Menu bar icon style | `system.menuBarIconStyle` | `style9` | settings document | No |
+| Menu bar icon scale | `system.menuBarIconScale` | `percent130` (1.3×) | settings document | No |
 | Show settings at launch | `system.showSettingsAtLaunch` | `false` | settings document | No |
 | Check for updates | `system.checkForUpdates` | `true` | settings document | No |
 | Menu popover width | `system.menuPopoverWidth` | `small` (360) | settings document | No |

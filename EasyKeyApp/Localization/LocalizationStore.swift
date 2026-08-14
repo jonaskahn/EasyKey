@@ -140,6 +140,10 @@ final class LocalizationStore: ObservableObject {
         }
     }
 
+    func displayName(for scale: SystemOptions.MenuBarIconScale) -> String {
+        "\(scale.factor)×"
+    }
+
     func sectionTitle(_ section: SettingsSection) -> String {
         switch section {
         case .typing: string(.settingsSectionTyping)

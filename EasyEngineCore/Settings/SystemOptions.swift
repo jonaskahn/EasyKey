@@ -24,6 +24,21 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         case style12
     }
 
+    public enum MenuBarIconScale: Int, Codable, Equatable, Sendable, CaseIterable {
+        case percent100 = 100
+        case percent110 = 110
+        case percent120 = 120
+        case percent130 = 130
+        case percent140 = 140
+        case percent150 = 150
+
+        public var factor: CGFloat {
+            CGFloat(rawValue) / Self.percentBase
+        }
+
+        private static let percentBase: CGFloat = 100
+    }
+
     public var launchAtLogin: Bool
     public var showDockIcon: Bool
     public var grayMenuIcon: Bool
@@ -31,6 +46,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
     public var checkForUpdates: Bool
     public var menuPopoverWidth: MenuPopoverWidth
     public var menuBarIconStyle: MenuBarIconStyle
+    public var menuBarIconScale: MenuBarIconScale
 
     public init(
         launchAtLogin: Bool = false,
@@ -39,7 +55,8 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         showSettingsAtLaunch: Bool = false,
         checkForUpdates: Bool = true,
         menuPopoverWidth: MenuPopoverWidth = .small,
-        menuBarIconStyle: MenuBarIconStyle = .style9
+        menuBarIconStyle: MenuBarIconStyle = .style9,
+        menuBarIconScale: MenuBarIconScale = .percent130
     ) {
         self.launchAtLogin = launchAtLogin
         self.showDockIcon = showDockIcon
@@ -48,6 +65,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         self.checkForUpdates = checkForUpdates
         self.menuPopoverWidth = menuPopoverWidth
         self.menuBarIconStyle = menuBarIconStyle
+        self.menuBarIconScale = menuBarIconScale
     }
 
     public init(from decoder: Decoder) throws {
@@ -59,6 +77,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         checkForUpdates = try container.decodeIfPresent(Bool.self, forKey: .checkForUpdates) ?? true
         menuPopoverWidth = try container.decodeIfPresent(MenuPopoverWidth.self, forKey: .menuPopoverWidth) ?? .small
         menuBarIconStyle = try container.decodeIfPresent(MenuBarIconStyle.self, forKey: .menuBarIconStyle) ?? .style9
+        menuBarIconScale = try container.decodeIfPresent(MenuBarIconScale.self, forKey: .menuBarIconScale) ?? .percent130
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -69,6 +88,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         case checkForUpdates
         case menuPopoverWidth
         case menuBarIconStyle
+        case menuBarIconScale
     }
 }
 

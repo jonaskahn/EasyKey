@@ -149,7 +149,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 **Changed**
 
-- Menu bar icons (all styles plus the pause and health indicators) render 1.2× larger.
+- Menu bar icons (all styles plus the pause and health indicators) render at a user-selectable scale: 1.0×–1.5×, default 1.3×.
 
 ## [0.0.9] - 2026-08-14
 

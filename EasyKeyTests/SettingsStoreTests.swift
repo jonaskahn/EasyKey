@@ -15,6 +15,7 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertFalse(settings.system.showDockIcon)
         XCTAssertTrue(settings.system.checkForUpdates)
         XCTAssertEqual(settings.system.menuBarIconStyle, .style9)
+        XCTAssertEqual(settings.system.menuBarIconScale, .percent130)
         XCTAssertEqual(
             settings.compatibility.compatibilityModeApplicationBundleIdentifiers,
             ["com.google.Chrome", "org.chromium.Chromium"]
@@ -38,6 +39,33 @@ final class SettingsStoreTests: XCTestCase {
             let decoded = try decoder.decode(SystemOptions.self, from: data)
             XCTAssertEqual(decoded.menuBarIconStyle, style)
         }
+    }
+
+    func testMenuBarIconScale_DecodesWithMissingKey_DefaultsToPercent130() throws {
+        let data = Data(#"{"grayMenuIcon":true}"#.utf8)
+        let decoded = try JSONDecoder().decode(SystemOptions.self, from: data)
+        XCTAssertEqual(decoded.menuBarIconScale, .percent130)
+    }
+
+    func testMenuBarIconScale_RoundTripsAllCases() throws {
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        for scale in SystemOptions.MenuBarIconScale.allCases {
+            var options = SystemOptions()
+            options.menuBarIconScale = scale
+            let data = try encoder.encode(options)
+            let decoded = try decoder.decode(SystemOptions.self, from: data)
+            XCTAssertEqual(decoded.menuBarIconScale, scale)
+        }
+    }
+
+    func testMenuBarIconScale_FactorMapping() {
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent100.factor, 1.0)
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent110.factor, 1.1)
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent120.factor, 1.2)
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent130.factor, 1.3)
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent140.factor, 1.4)
+        XCTAssertEqual(SystemOptions.MenuBarIconScale.percent150.factor, 1.5)
     }
 
     func testLegacyCompatibilitySettingsReceiveNewDefaults() throws {

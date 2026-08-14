@@ -40,6 +40,12 @@ struct SystemSettingsView: View {
                         Text(localization.displayName(for: style)).tag(style)
                     }
                 }
+
+                Picker(localization.string(.systemMenuBarIconScale), selection: setting(\.system.menuBarIconScale)) {
+                    ForEach(SystemOptions.MenuBarIconScale.allCases, id: \.self) { scale in
+                        Text(localization.displayName(for: scale)).tag(scale)
+                    }
+                }
                 settingToggle(
                     .systemOpenSettingsAtLaunch,
                     description: .systemOpenSettingsAtLaunchDescription,

@@ -19,8 +19,6 @@ final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
 final class StatusItemController {
     static let popoverBehavior: NSPopover.Behavior = .transient
 
-    private static let iconScaleFactor: CGFloat = 1.2
-
     private let localization: LocalizationStore
     private let menuActionTarget = StatusMenuActionTarget()
     private var statusItem: NSStatusItem?
@@ -140,18 +138,20 @@ final class StatusItemController {
         guard let button = statusItem?.button else { return }
         let language = settings.input.language
         let grayIcon = settings.system.grayMenuIcon
+        let scale = settings.system.menuBarIconScale.factor
 
         let appearance = button.effectiveAppearance
         let image: NSImage?
         let tintColor: NSColor?
         if keyboardPaused {
-            image = Self.tintedSystemImage(named: "pause.circle", color: .systemOrange, appearance: appearance)
+            image = Self.tintedSystemImage(named: "pause.circle", color: .systemOrange, appearance: appearance, scale: scale)
             tintColor = nil
         } else if keyboardHealth == .requestingPermission || keyboardHealth == .failed || keyboardHealth == .degraded {
             image = Self.tintedSystemImage(
                 named: "exclamationmark.triangle",
                 color: .systemRed,
-                appearance: appearance
+                appearance: appearance,
+                scale: scale
             )
             tintColor = nil
         } else {
@@ -161,7 +161,8 @@ final class StatusItemController {
                     language: language
                 ),
                 asTemplate: grayIcon,
-                appearance: appearance
+                appearance: appearance,
+                scale: scale
             )
             tintColor = nil
         }
@@ -256,15 +257,16 @@ final class StatusItemController {
     private static func tintedSystemImage(
         named systemName: String,
         color: NSColor,
-        appearance: NSAppearance
+        appearance: NSAppearance,
+        scale: CGFloat
     ) -> NSImage? {
         guard let symbol = NSImage(systemSymbolName: systemName, accessibilityDescription: "EasyKey") else {
             return nil
         }
         let configured =
-            symbol.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14 * Self.iconScaleFactor, weight: .regular))
+            symbol.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14 * scale, weight: .regular))
                 ?? symbol
-        let size = NSSize(width: 18 * Self.iconScaleFactor, height: 18 * Self.iconScaleFactor)
+        let size = NSSize(width: 18 * scale, height: 18 * scale)
 
         let rendered = NSImage(size: size, flipped: false) { bounds in
             appearance.performAsCurrentDrawingAppearance {
@@ -295,10 +297,11 @@ final class StatusItemController {
     private static func menuBarImage(
         named name: String,
         asTemplate: Bool,
-        appearance: NSAppearance
+        appearance: NSAppearance,
+        scale: CGFloat
     ) -> NSImage? {
         guard let base = NSImage(named: name) else { return nil }
-        let size = NSSize(width: 18 * Self.iconScaleFactor, height: 18 * Self.iconScaleFactor)
+        let size = NSSize(width: 18 * scale, height: 18 * scale)
 
         if asTemplate {
             let image = base.copy() as? NSImage ?? base

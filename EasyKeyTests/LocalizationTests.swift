@@ -195,6 +195,15 @@ final class LocalizationTests: XCTestCase {
         XCTAssertEqual(store.displayName(for: EncodingTable.cp1258), store.string(.domainEncodingCp1258))
     }
 
+    func testDisplayName_ForMenuBarIconScale() {
+        XCTAssertEqual(store.displayName(for: .percent100), "1.0×")
+        XCTAssertEqual(store.displayName(for: .percent110), "1.1×")
+        XCTAssertEqual(store.displayName(for: .percent120), "1.2×")
+        XCTAssertEqual(store.displayName(for: .percent130), "1.3×")
+        XCTAssertEqual(store.displayName(for: .percent140), "1.4×")
+        XCTAssertEqual(store.displayName(for: .percent150), "1.5×")
+    }
+
     func testErrorMessage_ForNonMacroError_UsesLocalizedFallback() {
         let error = NSError(domain: "Test", code: 1, userInfo: [NSLocalizedDescriptionKey: "Boom"])
         store.setPreference(.english)
