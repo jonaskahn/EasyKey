@@ -105,9 +105,9 @@ by" distinguishes CI matrix runs from manual gates.
 
 | OS / device / architecture | Minimum version | Tested by | Below minimum |
 |---|---|---|---|
-| macOS (all models) | 14.0 Sonoma (`MACOSX_DEPLOYMENT_TARGET` / `LSMinimumSystemVersion`) | CI builds against the 14.0 target on macOS 15 runners; `Scripts/verify-macos-compatibility.sh` gates every app bundle (Mach-O `minos`, weak Translation linkage, `LSMinimumSystemVersion`); blocking Sonoma smoke jobs (self-hosted arm64 + x86_64) launch the universal app and assert readiness; unit suites; manual "macOS 14 Apple-surface tests" release gate in [RELEASE.md](../engineering/release.md) | refuses to run (Launch Services enforces `LSMinimumSystemVersion`) |
-| Apple silicon (arm64) | 14.0 | CI release matrix builds an arm64 DMG; `make verify-arch` validates `arm64`; Sonoma smoke job asserts `ready=1` on an arm64 runner | not applicable (same OS minimum) |
-| Intel (x86_64) | 14.0 | CI release matrix builds an amd64 (x86_64) DMG; `make verify-arch` validates `x86_64`; Sonoma smoke job asserts `ready=1` on an x86_64 runner | not applicable (same OS minimum) |
+| macOS (all models) | 14.0 Sonoma (`MACOSX_DEPLOYMENT_TARGET` / `LSMinimumSystemVersion`) | CI builds against the 14.0 target on macOS 15 runners; `Scripts/verify-macos-compatibility.sh` gates every app bundle (Mach-O `minos`, weak Translation linkage, `LSMinimumSystemVersion`); unit suites; manual "macOS 14 Apple-surface tests" release gate in [RELEASE.md](../engineering/release.md) | refuses to run (Launch Services enforces `LSMinimumSystemVersion`) |
+| Apple silicon (arm64) | 14.0 | CI release matrix builds an arm64 DMG; `make verify-arch` validates `arm64` | not applicable (same OS minimum) |
+| Intel (x86_64) | 14.0 | CI release matrix builds an amd64 (x86_64) DMG; `make verify-arch` validates `x86_64` | not applicable (same OS minimum) |
 | Universal builds | 14.0 | CI release matrix builds a universal DMG (`arm64 x86_64`) used by Sparkle; `make release` defaults to `ARCHS="arm64 x86_64"` | not applicable |
 
 The app is macOS-only; there are no iOS, iPadOS, or watchOS targets.

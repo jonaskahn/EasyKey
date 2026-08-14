@@ -75,9 +75,6 @@ docforge_provenance:
         - path: "Scripts/verify-macos-compatibility.sh"
           git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
           role: "code"
-        - path: "Scripts/verify-sonoma-smoke.sh"
-          git_blob: "3e1af0b9c1b4b5b6f55fa6c89ac3b8689ff85fb7"
-          role: "code"
         - path: "Scripts/qa-gate.sh"
           git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
           role: "code"
@@ -177,7 +174,7 @@ maintainer performing the release.
    passed` — every Mach-O slice declares `minos <= 14.0`, the macOS 15+
    `Translation` frameworks stay weak-linked, and every `Info.plist` records
    `LSMinimumSystemVersion <= 14.0`. Runs automatically inside
-   `make verify-release` and the macOS 14 compatibility CI workflow.
+   `make verify-release`.
 3. `make verify-release` — verify: the same message; the script also runs
    `codesign --verify --deep --strict`, `spctl` assessment, `stapler
    validate` on the DMG, confirms the bundled `LICENSE`, `NOTICE`, and
@@ -191,11 +188,7 @@ maintainer performing the release.
    binaries, Sparkle, MIT `LICENSE`, `NOTICE`, and reviewed
    `THIRD_PARTY_NOTICES.md`; privacy copy matches runtime behavior; provider
    data-handling URLs reviewed; English/Vietnamese localization checks and
-   accessibility passes on macOS 14. Runtime macOS 14 coverage is additionally
-   automated by the blocking Sonoma smoke jobs in the macOS 14 compatibility
-   workflow (`compatibility.yml`; self-hosted arm64 + x86_64 runners; each
-   launches the universal app via `Scripts/verify-sonoma-smoke.sh` and asserts
-   the readiness signal and the disabled Apple Translation surface).
+   accessibility passes on macOS 14.
 
 ## Publication
 
