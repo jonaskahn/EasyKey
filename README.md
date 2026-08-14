@@ -72,9 +72,9 @@ In **Settings → System**, pause EasyKey in specific apps or force a language p
 
 ## 📸 Screenshots
 
-| Menu bar | Settings | Apps |
-|----------|----------|-------|
-| ![EasyKey menu bar popup](docs/assets/Popup.png) | ![EasyKey settings](docs/assets/Settings.png) | ![EasyKey per-app preferences](docs/assets/Apps.png) |
+| Apps |
+|-------|
+| ![EasyKey per-app preferences](docs/assets/Apps.png) |
 
 ## 🔒 Private by Design
 

@@ -96,10 +96,12 @@ docforge_provenance:
       sources:
         - path: "EasyEngineCore/Settings/SystemOptions.swift"
           role: "code"
-          git_blob: "f8a09dbaa075211761f9ce69f1633cdb9077f82a"
+          git_blob: "d38adf9b77b18314c8a9eec7b1ac60e7fed13981"
+          git_blob_normalized: "d38adf9b77b18314c8a9eec7b1ac60e7fed13981"
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
           role: "code"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
+          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
       unresolved: []
     - id: "converter"
       sources:
@@ -146,10 +148,6 @@ docforge_provenance:
       unresolved: []
     - id: "release-pipeline-environment"
       sources:
-        - path: "docs/engineering/release.md"
-          role: "doc"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
@@ -174,13 +172,13 @@ docforge_provenance:
 ---
 # Configuration
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey reads two configuration surfaces: a JSON settings document on disk
 (`settings.json`, owned by `SettingsRepository`) and a handful of
 `UserDefaults` keys owned by the app layer. Cloud credentials never appear in
 either — they live in the Keychain (see
-[data-handling.md](../security/data-handling.md)).
+[permissions.md](../security/permissions.md)).
 Release-time behavior is additionally parameterized by CI environment
 variables documented at the end. `Sensitive` means "must not be logged or
 committed"; every row below defaults to `No` unless marked.
@@ -377,7 +375,7 @@ currently 11. Import validation: file size ≤ 1 MiB
 ## Release pipeline environment
 
 Release builds read build-setting substitutions and CI variables — documented
-end-to-end in [release.md](../engineering/release.md); local builds leave feed and
+end-to-end in [distribution.md](../operations/distribution.md); local builds leave feed and
 key values empty so Sparkle is disabled rather than pointed at an untrusted
 endpoint (`UpdateService.hasReleaseConfiguration` rejects placeholder `$(` values).
 The release workflow currently runs `make local-dmg` — ad-hoc signed, not

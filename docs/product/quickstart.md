@@ -1,7 +1,4 @@
 ---
-id: "quickstart"
-title: "Quickstart"
-description: "Shortest verified path to first useful result, prerequisites, expected output, next links"
 docforge_provenance:
   schema: "2.0"
   doc_id: "quickstart"
@@ -19,12 +16,12 @@ docforge_provenance:
     - id: "getting-to-your-first-result"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "docs/engineering/setup.md"
-          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
-          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
           role: "doc"
         - path: "Fixtures/sample-telex.json"
           git_blob: "a904b2094b8299dee38b8667525a24a75e759017"
@@ -38,12 +35,12 @@ docforge_provenance:
     - id: "what-next"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "docs/engineering/setup.md"
-          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
-          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
           role: "doc"
       unresolved: []
 ---

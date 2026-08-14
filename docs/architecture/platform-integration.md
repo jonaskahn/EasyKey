@@ -1,7 +1,4 @@
 ---
-id: "platform_integration"
-title: "Platform Integration"
-description: "OS services, adapters, permissions boundary, callbacks, failure and fallback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_integration"
@@ -19,111 +16,113 @@ docforge_provenance:
     - id: "platform-integration"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          role: "code"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          role: "code"
       unresolved: []
     - id: "accessibility"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          role: "code"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          role: "code"
         - path: "EasyKeyKit/Keyboard/FocusedElementInspector.swift"
-          role: "code"
           git_blob: "2f61fac3a31d989c03784cff00519097d0d50f7b"
+          role: "code"
         - path: "EasyKeyApp/Features/Translation/SelectedTextCapture.swift"
-          role: "code"
           git_blob: "c4124fe1499209bf7096f8bbdecb394d8df95f80"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
+          role: "code"
       unresolved: []
     - id: "cgevent-tap"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          role: "code"
           git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          role: "code"
           git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-        - path: "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift"
           git_blob: "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8"
+          role: "code"
       unresolved: []
     - id: "nsworkspace-notifications"
       sources:
         - path: "EasyKeyApp/Coordination/WorkspaceObserver.swift"
-          role: "code"
           git_blob: "43906864cb9efceb789b0d80709a50e62730b258"
+          role: "code"
       unresolved: []
     - id: "keychain"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-          role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          role: "code"
       unresolved: []
     - id: "carbon-hotkeys"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift"
-          role: "code"
           git_blob: "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
-        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          role: "code"
       unresolved: []
     - id: "login-item"
       sources:
         - path: "EasyKeyApp/Coordination/LoginItemController.swift"
-          role: "code"
           git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
-        - path: "EasyKeyLoginHelper/main.swift"
           role: "code"
+        - path: "EasyKeyLoginHelper/main.swift"
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
+          role: "code"
       unresolved: []
     - id: "sparkle-updates"
       sources:
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          role: "code"
           git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
           git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
+          role: "code"
         - path: "EasyKeyApp/Info.plist"
-          role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
-        - path: "Scripts/generate-appcast.py"
           role: "config"
+        - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          role: "config"
       unresolved: []
     - id: "input-source-query"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          role: "code"
           git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-        - path: "EasyKeyKit/Keyboard/Context/KeyboardInputSourceInspector.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Context/KeyboardInputSourceInspector.swift"
           git_blob: "368cb48f12a963ce755cce110cee897f888aa603"
+          role: "code"
       unresolved: []
     - id: "spotlight-detection"
       sources:
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
+          git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
+          role: "code"
         - path: "docs/reference/limitations.md"
+          git_blob: "355ff29d68cc611293889973aeb80c951e797ae8"
+          git_blob_normalized: "355ff29d68cc611293889973aeb80c951e797ae8"
           role: "doc"
-          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
-          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
       unresolved: []
     - id: "integration-surface"
       sources:
         - path: "EasyKeyApp/Coordination/StatusItemController.swift"
+          git_blob: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
+          git_blob_normalized: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
           role: "code"
-          git_blob: "41325adb028f17e1f2fb0a7cb7983c23c93824fe"
       unresolved: []
 ---
 # Platform integration
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 Every OS service and platform adapter this repository actually integrates, one section each. Permission rationale and scope live in [permissions](../security/permissions.md); this document names which permission each integration requires and what happens when the service is unavailable.
 
@@ -195,7 +194,7 @@ Every OS service and platform adapter this repository actually integrates, one s
 
 **Callback contract:** `start()` begins scheduled checks; `checkForUpdates()` forces one (status-menu "Check for Updates"); appcast XML is produced by `Scripts/generate-appcast.py`.
 
-**Fallback if unavailable:** missing HTTPS feed or ED key disables the updater at init (with a log line) — the app runs untouched; a failed check leaves the current version installed. Decision: [sparkle-updates](decisions/sparkle-updates.md).
+**Fallback if unavailable:** missing HTTPS feed or ED key disables the updater at init (with a log line) — the app runs untouched; a failed check leaves the current version installed.
 
 ## Input source query
 

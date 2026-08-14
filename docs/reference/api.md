@@ -1,7 +1,4 @@
 ---
-id: "api_reference"
-title: "Api Reference"
-description: "Public surface, inputs/outputs, auth contract, limits, errors, compatibility source"
 docforge_provenance:
   schema: "2.0"
   doc_id: "api_reference"
@@ -62,8 +59,8 @@ docforge_provenance:
           git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyKit/EasyKeyKit.swift"
-          git_blob: "fe7a078e829ab8377ecef7015657c02911034e6b"
-          git_blob_normalized: "fe7a078e829ab8377ecef7015657c02911034e6b"
+          git_blob: "c2a257acc1b06050b76e6f29eee06f39016336c0"
+          git_blob_normalized: "c2a257acc1b06050b76e6f29eee06f39016336c0"
           role: "code"
       unresolved: []
     - id: "typing-engine"
@@ -118,20 +115,20 @@ docforge_provenance:
     - id: "smart-switch"
       sources:
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
-        - path: "EasyEngineCore/SmartSwitch/SmartSwitchOptions.swift"
           role: "code"
+        - path: "EasyEngineCore/SmartSwitch/SmartSwitchOptions.swift"
           git_blob: "651f4dde5a9df0f03466c3185d904aa63c72f1af"
+          role: "code"
       unresolved: []
     - id: "clipboard"
       sources:
         - path: "EasyEngineCore/Clipboard/ClipboardEntry.swift"
-          role: "code"
           git_blob: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
-        - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
           role: "code"
+        - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
           git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+          role: "code"
       unresolved: []
     - id: "translation"
       sources:
@@ -223,8 +220,8 @@ docforge_provenance:
     - id: "deprecated-api"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
       unresolved: []
 ---

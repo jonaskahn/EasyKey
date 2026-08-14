@@ -1,7 +1,4 @@
 ---
-id: "arch_high_level"
-title: "Arch High Level"
-description: "Context, deployable or provisioned blocks labeled with implementing technology (e.g. 'React SPA', 'PostgreSQL 15', or for `infrastructure-platform`..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "arch_high_level"
@@ -19,100 +16,91 @@ docforge_provenance:
     - id: "high-level-architecture"
       sources:
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKeyApp/Info.plist"
-          role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          role: "config"
       unresolved: []
     - id: "system-in-context"
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
-          role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
+        - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
           git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
-        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          role: "code"
       unresolved: []
     - id: "containers-and-blackboxes"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
         - path: "EasyKeyLoginHelper/main.swift"
-          role: "code"
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
-        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob_normalized: "f0f724c4c8a6644555990bff4e08325f80625a66"
           role: "code"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          git_blob_normalized: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
       unresolved: []
     - id: "relationship-matrix"
       sources:
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          role: "code"
           git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+          role: "code"
         - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          role: "code"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-        - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           role: "code"
+        - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
           git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+          role: "code"
       unresolved: []
     - id: "boundaries-and-invariants"
       sources:
         - path: "EasyKeyApp/EasyKeyApp.entitlements"
-          role: "config"
           git_blob: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+          git_blob_normalized: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+          role: "config"
         - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
-          role: "code"
           git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+          git_blob_normalized: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+          role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
-        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
+          git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
           role: "code"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          git_blob_normalized: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "stable-by-design"
       sources:
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-        - path: "docs/architecture/decisions/README.md"
-          role: "doc"
-          git_blob: "f405104e88ddde03d6806f697e242c59dd9800d6"
-          git_blob_normalized: "f405104e88ddde03d6806f697e242c59dd9800d6"
       unresolved: []
     - id: "why-it-is-like-this"
-      sources:
-        - path: "docs/architecture/decisions/README.md"
-          role: "doc"
-          git_blob: "f405104e88ddde03d6806f697e242c59dd9800d6"
-          git_blob_normalized: "f405104e88ddde03d6806f697e242c59dd9800d6"
-        - path: "docs/architecture/tech-debt.md"
-          role: "doc"
-          git_blob: "634e887806db6c6f4e6a6719a3970df40ad469e6"
-          git_blob_normalized: "634e887806db6c6f4e6a6719a3970df40ad469e6"
-        - path: "docs/architecture/constraints.md"
-          role: "doc"
-          git_blob: "4453d54581683c16818edc5680f2fe7190d6a6a2"
-          git_blob_normalized: "4453d54581683c16818edc5680f2fe7190d6a6a2"
+      sources: []
       unresolved: []
 ---
 # High-level architecture
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey is a macOS menu-bar utility that turns raw keystrokes into Vietnamese text (Telex, Simple Telex, and VNI rule sets), keeps a private clipboard history, and translates selected or typed text through on-device or cloud providers. It owns the "type Vietnamese in any application, with per-application preferences, without a telemetry trail" capability: transformation runs entirely on the Mac, the app behaves as a menu-bar accessory (`LSUIElement`), and it is distributed as a universal DMG with Sparkle updates.
 
@@ -137,7 +125,7 @@ What crosses each boundary: keystrokes and focused-text edits in both directions
 
 _C4 container view: the deployable pieces inside that one box — never mix this zoom level with the context diagram above._
 
-Five deployable pieces make up the app: three in-process Swift targets, one embedded login item, and one framework the app bundles. Component-level mechanism lives in [low-level.md](low-level.md); deep subsystem write-ups live under [concepts/](concepts/README.md).
+Five deployable pieces make up the app: three in-process Swift targets, one embedded login item, and one framework the app bundles. Component-level mechanism and per-feature detail live in this section's facet documents — [application-lifecycle.md](application-lifecycle.md), [platform-integration.md](platform-integration.md), [ai-integration.md](ai-integration.md), [ui-and-state.md](ui-and-state.md), and [persistence.md](persistence.md) — not here.
 
 _One row per block that matters for orientation. Technology cites [tech-stack.md](../reference/tech-stack.md)._
 
@@ -170,12 +158,12 @@ _One row per material edge between blocks, or between a block and an external ac
 - **Clipboard capture is off by default** (`isCaptureEnabled = false`), and persistence is opt-in: history stays in memory unless the user enables it, in which case it is AES-GCM sealed with a device-only Keychain key.
 - **Single instance.** A second launch detects the running instance and terminates itself.
 - **Cloud translation is opt-in per provider.** Source text leaves the device only from explicit translation surfaces when a provider is configured; credentials live in the Keychain and are never synchronized.
-- **No telemetry.** The app ships no analytics; logging is local and redacted ([log-redaction](decisions/log-redaction.md)).
+- **No telemetry.** The app ships no analytics; logging is local and redacted.
 
 ## Stable by design
 
-This document changes once or twice a year: blocks are named at the level of targets and responsibilities, not classes. A claim here that a routine refactor would falsify — e.g. exactly which component posts a synthesized key — is written too close to the code and belongs in [low-level.md](low-level.md). Per-app compatibility rules, spotlight workarounds, and event-mask details live there and in [limitations](../reference/limitations.md), not here.
+This document changes once or twice a year: blocks are named at the level of targets and responsibilities, not classes. A claim here that a routine refactor would falsify — e.g. exactly which component posts a synthesized key — is written too close to the code; input-plumbing and event-mask detail lives in [platform-integration.md](platform-integration.md), and known platform limits (for example the Spotlight workaround) live in [limitations](../reference/limitations.md), not here.
 
 ## Why it is like this
 
-Rationale for the architecture choices — the event-tap approach instead of Input Method Kit, single-instance enforcement, the encrypted clipboard, settings deltas, Sparkle updates — lives in the [decision log](decisions/README.md). Known shortcuts are tracked in [tech-debt.md](tech-debt.md). Hard, externally imposed bounds (macOS 14 target, Accessibility requirement, sandbox constraint) live in [constraints.md](constraints.md).
+The invariants that encode the architecture choices — the event-tap approach instead of Input Method Kit, single-instance enforcement, the encrypted clipboard, the sandbox stance — are stated in [Boundaries and invariants](#boundaries-and-invariants) above. Externally imposed bounds (macOS 14 target, Accessibility requirement) are documented in [README.md](../README.md) and [limitations](../reference/limitations.md).

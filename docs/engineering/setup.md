@@ -1,7 +1,4 @@
 ---
-id: "setup_guide"
-title: "Setup Guide"
-description: "Prerequisites, install, configuration, run, verification, recovery"
 docforge_provenance:
   schema: "2.0"
   doc_id: "setup_guide"
@@ -19,16 +16,16 @@ docforge_provenance:
     - id: "prerequisites"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "docs/reference/tech-stack.md"
-          git_blob: "59c9d316ad97e7dfef4d9a8b16c0c60caee27fd6"
-          git_blob_normalized: "59c9d316ad97e7dfef4d9a8b16c0c60caee27fd6"
+          git_blob: "3d7a3a2f4de90feed390033f9bd39206ae4686be"
+          git_blob_normalized: "3d7a3a2f4de90feed390033f9bd39206ae4686be"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -42,8 +39,8 @@ docforge_provenance:
     - id: "steps"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
@@ -85,8 +82,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
@@ -96,14 +93,14 @@ docforge_provenance:
     - id: "next"
       sources:
         - path: "docs/engineering/testing.md"
-          role: "doc"
           git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
           git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          role: "doc"
       unresolved: []
 ---
 # Local setup
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-15_
 
 This path builds EasyKey from source and runs its test suite. A first build
 compiles the entire project and takes longer than later incremental builds.
@@ -125,7 +122,8 @@ non-secret environment variables — `SPARKLE_FEED_URL`, `SPARKLE_PUBLIC_ED_KEY`
 configuration is baked into the build (`Scripts/archive.sh` enforces HTTPS).
 Signed distribution adds Apple Developer credentials (Developer ID Application
 certificate, team identifier, notarization profile) — Apple Developer Program,
-held by the repository owner; see the [release guide](release.md).
+held by the repository owner; see the signing status in
+[distribution](../operations/distribution.md).
 
 ## Steps
 
@@ -244,6 +242,4 @@ state.
 ## Next
 
 - Run the tests: [testing.md](testing.md)
-- Engineering rules: [conventions.md](conventions.md)
 - Codebase overview: [../architecture/high-level.md](../architecture/high-level.md)
-- Ship a build: [release.md](release.md)

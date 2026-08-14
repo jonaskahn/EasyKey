@@ -20,22 +20,27 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Coordination/StatusItemController.swift"
           role: "code"
-          git_blob: "41325adb028f17e1f2fb0a7cb7983c23c93824fe"
+          git_blob: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
+          git_blob_normalized: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
       unresolved: []
     - id: "menu-bar-status-item-and-popover"
       sources:
         - path: "EasyKeyApp/Coordination/StatusItemController.swift"
           role: "code"
-          git_blob: "41325adb028f17e1f2fb0a7cb7983c23c93824fe"
+          git_blob: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
+          git_blob_normalized: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
         - path: "EasyKeyApp/Coordination/StatusMenuActionTarget.swift"
           role: "code"
           git_blob: "9858ae5651e3792442d734b39868dbdac404dc9d"
+          git_blob_normalized: "9858ae5651e3792442d734b39868dbdac404dc9d"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
           role: "code"
           git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
+          git_blob_normalized: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
         - path: "EasyKeyApp/Coordination/MenuPopoverView.swift"
           role: "code"
           git_blob: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
+          git_blob_normalized: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
       unresolved: []
     - id: "settings-window"
       sources:
@@ -85,7 +90,7 @@ docforge_provenance:
 ---
 # UI navigation and state
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey has five surfaces — the menu-bar status item with popover, the Settings window, the clipboard panel, the translation panel, and the onboarding flow (which renders inside the settings window's content area). There is no `NavigationStack`-style hierarchy; navigation is a small set of intentional transitions between these surfaces, all owned by `AppCoordinator`-published state, and the transient popovers are torn down before the Settings window is presented (the close-then-present ordering is handled by dispatching to the next run-loop pass to avoid an AppKit popover race).
 

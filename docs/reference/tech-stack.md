@@ -1,7 +1,4 @@
 ---
-id: "tech_stack"
-title: "Tech Stack"
-description: "Detected languages/versions; runtimes/SDKs; primary frameworks per layer; datastores and messaging; build/package/dependency-management tooling; test and CI..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "tech_stack"
@@ -19,27 +16,27 @@ docforge_provenance:
     - id: "tech-stack"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
       unresolved: []
     - id: "language-and-toolchain"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
-        - path: "docs/engineering/conventions.md"
-          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
-          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+        - path: "docs/engineering/rulebook.md"
+          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
       unresolved: []
     - id: "frameworks"
@@ -99,8 +96,8 @@ docforge_provenance:
           git_blob_normalized: "ac27429273e1daa282d4a73177cebd2dae238705"
           role: "config"
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
       unresolved: []
     - id: "build-and-release"
@@ -113,30 +110,26 @@ docforge_provenance:
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+        - path: "docs/operations/distribution.md"
+          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
       unresolved: []
     - id: "why-this-stack-shape"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          role: "doc"
-        - path: "docs/engineering/conventions.md"
-          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
-          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
       unresolved: []
 ---
 # Tech stack
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 Declared versions where the repository states them; otherwise marked
 unavailable rather than inferred from imports. Layer grouping follows what a
@@ -144,7 +137,7 @@ maintainer would change together.
 
 | Layer | Technology | Version | Evidence path |
 |---|---|---|---|
-| Language | Swift, Swift 5 language mode | Swift 5.0 (`SWIFT_VERSION`); Xcode 15+ required | `EasyKey.xcodeproj/project.pbxproj`, [CONVENTIONS.md](../engineering/conventions.md), [setup](../engineering/setup.md) |
+| Language | Swift, Swift 5 language mode | Swift 5.0 (`SWIFT_VERSION`); Xcode 15+ required | `EasyKey.xcodeproj/project.pbxproj`, [rulebook.md](../engineering/rulebook.md), [setup](../engineering/setup.md) |
 | Minimum OS | macOS | 14.0 (`MACOSX_DEPLOYMENT_TARGET`, `LSMinimumSystemVersion`) | `EasyKey.xcodeproj/project.pbxproj`, `EasyKeyApp/Info.plist` |
 | Application shell | SwiftUI + AppKit (`NSApplicationDelegate`, `NSPanel` subclasses, `NSWorkspace`) | system SDK | `EasyKeyApp/` |
 | Domain logic | EasyEngineCore — framework-free typing, settings, macros, smart switch, converter, clipboard, translation | in-repo, no external dependency | `EasyEngineCore/` |
@@ -161,12 +154,12 @@ maintainer would change together.
 | Static analysis | SwiftLint + SwiftFormat (configs kept in sync; installed via Homebrew) | unavailable (Homebrew-managed) | `.swiftlint.yml`, `.swiftformat`, `Makefile` |
 | CI pipeline | Hosted macOS runners; parallel test shards (unit + UI shards) with merged coverage gate | runner image macOS 15 (declared in CI workflow; local mirror in `Makefile`) | `Makefile`, [product overview](../product/overview.md) |
 | Build orchestration | `make` + `xcodebuild` (`EasyKey.xcodeproj`, scheme `EasyKeyApp`) | makefile-defined | `Makefile` |
-| Release packaging | Shell scripts (`Scripts/*.sh`: archive, export, notarize, staple, DMG, verify) + Python 3 stdlib-only appcast generator | Python 3, stdlib only | `Scripts/generate-appcast.py`, [RELEASE.md](../engineering/release.md) |
+| Release packaging | Shell scripts (`Scripts/*.sh`: archive, export, notarize, staple, DMG, verify) + Python 3 stdlib-only appcast generator | Python 3, stdlib only | `Scripts/generate-appcast.py`, [distribution.md](../operations/distribution.md) |
 
 ## Language and toolchain
 
 Swift compiles in Swift 5 language mode across all targets
-(`SWIFT_VERSION = 5.0`); [CONVENTIONS.md](../engineering/conventions.md) forbids
+(`SWIFT_VERSION = 5.0`); [rulebook.md](../engineering/rulebook.md) forbids
 introducing Swift 6-only syntax without an explicit migration. Xcode 15+ is
 the documented build requirement ([setup](../engineering/setup.md)); the CI
 pipeline selects the latest stable Xcode (`setup-xcode` `latest-stable`) on
@@ -215,7 +208,7 @@ under `Scripts/` (archive, export, notarize, staple, DMG creation, arch
 verification) plus one Python 3 script, `Scripts/generate-appcast.py`, which
 appends signed items to the Sparkle appcast. The release pipeline is
 parameterized by CI variables and secrets — see
-[RELEASE.md](../engineering/release.md) and the configuration reference.
+[distribution.md](../operations/distribution.md) and the configuration reference.
 
 ## Why this stack shape
 

@@ -19,8 +19,8 @@ docforge_provenance:
     - id: "supported-locales"
       sources:
         - path: "EasyKeyApp/Localizable.xcstrings"
-          git_blob: "d6fabb5d84a934d490a2bc9b67f643caf6e3d44f"
-          git_blob_normalized: "d6fabb5d84a934d490a2bc9b67f643caf6e3d44f"
+          git_blob: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
+          git_blob_normalized: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
           role: "config"
         - path: "EasyKeyApp/Localization/AppLanguage.swift"
           git_blob: "2add0345da3e50e736e3f18c12f4db48f21b6793"
@@ -30,8 +30,8 @@ docforge_provenance:
     - id: "known-limits"
       sources:
         - path: "EasyKeyApp/Localization/LocalizationStore.swift"
-          git_blob: "e5f835840227d9850828061a66dd34534de6dafb"
-          git_blob_normalized: "e5f835840227d9850828061a66dd34534de6dafb"
+          git_blob: "3654eaa64e85cd9d613f5e6c13d334894473e8e9"
+          git_blob_normalized: "3654eaa64e85cd9d613f5e6c13d334894473e8e9"
           role: "code"
         - path: "EasyEngineCore/Translation/SupportedLanguages.swift"
           git_blob: "0091dea40cb4db68095afd1afe3127b319402260"
@@ -49,10 +49,10 @@ _Last reviewed: 2026-08-13_
 
 | Locale | Coverage | Fallback |
 |---|---|---|
-| `en` (English) | Full — source language of the catalog; all 430 keys | None (source) |
-| `vi` (Vietnamese) | Full — every one of the 430 keys carries a Vietnamese translation | English |
+| `en` (English) | Full — source language of the catalog; all 444 keys | None (source) |
+| `vi` (Vietnamese) | Full — every one of the 444 keys carries a Vietnamese translation | English |
 
-Coverage was verified by enumerating the catalog: 430 of 430 keys have both `en` and `vi` entries (0 keys missing either locale). The interface language can be `system`, `en`, or `vi`, persisted under the UserDefaults key `interfaceLanguage`; `system` resolves to Vietnamese when the user's preferred language is Vietnamese, otherwise English. When a specific translation is missing at runtime, lookup falls back to English, then the compiled `.lproj` bundle, then `String(localized:)` — so a missing `vi` string degrades to English, never to a raw key.
+Coverage was verified by enumerating the catalog: 444 of 444 keys have both `en` and `vi` entries (0 keys missing either locale). The interface language can be `system`, `en`, or `vi`, persisted under the UserDefaults key `interfaceLanguage`; `system` resolves to Vietnamese when the user's preferred language is Vietnamese, otherwise English. When a specific translation is missing at runtime, lookup falls back to English, then the compiled `.lproj` bundle, then `String(localized:)` — so a missing `vi` string degrades to English, never to a raw key.
 
 ## Known limits
 

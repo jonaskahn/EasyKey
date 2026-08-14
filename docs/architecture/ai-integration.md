@@ -1,7 +1,4 @@
 ---
-id: "ai_integration"
-title: "Ai Integration"
-description: "Model/provider boundary, prompts/inputs, outputs, evaluation, safety, privacy, failure"
 docforge_provenance:
   schema: "2.0"
   doc_id: "ai_integration"
@@ -19,69 +16,66 @@ docforge_provenance:
     - id: "ai-integration"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          role: "code"
       unresolved: []
     - id: "promptinput-surface"
       sources:
         - path: "EasyKeyApp/Features/Translation/SelectedTextCapture.swift"
-          role: "code"
           git_blob: "c4124fe1499209bf7096f8bbdecb394d8df95f80"
+          role: "code"
         - path: "EasyEngineCore/Translation/TranslationRequest.swift"
-          role: "code"
           git_blob: "58f100adfd94b13ed6e9a0689983a9446f8491f0"
-        - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
+          role: "code"
       unresolved: []
     - id: "output-handling"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-        - path: "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift"
           git_blob: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
+          role: "code"
       unresolved: []
     - id: "safety-and-evaluation"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+          role: "code"
         - path: "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift"
-          role: "code"
           git_blob: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
-        - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/HostSafety.swift"
           git_blob: "aa72f5153134c6af68fc6f486da1bdcccbbb084d"
+          role: "code"
       unresolved: []
     - id: "failure-and-fallback"
       sources:
         - path: "EasyKeyApp/Features/Translation/AppleTranslationProvider.swift"
-          role: "code"
           git_blob: "b214166c0c4a16d48731844087c4810f4af89ca9"
-        - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift"
           git_blob: "a58ea2ffd3149408365009e036353d1c130b3056"
+          role: "code"
       unresolved: []
     - id: "privacy-boundary"
       sources:
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-        - path: "docs/security/data-handling.md"
-          role: "doc"
-          git_blob: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
-          git_blob_normalized: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-          role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
+          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
+          role: "code"
       unresolved: []
 ---
 # AI integration
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey has no trained or fine-tuned model of its own — model-quality claims are therefore out of scope. This document covers the integration boundary only: what reaches a model, through which provider, and what happens to the result. Translation runs either on-device (Apple Translation, macOS 15+) or through a user-configured cloud provider; the runtime resolves the active provider from platform capability and configured credentials. Typing itself never touches a model.
 
@@ -128,9 +122,9 @@ The provider response lands in the translation model and is rendered in the tran
 ## Privacy boundary
 
 - **Does user data leave the system in the prompt?** Yes, but only under explicit conditions: a cloud provider must be selected and configured, and a request is sent only from a translation surface (editor, popover, or hotkey panel) when the user translates or the configured auto-translate delay elapses after an edit. Typing and clipboard content never reach a provider.
-- **Is it retained by the provider?** EasyKey does not know — providers handle submitted text under their own terms (documented per-provider in [data-handling.md](../security/data-handling.md)). EasyKey itself does not proxy or log source text, results, or history, and writes nothing to disk; an in-memory session (source text + result) is held until app restart under the default `sessionPersistence = .keepUntilRestart` policy and cleared on surface close only under `.clearOnClose` ([data-handling.md](../security/data-handling.md)).
+- **Is it retained by the provider?** EasyKey does not know — providers handle submitted text under their own terms. EasyKey itself does not proxy or log source text, results, or history, and writes nothing to disk; an in-memory session (source text + result) is held until app restart under the default `sessionPersistence = .keepUntilRestart` policy and cleared on surface close only under `.clearOnClose`.
 - **Credentials:** API keys live in the user's Keychain, device-only and non-synchronizing (`KeychainTranslationCredentialStore`); validation is a live endpoint check that does not submit source text.
 
-See [data-handling](../security/data-handling.md) for the data-flow classification and [threat-model](../security/threat-model.md) for the model/provider call as an external trust boundary.
+The permission footprint and trust boundaries around this integration are covered in the [security section](../security/README.md).
 
 Model-quality or safety claims for a self-trained model would belong to a model lifecycle document, not here — this repository trains no model.

@@ -54,10 +54,6 @@ docforge_provenance:
           git_blob: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
           git_blob_normalized: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
           role: "doc"
-        - path: "docs/reference/limitations.md"
-          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
-          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
-          role: "doc"
       unresolved: []
 ---
 # Accessibility

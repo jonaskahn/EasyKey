@@ -19,8 +19,8 @@ docforge_provenance:
     - id: "artifacts"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
@@ -53,8 +53,8 @@ docforge_provenance:
     - id: "api-stability"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
@@ -83,19 +83,15 @@ docforge_provenance:
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
-          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
-          role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
       unresolved: []
 ---
 # Publishing
 
-_Last reviewed: 2026-08-03_
+_Last reviewed: 2026-08-15_
 
 **Honest state:** `EasyKeyKit` and `EasyEngineCore` are in-repository framework
 targets of the EasyKey Xcode project. They are internal app modules: there is
@@ -136,7 +132,7 @@ Downstream readers never re-derive it: `Scripts/create-dmg.sh` reads
 3. Publish — none. There is no registry or channel: no `Package.swift` exists
    anywhere in the repository, so the frameworks are not Swift packages, and
    they ship only inside the distributed DMG through the app release pipeline
-   ([release.md](release.md)).
+   documented in [distribution](../operations/distribution.md).
 
 **Required gate:** the app-level gates — `make qa` (tests plus artifact
 verification) and the CI 90% coverage gate — because the frameworks never
@@ -185,7 +181,8 @@ must equal the release tag without the `v`.
 
 **Unpublish:** not supported — no external channel exists, so there is
 nothing to pull back. A framework version never ships standalone; only the
-app ships, and app rollback is the release guide's procedure.
+app ships, and app rollback is documented in
+[distribution](../operations/distribution.md).
 
 **Deprecate:** not supported — with no versioned public API or distribution
 channel, there is no mechanism to mark a framework version deprecated. API
@@ -193,7 +190,8 @@ change policy is the app's own release process.
 
 **Patch forward:** the only evidenced path. Fix in the source tree, bump
 `MARKETING_VERSION`, and release through the app pipeline
-([release.md](release.md)). Note that the appcast tooling rejects re-inserting
-an identical build or enclosure URL, so a re-ship requires a new build number.
+([distribution](../operations/distribution.md)). Note that the appcast tooling
+rejects re-inserting an identical build or enclosure URL, so a re-ship
+requires a new build number.
 
 Released changes: record in [CHANGELOG.md](../../CHANGELOG.md).

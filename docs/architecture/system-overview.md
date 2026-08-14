@@ -1,7 +1,4 @@
 ---
-id: "system_overview"
-title: "System Overview"
-description: "Major capabilities, the components each touches and its owning flow, the primary end-to-end path tying features together, and the boundary systems"
 docforge_provenance:
   schema: "2.1"
   doc_id: "system_overview"
@@ -19,50 +16,55 @@ docforge_provenance:
     - id: "system-overview"
       sources:
         - path: "docs/architecture/high-level.md"
+          git_blob: "5a847d1021f6394960b291a77419f6417acc30bd"
+          git_blob_normalized: "5a847d1021f6394960b291a77419f6417acc30bd"
           role: "doc"
-          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
-          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
         - path: "docs/flows/README.md"
-          role: "doc"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          role: "doc"
         - path: ".docforge/tmp/flow-graph.json"
-          role: "manifest"
           git_blob: "908611da74a9394034e0444c761481351d43ad08"
+          git_blob_normalized: "908611da74a9394034e0444c761481351d43ad08"
+          role: "manifest"
       unresolved: []
     - id: "primary-end-to-end-path"
       sources:
         - path: "docs/flows/keyboard-typing.md"
-          role: "doc"
           git_blob: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
+          git_blob_normalized: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
+          role: "doc"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          role: "code"
           git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          role: "code"
         - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
-          role: "code"
           git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
+          role: "code"
       unresolved: []
     - id: "feature-owning-flow-subsystem"
       sources:
         - path: "docs/flows/README.md"
-          role: "doc"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
-        - path: ".docforge/tmp/flow-graph.json"
-          role: "manifest"
-          git_blob: "908611da74a9394034e0444c761481351d43ad08"
-        - path: "docs/architecture/high-level.md"
+          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
           role: "doc"
-          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
-          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
+        - path: ".docforge/tmp/flow-graph.json"
+          git_blob: "908611da74a9394034e0444c761481351d43ad08"
+          git_blob_normalized: "908611da74a9394034e0444c761481351d43ad08"
+          role: "manifest"
+        - path: "docs/architecture/high-level.md"
+          git_blob: "5a847d1021f6394960b291a77419f6417acc30bd"
+          git_blob_normalized: "5a847d1021f6394960b291a77419f6417acc30bd"
+          role: "doc"
       unresolved: []
 ---
 # System overview
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
-EasyKey is a macOS menu-bar utility with three main-priority capabilities: Vietnamese keyboard typing transformation (Telex/Simple Telex/VNI) that runs entirely on the machine through a session-wide CGEvent tap; a private clipboard history manager whose capture is memory-only by default with opt-in encrypted persistence; and translation through Apple's on-device framework (macOS 15+) or user-configured cloud providers. Typing and clipboard content never cross a network boundary; the only outbound calls are translation requests from explicit translation surfaces and the Sparkle update check. Component detail per capability lives in [high-level.md](high-level.md) and [low-level.md](low-level.md); this page routes to the flows.
+EasyKey is a macOS menu-bar utility with three main-priority capabilities: Vietnamese keyboard typing transformation (Telex/Simple Telex/VNI) that runs entirely on the machine through a session-wide CGEvent tap; a private clipboard history manager whose capture is memory-only by default with opt-in encrypted persistence; and translation through Apple's on-device framework (macOS 15+) or user-configured cloud providers. Typing and clipboard content never cross a network boundary; the only outbound calls are translation requests from explicit translation surfaces and the Sparkle update check. Component detail per capability lives in [high-level.md](high-level.md); this page routes to the flows.
 
 ```mermaid
 flowchart LR

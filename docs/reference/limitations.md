@@ -1,7 +1,4 @@
 ---
-id: "limitations"
-title: "Limitations"
-description: "Known bounds, trigger, impact, workaround, and source evidence."
 docforge_provenance:
   schema: "2.0"
   doc_id: "limitations"
@@ -19,141 +16,129 @@ docforge_provenance:
     - id: "limitations-and-known-issues"
       sources:
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "known-limitations"
       sources:
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
           git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
-        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
           git_blob: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
           git_blob_normalized: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
           git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
           git_blob_normalized: "d9d56d371db322150cd74a358258fe7243989bab"
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
           git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
           git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-        - path: "EasyEngineCore/Clipboard/ClipboardEntry.swift"
           role: "code"
+        - path: "EasyEngineCore/Clipboard/ClipboardEntry.swift"
           git_blob: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
           git_blob_normalized: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
-        - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
+        - path: "EasyKeyApp/AppDelegate.swift"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
           git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          role: "code"
         - path: "EasyKeyApp/Info.plist"
-          role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
           git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          role: "config"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
           git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
           role: "code"
+        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
           git_blob: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
           git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
-        - path: "docs/engineering/release.md"
-          role: "doc"
-          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
-          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          role: "code"
       unresolved: []
     - id: "known-issues"
       sources:
         - path: "Makefile"
-          role: "config"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          role: "config"
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKeyApp/AppDelegate.swift"
-          role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
           git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          role: "code"
       unresolved: []
     - id: "not-supported"
       sources:
         - path: "README.md"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKey.xcodeproj/project.pbxproj"
+          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
+          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
-          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
-        - path: "docs/engineering/release.md"
-          role: "doc"
-          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
-          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
-          role: "code"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
           git_blob_normalized: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          role: "code"
       unresolved: []
     - id: "scale-and-performance-envelope"
       sources:
         - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
-          role: "code"
           git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
           git_blob_normalized: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-        - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           role: "code"
+        - path: "EasyEngineCore/Settings/SettingsRepository.swift"
           git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
           git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-        - path: "EasyEngineCore/Macros/MacroStore.swift"
           role: "code"
+        - path: "EasyEngineCore/Macros/MacroStore.swift"
           git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
           git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-        - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           role: "code"
+        - path: "EasyEngineCore/Translation/TranslationOptions.swift"
           git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
           git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
+          role: "code"
       unresolved: []
     - id: "deployment-specific-caveats"
       sources:
-        - path: "docs/engineering/release.md"
-          role: "doc"
-          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
-          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
           git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
           role: "code"
+        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
           git_blob: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
           git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
+          role: "code"
         - path: "Makefile"
-          role: "config"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          role: "config"
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
           git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
-        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
           git_blob: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
           git_blob_normalized: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
+          role: "code"
       unresolved: []
 ---
 # Limitations and known issues
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 Read this before building on EasyKey. Several limits are deliberate
 consequences of macOS platform behavior or of the app's privacy posture —
@@ -173,7 +158,7 @@ Design constraints and deliberate trade-offs — the shape of the system, not de
 | Clipboard source attribution | `ClipboardSource.applicationName` / `bundleIdentifier` are advisory: macOS exposes no pasteboard source, so attribution can be missing or wrong. | The clipboard panel may show no source or a misattributed one. | Treat source display as informational only. | `ClipboardEntry.swift` |
 | Accessory app windows | The app runs as an accessory (`LSUIElement`, activation policy `.accessory`), so its windows do not appear in the Dock or Cmd-Tab and cannot reliably become the key window in normal operation. | Users cannot switch to EasyKey like a regular app; paste-in-place and panel focus depend on panel subclasses overriding `canBecomeKey`. | Panels are presented from the menu bar; Settings opens from the menu. No workaround needed for normal use. | `AppDelegate.swift`, `Info.plist` |
 | Apple Translation availability | On-device Apple Translation exists only on macOS 15+ (`AppTranslationRuntime` builds the Apple provider only under `if #available(macOS 15.0, *)` and constructs `TranslationPlatformCapability(supportsAppleTranslation: false)` on older systems). On macOS 14 the Apple provider is unsupported and Automatic resolution falls back to a configured cloud provider. | macOS 14 users get no on-device translation option. | Configure a cloud provider, or leave translation off. | `AppTranslationRuntime.swift`, `TranslationPlatformCapability.swift` |
-| Ad-hoc signed distribution | Current public builds are universal and ad-hoc signed but not Developer ID notarized. | Gatekeeper blocks first launch with an "unidentified developer" warning. | Control-click → Open, or System Settings → Privacy & Security → Open Anyway. | [RELEASE.md](../engineering/release.md) |
+| Ad-hoc signed distribution | Current public builds are universal and ad-hoc signed but not Developer ID notarized. | Gatekeeper blocks first launch with an "unidentified developer" warning. | Control-click → Open, or System Settings → Privacy & Security → Open Anyway. | [distribution.md](../operations/distribution.md) |
 
 ## Known issues
 
@@ -192,7 +177,7 @@ Things a reasonable person expects and will not find.
 - Input Method Kit input sources. EasyKey uses a `CGEvent` tap plus the Accessibility API instead — a deliberate architecture choice (see [product overview](../product/overview.md)); no IMK input source is produced.
 - Any non-macOS platform. The deployment target is macOS 14.0+ (`MACOSX_DEPLOYMENT_TARGET`, `LSMinimumSystemVersion`); the build defines no iOS, iPadOS, or other Apple-platform targets in the Xcode project.
 - Cloud-translation proxying. EasyKey sends source text directly to the selected provider from translation surfaces only; there is no EasyKey relay server, and this is a privacy feature, not a gap.
-- Notarized distribution as of the current public release. The release pipeline is wired for Developer ID signing and notarization (see [RELEASE.md](../engineering/release.md)) but requires certificate and notary credentials that current builds do not ship with.
+- Notarized distribution as of the current public release. The release pipeline is wired for Developer ID signing and notarization (see [distribution.md](../operations/distribution.md)) but requires certificate and notary credentials that current builds do not ship with.
 - Synchronizing or cloud-backed clipboard history. Persisted history is AES-GCM sealed with a device-only, non-synchronizing Keychain key (`ClipboardKeyStore`); no clipboard data leaves the device.
 
 ## Scale and performance envelope
@@ -211,6 +196,6 @@ Beyond these figures the system is untested rather than known to fail.
 ## Deployment-specific caveats
 
 - On macOS 14, translation settings expose cloud providers only; the Apple card is hidden because the platform capability is false.
-- Manual release gates in [RELEASE.md](../engineering/release.md) require re-testing the login helper after reboot and after macOS upgrade, Accessibility reauthorization when bundle identity or signing team changes, and a Sparkle rejection test with an unsigned archive.
+- Release verification in [distribution.md](../operations/distribution.md) covers the artifact checks (`verify-arch.sh` for both architectures, `verify-release.sh` for bundled LICENSE/NOTICE/THIRD_PARTY_NOTICES, and spctl assessment on the signed path).
 - `make test-parallel` is a sharded convenience; treat its failures as suspicious until confirmed by a serial `make test` run.
 - Spotlight behavior notes above apply to every macOS version EasyKey supports.

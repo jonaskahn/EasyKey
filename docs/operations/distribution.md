@@ -1,7 +1,4 @@
 ---
-id: "distribution"
-title: "Distribution"
-description: "Artifact, build, signing, packaging, channels, verification, update/rollback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "distribution"
@@ -20,91 +17,94 @@ docforge_provenance:
       sources:
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
+          git_blob_normalized: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
           role: "code"
         - path: "Scripts/verify-arch.sh"
           git_blob: "3a880113167f02293703e9c864a819543a1afd59"
+          git_blob_normalized: "3a880113167f02293703e9c864a819543a1afd59"
           role: "code"
         - path: "Scripts/verify-release.sh"
           git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
+          git_blob_normalized: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          role: "doc"
       unresolved: []
     - id: "sparkle-update-channel"
       sources:
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
+          git_blob_normalized: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "code"
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          role: "doc"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
+          git_blob_normalized: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "history"
       unresolved: []
     - id: "signing-status"
       sources:
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/notarize.sh"
           git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
           role: "code"
         - path: "Scripts/staple.sh"
           git_blob: "80200416ce69633be60a3d3317fcc27799ee7a7f"
+          git_blob_normalized: "80200416ce69633be60a3d3317fcc27799ee7a7f"
           role: "code"
         - path: "Scripts/verify-release.sh"
           git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
+          git_blob_normalized: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          role: "doc"
       unresolved: []
     - id: "update-and-rollback"
       sources:
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
+          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
-        - path: "docs/engineering/release.md"
-          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
-          role: "doc"
       unresolved: []
 ---
 # Distribution
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey ships through two channels, both fed by the same universal artifact: direct download of a DMG from the repository's Releases page, and Sparkle in-app updates driven by an HTTPS appcast. What differs per channel is how the artifact is discovered and authenticated. There is no app-store channel — nothing in the repository evinces an app-store submission, approval, or timeline. The authorized operator for every channel is the maintainer, who holds release-write and `gh-pages` write access; publishing, revoking, and rolling back are all manual, maintainer-only actions.
 
@@ -121,7 +121,7 @@ EasyKey ships through two channels, both fed by the same universal artifact: dir
 1. Build — the same universal DMG; the appcast workflow requires exactly one `EasyKey-*-universal.dmg` in the release and fails otherwise.
 2. Sign — on `release: released`, the appcast workflow downloads the pinned Sparkle 2.9.4 tool tarball and verifies its SHA-256 (`expected_sha256`, checked inline with `shasum -a 256 -c`) before executing anything; `Scripts/check-sparkle-pin.sh` guards that this pin and its check remain present in the workflow, a pin in place since commit `be5c1b2` ("fix(security): pin Sparkle tarball download by SHA256"). The workflow then signs every released DMG with Sparkle's `sign_update --ed-key-file` using the `SPARKLE_PRIVATE_ED_KEY` secret, which never leaves CI secrets.
 3. Publish — `Scripts/generate-appcast.py` inserts a new `<item>` into `appcast.xml` on the `gh-pages` branch: title, `pubDate`, Sparkle `version`/`shortVersionString`/`minimumSystemVersion`, and an enclosure carrying the DMG URL, byte length, and the EdDSA `edSignature`. The script validates that the enclosure URL is absolute HTTPS, that the minimum system version has numeric components only, and refuses to insert a duplicate build number or duplicate enclosure URL; writes are atomic and preserve file mode. The workflow commits and pushes `appcast.xml`.
-4. Verify — the enclosure URL points at the published release's download path and is only written after the release is public (the trigger is `release: released`, so the URL always resolves for end users). Client-side, `UpdateService.hasReleaseConfiguration` enables Sparkle only when `SUFeedURL` is an HTTPS URL and `SUPublicEDKey` is a non-empty value with no build-setting tokens (`$(...)`); Sparkle then verifies the EdDSA signature of the downloaded archive before installing, per [release.md](../engineering/release.md).
+4. Verify — the enclosure URL points at the published release's download path and is only written after the release is public (the trigger is `release: released`, so the URL always resolves for end users). Client-side, `UpdateService.hasReleaseConfiguration` enables Sparkle only when `SUFeedURL` is an HTTPS URL and `SUPublicEDKey` is a non-empty value with no build-setting tokens (`$(...)`); Sparkle then verifies the EdDSA signature of the downloaded archive before installing.
 
 ## Signing status
 
@@ -130,7 +130,7 @@ EasyKey ships through two channels, both fed by the same universal artifact: dir
 | `make local-dmg` | ad-hoc (`-`) | no | yes — CI runs this and public builds ship this way |
 | `make dmg` | Developer ID (Manual) | yes — app and DMG via `notarize.sh` + `staple.sh` | no — scripted and documented, not wired into CI |
 
-Current public builds are universal and ad-hoc signed, but not Developer ID notarized: the release workflow's explicit TODO (Developer ID signing and notarization staged "once Apple cert is available") and [release.md](../engineering/release.md) document this, and [README](../README.md) instructs users who hit the Gatekeeper block to Control-click → Open (or System Settings → Privacy & Security → Open Anyway). The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs are listed in [release.md](../engineering/release.md) (`DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables). Until a certificate lands, treat notarized distribution as future capability, not current behavior.
+Current public builds are universal and ad-hoc signed, but not Developer ID notarized: the release workflow's explicit TODO (Developer ID signing and notarization staged "once Apple cert is available") documents this, and [README](../README.md) instructs users who hit the Gatekeeper block to Control-click → Open (or System Settings → Privacy & Security → Open Anyway). The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs — `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables — are enforced by `Scripts/archive.sh` and `Scripts/notarize.sh`. Until a certificate lands, treat notarized distribution as future capability, not current behavior.
 
 ## Update and rollback
 
@@ -142,4 +142,4 @@ Rollback has the same rigor as publish: every appcast item is EdDSA-signed, and 
 2. Unpublish or delete the release so direct downloads stop resolving.
 3. Tell affected users to reinstall the previous DMG — clients cannot install an archive whose signature does not verify, and there is no server-side kill switch to force a downgrade.
 
-Authorized role for every step: the maintainer. No secret material appears in this procedure: `SPARKLE_PRIVATE_ED_KEY` exists only as a CI secret, and credentials are stored in Keychain or CI secrets per [release.md](../engineering/release.md).
+Authorized role for every step: the maintainer. No secret material appears in this procedure: `SPARKLE_PRIVATE_ED_KEY` exists only as a CI secret, and credentials are stored in Keychain or CI secrets.

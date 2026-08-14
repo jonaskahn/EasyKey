@@ -1,7 +1,4 @@
 ---
-id: "product_overview"
-title: "Product Overview"
-description: "Users, problems, capabilities, explicit non-goals"
 docforge_provenance:
   schema: "2.0"
   doc_id: "product_overview"
@@ -19,8 +16,8 @@ docforge_provenance:
     - id: "what-easykey-does"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "docs/flows/telex.md"
           git_blob: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
@@ -34,15 +31,15 @@ docforge_provenance:
     - id: "who-its-for"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
       unresolved: []
     - id: "capabilities"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "EasyEngineCore/Translation/TranslationProviderID.swift"
           git_blob: "d494c06ab4bc4fba8eaafdc2b51430f0e9cbc33d"
@@ -69,37 +66,34 @@ docforge_provenance:
           git_blob_normalized: "300fdc2bd48af4f46cf2e9cd6f51dab9114c1781"
           role: "code"
         - path: "EasyKeyApp/Localizable.xcstrings"
-          git_blob: "d6fabb5d84a934d490a2bc9b67f643caf6e3d44f"
-          git_blob_normalized: "d6fabb5d84a934d490a2bc9b67f643caf6e3d44f"
+          git_blob: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
+          git_blob_normalized: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
           role: "config"
       unresolved: []
     - id: "boundaries-and-non-goals"
       sources:
         - path: "README.md"
-          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
-          role: "doc"
-        - path: "docs/security/data-handling.md"
-          git_blob: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
-          git_blob_normalized: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
+          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
           role: "doc"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
           git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
           role: "code"
         - path: "docs/reference/limitations.md"
-          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
-          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
+          git_blob: "355ff29d68cc611293889973aeb80c951e797ae8"
+          git_blob_normalized: "355ff29d68cc611293889973aeb80c951e797ae8"
           role: "doc"
       unresolved: []
     - id: "where-to-go-next"
       sources:
         - path: "docs/flows/README.md"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
           role: "doc"
         - path: "docs/reference/README.md"
-          git_blob: "75f4d1cd343f02f86fa451f4b6fa4a160298de44"
-          git_blob_normalized: "75f4d1cd343f02f86fa451f4b6fa4a160298de44"
+          git_blob: "0ce215295807dfce3703dff3da14c752a40a3c1f"
+          git_blob_normalized: "0ce215295807dfce3703dff3da14c752a40a3c1f"
           role: "doc"
       unresolved: []
 ---
@@ -148,4 +142,3 @@ Anyone who types Vietnamese on a Mac and wants it to "just work" in every applic
 - [README](../README.md) — install, build, and default shortcuts
 - [Flows](../flows/README.md) — how keyboard typing, clipboard history, and translation actually behave
 - [Reference](../reference/README.md) — compatibility, limitations, and configuration detail
-- [Privacy](../security/data-handling.md) — data flows and provider handling
