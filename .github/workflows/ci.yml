@@ -160,6 +160,9 @@ jobs:
           # TranslationSession and crash the test process (SIGSEGV) on hosted runners
           # (no system translation daemon); they run in the non-blocking known-broken
           # shard below.
+          # Real-window click-then-verify (sheet presentation) — hosted runners cannot
+          # key an AppKit window, so presentation blocks the shard for the full per-test
+          # timeout. Runs in the known-broken shard for coverage.
           - shard: unit-3
             filter: >-
               -only-testing:EasyKeyTests/ViewRenderingCoverageTests
@@ -199,9 +202,6 @@ jobs:
               -only-testing:EasyKeyTests/KeyboardInputPipelineLanguageToggleTests
               -only-testing:EasyKeyTests/LoginHelperHardeningTests
               -only-testing:EasyKeyTests/SmartSwitchStoreAsyncSaveTests
-              # Real-window click-then-verify (sheet presentation) — hosted runners
-              # cannot key an AppKit window, so presentation blocks the shard for the
-              # full per-test timeout. Runs in the known-broken shard for coverage.
               -skip-testing:EasyKeyTests/ViewRenderingCoverageTests/testAboutSettingsView_OpenLicensesButton_PresentsSheet
           - shard: unit-4
             filter: >-

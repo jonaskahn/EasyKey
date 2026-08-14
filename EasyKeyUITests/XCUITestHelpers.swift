@@ -89,6 +89,14 @@ extension XCUIApplication {
         let settingsDetail = descendants(matching: .any)["SettingsDetail"].firstMatch
         guard element.exists, window.exists, settingsDetail.exists else { return element.exists }
 
+        // Hosted runners never key the app window, so its frame reports zero and
+        // synthesized drags cannot scroll anything. Skip the scroll loop entirely
+        // and fall back to the final in-tree check instead of burning 15 slow
+        // drag iterations per element.
+        let windowFrame = window.frame
+        guard windowFrame.width > 0, windowFrame.height > 0 else { return element.exists }
+
+        var previousFrame = CGRect.zero
         for _ in 0 ..< maximumScrolls {
             let elementFrame = element.frame
             if elementFrame.width > 0,
@@ -96,6 +104,10 @@ extension XCUIApplication {
                elementFrame.minY < window.frame.maxY {
                 return element.isHittable || elementFrame.maxY <= window.frame.maxY
             }
+            // No resolvable frame, or the drag no longer moves the element:
+            // further iterations are wasted time.
+            guard elementFrame.width > 0, elementFrame != previousFrame else { break }
+            previousFrame = elementFrame
             // Scroll toward the element: down if it is below the window, up if above.
             if settingsDetail.isHittable {
                 if elementFrame.maxY > window.frame.minY {
