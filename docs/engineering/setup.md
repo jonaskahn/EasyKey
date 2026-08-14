@@ -19,69 +19,86 @@ docforge_provenance:
     - id: "prerequisites"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "docs/reference/tech-stack.md"
-          git_blob: "d73c28f8dd37e7d2b0d77404c798830dc4aa4485"
+          git_blob: "59c9d316ad97e7dfef4d9a8b16c0c60caee27fd6"
+          git_blob_normalized: "59c9d316ad97e7dfef4d9a8b16c0c60caee27fd6"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/notarize.sh"
           git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
           role: "code"
       unresolved: []
     - id: "steps"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
+          git_blob_normalized: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
           role: "code"
       unresolved:
         - "<REPOSITORY_URL>"
     - id: "verify"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/qa-gate.sh"
           git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
+          git_blob_normalized: "148320feb241615087d1cda4ef51cac8706e78bf"
           role: "code"
         - path: "Scripts/verify-qa-artifacts.sh"
           git_blob: "11ce62a91f372b4527c134c17645b8c7b655f51b"
+          git_blob_normalized: "11ce62a91f372b4527c134c17645b8c7b655f51b"
           role: "code"
         - path: "Scripts/check-test-registration.sh"
           git_blob: "4a36185850f52eac0e1796f1313b86b1a666c322"
+          git_blob_normalized: "4a36185850f52eac0e1796f1313b86b1a666c322"
           role: "code"
       unresolved: []
     - id: "common-problems"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
+          git_blob_normalized: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
           role: "code"
       unresolved: []
     - id: "next"
       sources:
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
+          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
       unresolved: []
 ---
 # Local setup
@@ -207,9 +224,12 @@ Security → Accessibility and relaunch EasyKey.
 swiftlint"** — this is the skip behavior, not an error; the target still
 exits successfully. Run `brew install swiftlint` to enable the check.
 
-**UI tests flake during `make test-parallel`** — all shards share one
-`UserDefaults` domain on a single Mac. Fall back to the serial run with
-`make test`; the Makefile documents this limitation.
+**UI tests fail under `make test-parallel` ("Lost connection to the
+application")** — every UI shard launches the same `EasyKey.app` bundle, so
+one shard's `app.launch()`/`terminate()` can kill another shard's app
+mid-test; the unit shard is app-hosted and dies the same way. The Makefile
+runs local shards serially by design, so fall back to `make test` for the
+reliable serial run.
 
 **`make local-dmg` fails with "SPARKLE_PUBLIC_ED_KEY environment variable is
 not set"** — the Makefile's release-config check catches a missing

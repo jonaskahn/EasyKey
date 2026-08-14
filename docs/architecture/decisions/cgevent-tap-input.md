@@ -19,7 +19,11 @@ docforge_provenance:
     - id: "context-and-problem-statement"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          role: "doc"
+        - path: "docs/product/overview.md"
+          git_blob: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
+          git_blob_normalized: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
           role: "doc"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
           git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
@@ -40,7 +44,7 @@ docforge_provenance:
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "consequences"

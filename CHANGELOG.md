@@ -19,127 +19,137 @@ docforge_provenance:
     - id: "changelog"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/reference/platform-compatibility.md"
-          git_blob: "87ac5088eb1eb189249ca982cf9e418340e8dcc1"
-          git_blob_normalized: "87ac5088eb1eb189249ca982cf9e418340e8dcc1"
+          git_blob: "3eda5dd55758f61fa806a5087768df66bda7cd93"
+          git_blob_normalized: "3eda5dd55758f61fa806a5087768df66bda7cd93"
           role: "doc"
       unresolved: []
-    - id: "008-2026-08-13"
+    - id: "008-2026-08-14"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "007-2026-07-23"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
         - path: "docs/security/threat-model.md"
-          git_blob: "56c7498a173ff87203b6373c09c1e8b6b5f0855d"
-          git_blob_normalized: "56c7498a173ff87203b6373c09c1e8b6b5f0855d"
+          git_blob: "0c96a2bc8ea87a22d6711cd939bfde103f493d5b"
+          git_blob_normalized: "0c96a2bc8ea87a22d6711cd939bfde103f493d5b"
           role: "doc"
       unresolved: []
     - id: "006-2026-07-22"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "005-2026-07-21"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "004-2026-07-21"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "003-2026-07-21"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "002-2026-07-21"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "001-2026-07-18"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "docs/product/overview.md"
-          git_blob: "463e7774ac299d864da913a20fcda7ee75171eb4"
-          git_blob_normalized: "463e7774ac299d864da913a20fcda7ee75171eb4"
+          git_blob: "3f9f95906bd0faddd240184937acdf36897efcce"
+          git_blob_normalized: "3f9f95906bd0faddd240184937acdf36897efcce"
           role: "doc"
       unresolved: []
     - id: "release-history"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "history"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
 ---
 # Changelog
 
-_Last reviewed: 2026-08-14_
+_Last reviewed: 2026-08-15_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
+
+## [0.0.10] - Unreleased
+
+**Added**
+
+- Selectable menu bar icon style: 12 styles with localized names in System settings; the default is "Inverted Solid Capsule (Dark Pill)" and the E/V letter still follows the active input language.
+
+**Changed**
+
+- Menu bar icons (all styles plus the pause and health indicators) render 1.2× larger.
 
 ## [0.0.9] - 2026-08-14
 
@@ -147,7 +157,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 - Macro categories when adding or editing are now English, Vietnamese, or Both; the 9x and Gen Z packs remain available as sample macros only.
 
-## [0.0.8] - 2026-08-13
+## [0.0.8] - 2026-08-14
 
 **Added**
 
@@ -234,4 +244,4 @@ Initial public release of the EasyKey Vietnamese typing utility. The current cap
 
 ## Release history
 
-The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 and 0.0.9 are not tagged yet and are summarized from the commits since `v0.0.7`. The full commit history is in git.
+The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 and 0.0.9 (both tagged 2026-08-14) are summarized from the commits since `v0.0.7` and the `v0.0.8`/`v0.0.9` tag history. The Unreleased section covers changes not yet in a tagged release. The full commit history is in git.

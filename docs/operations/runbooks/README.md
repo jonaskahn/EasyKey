@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "runbooks_index"
   path: "docs/operations/runbooks/README.md"
-  generated_at: "2026-08-13T12:05:04Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -16,67 +16,91 @@ docforge_provenance:
     provider: "codegraph"
     flow: "none"
   sections:
+    - id: "runbooks"
+      sources:
+        - path: "docs/operations/README.md"
+          role: "doc"
+          git_blob: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+          git_blob_normalized: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+      unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "aec2487a702a755dcfd080d0d8921cbe0b3bb2bf"
+          git_blob: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+          git_blob_normalized: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+          git_blob: "c509b0e4ed53082420edb4fd56a9de5158573962"
+          git_blob_normalized: "c509b0e4ed53082420edb4fd56a9de5158573962"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+          git_blob: "c509b0e4ed53082420edb4fd56a9de5158573962"
+          git_blob_normalized: "c509b0e4ed53082420edb4fd56a9de5158573962"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
+          git_blob: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
+          git_blob_normalized: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
+          git_blob: "c3e35c4f249388455c140eb1602cd5c1883293b2"
+          git_blob_normalized: "c3e35c4f249388455c140eb1602cd5c1883293b2"
         - path: "docs/architecture/platform-integration.md"
           role: "doc"
-          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
+          git_blob: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
+          git_blob_normalized: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
+        - path: "docs/security/permissions.md"
+          role: "doc"
+          git_blob: "61ce3b9fb16abc5c4b4ca74dbad9e2e4be39c9e4"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+          git_blob: "c509b0e4ed53082420edb4fd56a9de5158573962"
+          git_blob_normalized: "c509b0e4ed53082420edb4fd56a9de5158573962"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
+          git_blob: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
+          git_blob_normalized: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
         - path: "docs/architecture/platform-integration.md"
           role: "doc"
-          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
+          git_blob: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
+          git_blob_normalized: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
         - path: "docs/operations/observability.md"
           role: "doc"
-          git_blob: "2a446332896ed1314e5136dfa30a8e9708d290a6"
+          git_blob: "c3e35c4f249388455c140eb1602cd5c1883293b2"
+          git_blob_normalized: "c3e35c4f249388455c140eb1602cd5c1883293b2"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/operations/deployment.md"
           role: "doc"
-          git_blob: "be236f34aca5c44878cca3422e9a7f5356459578"
+          git_blob: "c509b0e4ed53082420edb4fd56a9de5158573962"
+          git_blob_normalized: "c509b0e4ed53082420edb4fd56a9de5158573962"
         - path: "docs/operations/distribution.md"
           role: "doc"
-          git_blob: "81c218a74d54e2570a3e52075ea822906e7e75a5"
+          git_blob: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
+          git_blob_normalized: "fb66df90810b034a6d8a9fc160736547d1e0bc99"
       unresolved: []
     - id: "related-sections"
       sources:
         - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "aec2487a702a755dcfd080d0d8921cbe0b3bb2bf"
+          git_blob: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+          git_blob_normalized: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
         - path: "docs/README.md"
           role: "doc"
-          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
+          git_blob: "c26bf46583357c8db29f627fbc0deb41cd7df290"
+          git_blob_normalized: "c26bf46583357c8db29f627fbc0deb41cd7df290"
       unresolved: []
 ---
 # Runbooks
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 This section is where EasyKey's runbooks live: step-by-step recovery procedures for operational incidents — a bad release, a lost permission, a broken update channel. It exists so the operator (in practice the project's maintainer) has a checklist to follow under pressure instead of reconstructing the procedure from memory. No runbooks are written yet; the procedures they would contain are owned by the operations documents below, which this README routes to.
 

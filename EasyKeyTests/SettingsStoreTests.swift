@@ -14,11 +14,30 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertFalse(settings.system.launchAtLogin)
         XCTAssertFalse(settings.system.showDockIcon)
         XCTAssertTrue(settings.system.checkForUpdates)
+        XCTAssertEqual(settings.system.menuBarIconStyle, .style9)
         XCTAssertEqual(
             settings.compatibility.compatibilityModeApplicationBundleIdentifiers,
             ["com.google.Chrome", "org.chromium.Chromium"]
         )
         XCTAssertTrue(settings.compatibility.ignoredApplicationBundleIdentifiers.isEmpty)
+    }
+
+    func testMenuBarIconStyle_DecodesWithMissingKey_DefaultsToStyle9() throws {
+        let data = Data(#"{"grayMenuIcon":true}"#.utf8)
+        let decoded = try JSONDecoder().decode(SystemOptions.self, from: data)
+        XCTAssertEqual(decoded.menuBarIconStyle, .style9)
+    }
+
+    func testMenuBarIconStyle_RoundTripsAllCases() throws {
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        for style in SystemOptions.MenuBarIconStyle.allCases {
+            var options = SystemOptions()
+            options.menuBarIconStyle = style
+            let data = try encoder.encode(options)
+            let decoded = try decoder.decode(SystemOptions.self, from: data)
+            XCTAssertEqual(decoded.menuBarIconStyle, style)
+        }
     }
 
     func testLegacyCompatibilitySettingsReceiveNewDefaults() throws {

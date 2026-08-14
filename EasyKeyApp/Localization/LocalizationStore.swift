@@ -123,6 +123,23 @@ final class LocalizationStore: ObservableObject {
         }
     }
 
+    func displayName(for style: SystemOptions.MenuBarIconStyle) -> String {
+        switch style {
+        case .style1: string(.systemMenuBarIconStyleStyle1)
+        case .style2: string(.systemMenuBarIconStyleStyle2)
+        case .style3: string(.systemMenuBarIconStyleStyle3)
+        case .style4: string(.systemMenuBarIconStyleStyle4)
+        case .style5: string(.systemMenuBarIconStyleStyle5)
+        case .style6: string(.systemMenuBarIconStyleStyle6)
+        case .style7: string(.systemMenuBarIconStyleStyle7)
+        case .style8: string(.systemMenuBarIconStyleStyle8)
+        case .style9: string(.systemMenuBarIconStyleStyle9)
+        case .style10: string(.systemMenuBarIconStyleStyle10)
+        case .style11: string(.systemMenuBarIconStyleStyle11)
+        case .style12: string(.systemMenuBarIconStyleStyle12)
+        }
+    }
+
     func sectionTitle(_ section: SettingsSection) -> String {
         switch section {
         case .typing: string(.settingsSectionTyping)

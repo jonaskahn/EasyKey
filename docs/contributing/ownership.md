@@ -19,8 +19,8 @@ docforge_provenance:
     - id: "how-ownership-is-determined"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
@@ -49,16 +49,16 @@ docforge_provenance:
     - id: "related-sections"
       sources:
         - path: "docs/contributing/README.md"
-          git_blob: "16b33f4a8f3fe2c3f3db4120cfe2725a5c3de606"
-          git_blob_normalized: "16b33f4a8f3fe2c3f3db4120cfe2725a5c3de606"
+          git_blob: "59e3e103d99df204be23e56c2de1ec7046b3cbb7"
+          git_blob_normalized: "59e3e103d99df204be23e56c2de1ec7046b3cbb7"
           role: "doc"
         - path: "docs/README.md"
-          git_blob: "9a4dbfbe7042df6537e860182440b00397f0fcd7"
-          git_blob_normalized: "9a4dbfbe7042df6537e860182440b00397f0fcd7"
+          git_blob: "c26bf46583357c8db29f627fbc0deb41cd7df290"
+          git_blob_normalized: "c26bf46583357c8db29f627fbc0deb41cd7df290"
           role: "doc"
         - path: "CONTRIBUTING.md"
-          git_blob: "1260b44b0820fc338baaf80d94f1715e90d5affc"
-          git_blob_normalized: "1260b44b0820fc338baaf80d94f1715e90d5affc"
+          git_blob: "1b1b57b236d58d396171f33d65f64c01ac5bc5bf"
+          git_blob_normalized: "1b1b57b236d58d396171f33d65f64c01ac5bc5bf"
           role: "doc"
       unresolved: []
 ---
@@ -66,13 +66,13 @@ docforge_provenance:
 
 _Last reviewed: 2026-08-13_
 
-This document records who owns each area of the EasyKey repository — what each area covers, what owning it means, and where to escalate. EasyKey is maintained by a single primary developer: every commit on the main branch (128 in total) is authored by one person under two author-name spellings (`jonaskahn` / `Jonas`) and two email spellings of the same mailbox: `tuyendev@gmail.com` (30 commits) and `tuyendev@gmai.com` (98 commits — a typo variant of the same mailbox). Ownership here therefore means *where the authority for an area lives*, not distinct people, and the escalation route for every area is the same: open an issue on the repository, which the primary developer routes.
+This document records who owns each area of the EasyKey repository — what each area covers, what owning it means, and where to escalate. EasyKey is maintained by a single primary developer: every commit on the main branch (138 in total) is authored by one person under two author-name spellings (`jonaskahn` / `Jonas`) and two email spellings of the same mailbox: `tuyendev@gmail.com` (40 commits) and `tuyendev@gmai.com` (98 commits — a typo variant of the same mailbox). Ownership here therefore means *where the authority for an area lives*, not distinct people, and the escalation route for every area is the same: open an issue on the repository, which the primary developer routes.
 
 ## How ownership is determined
 
 There is no automated owner-declaration file — no Code Owners file exists anywhere in the repository — so ownership is established from repository evidence rather than a declared map:
 
-- **Commit history** — `git shortlog -sne` on the main branch shows a single developer across all 128 commits (the `gh-pages` branch adds bot-authored commits and is excluded). Per-directory commit volume (`git log --oneline -- <dir> | wc -l`) indicates where work concentrates: `EasyKeyApp` 73, `EasyKeyTests` 66, `EasyEngineCore` 41, `EasyKey.xcodeproj` 28, `EasyKeyKit` 28, `EasyKeyUITests` 18, `docs` 17, `Scripts` 9, `EasyKeyLoginHelper` 3, `Fixtures` 2. Volume is evidence of activity, not of distinct owners.
+- **Commit history** — `git shortlog -sne` on the main branch shows a single developer across all 138 commits (the `gh-pages` branch adds bot-authored commits and is excluded). Per-directory commit volume (`git log --oneline -- <dir> | wc -l`) indicates where work concentrates: `EasyKeyApp` 75, `EasyKeyTests` 69, `EasyEngineCore` 41, `EasyKey.xcodeproj` 30, `EasyKeyKit` 29, `EasyKeyUITests` 21, `docs` 20, `Scripts` 10, `EasyKeyLoginHelper` 3, `Fixtures` 2. Volume is evidence of activity, not of distinct owners.
 - **Documentation authority** — the repository README and the documents under `docs/` (per-section indexes plus the detail documents) are the stated home for design, decisions, and conventions. [Engineering conventions](../engineering/rulebook.md) define how code is written and reviewed but make no area-ownership statements; the authority for each area's decisions lives in the READMEs and documents that cover it.
 
 ## Owned areas

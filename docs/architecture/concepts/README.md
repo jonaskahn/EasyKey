@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "concepts_index"
   path: "docs/architecture/concepts/README.md"
-  generated_at: "2026-08-13T12:05:04Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -16,20 +16,30 @@ docforge_provenance:
     provider: "codegraph"
     flow: "none"
   sections:
+    - id: "architecture-concepts"
+      sources:
+        - path: "docs/architecture/README.md"
+          role: "doc"
+          git_blob: "620a661337c9a4371fd2c8869d87d7c2a9565886"
+          git_blob_normalized: "620a661337c9a4371fd2c8869d87d7c2a9565886"
+      unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/architecture/README.md"
           role: "doc"
-          git_blob: "95d57cee5559b85c1ece0674766ce33232b71358"
+          git_blob: "620a661337c9a4371fd2c8869d87d7c2a9565886"
+          git_blob_normalized: "620a661337c9a4371fd2c8869d87d7c2a9565886"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/architecture/README.md"
           role: "doc"
-          git_blob: "95d57cee5559b85c1ece0674766ce33232b71358"
+          git_blob: "620a661337c9a4371fd2c8869d87d7c2a9565886"
+          git_blob_normalized: "620a661337c9a4371fd2c8869d87d7c2a9565886"
         - path: "docs/architecture/decisions/README.md"
           role: "doc"
-          git_blob: "6f0b80df275ccf5bd2bdf030d5f86daa7d9d18cf"
+          git_blob: "c3262ff98548a8a04c6955900fe355025ab649d5"
+          git_blob_normalized: "c3262ff98548a8a04c6955900fe355025ab649d5"
         - path: "docs/flows/README.md"
           role: "doc"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
@@ -41,13 +51,16 @@ docforge_provenance:
           git_blob: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
         - path: "docs/architecture/system-overview.md"
           role: "doc"
-          git_blob: "bd0032be15a6f3d8478c52e8d5e9a23bd424df48"
+          git_blob: "cbe348cefa7414187e483c42bfd778ed95b47aa4"
+          git_blob_normalized: "cbe348cefa7414187e483c42bfd778ed95b47aa4"
         - path: "docs/architecture/high-level.md"
           role: "doc"
-          git_blob: "de19fd5b1baf054a270285ff0a7e30fc35d6fec7"
+          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
+          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
         - path: "docs/architecture/platform-integration.md"
           role: "doc"
-          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
+          git_blob: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
+          git_blob_normalized: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
       unresolved: []
     - id: "detailed-documentation"
       sources:
@@ -56,18 +69,20 @@ docforge_provenance:
           git_blob: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
         - path: "docs/architecture/platform-integration.md"
           role: "doc"
-          git_blob: "e813aa3dd2fc4c8a50c6f95d132971b8dfd04592"
+          git_blob: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
+          git_blob_normalized: "d7ee4e97a03ce5b07090b876f65ef790fa4b4eb7"
       unresolved: []
     - id: "related-sections"
       sources:
         - path: "docs/README.md"
           role: "doc"
-          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
+          git_blob: "c26bf46583357c8db29f627fbc0deb41cd7df290"
+          git_blob_normalized: "c26bf46583357c8db29f627fbc0deb41cd7df290"
       unresolved: []
 ---
 # Architecture concepts
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 This section is where EasyKey's architecture concepts belong: documents that explain a design idea — how something works, why it works that way, and what it buys the project — without the step-level detail of a flow or the rationale of a decision record. It exists so engineers can build a mental model of EasyKey's design before reading the structural or behavioral documents. No concept documents exist in this folder yet; until one materializes, this README routes readers to the sections that currently own that material.
 

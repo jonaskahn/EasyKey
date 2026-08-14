@@ -20,8 +20,8 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "known-limitations"
       sources:
@@ -63,19 +63,19 @@ docforge_provenance:
           git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
       unresolved: []
     - id: "known-issues"
       sources:
         - path: "Makefile"
           role: "config"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
@@ -85,16 +85,16 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
           role: "code"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
@@ -127,8 +127,8 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
@@ -139,8 +139,8 @@ docforge_provenance:
           git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
         - path: "Makefile"
           role: "config"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
         - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
           role: "code"
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
@@ -173,7 +173,7 @@ Design constraints and deliberate trade-offs — the shape of the system, not de
 | Clipboard source attribution | `ClipboardSource.applicationName` / `bundleIdentifier` are advisory: macOS exposes no pasteboard source, so attribution can be missing or wrong. | The clipboard panel may show no source or a misattributed one. | Treat source display as informational only. | `ClipboardEntry.swift` |
 | Accessory app windows | The app runs as an accessory (`LSUIElement`, activation policy `.accessory`), so its windows do not appear in the Dock or Cmd-Tab and cannot reliably become the key window in normal operation. | Users cannot switch to EasyKey like a regular app; paste-in-place and panel focus depend on panel subclasses overriding `canBecomeKey`. | Panels are presented from the menu bar; Settings opens from the menu. No workaround needed for normal use. | `AppDelegate.swift`, `Info.plist` |
 | Apple Translation availability | On-device Apple Translation exists only on macOS 15+ (`AppTranslationRuntime` builds the Apple provider only under `if #available(macOS 15.0, *)` and constructs `TranslationPlatformCapability(supportsAppleTranslation: false)` on older systems). On macOS 14 the Apple provider is unsupported and Automatic resolution falls back to a configured cloud provider. | macOS 14 users get no on-device translation option. | Configure a cloud provider, or leave translation off. | `AppTranslationRuntime.swift`, `TranslationPlatformCapability.swift` |
-| Ad-hoc signed distribution | Current public builds are universal and ad-hoc signed but not Developer ID notarized. | Gatekeeper blocks first launch with an "unidentified developer" warning. | Control-click → Open, or System Settings → Privacy & Security → Open Anyway. | [product overview](../product/overview.md), [RELEASE.md](../engineering/release.md) |
+| Ad-hoc signed distribution | Current public builds are universal and ad-hoc signed but not Developer ID notarized. | Gatekeeper blocks first launch with an "unidentified developer" warning. | Control-click → Open, or System Settings → Privacy & Security → Open Anyway. | [RELEASE.md](../engineering/release.md) |
 
 ## Known issues
 
@@ -182,7 +182,7 @@ Defects under investigation.
 | Issue | Symptom | Affected versions | Status |
 |---|---|---|---|
 | Headless CI hit-testing | Real-window click-then-verify-effect UI tests cannot reliably run on hosted macOS CI runners: the accessibility tree is queryable and `isHittable` reports true, but window activation never lands, so tests flake or fail. EasyKey therefore activates as a `.regular` app under `--uitesting`. | CI only; not a shipped-app behavior | Known; the affected test shard is executed but never blocks merge (see [Makefile](../../Makefile) shard filters and the AppDelegate comment). |
-| Parallel UI test shards | `make test-parallel` shards share one `UserDefaults` domain on a single Mac, so UI shards may flake against each other's persisted state. | Local parallel runs | Known; `make test` (serial) is the reliable local default; CI runs shards on separate runners. |
+| Parallel UI test shards | `make test-parallel` runs its shards serially on one Mac because every shard launches the same `EasyKey.app` bundle (`EasyKeyTests` is app-hosted via `TEST_HOST`), so concurrent shards would kill each other's app instances mid-test ("Lost connection to the application"). | Local runs of the sharded target | Known; `make test` (serial) is the reliable local default; CI runs each shard on its own runner and can parallelize. |
 | Spotlight startup detection race | The `CGWindowListCopyWindowInfo` poll does not see the Spotlight panel instantly; keystrokes in that gap bypass the workaround. | All macOS versions | Documented platform behavior, not fixable from outside Spotlight. |
 
 ## Not supported

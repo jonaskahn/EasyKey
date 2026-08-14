@@ -19,10 +19,10 @@ docforge_provenance:
     - id: "direct-download-channel"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
@@ -34,7 +34,8 @@ docforge_provenance:
           git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
       unresolved: []
     - id: "sparkle-update-channel"
@@ -43,7 +44,7 @@ docforge_provenance:
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
@@ -52,7 +53,8 @@ docforge_provenance:
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
@@ -61,10 +63,10 @@ docforge_provenance:
     - id: "signing-status"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -79,7 +81,8 @@ docforge_provenance:
           git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
       unresolved: []
     - id: "update-and-rollback"
@@ -88,13 +91,14 @@ docforge_provenance:
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
           role: "config"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
       unresolved: []
 ---
@@ -126,7 +130,7 @@ EasyKey ships through two channels, both fed by the same universal artifact: dir
 | `make local-dmg` | ad-hoc (`-`) | no | yes — CI runs this and public builds ship this way |
 | `make dmg` | Developer ID (Manual) | yes — app and DMG via `notarize.sh` + `staple.sh` | no — scripted and documented, not wired into CI |
 
-Current public builds are universal and ad-hoc signed, but not Developer ID notarized: [README](../README.md) states this and instructs users to Control-click → Open (or System Settings → Privacy & Security → Open Anyway) on first launch. The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs are listed in [release.md](../engineering/release.md) (`DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables). CI's release workflow carries an explicit TODO to re-enable this path once an Apple Developer certificate is available. Until then, treat notarized distribution as future capability, not current behavior.
+Current public builds are universal and ad-hoc signed, but not Developer ID notarized: the release workflow's explicit TODO (Developer ID signing and notarization staged "once Apple cert is available") and [release.md](../engineering/release.md) document this, and [README](../README.md) instructs users who hit the Gatekeeper block to Control-click → Open (or System Settings → Privacy & Security → Open Anyway). The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs are listed in [release.md](../engineering/release.md) (`DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables). Until a certificate lands, treat notarized distribution as future capability, not current behavior.
 
 ## Update and rollback
 

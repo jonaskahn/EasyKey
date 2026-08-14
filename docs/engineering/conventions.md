@@ -32,12 +32,15 @@ docforge_provenance:
       sources:
         - path: ".swiftlint.yml"
           git_blob: "90631d6319ce50e321f2e8f6936145b08d98d92f"
+          git_blob_normalized: "90631d6319ce50e321f2e8f6936145b08d98d92f"
           role: "config"
         - path: ".swiftformat"
           git_blob: "ac27429273e1daa282d4a73177cebd2dae238705"
+          git_blob_normalized: "ac27429273e1daa282d4a73177cebd2dae238705"
           role: "config"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
       unresolved: []
     - id: "swift-5-language-mode"
@@ -125,18 +128,22 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
       unresolved: []
     - id: "90-coverage-gate"
       sources:
         - path: "Scripts/check-coverage.sh"
           git_blob: "062819eb35129c6a6cd891d330643dee7a45db1a"
+          git_blob_normalized: "062819eb35129c6a6cd891d330643dee7a45db1a"
           role: "code"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
       unresolved: []
     - id: "fixture-driven-engine-conformance"
@@ -164,33 +171,40 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
       unresolved: []
     - id: "review"
       sources:
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
       unresolved: []
     - id: "ci-gates-every-change"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
       unresolved: []
     - id: "qa-gate-before-release-candidates"
       sources:
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
         - path: "Scripts/qa-gate.sh"
           git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
+          git_blob_normalized: "148320feb241615087d1cda4ef51cac8706e78bf"
           role: "code"
       unresolved: []
 ---
@@ -394,9 +408,12 @@ never normalize reruns as the solution. Retrying transient failures is
 acceptable only as a CI mechanism, not as a resolution.
 
 **Evidence:** rulebook.md section 9 states the rule; the Makefile documents
-the shared-`UserDefaults` flake risk for parallel UI shards and prescribes
-the serial `make test` fallback; CI keeps the known-broken hosted-runner UI
-tests in a dedicated shard with an explicit reason and continue-on-error.
+why shards cannot run concurrently on one Mac — every UI shard launches the
+same `EasyKey.app` bundle and `EasyKeyTests` is app-hosted, so one shard's
+`app.launch()`/`terminate()` kills another shard's app instances — and
+therefore runs local shards serially with per-test timeouts; CI keeps the
+known-broken hosted-runner tests in a dedicated shard with an explicit
+reason and continue-on-error.
 
 **If not followed:** review rejection; the quarantine route is the documented
 known-broken shard pattern.
@@ -415,9 +432,9 @@ and the 90% coverage gate.
 **Enforced by:** the CI workflow (`ci.yml`); the lint job runs
 `swiftformat --lint .` and `swiftlint lint`, the structure job runs
 `Scripts/check-test-registration.sh` and builds each framework standalone,
-the test job runs the sharded matrix and fails shards that executed zero
-tests, and the coverage job merges result bundles and enforces the
-threshold.
+the test job runs the sharded matrix with per-test timeouts and fails shards
+that executed zero tests, and the coverage job merges result bundles and
+enforces the threshold.
 
 **Applies to:** every push and pull request to `main`.
 

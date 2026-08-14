@@ -19,49 +19,62 @@ docforge_provenance:
     - id: "prerequisites"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/notarize.sh"
           git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
           role: "code"
       unresolved: []
     - id: "version"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "config"
         - path: "CHANGELOG.md"
-          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
+          git_blob_normalized: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
           role: "doc"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
+          git_blob_normalized: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
           role: "code"
       unresolved: []
     - id: "build"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/export.sh"
           git_blob: "e170e5fc9d887543ed6fffe7b757544380376ae1"
+          git_blob_normalized: "e170e5fc9d887543ed6fffe7b757544380376ae1"
           role: "code"
         - path: "Scripts/notarize.sh"
           git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
+          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
           role: "code"
         - path: "Scripts/staple.sh"
           git_blob: "80200416ce69633be60a3d3317fcc27799ee7a7f"
+          git_blob_normalized: "80200416ce69633be60a3d3317fcc27799ee7a7f"
           role: "code"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
+          git_blob_normalized: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
           role: "code"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "verification"
@@ -83,12 +96,15 @@ docforge_provenance:
       sources:
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
         - path: "Scripts/check-sparkle-pin.sh"
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
+          git_blob_normalized: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
           role: "code"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
       unresolved: []
     - id: "rollback"
@@ -136,7 +152,7 @@ Semantic Versioning"). Major: breaking changes · Minor: new features ·
 Patch: bug fixes.
 
 The version's single source of truth is `MARKETING_VERSION` (currently
-0.0.9) with `CURRENT_PROJECT_VERSION` (currently 7) in
+0.0.10) with `CURRENT_PROJECT_VERSION` (currently 8) in
 `EasyKey.xcodeproj/project.pbxproj`. Everything downstream reads it from the
 built app's `Info.plist`: the DMG filename is `EasyKey-<version>-universal.dmg`
 (`Scripts/create-dmg.sh` reads `CFBundleShortVersionString`), and the release
@@ -156,9 +172,10 @@ tag must match it — both release workflows abort when the tag is not
    verification.
 3. Current state of CI: the release workflow currently runs `make local-dmg`
    (ad-hoc signed, not notarized) because Developer ID signing and
-   notarization are staged but disabled pending an Apple certificate; public
-   builds are described as ad-hoc signed in the README. Use `make dmg` for a
-   fully signed release until that is re-enabled.
+   notarization are staged but disabled pending an Apple certificate; the
+   README's install note ("If macOS blocks the app: Control-click
+   **EasyKey** → **Open**") reflects the unsigned Gatekeeper state. Use
+   `make dmg` for a fully signed release until that is re-enabled.
 4. Local alternative without Developer ID or notary credentials — `make
    local-dmg` — verify: `DMG created: build/EasyKey-<version>-universal.dmg`.
    Notarization and stapling are skipped.
@@ -200,16 +217,19 @@ maintainer performing the release.
    auto-update-eligible until the release is public, because the appcast
    enclosure URL must resolve publicly.
 3. Publishing triggers the appcast workflow: it downloads the universal DMG,
-   verifies the tag still matches the built version, downloads the pinned
-   Sparkle tools — the SHA-256 pin (`expected_sha256`, checked inline with
-   `shasum -a 256 -c -`) lives in the CI publish workflow;
-   `Scripts/check-sparkle-pin.sh` is a manual verification aid that asserts the
-   pin and its `shasum` check are present in the workflow — signs the DMG with
-   Sparkle's `sign_update` using the private EdDSA key from CI secrets, and
-   appends one `<item>` to `appcast.xml` on the `gh-pages` branch via
+   mounts it, and reads version, build number, and minimum system version
+   from the built app's Info.plist, verifying the tag still matches the
+   version; it downloads the pinned Sparkle tools — the SHA-256 pin
+   (`expected_sha256`, checked inline with `shasum -a 256 -c -`) lives in
+   the CI publish workflow; `Scripts/check-sparkle-pin.sh` is a manual
+   verification aid that asserts the pin and its `shasum` check are present
+   in the workflow — signs the DMG with Sparkle's `sign_update` using the
+   private EdDSA key from CI secrets, and appends one `<item>` to
+   `appcast.xml` on the `gh-pages` branch via
    `Scripts/generate-appcast.py` — verify: the appcast served at the
    configured `SPARKLE_FEED_URL` contains a new `<item>` whose enclosure URL
-   resolves and whose `edSignature` is present.
+   resolves, whose `edSignature` is present, and whose
+   `sparkle:minimumSystemVersion` matches the release.
 4. In-app: `UpdateService`
    (`EasyKeyApp/Coordination/UpdateService.swift`) configures
    `SPUStandardUpdaterController` with `startingUpdater: false`; `start()`,
@@ -217,10 +237,13 @@ maintainer performing the release.
    Sparkle's standard schedule takes over — there is no custom delay,
    randomization, or check cadence. `checkForUpdates()` invokes Sparkle's
    user-initiated check. The updater is disabled entirely unless the release
-   build configuration is present: `hasReleaseConfiguration` requires an HTTPS
-   `SUFeedURL` and a non-empty `SUPublicEDKey` in the built app's Info.plist
-   (no unresolved placeholders), so testing builds never check for updates.
-   Users receive the update after step 2.
+   build configuration is present: `hasReleaseConfiguration` requires an
+   HTTPS `SUFeedURL` and a non-empty `SUPublicEDKey` in the built app's
+   Info.plist (no unresolved placeholders). Test processes never instantiate
+   Sparkle at all — `isTesting` (the `--uitesting` launch argument or an
+   `XCTestConfigurationFilePath` environment) suppresses configuration and
+   `startUpdater()` — so testing builds never check for updates. Users
+   receive the update after step 2.
 
 ## Rollback
 

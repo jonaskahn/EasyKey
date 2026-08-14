@@ -122,12 +122,12 @@ docforge_provenance:
     - id: "compliance-evidence"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/product/overview.md"
-          git_blob: "463e7774ac299d864da913a20fcda7ee75171eb4"
-          git_blob_normalized: "463e7774ac299d864da913a20fcda7ee75171eb4"
+          git_blob: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
+          git_blob_normalized: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
           role: "doc"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
@@ -270,8 +270,8 @@ permission-restricted and exclude translation, engine, and update categories.
 
 The repository evidences the following, and nothing beyond it:
 
-- No analytics or telemetry collection ([product overview](../product/overview.md) Private by
-  Design, [Privacy](data-handling.md)).
+- No analytics or telemetry collection ([README](../README.md) Private by Design,
+  [product overview](../product/overview.md)).
 - Device-only, non-synchronizing Keychain items for credentials and keys.
 - AES-GCM authenticated encryption with key deletion on clear and on
   persistence disable.

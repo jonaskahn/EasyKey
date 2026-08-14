@@ -148,16 +148,16 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
           git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
         - path: "Makefile"
           role: "config"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
         - path: "Scripts/notarize.sh"
           role: "code"
           git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
@@ -168,8 +168,8 @@ docforge_provenance:
           git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
       unresolved: []
 ---
 # Configuration
@@ -320,6 +320,7 @@ menu popover widths are raw pixel values (280–640).
 | Launch at login | `system.launchAtLogin` | `false` | settings document + SMAppService | No |
 | Show Dock icon | `system.showDockIcon` | `false` | settings document | No |
 | Gray menu-bar icon | `system.grayMenuIcon` | `false` | settings document | No |
+| Menu bar icon style | `system.menuBarIconStyle` | `style9` | settings document | No |
 | Show settings at launch | `system.showSettingsAtLaunch` | `false` | settings document | No |
 | Check for updates | `system.checkForUpdates` | `true` | settings document | No |
 | Menu popover width | `system.menuPopoverWidth` | `small` (360) | settings document | No |

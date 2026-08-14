@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "contributing_index"
   path: "docs/contributing/README.md"
-  generated_at: "2026-08-13T12:08:16Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -20,66 +20,79 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+          git_blob: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
+          git_blob_normalized: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+          git_blob: "b1a7fed674d124c795a640c43ec29987fde62c5a"
+          git_blob_normalized: "b1a7fed674d124c795a640c43ec29987fde62c5a"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+          git_blob: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
+          git_blob_normalized: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+          git_blob: "b1a7fed674d124c795a640c43ec29987fde62c5a"
+          git_blob_normalized: "b1a7fed674d124c795a640c43ec29987fde62c5a"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+          git_blob: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
+          git_blob_normalized: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+          git_blob: "b1a7fed674d124c795a640c43ec29987fde62c5a"
+          git_blob_normalized: "b1a7fed674d124c795a640c43ec29987fde62c5a"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+          git_blob: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
+          git_blob_normalized: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+          git_blob: "b1a7fed674d124c795a640c43ec29987fde62c5a"
+          git_blob_normalized: "b1a7fed674d124c795a640c43ec29987fde62c5a"
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
+          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/contributing/ownership.md"
           role: "doc"
-          git_blob: "bb4f8c662906fad3766f93e76c196dcc34ff2418"
+          git_blob: "b1a7fed674d124c795a640c43ec29987fde62c5a"
+          git_blob_normalized: "b1a7fed674d124c795a640c43ec29987fde62c5a"
       unresolved: []
     - id: "related-sections"
       sources:
         - path: "docs/README.md"
           role: "doc"
-          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
+          git_blob: "c26bf46583357c8db29f627fbc0deb41cd7df290"
+          git_blob_normalized: "c26bf46583357c8db29f627fbc0deb41cd7df290"
         - path: "docs/engineering/README.md"
           role: "doc"
-          git_blob: "eb772ae315052f41c6bd2267dbc0886260ba0447"
+          git_blob: "c03c59e32926a00ee9ef8344d5df235dd690a4e0"
+          git_blob_normalized: "c03c59e32926a00ee9ef8344d5df235dd690a4e0"
       unresolved: []
 ---
 # Contributing
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 This section routes contributors to how EasyKey is built on: who owns what in the repository, and the engineering workflows for setup, testing, and shipping. Anyone planning to change the codebase should start with the root [Contributing guide](../../CONTRIBUTING.md), which owns the overall contribution process; this page is its section-level router.
 

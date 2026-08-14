@@ -52,12 +52,12 @@ docforge_provenance:
           git_blob_normalized: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "EasyKeyApp/AppDelegate.swift"
           role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
@@ -80,8 +80,8 @@ docforge_provenance:
           git_blob_normalized: "cbff7d5a4ea3f0690ff7b7962acafec1e9c88a0c"
         - path: "docs/security/data-handling.md"
           role: "doc"
-          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
-          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
+          git_blob: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
+          git_blob_normalized: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
       unresolved: []
 ---
 # Glossary

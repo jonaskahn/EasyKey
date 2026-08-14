@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "security_root"
   path: "SECURITY.md"
-  generated_at: "2026-08-13T12:18:58Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -19,77 +19,76 @@ docforge_provenance:
     - id: "security-policy"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "security-stance"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/security/data-handling.md"
-          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
-          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
+          git_blob: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
+          git_blob_normalized: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
       unresolved: []
     - id: "supported-scope"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
           role: "config"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
       unresolved: []
     - id: "reporting-a-vulnerability"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/security/threat-model.md"
-          git_blob: "56c7498a173ff87203b6373c09c1e8b6b5f0855d"
-          git_blob_normalized: "56c7498a173ff87203b6373c09c1e8b6b5f0855d"
           role: "doc"
+          git_blob: "0c96a2bc8ea87a22d6711cd939bfde103f493d5b"
+          git_blob_normalized: "0c96a2bc8ea87a22d6711cd939bfde103f493d5b"
       unresolved: []
     - id: "response-expectations"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
           role: "doc"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/security/README.md"
-          git_blob: "67d80093c01fb3815d5db89ba9c5c753806426ae"
-          git_blob_normalized: "67d80093c01fb3815d5db89ba9c5c753806426ae"
           role: "doc"
+          git_blob: "00d2d03c162cf5a3c46fed97b8b9c9cf79e43b7e"
+          git_blob_normalized: "00d2d03c162cf5a3c46fed97b8b9c9cf79e43b7e"
       unresolved: []
     - id: "where-the-detail-lives"
       sources:
         - path: "docs/security/README.md"
-          git_blob: "67d80093c01fb3815d5db89ba9c5c753806426ae"
-          git_blob_normalized: "67d80093c01fb3815d5db89ba9c5c753806426ae"
           role: "doc"
+          git_blob: "00d2d03c162cf5a3c46fed97b8b9c9cf79e43b7e"
+          git_blob_normalized: "00d2d03c162cf5a3c46fed97b8b9c9cf79e43b7e"
         - path: "docs/security/data-handling.md"
-          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
-          git_blob_normalized: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
           role: "doc"
+          git_blob: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
+          git_blob_normalized: "3776d80197dd7c1eace62a995c60c8f37d7731b2"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
           role: "doc"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
       unresolved: []
 ---
 # Security policy
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 EasyKey is a private-by-design macOS menu-bar utility. This page states the security stance, the supported scope for reports, and how to report a vulnerability. Technical analysis lives in the [security section](docs/security/README.md), not here.
 
@@ -103,7 +102,7 @@ EasyKey is a private-by-design macOS menu-bar utility. This page states the secu
 
 ## Supported scope
 
-The current release is **0.0.8**, matching `MARKETING_VERSION` in the Xcode project and the version badge in [README.md](README.md). There is no documented support window for older versions; treat the latest release as the supported one.
+The current release is **0.0.10**, matching `MARKETING_VERSION` in the Xcode project and the version badge in [README.md](README.md). There is no documented support window for older versions; treat the latest release as the supported one.
 
 In scope for security review and reports:
 
@@ -119,7 +118,7 @@ This repository publishes no issue template and no dedicated private reporting a
 
 What to include in a report:
 
-- Steps to reproduce, with the app version (for example 0.0.8) and macOS version.
+- Steps to reproduce, with the app version (for example 0.0.10) and macOS version.
 - What you believe the impact is, and which data or capability is affected.
 - Any configuration that matters (permissions granted, providers configured, persistence enabled).
 

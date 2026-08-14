@@ -29,16 +29,19 @@ docforge_provenance:
           git_blob: "feb7b4ba06bf6bec15596f2320b7974cbb0a6a78"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
       unresolved: []
     - id: "development-dependencies"
       sources:
         - path: "Makefile"
           role: "config"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
         - path: "Scripts/qa-gate.sh"
           role: "config"
           git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
@@ -71,7 +74,8 @@ docforge_provenance:
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
         - path: "docs/architecture/decisions/sparkle-updates.md"
           role: "doc"
-          git_blob: "3af37ac1be4c6c854fb7d0f0fd19e72d10b8061a"
+          git_blob: "b20ed0a33378c98d90fa71fbd3fa68a96bddb003"
+          git_blob_normalized: "b20ed0a33378c98d90fa71fbd3fa68a96bddb003"
       unresolved: []
     - id: "cloud-translation-providers"
       sources:
@@ -107,7 +111,8 @@ docforge_provenance:
           git_blob: "d5fbfa88d05ef88b6d22a9d792292db0a054e75f"
         - path: "Makefile"
           role: "config"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
       unresolved: []
     - id: "generated-inventory"
       sources:

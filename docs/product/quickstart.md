@@ -19,12 +19,12 @@ docforge_provenance:
     - id: "getting-to-your-first-result"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/setup.md"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
-          git_blob_normalized: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
           role: "doc"
         - path: "Fixtures/sample-telex.json"
           git_blob: "a904b2094b8299dee38b8667525a24a75e759017"
@@ -38,12 +38,12 @@ docforge_provenance:
     - id: "what-next"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/setup.md"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
-          git_blob_normalized: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
           role: "doc"
       unresolved: []
 ---

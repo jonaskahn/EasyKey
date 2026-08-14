@@ -2648,6 +2648,227 @@
         }
       }
     },
+    "system.menuBarIconStyle": {
+      "comment": "Menu bar icon style picker",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menu bar icon style"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kiểu biểu tượng thanh menu"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style1": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic 8-Bit Pixel"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pixel 8-bit cổ điển"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style2": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ultra-Minimal Apple Line"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đường nét Apple tối giản"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style3": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bauhaus Geometric"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hình học Bauhaus"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style4": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyberpunk Stencil HUD"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD khuôn mẫu Cyberpunk"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style5": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Micro Pill Badge"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Huy hiệu viên thuốc nhỏ"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style6": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GameBoy LCD Micro-Pixel"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Micro-pixel LCD GameBoy"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style7": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple SF Compact Duotone"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai tông màu SF Compact Apple"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style8": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bauhaus Inverted Negative-Space"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không gian âm đảo ngược Bauhaus"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style9": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inverted Solid Capsule (Dark Pill)"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viên nang đặc đảo ngược (Viên thuốc tối)"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style10": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit Pixel Stepped Drop Shadow"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đổ bóng bậc thang pixel 8-bit"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style11": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zero-Radius Tech Monoline"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monoline công nghệ bán kính 0"
+          }
+        }
+      }
+    },
+    "system.menuBarIconStyle.style12": {
+      "comment": "Menu bar icon style picker option",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bauhaus 60° Apex & Arch"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đỉnh & vòm 60° Bauhaus"
+          }
+        }
+      }
+    },
     "system.openSettingsAtLaunch": {
       "comment": "Toggle",
       "localizations": {

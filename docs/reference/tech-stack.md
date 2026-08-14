@@ -19,27 +19,27 @@ docforge_provenance:
     - id: "tech-stack"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
       unresolved: []
     - id: "language-and-toolchain"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
         - path: "docs/engineering/conventions.md"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
-          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
           role: "doc"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "frameworks"
@@ -61,8 +61,8 @@ docforge_provenance:
           git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "docs/THIRD_PARTY_NOTICES.md"
           git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
@@ -87,8 +87,8 @@ docforge_provenance:
     - id: "testing-and-quality"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: ".swiftlint.yml"
           git_blob: "90631d6319ce50e321f2e8f6936145b08d98d92f"
@@ -99,38 +99,38 @@ docforge_provenance:
           git_blob_normalized: "ac27429273e1daa282d4a73177cebd2dae238705"
           role: "config"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "build-and-release"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
       unresolved: []
     - id: "why-this-stack-shape"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/conventions.md"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
-          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
           role: "doc"
       unresolved: []
 ---
@@ -198,11 +198,14 @@ and panel keep-on-top flags.
 
 XCTest unit suites cover the domain and app layers; XCUITest suites cover
 settings, onboarding, and workflows. The CI pipeline splits tests into
-parallel shards, merges the result bundles, and enforces a 90% line-coverage
-gate (excluding the login helper); the same shards run locally via
-`make test-parallel`. SwiftLint and SwiftFormat configurations live at the
-repo root and are kept in sync with each other (`.swiftlint.yml` ↔
-`.swiftformat`); `make lint` / `make format` run them when installed.
+per-runner parallel shards, merges the result bundles, and enforces a 90%
+line-coverage gate (excluding the login helper); locally `make test-parallel`
+runs a coarser grouping (one unit shard + three UI shards) serially, because
+every shard launches the same `EasyKey.app` bundle and concurrent shards
+would kill each other's app instances (see the Makefile note). SwiftLint and
+SwiftFormat configurations live at the repo root and are kept in sync with
+each other (`.swiftlint.yml` ↔ `.swiftformat`); `make lint` / `make format`
+run them when installed.
 
 ## Build and release
 

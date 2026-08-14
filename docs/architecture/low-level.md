@@ -26,7 +26,8 @@ docforge_provenance:
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
       unresolved: []
     - id: "selected-whiteboxes"
       sources:
@@ -149,7 +150,8 @@ docforge_provenance:
       sources:
         - path: "docs/architecture/concepts/README.md"
           role: "doc"
-          git_blob: "7f4c435022ed209357ce5b9a50ca9e2899668396"
+          git_blob: "1f1171fb5442362dd70999f61a75eeec4a5e8e81"
+          git_blob_normalized: "1f1171fb5442362dd70999f61a75eeec4a5e8e81"
       unresolved: []
     - id: "cross-cutting-concerns"
       sources:

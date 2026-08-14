@@ -187,6 +187,33 @@ final class StatusItemControllerTests: XCTestCase {
         controller.update(settings: settings, keyboardHealth: .active, keyboardPaused: false)
     }
 
+    func testMenuBarAssetName_DefaultStyle9Vietnamese_ReturnsStyle9V() {
+        XCTAssertEqual(
+            StatusItemController.menuBarAssetName(style: .style9, language: .vietnamese),
+            "MenuBarStyle9V"
+        )
+    }
+
+    func testMenuBarAssetName_EnglishStyle3_ReturnsStyle3E() {
+        XCTAssertEqual(
+            StatusItemController.menuBarAssetName(style: .style3, language: .english),
+            "MenuBarStyle3E"
+        )
+    }
+
+    func testMenuBarAssetName_AllStylesFollowLetterRule() {
+        for style in SystemOptions.MenuBarIconStyle.allCases {
+            XCTAssertEqual(
+                StatusItemController.menuBarAssetName(style: style, language: .english),
+                "MenuBarStyle\(style.rawValue)E"
+            )
+            XCTAssertEqual(
+                StatusItemController.menuBarAssetName(style: style, language: .vietnamese),
+                "MenuBarStyle\(style.rawValue)V"
+            )
+        }
+    }
+
     func testTogglePopover_AfterInstall_RefreshesPermission() {
         let (coordinator, tempDirectory) = TestCoordinatorFactory.make()
         defer { try? FileManager.default.removeItem(at: tempDirectory) }

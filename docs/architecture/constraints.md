@@ -20,19 +20,22 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "ceilings"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
         - path: "EasyKeyApp/EasyKeyApp.entitlements"
           role: "config"
           git_blob: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
         - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
@@ -50,7 +53,8 @@ docforge_provenance:
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
         - path: "docs/reference/limitations.md"
           role: "doc"
-          git_blob: "8e3e23bf6b098a52db5efcd4e4328dfea588b6e1"
+          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
+          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
       unresolved: []
     - id: "boundaries"
       sources:
@@ -62,19 +66,22 @@ docforge_provenance:
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "non-goals"
       sources:
         - path: "docs/architecture/decisions/cgevent-tap-input.md"
           role: "doc"
-          git_blob: "ac1023240f0b8125e506db14e142563f83acd5a3"
+          git_blob: "240359fc1e8aeac4f3346f4a77de1b210e5e5105"
+          git_blob_normalized: "240359fc1e8aeac4f3346f4a77de1b210e5e5105"
         - path: "EasyKeyApp/EasyKeyApp.entitlements"
           role: "config"
           git_blob: "e89b7f323cf06c0f693e45a878b20d54db92e85c"
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
 ---
 # Architectural constraints

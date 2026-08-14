@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "docs_index"
   path: "docs/README.md"
-  generated_at: "2026-08-13T12:08:16Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -20,76 +20,96 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/product/README.md"
           role: "doc"
-          git_blob: "a37941beb39de53b2ff78d09063e6ce1a31fb914"
+          git_blob: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
+          git_blob_normalized: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/product/README.md"
           role: "doc"
-          git_blob: "a37941beb39de53b2ff78d09063e6ce1a31fb914"
+          git_blob: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
+          git_blob_normalized: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
         - path: "docs/architecture/README.md"
           role: "doc"
-          git_blob: "4a10cee63a835e78c3e5074c8098a960bf950816"
+          git_blob: "57155dee66eb274f090b4b15c7eefc0e5df1e342"
+          git_blob_normalized: "57155dee66eb274f090b4b15c7eefc0e5df1e342"
         - path: "docs/engineering/README.md"
           role: "doc"
-          git_blob: "adf063c9a13036f2320d54bacdc8f37067ee2c9e"
+          git_blob: "9f886efb84f57e129a60bf12f1a62bf3fbdc6066"
+          git_blob_normalized: "9f886efb84f57e129a60bf12f1a62bf3fbdc6066"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "docs/product/overview.md"
           role: "doc"
-          git_blob: "463e7774ac299d864da913a20fcda7ee75171eb4"
+          git_blob: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
+          git_blob_normalized: "f71493c7ff2b280378f4ce271a3a4104cb576aa1"
         - path: "docs/architecture/high-level.md"
           role: "doc"
-          git_blob: "de19fd5b1baf054a270285ff0a7e30fc35d6fec7"
+          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
+          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/product/quickstart.md"
           role: "doc"
-          git_blob: "c24c73c058829b7152803d1cd971f62f065ced99"
+          git_blob: "de85c44663124b17a23995acab9649b78d6c1972"
+          git_blob_normalized: "de85c44663124b17a23995acab9649b78d6c1972"
         - path: "docs/security/README.md"
           role: "doc"
-          git_blob: "67d80093c01fb3815d5db89ba9c5c753806426ae"
+          git_blob: "5d45d8e6664111ef4148b28345f1e02c7a0d119e"
+          git_blob_normalized: "5d45d8e6664111ef4148b28345f1e02c7a0d119e"
         - path: "docs/reference/limitations.md"
           role: "doc"
-          git_blob: "8e3e23bf6b098a52db5efcd4e4328dfea588b6e1"
+          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
+          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
         - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "3e509591c413b7c1589a0dd3e419ea28e382c209"
+          git_blob: "618b2a2b6e8626b726ced2c3cfd766d7ac4b0446"
+          git_blob_normalized: "618b2a2b6e8626b726ced2c3cfd766d7ac4b0446"
         - path: "docs/contributing/README.md"
           role: "doc"
-          git_blob: "16b33f4a8f3fe2c3f3db4120cfe2725a5c3de606"
+          git_blob: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
+          git_blob_normalized: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
       unresolved: []
     - id: "sections"
       sources:
         - path: "docs/architecture/README.md"
           role: "doc"
-          git_blob: "4a10cee63a835e78c3e5074c8098a960bf950816"
+          git_blob: "57155dee66eb274f090b4b15c7eefc0e5df1e342"
+          git_blob_normalized: "57155dee66eb274f090b4b15c7eefc0e5df1e342"
         - path: "docs/product/README.md"
           role: "doc"
-          git_blob: "a37941beb39de53b2ff78d09063e6ce1a31fb914"
+          git_blob: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
+          git_blob_normalized: "1e8e9d8773cdd8ae607d0dd9b58b70f3f705a914"
         - path: "docs/flows/README.md"
           role: "doc"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
         - path: "docs/engineering/README.md"
           role: "doc"
-          git_blob: "adf063c9a13036f2320d54bacdc8f37067ee2c9e"
+          git_blob: "9f886efb84f57e129a60bf12f1a62bf3fbdc6066"
+          git_blob_normalized: "9f886efb84f57e129a60bf12f1a62bf3fbdc6066"
         - path: "docs/reference/README.md"
           role: "doc"
-          git_blob: "58e0a29e74ddd5120b8108c0b6ed1fd43cd01915"
+          git_blob: "7ddc062e12587483726ab4d2ecacaac59dec8c6b"
+          git_blob_normalized: "7ddc062e12587483726ab4d2ecacaac59dec8c6b"
         - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "3e509591c413b7c1589a0dd3e419ea28e382c209"
+          git_blob: "618b2a2b6e8626b726ced2c3cfd766d7ac4b0446"
+          git_blob_normalized: "618b2a2b6e8626b726ced2c3cfd766d7ac4b0446"
         - path: "docs/security/README.md"
           role: "doc"
-          git_blob: "67d80093c01fb3815d5db89ba9c5c753806426ae"
+          git_blob: "5d45d8e6664111ef4148b28345f1e02c7a0d119e"
+          git_blob_normalized: "5d45d8e6664111ef4148b28345f1e02c7a0d119e"
         - path: "docs/contributing/README.md"
           role: "doc"
-          git_blob: "16b33f4a8f3fe2c3f3db4120cfe2725a5c3de606"
+          git_blob: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
+          git_blob_normalized: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
       unresolved: []
     - id: "hand-written-documents"
       sources:
@@ -110,16 +130,20 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "SECURITY.md"
           role: "doc"
-          git_blob: "7e7454b313e3fe7acf3ec8e17cbc0d9ab7aad3ab"
+          git_blob: "4536a81135c7517592782370c4beb11f7e4e472c"
+          git_blob_normalized: "4536a81135c7517592782370c4beb11f7e4e472c"
         - path: "CONTRIBUTING.md"
           role: "doc"
-          git_blob: "3b545b144069179a806154b7c57e9bdd42205e58"
+          git_blob: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
+          git_blob_normalized: "9b255093b7f45cf03da8f16a65bc216ac4a2c044"
         - path: "CHANGELOG.md"
           role: "doc"
-          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
+          git_blob_normalized: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
       unresolved: []
     - id: "conventions"
       sources:
@@ -128,12 +152,13 @@ docforge_provenance:
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
         - path: "docs/contributing/README.md"
           role: "doc"
-          git_blob: "16b33f4a8f3fe2c3f3db4120cfe2725a5c3de606"
+          git_blob: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
+          git_blob_normalized: "338c0470bc818b75588c1ca73ed946c7b4f209f7"
       unresolved: []
 ---
 # Documentation
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 EasyKey is a private-by-design Vietnamese typing utility for macOS: a menu-bar app that transforms keystrokes into Vietnamese text, keeps an opt-in local clipboard history, and translates through on-device or opt-in cloud providers. This documentation serves everyone who works with the repository — users, engineers, reviewers, and maintainers — and is organized by the question each reader brings: product, architecture, flows, engineering, reference, operations, security, and contributing.
 
@@ -157,7 +182,7 @@ Each concern lives in its own section, and every section has a README that route
 <!-- docforge-children:start -->
 | Folder | Answers |
 |---|---|
-| [Architecture](architecture/README.md) | How EasyKey is structured: system overview, high- and low-level design, constraints, dependencies, lifecycle, platform and AI integration, UI state, concepts, and the decision log |
+| [Architecture](architecture/README.md) | How EasyKey is structured: system overview, high- and low-level design, constraints, dependencies, lifecycle, platform and AI integration, UI state, persistence, concepts, and the decision log |
 | [Product](product/README.md) | What EasyKey does, who it is for, and how to get your first result — plus accessibility, localization, and migration guides |
 | [Flows](flows/README.md) | How each user-facing flow — keyboard typing, clipboard history, translation — behaves from trigger to outcome |
 | [Engineering](engineering/README.md) | How to set up the project, test it, follow its conventions, and ship a release |

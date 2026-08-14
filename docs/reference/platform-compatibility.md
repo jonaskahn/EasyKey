@@ -19,31 +19,31 @@ docforge_provenance:
     - id: "platform-compatibility"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "supported-platforms"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
           role: "doc"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
-          git_blob_normalized: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "Scripts/verify-macos-compatibility.sh"
           git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
@@ -69,27 +69,27 @@ docforge_provenance:
           git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
           role: "code"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
-          git_blob_normalized: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
           role: "doc"
       unresolved: []
     - id: "deprecation-horizon"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
           role: "doc"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
-          git_blob_normalized: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
           role: "history"
       unresolved: []
 ---
@@ -105,7 +105,7 @@ by" distinguishes CI matrix runs from manual gates.
 
 | OS / device / architecture | Minimum version | Tested by | Below minimum |
 |---|---|---|---|
-| macOS (all models) | 14.0 Sonoma (`MACOSX_DEPLOYMENT_TARGET` / `LSMinimumSystemVersion`) | CI builds against the 14.0 target on macOS 15 runners; `Scripts/verify-macos-compatibility.sh` gates every app bundle (Mach-O `minos`, weak Translation linkage, `LSMinimumSystemVersion`); unit suites; manual "macOS 14 Apple-surface tests" release gate in [RELEASE.md](../engineering/release.md) | refuses to run (Launch Services enforces `LSMinimumSystemVersion`) |
+| macOS (all models) | 14.0 Sonoma (`MACOSX_DEPLOYMENT_TARGET` / `LSMinimumSystemVersion`) | CI builds against the 14.0 target on macOS 15 runners; `Scripts/verify-macos-compatibility.sh` gates every app bundle (Mach-O `minos`, weak Translation linkage, `LSMinimumSystemVersion`); unit suites; manual macOS 14 localization and accessibility passes gate in [RELEASE.md](../engineering/release.md) | refuses to run (Launch Services enforces `LSMinimumSystemVersion`) |
 | Apple silicon (arm64) | 14.0 | CI release matrix builds an arm64 DMG; `make verify-arch` validates `arm64` | not applicable (same OS minimum) |
 | Intel (x86_64) | 14.0 | CI release matrix builds an amd64 (x86_64) DMG; `make verify-arch` validates `x86_64` | not applicable (same OS minimum) |
 | Universal builds | 14.0 | CI release matrix builds a universal DMG (`arm64 x86_64`) used by Sparkle; `make release` defaults to `ARCHS="arm64 x86_64"` | not applicable |
@@ -128,6 +128,6 @@ The app is macOS-only; there are no iOS, iPadOS, or watchOS targets.
 No older platform is currently deprecated and no removal date is scheduled:
 macOS 14.0 support is the declared floor in
 [product overview](../product/overview.md) and the project file, and release gates in
-[RELEASE.md](../engineering/release.md) still mandate macOS 14 Apple-surface
-testing. A future bump of the deployment target would be announced through
-the changelog and release process first.
+[RELEASE.md](../engineering/release.md) still mandate macOS 14 localization and
+accessibility passes. A future bump of the deployment target would be announced
+through the changelog and release process first.

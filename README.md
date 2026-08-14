@@ -1,9 +1,25 @@
+---
+docforge_provenance:
+  schema: "2.1"
+  doc_id: "root_readme"
+  path: "README.md"
+  generated_at: "<GENERATED_AT>"
+  generator:
+    name: "docforge"
+    version: "2.8.0"
+  tier: "<TIER>"
+  target_depth: "orientation"
+  graph:
+    provider: "<GRAPH_PROVIDER>"
+    flow: "<FLOW_CAPABILITY>"
+  sections: []
+---
 <p align="center">
   <img src="docs/assets/logo.png" width="128" height="128" alt="EasyKey logo"><br>
   <strong>EasyKey</strong><br><br>
   <i>Fast, private Vietnamese typing for macOS</i><br><br>
   <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/download-Releases-111111?style=flat-square" alt="Download EasyKey"></a>
-  <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/version-0.0.9-6e3dbc9?style=flat-square" alt="Latest version"></a>
+  <a href="https://github.com/jonaskahn/EasyKey/releases/latest"><img src="https://img.shields.io/badge/version-0.0.10-6e3dbc9?style=flat-square" alt="Latest version"></a>
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
   <a href="https://github.com/jonaskahn/EasyKey/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-90%25-brightgreen?style=flat-square" alt="90% coverage gate"></a>
 </p>

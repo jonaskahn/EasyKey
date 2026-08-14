@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-  <!-- Letter V -->
-  <path d="M 3.5,5 L 8.5,17 L 13.5,5" 
-        stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" />
-  <!-- Dot -->
-  <circle cx="17.5" cy="5.0" r="2.0" fill="#FF3B30" />
+  <!-- Letter Vi (Dark Mode) -->
+  <path d="M 2.8,5.2 L 7.4,16.8 L 12.0,5.2" 
+        stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 16.2,9.6 L 16.2,16.8" 
+        stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Red dot over i -->
+  <circle cx="16.2" cy="5.2" r="1.9" fill="#FF453A" />
 </svg>

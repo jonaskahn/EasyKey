@@ -19,6 +19,8 @@ final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
 final class StatusItemController {
     static let popoverBehavior: NSPopover.Behavior = .transient
 
+    private static let iconScaleFactor: CGFloat = 1.2
+
     private let localization: LocalizationStore
     private let menuActionTarget = StatusMenuActionTarget()
     private var statusItem: NSStatusItem?
@@ -152,11 +154,15 @@ final class StatusItemController {
                 appearance: appearance
             )
             tintColor = nil
-        } else if language == .vietnamese {
-            image = Self.menuBarImage(named: "MenuBarV", asTemplate: grayIcon, appearance: appearance)
-            tintColor = nil
         } else {
-            image = Self.menuBarImage(named: "MenuBarE", asTemplate: grayIcon, appearance: appearance)
+            image = Self.menuBarImage(
+                named: Self.menuBarAssetName(
+                    style: settings.system.menuBarIconStyle,
+                    language: language
+                ),
+                asTemplate: grayIcon,
+                appearance: appearance
+            )
             tintColor = nil
         }
 
@@ -256,9 +262,9 @@ final class StatusItemController {
             return nil
         }
         let configured =
-            symbol.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .regular))
+            symbol.withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14 * Self.iconScaleFactor, weight: .regular))
                 ?? symbol
-        let size = NSSize(width: 18, height: 18)
+        let size = NSSize(width: 18 * Self.iconScaleFactor, height: 18 * Self.iconScaleFactor)
 
         let rendered = NSImage(size: size, flipped: false) { bounds in
             appearance.performAsCurrentDrawingAppearance {
@@ -279,13 +285,20 @@ final class StatusItemController {
         return rendered
     }
 
+    static func menuBarAssetName(
+        style: SystemOptions.MenuBarIconStyle,
+        language: InputLanguage
+    ) -> String {
+        "MenuBarStyle\(style.rawValue)\(language == .vietnamese ? "V" : "E")"
+    }
+
     private static func menuBarImage(
         named name: String,
         asTemplate: Bool,
         appearance: NSAppearance
     ) -> NSImage? {
         guard let base = NSImage(named: name) else { return nil }
-        let size = NSSize(width: 18, height: 18)
+        let size = NSSize(width: 18 * Self.iconScaleFactor, height: 18 * Self.iconScaleFactor)
 
         if asTemplate {
             let image = base.copy() as? NSImage ?? base

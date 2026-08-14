@@ -19,40 +19,50 @@ docforge_provenance:
     - id: "artifacts"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "config"
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
       unresolved: []
     - id: "build-sign-publish"
       sources:
         - path: "Makefile"
-          git_blob: "06aa63c4ea11d09c149d6fb44b499e07f014f117"
+          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
+          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
+          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
           role: "code"
         - path: "Scripts/export.sh"
           git_blob: "e170e5fc9d887543ed6fffe7b757544380376ae1"
+          git_blob_normalized: "e170e5fc9d887543ed6fffe7b757544380376ae1"
           role: "code"
         - path: "Scripts/verify-release.sh"
           git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
+          git_blob_normalized: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
           role: "code"
       unresolved: []
     - id: "api-stability"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "config"
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
           role: "doc"
         - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
           git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
+          git_blob_normalized: "90458622e4b810ad49b024feeaaabf5a42b777c2"
           role: "test"
       unresolved: []
     - id: "verify"
@@ -71,12 +81,15 @@ docforge_provenance:
       sources:
         - path: "Scripts/generate-appcast.py"
           git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
           role: "code"
         - path: "docs/engineering/release.md"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
+          git_blob_normalized: "2ce283a3b97b5c88404c873e91f1d2c20e429c18"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "config"
       unresolved: []
 ---
@@ -99,8 +112,8 @@ what does not exist for external distribution.
 | EasyKeyKit.framework | Xcode framework (Mach-O, `product-type.framework`) | same |
 | EasyKey.app | app bundle embedding both frameworks | `Scripts/export.sh` from the archive |
 
-**Version source:** `MARKETING_VERSION` (currently 0.0.9) and
-`CURRENT_PROJECT_VERSION` (currently 7) in
+**Version source:** `MARKETING_VERSION` (currently 0.0.10) and
+`CURRENT_PROJECT_VERSION` (currently 8) in
 `EasyKey.xcodeproj/project.pbxproj` — the same single source the app uses.
 Downstream readers never re-derive it: `Scripts/create-dmg.sh` reads
 `CFBundleShortVersionString` from the built app, and release tags must equal

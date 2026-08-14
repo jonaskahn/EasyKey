@@ -20,7 +20,8 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
@@ -32,7 +33,8 @@ docforge_provenance:
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
         - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
           role: "code"
           git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
@@ -41,7 +43,8 @@ docforge_provenance:
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
           role: "config"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
         - path: "EasyKeyLoginHelper/main.swift"
           role: "code"
           git_blob: "f0f724c4c8a6644555990bff4e08325f80625a66"
@@ -77,28 +80,34 @@ docforge_provenance:
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
       unresolved: []
     - id: "stable-by-design"
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/architecture/decisions/README.md"
           role: "doc"
-          git_blob: "ad8debde7e8cd020a9daf7e45a19dbf49cc933d9"
+          git_blob: "f405104e88ddde03d6806f697e242c59dd9800d6"
+          git_blob_normalized: "f405104e88ddde03d6806f697e242c59dd9800d6"
       unresolved: []
     - id: "why-it-is-like-this"
       sources:
         - path: "docs/architecture/decisions/README.md"
           role: "doc"
-          git_blob: "ad8debde7e8cd020a9daf7e45a19dbf49cc933d9"
+          git_blob: "f405104e88ddde03d6806f697e242c59dd9800d6"
+          git_blob_normalized: "f405104e88ddde03d6806f697e242c59dd9800d6"
         - path: "docs/architecture/tech-debt.md"
           role: "doc"
-          git_blob: "fd7aaf133fa703b39e1daeed3405c7687f56d5eb"
+          git_blob: "634e887806db6c6f4e6a6719a3970df40ad469e6"
+          git_blob_normalized: "634e887806db6c6f4e6a6719a3970df40ad469e6"
         - path: "docs/architecture/constraints.md"
           role: "doc"
-          git_blob: "35b54a3188d12f5479f1409ea5f1da7b7ca87656"
+          git_blob: "4453d54581683c16818edc5680f2fe7190d6a6a2"
+          git_blob_normalized: "4453d54581683c16818edc5680f2fe7190d6a6a2"
       unresolved: []
 ---
 # High-level architecture
@@ -111,7 +120,7 @@ EasyKey is a macOS menu-bar utility that turns raw keystrokes into Vietnamese te
 
 _C4 context view: this system as one box among the actors and services around it — name the neighbors and the contracts between them, never the internals._
 
-EasyKey sits between the user and the macOS input pipeline. The user interacts through the menu-bar status item, popovers, a Settings window, and configurable hotkeys. The system consumes keyboard events system-wide via a `CGEvent` tap and reads/writes focused text through the Accessibility API — the same trust boundary that gates the entire typing feature. It persists user data only to the local filesystem and the user's Keychain. It makes two optional outbound network calls: to a cloud translation provider (never for typing itself) and to an HTTPS Sparkle appcast for updates.
+EasyKey sits between the user and the macOS input pipeline. The user interacts through the menu-bar status item, popovers, a Settings window, and configurable hotkeys. The system consumes keyboard events system-wide via a `CGEvent` tap and reads focused text through the Accessibility API — the same trust boundary that gates the entire typing feature (composition output is applied as synthesized key events, not AX writes). It persists user data only to the local filesystem and the user's Keychain. It makes two optional outbound network calls: to a cloud translation provider (never for typing itself) and to an HTTPS Sparkle appcast for updates.
 
 ```mermaid
 flowchart LR

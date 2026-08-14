@@ -19,38 +19,38 @@ docforge_provenance:
     - id: "compatibility"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
     - id: "in-repo-frameworks"
       sources:
         - path: "EasyKeyKit/EasyKeyKit.swift"
-          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
-          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob: "fe7a078e829ab8377ecef7015657c02911034e6b"
+          git_blob_normalized: "fe7a078e829ab8377ecef7015657c02911034e6b"
           role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
           git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
         - path: "docs/engineering/conventions.md"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
-          git_blob_normalized: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
           role: "doc"
         - path: "CHANGELOG.md"
-          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
-          git_blob_normalized: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
+          git_blob_normalized: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
           role: "doc"
       unresolved: []
     - id: "external-dependencies"
       sources:
         - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "515597131540b043af2543b4d881e1509bbe8c40"
-          git_blob_normalized: "515597131540b043af2543b4d881e1509bbe8c40"
+          git_blob: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
+          git_blob_normalized: "7d28327dbb97b2e90d36bcc4dcd61c43a34d699d"
           role: "manifest"
         - path: "docs/THIRD_PARTY_NOTICES.md"
           git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
@@ -60,16 +60,16 @@ docforge_provenance:
     - id: "distribution-and-versioning"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "EasyKeyKit/EasyKeyKit.swift"
-          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
-          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob: "fe7a078e829ab8377ecef7015657c02911034e6b"
+          git_blob_normalized: "fe7a078e829ab8377ecef7015657c02911034e6b"
           role: "code"
         - path: "CHANGELOG.md"
-          git_blob: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
-          git_blob_normalized: "d3242ff28ad2af793010bfffbc5a1bb5e2c4e3b4"
+          git_blob: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
+          git_blob_normalized: "b72eafd32f54bae88a13c1982b928b6b383fc5c6"
           role: "doc"
       unresolved: []
 ---
@@ -96,9 +96,9 @@ Both frameworks compile with `MACOSX_DEPLOYMENT_TARGET = 14.0` and
 `SWIFT_VERSION = 5.0` ([project.pbxproj](../../EasyKey.xcodeproj/project.pbxproj)),
 and the codebase is constrained to Swift 5 language mode by
 [CONVENTIONS.md](../engineering/conventions.md). Version markers: the app and
-helper track the marketing version (currently 0.0.9, see
+helper track the marketing version (currently 0.0.10, see
 [CHANGELOG.md](../../CHANGELOG.md)); `EasyKeyKit` additionally exposes
-`EasyKeyKit.version = "0.0.9"`.
+`EasyKeyKit.version = "0.0.10"`.
 
 ## External dependencies
 

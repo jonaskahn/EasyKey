@@ -9,12 +9,28 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         case extraLarge = 640
     }
 
+    public enum MenuBarIconStyle: Int, Codable, Equatable, Sendable, CaseIterable {
+        case style1 = 1
+        case style2
+        case style3
+        case style4
+        case style5
+        case style6
+        case style7
+        case style8
+        case style9
+        case style10
+        case style11
+        case style12
+    }
+
     public var launchAtLogin: Bool
     public var showDockIcon: Bool
     public var grayMenuIcon: Bool
     public var showSettingsAtLaunch: Bool
     public var checkForUpdates: Bool
     public var menuPopoverWidth: MenuPopoverWidth
+    public var menuBarIconStyle: MenuBarIconStyle
 
     public init(
         launchAtLogin: Bool = false,
@@ -22,7 +38,8 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         grayMenuIcon: Bool = false,
         showSettingsAtLaunch: Bool = false,
         checkForUpdates: Bool = true,
-        menuPopoverWidth: MenuPopoverWidth = .small
+        menuPopoverWidth: MenuPopoverWidth = .small,
+        menuBarIconStyle: MenuBarIconStyle = .style9
     ) {
         self.launchAtLogin = launchAtLogin
         self.showDockIcon = showDockIcon
@@ -30,6 +47,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         self.showSettingsAtLaunch = showSettingsAtLaunch
         self.checkForUpdates = checkForUpdates
         self.menuPopoverWidth = menuPopoverWidth
+        self.menuBarIconStyle = menuBarIconStyle
     }
 
     public init(from decoder: Decoder) throws {
@@ -40,6 +58,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         showSettingsAtLaunch = try container.decodeIfPresent(Bool.self, forKey: .showSettingsAtLaunch) ?? false
         checkForUpdates = try container.decodeIfPresent(Bool.self, forKey: .checkForUpdates) ?? true
         menuPopoverWidth = try container.decodeIfPresent(MenuPopoverWidth.self, forKey: .menuPopoverWidth) ?? .small
+        menuBarIconStyle = try container.decodeIfPresent(MenuBarIconStyle.self, forKey: .menuBarIconStyle) ?? .style9
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -49,6 +68,7 @@ public struct SystemOptions: Codable, Equatable, Sendable {
         case showSettingsAtLaunch
         case checkForUpdates
         case menuPopoverWidth
+        case menuBarIconStyle
     }
 }
 

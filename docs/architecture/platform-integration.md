@@ -86,7 +86,8 @@ docforge_provenance:
       sources:
         - path: "EasyKeyApp/Coordination/UpdateService.swift"
           role: "code"
-          git_blob: "27386d368017c0c64f38e75fbd5e23e62c7a4dd6"
+          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
+          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
         - path: "EasyKeyApp/Info.plist"
           role: "config"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
@@ -110,7 +111,8 @@ docforge_provenance:
           git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
         - path: "docs/reference/limitations.md"
           role: "doc"
-          git_blob: "8e3e23bf6b098a52db5efcd4e4328dfea588b6e1"
+          git_blob: "341a719fbd1a4d71aa36d334c5d863764948f685"
+          git_blob_normalized: "341a719fbd1a4d71aa36d334c5d863764948f685"
       unresolved: []
     - id: "integration-surface"
       sources:

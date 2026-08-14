@@ -6,7 +6,7 @@ docforge_provenance:
   schema: "2.0"
   doc_id: "engineering_index"
   path: "docs/engineering/README.md"
-  generated_at: "2026-08-13T12:08:16Z"
+  generated_at: "2026-08-14T00:00:00Z"
   generator:
     name: "docforge"
     version: "2.8.0"
@@ -20,40 +20,45 @@ docforge_provenance:
       sources:
         - path: "README.md"
           role: "doc"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
-        - path: "docs/engineering/rulebook.md"
-          role: "doc"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
+          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
         - path: "docs/engineering/conventions.md"
           role: "doc"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "docs/engineering/publishing.md"
           role: "doc"
-          git_blob: "d9f2dc302d9dc04f567decbef6bc8b8b155d81eb"
+          git_blob: "29ffbbfef1893428c6298072daa781be2edef7e6"
+          git_blob_normalized: "29ffbbfef1893428c6298072daa781be2edef7e6"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "docs/engineering/rulebook.md"
           role: "doc"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
@@ -62,63 +67,75 @@ docforge_provenance:
       sources:
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
+          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
         - path: "docs/engineering/conventions.md"
           role: "doc"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "docs/engineering/publishing.md"
           role: "doc"
-          git_blob: "d9f2dc302d9dc04f567decbef6bc8b8b155d81eb"
+          git_blob: "29ffbbfef1893428c6298072daa781be2edef7e6"
+          git_blob_normalized: "29ffbbfef1893428c6298072daa781be2edef7e6"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/engineering/setup.md"
           role: "doc"
-          git_blob: "661a622a02eec68ef83e91a441f1dee551b683c5"
+          git_blob: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
+          git_blob_normalized: "0292bf3ada3ba790182d01b5ed80abf58df7fd3d"
         - path: "docs/engineering/testing.md"
           role: "doc"
-          git_blob: "f0f5c4028a6135f533c35e63b97ec91fd26127bf"
+          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
         - path: "docs/engineering/conventions.md"
           role: "doc"
-          git_blob: "f27ebfe19c8016812230d066d3de0cce2801672d"
+          git_blob: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
+          git_blob_normalized: "3aefa68f5f4f8144c46f57517d76e1a26b304ea6"
         - path: "docs/engineering/release.md"
           role: "doc"
-          git_blob: "91aa96ce7f0812ac8d64a6215138d53e485833a6"
+          git_blob: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
+          git_blob_normalized: "08e857f3de258116f1a988f7b9f6b0ed96dd189e"
         - path: "docs/engineering/publishing.md"
           role: "doc"
-          git_blob: "d9f2dc302d9dc04f567decbef6bc8b8b155d81eb"
-        - path: "docs/engineering/rulebook.md"
-          role: "doc"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+          git_blob: "29ffbbfef1893428c6298072daa781be2edef7e6"
+          git_blob_normalized: "29ffbbfef1893428c6298072daa781be2edef7e6"
       unresolved: []
     - id: "related-sections"
       sources:
         - path: "docs/README.md"
           role: "doc"
-          git_blob: "f46130b93e8bd0bfe43446dd7d42555ae5133400"
+          git_blob: "c26bf46583357c8db29f627fbc0deb41cd7df290"
+          git_blob_normalized: "c26bf46583357c8db29f627fbc0deb41cd7df290"
         - path: "docs/contributing/README.md"
           role: "doc"
-          git_blob: "450ddcdfe20c8b1f9d26f2e23e054027ae0d8ca9"
+          git_blob: "59e3e103d99df204be23e56c2de1ec7046b3cbb7"
+          git_blob_normalized: "59e3e103d99df204be23e56c2de1ec7046b3cbb7"
         - path: "docs/operations/README.md"
           role: "doc"
-          git_blob: "aec2487a702a755dcfd080d0d8921cbe0b3bb2bf"
+          git_blob: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+          git_blob_normalized: "eda19de1f8eccea8d470c042fda1b1e1b8f3004e"
+        - path: "docs/reference/README.md"
+          role: "doc"
+          git_blob: "75f4d1cd343f02f86fa451f4b6fa4a160298de44"
+          git_blob_normalized: "75f4d1cd343f02f86fa451f4b6fa4a160298de44"
       unresolved: []
 ---
 # Engineering
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
-This section is the working guide for anyone building, testing, or shipping EasyKey: how to set up a development environment, how the test suites are organized, which conventions the repository actually enforces, and the exact procedure for cutting a release. Engineers new to the project should start here; the rulebook these guides ground themselves in lives in this section too.
+This section is the working guide for anyone building, testing, or shipping EasyKey: how to set up a development environment, how the test suites are organized, which conventions the repository actually enforces, and the exact procedure for cutting a release. Engineers new to the project should start here.
 
 ## At a glance
 
-The engineering workflow runs from a Makefile-driven toolchain: local setup builds the project with Xcode and runs its test bundles, CI enforces lint, tests, and a coverage gate, and a tagged release produces the signed, packaged DMG plus the Sparkle appcast entry. Six documents own the steps: setup, testing, conventions, release, publishing, and the adopted rulebook. The workflow facts live in those documents — this page only routes to them.
+The engineering workflow runs from a Makefile-driven toolchain: local setup builds the project with Xcode and runs its test bundles, CI enforces lint, tests, and a coverage gate, and a tagged release produces the signed, packaged DMG plus the Sparkle appcast entry. Five documents own the steps: setup, testing, conventions, release, and publishing. The workflow facts live in those documents — this page only routes to them.
 
 ## Scope and boundaries
 
@@ -131,7 +148,6 @@ This section owns the *process* of working on the repository: local setup, test 
 | Build EasyKey from source and run the suite locally | [setup.md](setup.md) |
 | Run unit, integration, or UI tests — locally or in CI shards | [testing.md](testing.md) |
 | Know which conventions are enforced and where you will collide with them | [conventions.md](conventions.md) |
-| Read the authoritative conventions before relying on the summary guides | [rulebook.md](rulebook.md) |
 | Ship a release from version bump to publication | [release.md](release.md) |
 | Understand the framework artifacts and what publishing does and does not exist | [publishing.md](publishing.md) |
 
@@ -143,7 +159,6 @@ This section owns the *process* of working on the repository: local setup, test 
 | [Local setup](setup.md) | How do I build EasyKey from source and run its test suite on my machine? |
 | [Testing guide](testing.md) | How are tests organized by layer, and how do I run the unit, integration, and UI suites? |
 | [Conventions](conventions.md) | Which conventions does this repository actually enforce, and in what order do contributors collide with them? |
-| [Rulebook](rulebook.md) | What are the authoritative engineering conventions — naming, structure, error handling, testing, review — that the guides above ground themselves in? |
 | [Release guide](release.md) | What is the exact procedure for shipping an EasyKey release — versioning, build, verification, publication, and rollback? |
 | [Publishing](publishing.md) | What are the in-repo framework artifacts, and what publishing pipeline exists — or deliberately does not exist — for them? |
 <!-- docforge-children:end -->

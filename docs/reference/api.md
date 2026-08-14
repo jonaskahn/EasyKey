@@ -62,8 +62,8 @@ docforge_provenance:
           git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
           role: "code"
         - path: "EasyKeyKit/EasyKeyKit.swift"
-          git_blob: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
-          git_blob_normalized: "0520693870b21891d4312dbbebf7ab0e28f5aa68"
+          git_blob: "fe7a078e829ab8377ecef7015657c02911034e6b"
+          git_blob_normalized: "fe7a078e829ab8377ecef7015657c02911034e6b"
           role: "code"
       unresolved: []
     - id: "typing-engine"
@@ -223,8 +223,8 @@ docforge_provenance:
     - id: "deprecated-api"
       sources:
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
-          git_blob_normalized: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
+          git_blob_normalized: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
       unresolved: []
 ---
@@ -250,7 +250,7 @@ no `KeyboardOptions` type — keyboard behavior is `InputSettings` +
 | Framework | Bundle identifier | Version marker | Content |
 |---|---|---|---|
 | EasyEngineCore | `com.easykey.EasyEngineCore` | none (shares app marketing version) | Typing engine, encodings, converter, macros, Smart Switch, clipboard model, translation model, settings, diagnostics |
-| EasyKeyKit | `one.ifelse.easykeyKit` | `EasyKeyKit.version = "0.0.9"` | Keyboard service, event synthesis, compatibility rules |
+| EasyKeyKit | `one.ifelse.easykeyKit` | `EasyKeyKit.version = "0.0.10"` | Keyboard service, event synthesis, compatibility rules |
 
 Dependency direction is enforced by architecture fitness tests:
 `EasyKeyApp → EasyKeyKit → EasyEngineCore`; EasyEngineCore imports no

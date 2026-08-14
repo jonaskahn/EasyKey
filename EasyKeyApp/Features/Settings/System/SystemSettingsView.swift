@@ -34,6 +34,12 @@ struct SystemSettingsView: View {
 
                 settingToggle(.systemShowDockIcon, description: .systemShowDockIconDescription, isOn: setting(\.system.showDockIcon))
                 settingToggle(.systemGrayMenuIcon, description: .systemGrayMenuIconDescription, isOn: setting(\.system.grayMenuIcon))
+
+                Picker(localization.string(.systemMenuBarIconStyle), selection: setting(\.system.menuBarIconStyle)) {
+                    ForEach(SystemOptions.MenuBarIconStyle.allCases, id: \.self) { style in
+                        Text(localization.displayName(for: style)).tag(style)
+                    }
+                }
                 settingToggle(
                     .systemOpenSettingsAtLaunch,
                     description: .systemOpenSettingsAtLaunchDescription,

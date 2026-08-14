@@ -20,7 +20,8 @@ docforge_provenance:
       sources:
         - path: "docs/architecture/high-level.md"
           role: "doc"
-          git_blob: "de19fd5b1baf054a270285ff0a7e30fc35d6fec7"
+          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
+          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
         - path: "docs/flows/README.md"
           role: "doc"
           git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
@@ -53,7 +54,8 @@ docforge_provenance:
           git_blob: "908611da74a9394034e0444c761481351d43ad08"
         - path: "docs/architecture/high-level.md"
           role: "doc"
-          git_blob: "de19fd5b1baf054a270285ff0a7e30fc35d6fec7"
+          git_blob: "ac229c696ba34750987a45df2e80762926d77a01"
+          git_blob_normalized: "ac229c696ba34750987a45df2e80762926d77a01"
       unresolved: []
 ---
 # System overview

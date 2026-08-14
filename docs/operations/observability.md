@@ -37,7 +37,7 @@ docforge_provenance:
           git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/engineering/rulebook.md"
           git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
@@ -85,10 +85,11 @@ docforge_provenance:
           git_blob: "827ef0baa84980d0df634f19d06d944c856a4293"
           role: "code"
         - path: "README.md"
-          git_blob: "adbd4f30d3c2f11bb855e6645195493a6c6a34f7"
+          git_blob: "0de1699403dbb6d0d24b58a2963cde1ac952a70e"
           role: "doc"
         - path: "docs/security/data-handling.md"
-          git_blob: "5403a91f4763dbb6e4d1c679f4ec4ff265ac3545"
+          git_blob: "b5d3c05c76e04dcdcd74e5ab8203cd9f9dba6735"
+          git_blob_normalized: "b5d3c05c76e04dcdcd74e5ab8203cd9f9dba6735"
           role: "doc"
       unresolved: []
 ---
