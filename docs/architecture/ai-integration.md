@@ -1,4 +1,7 @@
 ---
+id: "ai_integration"
+title: "Ai Integration"
+description: "Model/provider boundary, prompts/inputs, outputs, evaluation, safety, privacy, failure"
 docforge_provenance:
   schema: "2.0"
   doc_id: "ai_integration"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -64,8 +67,8 @@ docforge_provenance:
     - id: "privacy-boundary"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"

@@ -1,4 +1,7 @@
 ---
+id: "operations_index"
+title: "Operations"
+description: "Operations documentation overview: what this section covers and the reader question each operations document answers"
 docforge_provenance:
   schema: "2.0"
   doc_id: "operations_index"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "codegraph"
@@ -16,59 +19,51 @@ docforge_provenance:
     - id: "operations"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "related-sections"
       sources:
-        - path: "docs/README.md"
-          git_blob: "4e9392f1d88c919a51368d4ed091365f24ecbea8"
-          git_blob_normalized: "4e9392f1d88c919a51368d4ed091365f24ecbea8"
-          role: "doc"
         - path: "docs/engineering/README.md"
-          git_blob: "9f56b7b0b2f542a48eb231204de4460a3487fd40"
-          git_blob_normalized: "9f56b7b0b2f542a48eb231204de4460a3487fd40"
-          role: "doc"
-        - path: "docs/reference/README.md"
-          git_blob: "79c7d84c6fe2fb09dc0f1e864b9e3800bfa5ae6e"
-          git_blob_normalized: "79c7d84c6fe2fb09dc0f1e864b9e3800bfa5ae6e"
+          git_blob: "0982c0df662c1aa9f7a27cf676c9e3b5463e2772"
+          git_blob_normalized: "0982c0df662c1aa9f7a27cf676c9e3b5463e2772"
           role: "doc"
         - path: "docs/security/README.md"
-          git_blob: "0f92070d04541c48d619502c8343841118453941"
-          git_blob_normalized: "0f92070d04541c48d619502c8343841118453941"
+          git_blob: "0a7eef592c415a83e7206e07e13fb409f5962aad"
+          git_blob_normalized: "0a7eef592c415a83e7206e07e13fb409f5962aad"
           role: "doc"
       unresolved: []
 ---
@@ -102,7 +97,7 @@ This section owns *delivery and distribution*: the artifact, the channels that c
 
 ## Related sections
 
-- [Documentation home](../README.md) — the parent index of all sections.
+- README — the parent index of all sections.
 - [Engineering](../engineering/README.md) — the build and test workflow the artifact comes from.
 - [Reference](../reference/README.md) — platform compatibility and configuration facts the operations steps depend on.
 - [Security](../security/README.md) — the security policy and permission footprint that govern the app.

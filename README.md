@@ -1,4 +1,7 @@
 ---
+id: "root_readme"
+title: "Repository README"
+description: "Purpose, audience, verified quick start, links to setup/architecture/limitations"
 docforge_provenance:
   schema: "2.1"
   doc_id: "root_readme"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "<TIER>"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "<GRAPH_PROVIDER>"
@@ -80,7 +83,7 @@ In **Settings → System**, pause EasyKey in specific apps or force a language p
 
 Everything is processed on your Mac — no analytics, no telemetry, no typing logs. Cloud translation is opt-in and goes directly to the provider you choose; credentials live in device-only Keychain; clipboard persistence, if enabled, is AES-GCM encrypted.
 
-See [data handling and provider links](./docs/security/data-handling.md) for details.
+See [the security section](./docs/security/README.md) for the permission footprint and policy details.
 
 ## 📋 Requirements
 
@@ -91,10 +94,10 @@ See [data handling and provider links](./docs/security/data-handling.md) for det
 
 ## 🛠️ For Developers
 
-[Build and test from source](./docs/engineering/setup.md) · [Release process](./docs/engineering/release.md) · [Engineering conventions](./docs/engineering/rulebook.md) · [Exact Telex rules](./docs/flows/telex.md)
+[Build and test from source](./docs/engineering/setup.md) · [Distribution](./docs/operations/distribution.md) · [Engineering conventions](./docs/_archive/rulebook.md) · [Exact Telex rules](./docs/_archive/telex.md)
 
 ## 📄 License and Notices
 
-EasyKey is available under the [MIT License](./LICENSE). This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./docs/THIRD_PARTY_NOTICES.md) for third-party acknowledgements.
+EasyKey is available under the [MIT License](./LICENSE). This project is an independent clean-room implementation based on public typing conventions, character standards, and observed behavior. See [NOTICE](./NOTICE) for the implementation statement and [THIRD_PARTY_NOTICES.md](./docs/_archive/THIRD_PARTY_NOTICES.md) for third-party acknowledgements.
 
 Inspired by [OpenKey](https://github.com/tuyenvm/OpenKey) by Mai Vũ Tuyên and [UniKey](https://www.unikey.org/) by Phạm Kim Long — heartfelt thanks to both authors for their pioneering work on Vietnamese typing software.

@@ -1,4 +1,7 @@
 ---
+id: "arch_high_level"
+title: "Arch High Level"
+description: "Context, deployable or provisioned blocks labeled with implementing technology (e.g. 'React SPA', 'PostgreSQL 15', or for `infrastructure-platform`..."
 docforge_provenance:
   schema: "2.0"
   doc_id: "arch_high_level"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "codegraph"
@@ -16,8 +19,8 @@ docforge_provenance:
     - id: "high-level-architecture"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKeyApp/Info.plist"
           git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
@@ -83,15 +86,15 @@ docforge_provenance:
           git_blob_normalized: "815b5dad186802739e0969eb509af2469570b583"
           role: "code"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "stable-by-design"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "why-it-is-like-this"
@@ -153,7 +156,7 @@ _One row per material edge between blocks, or between a block and an external ac
 
 ## Boundaries and invariants
 
-- **Typing is local, always.** Keyboard transformation and preferences are processed on the Mac; general keyboard input is never translated or uploaded ([README.md](../README.md)).
+- **Typing is local, always.** Keyboard transformation and preferences are processed on the Mac; general keyboard input is never translated or uploaded (README).
 - **The main app is not sandboxed.** `com.apple.security.app-sandbox` is `false` for EasyKeyApp — required for the session-wide event tap, the Sparkle updater, and the login helper contract. The login helper itself runs sandboxed.
 - **Clipboard capture is off by default** (`isCaptureEnabled = false`), and persistence is opt-in: history stays in memory unless the user enables it, in which case it is AES-GCM sealed with a device-only Keychain key.
 - **Single instance.** A second launch detects the running instance and terminates itself.
@@ -166,4 +169,4 @@ This document changes once or twice a year: blocks are named at the level of tar
 
 ## Why it is like this
 
-The invariants that encode the architecture choices — the event-tap approach instead of Input Method Kit, single-instance enforcement, the encrypted clipboard, the sandbox stance — are stated in [Boundaries and invariants](#boundaries-and-invariants) above. Externally imposed bounds (macOS 14 target, Accessibility requirement) are documented in [README.md](../README.md) and [limitations](../reference/limitations.md).
+The invariants that encode the architecture choices — the event-tap approach instead of Input Method Kit, single-instance enforcement, the encrypted clipboard, the sandbox stance — are stated in [Boundaries and invariants](#boundaries-and-invariants) above. Externally imposed bounds (macOS 14 target, Accessibility requirement) are documented in README and [limitations](../reference/limitations.md).

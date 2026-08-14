@@ -1,4 +1,7 @@
 ---
+id: "engineering_index"
+title: "Engineering"
+description: "Engineering documentation overview: what this section covers and the reader question each engineering document answers"
 docforge_provenance:
   schema: "2.0"
   doc_id: "engineering_index"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "codegraph"
@@ -16,84 +19,72 @@ docforge_provenance:
     - id: "engineering"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "docs/engineering/setup.md"
-          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
-          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
+          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
           role: "doc"
       unresolved: []
     - id: "at-a-glance"
       sources:
         - path: "docs/engineering/setup.md"
-          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
-          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
+          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
           role: "doc"
         - path: "docs/engineering/testing.md"
-          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
-          git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
+          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
           role: "doc"
         - path: "docs/engineering/publishing.md"
-          git_blob: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
-          git_blob_normalized: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
+          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
+          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
           role: "doc"
       unresolved: []
     - id: "scope-and-boundaries"
       sources:
         - path: "docs/engineering/setup.md"
-          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
-          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
+          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
           role: "doc"
-        - path: "docs/engineering/rulebook.md"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
-          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+        - path: "docs/_archive/rulebook.md"
+          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
+          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
           role: "doc"
       unresolved: []
     - id: "start-here"
       sources:
         - path: "docs/engineering/setup.md"
-          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
-          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
+          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
           role: "doc"
         - path: "docs/engineering/testing.md"
-          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
-          git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
+          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
           role: "doc"
         - path: "docs/engineering/publishing.md"
-          git_blob: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
-          git_blob_normalized: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
+          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
+          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
           role: "doc"
       unresolved: []
     - id: "detailed-documentation"
       sources:
         - path: "docs/engineering/setup.md"
-          git_blob: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
-          git_blob_normalized: "963fdcd6db23495eee43ee5de5d9cd168253dcbc"
+          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
+          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
           role: "doc"
         - path: "docs/engineering/testing.md"
-          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
-          git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
+          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
           role: "doc"
         - path: "docs/engineering/publishing.md"
-          git_blob: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
-          git_blob_normalized: "8c7a5390ef91f861b5b0fcf3492abc9dc7012f72"
+          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
+          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
           role: "doc"
       unresolved: []
     - id: "related-sections"
-      sources:
-        - path: "docs/README.md"
-          git_blob: "4e9392f1d88c919a51368d4ed091365f24ecbea8"
-          git_blob_normalized: "4e9392f1d88c919a51368d4ed091365f24ecbea8"
-          role: "doc"
-        - path: "docs/operations/README.md"
-          git_blob: "aad2922a8ab386e2c86773d2e060cdbd3c3afc1e"
-          git_blob_normalized: "aad2922a8ab386e2c86773d2e060cdbd3c3afc1e"
-          role: "doc"
-        - path: "docs/reference/README.md"
-          git_blob: "0ce215295807dfce3703dff3da14c752a40a3c1f"
-          git_blob_normalized: "0ce215295807dfce3703dff3da14c752a40a3c1f"
-          role: "doc"
+      sources: []
       unresolved: []
 ---
 # Engineering
@@ -108,7 +99,7 @@ The engineering workflow runs from a Makefile-driven toolchain: local setup buil
 
 ## Scope and boundaries
 
-This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)) or the operational channels that carry the released artifact ([operations](../operations/README.md)). The [rulebook](rulebook.md) is an adopted hand-written document — canonical for conventions, skipped by regeneration, and linked from here rather than restated.
+This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)) or the operational channels that carry the released artifact ([operations](../operations/README.md)). The the archived engineering rulebook is an adopted hand-written document — canonical for conventions, skipped by regeneration, and linked from here rather than restated.
 
 ## Start here
 
@@ -130,6 +121,6 @@ This section owns the *process* of working on the repository: local setup, test 
 
 ## Related sections
 
-- [Documentation home](../README.md) — the parent index of all sections.
+- README — the parent index of all sections.
 - [Operations](../operations/README.md) — the distribution channels that carry the released artifact.
 - [Reference](../reference/README.md) — stack, compatibility, and configuration facts the workflows depend on.

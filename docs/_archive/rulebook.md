@@ -4,12 +4,12 @@ title: "Engineering Conventions"
 docforge_provenance:
   schema: "2.0"
   doc_id: "existing-conventions"
-  path: "docs/engineering/rulebook.md"
+  path: "docs/_archive/rulebook.md"
   generated_at: "2026-08-03T10:27:57+00:00"
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "reference"
   graph:
     provider: "codegraph"

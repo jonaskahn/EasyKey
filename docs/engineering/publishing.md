@@ -10,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -56,9 +56,9 @@ docforge_provenance:
           git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "config"
-        - path: "docs/engineering/rulebook.md"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
-          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+        - path: "docs/_archive/rulebook.md"
+          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
+          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
           role: "doc"
         - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
           git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
@@ -147,7 +147,7 @@ library-evolution (ABI) stability for external consumers is not in effect.
 
 The stability contract that does exist is process-level, not ABI-level: the
 conventions require public API documentation at public boundaries
-(rulebook.md section 2), and the fitness tests keep the dependency
+(the archived the archived engineering rulebook, section 2), and the fitness tests keep the dependency
 direction stable. Those protect in-repo consumers; they do not constitute a
 versioned public API.
 

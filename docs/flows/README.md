@@ -1,6 +1,7 @@
 ---
 id: "flows_index"
 title: "Flows"
+description: "Every evidence-backed candidate, normalized entry reference, area, confidence, reach, priority, and main/deferred/placeholder/documented/skipped status"
 docforge_provenance:
   schema: "2.0"
   doc_id: "flows_index"
@@ -9,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "codegraph"

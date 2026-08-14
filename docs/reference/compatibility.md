@@ -1,4 +1,7 @@
 ---
+id: "library_compatibility"
+title: "Library Compatibility"
+description: "Supported versions/platforms, tested matrix, deprecation behavior"
 docforge_provenance:
   schema: "2.0"
   doc_id: "library_compatibility"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "reference"
   graph:
     provider: "codegraph"
@@ -20,8 +23,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "in-repo-frameworks"
@@ -34,17 +37,17 @@ docforge_provenance:
           git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
           role: "code"
-        - path: "docs/engineering/rulebook.md"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
-          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+        - path: "docs/_archive/rulebook.md"
+          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
+          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
           role: "doc"
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
         - path: "CHANGELOG.md"
-          git_blob: "9061aefe76f0145208e2f7730ebaaa03b6321aa1"
-          git_blob_normalized: "9061aefe76f0145208e2f7730ebaaa03b6321aa1"
+          git_blob: "7a69fbbeae7940ae5ab7e08b7a86a8853a346b22"
+          git_blob_normalized: "7a69fbbeae7940ae5ab7e08b7a86a8853a346b22"
           role: "doc"
       unresolved: []
     - id: "external-dependencies"
@@ -53,28 +56,28 @@ docforge_provenance:
           git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
-        - path: "docs/THIRD_PARTY_NOTICES.md"
-          git_blob: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
-          git_blob_normalized: "6d697f0974e0095717e5edd8a127d4b9c35512cb"
+        - path: "docs/_archive/THIRD_PARTY_NOTICES.md"
+          git_blob: "d1c69d9291af721ef4d4d5c0555252d3cc05ec4a"
+          git_blob_normalized: "d1c69d9291af721ef4d4d5c0555252d3cc05ec4a"
           role: "doc"
         - path: "docs/operations/distribution.md"
-          git_blob: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
-          git_blob_normalized: "8d83cebf8fd01048b8f098b01c20ee30294eeb36"
+          git_blob: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
+          git_blob_normalized: "b62e29ea58adce238882da5f55c9e3a3fbb3aaa3"
           role: "doc"
       unresolved: []
     - id: "distribution-and-versioning"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKeyKit/EasyKeyKit.swift"
           git_blob: "c2a257acc1b06050b76e6f29eee06f39016336c0"
           git_blob_normalized: "c2a257acc1b06050b76e6f29eee06f39016336c0"
           role: "code"
         - path: "CHANGELOG.md"
-          git_blob: "9061aefe76f0145208e2f7730ebaaa03b6321aa1"
-          git_blob_normalized: "9061aefe76f0145208e2f7730ebaaa03b6321aa1"
+          git_blob: "7a69fbbeae7940ae5ab7e08b7a86a8853a346b22"
+          git_blob_normalized: "7a69fbbeae7940ae5ab7e08b7a86a8853a346b22"
           role: "doc"
       unresolved: []
 ---
@@ -100,7 +103,7 @@ not because it probably works. OS/device support is owned by
 Both frameworks compile with `MACOSX_DEPLOYMENT_TARGET = 14.0` and
 `SWIFT_VERSION = 5.0` ([project.pbxproj](../../EasyKey.xcodeproj/project.pbxproj)),
 and the codebase is constrained to Swift 5 language mode by
-[rulebook.md](../engineering/rulebook.md). Version markers: the app and
+the archived engineering rulebook. Version markers: the app and
 helper track the marketing version (currently 0.0.10, see
 [CHANGELOG.md](../../CHANGELOG.md)); `EasyKeyKit` additionally exposes
 `EasyKeyKit.version = "0.0.10"`.
@@ -109,7 +112,7 @@ helper track the marketing version (currently 0.0.10, see
 
 | Dependency | Version | Pinned | Tested by |
 |---|---|---|---|
-| Sparkle (SPM package, app updates) | 2.9.4 | exact version in the project file | release verification in [distribution.md](../operations/distribution.md) (Sparkle pin and signature checks); [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) |
+| Sparkle (SPM package, app updates) | 2.9.4 | exact version in the project file | release verification in [distribution.md](../operations/distribution.md) (Sparkle pin and signature checks); the archived third-party notices |
 
 Everything else builds against the macOS system SDK (SwiftUI, AppKit,
 Combine, OSLog, CryptoKit, ServiceManagement, XCTest/XCUITest). No other

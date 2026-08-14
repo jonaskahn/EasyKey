@@ -1,4 +1,7 @@
 ---
+id: "changelog"
+title: "Changelog"
+description: "Released versions, dates, user-visible changes, compatibility notes"
 docforge_provenance:
   schema: "2.0"
   doc_id: "changelog"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "reference"
   graph:
     provider: "codegraph"
@@ -16,12 +19,12 @@ docforge_provenance:
     - id: "changelog"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "docs/reference/platform-compatibility.md"
-          git_blob: "a6868eb4dd3ba5e6a13eb1d17ce0ef423d9826d2"
-          git_blob_normalized: "a6868eb4dd3ba5e6a13eb1d17ce0ef423d9826d2"
+          git_blob: "fca48c66cc07a00d4abf3780867adf7c422da3fd"
+          git_blob_normalized: "fca48c66cc07a00d4abf3780867adf7c422da3fd"
           role: "doc"
       unresolved: []
     - id: "008-2026-08-14"
@@ -31,8 +34,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "007-2026-07-23"
@@ -42,8 +45,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "006-2026-07-22"
@@ -53,8 +56,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "005-2026-07-21"
@@ -64,8 +67,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "004-2026-07-21"
@@ -75,8 +78,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "003-2026-07-21"
@@ -86,8 +89,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "002-2026-07-21"
@@ -97,8 +100,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "001-2026-07-18"
@@ -107,10 +110,6 @@ docforge_provenance:
           git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
-        - path: "docs/product/overview.md"
-          git_blob: "ff961e4b30b0e9b5d24e7e89343d2eaaaee1e5de"
-          git_blob_normalized: "ff961e4b30b0e9b5d24e7e89343d2eaaaee1e5de"
-          role: "doc"
       unresolved: []
     - id: "release-history"
       sources:
@@ -119,8 +118,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "history"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
 ---

@@ -1,4 +1,7 @@
 ---
+id: "limitations"
+title: "Limitations"
+description: "Known bounds, trigger, impact, workaround, source evidence"
 docforge_provenance:
   schema: "2.0"
   doc_id: "limitations"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -16,8 +19,8 @@ docforge_provenance:
     - id: "limitations-and-known-issues"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "known-limitations"
@@ -66,8 +69,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKeyApp/AppDelegate.swift"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
@@ -77,8 +80,8 @@ docforge_provenance:
     - id: "not-supported"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKey.xcodeproj/project.pbxproj"
           git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"

@@ -1,4 +1,7 @@
 ---
+id: "distribution"
+title: "Distribution"
+description: "Artifact, build, signing, packaging, channels, verification, update/rollback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "distribution"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -20,8 +23,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Scripts/create-dmg.sh"
           git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
@@ -66,8 +69,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -113,7 +116,7 @@ EasyKey ships through two channels, both fed by the same universal artifact: dir
 1. Build — `make local-dmg` on a developer machine, or the tag-push release workflow on CI, which builds a matrix of three DMGs: universal (`arm64 x86_64`), arm64-only, and amd64-only (each non-universal DMG renamed from `-universal` to its target name). The workflow fails the job unless the tag equals the built version.
 2. Sign — ad-hoc (`CODE_SIGN_IDENTITY="-"`, `CODE_SIGN_STYLE=Automatic`) in the current public path. The Developer ID path (`CODE_SIGN_IDENTITY=$DEVELOPER_ID_APPLICATION`, Manual style) is implemented in `Scripts/archive.sh` but is not what CI runs today — see Signing status.
 3. Package — `Scripts/create-dmg.sh` builds a UDZO disk image (`hdiutil create`) containing the app plus an `/Applications` symlink, named `EasyKey-<version>-universal.dmg`.
-4. Publish — the release workflow uploads the three DMGs and creates a **draft** release (`gh release create <tag> <dmgs> --draft`); the maintainer publishes the draft. [README](../README.md) points end users at the latest release for download.
+4. Publish — the release workflow uploads the three DMGs and creates a **draft** release (`gh release create <tag> <dmgs> --draft`); the maintainer publishes the draft. README points end users at the latest release for download.
 5. Verify — `Scripts/verify-arch.sh` confirms every Mach-O binary carries `arm64` and `x86_64`; `Scripts/verify-release.sh` (local path) enforces the bundled `LICENSE`, `NOTICE`, and `THIRD_PARTY_NOTICES.md`, rejects development material and tracked `build/` output. User-side verification: mount the DMG, drag EasyKey into Applications, grant Accessibility at first launch — and, for ad-hoc builds, expect the first-launch Gatekeeper block (Control-click → Open) because the app is not notarized.
 
 ## Sparkle update channel
@@ -130,7 +133,7 @@ EasyKey ships through two channels, both fed by the same universal artifact: dir
 | `make local-dmg` | ad-hoc (`-`) | no | yes — CI runs this and public builds ship this way |
 | `make dmg` | Developer ID (Manual) | yes — app and DMG via `notarize.sh` + `staple.sh` | no — scripted and documented, not wired into CI |
 
-Current public builds are universal and ad-hoc signed, but not Developer ID notarized: the release workflow's explicit TODO (Developer ID signing and notarization staged "once Apple cert is available") documents this, and [README](../README.md) instructs users who hit the Gatekeeper block to Control-click → Open (or System Settings → Privacy & Security → Open Anyway). The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs — `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables — are enforced by `Scripts/archive.sh` and `Scripts/notarize.sh`. Until a certificate lands, treat notarized distribution as future capability, not current behavior.
+Current public builds are universal and ad-hoc signed, but not Developer ID notarized: the release workflow's explicit TODO (Developer ID signing and notarization staged "once Apple cert is available") documents this, and README instructs users who hit the Gatekeeper block to Control-click → Open (or System Settings → Privacy & Security → Open Anyway). The signed path is complete in the repository — `make dmg` archives with Developer ID, exports, notarizes and staples the app, creates the DMG, notarizes and staples the DMG, and runs full `verify-release.sh` including `spctl` assessment; required inputs — `DEVELOPER_ID_APPLICATION`, `DEVELOPMENT_TEAM`, and either `NOTARY_KEYCHAIN_PROFILE` or Apple ID notarization environment variables — are enforced by `Scripts/archive.sh` and `Scripts/notarize.sh`. Until a certificate lands, treat notarized distribution as future capability, not current behavior.
 
 ## Update and rollback
 

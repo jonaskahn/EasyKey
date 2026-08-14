@@ -1,4 +1,7 @@
 ---
+id: "system_overview"
+title: "System Overview"
+description: "The handful of major capabilities; for each, the components it touches and its owning flow; the primary end-to-end path(s) tying features together; external..."
 docforge_provenance:
   schema: "2.1"
   doc_id: "system_overview"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -16,12 +19,12 @@ docforge_provenance:
     - id: "system-overview"
       sources:
         - path: "docs/architecture/high-level.md"
-          git_blob: "5a847d1021f6394960b291a77419f6417acc30bd"
-          git_blob_normalized: "5a847d1021f6394960b291a77419f6417acc30bd"
+          git_blob: "512ee6424ad536435918e38036388604946f544e"
+          git_blob_normalized: "512ee6424ad536435918e38036388604946f544e"
           role: "doc"
         - path: "docs/flows/README.md"
-          git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
-          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
+          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
           role: "doc"
         - path: ".docforge/tmp/flow-graph.json"
           git_blob: "908611da74a9394034e0444c761481351d43ad08"
@@ -31,8 +34,8 @@ docforge_provenance:
     - id: "primary-end-to-end-path"
       sources:
         - path: "docs/flows/keyboard-typing.md"
-          git_blob: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
-          git_blob_normalized: "7f6cbe5904aba625eefd8c3b826e64c9614ee76f"
+          git_blob: "5b7871ea54bea9edc63bb3f054b30fd4e38849c9"
+          git_blob_normalized: "5b7871ea54bea9edc63bb3f054b30fd4e38849c9"
           role: "doc"
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
           git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
@@ -47,16 +50,16 @@ docforge_provenance:
     - id: "feature-owning-flow-subsystem"
       sources:
         - path: "docs/flows/README.md"
-          git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
-          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
+          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
           role: "doc"
         - path: ".docforge/tmp/flow-graph.json"
           git_blob: "908611da74a9394034e0444c761481351d43ad08"
           git_blob_normalized: "908611da74a9394034e0444c761481351d43ad08"
           role: "manifest"
         - path: "docs/architecture/high-level.md"
-          git_blob: "5a847d1021f6394960b291a77419f6417acc30bd"
-          git_blob_normalized: "5a847d1021f6394960b291a77419f6417acc30bd"
+          git_blob: "512ee6424ad536435918e38036388604946f544e"
+          git_blob_normalized: "512ee6424ad536435918e38036388604946f544e"
           role: "doc"
       unresolved: []
 ---

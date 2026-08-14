@@ -1,4 +1,7 @@
 ---
+id: "platform_integration"
+title: "Platform Integration"
+description: "OS services, adapters, permissions boundary, callbacks, failure and fallback"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_integration"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -108,8 +111,8 @@ docforge_provenance:
           git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
           role: "code"
         - path: "docs/reference/limitations.md"
-          git_blob: "355ff29d68cc611293889973aeb80c951e797ae8"
-          git_blob_normalized: "355ff29d68cc611293889973aeb80c951e797ae8"
+          git_blob: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
+          git_blob_normalized: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
           role: "doc"
       unresolved: []
     - id: "integration-surface"

@@ -10,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -95,7 +95,8 @@ EasyKey requests exactly one TCC-gated capability — Accessibility — and
 registers one login item. Everything else it touches (pasteboard, network,
 files) is ungated on macOS and is listed below with its manifest evidence so
 reviewers can see both halves of the picture. Threats and controls around these
-capabilities are in [threat-model.md](threat-model.md).
+capabilities are covered by the Security policy and the
+[security section index](README.md).
 
 ## Accessibility — keyboard event tap
 

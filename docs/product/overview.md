@@ -1,4 +1,7 @@
 ---
+id: "product_overview"
+title: "Product Overview"
+description: "Users, problems, capabilities, explicit non-goals"
 docforge_provenance:
   schema: "2.0"
   doc_id: "product_overview"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "orientation"
   graph:
     provider: "codegraph"
@@ -16,12 +19,12 @@ docforge_provenance:
     - id: "what-easykey-does"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
-        - path: "docs/flows/telex.md"
-          git_blob: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
-          git_blob_normalized: "2e5946ef5f8d1ae23d270399677595fef840f8f0"
+        - path: "docs/_archive/telex.md"
+          git_blob: "a5f49cdcc22cc2c33b9d345943c2105faab07967"
+          git_blob_normalized: "a5f49cdcc22cc2c33b9d345943c2105faab07967"
           role: "doc"
         - path: "EasyEngineCore/Settings/InputSettings.swift"
           git_blob: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
@@ -31,15 +34,15 @@ docforge_provenance:
     - id: "who-its-for"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "capabilities"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyEngineCore/Translation/TranslationProviderID.swift"
           git_blob: "d494c06ab4bc4fba8eaafdc2b51430f0e9cbc33d"
@@ -73,27 +76,27 @@ docforge_provenance:
     - id: "boundaries-and-non-goals"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
           git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
           role: "code"
         - path: "docs/reference/limitations.md"
-          git_blob: "355ff29d68cc611293889973aeb80c951e797ae8"
-          git_blob_normalized: "355ff29d68cc611293889973aeb80c951e797ae8"
+          git_blob: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
+          git_blob_normalized: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
           role: "doc"
       unresolved: []
     - id: "where-to-go-next"
       sources:
         - path: "docs/flows/README.md"
-          git_blob: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
-          git_blob_normalized: "83492bedf226fa49c62e8290fd14fd6fe6b62f89"
+          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
+          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
           role: "doc"
         - path: "docs/reference/README.md"
-          git_blob: "0ce215295807dfce3703dff3da14c752a40a3c1f"
-          git_blob_normalized: "0ce215295807dfce3703dff3da14c752a40a3c1f"
+          git_blob: "72b35036aa2710b6eaf73913dccff97fcb684796"
+          git_blob_normalized: "72b35036aa2710b6eaf73913dccff97fcb684796"
           role: "doc"
       unresolved: []
 ---
@@ -117,7 +120,7 @@ Three global shortcuts give you the core product, and all of them are configurab
 
 ## Who it's for
 
-Anyone who types Vietnamese on a Mac and wants it to "just work" in every application, plus translators and power users who also want a private clipboard history and on-demand translation without a web tab. It is a clean-room implementation of public Vietnamese typing conventions (see the [Telex rule set](../flows/telex.md)), not an input-method framework.
+Anyone who types Vietnamese on a Mac and wants it to "just work" in every application, plus translators and power users who also want a private clipboard history and on-demand translation without a web tab. It is a clean-room implementation of public Vietnamese typing conventions (see the the archived Telex rule set), not an input-method framework.
 
 ## Capabilities
 
@@ -139,6 +142,6 @@ Anyone who types Vietnamese on a Mac and wants it to "just work" in every applic
 
 ## Where to go next
 
-- [README](../README.md) — install, build, and default shortcuts
+- README — install, build, and default shortcuts
 - [Flows](../flows/README.md) — how keyboard typing, clipboard history, and translation actually behave
 - [Reference](../reference/README.md) — compatibility, limitations, and configuration detail

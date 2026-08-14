@@ -10,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -18,13 +18,13 @@ docforge_provenance:
   sections:
     - id: "verified-behavior-by-area"
       sources:
-        - path: "docs/architecture/design.md"
-          git_blob: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
-          git_blob_normalized: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
+        - path: "docs/_archive/design.md"
+          git_blob: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
+          git_blob_normalized: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
           role: "doc"
-        - path: "docs/engineering/rulebook.md"
-          git_blob: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
-          git_blob_normalized: "dba86c139b41f2fe59027bab1f0e9982fd8d0e00"
+        - path: "docs/_archive/rulebook.md"
+          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
+          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
           role: "doc"
         - path: "EasyKeyApp/Features/Onboarding/OnboardingView.swift"
           git_blob: "6607f26cd0e27f49ac6d0e77492557411063e170"
@@ -50,9 +50,9 @@ docforge_provenance:
         - path: "EasyKeyUITests/SettingsAccessibilityTests.swift"
           git_blob: "976a883c7b3279992b082f5563c5e123e757bce9"
           role: "test"
-        - path: "docs/architecture/design.md"
-          git_blob: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
-          git_blob_normalized: "c10b8f8f25b79d2d6401c886178f2be8fa6b0e34"
+        - path: "docs/_archive/design.md"
+          git_blob: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
+          git_blob_normalized: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
           role: "doc"
       unresolved: []
 ---
@@ -71,7 +71,7 @@ _Last reviewed: 2026-08-13_
 | Understandable | Every user-facing string resolves through the localization store, so labels render in the chosen interface language; the popover status is one composed label ("state + app name + Smart Switch status") instead of fragmented subviews | Manual audit + automated audit |
 | Robust | Stable accessibility identifiers are an enforced UI-test contract (onboarding steps, settings shell, translation settings); semantic roles and states come from native controls, not custom drawing | Automated audit + UI tests consuming the identifiers |
 
-Key implementations: onboarding uses explicit `.accessibilityLabel` plus stable identifiers such as `"OnboardingPrimary"` and `"Grant Accessibility Access"` (`EasyKeyApp/Features/Onboarding/OnboardingView.swift`); the shortcut recorder composes localized labels for record and clear (`EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift`); the menu popover combines its status children into one accessible element (`EasyKeyApp/Coordination/MenuPopoverView.swift`). The project rules mandate standard controls, semantic colors, system text styles, and accessibility labels, with controls working under keyboard navigation, VoiceOver, increased text size, and reduced motion ([rulebook](../engineering/rulebook.md)); materials are native-only with no custom material layers ([design.md §7](../architecture/design.md)) — so Reduce Transparency, Reduce Motion, and Increase Contrast are honored by construction ([design.md §11](../architecture/design.md)).
+Key implementations: onboarding uses explicit `.accessibilityLabel` plus stable identifiers such as `"OnboardingPrimary"` and `"Grant Accessibility Access"` (`EasyKeyApp/Features/Onboarding/OnboardingView.swift`); the shortcut recorder composes localized labels for record and clear (`EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift`); the menu popover combines its status children into one accessible element (`EasyKeyApp/Coordination/MenuPopoverView.swift`). The project rules mandate standard controls, semantic colors, system text styles, and accessibility labels, with controls working under keyboard navigation, VoiceOver, increased text size, and reduced motion (the archived engineering rulebook); materials are native-only with no custom material layers (the archived design document) — so Reduce Transparency, Reduce Motion, and Increase Contrast are honored by construction (the archived design document).
 
 ## Verification method
 
@@ -84,4 +84,4 @@ Automated: `EasyKeyUITests/SettingsAccessibilityTests.swift` runs XCUITest's `pe
 - **Translation settings and the clipboard/translation popovers are not in the automated per-section audit.** The audit covers eight settings sections; the translation settings section and the floating panels/popovers have identifiers and labels but no automated audit run.
 - **No recorded assistive-technology walkthrough.** There is no logged VoiceOver (or other AT) end-to-end test session; the stable identifiers exist so such tests can be written.
 - **Typing depends on the Accessibility permission.** Without it the app cannot transform keystrokes; the degraded experience is plain unmarked text, and permission can be revoked at any time.
-- **No Dynamic Type scaling on macOS.** macOS does not scale type the way iOS does; the app follows system text styles, which track system preferences (see [design.md §4](../architecture/design.md)).
+- **No Dynamic Type scaling on macOS.** macOS does not scale type the way iOS does; the app follows system text styles, which track system preferences (see the archived design document).

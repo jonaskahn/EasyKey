@@ -10,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -19,101 +19,101 @@ docforge_provenance:
     - id: "clipboard-history"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
-          role: "code"
           git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
+          role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
-          role: "code"
           git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
-        - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           git_blob: "cf479dc1990e259036d4ce3784f8539195e38f41"
+          role: "code"
       unresolved: []
     - id: "settings"
       sources:
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          role: "code"
           git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          role: "code"
           git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
-        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           role: "code"
+        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
+          role: "code"
       unresolved: []
     - id: "macros"
       sources:
         - path: "EasyEngineCore/Macros/MacroStore.swift"
-          role: "code"
           git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          role: "code"
       unresolved: []
     - id: "smart-switch-preferences"
       sources:
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
+          role: "code"
       unresolved: []
     - id: "translation-credentials"
       sources:
         - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-          role: "code"
           git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
-        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
       unresolved: []
     - id: "migrations"
       sources:
         - path: "EasyEngineCore/Settings/SettingsMigration.swift"
-          role: "code"
           git_blob: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
+          role: "code"
         - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          role: "code"
           git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
+          role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
-        - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
           role: "code"
+        - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
+          role: "code"
       unresolved: []
     - id: "transaction-and-consistency-boundary"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          role: "code"
           git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          role: "code"
         - path: "EasyEngineCore/Macros/MacroStore.swift"
-          role: "code"
           git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          role: "code"
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
-        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           role: "code"
+        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
+          role: "code"
       unresolved: []
     - id: "failure-recovery"
       sources:
         - path: "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-          role: "code"
           git_blob: "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+          role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          role: "code"
           git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
+          role: "code"
         - path: "EasyEngineCore/Macros/MacroStore.swift"
-          role: "code"
           git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+          role: "code"
         - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          role: "code"
           git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
-        - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift"
           git_blob: "cf479dc1990e259036d4ce3784f8539195e38f41"
+          role: "code"
       unresolved: []
 ---
 # Persistence
@@ -166,7 +166,7 @@ erDiagram
 
 **Storage:** Keychain only (service `one.ifelse.easykey.translation`) · **Key:** per-provider API credential
 
-**Denormalization:** none. Provider API keys are stored via `KeychainTranslationCredentialStore` as Keychain generic passwords and never written to the filesystem (`EasyKeyApp/Features/Translation/TranslationCredentialStore.swift`). Credential storage is opt-in per provider; see [data-handling](../security/data-handling.md) for the redaction and export contract.
+**Denormalization:** none. Provider API keys are stored via `KeychainTranslationCredentialStore` as Keychain generic passwords and never written to the filesystem (`EasyKeyApp/Features/Translation/TranslationCredentialStore.swift`). Credential storage is opt-in per provider; the security posture around stored credentials is covered by the [security section](../security/README.md).
 
 ## Migrations
 

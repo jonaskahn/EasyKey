@@ -10,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -19,68 +19,68 @@ docforge_provenance:
     - id: "application-lifecycle"
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
-          role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           role: "code"
+        - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
       unresolved: []
     - id: "launch"
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
-          role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
-          role: "code"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
         - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          role: "code"
           git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           role: "code"
+        - path: "EasyKeyApp/Settings/SettingsStore.swift"
           git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
+          role: "code"
       unresolved: []
     - id: "active"
       sources:
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          role: "code"
           git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           role: "code"
+        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
           git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
+          role: "code"
       unresolved: []
     - id: "asleep"
       sources:
         - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          role: "code"
           git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+          role: "code"
         - path: "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift"
-          role: "code"
           git_blob: "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8"
+          role: "code"
         - path: "EasyKeyApp/Coordination/WorkspaceObserver.swift"
-          role: "code"
           git_blob: "43906864cb9efceb789b0d80709a50e62730b258"
+          role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          role: "code"
           git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
+          role: "code"
       unresolved: []
     - id: "terminated"
       sources:
         - path: "EasyKeyApp/AppDelegate.swift"
-          role: "code"
           git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+          role: "code"
         - path: "EasyKeyApp/Coordination/AppCoordinator.swift"
-          role: "code"
           git_blob: "815b5dad186802739e0969eb509af2469570b583"
+          role: "code"
         - path: "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
-          role: "code"
           git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           role: "code"
+        - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
           git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
+          role: "code"
       unresolved: []
 ---
 # Application lifecycle
@@ -111,7 +111,7 @@ stateDiagram-v2
 
 **Restoration on relaunch:** `SettingsStore` (wrapping `SettingsRepository`) loads `settings.json` from `~/Library/Application Support/EasyKey/` — decoding supported schema versions and migrating older ones — `MacroStore` loads `macros.json`, `SmartSwitchStore` loads `smart-switch.json`, and the clipboard model loads persisted history only when `clipboard.persistsHistory` is enabled. The onboarding gate (`hasCompletedOnboarding`) restores from `UserDefaults`.
 
-**On kill mid-transition:** before `start()` completes nothing is registered and nothing persists — a kill here is a clean no-op. The only risk window is a kill during the debounced settings write (see [tech-debt.md](tech-debt.md)).
+**On kill mid-transition:** before `start()` completes nothing is registered and nothing persists — a kill here is a clean no-op. The only risk window is a kill during the debounced settings write (`SettingsStore`, 300 ms debounce).
 
 ## Active
 
@@ -147,4 +147,4 @@ stateDiagram-v2
 
 **Restoration on relaunch:** same as Launch — file stores are reloaded; the persisted clipboard document's sealed payloads decrypt with the device-only Keychain key.
 
-**On kill mid-transition:** a hard kill (force-quit, crash) skips the stop choreography: the debounced settings write (300 ms) may be lost, and any pending clipboard persistence flush is lost; the sealed document on disk is only ever replaced atomically, so it stays readable (or absent) rather than corrupt. Failure boundaries for each subsystem's flush are documented in [low-level.md](low-level.md).
+**On kill mid-transition:** a hard kill (force-quit, crash) skips the stop choreography: the debounced settings write (300 ms) may be lost, and any pending clipboard persistence flush is lost; the sealed document on disk is only ever replaced atomically, so it stays readable (or absent) rather than corrupt. Failure boundaries for each subsystem's flush are covered by the [architecture overview](README.md#scope-and-boundaries).

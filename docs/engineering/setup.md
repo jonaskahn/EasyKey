@@ -1,4 +1,7 @@
 ---
+id: "setup_guide"
+title: "Setup Guide"
+description: "Prerequisites, install, configuration, run, verification, recovery"
 docforge_provenance:
   schema: "2.0"
   doc_id: "setup_guide"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "deep-dive"
   graph:
     provider: "codegraph"
@@ -16,16 +19,16 @@ docforge_provenance:
     - id: "prerequisites"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "docs/reference/tech-stack.md"
-          git_blob: "3d7a3a2f4de90feed390033f9bd39206ae4686be"
-          git_blob_normalized: "3d7a3a2f4de90feed390033f9bd39206ae4686be"
+          git_blob: "1cd639b521c238c1868865ebb2afbb0e98f6c2f5"
+          git_blob_normalized: "1cd639b521c238c1868865ebb2afbb0e98f6c2f5"
           role: "doc"
         - path: "Scripts/archive.sh"
           git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
@@ -39,8 +42,8 @@ docforge_provenance:
     - id: "steps"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Makefile"
           git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
@@ -82,8 +85,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Scripts/clean-local.sh"
           git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
@@ -93,8 +96,8 @@ docforge_provenance:
     - id: "next"
       sources:
         - path: "docs/engineering/testing.md"
-          git_blob: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
-          git_blob_normalized: "8bb5cc9a4b9d059453e9f103da683c7956067cf4"
+          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
+          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
           role: "doc"
       unresolved: []
 ---
@@ -128,7 +131,7 @@ held by the repository owner; see the signing status in
 ## Steps
 
 1. Clone the repository and enter it. The repository is public; the release
-   badge at the top of the [README](../../README.md) links to the public
+   badge at the top of the root README links to the public
    release page.
 
    ```bash

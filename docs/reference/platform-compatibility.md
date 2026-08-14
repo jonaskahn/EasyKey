@@ -1,4 +1,7 @@
 ---
+id: "platform_compatibility"
+title: "Platform Compatibility"
+description: "OS/device/architecture matrix, minimums, tested evidence, degradation, deprecation"
 docforge_provenance:
   schema: "2.0"
   doc_id: "platform_compatibility"
@@ -7,7 +10,7 @@ docforge_provenance:
   generator:
     name: "docforge"
     version: "2.8.0"
-  tier: "diligence"
+  tier: "spine"
   target_depth: "reference"
   graph:
     provider: "codegraph"
@@ -20,8 +23,8 @@ docforge_provenance:
           git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
           role: "manifest"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
     - id: "supported-platforms"
@@ -35,8 +38,8 @@ docforge_provenance:
           git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
           role: "config"
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
         - path: "Scripts/verify-macos-compatibility.sh"
           git_blob: "2685842ca427b505b561e0154e5eb2d5fc27fd6a"
@@ -69,8 +72,8 @@ docforge_provenance:
     - id: "deprecation-horizon"
       sources:
         - path: "README.md"
-          git_blob: "8687b8acd6307c86df97aeaf869a85c5c041e671"
-          git_blob_normalized: "8687b8acd6307c86df97aeaf869a85c5c041e671"
+          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
+          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
           role: "doc"
       unresolved: []
 ---
