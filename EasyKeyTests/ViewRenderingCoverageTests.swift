@@ -627,6 +627,8 @@ final class ViewRenderingCoverageTests: XCTestCase {
         XCTAssertEqual(view.categoryTitle(.english), LocalizationStore.shared.string(.languageEnglish))
         view.setCategory(.both, for: macro)
         XCTAssertEqual(view.categoryTitle(.both), LocalizationStore.shared.string(.languageBoth))
+        XCTAssertEqual(view.categoryTitle(.nineX), LocalizationStore.shared.string(.languageNineX))
+        XCTAssertEqual(view.categoryTitle(.genZ), LocalizationStore.shared.string(.languageGenZ))
 
         let updated = try XCTUnwrap(coordinator.macroStore.macros.first { $0.id == macro.id })
         XCTAssertEqual(updated.category, .both)
@@ -689,6 +691,32 @@ final class ViewRenderingCoverageTests: XCTestCase {
         view.save()
         render { view }
         XCTAssertFalse(coordinator.macroStore.macros.contains { $0.id == staleMacro.id })
+    }
+
+    func testMacroEditorSheet_EditSamplePackMacro_SavesAsBoth() throws {
+        for (trigger, category) in [("coa", MacroCategory.nineX), ("fr", MacroCategory.genZ)] {
+            let macro = try coordinator.macroStore.add(trigger: trigger, expansion: "sample", isEnabled: true, category: category)
+            let view = MacroEditorSheet(macro: macro, coordinator: coordinator)
+            let window = windowRender { view }
+            pump(0.3)
+            pressReturn(in: window)
+            pump(0.3)
+            let updated = try XCTUnwrap(coordinator.macroStore.macros.first { $0.id == macro.id })
+            XCTAssertEqual(updated.category, .both, "Editing a \(category) sample macro should save as .both")
+            settleCloseWindow(window)
+        }
+    }
+
+    func testMacroEditorSheet_EditLanguageMacro_KeepsLanguageCategory() throws {
+        let macro = try coordinator.macroStore.add(trigger: "dc", expansion: "được", isEnabled: true, category: .vietnamese)
+        let view = MacroEditorSheet(macro: macro, coordinator: coordinator)
+        let window = windowRender { view }
+        pump(0.3)
+        pressReturn(in: window)
+        pump(0.3)
+        let updated = try XCTUnwrap(coordinator.macroStore.macros.first { $0.id == macro.id })
+        XCTAssertEqual(updated.category, .vietnamese)
+        settleCloseWindow(window)
     }
 
     // MARK: - ClipboardSettingsView

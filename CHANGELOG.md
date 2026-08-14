@@ -137,9 +137,15 @@ docforge_provenance:
 ---
 # Changelog
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-14_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
+
+## [0.0.9] - 2026-08-14
+
+**Changed**
+
+- Macro categories when adding or editing are now English, Vietnamese, or Both; the 9x and Gen Z packs remain available as sample macros only.
 
 ## [0.0.8] - 2026-08-13
 
@@ -228,4 +234,4 @@ Initial public release of the EasyKey Vietnamese typing utility. The current cap
 
 ## Release history
 
-The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 is not tagged yet and is summarized from the commits since `v0.0.7`. The full commit history is in git.
+The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 and 0.0.9 are not tagged yet and are summarized from the commits since `v0.0.7`. The full commit history is in git.

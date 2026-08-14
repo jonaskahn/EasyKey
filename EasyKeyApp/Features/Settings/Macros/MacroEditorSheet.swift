@@ -25,8 +25,6 @@ struct MacroEditorSheet: View {
                 Picker(localization.string(.macrosCategory), selection: $category) {
                     Text(localization.string(.languageVietnamese)).tag(MacroCategory.vietnamese)
                     Text(localization.string(.languageEnglish)).tag(MacroCategory.english)
-                    Text(localization.string(.languageNineX)).tag(MacroCategory.nineX)
-                    Text(localization.string(.languageGenZ)).tag(MacroCategory.genZ)
                     Text(localization.string(.languageBoth)).tag(MacroCategory.both)
                 }
                 .pickerStyle(.segmented)
@@ -70,7 +68,15 @@ struct MacroEditorSheet: View {
             trigger = macro?.trigger ?? ""
             expansion = macro?.expansion ?? ""
             enabled = macro?.isEnabled ?? true
-            category = macro?.category ?? .both
+            category = Self.editorCategory(macro?.category)
+        }
+    }
+
+    private static func editorCategory(_ category: MacroCategory?) -> MacroCategory {
+        switch category {
+        case .nineX, .genZ: .both
+        case let category?: category
+        case nil: .both
         }
     }
 

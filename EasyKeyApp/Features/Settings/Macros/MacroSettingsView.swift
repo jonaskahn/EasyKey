@@ -87,8 +87,6 @@ struct MacroSettingsView: View {
                                 Menu {
                                     Button(localization.string(.languageVietnamese)) { setCategory(.vietnamese, for: macro) }
                                     Button(localization.string(.languageEnglish)) { setCategory(.english, for: macro) }
-                                    Button(localization.string(.languageNineX)) { setCategory(.nineX, for: macro) }
-                                    Button(localization.string(.languageGenZ)) { setCategory(.genZ, for: macro) }
                                     Button(localization.string(.languageBoth)) { setCategory(.both, for: macro) }
                                 } label: {
                                     Text(categoryTitle(macro.category))
