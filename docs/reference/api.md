@@ -250,7 +250,7 @@ no `KeyboardOptions` type — keyboard behavior is `InputSettings` +
 | Framework | Bundle identifier | Version marker | Content |
 |---|---|---|---|
 | EasyEngineCore | `com.easykey.EasyEngineCore` | none (shares app marketing version) | Typing engine, encodings, converter, macros, Smart Switch, clipboard model, translation model, settings, diagnostics |
-| EasyKeyKit | `one.ifelse.easykeyKit` | `EasyKeyKit.version = "0.0.8"` | Keyboard service, event synthesis, compatibility rules |
+| EasyKeyKit | `one.ifelse.easykeyKit` | `EasyKeyKit.version = "0.0.9"` | Keyboard service, event synthesis, compatibility rules |
 
 Dependency direction is enforced by architecture fitness tests:
 `EasyKeyApp → EasyKeyKit → EasyEngineCore`; EasyEngineCore imports no

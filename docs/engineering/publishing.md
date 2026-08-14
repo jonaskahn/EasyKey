@@ -99,8 +99,8 @@ what does not exist for external distribution.
 | EasyKeyKit.framework | Xcode framework (Mach-O, `product-type.framework`) | same |
 | EasyKey.app | app bundle embedding both frameworks | `Scripts/export.sh` from the archive |
 
-**Version source:** `MARKETING_VERSION` (currently 0.0.8) and
-`CURRENT_PROJECT_VERSION` (currently 6) in
+**Version source:** `MARKETING_VERSION` (currently 0.0.9) and
+`CURRENT_PROJECT_VERSION` (currently 7) in
 `EasyKey.xcodeproj/project.pbxproj` — the same single source the app uses.
 Downstream readers never re-derive it: `Scripts/create-dmg.sh` reads
 `CFBundleShortVersionString` from the built app, and release tags must equal

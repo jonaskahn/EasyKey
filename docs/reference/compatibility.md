@@ -96,9 +96,9 @@ Both frameworks compile with `MACOSX_DEPLOYMENT_TARGET = 14.0` and
 `SWIFT_VERSION = 5.0` ([project.pbxproj](../../EasyKey.xcodeproj/project.pbxproj)),
 and the codebase is constrained to Swift 5 language mode by
 [CONVENTIONS.md](../engineering/conventions.md). Version markers: the app and
-helper track the marketing version (currently 0.0.8, see
+helper track the marketing version (currently 0.0.9, see
 [CHANGELOG.md](../../CHANGELOG.md)); `EasyKeyKit` additionally exposes
-`EasyKeyKit.version = "0.0.8"`.
+`EasyKeyKit.version = "0.0.9"`.
 
 ## External dependencies
 

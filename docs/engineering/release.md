@@ -136,7 +136,7 @@ Semantic Versioning"). Major: breaking changes · Minor: new features ·
 Patch: bug fixes.
 
 The version's single source of truth is `MARKETING_VERSION` (currently
-0.0.8) with `CURRENT_PROJECT_VERSION` (currently 6) in
+0.0.9) with `CURRENT_PROJECT_VERSION` (currently 7) in
 `EasyKey.xcodeproj/project.pbxproj`. Everything downstream reads it from the
 built app's `Info.plist`: the DMG filename is `EasyKey-<version>-universal.dmg`
 (`Scripts/create-dmg.sh` reads `CFBundleShortVersionString`), and the release
