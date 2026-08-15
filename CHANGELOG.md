@@ -4,7 +4,7 @@ _Last reviewed: 2026-08-15_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
 
-## [0.0.11] - Unreleased
+## [0.0.11] - 2026-08-15
 
 **Added**
 
@@ -17,6 +17,8 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 - Saving a cloud provider key now falls back to adding the item when updating a missing one, and the Data Protection keychain flag was removed so classic login-keychain items remain readable.
 
 **Fixed**
+
+- Smart switch now tracks the correct state when EasyKey is the frontmost app.
 
 ## [0.0.10] - 2026-08-15
 
