@@ -148,16 +148,12 @@ struct MenuPopoverView: View {
                 .foregroundStyle(stateColor)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
-                Text(coordinator.menuBarStateTitle)
+                Text(coordinator.currentApplicationName)
                     .font(.subheadline.weight(.semibold))
-                Text(localization.format(
-                    .menuCurrentAppStatus,
-                    coordinator.currentApplicationName,
-                    coordinator.currentAppSmartSwitchStatus
-                ))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+                Text(coordinator.currentAppSmartSwitchStatus)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(localization.format(

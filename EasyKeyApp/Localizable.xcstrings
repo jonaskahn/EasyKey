@@ -4012,13 +4012,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "EasyKey status: %@. Per-app preference for %@: %@"
+            "value": "EasyKey status: %@. Monitoring %@: %@"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Trạng thái EasyKey: %@. Lựa chọn đã ghi nhớ cho %@: %@"
+            "value": "Trạng thái EasyKey: %@. Theo dõi %@: %@"
           }
         }
       }

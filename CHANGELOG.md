@@ -139,6 +139,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 **Changed**
 
 - Menu bar icons (all styles plus the pause and health indicators) render at a user-selectable scale: 1.0×–1.5×, default 1.3×.
+- The popover monitor row now shows the current app name as its title, with the monitoring status below it.
 
 **Fixed**
 
