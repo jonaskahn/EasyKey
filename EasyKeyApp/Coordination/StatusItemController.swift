@@ -49,7 +49,8 @@ final class SystemStatusPopoverClickMonitor: StatusPopoverClickMonitoring {
                 handler(event)
                 return event
             }
-        ) else {
+        )
+        else {
             return nil
         }
         return PopoverMonitorRegistration { NSEvent.removeMonitor(monitor) }
@@ -59,7 +60,8 @@ final class SystemStatusPopoverClickMonitor: StatusPopoverClickMonitoring {
         guard let monitor = NSEvent.addGlobalMonitorForEvents(
             matching: [.leftMouseDown, .rightMouseDown],
             handler: { _ in handler() }
-        ) else {
+        )
+        else {
             return nil
         }
         return PopoverMonitorRegistration { NSEvent.removeMonitor(monitor) }
@@ -77,11 +79,17 @@ enum PopoverOutsideClickDecision {
         appOwnedWindows: [NSWindow]
     ) -> Bool {
         guard let clickWindow else { return false }
-        if let popoverWindow, clickWindow === popoverWindow { return false }
-        if let statusButtonWindow, clickWindow === statusButtonWindow { return false }
+        if let popoverWindow, clickWindow === popoverWindow {
+            return false
+        }
+        if let statusButtonWindow, clickWindow === statusButtonWindow {
+            return false
+        }
         // An open NSMenu (SwiftUI Menu) is a child window of the popover;
         // its item clicks must reach the menu, not dismiss the popover.
-        if let popoverWindow, clickWindow.parent === popoverWindow { return false }
+        if let popoverWindow, clickWindow.parent === popoverWindow {
+            return false
+        }
         return appOwnedWindows.contains { $0 === clickWindow }
     }
 }
