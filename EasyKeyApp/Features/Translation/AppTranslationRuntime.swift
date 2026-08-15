@@ -137,6 +137,11 @@ final class AppTranslationRuntime {
             applyEnabledState(settingsStore.settings.translation)
             onConfigurationChange?()
         }
+        model.onProviderSelected = { [weak self] provider in
+            guard let self else { return }
+            guard settingsStore.settings.translation.preferredProviderID != provider else { return }
+            settingsStore.update { $0.translation.preferredProviderID = provider }
+        }
     }
 
     var availableProviders: [TranslationProviderID] {

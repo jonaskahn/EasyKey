@@ -7077,6 +7077,22 @@
         }
       }
     },
+    "translation.settings.credentialSaveFailed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't save the key. Try again."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Không thể lưu khóa. Hãy thử lại."
+          }
+        }
+      }
+    },
     "translation.pronounce.subject": {
       "localizations": {
         "en": {

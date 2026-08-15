@@ -10,17 +10,21 @@ private final class FakeSecItemAccess: SecItemAccessing, @unchecked Sendable {
     var addStatus: OSStatus = errSecSuccess
     var updateStatus: OSStatus = errSecSuccess
     var deleteStatus: OSStatus = errSecSuccess
+    private(set) var addCallCount = 0
+    private(set) var updateCallCount = 0
 
     func copyMatching(_: [String: Any]) -> (status: OSStatus, result: CFTypeRef?) {
         copyMatchingResult
     }
 
     func add(_: [String: Any]) -> OSStatus {
-        addStatus
+        addCallCount += 1
+        return addStatus
     }
 
     func update(_: [String: Any], attributesToUpdate _: [String: Any]) -> OSStatus {
-        updateStatus
+        updateCallCount += 1
+        return updateStatus
     }
 
     func delete(_: [String: Any]) -> OSStatus {
@@ -170,9 +174,30 @@ final class TranslationCredentialStoreTests: XCTestCase {
         }
     }
 
+    func testSave_WhenUpdateReturnsItemNotFound_FallsBackToAdd() throws {
+        let access = FakeSecItemAccess()
+        access.updateStatus = errSecItemNotFound
+        let store = KeychainTranslationCredentialStore(access: access)
+
+        try store.save("key", for: .deepL)
+
+        XCTAssertEqual(access.updateCallCount, 1)
+        XCTAssertEqual(access.addCallCount, 1)
+    }
+
+    func testSave_WhenUpdateSucceeds_DoesNotAdd() throws {
+        let access = FakeSecItemAccess()
+        let store = KeychainTranslationCredentialStore(access: access)
+
+        try store.save("key", for: .deepL)
+
+        XCTAssertEqual(access.updateCallCount, 1)
+        XCTAssertEqual(access.addCallCount, 0)
+    }
+
     func testSave_WhenAddFails_ThrowsUnexpectedStatus() {
         let access = FakeSecItemAccess()
-        access.copyMatchingResult = (errSecItemNotFound, nil)
+        access.updateStatus = errSecItemNotFound
         access.addStatus = errSecParam
         let store = KeychainTranslationCredentialStore(access: access)
 

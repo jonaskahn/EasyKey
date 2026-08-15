@@ -86,6 +86,16 @@ struct CloudTranslationSettingsCard: View {
                     .accessibilityLabel(credentialActionLabel(.translationSettingsDeleteKey))
                 }
             }
+
+            if model.lastCredentialErrorProvider == provider {
+                Label(
+                    localization.string(.translationSettingsCredentialSaveFailed),
+                    systemImage: "exclamationmark.triangle.fill"
+                )
+                .font(.caption)
+                .foregroundStyle(.orange)
+                .accessibilityIdentifier("TranslationCredentialSaveFailed-\(provider.rawValue)")
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 6)

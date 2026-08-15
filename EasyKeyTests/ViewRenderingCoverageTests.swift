@@ -1418,6 +1418,47 @@ final class ViewRenderingCoverageTests: XCTestCase {
         settleCloseWindow(window)
     }
 
+    func testTranslationProviderPickerButton_EmptyProviders_ShowsChooseProviderWarning() {
+        let stateHost = NSHostingView(rootView: TranslationProviderPickerEmptyState(text: "Choose Provider"))
+        stateHost.frame = NSRect(x: 0, y: 0, width: 300, height: 60)
+        stateHost.layoutSubtreeIfNeeded()
+        XCTAssertGreaterThan(stateHost.fittingSize.width, 100)
+        XCTAssertGreaterThan(stateHost.fittingSize.height, 20)
+
+        let view = TranslationProviderPickerButton(
+            selection: nil,
+            availableProviders: [],
+            providerLabel: { $0.displayName },
+            accessibilityLabel: "Provider picker",
+            accessibilityIdentifier: "ProviderPickerProbeEmpty",
+            onSelect: { _ in },
+            emptyStateText: "Choose Provider"
+        )
+        let host = NSHostingView(rootView: AnyView(view))
+        let fitting = host.fittingSize
+        host.frame = NSRect(origin: .zero, size: fitting)
+        let window = NSWindow(
+            contentRect: NSRect(origin: .zero, size: fitting),
+            styleMask: [.titled],
+            backing: .buffered,
+            defer: false
+        )
+        window.animationBehavior = .none
+        window.contentView = host
+        window.makeKeyAndOrderFront(nil)
+        host.layoutSubtreeIfNeeded()
+
+        clickCenter(of: host, in: window)
+        pump()
+
+        let popoverWindow = NSApp.windows.first { candidate in
+            candidate !== window && candidate.isVisible
+                && String(describing: type(of: candidate)).contains("Popover")
+        }
+        XCTAssertNotNil(popoverWindow, "Empty provider picker popover did not open")
+        settleCloseWindow(window)
+    }
+
     private func findRowProxies(in view: NSView?) -> [NSView] {
         guard let view else { return [] }
         var found: [NSView] = []

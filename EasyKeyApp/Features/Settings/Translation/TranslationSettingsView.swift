@@ -353,44 +353,38 @@ private struct ProviderSelectionRow: View {
     let onToggle: () -> Void
     @State private var isHovering = false
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
             Button(action: onSelect) {
-                Image(systemName: isSelected ? "circle.inset.filled" : "circle")
-                    .foregroundStyle(isSelected ? Color.accentColor : .secondary)
-                    .frame(width: 16, height: 16)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(providerName)
-            .accessibilityValue(isSelected ? "Selected" : "Not selected")
-            .accessibilityIdentifier(TranslationSettingsAccessibility.providerSelection(provider))
-            TranslationProviderIcon(provider: provider, size: 18)
-            Button(action: onToggle) {
                 HStack(spacing: 8) {
+                    TranslationProviderIcon(provider: provider, size: 18)
                     Text(providerName)
                         .fontWeight(.medium)
                     Spacer(minLength: 8)
                     if let status {
                         ProviderStatusBadge(status: status)
                     }
-                    if status != nil {
-                        Image(systemName: "chevron.down")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                    }
                 }
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .disabled(status == nil)
             .accessibilityLabel(providerName)
-            .accessibilityHint(status == nil ? "" : "Show provider settings")
-            .accessibilityValue(isExpanded ? "Expanded" : "Collapsed")
-            .accessibilityIdentifier(
-                status == nil
-                    ? TranslationSettingsAccessibility.providerRow(provider)
-                    : TranslationSettingsAccessibility.providerDisclosure(provider)
-            )
+            .accessibilityValue(isSelected ? "Selected" : "Not selected")
+            .accessibilityIdentifier(TranslationSettingsAccessibility.providerSelection(provider))
+            if status != nil {
+                Button(action: onToggle) {
+                    Image(systemName: "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .frame(width: 20, height: 20)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(providerName)
+                .accessibilityHint("Show provider settings")
+                .accessibilityValue(isExpanded ? "Expanded" : "Collapsed")
+                .accessibilityIdentifier(TranslationSettingsAccessibility.providerDisclosure(provider))
+            }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)

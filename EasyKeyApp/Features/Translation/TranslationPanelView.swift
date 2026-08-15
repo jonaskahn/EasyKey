@@ -163,13 +163,14 @@ struct TranslationPanelView: View {
             providerLabel: providerName,
             accessibilityLabel: providerAccessibilityLabel,
             accessibilityIdentifier: TranslationPanelAccessibility.providerPicker,
-            onSelect: model.selectProvider
+            onSelect: model.selectProvider,
+            emptyStateText: localization.string(.translationChooseProvider)
         )
     }
 
     private var providerAccessibilityLabel: String {
         guard let providerID = model.providerID, availableProviders.contains(providerID) else {
-            return "\(localization.string(.translationProvider)): \(providerName(.apple))"
+            return "\(localization.string(.translationProvider)): \(localization.string(.translationChooseProvider))"
         }
         return "\(localization.string(.translationProvider)): \(providerName(providerID))"
     }

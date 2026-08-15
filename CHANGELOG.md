@@ -8,7 +8,13 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 **Added**
 
+- The chosen translation provider is now remembered and restored on next launch instead of always resetting to the default.
+- A warning in translation settings when saving a cloud provider key fails, and a "Choose Provider" empty state in the provider picker when no provider is available.
+
 **Changed**
+
+- The provider picker rows highlight the selected provider and show hover feedback; the trigger button no longer adds its own background.
+- Saving a cloud provider key now falls back to adding the item when updating a missing one, and the Data Protection keychain flag was removed so classic login-keychain items remain readable.
 
 **Fixed**
 

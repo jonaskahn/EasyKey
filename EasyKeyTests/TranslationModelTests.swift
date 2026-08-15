@@ -505,6 +505,25 @@ final class TranslationModelTests: XCTestCase {
         XCTAssertEqual(model.status, .succeeded(response))
     }
 
+    func testSelectProvider_NotifiesOnProviderSelected() {
+        var selected: [TranslationProviderID] = []
+        let provider = FakeTranslationProvider(behavior: .success(
+            TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)
+        ))
+        let model = TranslationModel(
+            inputLanguage: .vietnamese,
+            providerID: .deepL,
+            providerLookup: { requestedID in requestedID == .google ? provider : nil }
+        )
+        model.onProviderSelected = { selected.append($0) }
+
+        model.selectProvider(.google)
+        model.selectProvider(.google)
+        model.setProviderID(.deepL)
+
+        XCTAssertEqual(selected, [.google])
+    }
+
     func testSelectProvider_WithEmptySourceText_DoesNotSchedule() async {
         let provider = FakeTranslationProvider(behavior: .success(
             TranslationResponse(translatedText: "hi", detectedSourceLanguage: nil, providerID: .google)

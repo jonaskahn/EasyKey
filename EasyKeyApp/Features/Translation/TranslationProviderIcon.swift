@@ -14,8 +14,10 @@ struct TranslationProviderPickerButton: View {
     let accessibilityLabel: String
     let accessibilityIdentifier: String
     let onSelect: (TranslationProviderID) -> Void
+    var emptyStateText: String?
 
     @State private var isPresented = false
+    @State private var hoveredProvider: TranslationProviderID?
 
     var body: some View {
         Button {
@@ -36,11 +38,17 @@ struct TranslationProviderPickerButton: View {
 
     private var providerList: some View {
         VStack(alignment: .leading, spacing: 2) {
-            ForEach(availableProviders, id: \.self) { provider in
-                row(provider: provider, isSelected: provider == selection)
+            if availableProviders.isEmpty {
+                if let emptyStateText {
+                    TranslationProviderPickerEmptyState(text: emptyStateText)
+                }
+            } else {
+                ForEach(availableProviders, id: \.self) { provider in
+                    row(provider: provider, isSelected: provider == selection)
+                }
             }
         }
-        .padding(6)
+        .padding(4)
         .frame(minWidth: 200)
     }
 
@@ -58,45 +66,78 @@ struct TranslationProviderPickerButton: View {
                     .font(.system(size: 11, weight: .semibold))
                     .opacity(isSelected ? 1 : 0)
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 6)
             .padding(.vertical, 5)
             .contentShape(Rectangle())
         }
-        .buttonStyle(TranslationProviderRowButtonStyle())
+        .buttonStyle(TranslationProviderRowButtonStyle(
+            isSelected: isSelected,
+            isHovering: hoveredProvider == provider
+        ))
+        .onHover { hovering in
+            hoveredProvider = hovering ? provider : nil
+        }
+    }
+}
+
+enum TranslationProviderPickerAccessibility {
+    static let emptyState = "TranslationProviderEmptyState"
+}
+
+struct TranslationProviderPickerEmptyState: View {
+    let text: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            Text(text)
+                .lineLimit(2)
+            Spacer(minLength: 0)
+        }
+        .font(.callout)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 7)
+        .accessibilityIdentifier(TranslationProviderPickerAccessibility.emptyState)
     }
 }
 
 private struct TranslationProviderTriggerButtonStyle: ButtonStyle {
-    @State private var isHovering = false
-
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(isHovering || configuration.isPressed ? Color.primary.opacity(0.08) : .clear)
-            )
-            .onHover { isHovering = $0 }
+            .opacity(configuration.isPressed ? 0.55 : 1)
     }
 }
 
 private struct TranslationProviderRowButtonStyle: ButtonStyle {
-    @State private var isHovering = false
+    let isSelected: Bool
+    let isHovering: Bool
+
+    private static let highlightShape = RoundedRectangle(cornerRadius: Self.highlightRadius, style: .continuous)
+
+    private static var highlightRadius: CGFloat {
+        if #available(macOS 26.0, *) {
+            return 14
+        }
+        return DesignScale.radiusMD
+    }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundStyle(.primary)
+            .foregroundStyle(isSelected ? Color.white : Color.primary)
             .background(
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(highlightFill(isPressed: configuration.isPressed))
+                Self.highlightShape.fill(highlightFill(isPressed: configuration.isPressed))
             )
-            .onHover { isHovering = $0 }
     }
 
     private func highlightFill(isPressed: Bool) -> Color {
-        if isPressed {
-            return Color.accentColor.opacity(0.28)
+        if isSelected {
+            return Color.accentColor
         }
-        return isHovering ? Color.accentColor.opacity(0.16) : .clear
+        if isPressed {
+            return Color.accentColor.opacity(0.22)
+        }
+        return isHovering ? Color.primary.opacity(0.10) : .clear
     }
 }
 

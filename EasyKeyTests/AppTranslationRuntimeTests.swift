@@ -216,6 +216,39 @@ final class AppTranslationRuntimeTests: XCTestCase {
         XCTAssertEqual(runtime.model.providerID, .google)
     }
 
+    func testSelectProviderPersistsPreferredProvider() throws {
+        try credentials.save("key", for: .deepL)
+        try credentials.save("key", for: .google)
+        let runtime = makeRuntime()
+        XCTAssertEqual(runtime.model.providerID, .deepL)
+
+        runtime.model.selectProvider(.google)
+
+        XCTAssertEqual(settingsStore.settings.translation.preferredProviderID, .google)
+    }
+
+    func testSelectProviderPersistsAcrossRuntimeRestart() throws {
+        try credentials.save("key", for: .deepL)
+        try credentials.save("key", for: .google)
+        let runtime = makeRuntime()
+        runtime.model.selectProvider(.google)
+
+        let restarted = makeRuntime()
+
+        XCTAssertEqual(restarted.model.providerID, .google)
+    }
+
+    func testSelectProvider_ReselectingResolvedFallbackDoesNotRewritePreferredProvider() throws {
+        try credentials.save("key", for: .deepL)
+        settingsStore.update { $0.translation.preferredProviderID = .apple }
+        let runtime = makeRuntime()
+        XCTAssertEqual(runtime.model.providerID, .deepL)
+
+        runtime.model.selectProvider(.deepL)
+
+        XCTAssertEqual(settingsStore.settings.translation.preferredProviderID, .apple)
+    }
+
     func testSettingsUpdatesProviderSourceAndProviderConfiguration() throws {
         try credentials.save("key", for: .deepL)
         try credentials.save("key", for: .openAI)

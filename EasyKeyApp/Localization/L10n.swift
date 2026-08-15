@@ -446,4 +446,5 @@ enum L10nKey: String, CaseIterable, Sendable {
     case translationSettingsStatusSaved = "translation.settings.status.saved"
     case translationSettingsStatusValidating = "translation.settings.status.validating"
     case translationSettingsValidate = "translation.settings.validate"
+    case translationSettingsCredentialSaveFailed = "translation.settings.credentialSaveFailed"
 }

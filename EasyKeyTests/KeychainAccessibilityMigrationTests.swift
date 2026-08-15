@@ -48,17 +48,16 @@ final class KeychainAccessibilityMigrationTests: XCTestCase {
         )
     }
 
-    func testBaseQuery_IncludesDataProtectionKeychainFlag() throws {
+    func testBaseQuery_DoesNotUseDataProtectionKeychain() throws {
         let access = RecordingSecItemAccess()
         let store = KeychainTranslationCredentialStore(service: "test-service", access: access)
 
         _ = try store.credential(for: .google)
 
         XCTAssertNotNil(access.lastBaseQuery)
-        XCTAssertEqual(
-            access.lastBaseQuery?[kSecUseDataProtectionKeychain as String] as? Bool,
-            true,
-            "Keychain query must set kSecUseDataProtectionKeychain to true"
+        XCTAssertNil(
+            access.lastBaseQuery?[kSecUseDataProtectionKeychain as String],
+            "Keychain query must not set kSecUseDataProtectionKeychain so classic login-keychain items remain readable"
         )
     }
 }

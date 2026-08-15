@@ -119,14 +119,18 @@ struct KeychainTranslationCredentialStore: TranslationCredentialStoring {
         guard !trimmed.isEmpty else { throw TranslationCredentialError.blankCredential }
         let data = Data(trimmed.utf8)
 
-        if try hasCredential(for: provider) {
-            let updateAttributes: [String: Any] = [
-                kSecValueData as String: data,
-                kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-            ]
-            let status = access.update(baseQuery(for: provider), attributesToUpdate: updateAttributes)
-            guard status == errSecSuccess else { throw TranslationCredentialError.unexpectedStatus(status) }
+        let updateAttributes: [String: Any] = [
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+        ]
+        let updateStatus = access.update(baseQuery(for: provider), attributesToUpdate: updateAttributes)
+        switch updateStatus {
+        case errSecSuccess:
             return
+        case errSecItemNotFound:
+            break
+        default:
+            throw TranslationCredentialError.unexpectedStatus(updateStatus)
         }
 
         var attributes = baseQuery(for: provider)
@@ -149,7 +153,6 @@ struct KeychainTranslationCredentialStore: TranslationCredentialStoring {
             kSecAttrService as String: service,
             kSecAttrAccount as String: provider.rawValue,
             kSecAttrSynchronizable as String: false,
-            kSecUseDataProtectionKeychain as String: true,
         ]
     }
 }

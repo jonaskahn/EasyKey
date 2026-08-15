@@ -35,6 +35,12 @@ final class TranslationModel: ObservableObject {
     private var autoTranslateTask: Task<Void, Never>?
     private var autoTranslateDelay: TimeInterval = TranslationOptions.AutoTranslateDelayPreset.ms500.timeInterval
 
+    /// Notified after a user-initiated provider selection from the panel or
+    /// popover picker. Programmatic changes (`setProviderID`) never fire this,
+    /// so callers can safely persist the user's choice here without capturing
+    /// fallback resolution.
+    var onProviderSelected: ((TranslationProviderID) -> Void)?
+
     /// `targetLanguage` seeds once from `inputLanguage` via the
     /// opposite-input default-target rule. After that, manual swaps and
     /// target changes persist for the rest of the session; nothing
@@ -118,8 +124,12 @@ final class TranslationModel: ObservableObject {
     /// calling `setProviderID` directly so they never fire a background
     /// translation or cloud-disclosure prompt while the panel is hidden.
     func selectProvider(_ providerID: TranslationProviderID?) {
+        let previous = self.providerID
         setProviderID(providerID)
         guard let providerID, providerID == self.providerID else { return }
+        if providerID != previous {
+            onProviderSelected?(providerID)
+        }
         retranslateIfNeeded()
     }
 
