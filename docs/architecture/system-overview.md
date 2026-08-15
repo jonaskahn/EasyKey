@@ -1,8 +1,8 @@
 # System overview
 
-_Last reviewed: 2026-08-15_
+_Last reviewed: 2026-08-16_
 
-EasyKey is a macOS menu-bar utility with three main-priority capabilities: Vietnamese keyboard typing transformation (Telex/Simple Telex/VNI) that runs entirely on the machine through a session-wide CGEvent tap; a private clipboard history manager whose capture is memory-only by default with opt-in encrypted persistence; and translation through Apple's on-device framework (macOS 15+) or user-configured cloud providers. Typing and clipboard content never cross a network boundary; the only outbound calls are translation requests from explicit translation surfaces and the Sparkle update check. Component detail per capability lives in [high-level.md](high-level.md); this page routes to the flows.
+EasyKey is a macOS menu-bar utility with three main-priority capabilities: Vietnamese keyboard typing transformation (Telex/Simple Telex/VNI) that runs entirely on the machine through a session-wide CGEvent tap; a private clipboard history manager whose capture is memory-only by default with opt-in encrypted persistence; and translation through Apple's on-device framework (macOS 15+) or user-configured cloud providers. Typing and clipboard content never cross a network boundary; the only outbound calls are translation requests from explicit translation surfaces and the Sparkle update check. Component detail per capability lives in [architecture.md](../architecture.md); this page routes to the flows.
 
 ```mermaid
 flowchart LR

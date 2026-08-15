@@ -12,7 +12,7 @@ EasyKey persists user settings across versions, so every schema change is a migr
 
 A document belongs here when it is a migration guide for user-facing stored state — what changes across versions and how to verify it. Related material with a different home stays there:
 
-- the current settings schema and behavior — owned by the [product overview](../overview.md);
+- the current settings schema and behavior — owned by the [product](../../product.md);
 - how the released artifact is deployed and distributed across channels — owned by the [operations](../../operations/README.md) section;
 - the supported version matrix — owned by the [compatibility reference](../../reference/compatibility.md).
 
@@ -32,5 +32,5 @@ A document belongs here when it is a migration guide for user-facing stored stat
 
 ## Related sections
 
-- [Product](../README.md) — the parent index of this folder.
+- [Product](../../product.md) — the parent index of this folder.
 - [Documentation](../../README.md) — the repository docs index.

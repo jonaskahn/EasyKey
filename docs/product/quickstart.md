@@ -22,6 +22,6 @@ The app is not Developer ID notarized yet, so on the very first launch macOS may
 
 ## What next
 
-- Full setup and build from source: [Setup guide](../engineering/setup.md)
-- What this does: [Product Overview](overview.md)
+- Full setup and build from source: [engineering](../engineering.md)
+- What this does: [Product](../product.md)
 - Typing rules in depth: the Telex rule set (notes/telex.md)

@@ -10,7 +10,7 @@ EasyKey has exactly one deployable artifact — a universal DMG — and one deli
 
 ## Scope and boundaries
 
-This section owns *delivery and distribution*: the artifact, the channels that carry it, and how each authenticates it. It does not own how the artifact is built and tested, which is an engineering workflow ([engineering](../engineering/README.md)), nor the security posture around the app ([security](../security/README.md)). Nothing here restates the steps a child document owns.
+This section owns *delivery and distribution*: the artifact, the channels that carry it, and how each authenticates it. It does not own how the artifact is built and tested, which is an engineering workflow ([engineering](../engineering.md)), nor the security posture around the app ([security](../security/README.md)). Nothing here restates the steps a child document owns.
 
 ## Start here
 
@@ -29,6 +29,6 @@ This section owns *delivery and distribution*: the artifact, the channels that c
 ## Related sections
 
 - README — the parent index of all sections.
-- [Engineering](../engineering/README.md) — the build and test workflow the artifact comes from.
-- [Reference](../reference/README.md) — platform compatibility and configuration facts the operations steps depend on.
+- [Engineering](../engineering.md) — the build and test workflow the artifact comes from.
+- [Reference](../reference.md) — platform compatibility and configuration facts the operations steps depend on.
 - [Security](../security/README.md) — the security policy and permission footprint that govern the app.

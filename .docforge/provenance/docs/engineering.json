@@ -32,10 +32,10 @@
                 "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
               },
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               }
             ],
             "unresolved": []
@@ -44,16 +44,16 @@
             "id": "at-a-glance",
             "sources": [
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/engineering/testing.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "c92245314933fa48065e8841ef3a75da9d568d9f",
-                "git_blob_normalized": "c92245314933fa48065e8841ef3a75da9d568d9f"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/engineering/publishing.md",
@@ -68,10 +68,10 @@
             "id": "scope-and-boundaries",
             "sources": [
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "notes/rulebook.md",
@@ -80,10 +80,10 @@
                 "git_blob_normalized": "b83f7de9d820379fc8cec8151a3290e86ab22317"
               },
               {
-                "path": "docs/architecture/README.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
-                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/operations/README.md",
@@ -98,16 +98,16 @@
             "id": "start-here",
             "sources": [
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/engineering/testing.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "c92245314933fa48065e8841ef3a75da9d568d9f",
-                "git_blob_normalized": "c92245314933fa48065e8841ef3a75da9d568d9f"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/engineering/publishing.md",
@@ -122,16 +122,16 @@
             "id": "detailed-documentation",
             "sources": [
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/engineering/testing.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "c92245314933fa48065e8841ef3a75da9d568d9f",
-                "git_blob_normalized": "c92245314933fa48065e8841ef3a75da9d568d9f"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/engineering/publishing.md",
@@ -158,10 +158,10 @@
                 "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
               },
               {
-                "path": "docs/reference/README.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
-                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               }
             ],
             "unresolved": []
@@ -205,10 +205,10 @@
                 "git_blob_normalized": "98652fb4aa36393a490430f1ad5b33021884459b"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "Scripts/archive.sh",
@@ -319,16 +319,16 @@
             "id": "next",
             "sources": [
               {
-                "path": "docs/engineering/testing.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "c92245314933fa48065e8841ef3a75da9d568d9f",
-                "git_blob_normalized": "c92245314933fa48065e8841ef3a75da9d568d9f"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               }
             ],
             "unresolved": []

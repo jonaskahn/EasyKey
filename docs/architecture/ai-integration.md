@@ -1,6 +1,6 @@
 # AI integration
 
-_Last reviewed: 2026-08-15_
+_Last reviewed: 2026-08-16_
 
 EasyKey has no trained or fine-tuned model of its own — model-quality claims are therefore out of scope. This document covers the integration boundary only: what reaches a model, through which provider, and what happens to the result. Translation runs either on-device (Apple Translation, macOS 15+) or through a user-configured cloud provider; the runtime resolves the active provider from platform capability and configured credentials. Typing itself never touches a model.
 

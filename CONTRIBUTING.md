@@ -6,11 +6,11 @@ This page is the shortest verified route from a fresh checkout to a merged chang
 
 ## Prerequisites
 
-Xcode 15 or later, macOS 14.0 or later, and Git with command-line tools; SwiftLint and SwiftFormat are optional locally (`make lint` and `make format` skip them when absent). No credentials or special access are needed to build, test, and run locally. The full table — including what signed distribution needs — is in the [setup guide](docs/engineering/setup.md).
+Xcode 15 or later, macOS 14.0 or later, and Git with command-line tools; SwiftLint and SwiftFormat are optional locally (`make lint` and `make format` skip them when absent). No credentials or special access are needed to build, test, and run locally. The full table — including what signed distribution needs — is in the [setup guide](docs/engineering.md).
 
 ## The contribution path
 
-1. **Set up the workspace** — clone, `make build`, then `make run` per the [setup guide](docs/engineering/setup.md). Verify with `make qa`.
+1. **Set up the workspace** — clone, `make build`, then `make run` per the [setup guide](docs/engineering.md). Verify with `make qa`.
 2. **Make one focused change** — follow the change discipline and Definition of Done in the [engineering rulebook](notes/rulebook.md) (sections 12 and 13): keep each change reviewable, separate behavior changes from mechanical refactors, and update tests and documentation with the code they describe.
 3. **Run the required checks** — `make build`, `make test`, `make coverage`, and `make qa` (see Required checks below); `make lint` and `make format` for style.
 4. **Submit a pull request** — CI runs the same gates; a maintainer reviews and merges. This is the point where an owner or maintainer decision is required — no contributor bypasses review.
@@ -20,7 +20,7 @@ Xcode 15 or later, macOS 14.0 or later, and Git with command-line tools; SwiftLi
 | Gate | Command | What it enforces |
 |---|---|---|
 | Build | `make build` | The debug application compiles. |
-| Tests | `make test` | Full unit, integration, and UI suite, serial, with code coverage; see the [testing guide](docs/engineering/testing.md). |
+| Tests | `make test` | Full unit, integration, and UI suite, serial, with code coverage; see the [testing guide](docs/engineering.md). |
 | Coverage | `make coverage` | 90% line-coverage threshold (excluding the login helper), CI-enforced; threshold configurable via `COVERAGE_THRESHOLD`. |
 | QA gate | `make qa` | Full test suite plus fixture and artifact verification. |
 | Style | `make lint` / `make format` | SwiftLint and SwiftFormat; required by CI, skipped locally when not installed. |

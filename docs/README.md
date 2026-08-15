@@ -16,10 +16,10 @@ This documentation set owns how to understand, build, test, ship, and operate Ea
 
 | You are | Read |
 |---|---|
-| New to the project | [product/overview.md](product/overview.md) |
-| A new engineer | [architecture/high-level.md](architecture/high-level.md) → [engineering/setup.md](engineering/setup.md) |
+| New to the project | [product.md](product.md) |
+| A new engineer | [architecture.md](architecture.md) → [engineering.md](engineering.md) |
 | Installing or using EasyKey | [product/quickstart.md](product/quickstart.md) |
-| Reviewing security or privacy | [security/README.md](security/README.md) · [reference/limitations.md](reference/limitations.md) |
+| Reviewing security or privacy | [security/README.md](security/README.md) · [reference.md](reference.md) |
 | Looking after an install | [operations/README.md](operations/README.md) |
 | Contributing | CONTRIBUTING.md |
 
@@ -28,11 +28,11 @@ This documentation set owns how to understand, build, test, ship, and operate Ea
 <!-- docforge-children:start -->
 | Folder | Answers |
 |---|---|
-| [Architecture](architecture/README.md) | How EasyKey is structured: system overview, high-level design, lifecycle, platform and AI integration, UI state, and persistence |
-| [Product](product/README.md) | What EasyKey does, who it is for, and how to get your first result — plus accessibility, localization, and migration guides |
+| [Architecture](architecture.md) | How EasyKey is structured: system overview, high-level design, lifecycle, platform and AI integration, UI state, and persistence |
+| [Product](product.md) | What EasyKey does, who it is for, and how to get your first result — plus accessibility, localization, and migration guides |
 | [Flows](flows/README.md) | How each user-facing flow — keyboard typing, clipboard history, translation — behaves from trigger to outcome |
-| [Engineering](engineering/README.md) | How to set up the project, test it, follow its conventions, and ship a release |
-| [Reference](reference/README.md) | The exact facts: configuration keys, limitations, tech stack, public API, and compatibility |
+| [Engineering](engineering.md) | How to set up the project, test it, follow its conventions, and ship a release |
+| [Reference](reference.md) | The exact facts: configuration keys, limitations, tech stack, public API, and compatibility |
 | [Operations](operations/README.md) | How EasyKey is deployed, distributed, and observed, and where incident runbooks will live |
 | [Security](security/README.md) | The threat model, how each data class is handled, and which macOS permissions the app uses |
 <!-- docforge-children:end -->

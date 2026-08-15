@@ -68,10 +68,10 @@
                 "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
               },
               {
-                "path": "docs/architecture/README.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
-                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/operations/README.md",
@@ -128,10 +128,10 @@
                 "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
               },
               {
-                "path": "docs/architecture/README.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
-                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/operations/README.md",

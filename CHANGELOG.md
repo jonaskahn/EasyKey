@@ -126,7 +126,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [0.0.1] - 2026-07-18
 
-Initial public release of the EasyKey Vietnamese typing utility. The current capability set is described in [product overview](docs/product/overview.md).
+Initial public release of the EasyKey Vietnamese typing utility. The current capability set is described in [product](docs/product.md).
 
 ## Release history
 

@@ -22,7 +22,7 @@ no `KeyboardOptions` type — keyboard behavior is `InputSettings` +
 
 Dependency direction is enforced by architecture fitness tests:
 `EasyKeyApp → EasyKeyKit → EasyEngineCore`; EasyEngineCore imports no
-AppKit, SwiftUI, or Combine (see [tech-stack.md](tech-stack.md)).
+AppKit, SwiftUI, or Combine (see [reference.md](../reference.md)).
 
 ## Typing engine
 
@@ -92,7 +92,7 @@ test suite.
 | `ClipboardRepresentation` | `.string(typeIdentifier:value:)`, `.data(typeIdentifier:payloadReference:)`, `.fileURL(URL)` |
 | `ClipboardContentKind` | `text`, `url`, `image`, `file`, `video`, `mixed`; `capturable` set |
 | `ClipboardSource` | best-effort `applicationName?` / `bundleIdentifier?` — advisory, macOS exposes no pasteboard source |
-| `ClipboardOptions` | capture policy (see [configuration.md](configuration.md)) |
+| `ClipboardOptions` | capture policy (see [reference.md](../reference.md)) |
 | `ClipboardSelectionAction`, `ClipboardPinResult`, `ClipboardHistory` | actions and history container |
 
 ## Translation
@@ -103,7 +103,7 @@ test suite.
 | `TranslationProviderResolver` | `availability(of:platformCapability:configuredCloudProviders:)`, `availableProviders(...)`, `resolveEffectiveProvider(preferredProviderID:platformCapability:configuredCloudProviders:) -> TranslationProviderResolution`, `cloudProviderOrder` |
 | `TranslationLanguage` | `init?(bcp47:)`, `identifier`, `english`, `vietnamese` |
 | `TranslationPlatformCapability` | `supportsAppleTranslation` |
-| `TranslationOptions` | full policy surface — defaults and validation in [configuration.md](configuration.md) |
+| `TranslationOptions` | full policy surface — defaults and validation in [reference.md](../reference.md) |
 | `TranslationLanguagePolicy` | `swapped(source:target:)`, `defaultTarget(forInput:)` |
 | `TranslationRequest`, `TranslationResponse`, `TranslationError`, `SupportedLanguages` | request/response model, error cases, language catalog |
 

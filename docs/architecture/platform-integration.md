@@ -1,6 +1,6 @@
 # Platform integration
 
-_Last reviewed: 2026-08-15_
+_Last reviewed: 2026-08-16_
 
 Every OS service and platform adapter this repository actually integrates, one section each. Permission rationale and scope live in [permissions](../security/permissions.md); this document names which permission each integration requires and what happens when the service is unavailable.
 
@@ -92,7 +92,7 @@ Every OS service and platform adapter this repository actually integrates, one s
 
 **Callback contract:** polled from the pipeline; a detected Spotlight window switches composition to the selection-replacement workaround.
 
-**Fallback if unavailable:** during the detection lag, keystrokes bypass the workaround and can look briefly broken; the app self-corrects — a documented platform limitation ([limitations.md](../reference/limitations.md)).
+**Fallback if unavailable:** during the detection lag, keystrokes bypass the workaround and can look briefly broken; the app self-corrects — a documented platform limitation ([reference](../reference.md)).
 
 ## Integration surface
 

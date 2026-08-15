@@ -32,10 +32,10 @@
                 "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
               },
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/architecture/system-overview.md",
@@ -50,10 +50,10 @@
             "id": "at-a-glance",
             "sources": [
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/architecture/system-overview.md",
@@ -68,22 +68,22 @@
             "id": "scope-and-boundaries",
             "sources": [
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
-                "path": "docs/product/README.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
-                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/security/README.md",
@@ -104,10 +104,10 @@
                 "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
               },
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/architecture/platform-integration.md",
@@ -134,10 +134,10 @@
                 "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
               },
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "docs/architecture/application-lifecycle.md",
@@ -182,22 +182,22 @@
                 "git_blob_normalized": "e75e8525820557a7e2ae779d2e99cf19f5838adf"
               },
               {
-                "path": "docs/product/README.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
-                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/reference/README.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
-                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/security/README.md",
@@ -902,10 +902,10 @@
                 "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
               },
               {
-                "path": "docs/architecture/high-level.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
-                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
                 "path": "SECURITY.md",
@@ -1435,10 +1435,10 @@
                 "git_blob_normalized": "f6faaf5ca6054c9103b9eab8854e25699266de2f"
               },
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               }
             ],
             "unresolved": []

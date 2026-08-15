@@ -56,10 +56,10 @@
                 "git_blob_normalized": "42f22cc93ec8bb7ad68db77a6a626a1654d17202"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/security/README.md",
@@ -104,16 +104,16 @@
                 "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/reference/README.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
-                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/security/README.md",

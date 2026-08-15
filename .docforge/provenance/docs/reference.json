@@ -26,22 +26,22 @@
             "id": "reference",
             "sources": [
               {
-                "path": "docs/reference/configuration.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "6249a0122c6e52bc9b7315267beea49f62bb12fd",
-                "git_blob_normalized": "6249a0122c6e52bc9b7315267beea49f62bb12fd"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/reference/api.md",
@@ -68,22 +68,22 @@
             "id": "at-a-glance",
             "sources": [
               {
-                "path": "docs/reference/configuration.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "6249a0122c6e52bc9b7315267beea49f62bb12fd",
-                "git_blob_normalized": "6249a0122c6e52bc9b7315267beea49f62bb12fd"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/reference/api.md",
@@ -110,34 +110,34 @@
             "id": "scope-and-boundaries",
             "sources": [
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/architecture/README.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
-                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
-                "path": "docs/product/README.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
-                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               }
             ],
             "unresolved": []
@@ -146,22 +146,22 @@
             "id": "start-here",
             "sources": [
               {
-                "path": "docs/reference/configuration.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "6249a0122c6e52bc9b7315267beea49f62bb12fd",
-                "git_blob_normalized": "6249a0122c6e52bc9b7315267beea49f62bb12fd"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/reference/api.md",
@@ -188,22 +188,22 @@
             "id": "detailed-documentation",
             "sources": [
               {
-                "path": "docs/reference/configuration.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "6249a0122c6e52bc9b7315267beea49f62bb12fd",
-                "git_blob_normalized": "6249a0122c6e52bc9b7315267beea49f62bb12fd"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/limitations.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
-                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               },
               {
                 "path": "docs/reference/api.md",
@@ -236,16 +236,16 @@
                 "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
               },
               {
-                "path": "docs/architecture/README.md",
+                "path": "docs/architecture.md",
                 "role": "doc",
-                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
-                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+                "git_blob": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6",
+                "git_blob_normalized": "5a41f45e6b9ec0ac907cf20c87226164c5425ca6"
               },
               {
-                "path": "docs/engineering/README.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
-                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "docs/operations/README.md",
@@ -254,10 +254,10 @@
                 "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
               },
               {
-                "path": "docs/product/README.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
-                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               }
             ],
             "unresolved": []
@@ -594,10 +594,10 @@
             "id": "limitations-and-known-issues",
             "sources": [
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               }
             ],
             "unresolved": []
@@ -732,10 +732,10 @@
             "id": "not-supported",
             "sources": [
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
                 "path": "EasyKey.xcodeproj/project.pbxproj",
@@ -941,10 +941,10 @@
                 "git_blob_normalized": "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
               },
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": "THIRD_PARTY_NOTICES.md",
@@ -1031,10 +1031,10 @@
                 "git_blob_normalized": "b83f7de9d820379fc8cec8151a3290e86ab22317"
               },
               {
-                "path": "docs/engineering/setup.md",
+                "path": "docs/engineering.md",
                 "role": "doc",
-                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
-                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+                "git_blob": "aab681906e5cbc47780eac071cd42209fbb4fa98",
+                "git_blob_normalized": "aab681906e5cbc47780eac071cd42209fbb4fa98"
               },
               {
                 "path": ".github/workflows/ci.yml",
@@ -1288,10 +1288,10 @@
                 "git_blob_normalized": "694b512e15a06e34e7df216ba74a4fc133e27f69"
               },
               {
-                "path": "docs/reference/tech-stack.md",
+                "path": "docs/reference.md",
                 "role": "doc",
-                "git_blob": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5",
-                "git_blob_normalized": "acb141b84fa1e1639b27e5fcc2e632e0c218bcb5"
+                "git_blob": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0",
+                "git_blob_normalized": "d0f4e47609edc162d82afe4bb10ff96b6ed46ea0"
               }
             ],
             "unresolved": []
@@ -1845,10 +1845,10 @@
                 "git_blob_normalized": "6757b02a70f7bbf949ba8be42fc9d21b3403fe8f"
               },
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
                 "path": "docs/engineering/publishing.md",
@@ -1904,10 +1904,10 @@
                 "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
               },
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               }
             ],
             "unresolved": []
@@ -2036,10 +2036,10 @@
             "id": "deprecation-horizon",
             "sources": [
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
                 "path": "EasyKey.xcodeproj/project.pbxproj",

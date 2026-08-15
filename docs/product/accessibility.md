@@ -8,7 +8,7 @@ _Last reviewed: 2026-08-15_
 
 | Area | Coverage | Verified by |
 |---|---|---|
-| Perceivable | System semantic colors and text styles only (no custom fonts or hex colors); opaque content surfaces; honors system Reduce Transparency and Increase Contrast with no app-specific gating | Manual audit of [design system](../architecture/README.md) + automated audit |
+| Perceivable | System semantic colors and text styles only (no custom fonts or hex colors); opaque content surfaces; honors system Reduce Transparency and Increase Contrast with no app-specific gating | Manual audit of [architecture](../architecture.md) + automated audit |
 | Operable | All controls are standard AppKit/SwiftUI controls (keyboard-navigable by default); primary/secondary buttons carry `.defaultAction`/`.cancelAction` keyboard shortcuts; the shortcut recorder exposes labeled record/clear actions; onboarding and settings are completable by keyboard; all global hotkeys are configurable in Settings | Manual audit + automated audit |
 | Understandable | Every user-facing string resolves through the localization store, so labels render in the chosen interface language; the popover status is one composed label ("state + app name + Smart Switch status") instead of fragmented subviews | Manual audit + automated audit |
 | Robust | Stable accessibility identifiers are an enforced UI-test contract (onboarding steps, settings shell, translation settings); semantic roles and states come from native controls, not custom drawing | Automated audit + UI tests consuming the identifiers |

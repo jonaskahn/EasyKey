@@ -56,10 +56,10 @@
                 "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
               },
               {
-                "path": "docs/product/overview.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
-                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
                 "path": "docs/operations/README.md",
@@ -104,10 +104,10 @@
             "id": "related-sections",
             "sources": [
               {
-                "path": "docs/product/README.md",
+                "path": "docs/product.md",
                 "role": "doc",
-                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
-                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+                "git_blob": "ddfce222cd7a4add7c19d452025445dce0fa3df0",
+                "git_blob_normalized": "ddfce222cd7a4add7c19d452025445dce0fa3df0"
               },
               {
                 "path": "docs/README.md",

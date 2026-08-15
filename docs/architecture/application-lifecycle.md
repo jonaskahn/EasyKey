@@ -62,4 +62,4 @@ stateDiagram-v2
 
 **Restoration on relaunch:** same as Launch — file stores are reloaded; the persisted clipboard document's sealed payloads decrypt with the device-only Keychain key.
 
-**On kill mid-transition:** a hard kill (force-quit, crash) skips the stop choreography: the debounced settings write (300 ms) may be lost, and any pending clipboard persistence flush is lost; the sealed document on disk is only ever replaced atomically, so it stays readable (or absent) rather than corrupt. Failure boundaries for each subsystem's flush are covered by the [architecture overview](README.md#scope-and-boundaries).
+**On kill mid-transition:** a hard kill (force-quit, crash) skips the stop choreography: the debounced settings write (300 ms) may be lost, and any pending clipboard persistence flush is lost; the sealed document on disk is only ever replaced atomically, so it stays readable (or absent) rather than corrupt. Failure boundaries for each subsystem's flush are covered by the [architecture section](../architecture.md#scope-and-boundaries).

@@ -71,11 +71,11 @@ See [the security section](./docs/security/README.md) for the permission footpri
 - macOS 14.0 Sonoma or later (Apple silicon or Intel)
 - Accessibility permission
 
-> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct — a macOS detection-timing limitation, not an EasyKey defect. See [limitations](./docs/reference/limitations.md).
+> **Known issue:** typing in Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct — a macOS detection-timing limitation, not an EasyKey defect. See [reference](./docs/reference.md).
 
 ## 🛠️ For Developers
 
-[Build and test from source](./docs/engineering/setup.md) · [Distribution](./docs/operations/distribution.md) · [Engineering conventions](./docs/_archive/rulebook.md) · [Exact Telex rules](./docs/_archive/telex.md)
+[Build and test from source](./docs/engineering.md) · [Distribution](./docs/operations/distribution.md) · [Engineering conventions](./docs/_archive/rulebook.md) · [Exact Telex rules](./docs/_archive/telex.md)
 
 ## 📄 License and Notices
 

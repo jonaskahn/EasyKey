@@ -10,7 +10,7 @@ The permission footprint is a single bounded question: exactly one TCC-gated cap
 
 ## Scope and boundaries
 
-This section owns the *permission footprint*: which TCC-gated capabilities and ungated resources the app uses, with its manifest evidence. It does not own the implementation of the architecture being secured ([architecture](../architecture/README.md)) or the operational channels the artifact ships through ([operations](../operations/README.md)). The root Security policy owns disclosure and reporting process; this section never restates a fact a child document or the policy owns.
+This section owns the *permission footprint*: which TCC-gated capabilities and ungated resources the app uses, with its manifest evidence. It does not own the implementation of the architecture being secured ([architecture](../architecture.md)) or the operational channels the artifact ships through ([operations](../operations/README.md)). The root Security policy owns disclosure and reporting process; this section never restates a fact a child document or the policy owns.
 
 ## Start here
 
@@ -31,5 +31,5 @@ This section owns the *permission footprint*: which TCC-gated capabilities and u
 
 - README — the parent index of all sections.
 - Security policy — the root policy for disclosure, reporting, and handling (related, not a child).
-- [Architecture](../architecture/README.md) — the system design the permission footprint applies to.
+- [Architecture](../architecture.md) — the system design the permission footprint applies to.
 - [Operations](../operations/README.md) — the distribution channels the artifact ships through.

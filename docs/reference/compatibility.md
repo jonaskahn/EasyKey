@@ -45,4 +45,4 @@ Consumers outside this repository cannot depend on them; the documented
 public surface is the one in [api.md](api.md). The app is versioned by
 semantic tags (`v*`) and the marketing version; framework version parity is
 assumed rather than maintained independently (see
-[product overview](../product/overview.md) and [publishing.md](../engineering/publishing.md)).
+[product](../product.md) and [publishing.md](../engineering/publishing.md)).

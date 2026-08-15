@@ -32,5 +32,5 @@ The app is macOS-only; there are no iOS, iPadOS, or watchOS targets.
 
 No older platform is currently deprecated and no removal date is scheduled:
 macOS 14.0 support is the declared floor in
-[product overview](../product/overview.md) and the project file, and the
+[product](../product.md) and the project file, and the
 changelog records no deprecation.

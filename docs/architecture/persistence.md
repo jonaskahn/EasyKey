@@ -1,6 +1,6 @@
 # Persistence
 
-_Last reviewed: 2026-08-15_
+_Last reviewed: 2026-08-16_
 
 EasyKey persists five kinds of state. Clipboard history is encrypted at rest; settings, macros, and smart-switch preferences are plain JSON documents written atomically; translation credentials live only in the Keychain and never touch the filesystem. The [clipboard history flow](../flows/clipboard-history.md) owns the runtime behavior; this document owns the durability mechanics beneath it.
 
