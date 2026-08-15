@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+  <g transform="translate(2.25 0)">
   <path d="M2.5 5V17M2.5 5H7.5M2.5 11H6.5M2.5 17H7.5" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="7 2"/>
   <path d="M10.5 9.5V17M12.0 9.5H15.0V17" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
   <polygon points="18.2,3.5 20.2,5.5 18.2,7.5 16.2,5.5" fill="#FF453A"/>
 </svg>

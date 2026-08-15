@@ -15,29 +15,115 @@ final class PopoverCloseObserver: NSObject, NSPopoverDelegate {
     }
 }
 
+/// Removes an installed `NSEvent` monitor when invalidated or deallocated.
+final class PopoverMonitorRegistration {
+    private var removeAction: (() -> Void)?
+
+    init(removeAction: @escaping () -> Void) {
+        self.removeAction = removeAction
+    }
+
+    deinit {
+        invalidate()
+    }
+
+    func invalidate() {
+        removeAction?()
+        removeAction = nil
+    }
+}
+
+/// Abstraction over outside-click event monitoring so tests can inject a stub.
+@MainActor
+protocol StatusPopoverClickMonitoring: AnyObject {
+    func addLocalClickMonitor(handler: @escaping (NSEvent) -> Void) -> PopoverMonitorRegistration?
+    func addGlobalClickMonitor(handler: @escaping () -> Void) -> PopoverMonitorRegistration?
+}
+
+@MainActor
+final class SystemStatusPopoverClickMonitor: StatusPopoverClickMonitoring {
+    func addLocalClickMonitor(handler: @escaping (NSEvent) -> Void) -> PopoverMonitorRegistration? {
+        guard let monitor = NSEvent.addLocalMonitorForEvents(
+            matching: [.leftMouseDown, .rightMouseDown],
+            handler: { event in
+                handler(event)
+                return event
+            }
+        ) else {
+            return nil
+        }
+        return PopoverMonitorRegistration { NSEvent.removeMonitor(monitor) }
+    }
+
+    func addGlobalClickMonitor(handler: @escaping () -> Void) -> PopoverMonitorRegistration? {
+        guard let monitor = NSEvent.addGlobalMonitorForEvents(
+            matching: [.leftMouseDown, .rightMouseDown],
+            handler: { _ in handler() }
+        ) else {
+            return nil
+        }
+        return PopoverMonitorRegistration { NSEvent.removeMonitor(monitor) }
+    }
+}
+
+/// Decides whether a mouse-down event should dismiss the popover. Kept as a
+/// pure decision so the tricky window classification is unit-testable.
+@MainActor
+enum PopoverOutsideClickDecision {
+    static func shouldClose(
+        clickWindow: NSWindow?,
+        popoverWindow: NSWindow?,
+        statusButtonWindow: NSWindow?,
+        appOwnedWindows: [NSWindow]
+    ) -> Bool {
+        guard let clickWindow else { return false }
+        if let popoverWindow, clickWindow === popoverWindow { return false }
+        if let statusButtonWindow, clickWindow === statusButtonWindow { return false }
+        // An open NSMenu (SwiftUI Menu) is a child window of the popover;
+        // its item clicks must reach the menu, not dismiss the popover.
+        if let popoverWindow, clickWindow.parent === popoverWindow { return false }
+        return appOwnedWindows.contains { $0 === clickWindow }
+    }
+}
+
 @MainActor
 final class StatusItemController {
     static let popoverBehavior: NSPopover.Behavior = .transient
 
     private let localization: LocalizationStore
+    private let clickMonitoring: StatusPopoverClickMonitoring
     private let menuActionTarget = StatusMenuActionTarget()
     private var statusItem: NSStatusItem?
     private var statusPopover: NSPopover?
     private let popoverCloseObserver = PopoverCloseObserver()
     private var appAppearanceObservation: NSKeyValueObservation?
     private var statusItemAppearanceObservation: NSKeyValueObservation?
+    private var localClickRegistration: PopoverMonitorRegistration?
+    private var globalClickRegistration: PopoverMonitorRegistration?
+    private var externalPopoverCloseHandler: (() -> Void)?
+
+    /// Test seam: substitutes the popover close action so dismissal can be
+    /// observed without a live popover window.
+    var popoverCloseAction: (() -> Void)?
 
     var onLeftClick: (() -> Void)?
     var onAppearanceChange: (() -> Void)?
     var onPopoverClosed: (() -> Void)? {
-        get { popoverCloseObserver.onClose }
-        set { popoverCloseObserver.onClose = newValue }
+        get { externalPopoverCloseHandler }
+        set { externalPopoverCloseHandler = newValue }
     }
 
     var translationConfigurationProvider: (() -> MenuPopoverTranslationConfiguration?)?
 
-    init(localization: LocalizationStore) {
+    init(
+        localization: LocalizationStore,
+        clickMonitoring: StatusPopoverClickMonitoring? = nil
+    ) {
         self.localization = localization
+        self.clickMonitoring = clickMonitoring ?? SystemStatusPopoverClickMonitor()
+        popoverCloseObserver.onClose = { [weak self] in
+            self?.popoverDidClose()
+        }
     }
 
     func bindMenuActions(to coordinator: AppCoordinator) {
@@ -79,7 +165,56 @@ final class StatusItemController {
             refreshPermission()
             NSApp.activate(ignoringOtherApps: true)
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            startOutsideClickMonitoring()
         }
+    }
+
+    /// AppKit's transient dismissal is not reliably restored after an NSMenu
+    /// inside the popover is tracked, so outside clicks are also handled
+    /// explicitly while the popover is shown. Monitors are armed on show and
+    /// disarmed on close, which also gates the handlers below.
+    private func startOutsideClickMonitoring() {
+        guard localClickRegistration == nil else { return }
+        localClickRegistration = clickMonitoring.addLocalClickMonitor { [weak self] event in
+            self?.handleLocalOutsideClick(event)
+        }
+        globalClickRegistration = clickMonitoring.addGlobalClickMonitor { [weak self] in
+            self?.dismissPopover()
+        }
+    }
+
+    /// Invoked by the popover delegate on close; also a test seam for
+    /// simulating a dismissal.
+    func popoverDidClose() {
+        stopOutsideClickMonitoring()
+        externalPopoverCloseHandler?()
+    }
+
+    private func handleLocalOutsideClick(_ event: NSEvent) {
+        guard let popover = statusPopover else { return }
+        if PopoverOutsideClickDecision.shouldClose(
+            clickWindow: event.window,
+            popoverWindow: popover.contentViewController?.view.window,
+            statusButtonWindow: statusItem?.button?.window,
+            appOwnedWindows: NSApp.windows
+        ) {
+            dismissPopover()
+        }
+    }
+
+    private func dismissPopover() {
+        if let popoverCloseAction {
+            popoverCloseAction()
+        } else {
+            statusPopover?.performClose(nil)
+        }
+    }
+
+    private func stopOutsideClickMonitoring() {
+        localClickRegistration?.invalidate()
+        globalClickRegistration?.invalidate()
+        localClickRegistration = nil
+        globalClickRegistration = nil
     }
 
     func showContextMenu(
@@ -207,6 +342,7 @@ final class StatusItemController {
         appAppearanceObservation = nil
         statusItemAppearanceObservation?.invalidate()
         statusItemAppearanceObservation = nil
+        stopOutsideClickMonitoring()
         statusPopover?.performClose(nil)
         statusItem = nil
         statusPopover = nil

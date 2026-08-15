@@ -1,9 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+  <g transform="translate(1.70 0)">
   <!-- Letter En (Dark Mode) -->
   <path d="M 8.2,5.2 L 3.0,5.2 L 3.0,16.8 L 8.2,16.8 M 3.0,11.0 L 7.2,11.0" 
         stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
   <path d="M 11.2,9.6 L 11.2,16.8 M 11.2,11.8 C 11.2,9.4 15.6,9.4 15.6,11.8 L 15.6,16.8" 
         stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
   <!-- Red dot -->
+  </g>
   <circle cx="19.2" cy="5.2" r="1.9" fill="#FF453A" />
 </svg>

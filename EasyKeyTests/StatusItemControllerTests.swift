@@ -4,6 +4,45 @@ import EasyEngineCore
 import XCTest
 
 @MainActor
+private final class StatusPopoverClickMonitorStub: StatusPopoverClickMonitoring {
+    var localHandler: ((NSEvent) -> Void)?
+    var globalHandler: (() -> Void)?
+    private(set) var localRegistrations = 0
+    private(set) var globalRegistrations = 0
+    private(set) var invalidations = 0
+
+    func addLocalClickMonitor(handler: @escaping (NSEvent) -> Void) -> PopoverMonitorRegistration? {
+        localHandler = handler
+        localRegistrations += 1
+        return PopoverMonitorRegistration { [weak self] in self?.invalidations += 1 }
+    }
+
+    func addGlobalClickMonitor(handler: @escaping () -> Void) -> PopoverMonitorRegistration? {
+        globalHandler = handler
+        globalRegistrations += 1
+        return PopoverMonitorRegistration { [weak self] in self?.invalidations += 1 }
+    }
+
+    func sendLocalClick(window: NSWindow) {
+        localHandler?(NSEvent.mouseEvent(
+            with: .leftMouseDown,
+            location: .zero,
+            modifierFlags: [],
+            timestamp: 0,
+            windowNumber: window.windowNumber,
+            context: nil,
+            eventNumber: 0,
+            clickCount: 1,
+            pressure: 0
+        )!)
+    }
+
+    func sendGlobalClick() {
+        globalHandler?()
+    }
+}
+
+@MainActor
 final class StatusItemControllerTests: XCTestCase {
     private var localizationDefaults: UserDefaults!
     private var suiteName: String!
@@ -245,5 +284,111 @@ final class StatusItemControllerTests: XCTestCase {
         let returned = controller.menuSnapshotProvider?()
         XCTAssertEqual(returned?.currentApplicationName, expected.currentApplicationName)
         XCTAssertEqual(returned?.language, expected.language)
+    }
+
+    func testOutsideClickDecision_IgnoresNilWindow() {
+        XCTAssertFalse(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: nil,
+            popoverWindow: NSWindow(),
+            statusButtonWindow: nil,
+            appOwnedWindows: []
+        ))
+    }
+
+    func testOutsideClickDecision_IgnoresClickInsidePopoverWindow() {
+        let popoverWindow = NSWindow()
+        XCTAssertFalse(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: popoverWindow,
+            popoverWindow: popoverWindow,
+            statusButtonWindow: nil,
+            appOwnedWindows: [popoverWindow]
+        ))
+    }
+
+    func testOutsideClickDecision_IgnoresClickOnStatusButtonWindow() {
+        let statusButtonWindow = NSWindow()
+        XCTAssertFalse(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: statusButtonWindow,
+            popoverWindow: NSWindow(),
+            statusButtonWindow: statusButtonWindow,
+            appOwnedWindows: [statusButtonWindow]
+        ))
+    }
+
+    func testOutsideClickDecision_IgnoresClickOnMenuChildWindow() {
+        let popoverWindow = NSWindow()
+        let menuWindow = NSWindow()
+        popoverWindow.addChildWindow(menuWindow, ordered: .above)
+        XCTAssertFalse(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: menuWindow,
+            popoverWindow: popoverWindow,
+            statusButtonWindow: nil,
+            appOwnedWindows: [menuWindow]
+        ))
+    }
+
+    func testOutsideClickDecision_IgnoresClickOnWindowNotOwnedByApp() {
+        let window = NSWindow()
+        XCTAssertFalse(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: window,
+            popoverWindow: NSWindow(),
+            statusButtonWindow: nil,
+            appOwnedWindows: []
+        ))
+    }
+
+    func testOutsideClickDecision_ClosesOnAppOwnedNonPopoverWindow() {
+        let window = NSWindow()
+        XCTAssertTrue(PopoverOutsideClickDecision.shouldClose(
+            clickWindow: window,
+            popoverWindow: NSWindow(),
+            statusButtonWindow: nil,
+            appOwnedWindows: [window]
+        ))
+    }
+
+    func testTogglePopover_AfterInstall_ArmsOutsideClickMonitors() {
+        let (coordinator, tempDirectory) = TestCoordinatorFactory.make()
+        defer { try? FileManager.default.removeItem(at: tempDirectory) }
+        let stub = StatusPopoverClickMonitorStub()
+        controller = StatusItemController(localization: localization, clickMonitoring: stub)
+        controller.install(coordinator: coordinator)
+        defer { controller.teardown() }
+        controller.togglePopover {}
+        XCTAssertEqual(stub.localRegistrations, 1)
+        XCTAssertEqual(stub.globalRegistrations, 1)
+    }
+
+    func testPopoverDidClose_StopsMonitoringAndForwardsExternalHandler() {
+        let (coordinator, tempDirectory) = TestCoordinatorFactory.make()
+        defer { try? FileManager.default.removeItem(at: tempDirectory) }
+        let stub = StatusPopoverClickMonitorStub()
+        controller = StatusItemController(localization: localization, clickMonitoring: stub)
+        controller.install(coordinator: coordinator)
+        defer { controller.teardown() }
+        controller.togglePopover {}
+        var closeCount = 0
+        controller.onPopoverClosed = { closeCount += 1 }
+
+        controller.popoverDidClose()
+
+        XCTAssertEqual(closeCount, 1)
+        XCTAssertEqual(stub.invalidations, 2)
+    }
+
+    func testGlobalClick_InvokesPopoverCloseAction() {
+        let (coordinator, tempDirectory) = TestCoordinatorFactory.make()
+        defer { try? FileManager.default.removeItem(at: tempDirectory) }
+        let stub = StatusPopoverClickMonitorStub()
+        controller = StatusItemController(localization: localization, clickMonitoring: stub)
+        controller.install(coordinator: coordinator)
+        defer { controller.teardown() }
+        controller.togglePopover {}
+        var dismissCount = 0
+        controller.popoverCloseAction = { dismissCount += 1 }
+
+        stub.sendGlobalClick()
+
+        XCTAssertEqual(dismissCount, 1)
     }
 }
