@@ -599,7 +599,7 @@
 		E70000000000000000000004 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 		E70000000000000000000006 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../LICENSE; sourceTree = "<group>"; };
 		E70000000000000000000008 /* NOTICE */ = {isa = PBXFileReference; lastKnownFileType = text; path = ../NOTICE; sourceTree = "<group>"; };
-		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../docs/THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
+		E7000000000000000000000A /* THIRD_PARTY_NOTICES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ../docs/_archive/THIRD_PARTY_NOTICES.md; sourceTree = "<group>"; };
 		E700000000000000000000B2 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Resources/AppIcon.icns; sourceTree = "<group>"; };
 		E700000000000000000000C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E765CF41215E757AB3F902B3 /* EasyKeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyKeySettings.swift; sourceTree = "<group>"; };
