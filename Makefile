@@ -8,7 +8,7 @@ XCODEBUILD = xcodebuild -project "$(PROJECT)" -scheme "$(SCHEME)" -destination "
 
 .DEFAULT_GOAL := help
 
-.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-all qa archive export verify-arch verify-compatibility verify-release dmg local-dmg help
+.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-derived clean-all qa archive export verify-arch verify-compatibility verify-release dmg local-dmg help
 
 # `make` with no args prints grouped help. `make all` still builds.
 all: build
@@ -118,8 +118,12 @@ clean:
 clean-local:
 	Scripts/clean-local.sh
 
-# Build artifacts + local runtime / test data.
-clean-all: clean clean-local
+# DerivedData left by Xcode GUI builds (bypasses -derivedDataPath).
+clean-derived:
+	rm -rf "$(HOME)/Library/Developer/Xcode/DerivedData"/EasyKey*
+
+# Build artifacts + local runtime / test data + Xcode DerivedData.
+clean-all: clean clean-local clean-derived
 
 qa:
 	Scripts/qa-gate.sh
@@ -191,7 +195,8 @@ help:
 	@echo "  Clean"
 	@echo "    make clean          Remove build/ artifacts (xcodebuild clean)"
 	@echo "    make clean-local    Quit EasyKey + wipe local app/test data"
-	@echo "    make clean-all      clean + clean-local"
+	@echo "    make clean-derived  Remove ~/Library/Developer/Xcode/DerivedData/EasyKey*"
+	@echo "    make clean-all      clean + clean-local + clean-derived"
 	@echo ""
 	@echo "  Quality"
 	@echo "    make qa             Full QA gate (tests + verify-qa-artifacts)"

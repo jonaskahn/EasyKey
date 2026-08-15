@@ -1305,6 +1305,7 @@ final class ViewRenderingCoverageTests: XCTestCase {
 
     func testKeyCaptureView_ReservedSystemShortcut_BeepsWithoutCapturing() throws {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captured: Shortcut?
         view.capture = { captured = $0 }
 

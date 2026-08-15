@@ -12,6 +12,7 @@ final class ShortcutKeyCaptureTests: XCTestCase {
 
     func testKeyDown_InvokesCaptureWithShortcut() {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captured: Shortcut?
         view.capture = { captured = $0 }
 
@@ -39,6 +40,7 @@ final class ShortcutKeyCaptureTests: XCTestCase {
 
     func testKeyDown_BareKeyWithoutModifiers_IsRejected() {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captured: Shortcut?
         view.capture = { captured = $0 }
 
@@ -91,6 +93,7 @@ final class ShortcutKeyCaptureTests: XCTestCase {
 
     func testKeyDown_Escape_CancelsWithoutCapturing() {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captured: Shortcut?
         var cancelled = false
         view.capture = { captured = $0 }
@@ -120,6 +123,7 @@ final class ShortcutKeyCaptureTests: XCTestCase {
 
     func testPerformKeyEquivalent_InvokesCaptureAndReturnsTrue() {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captureCount = 0
         view.capture = { _ in captureCount += 1 }
 
@@ -146,6 +150,7 @@ final class ShortcutKeyCaptureTests: XCTestCase {
 
     func testKeyDown_AllModifiers_MapCorrectly() {
         let view = KeyCaptureView()
+        view.isRecording = true
         var captured: Shortcut?
         view.capture = { captured = $0 }
 
@@ -171,6 +176,61 @@ final class ShortcutKeyCaptureTests: XCTestCase {
         XCTAssertTrue(captured?.modifiers.contains(.control) ?? false)
         XCTAssertTrue(captured?.modifiers.contains(.option) ?? false)
         XCTAssertTrue(captured?.modifiers.contains(.command) ?? false)
+    }
+
+    // Regression: AppKit dispatches performKeyEquivalent to every view in the
+    // key window's hierarchy, so recorders must ignore events until the user
+    // presses Record — otherwise shortcuts change just by visiting a tab.
+    func testKeyDown_WhenNotRecording_DoesNotCapture() {
+        let view = KeyCaptureView()
+        var captured: Shortcut?
+        view.capture = { captured = $0 }
+
+        guard let event = NSEvent.keyEvent(
+            with: .keyDown,
+            location: .zero,
+            modifierFlags: [.shift],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            characters: "a",
+            charactersIgnoringModifiers: "a",
+            isARepeat: false,
+            keyCode: 0
+        )
+        else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        view.keyDown(with: event)
+        XCTAssertNil(captured)
+    }
+
+    func testPerformKeyEquivalent_WhenNotRecording_DoesNotCapture() {
+        let view = KeyCaptureView()
+        var captureCount = 0
+        view.capture = { _ in captureCount += 1 }
+
+        guard let event = NSEvent.keyEvent(
+            with: .keyDown,
+            location: .zero,
+            modifierFlags: [.command],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            characters: "s",
+            charactersIgnoringModifiers: "s",
+            isARepeat: false,
+            keyCode: 1
+        )
+        else {
+            XCTFail("Could not create event")
+            return
+        }
+
+        XCTAssertFalse(view.performKeyEquivalent(with: event))
+        XCTAssertEqual(captureCount, 0)
     }
 
     @MainActor

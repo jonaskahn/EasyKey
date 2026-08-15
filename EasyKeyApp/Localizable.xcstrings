@@ -2223,23 +2223,6 @@
         }
       }
     },
-    "smartSwitch.selfApp": {
-      "comment": "Status when EasyKey focused",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "EasyKey"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "EasyKey"
-          }
-        }
-      }
-    },
     "behavior.appCompatibility": {
       "comment": "Section",
       "localizations": {

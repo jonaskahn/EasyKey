@@ -14,6 +14,7 @@ struct ShortcutKeyCapture: NSViewRepresentable {
             isRecording = false
         }
         view.cancel = { isRecording = false }
+        view.isRecording = isRecording
         return view
     }
 
@@ -23,6 +24,7 @@ struct ShortcutKeyCapture: NSViewRepresentable {
             isRecording = false
         }
         view.cancel = { isRecording = false }
+        view.isRecording = isRecording
         if isRecording {
             DispatchQueue.main.async { view.becomeFirstResponderIfPossible() }
         } else {
@@ -34,6 +36,11 @@ struct ShortcutKeyCapture: NSViewRepresentable {
 final class KeyCaptureView: NSView {
     var capture: ((Shortcut) -> Void)?
     var cancel: (() -> Void)?
+    /// Whether the user pressed Record. Key events must be ignored otherwise —
+    /// AppKit sends `performKeyEquivalent` to every view in the key window's
+    /// hierarchy, so without this gate any Cmd+combo would silently reassign
+    /// shortcuts on the current settings tab.
+    var isRecording = false
     override var acceptsFirstResponder: Bool {
         true
     }
@@ -73,11 +80,13 @@ final class KeyCaptureView: NSView {
     }()
 
     override func keyDown(with event: NSEvent) {
+        guard isRecording else { return }
         _ = record(event)
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        record(event)
+        guard isRecording else { return false }
+        return record(event)
     }
 
     /// Window key status changed (focus switched to another app/surface). Treat as

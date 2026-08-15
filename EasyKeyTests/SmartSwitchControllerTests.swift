@@ -62,13 +62,45 @@ final class SmartSwitchControllerTests: XCTestCase {
         XCTAssertFalse(controller.currentAppSmartSwitchStatus.isEmpty)
     }
 
-    func testHandleApplicationActivation_SelfApplication_ShowsSelfStatus() {
+    func testHandleApplicationActivation_SelfApplication_DoesNotOverwriteDisplay() throws {
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+        let nameBefore = controller.currentApplicationName
+        let statusBefore = controller.currentAppSmartSwitchStatus
+
         var changeCount = 0
         controller.onPublishedStateChange = { changeCount += 1 }
 
         controller.handleApplicationActivation(.current)
 
-        XCTAssertEqual(controller.currentAppSmartSwitchStatus, localization.string(.smartSwitchSelfApp))
+        XCTAssertEqual(controller.currentApplicationName, nameBefore)
+        XCTAssertEqual(controller.currentAppSmartSwitchStatus, statusBefore)
+        XCTAssertEqual(changeCount, 0)
+    }
+
+    func testReevaluateCurrentApplication_UsesLastKnownExternalApp() throws {
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+        let externalName = controller.currentApplicationName
+
+        controller.handleApplicationActivation(.current)
+        XCTAssertEqual(controller.currentApplicationName, externalName)
+
+        var changeCount = 0
+        controller.onPublishedStateChange = { changeCount += 1 }
+        controller.reevaluateCurrentApplication()
+
+        XCTAssertEqual(controller.currentApplicationName, externalName)
+        XCTAssertEqual(changeCount, 1)
+    }
+
+    func testReevaluateCurrentApplication_NoExternalAppYet_ShowsNoActiveApp() {
+        var changeCount = 0
+        controller.onPublishedStateChange = { changeCount += 1 }
+
+        controller.reevaluateCurrentApplication()
+
+        XCTAssertEqual(controller.currentApplicationName, localization.string(.smartSwitchNoActiveApp))
         XCTAssertEqual(changeCount, 1)
     }
 

@@ -329,6 +329,19 @@ final class ViewRenderingTests: XCTestCase {
         XCTAssertEqual(footerEvents, ["clipboard", "settings", "quit"])
     }
 
+    func testMenuPopoverSmartSwitchBindingUpdatesSettings() {
+        coordinator.settingsStore.update { $0.smartSwitch.enabled = false }
+        let view = MenuPopoverView(coordinator: coordinator)
+
+        view.smartSwitchBinding.wrappedValue = true
+
+        XCTAssertTrue(coordinator.settingsStore.settings.smartSwitch.enabled)
+
+        view.smartSwitchBinding.wrappedValue = false
+
+        XCTAssertFalse(coordinator.settingsStore.settings.smartSwitch.enabled)
+    }
+
     func testMenuPopoverUsesConfiguredWidth() {
         for width in SystemOptions.MenuPopoverWidth.allCases {
             coordinator.settingsStore.update { $0.system.menuPopoverWidth = width }

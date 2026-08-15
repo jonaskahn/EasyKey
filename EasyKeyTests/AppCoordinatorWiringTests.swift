@@ -174,6 +174,37 @@ final class AppCoordinatorWiringTests: XCTestCase {
         XCTAssertEqual(coordinator.currentApplicationName, coordinator.smartSwitchController.currentApplicationName)
     }
 
+    func testObserveSettings_SmartSwitchToggle_ReevaluatesCurrentAppStatus() throws {
+        let external = try externalRunningApplication()
+        coordinator.smartSwitchController.handleApplicationActivation(external)
+        let nameBefore = coordinator.currentApplicationName
+        coordinator.observeSettings()
+
+        coordinator.settingsStore.update { $0.smartSwitch.enabled = true }
+
+        XCTAssertEqual(coordinator.currentApplicationName, nameBefore)
+        XCTAssertEqual(
+            coordinator.currentAppSmartSwitchStatus,
+            coordinator.smartSwitchController.currentAppSmartSwitchStatus
+        )
+        XCTAssertFalse(coordinator.currentAppSmartSwitchStatus.isEmpty)
+    }
+
+    func testRefreshLocalizedChrome_ReevaluatesLastKnownExternalApp() throws {
+        let external = try externalRunningApplication()
+        coordinator.smartSwitchController.handleApplicationActivation(external)
+        let nameBefore = coordinator.currentApplicationName
+
+        coordinator.smartSwitchController.handleApplicationActivation(.current)
+        coordinator.refreshLocalizedChrome()
+
+        XCTAssertEqual(coordinator.currentApplicationName, nameBefore)
+        XCTAssertEqual(
+            coordinator.currentAppSmartSwitchStatus,
+            coordinator.smartSwitchController.currentAppSmartSwitchStatus
+        )
+    }
+
     func testUpdateDockVisibility_TogglesActivationPolicy() {
         coordinator.updateDockVisibility(showDockIcon: true)
         coordinator.updateDockVisibility(showDockIcon: false)
@@ -233,6 +264,16 @@ final class AppCoordinatorWiringTests: XCTestCase {
         let delegate = AppDelegate()
 
         delegate.applicationWillTerminate(Notification(name: NSApplication.willTerminateNotification))
+    }
+
+    private func externalRunningApplication() throws -> NSRunningApplication {
+        let bundleIdentifiers = ["com.apple.finder", "com.apple.dock", "com.apple.SystemUIServer"]
+        for bundleIdentifier in bundleIdentifiers {
+            if let application = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).first {
+                return application
+            }
+        }
+        throw XCTSkip("No stable system application is running")
     }
 
     private func fakeProxy() -> CGEventTapProxy {

@@ -134,10 +134,16 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 **Added**
 
 - Selectable menu bar icon style: 12 styles with localized names in System settings; the default is "Inverted Solid Capsule (Dark Pill)" and the E/V letter still follows the active input language.
+- Smart Switch toggle in the menu bar popover status area, so per-app language memory can be turned on or off without opening Settings.
 
 **Changed**
 
 - Menu bar icons (all styles plus the pause and health indicators) render at a user-selectable scale: 1.0×–1.5×, default 1.3×.
+
+**Fixed**
+
+- The popover status now keeps showing the app you are working in instead of changing to "EasyKey" whenever the popover opens.
+- Shortcuts in Typing, Translation, and Clipboard settings now change only after pressing Record; key combinations pressed while browsing settings no longer reassign them.
 
 ## [0.0.9] - 2026-08-14
 

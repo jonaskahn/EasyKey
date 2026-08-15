@@ -120,7 +120,7 @@ extension AppCoordinator {
     func refreshLocalizedChrome() {
         AppMainMenuInstaller.installIfNeeded(localization: localization)
         settingsWindowPresenter.refreshTitle()
-        handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
+        smartSwitchController.reevaluateCurrentApplication()
         updateStatusItem()
         statusItemController.refreshPopoverContent(coordinator: self)
     }
@@ -170,11 +170,11 @@ extension AppCoordinator {
             smartSwitchController.rememberChoiceIfNeeded(from: settings)
             if lastSmartSwitchEnabled != settings.smartSwitch.enabled {
                 lastSmartSwitchEnabled = settings.smartSwitch.enabled
-                smartSwitchController.handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
+                smartSwitchController.reevaluateCurrentApplication()
             }
             if ignoredApplicationsSetting != settings.compatibility.ignoredApplicationBundleIdentifiers {
                 ignoredApplicationsSetting = settings.compatibility.ignoredApplicationBundleIdentifiers
-                smartSwitchController.handleApplicationActivation(NSWorkspace.shared.frontmostApplication)
+                smartSwitchController.reevaluateCurrentApplication()
             }
             if clipboardOptionsSetting != settings.clipboard {
                 clipboardOptionsSetting = settings.clipboard

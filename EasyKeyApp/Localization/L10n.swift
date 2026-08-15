@@ -260,7 +260,6 @@ enum L10nKey: String, CaseIterable, Sendable {
     case smartSwitchRememberPerAppDescription = "smartSwitch.rememberPerApp.description"
     case smartSwitchSaved = "smartSwitch.saved"
     case smartSwitchSavedApps = "smartSwitch.savedApps"
-    case smartSwitchSelfApp = "smartSwitch.selfApp"
     case smartSwitchStatus = "smartSwitch.status"
     case smartSwitchUnavailable = "smartSwitch.unavailable"
     case smartSwitchUnknownApp = "smartSwitch.unknownApp"

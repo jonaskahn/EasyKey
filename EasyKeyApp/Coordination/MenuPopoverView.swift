@@ -143,7 +143,7 @@ struct MenuPopoverView: View {
     }
 
     private var inputStatus: some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .center, spacing: 8) {
             Image(systemName: stateSymbol)
                 .foregroundStyle(stateColor)
                 .accessibilityHidden(true)
@@ -159,15 +159,28 @@ struct MenuPopoverView: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
-            Spacer(minLength: 0)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(localization.format(
+                .a11yPopoverStatus,
+                coordinator.menuBarStateTitle,
+                coordinator.currentApplicationName,
+                coordinator.currentAppSmartSwitchStatus
+            ))
+
+            Spacer(minLength: 8)
+
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(localization.string(.smartSwitchPerApp))
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                Toggle("", isOn: smartSwitchBinding)
+                    .labelsHidden()
+                    .toggleStyle(.switch)
+                    .controlSize(.small)
+                    .accessibilityLabel(localization.string(.smartSwitchRememberPerApp))
+                    .accessibilityIdentifier("SmartSwitchPopoverToggle")
+            }
         }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(localization.format(
-            .a11yPopoverStatus,
-            coordinator.menuBarStateTitle,
-            coordinator.currentApplicationName,
-            coordinator.currentAppSmartSwitchStatus
-        ))
         .padding(.horizontal, 10)
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -203,6 +216,15 @@ struct MenuPopoverView: View {
         Binding(
             get: { settingsStore.settings.input.encoding },
             set: coordinator.setEncoding
+        )
+    }
+
+    var smartSwitchBinding: Binding<Bool> {
+        Binding(
+            get: { settingsStore.settings.smartSwitch.enabled },
+            set: { enabled in
+                settingsStore.update { $0.smartSwitch.enabled = enabled }
+            }
         )
     }
 

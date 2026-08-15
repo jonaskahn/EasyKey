@@ -19,6 +19,12 @@ final class SmartSwitchController {
     private(set) var currentAppSmartSwitchStatus: String
     private(set) var smartSwitchRevision = 0
 
+    /// The most recent non-EasyKey application the user activated. Used to
+    /// re-evaluate the display while EasyKey itself is frontmost (popover or
+    /// Settings window open), since activating EasyKey must never overwrite
+    /// the app the user is actually monitoring.
+    private var lastKnownExternalApplication: NSRunningApplication?
+
     var onPublishedStateChange: (() -> Void)?
 
     init(
@@ -65,14 +71,15 @@ final class SmartSwitchController {
             return
         }
 
+        // EasyKey activating itself (popover, Settings window) must not
+        // overwrite the displayed external app — keep the last known app
+        // the user is monitoring.
+        guard application.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
+        lastKnownExternalApplication = application
+
         currentApplicationName = application.localizedName
             ?? application.bundleIdentifier
             ?? localization.string(.smartSwitchUnknownApp)
-        guard application.bundleIdentifier != Bundle.main.bundleIdentifier else {
-            currentAppSmartSwitchStatus = localization.string(.smartSwitchSelfApp)
-            onPublishedStateChange?()
-            return
-        }
         if let bundleIdentifier = application.bundleIdentifier,
            settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier) {
             currentAppSmartSwitchStatus = localization.string(.smartSwitchIgnored)
@@ -123,6 +130,14 @@ final class SmartSwitchController {
             currentAppSmartSwitchStatus = localization.string(.smartSwitchUnavailable)
         }
         onPublishedStateChange?()
+    }
+
+    /// Re-evaluates the display against the last known external application.
+    /// Used when settings change (Smart Switch toggle, ignored apps, language)
+    /// while EasyKey itself is frontmost, where reading the frontmost app
+    /// would wrongly describe EasyKey.
+    func reevaluateCurrentApplication() {
+        handleApplicationActivation(lastKnownExternalApplication)
     }
 
     func rememberChoiceIfNeeded(from settings: EasyKeySettings) {
