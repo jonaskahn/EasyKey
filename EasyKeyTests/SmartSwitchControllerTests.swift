@@ -145,7 +145,7 @@ final class SmartSwitchControllerTests: XCTestCase {
         XCTAssertEqual(preference.choice.encoding, .tcvn3)
         XCTAssertEqual(
             controller.currentAppSmartSwitchStatus,
-            localization.format(.smartSwitchSaved, localization.displayName(for: .english))
+            localization.format(.smartSwitchUseLanguage, localization.displayName(for: .english))
         )
     }
 
@@ -169,7 +169,7 @@ final class SmartSwitchControllerTests: XCTestCase {
         XCTAssertEqual(settingsStore.settings.input.encoding, .tcvn3)
         XCTAssertEqual(
             controller.currentAppSmartSwitchStatus,
-            localization.format(.smartSwitchApplied, localization.displayName(for: .vietnamese))
+            localization.format(.smartSwitchUseLanguage, localization.displayName(for: .vietnamese))
         )
     }
 

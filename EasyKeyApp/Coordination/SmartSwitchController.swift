@@ -122,13 +122,13 @@ final class SmartSwitchController {
                     applyLanguage(from: choice)
                 }
                 currentAppSmartSwitchStatus = localization.format(
-                    .smartSwitchApplied,
+                    .smartSwitchUseLanguage,
                     localization.displayName(for: choice.language)
                 )
                 AppLog.debug(.smartSwitch, "Applied preference language=\(choice.language.rawValue)")
             case let .recorded(choice):
                 currentAppSmartSwitchStatus = localization.format(
-                    .smartSwitchSaved,
+                    .smartSwitchUseLanguage,
                     localization.displayName(for: choice.language)
                 )
                 AppLog.debug(.smartSwitch, "Recorded preference language=\(choice.language.rawValue)")
@@ -178,7 +178,7 @@ final class SmartSwitchController {
             guard try smartSwitchStore.updateChoice(for: identity, choice: choice) else { return }
             smartSwitchRevision &+= 1
             currentAppSmartSwitchStatus = localization.format(
-                .smartSwitchSaved,
+                .smartSwitchUseLanguage,
                 localization.displayName(for: choice.language)
             )
             onPublishedStateChange?()

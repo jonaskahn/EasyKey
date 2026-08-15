@@ -2189,36 +2189,19 @@
         }
       }
     },
-    "smartSwitch.applied": {
+    "smartSwitch.useLanguage": {
       "comment": "Status format %@ = language",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Switched to %@"
+            "value": "Use %@"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Đã chuyển sang %@"
-          }
-        }
-      }
-    },
-    "smartSwitch.saved": {
-      "comment": "Status format %@ = language",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remembered %@"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Đã ghi nhớ %@"
+            "value": "Dùng %@"
           }
         }
       }
@@ -3825,13 +3808,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Monitor this app"
+            "value": "Monitor"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Theo dõi ứng dụng này"
+            "value": "Theo dõi"
           }
         }
       }
