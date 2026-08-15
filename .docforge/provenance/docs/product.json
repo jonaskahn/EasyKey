@@ -1,0 +1,671 @@
+{
+  "schema": "1.0",
+  "folder": "docs/product",
+  "files": {
+    "README.md": {
+      "id": "product_index",
+      "title": "Product",
+      "description": "Product documentation overview: what the product is, scope, and the reader question each product document answers",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "product_index",
+        "path": "docs/product/README.md",
+        "generated_at": "2026-08-15T06:34:10Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "product",
+            "sources": [
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "at-a-glance",
+            "sources": [
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "docs/product/migrations/README.md",
+                "role": "doc",
+                "git_blob": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271",
+                "git_blob_normalized": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "scope-and-boundaries",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              },
+              {
+                "path": "docs/architecture/README.md",
+                "role": "doc",
+                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
+                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+              },
+              {
+                "path": "docs/engineering/README.md",
+                "role": "doc",
+                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
+                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              },
+              {
+                "path": "docs/operations/README.md",
+                "role": "doc",
+                "git_blob": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402",
+                "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "start-here",
+            "sources": [
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "docs/product/quickstart.md",
+                "role": "doc",
+                "git_blob": "e79be2d8969327be178184267b18125bbcce0142",
+                "git_blob_normalized": "e79be2d8969327be178184267b18125bbcce0142"
+              },
+              {
+                "path": "docs/product/accessibility.md",
+                "role": "doc",
+                "git_blob": "553ed88e0d9d0a6cd1067b56f2b53073c2f9d0cb",
+                "git_blob_normalized": "553ed88e0d9d0a6cd1067b56f2b53073c2f9d0cb"
+              },
+              {
+                "path": "docs/product/localization.md",
+                "role": "doc",
+                "git_blob": "5fc22d800eb8f9213fabe893df6f057b968716c4",
+                "git_blob_normalized": "5fc22d800eb8f9213fabe893df6f057b968716c4"
+              },
+              {
+                "path": "docs/product/migrations/README.md",
+                "role": "doc",
+                "git_blob": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271",
+                "git_blob_normalized": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "detailed-documentation",
+            "sources": [
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "docs/product/quickstart.md",
+                "role": "doc",
+                "git_blob": "e79be2d8969327be178184267b18125bbcce0142",
+                "git_blob_normalized": "e79be2d8969327be178184267b18125bbcce0142"
+              },
+              {
+                "path": "docs/product/accessibility.md",
+                "role": "doc",
+                "git_blob": "553ed88e0d9d0a6cd1067b56f2b53073c2f9d0cb",
+                "git_blob_normalized": "553ed88e0d9d0a6cd1067b56f2b53073c2f9d0cb"
+              },
+              {
+                "path": "docs/product/localization.md",
+                "role": "doc",
+                "git_blob": "5fc22d800eb8f9213fabe893df6f057b968716c4",
+                "git_blob_normalized": "5fc22d800eb8f9213fabe893df6f057b968716c4"
+              },
+              {
+                "path": "docs/product/migrations/README.md",
+                "role": "doc",
+                "git_blob": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271",
+                "git_blob_normalized": "bd35faf9dde3bae7c6ecfc3ebb9f5142fbf0d271"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "related-sections",
+            "sources": [
+              {
+                "path": "docs/README.md",
+                "role": "doc",
+                "git_blob": "e75e8525820557a7e2ae779d2e99cf19f5838adf",
+                "git_blob_normalized": "e75e8525820557a7e2ae779d2e99cf19f5838adf"
+              },
+              {
+                "path": "docs/architecture/README.md",
+                "role": "doc",
+                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
+                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+              },
+              {
+                "path": "docs/engineering/README.md",
+                "role": "doc",
+                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
+                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+              },
+              {
+                "path": "docs/operations/README.md",
+                "role": "doc",
+                "git_blob": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402",
+                "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "overview.md": {
+      "id": "product_overview",
+      "title": "Product Overview",
+      "description": "Users, problems, capabilities, explicit non-goals",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "product_overview",
+        "path": "docs/product/overview.md",
+        "generated_at": "2026-08-15T06:22:21Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "derived"
+        },
+        "sections": [
+          {
+            "id": "product-overview",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "who-its-for",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "notes/telex.md",
+                "role": "doc",
+                "git_blob": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff",
+                "git_blob_normalized": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "what-easykey-does",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "docs/security/permissions.md",
+                "role": "doc",
+                "git_blob": "c27c0dc617fdc5816165bf1daf245d8389f33fac",
+                "git_blob_normalized": "c27c0dc617fdc5816165bf1daf245d8389f33fac"
+              },
+              {
+                "path": "EasyEngineCore/Clipboard/ClipboardOptions.swift",
+                "role": "code",
+                "git_blob": "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93",
+                "git_blob_normalized": "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+              },
+              {
+                "path": "EasyEngineCore/Translation/TranslationOptions.swift",
+                "role": "code",
+                "git_blob": "ac20f144cfffb6a896dfc2fe27c2b6651e48456c",
+                "git_blob_normalized": "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+              },
+              {
+                "path": "EasyEngineCore/Settings/InputSettings.swift",
+                "role": "code",
+                "git_blob": "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab",
+                "git_blob_normalized": "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "capabilities",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Engine/VietnameseEncoding.swift",
+                "role": "code",
+                "git_blob": "62e38f698423426e25a4e0d69f3765b84451314e",
+                "git_blob_normalized": "62e38f698423426e25a4e0d69f3765b84451314e"
+              },
+              {
+                "path": "EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift",
+                "role": "code",
+                "git_blob": "f496df37f4608d22e528dd1c924c963c16ce7821",
+                "git_blob_normalized": "f496df37f4608d22e528dd1c924c963c16ce7821"
+              },
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "role": "code",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "git_blob_normalized": "694b512e15a06e34e7df216ba74a4fc133e27f69"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+                "role": "code",
+                "git_blob": "768aab956a8d02978101105e7a896b6d55c75376",
+                "git_blob_normalized": "768aab956a8d02978101105e7a896b6d55c75376"
+              },
+              {
+                "path": "EasyKeyApp/Localizable.xcstrings",
+                "role": "config",
+                "git_blob": "5b614fb585fd4a0dee26edc22aa3506c5db79c84",
+                "git_blob_normalized": "5b614fb585fd4a0dee26edc22aa3506c5db79c84"
+              },
+              {
+                "path": "docs/flows/translation.md",
+                "role": "doc",
+                "git_blob": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e",
+                "git_blob_normalized": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "boundaries-and-non-goals",
+            "sources": [
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              },
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "manifest",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "docs/reference/limitations.md",
+                "role": "doc",
+                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
+                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+              },
+              {
+                "path": "EasyKeyApp/EasyKeyApp.entitlements",
+                "role": "config",
+                "git_blob": "e89b7f323cf06c0f693e45a878b20d54db92e85c",
+                "git_blob_normalized": "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+              },
+              {
+                "path": "docs/flows/translation.md",
+                "role": "doc",
+                "git_blob": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e",
+                "git_blob_normalized": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e"
+              },
+              {
+                "path": "EasyEngineCore/Translation/TranslationOptions.swift",
+                "role": "code",
+                "git_blob": "ac20f144cfffb6a896dfc2fe27c2b6651e48456c",
+                "git_blob_normalized": "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
+              },
+              {
+                "path": "docs/security/permissions.md",
+                "role": "doc",
+                "git_blob": "c27c0dc617fdc5816165bf1daf245d8389f33fac",
+                "git_blob_normalized": "c27c0dc617fdc5816165bf1daf245d8389f33fac"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "where-to-go-next",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              },
+              {
+                "path": "docs/reference/README.md",
+                "role": "doc",
+                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
+                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "quickstart.md": {
+      "id": "quickstart",
+      "title": "Quickstart",
+      "description": "Shortest verified path to first useful result, prerequisites, expected output, next links",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "quickstart",
+        "path": "docs/product/quickstart.md",
+        "generated_at": "2026-08-15T06:24:27Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "quickstart",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "manifest",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "Makefile",
+                "role": "manifest",
+                "git_blob": "98652fb4aa36393a490430f1ad5b33021884459b",
+                "git_blob_normalized": "98652fb4aa36393a490430f1ad5b33021884459b"
+              },
+              {
+                "path": ".github/workflows/release.yml",
+                "role": "manifest",
+                "git_blob": "b65e94ff744a06c4ad2e87f24fb0e51435369196",
+                "git_blob_normalized": "b65e94ff744a06c4ad2e87f24fb0e51435369196"
+              },
+              {
+                "path": "Fixtures/sample-telex.json",
+                "role": "test",
+                "git_blob": "a904b2094b8299dee38b8667525a24a75e759017",
+                "git_blob_normalized": "a904b2094b8299dee38b8667525a24a75e759017"
+              },
+              {
+                "path": "notes/telex.md",
+                "role": "doc",
+                "git_blob": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff",
+                "git_blob_normalized": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff"
+              },
+              {
+                "path": "EasyKeyApp/Features/Onboarding/OnboardingView.swift",
+                "role": "code",
+                "git_blob": "6607f26cd0e27f49ac6d0e77492557411063e170",
+                "git_blob_normalized": "6607f26cd0e27f49ac6d0e77492557411063e170"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/StatusItemController.swift",
+                "role": "code",
+                "git_blob": "2572c79b8511bab10e563cc9fcae9dc546992f43",
+                "git_blob_normalized": "2572c79b8511bab10e563cc9fcae9dc546992f43"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "what-next",
+            "sources": [
+              {
+                "path": "docs/engineering/setup.md",
+                "role": "doc",
+                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
+                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+              },
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "notes/telex.md",
+                "role": "doc",
+                "git_blob": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff",
+                "git_blob_normalized": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "accessibility.md": {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "description": "Supported behavior, resources/semantics, fallback, verification, known limits",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "accessibility",
+        "path": "docs/product/accessibility.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "verified-behavior-by-area",
+            "sources": [
+              {
+                "path": "notes/design.md",
+                "git_blob": "3d30013d50f738f24d1872b9ab205bafe5792fac",
+                "role": "doc",
+                "git_blob_normalized": "3d30013d50f738f24d1872b9ab205bafe5792fac"
+              },
+              {
+                "path": "notes/rulebook.md",
+                "git_blob": "b83f7de9d820379fc8cec8151a3290e86ab22317",
+                "role": "doc",
+                "git_blob_normalized": "b83f7de9d820379fc8cec8151a3290e86ab22317"
+              },
+              {
+                "path": "EasyKeyApp/Features/Onboarding/OnboardingView.swift",
+                "git_blob": "6607f26cd0e27f49ac6d0e77492557411063e170",
+                "role": "code",
+                "git_blob_normalized": "6607f26cd0e27f49ac6d0e77492557411063e170"
+              },
+              {
+                "path": "EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift",
+                "git_blob": "26848c8e7b7745d4bf4955806cbb71fd179dfb43",
+                "role": "code",
+                "git_blob_normalized": "26848c8e7b7745d4bf4955806cbb71fd179dfb43"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/MenuPopoverView.swift",
+                "git_blob": "9cc78b888b4080823009ff531797b01cf7444c68",
+                "role": "code",
+                "git_blob_normalized": "9cc78b888b4080823009ff531797b01cf7444c68"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "verification-method",
+            "sources": [
+              {
+                "path": "EasyKeyUITests/SettingsAccessibilityTests.swift",
+                "git_blob": "976a883c7b3279992b082f5563c5e123e757bce9",
+                "role": "test"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "known-gaps",
+            "sources": [
+              {
+                "path": "EasyKeyUITests/SettingsAccessibilityTests.swift",
+                "git_blob": "976a883c7b3279992b082f5563c5e123e757bce9",
+                "role": "test"
+              },
+              {
+                "path": "notes/design.md",
+                "git_blob": "3d30013d50f738f24d1872b9ab205bafe5792fac",
+                "git_blob_normalized": "3d30013d50f738f24d1872b9ab205bafe5792fac",
+                "role": "doc"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "localization.md": {
+      "id": "localization",
+      "title": "Localization",
+      "description": "Supported behavior, resources/semantics, fallback, verification, known limits",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "localization",
+        "path": "docs/product/localization.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "supported-locales",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Localizable.xcstrings",
+                "git_blob": "5b614fb585fd4a0dee26edc22aa3506c5db79c84",
+                "role": "config",
+                "git_blob_normalized": "5b614fb585fd4a0dee26edc22aa3506c5db79c84"
+              },
+              {
+                "path": "EasyKeyApp/Localization/AppLanguage.swift",
+                "git_blob": "2add0345da3e50e736e3f18c12f4db48f21b6793",
+                "role": "code",
+                "git_blob_normalized": "2add0345da3e50e736e3f18c12f4db48f21b6793"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "known-limits",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Localization/LocalizationStore.swift",
+                "git_blob": "3654eaa64e85cd9d613f5e6c13d334894473e8e9",
+                "git_blob_normalized": "3654eaa64e85cd9d613f5e6c13d334894473e8e9",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Translation/SupportedLanguages.swift",
+                "git_blob": "0091dea40cb4db68095afd1afe3127b319402260",
+                "git_blob_normalized": "0091dea40cb4db68095afd1afe3127b319402260",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,21 +1,3 @@
----
-id: "existing-third-party-notices"
-title: "Third-Party Notices"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "existing-third-party-notices"
-  path: "docs/_archive/THIRD_PARTY_NOTICES.md"
-  generated_at: "2026-08-03T10:27:57+00:00"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "reference"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections: []
----
 # Third-Party Notices
 
 ## Translation Services
@@ -27,9 +9,7 @@ text from an EasyKey translation surface. Apple Translation is available locally
 on supported macOS versions.
 Provider names and links identify interoperability and data handling only. No
 provider sponsors, endorses, or is affiliated with EasyKey. EasyKey does not
-bundle provider SDKs or provider software. See
-[security/data-handling.md](security/data-handling.md) for current official
-privacy and data-handling links.
+bundle provider SDKs or provider software. See [docs/security/README.md](docs/security/README.md) for the app's data-handling posture and privacy policy links.
 
 ## Sparkle 2.9.4
 

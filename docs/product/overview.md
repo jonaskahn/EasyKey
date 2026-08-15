@@ -1,110 +1,12 @@
----
-id: "product_overview"
-title: "Product Overview"
-description: "Users, problems, capabilities, explicit non-goals"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "product_overview"
-  path: "docs/product/overview.md"
-  generated_at: "2026-08-13T11:09:28Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "orientation"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "what-easykey-does"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "docs/_archive/telex.md"
-          git_blob: "a5f49cdcc22cc2c33b9d345943c2105faab07967"
-          git_blob_normalized: "a5f49cdcc22cc2c33b9d345943c2105faab07967"
-          role: "doc"
-        - path: "EasyEngineCore/Settings/InputSettings.swift"
-          git_blob: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
-          git_blob_normalized: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
-          role: "code"
-      unresolved: []
-    - id: "who-its-for"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-      unresolved: []
-    - id: "capabilities"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "EasyEngineCore/Translation/TranslationProviderID.swift"
-          git_blob: "d494c06ab4bc4fba8eaafdc2b51430f0e9cbc33d"
-          git_blob_normalized: "d494c06ab4bc4fba8eaafdc2b51430f0e9cbc33d"
-          role: "code"
-        - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
-          git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-          git_blob_normalized: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-          role: "code"
-        - path: "EasyEngineCore/SmartSwitch/SmartSwitchOptions.swift"
-          git_blob: "651f4dde5a9df0f03466c3185d904aa63c72f1af"
-          git_blob_normalized: "651f4dde5a9df0f03466c3185d904aa63c72f1af"
-          role: "code"
-        - path: "EasyEngineCore/Macros/MacroStore.swift"
-          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          role: "code"
-        - path: "EasyEngineCore/Engine/EncodingTable.swift"
-          git_blob: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
-          git_blob_normalized: "5b5b5b8b5a8f1e2d400d096e819deafb07e16588"
-          role: "code"
-        - path: "EasyEngineCore/Engine/EngineConfiguration.swift"
-          git_blob: "300fdc2bd48af4f46cf2e9cd6f51dab9114c1781"
-          git_blob_normalized: "300fdc2bd48af4f46cf2e9cd6f51dab9114c1781"
-          role: "code"
-        - path: "EasyKeyApp/Localizable.xcstrings"
-          git_blob: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
-          git_blob_normalized: "0d0e4935395021f956e26dd0b8755b14f1dfa1bf"
-          role: "config"
-      unresolved: []
-    - id: "boundaries-and-non-goals"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-          git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
-          git_blob_normalized: "768aab956a8d02978101105e7a896b6d55c75376"
-          role: "code"
-        - path: "docs/reference/limitations.md"
-          git_blob: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
-          git_blob_normalized: "554da0edc7bd79a7b5023ca2c1e736e40af329d3"
-          role: "doc"
-      unresolved: []
-    - id: "where-to-go-next"
-      sources:
-        - path: "docs/flows/README.md"
-          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          role: "doc"
-        - path: "docs/reference/README.md"
-          git_blob: "72b35036aa2710b6eaf73913dccff97fcb684796"
-          git_blob_normalized: "72b35036aa2710b6eaf73913dccff97fcb684796"
-          role: "doc"
-      unresolved: []
----
 # Product Overview
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 EasyKey is a menu-bar utility that turns your Mac into a fast, private Vietnamese typing machine. Type `vieejt nam` in any application and it appears as *việt nam*. Keyboard transformation happens entirely on your Mac: EasyKey collects no analytics or telemetry, and cloud translation is strictly opt-in.
+
+## Who it's for
+
+Anyone who types Vietnamese on a Mac and wants it to "just work" in every application, plus translators and power users who also want a private clipboard history and on-demand translation without a web tab. It is a clean-room implementation of public Vietnamese typing conventions (see the Telex rule set at notes/telex.md), not an input-method framework.
 
 ## What EasyKey does
 
@@ -117,10 +19,6 @@ Three global shortcuts give you the core product, and all of them are configurab
 | `⌥` + `V` | Open the clipboard manager |
 | `⌥` + `C` | Open the translate panel |
 | `⌥` + `Z` | Switch input language |
-
-## Who it's for
-
-Anyone who types Vietnamese on a Mac and wants it to "just work" in every application, plus translators and power users who also want a private clipboard history and on-demand translation without a web tab. It is a clean-room implementation of public Vietnamese typing conventions (see the the archived Telex rule set), not an input-method framework.
 
 ## Capabilities
 
@@ -135,10 +33,10 @@ Anyone who types Vietnamese on a Mac and wants it to "just work" in every applic
 ## Boundaries and non-goals
 
 - No cloud service, proxy, or telemetry: requests are sent directly from your Mac to the provider you picked, only from EasyKey's translation surfaces.
-- No history, prompts, or translated text are persisted — and cloud credentials live in device-only, non-synchronizing Keychain items.
+- No translation history, prompts, or translated text are persisted — and cloud credentials live in device-only, non-synchronizing Keychain items.
 - The clipboard manager is not a security boundary: ignored-application filtering is best effort because macOS cannot always identify the source of a clipboard change.
-- macOS 14.0 or later only; typing is unavailable until Accessibility access is granted, and a known macOS detection-timing issue can make typing look briefly broken in Spotlight ([known platform problems](../reference/limitations.md)).
-- Not a dictionary or grammar product, and not an input method that runs inside other apps' extension hosts — EasyKey is a system-wide keyboard service.
+- macOS 14.0 or later only; without the Accessibility grant keystrokes pass through untransformed, and a known macOS detection-timing issue can make typing look briefly broken in Spotlight ([known platform problems](../reference/limitations.md)).
+- Not a dictionary or grammar product — the [capability set](#capabilities) above is typing, clipboard, and translation only — and not an input method that runs inside other apps' extension hosts: EasyKey is a system-wide keyboard service using a CGEvent tap plus the Accessibility API, with no IMK input source produced ([limitations](../reference/limitations.md)).
 
 ## Where to go next
 

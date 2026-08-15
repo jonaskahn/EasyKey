@@ -1,68 +1,3 @@
----
-id: "system_overview"
-title: "System Overview"
-description: "The handful of major capabilities; for each, the components it touches and its owning flow; the primary end-to-end path(s) tying features together; external..."
-docforge_provenance:
-  schema: "2.1"
-  doc_id: "system_overview"
-  path: "docs/architecture/system-overview.md"
-  generated_at: "2026-08-13T11:10:56Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "derived"
-  sections:
-    - id: "system-overview"
-      sources:
-        - path: "docs/architecture/high-level.md"
-          git_blob: "512ee6424ad536435918e38036388604946f544e"
-          git_blob_normalized: "512ee6424ad536435918e38036388604946f544e"
-          role: "doc"
-        - path: "docs/flows/README.md"
-          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          role: "doc"
-        - path: ".docforge/tmp/flow-graph.json"
-          git_blob: "908611da74a9394034e0444c761481351d43ad08"
-          git_blob_normalized: "908611da74a9394034e0444c761481351d43ad08"
-          role: "manifest"
-      unresolved: []
-    - id: "primary-end-to-end-path"
-      sources:
-        - path: "docs/flows/keyboard-typing.md"
-          git_blob: "5b7871ea54bea9edc63bb3f054b30fd4e38849c9"
-          git_blob_normalized: "5b7871ea54bea9edc63bb3f054b30fd4e38849c9"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "code"
-        - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
-          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
-          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
-          role: "code"
-      unresolved: []
-    - id: "feature-owning-flow-subsystem"
-      sources:
-        - path: "docs/flows/README.md"
-          git_blob: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          git_blob_normalized: "c9a47475b0a871cfa07f395afc0ac642f71e98d5"
-          role: "doc"
-        - path: ".docforge/tmp/flow-graph.json"
-          git_blob: "908611da74a9394034e0444c761481351d43ad08"
-          git_blob_normalized: "908611da74a9394034e0444c761481351d43ad08"
-          role: "manifest"
-        - path: "docs/architecture/high-level.md"
-          git_blob: "512ee6424ad536435918e38036388604946f544e"
-          git_blob_normalized: "512ee6424ad536435918e38036388604946f544e"
-          role: "doc"
-      unresolved: []
----
 # System overview
 
 _Last reviewed: 2026-08-15_
@@ -84,18 +19,23 @@ The journey a newcomer should trace first is a keystroke becoming Vietnamese tex
 
 ```mermaid
 sequenceDiagram
-  participant User as User
-  participant Tap as CGEvent tap (EasyKeyKit)
+  participant Service as KeyboardService (EasyKeyKit)
   participant Pipeline as KeyboardInputPipeline
-  participant Engine as VietnameseEngine + KeySynthesizer
+  participant Engine as VietnameseEngine (EasyEngineCore)
   participant Target as Target application
-  User->>Tap: types "tuyen"
-  Tap->>Pipeline: handleTapEvent(keyDown)
+  Service->>Pipeline: process(keyDown) on serial queue
   Pipeline->>Engine: process(KeyEvent)
-  Engine-->>Pipeline: EngineOutput (backspace + Vietnamese text)
-  Pipeline-->>Tap: suppress original keystroke
-  Engine->>Target: synthesized edits via tapPostEvent
+  Engine-->>Pipeline: edits (backspace + Vietnamese text)
+  Pipeline->>Target: KeySynthesizer posts synthesized edits
+  Pipeline-->>Service: suppressesOriginal, original dropped
+  alt tap disabled by system
+    Service->>Service: tear down tap, re-request permission
+  end
 ```
+
+The error path above is the failure-and-recovery story in one line — the full
+recovery behavior lives in
+[keyboard-typing.md](../flows/keyboard-typing.md).
 
 ## Feature → owning flow → subsystem
 
@@ -107,9 +47,9 @@ index but have no deep-dive flow document yet._
 |---|---|---|
 | Vietnamese keyboard typing (Telex/Simple Telex/VNI) | [keyboard-typing](../flows/keyboard-typing.md) | EasyKeyKit (event tap, pipeline, synthesis) + EasyEngineCore (`VietnameseEngine`) |
 | Clipboard history capture, persistence, restore | [clipboard-history](../flows/clipboard-history.md) | EasyKeyApp (`ClipboardMonitor`, `ClipboardHistoryModel`) |
-| Translation via on-device or cloud providers | [translation](../flows/translation.md) | EasyKeyApp (`AppTranslationRuntime`) |
-| Per-application language Smart Switch | [indexed, deferred](../flows/README.md) | EasyKeyApp (`SmartSwitchController`) + EasyEngineCore |
-| Macro expansion from triggers | [indexed, deferred](../flows/README.md) | EasyKeyKit (`KeyboardMacroExpander`) + EasyEngineCore |
+| Translation via on-device or cloud providers | [translation](../flows/translation.md) | EasyKeyApp (`AppTranslationRuntime`, provider adapters) + EasyEngineCore (`TranslationProviderResolver`) |
+| Per-application language Smart Switch | [indexed, deferred](../flows/README.md) | EasyKeyApp (`SmartSwitchController`) + EasyEngineCore (`SmartSwitchStore`) |
+| Macro expansion from triggers | [indexed, deferred](../flows/README.md) | EasyKeyKit (`MacroExpander`) + EasyEngineCore (`MacroStore`) |
 | Launch-at-login registration and watchdog | [indexed, deferred](../flows/README.md) | EasyKeyApp (`LoginItemController`) + `EasyKeyLoginHelper` |
 | Sparkle app updates | [indexed, deferred](../flows/README.md) | EasyKeyApp (`UpdateService`) |
 

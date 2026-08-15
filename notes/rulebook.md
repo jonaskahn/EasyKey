@@ -1,21 +1,3 @@
----
-id: "existing-conventions"
-title: "Engineering Conventions"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "existing-conventions"
-  path: "docs/_archive/rulebook.md"
-  generated_at: "2026-08-03T10:27:57+00:00"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "reference"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections: []
----
 # Engineering Conventions
 
 These conventions define how Swift code should be designed, written, reviewed, and tested. They apply to production code, tests, scripts, and generated code accepted into the repository.

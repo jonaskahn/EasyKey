@@ -1,93 +1,3 @@
----
-id: "app_ui_state"
-title: "App Ui State"
-description: "Surfaces, navigation, state ownership, transitions, restoration, error presentation"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "app_ui_state"
-  path: "docs/architecture/ui-and-state.md"
-  generated_at: "2026-08-13T11:10:56Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "ui-navigation-and-state"
-      sources:
-        - path: "EasyKeyApp/Coordination/StatusItemController.swift"
-          git_blob: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
-          git_blob_normalized: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
-          role: "code"
-      unresolved: []
-    - id: "menu-bar-status-item-and-popover"
-      sources:
-        - path: "EasyKeyApp/Coordination/StatusItemController.swift"
-          git_blob: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
-          git_blob_normalized: "bcdabf85449fe79b32d1e63d819bb4a95000cb93"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/StatusMenuActionTarget.swift"
-          git_blob: "9858ae5651e3792442d734b39868dbdac404dc9d"
-          git_blob_normalized: "9858ae5651e3792442d734b39868dbdac404dc9d"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-          git_blob_normalized: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/MenuPopoverView.swift"
-          git_blob: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
-          git_blob_normalized: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
-          role: "code"
-      unresolved: []
-    - id: "settings-window"
-      sources:
-        - path: "EasyKeyApp/Features/Settings/SettingsShell.swift"
-          git_blob: "ac421d465a7411b025c3048197dc288787253e87"
-          role: "code"
-        - path: "EasyKeyApp/ContentView.swift"
-          git_blob: "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/SettingsWindowPresenter.swift"
-          git_blob: "6f4e1a0edbb132c69319f982e2c88663e2d74d4e"
-          role: "code"
-        - path: "EasyKeyApp/Features/Settings/SettingsSection.swift"
-          git_blob: "eb182d8c4afbb691e697cf0eee605d774361995c"
-          role: "code"
-      unresolved: []
-    - id: "clipboard-panel"
-      sources:
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardServices.swift"
-          git_blob: "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
-          role: "code"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift"
-          git_blob: "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
-          role: "code"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
-          git_blob: "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
-          role: "code"
-      unresolved: []
-    - id: "translation-panel"
-      sources:
-        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-          role: "code"
-        - path: "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-          git_blob: "768aab956a8d02978101105e7a896b6d55c75376"
-          role: "code"
-      unresolved: []
-    - id: "onboarding"
-      sources:
-        - path: "EasyKeyApp/Features/Onboarding/OnboardingView.swift"
-          git_blob: "6607f26cd0e27f49ac6d0e77492557411063e170"
-          role: "code"
-        - path: "EasyKeyApp/ContentView.swift"
-          git_blob: "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f"
-          role: "code"
-      unresolved: []
----
 # UI navigation and state
 
 _Last reviewed: 2026-08-15_
@@ -112,7 +22,7 @@ stateDiagram-v2
 
 **Allowed transitions:** left-click toggles the popover (`togglePopover`, which also refreshes Accessibility permission); the status menu routes to `showSettings(section:)`, the clipboard panel, the translation popover, restart keyboard service, convert clipboard, show logs, about, and quit; the popover can host the translation mini-surface and an "open settings" action.
 
-**Survives transition:** popover content is rebuilt on demand from the coordinator's snapshot (`menuSnapshotProvider` reads live settings — language, input method, encoding, current app, Smart Switch status, pause state), so an open popover reflects changes; opening Settings from the popover closes the popover first.
+**Survives transition:** popover content is rebuilt on demand from the coordinator's snapshot (`menuSnapshotProvider` reads live settings — language, input method, encoding, current app, Smart Switch status, pause state), so an open popover reflects changes; opening Settings from the popover closes the popover first. The status-item icon is rendered from the `menuBarIconStyle`, `menuBarIconScale`, and `grayMenuIcon` settings, re-rendered when the effective appearance changes (`observeStatusItemAppearance`); paused or unhealthy states replace it with a tinted system symbol (orange pause, red warning) (`StatusItemController.swift:276-324, 366-387, 434-465`). While the popover is shown it arms local and global click monitors and dismisses only when `PopoverOutsideClickDecision.shouldClose` judges the click outside the popover, the status button, and every EasyKey window — a click on the Settings window or the clipboard panel no longer closes it (`StatusItemController.swift:180-226`).
 
 **Restoration on process death:** none — the popover does not exist across launches; the status item is reinstalled at launch with state rebuilt from settings.
 

@@ -1,0 +1,263 @@
+{
+  "schema": "1.0",
+  "folder": "docs",
+  "files": {
+    "README.md": {
+      "id": "docs_index",
+      "title": "Documentation",
+      "description": "Self-introduction to the documentation: what the repo is, who it serves, and the reader question each selected section answers",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "docs_index",
+        "path": "docs/README.md",
+        "generated_at": "2026-08-15T06:37:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "documentation",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              },
+              {
+                "path": "CONTRIBUTING.md",
+                "role": "doc",
+                "git_blob": "24d3a7543266cf0d12b253261c8fbd460e3951da",
+                "git_blob_normalized": "24d3a7543266cf0d12b253261c8fbd460e3951da"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "at-a-glance",
+            "sources": [
+              {
+                "path": "CHANGELOG.md",
+                "role": "doc",
+                "git_blob": "10dc79279d206f2ba5d068c1a0e42d9bf25fd254",
+                "git_blob_normalized": "10dc79279d206f2ba5d068c1a0e42d9bf25fd254"
+              },
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "scope-and-boundaries",
+            "sources": [
+              {
+                "path": "CONTRIBUTING.md",
+                "role": "doc",
+                "git_blob": "24d3a7543266cf0d12b253261c8fbd460e3951da",
+                "git_blob_normalized": "24d3a7543266cf0d12b253261c8fbd460e3951da"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "start-here",
+            "sources": [
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/engineering/setup.md",
+                "role": "doc",
+                "git_blob": "f7b75c9e102a159a8f1189d93788c735e29a5464",
+                "git_blob_normalized": "f7b75c9e102a159a8f1189d93788c735e29a5464"
+              },
+              {
+                "path": "docs/product/quickstart.md",
+                "role": "doc",
+                "git_blob": "e79be2d8969327be178184267b18125bbcce0142",
+                "git_blob_normalized": "e79be2d8969327be178184267b18125bbcce0142"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              },
+              {
+                "path": "docs/reference/limitations.md",
+                "role": "doc",
+                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
+                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+              },
+              {
+                "path": "docs/operations/README.md",
+                "role": "doc",
+                "git_blob": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402",
+                "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
+              },
+              {
+                "path": "CONTRIBUTING.md",
+                "role": "doc",
+                "git_blob": "24d3a7543266cf0d12b253261c8fbd460e3951da",
+                "git_blob_normalized": "24d3a7543266cf0d12b253261c8fbd460e3951da"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "sections",
+            "sources": [
+              {
+                "path": "docs/architecture/README.md",
+                "role": "doc",
+                "git_blob": "4a6acf77d7bd018676ac208f54ca4957d530f4f6",
+                "git_blob_normalized": "4a6acf77d7bd018676ac208f54ca4957d530f4f6"
+              },
+              {
+                "path": "docs/product/README.md",
+                "role": "doc",
+                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
+                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+              },
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              },
+              {
+                "path": "docs/engineering/README.md",
+                "role": "doc",
+                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
+                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+              },
+              {
+                "path": "docs/reference/README.md",
+                "role": "doc",
+                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
+                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+              },
+              {
+                "path": "docs/operations/README.md",
+                "role": "doc",
+                "git_blob": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402",
+                "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "hand-written-documents",
+            "sources": [
+              {
+                "path": "notes/telex.md",
+                "role": "doc",
+                "git_blob": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff",
+                "git_blob_normalized": "06a0eb3ab30fcdf791ffdb33b1e8a7c9b4c8ebff"
+              },
+              {
+                "path": "notes/rulebook.md",
+                "role": "doc",
+                "git_blob": "b83f7de9d820379fc8cec8151a3290e86ab22317",
+                "git_blob_normalized": "b83f7de9d820379fc8cec8151a3290e86ab22317"
+              },
+              {
+                "path": "notes/design.md",
+                "role": "doc",
+                "git_blob": "3d30013d50f738f24d1872b9ab205bafe5792fac",
+                "git_blob_normalized": "3d30013d50f738f24d1872b9ab205bafe5792fac"
+              },
+              {
+                "path": "THIRD_PARTY_NOTICES.md",
+                "role": "doc",
+                "git_blob": "a320f2b434d254a998b4d7880464373da9708a0b",
+                "git_blob_normalized": "a320f2b434d254a998b4d7880464373da9708a0b"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "related-root-documents",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              },
+              {
+                "path": "CONTRIBUTING.md",
+                "role": "doc",
+                "git_blob": "24d3a7543266cf0d12b253261c8fbd460e3951da",
+                "git_blob_normalized": "24d3a7543266cf0d12b253261c8fbd460e3951da"
+              },
+              {
+                "path": "CHANGELOG.md",
+                "role": "doc",
+                "git_blob": "10dc79279d206f2ba5d068c1a0e42d9bf25fd254",
+                "git_blob_normalized": "10dc79279d206f2ba5d068c1a0e42d9bf25fd254"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "conventions",
+            "sources": [
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    }
+  }
+}

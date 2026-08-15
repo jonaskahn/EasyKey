@@ -1,0 +1,291 @@
+{
+  "schema": "1.0",
+  "folder": "",
+  "files": {
+    "README.md": {
+      "id": "root_readme",
+      "title": "Repository README",
+      "description": "Purpose, audience, verified quick start, links to setup/architecture/limitations",
+      "provenance": {
+        "schema": "2.1",
+        "doc_id": "root_readme",
+        "path": "README.md",
+        "generated_at": "<GENERATED_AT>",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "<GRAPH_PROVIDER>",
+          "flow": "<FLOW_CAPABILITY>"
+        },
+        "sections": []
+      }
+    },
+    "CHANGELOG.md": {
+      "id": "changelog",
+      "title": "Changelog",
+      "description": "Released versions, dates, user-visible changes, compatibility notes",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "changelog",
+        "path": "CHANGELOG.md",
+        "generated_at": "2026-08-15T06:21:54Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "reference",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "changelog",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "docs/reference/platform-compatibility.md",
+                "role": "doc",
+                "git_blob": "239a923d565e164404e427454b7ebaee59b5ec49",
+                "git_blob_normalized": "239a923d565e164404e427454b7ebaee59b5ec49"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "0011-unreleased",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "0010-2026-08-15",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "EasyKeyApp/Localization/LocalizationStore.swift",
+                "role": "code",
+                "git_blob": "3654eaa64e85cd9d613f5e6c13d334894473e8e9",
+                "git_blob_normalized": "3654eaa64e85cd9d613f5e6c13d334894473e8e9"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/SmartSwitchController.swift",
+                "role": "code",
+                "git_blob": "9c17fa99d49d3e394a4215c64447e794313e80ea",
+                "git_blob_normalized": "9c17fa99d49d3e394a4215c64447e794313e80ea"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "009-2026-08-14",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "008-2026-08-14",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "007-2026-07-23",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "006-2026-07-22",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "005-2026-07-21",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "004-2026-07-21",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "003-2026-07-21",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "002-2026-07-21",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "001-2026-07-18",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "release-history",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "role": "history",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    }
+  }
+}

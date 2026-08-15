@@ -1,21 +1,3 @@
----
-id: "existing-design"
-title: "Design Notes"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "existing-design"
-  path: "docs/_archive/design.md"
-  generated_at: "2026-08-03T10:28:33+00:00"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "reference"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections: []
----
 |---|---|
 | Primary text | `.primary` / `label` | headings, body |
 | Secondary text | `.secondary` / `secondaryLabel` | captions, subtitles |

@@ -1,0 +1,1480 @@
+{
+  "schema": "1.0",
+  "folder": "docs/architecture",
+  "files": {
+    "README.md": {
+      "id": "architecture_index",
+      "title": "Architecture",
+      "description": "What the system is and how it is built: section overview and one-line purpose of every selected architecture document",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "architecture_index",
+        "path": "docs/architecture/README.md",
+        "generated_at": "2026-08-15T06:34:10Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "architecture",
+            "sources": [
+              {
+                "path": "README.md",
+                "role": "doc",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/architecture/system-overview.md",
+                "role": "doc",
+                "git_blob": "7987aff2f0345a302d72c3b6d4099dc395dbef17",
+                "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "at-a-glance",
+            "sources": [
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/architecture/system-overview.md",
+                "role": "doc",
+                "git_blob": "7987aff2f0345a302d72c3b6d4099dc395dbef17",
+                "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "scope-and-boundaries",
+            "sources": [
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/product/README.md",
+                "role": "doc",
+                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
+                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+              },
+              {
+                "path": "docs/engineering/README.md",
+                "role": "doc",
+                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
+                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "start-here",
+            "sources": [
+              {
+                "path": "docs/architecture/system-overview.md",
+                "role": "doc",
+                "git_blob": "7987aff2f0345a302d72c3b6d4099dc395dbef17",
+                "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
+              },
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/architecture/platform-integration.md",
+                "role": "doc",
+                "git_blob": "2a8804ae343288257d273d7b673dd1e80a9163d7",
+                "git_blob_normalized": "2a8804ae343288257d273d7b673dd1e80a9163d7"
+              },
+              {
+                "path": "docs/architecture/persistence.md",
+                "role": "doc",
+                "git_blob": "c01dd9c285a31eb50f9d2b09998163aceea6e937",
+                "git_blob_normalized": "c01dd9c285a31eb50f9d2b09998163aceea6e937"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "detailed-documentation",
+            "sources": [
+              {
+                "path": "docs/architecture/system-overview.md",
+                "role": "doc",
+                "git_blob": "7987aff2f0345a302d72c3b6d4099dc395dbef17",
+                "git_blob_normalized": "7987aff2f0345a302d72c3b6d4099dc395dbef17"
+              },
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "docs/architecture/application-lifecycle.md",
+                "role": "doc",
+                "git_blob": "300d761701814cc7c0972102d62a599187bad3b8",
+                "git_blob_normalized": "300d761701814cc7c0972102d62a599187bad3b8"
+              },
+              {
+                "path": "docs/architecture/platform-integration.md",
+                "role": "doc",
+                "git_blob": "2a8804ae343288257d273d7b673dd1e80a9163d7",
+                "git_blob_normalized": "2a8804ae343288257d273d7b673dd1e80a9163d7"
+              },
+              {
+                "path": "docs/architecture/ai-integration.md",
+                "role": "doc",
+                "git_blob": "afd89fab0246d161b5db030f04cdad4ced84d9d0",
+                "git_blob_normalized": "afd89fab0246d161b5db030f04cdad4ced84d9d0"
+              },
+              {
+                "path": "docs/architecture/ui-and-state.md",
+                "role": "doc",
+                "git_blob": "121c7838c940657114bc21f77e48b4146758bbe8",
+                "git_blob_normalized": "121c7838c940657114bc21f77e48b4146758bbe8"
+              },
+              {
+                "path": "docs/architecture/persistence.md",
+                "role": "doc",
+                "git_blob": "c01dd9c285a31eb50f9d2b09998163aceea6e937",
+                "git_blob_normalized": "c01dd9c285a31eb50f9d2b09998163aceea6e937"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "related-sections",
+            "sources": [
+              {
+                "path": "docs/README.md",
+                "role": "doc",
+                "git_blob": "e75e8525820557a7e2ae779d2e99cf19f5838adf",
+                "git_blob_normalized": "e75e8525820557a7e2ae779d2e99cf19f5838adf"
+              },
+              {
+                "path": "docs/product/README.md",
+                "role": "doc",
+                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
+                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+              },
+              {
+                "path": "docs/engineering/README.md",
+                "role": "doc",
+                "git_blob": "583027169c6b97b090561e51724a1bb3378caac1",
+                "git_blob_normalized": "583027169c6b97b090561e51724a1bb3378caac1"
+              },
+              {
+                "path": "docs/reference/README.md",
+                "role": "doc",
+                "git_blob": "3f4a7bb453439ba6883c1dc423818ad734b277c1",
+                "git_blob_normalized": "3f4a7bb453439ba6883c1dc423818ad734b277c1"
+              },
+              {
+                "path": "docs/security/README.md",
+                "role": "doc",
+                "git_blob": "60bb72df4750ddcd27498b21dff63d283e3838dd",
+                "git_blob_normalized": "60bb72df4750ddcd27498b21dff63d283e3838dd"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "high-level.md": {
+      "id": "arch_high_level",
+      "title": "Arch High Level",
+      "description": "Context, deployable or provisioned blocks labeled with implementing technology (e.g. 'React SPA', 'PostgreSQL 15', or for `infrastructure-platform`...",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "arch_high_level",
+        "path": "docs/architecture/high-level.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "high-level-architecture",
+            "sources": [
+              {
+                "path": "README.md",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "role": "doc",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "EasyKeyApp/Info.plist",
+                "git_blob": "f4603871fa675111bd6db1472dfb04936ff3f645",
+                "role": "config",
+                "git_blob_normalized": "f4603871fa675111bd6db1472dfb04936ff3f645"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "system-in-context",
+            "sources": [
+              {
+                "path": "EasyKeyApp/AppDelegate.swift",
+                "git_blob": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/UpdateService.swift",
+                "git_blob": "186960351c6c963cfee981caef34e7aa8a544457",
+                "git_blob_normalized": "186960351c6c963cfee981caef34e7aa8a544457",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "containers-and-blackboxes",
+            "sources": [
+              {
+                "path": "EasyKey.xcodeproj/project.pbxproj",
+                "git_blob": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50",
+                "role": "config",
+                "git_blob_normalized": "60ef010c7375cbbe205bdb79eac2d7aa5daf4b50"
+              },
+              {
+                "path": "EasyKeyLoginHelper/main.swift",
+                "git_blob": "f0f724c4c8a6644555990bff4e08325f80625a66",
+                "role": "code",
+                "git_blob_normalized": "f0f724c4c8a6644555990bff4e08325f80625a66"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "relationship-matrix",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+                "git_blob": "1223cd2afe3439a09b9514cf04bd98132dd9ea17",
+                "role": "code",
+                "git_blob_normalized": "1223cd2afe3439a09b9514cf04bd98132dd9ea17"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardService.swift",
+                "git_blob": "3246c7e678b841077f3006877c3b2ead836e912b",
+                "role": "code",
+                "git_blob_normalized": "3246c7e678b841077f3006877c3b2ead836e912b"
+              },
+              {
+                "path": "EasyEngineCore/Engine/VietnameseEngine.swift",
+                "git_blob": "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03",
+                "role": "code",
+                "git_blob_normalized": "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "boundaries-and-invariants",
+            "sources": [
+              {
+                "path": "EasyKeyApp/EasyKeyApp.entitlements",
+                "git_blob": "e89b7f323cf06c0f693e45a878b20d54db92e85c",
+                "role": "config",
+                "git_blob_normalized": "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+              },
+              {
+                "path": "EasyEngineCore/Clipboard/ClipboardOptions.swift",
+                "git_blob": "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93",
+                "role": "code",
+                "git_blob_normalized": "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+                "git_blob": "2f2f6e1c7c03071c95010c565309b55a06b15c34",
+                "role": "code",
+                "git_blob_normalized": "2f2f6e1c7c03071c95010c565309b55a06b15c34"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              },
+              {
+                "path": "README.md",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "role": "doc",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "stable-by-design",
+            "sources": [
+              {
+                "path": "README.md",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "role": "doc",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "why-it-is-like-this",
+            "sources": [],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "application-lifecycle.md": {
+      "id": "app_lifecycle",
+      "title": "App Lifecycle",
+      "description": "Launch/activation/background/termination states, ownership, restoration, failure boundaries",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "app_lifecycle",
+        "path": "docs/architecture/application-lifecycle.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "application-lifecycle",
+            "sources": [
+              {
+                "path": "EasyKeyApp/AppDelegate.swift",
+                "git_blob": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8",
+                "role": "code",
+                "git_blob_normalized": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "launch",
+            "sources": [
+              {
+                "path": "EasyKeyApp/AppDelegate.swift",
+                "git_blob": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8",
+                "role": "code",
+                "git_blob_normalized": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991"
+              },
+              {
+                "path": "EasyKeyApp/Settings/SettingsStore.swift",
+                "git_blob": "65074f5684006b032e635e9bcf80ad7bf37f4929",
+                "role": "code",
+                "git_blob_normalized": "65074f5684006b032e635e9bcf80ad7bf37f4929"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "active",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+                "git_blob": "1223cd2afe3439a09b9514cf04bd98132dd9ea17",
+                "role": "code",
+                "git_blob_normalized": "1223cd2afe3439a09b9514cf04bd98132dd9ea17"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardService.swift",
+                "git_blob": "3246c7e678b841077f3006877c3b2ead836e912b",
+                "role": "code",
+                "git_blob_normalized": "3246c7e678b841077f3006877c3b2ead836e912b"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "asleep",
+            "sources": [
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+                "git_blob": "afd7e07bf098c7400aaccab85a72e77fac8a936d",
+                "role": "code",
+                "git_blob_normalized": "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift",
+                "git_blob": "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8",
+                "role": "code",
+                "git_blob_normalized": "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+                "git_blob": "43906864cb9efceb789b0d80709a50e62730b258",
+                "role": "code",
+                "git_blob_normalized": "43906864cb9efceb789b0d80709a50e62730b258"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+                "git_blob": "1223cd2afe3439a09b9514cf04bd98132dd9ea17",
+                "role": "code",
+                "git_blob_normalized": "1223cd2afe3439a09b9514cf04bd98132dd9ea17"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+                "git_blob": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9",
+                "role": "code",
+                "git_blob_normalized": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "terminated",
+            "sources": [
+              {
+                "path": "EasyKeyApp/AppDelegate.swift",
+                "git_blob": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8",
+                "role": "code",
+                "git_blob_normalized": "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift",
+                "git_blob": "6fe0b0f894f3d17c9546f48eb32f497701ac0ede",
+                "role": "code",
+                "git_blob_normalized": "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+                "git_blob": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9",
+                "role": "code",
+                "git_blob_normalized": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "ai-integration.md": {
+      "id": "ai_integration",
+      "title": "Ai Integration",
+      "description": "Model/provider boundary, prompts/inputs, outputs, evaluation, safety, privacy, failure",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "ai_integration",
+        "path": "docs/architecture/ai-integration.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "ai-integration",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "promptinput-surface",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/SelectedTextCapture.swift",
+                "git_blob": "c4124fe1499209bf7096f8bbdecb394d8df95f80",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Translation/TranslationRequest.swift",
+                "git_blob": "58f100adfd94b13ed6e9a0689983a9446f8491f0",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/HostSafety.swift",
+                "git_blob": "aa72f5153134c6af68fc6f486da1bdcccbbb084d",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "output-handling",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift",
+                "git_blob": "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "safety-and-evaluation",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift",
+                "git_blob": "2c187abb9713d19e202f1ce0e6f132cfc5a48e69",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/HostSafety.swift",
+                "git_blob": "aa72f5153134c6af68fc6f486da1bdcccbbb084d",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "failure-and-fallback",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/AppleTranslationProvider.swift",
+                "git_blob": "b214166c0c4a16d48731844087c4810f4af89ca9",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift",
+                "git_blob": "a58ea2ffd3149408365009e036353d1c130b3056",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "privacy-boundary",
+            "sources": [
+              {
+                "path": "README.md",
+                "git_blob": "b6e9680673093bd486cd648770e74addce9532f4",
+                "role": "doc",
+                "git_blob_normalized": "b6e9680673093bd486cd648770e74addce9532f4"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+                "git_blob": "768aab956a8d02978101105e7a896b6d55c75376",
+                "role": "code",
+                "git_blob_normalized": "768aab956a8d02978101105e7a896b6d55c75376"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "persistence.md": {
+      "id": "persistence",
+      "title": "Persistence",
+      "description": "Entities, storage mapping, migrations, transactions, consistency, failure recovery",
+      "provenance": {
+        "schema": "2.1",
+        "doc_id": "persistence",
+        "path": "docs/architecture/persistence.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "clipboard-history",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+                "git_blob": "2f2f6e1c7c03071c95010c565309b55a06b15c34",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift",
+                "git_blob": "8308409cb0bb907254e169b15dd74b9304399ed3",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+                "git_blob": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift",
+                "git_blob": "cf479dc1990e259036d4ce3784f8539195e38f41",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "settings",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Settings/SettingsStore.swift",
+                "git_blob": "65074f5684006b032e635e9bcf80ad7bf37f4929",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "macros",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Macros/MacroStore.swift",
+                "git_blob": "a5909fcd5e5e13b871c24d359a2e89f002ae239a",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "smart-switch-preferences",
+            "sources": [
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "translation-credentials",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+                "git_blob": "768aab956a8d02978101105e7a896b6d55c75376",
+                "role": "code",
+                "git_blob_normalized": "768aab956a8d02978101105e7a896b6d55c75376"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinator.swift",
+                "git_blob": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a",
+                "role": "code",
+                "git_blob_normalized": "9167b6cf869a6aafe6f0a5b536a02c9ac765fd8a"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "migrations",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsMigration.swift",
+                "git_blob": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+                "git_blob": "2f2f6e1c7c03071c95010c565309b55a06b15c34",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "transaction-and-consistency-boundary",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+                "git_blob": "2f2f6e1c7c03071c95010c565309b55a06b15c34",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Macros/MacroStore.swift",
+                "git_blob": "a5909fcd5e5e13b871c24d359a2e89f002ae239a",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Settings/SettingsStore.swift",
+                "git_blob": "65074f5684006b032e635e9bcf80ad7bf37f4929",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "failure-recovery",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift",
+                "git_blob": "2f2f6e1c7c03071c95010c565309b55a06b15c34",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Macros/MacroStore.swift",
+                "git_blob": "a5909fcd5e5e13b871c24d359a2e89f002ae239a",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift",
+                "git_blob": "cf479dc1990e259036d4ce3784f8539195e38f41",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "system-overview.md": {
+      "id": "system_overview",
+      "title": "System Overview",
+      "description": "The handful of major capabilities; for each, the components it touches and its owning flow; the primary end-to-end path(s) tying features together; external...",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "system_overview",
+        "path": "docs/architecture/system-overview.md",
+        "generated_at": "2026-08-15T06:22:21Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "derived"
+        },
+        "sections": [
+          {
+            "id": "system-overview",
+            "sources": [
+              {
+                "path": "docs/flows/keyboard-typing.md",
+                "role": "doc",
+                "git_blob": "5f59677f42cdafe3eb918e3437b918d69cf62dc5",
+                "git_blob_normalized": "5f59677f42cdafe3eb918e3437b918d69cf62dc5"
+              },
+              {
+                "path": "docs/flows/clipboard-history.md",
+                "role": "doc",
+                "git_blob": "ed38e136eddc0b620d073cfb4f0a0eb11f74a8a0",
+                "git_blob_normalized": "ed38e136eddc0b620d073cfb4f0a0eb11f74a8a0"
+              },
+              {
+                "path": "docs/flows/translation.md",
+                "role": "doc",
+                "git_blob": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e",
+                "git_blob_normalized": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e"
+              },
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              },
+              {
+                "path": "docs/architecture/high-level.md",
+                "role": "doc",
+                "git_blob": "5920b80cde4d90813e6303afe0725c2793c48633",
+                "git_blob_normalized": "5920b80cde4d90813e6303afe0725c2793c48633"
+              },
+              {
+                "path": "SECURITY.md",
+                "role": "doc",
+                "git_blob": "37c5780021fb069b67e0f659f1db26272c56142e",
+                "git_blob_normalized": "37c5780021fb069b67e0f659f1db26272c56142e"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "primary-end-to-end-path",
+            "sources": [
+              {
+                "path": "docs/flows/keyboard-typing.md",
+                "role": "doc",
+                "git_blob": "5f59677f42cdafe3eb918e3437b918d69cf62dc5",
+                "git_blob_normalized": "5f59677f42cdafe3eb918e3437b918d69cf62dc5"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+                "role": "code",
+                "git_blob": "afd7e07bf098c7400aaccab85a72e77fac8a936d",
+                "git_blob_normalized": "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardService.swift",
+                "role": "code",
+                "git_blob": "3246c7e678b841077f3006877c3b2ead836e912b",
+                "git_blob_normalized": "3246c7e678b841077f3006877c3b2ead836e912b"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+                "role": "code",
+                "git_blob": "81a9d66e22797ea2b1b0632ecddfcaf73fd06757",
+                "git_blob_normalized": "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+              },
+              {
+                "path": "EasyEngineCore/Engine/VietnameseEngine.swift",
+                "role": "code",
+                "git_blob": "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03",
+                "git_blob_normalized": "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift",
+                "role": "code",
+                "git_blob": "d9d56d371db322150cd74a358258fe7243989bab",
+                "git_blob_normalized": "d9d56d371db322150cd74a358258fe7243989bab"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "feature-owning-flow-subsystem",
+            "sources": [
+              {
+                "path": "docs/flows/README.md",
+                "role": "doc",
+                "git_blob": "a0266fccf713295db305fa19c383b2c3a42a8553",
+                "git_blob_normalized": "a0266fccf713295db305fa19c383b2c3a42a8553"
+              },
+              {
+                "path": "docs/flows/keyboard-typing.md",
+                "role": "doc",
+                "git_blob": "5f59677f42cdafe3eb918e3437b918d69cf62dc5",
+                "git_blob_normalized": "5f59677f42cdafe3eb918e3437b918d69cf62dc5"
+              },
+              {
+                "path": "docs/flows/clipboard-history.md",
+                "role": "doc",
+                "git_blob": "ed38e136eddc0b620d073cfb4f0a0eb11f74a8a0",
+                "git_blob_normalized": "ed38e136eddc0b620d073cfb4f0a0eb11f74a8a0"
+              },
+              {
+                "path": "docs/flows/translation.md",
+                "role": "doc",
+                "git_blob": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e",
+                "git_blob_normalized": "f33caa7f43faeeeeb5cd3f69d9a5c096b8b4b85e"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
+                "role": "code",
+                "git_blob": "b554c2a511999b5eab5b545232bd3fc2c8cedf76",
+                "git_blob_normalized": "b554c2a511999b5eab5b545232bd3fc2c8cedf76"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift",
+                "role": "code",
+                "git_blob": "6fe0b0f894f3d17c9546f48eb32f497701ac0ede",
+                "git_blob_normalized": "6fe0b0f894f3d17c9546f48eb32f497701ac0ede"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "role": "code",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "git_blob_normalized": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
+              },
+              {
+                "path": "EasyEngineCore/Translation/TranslationProviderResolver.swift",
+                "role": "code",
+                "git_blob": "9fe5786ed549713c4631839352100124f86cba13",
+                "git_blob_normalized": "9fe5786ed549713c4631839352100124f86cba13"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/SmartSwitchController.swift",
+                "role": "code",
+                "git_blob": "9c17fa99d49d3e394a4215c64447e794313e80ea",
+                "git_blob_normalized": "9c17fa99d49d3e394a4215c64447e794313e80ea"
+              },
+              {
+                "path": "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift",
+                "role": "code",
+                "git_blob": "694b512e15a06e34e7df216ba74a4fc133e27f69",
+                "git_blob_normalized": "694b512e15a06e34e7df216ba74a4fc133e27f69"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/Processing/KeyboardMacroExpander.swift",
+                "role": "code",
+                "git_blob": "8ba2c9d7a432eef9d2bb8308ae85dfc00fa637d6",
+                "git_blob_normalized": "8ba2c9d7a432eef9d2bb8308ae85dfc00fa637d6"
+              },
+              {
+                "path": "EasyEngineCore/Macros/MacroStore.swift",
+                "role": "code",
+                "git_blob": "a5909fcd5e5e13b871c24d359a2e89f002ae239a",
+                "git_blob_normalized": "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/LoginItemController.swift",
+                "role": "code",
+                "git_blob": "7833a6d82792ded3986386ac26e40b686feab12d",
+                "git_blob_normalized": "7833a6d82792ded3986386ac26e40b686feab12d"
+              },
+              {
+                "path": "EasyKeyLoginHelper/main.swift",
+                "role": "code",
+                "git_blob": "f0f724c4c8a6644555990bff4e08325f80625a66",
+                "git_blob_normalized": "f0f724c4c8a6644555990bff4e08325f80625a66"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/UpdateService.swift",
+                "role": "code",
+                "git_blob": "186960351c6c963cfee981caef34e7aa8a544457",
+                "git_blob_normalized": "186960351c6c963cfee981caef34e7aa8a544457"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "ui-and-state.md": {
+      "id": "app_ui_state",
+      "title": "App Ui State",
+      "description": "Surfaces, navigation, state ownership, transitions, restoration, error presentation",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "app_ui_state",
+        "path": "docs/architecture/ui-and-state.md",
+        "generated_at": "2026-08-15T05:59:36Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "ui-navigation-and-state",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/StatusItemController.swift",
+                "git_blob": "2572c79b8511bab10e563cc9fcae9dc546992f43",
+                "role": "code",
+                "git_blob_normalized": "2572c79b8511bab10e563cc9fcae9dc546992f43"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "menu-bar-status-item-and-popover",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/StatusItemController.swift",
+                "git_blob": "2572c79b8511bab10e563cc9fcae9dc546992f43",
+                "role": "code",
+                "git_blob_normalized": "2572c79b8511bab10e563cc9fcae9dc546992f43"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/StatusMenuActionTarget.swift",
+                "git_blob": "9858ae5651e3792442d734b39868dbdac404dc9d",
+                "role": "code",
+                "git_blob_normalized": "9858ae5651e3792442d734b39868dbdac404dc9d"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+                "git_blob": "1223cd2afe3439a09b9514cf04bd98132dd9ea17",
+                "role": "code",
+                "git_blob_normalized": "1223cd2afe3439a09b9514cf04bd98132dd9ea17"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/MenuPopoverView.swift",
+                "git_blob": "9cc78b888b4080823009ff531797b01cf7444c68",
+                "role": "code",
+                "git_blob_normalized": "9cc78b888b4080823009ff531797b01cf7444c68"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "settings-window",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Settings/SettingsShell.swift",
+                "git_blob": "ac421d465a7411b025c3048197dc288787253e87",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/ContentView.swift",
+                "git_blob": "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/SettingsWindowPresenter.swift",
+                "git_blob": "6f4e1a0edbb132c69319f982e2c88663e2d74d4e",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Settings/SettingsSection.swift",
+                "git_blob": "eb182d8c4afbb691e697cf0eee605d774361995c",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "clipboard-panel",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+                "git_blob": "c15b3e5f0e30c4e0b62491f4050428d5dd4a19b9",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift",
+                "git_blob": "ec3333371220d6e0b782a7e9bda1d6d715a22f50",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift",
+                "git_blob": "6fe0b0f894f3d17c9546f48eb32f497701ac0ede",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "translation-panel",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+                "git_blob": "4f6f75d8aa093c688ec77d6722ba0cc62769b87d",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+                "git_blob": "768aab956a8d02978101105e7a896b6d55c75376",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "onboarding",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Onboarding/OnboardingView.swift",
+                "git_blob": "6607f26cd0e27f49ac6d0e77492557411063e170",
+                "role": "code"
+              },
+              {
+                "path": "EasyKeyApp/ContentView.swift",
+                "git_blob": "dfbfca5ad53e90b530f9f103e6f491e529c6aa0f",
+                "role": "code"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "platform-integration.md": {
+      "id": "platform_integration",
+      "title": "Platform Integration",
+      "description": "OS services, adapters, permissions boundary, callbacks, failure and fallback",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "platform_integration",
+        "path": "docs/architecture/platform-integration.md",
+        "generated_at": "2026-08-15T06:22:21Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "derived"
+        },
+        "sections": [
+          {
+            "id": "platform-integration",
+            "sources": [
+              {
+                "path": "docs/security/permissions.md",
+                "role": "doc",
+                "git_blob": "c27c0dc617fdc5816165bf1daf245d8389f33fac",
+                "git_blob_normalized": "c27c0dc617fdc5816165bf1daf245d8389f33fac"
+              },
+              {
+                "path": "docs/architecture/application-lifecycle.md",
+                "role": "doc",
+                "git_blob": "300d761701814cc7c0972102d62a599187bad3b8",
+                "git_blob_normalized": "300d761701814cc7c0972102d62a599187bad3b8"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "accessibility",
+            "sources": [
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardService.swift",
+                "role": "code",
+                "git_blob": "3246c7e678b841077f3006877c3b2ead836e912b",
+                "git_blob_normalized": "3246c7e678b841077f3006877c3b2ead836e912b"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/FocusedElementInspector.swift",
+                "role": "code",
+                "git_blob": "2f61fac3a31d989c03784cff00519097d0d50f7b",
+                "git_blob_normalized": "2f61fac3a31d989c03784cff00519097d0d50f7b"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/SelectedTextCapture.swift",
+                "role": "code",
+                "git_blob": "c4124fe1499209bf7096f8bbdecb394d8df95f80",
+                "git_blob_normalized": "c4124fe1499209bf7096f8bbdecb394d8df95f80"
+              },
+              {
+                "path": "docs/security/permissions.md",
+                "role": "doc",
+                "git_blob": "c27c0dc617fdc5816165bf1daf245d8389f33fac",
+                "git_blob_normalized": "c27c0dc617fdc5816165bf1daf245d8389f33fac"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "cgevent-tap",
+            "sources": [
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+                "role": "code",
+                "git_blob": "afd7e07bf098c7400aaccab85a72e77fac8a936d",
+                "git_blob_normalized": "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardService.swift",
+                "role": "code",
+                "git_blob": "3246c7e678b841077f3006877c3b2ead836e912b",
+                "git_blob_normalized": "3246c7e678b841077f3006877c3b2ead836e912b"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift",
+                "role": "code",
+                "git_blob": "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8",
+                "git_blob_normalized": "634d6f6aa19c6b6b4ee749cf6aa766e8945446b8"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "nsworkspace-notifications",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/WorkspaceObserver.swift",
+                "role": "code",
+                "git_blob": "43906864cb9efceb789b0d80709a50e62730b258",
+                "git_blob_normalized": "43906864cb9efceb789b0d80709a50e62730b258"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+                "role": "code",
+                "git_blob": "afd7e07bf098c7400aaccab85a72e77fac8a936d",
+                "git_blob_normalized": "afd7e07bf098c7400aaccab85a72e77fac8a936d"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "keychain",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift",
+                "role": "code",
+                "git_blob": "8308409cb0bb907254e169b15dd74b9304399ed3",
+                "git_blob_normalized": "8308409cb0bb907254e169b15dd74b9304399ed3"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift",
+                "role": "code",
+                "git_blob": "768aab956a8d02978101105e7a896b6d55c75376",
+                "git_blob_normalized": "768aab956a8d02978101105e7a896b6d55c75376"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "carbon-hotkeys",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift",
+                "role": "code",
+                "git_blob": "ec3333371220d6e0b782a7e9bda1d6d715a22f50",
+                "git_blob_normalized": "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
+              },
+              {
+                "path": "EasyKeyApp/Features/Translation/TranslationHotKeyController.swift",
+                "role": "code",
+                "git_blob": "ad247765954ce0e9d9b5fb916b55266444c6d6cd",
+                "git_blob_normalized": "ad247765954ce0e9d9b5fb916b55266444c6d6cd"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "login-item",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/LoginItemController.swift",
+                "role": "code",
+                "git_blob": "7833a6d82792ded3986386ac26e40b686feab12d",
+                "git_blob_normalized": "7833a6d82792ded3986386ac26e40b686feab12d"
+              },
+              {
+                "path": "EasyKeyLoginHelper/main.swift",
+                "role": "code",
+                "git_blob": "f0f724c4c8a6644555990bff4e08325f80625a66",
+                "git_blob_normalized": "f0f724c4c8a6644555990bff4e08325f80625a66"
+              },
+              {
+                "path": "EasyKeyLoginHelper/Info.plist",
+                "role": "config",
+                "git_blob": "23cabcd3080f452ed40f363c12117e120aff143e",
+                "git_blob_normalized": "23cabcd3080f452ed40f363c12117e120aff143e"
+              },
+              {
+                "path": "EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements",
+                "role": "config",
+                "git_blob": "18aff0ce43c2084462a8f12ea6e9c55c87914caf",
+                "git_blob_normalized": "18aff0ce43c2084462a8f12ea6e9c55c87914caf"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "sparkle-updates",
+            "sources": [
+              {
+                "path": "EasyKeyApp/Coordination/UpdateService.swift",
+                "role": "code",
+                "git_blob": "186960351c6c963cfee981caef34e7aa8a544457",
+                "git_blob_normalized": "186960351c6c963cfee981caef34e7aa8a544457"
+              },
+              {
+                "path": "EasyKeyApp/EasyKeyApp.entitlements",
+                "role": "config",
+                "git_blob": "e89b7f323cf06c0f693e45a878b20d54db92e85c",
+                "git_blob_normalized": "e89b7f323cf06c0f693e45a878b20d54db92e85c"
+              },
+              {
+                "path": "Scripts/generate-appcast.py",
+                "role": "code",
+                "git_blob": "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9",
+                "git_blob_normalized": "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "input-source-query",
+            "sources": [
+              {
+                "path": "EasyKeyKit/Keyboard/Context/KeyboardInputSourceInspector.swift",
+                "role": "code",
+                "git_blob": "368cb48f12a963ce755cce110cee897f888aa603",
+                "git_blob_normalized": "368cb48f12a963ce755cce110cee897f888aa603"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+                "role": "code",
+                "git_blob": "81a9d66e22797ea2b1b0632ecddfcaf73fd06757",
+                "git_blob_normalized": "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "spotlight-detection",
+            "sources": [
+              {
+                "path": "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift",
+                "role": "code",
+                "git_blob": "ab9966a65dc3f038110c81f2081fd81816599885",
+                "git_blob_normalized": "ab9966a65dc3f038110c81f2081fd81816599885"
+              },
+              {
+                "path": "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift",
+                "role": "code",
+                "git_blob": "f6faaf5ca6054c9103b9eab8854e25699266de2f",
+                "git_blob_normalized": "f6faaf5ca6054c9103b9eab8854e25699266de2f"
+              },
+              {
+                "path": "docs/reference/limitations.md",
+                "role": "doc",
+                "git_blob": "1625604b5ae40dbeb5c2318275baba37871d39af",
+                "git_blob_normalized": "1625604b5ae40dbeb5c2318275baba37871d39af"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "integration-surface",
+            "sources": [
+              {
+                "path": "docs/security/permissions.md",
+                "role": "doc",
+                "git_blob": "c27c0dc617fdc5816165bf1daf245d8389f33fac",
+                "git_blob_normalized": "c27c0dc617fdc5816165bf1daf245d8389f33fac"
+              },
+              {
+                "path": "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift",
+                "role": "code",
+                "git_blob": "ec3333371220d6e0b782a7e9bda1d6d715a22f50",
+                "git_blob_normalized": "ec3333371220d6e0b782a7e9bda1d6d715a22f50"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/LoginItemController.swift",
+                "role": "code",
+                "git_blob": "7833a6d82792ded3986386ac26e40b686feab12d",
+                "git_blob_normalized": "7833a6d82792ded3986386ac26e40b686feab12d"
+              },
+              {
+                "path": "EasyKeyApp/Coordination/UpdateService.swift",
+                "role": "code",
+                "git_blob": "186960351c6c963cfee981caef34e7aa8a544457",
+                "git_blob_normalized": "186960351c6c963cfee981caef34e7aa8a544457"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    }
+  }
+}

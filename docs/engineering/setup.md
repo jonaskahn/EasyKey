@@ -1,106 +1,3 @@
----
-id: "setup_guide"
-title: "Setup Guide"
-description: "Prerequisites, install, configuration, run, verification, recovery"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "setup_guide"
-  path: "docs/engineering/setup.md"
-  generated_at: "2026-08-13T11:07:59Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "prerequisites"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "docs/reference/tech-stack.md"
-          git_blob: "1cd639b521c238c1868865ebb2afbb0e98f6c2f5"
-          git_blob_normalized: "1cd639b521c238c1868865ebb2afbb0e98f6c2f5"
-          role: "doc"
-        - path: "Scripts/archive.sh"
-          git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          role: "code"
-        - path: "Scripts/notarize.sh"
-          git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
-          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
-          role: "code"
-      unresolved: []
-    - id: "steps"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "Scripts/archive.sh"
-          git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          role: "code"
-        - path: "Scripts/clean-local.sh"
-          git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
-          git_blob_normalized: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
-          role: "code"
-      unresolved:
-        - "<REPOSITORY_URL>"
-    - id: "verify"
-      sources:
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "Scripts/qa-gate.sh"
-          git_blob: "148320feb241615087d1cda4ef51cac8706e78bf"
-          git_blob_normalized: "148320feb241615087d1cda4ef51cac8706e78bf"
-          role: "code"
-        - path: "Scripts/verify-qa-artifacts.sh"
-          git_blob: "11ce62a91f372b4527c134c17645b8c7b655f51b"
-          git_blob_normalized: "11ce62a91f372b4527c134c17645b8c7b655f51b"
-          role: "code"
-        - path: "Scripts/check-test-registration.sh"
-          git_blob: "4a36185850f52eac0e1796f1313b86b1a666c322"
-          git_blob_normalized: "4a36185850f52eac0e1796f1313b86b1a666c322"
-          role: "code"
-      unresolved: []
-    - id: "common-problems"
-      sources:
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "Scripts/clean-local.sh"
-          git_blob: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
-          git_blob_normalized: "51ee51c9ae3eb4397ea4ad56bf3a10565a3c0674"
-          role: "code"
-      unresolved: []
-    - id: "next"
-      sources:
-        - path: "docs/engineering/testing.md"
-          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          role: "doc"
-      unresolved: []
----
 # Local setup
 
 _Last reviewed: 2026-08-15_
@@ -238,7 +135,8 @@ not set"** — the Makefile's release-config check catches a missing
 four variables (with HTTPS enforcement); export them as in step 7.
 
 **Odd behavior persists across runs (stale preferences, leftovers)** — wipe
-build artifacts and local app and test data with `make clean-all`. The local
+build artifacts, Xcode DerivedData, and local app and test data with
+`make clean-all` (`clean` + `clean-local` + `clean-derived`). The local
 cleanup quits EasyKey and removes preferences, containers, caches, and saved
 state.
 

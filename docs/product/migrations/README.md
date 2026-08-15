@@ -1,68 +1,3 @@
----
-id: "library_migrations_index"
-title: "Migrations"
-description: "Migration documentation overview: what migrations are, scope, and the reader question each migration document answers"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "library_migrations_index"
-  path: "docs/product/migrations/README.md"
-  generated_at: "2026-08-14T00:00:00Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "orientation"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "migrations"
-      sources:
-        - path: "docs/product/migrations/settings.md"
-          git_blob: "1ab20fe419cf20505cd9958e4bed671612969192"
-          git_blob_normalized: "1ab20fe419cf20505cd9958e4bed671612969192"
-          role: "doc"
-      unresolved: []
-    - id: "at-a-glance"
-      sources:
-        - path: "docs/product/migrations/settings.md"
-          git_blob: "1ab20fe419cf20505cd9958e4bed671612969192"
-          git_blob_normalized: "1ab20fe419cf20505cd9958e4bed671612969192"
-          role: "doc"
-      unresolved: []
-    - id: "scope-and-boundaries"
-      sources:
-        - path: "docs/product/migrations/settings.md"
-          git_blob: "1ab20fe419cf20505cd9958e4bed671612969192"
-          git_blob_normalized: "1ab20fe419cf20505cd9958e4bed671612969192"
-          role: "doc"
-        - path: "docs/operations/README.md"
-          git_blob: "b595d40032bd857d8dd9c96e93634b5709fcf254"
-          git_blob_normalized: "b595d40032bd857d8dd9c96e93634b5709fcf254"
-          role: "doc"
-        - path: "docs/reference/compatibility.md"
-          git_blob: "241d64e67db10925b3cb18cdae1b7c0b7bf59fc4"
-          git_blob_normalized: "241d64e67db10925b3cb18cdae1b7c0b7bf59fc4"
-          role: "doc"
-      unresolved: []
-    - id: "start-here"
-      sources:
-        - path: "docs/product/migrations/settings.md"
-          git_blob: "1ab20fe419cf20505cd9958e4bed671612969192"
-          git_blob_normalized: "1ab20fe419cf20505cd9958e4bed671612969192"
-          role: "doc"
-      unresolved: []
-    - id: "detailed-documentation"
-      sources:
-        - path: "docs/product/migrations/settings.md"
-          git_blob: "1ab20fe419cf20505cd9958e4bed671612969192"
-          git_blob_normalized: "1ab20fe419cf20505cd9958e4bed671612969192"
-          role: "doc"
-      unresolved: []
-    - id: "related-sections"
-      sources: []
-      unresolved: []
----
 # Migrations
 
 _Last reviewed: 2026-08-15_
@@ -97,5 +32,5 @@ A document belongs here when it is a migration guide for user-facing stored stat
 
 ## Related sections
 
-- Parent index: README
-- Repository docs index: [docs](../../README.md)
+- [Product](../README.md) — the parent index of this folder.
+- [Documentation](../../README.md) — the repository docs index.

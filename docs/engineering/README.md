@@ -1,92 +1,3 @@
----
-id: "engineering_index"
-title: "Engineering"
-description: "Engineering documentation overview: what this section covers and the reader question each engineering document answers"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "engineering_index"
-  path: "docs/engineering/README.md"
-  generated_at: "2026-08-14T00:00:00Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "orientation"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "engineering"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "docs/engineering/setup.md"
-          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          role: "doc"
-      unresolved: []
-    - id: "at-a-glance"
-      sources:
-        - path: "docs/engineering/setup.md"
-          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          role: "doc"
-        - path: "docs/engineering/testing.md"
-          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          role: "doc"
-        - path: "docs/engineering/publishing.md"
-          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          role: "doc"
-      unresolved: []
-    - id: "scope-and-boundaries"
-      sources:
-        - path: "docs/engineering/setup.md"
-          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          role: "doc"
-        - path: "docs/_archive/rulebook.md"
-          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          role: "doc"
-      unresolved: []
-    - id: "start-here"
-      sources:
-        - path: "docs/engineering/setup.md"
-          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          role: "doc"
-        - path: "docs/engineering/testing.md"
-          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          role: "doc"
-        - path: "docs/engineering/publishing.md"
-          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          role: "doc"
-      unresolved: []
-    - id: "detailed-documentation"
-      sources:
-        - path: "docs/engineering/setup.md"
-          git_blob: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          git_blob_normalized: "31e235c41a5764c7e56e98f62e7df4ba9e120b9e"
-          role: "doc"
-        - path: "docs/engineering/testing.md"
-          git_blob: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          git_blob_normalized: "61f561d90f43c4e7fbe17de6c472e88b8f3b40ac"
-          role: "doc"
-        - path: "docs/engineering/publishing.md"
-          git_blob: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          git_blob_normalized: "702391fc81afa9ab19acd746fe10a3dcd78c2e4f"
-          role: "doc"
-      unresolved: []
-    - id: "related-sections"
-      sources: []
-      unresolved: []
----
 # Engineering
 
 _Last reviewed: 2026-08-15_
@@ -99,7 +10,7 @@ The engineering workflow runs from a Makefile-driven toolchain: local setup buil
 
 ## Scope and boundaries
 
-This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)) or the operational channels that carry the released artifact ([operations](../operations/README.md)). The the archived engineering rulebook is an adopted hand-written document — canonical for conventions, skipped by regeneration, and linked from here rather than restated.
+This section owns the *process* of working on the repository: local setup, test organization, enforced conventions, and what publishing exists for the in-repo frameworks. It does not own why the architecture looks the way it does ([architecture](../architecture/README.md)) or the operational channels that carry the released artifact ([operations](../operations/README.md)). The engineering rulebook (notes/rulebook.md) is a hand-written document — canonical for conventions, not generated, and referenced from here rather than restated.
 
 ## Start here
 

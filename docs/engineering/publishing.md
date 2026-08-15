@@ -1,94 +1,3 @@
----
-id: "library_publishing"
-title: "Library Publishing"
-description: "Artifacts, version source, build/sign, registry/channel, verification, rollback/deprecation"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "library_publishing"
-  path: "docs/engineering/publishing.md"
-  generated_at: "2026-08-13T11:07:59Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "artifacts"
-      sources:
-        - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          role: "config"
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "Scripts/archive.sh"
-          git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          role: "code"
-      unresolved: []
-    - id: "build-sign-publish"
-      sources:
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "Scripts/archive.sh"
-          git_blob: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          git_blob_normalized: "188d893ab5a009a3455ba75155b381b4f6f1c392"
-          role: "code"
-        - path: "Scripts/export.sh"
-          git_blob: "e170e5fc9d887543ed6fffe7b757544380376ae1"
-          git_blob_normalized: "e170e5fc9d887543ed6fffe7b757544380376ae1"
-          role: "code"
-        - path: "Scripts/verify-release.sh"
-          git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
-          git_blob_normalized: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
-          role: "code"
-      unresolved: []
-    - id: "api-stability"
-      sources:
-        - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          role: "config"
-        - path: "docs/_archive/rulebook.md"
-          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          role: "doc"
-        - path: "EasyKeyTests/ArchitectureFitnessTests.swift"
-          git_blob: "90458622e4b810ad49b024feeaaabf5a42b777c2"
-          git_blob_normalized: "90458622e4b810ad49b024feeaaabf5a42b777c2"
-          role: "test"
-      unresolved: []
-    - id: "verify"
-      sources:
-        - path: "Scripts/verify-arch.sh"
-          git_blob: "3a880113167f02293703e9c864a819543a1afd59"
-          role: "code"
-        - path: "Scripts/verify-release.sh"
-          git_blob: "14ed2a9a2ccb51ae5e5a1abc6df85820d82c43ae"
-          role: "code"
-        - path: "Scripts/create-dmg.sh"
-          git_blob: "28878a2d0cc4198f4b60426136282ceb8351ed2e"
-          role: "code"
-      unresolved: []
-    - id: "rollback-deprecate"
-      sources:
-        - path: "Scripts/generate-appcast.py"
-          git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
-          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
-          role: "code"
-        - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          role: "config"
-      unresolved: []
----
 # Publishing
 
 _Last reviewed: 2026-08-15_
@@ -108,8 +17,8 @@ what does not exist for external distribution.
 | EasyKeyKit.framework | Xcode framework (Mach-O, `product-type.framework`) | same |
 | EasyKey.app | app bundle embedding both frameworks | `Scripts/export.sh` from the archive |
 
-**Version source:** `MARKETING_VERSION` (currently 0.0.10) and
-`CURRENT_PROJECT_VERSION` (currently 8) in
+**Version source:** `MARKETING_VERSION` (currently 0.0.11) and
+`CURRENT_PROJECT_VERSION` (currently 9) in
 `EasyKey.xcodeproj/project.pbxproj` — the same single source the app uses.
 Downstream readers never re-derive it: `Scripts/create-dmg.sh` reads
 `CFBundleShortVersionString` from the built app, and release tags must equal
@@ -147,7 +56,7 @@ library-evolution (ABI) stability for external consumers is not in effect.
 
 The stability contract that does exist is process-level, not ABI-level: the
 conventions require public API documentation at public boundaries
-(the archived the archived engineering rulebook, section 2), and the fitness tests keep the dependency
+(the engineering rulebook (notes/rulebook.md), section 2), and the fitness tests keep the dependency
 direction stable. Those protect in-repo consumers; they do not constitute a
 versioned public API.
 

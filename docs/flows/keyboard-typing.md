@@ -1,192 +1,8 @@
----
-id: "flow-keyboard-typing"
-title: "Flow Keyboard Typing"
-description: "Trigger, actors, ordered steps, branches, rules, failures, outcome"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "flow-keyboard-typing"
-  path: "docs/flows/keyboard-typing.md"
-  generated_at: "2026-08-13T11:26:41Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "derived"
-  sections:
-    - id: "keyboard-typing-transformation-telexvni"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-      unresolved: []
-    - id: "trigger-and-actors"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "happy-path"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-        - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
-          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
-          role: "doc"
-        - path: "EasyEngineCore/Engine/TelexComposer.swift"
-          git_blob: "2b42730f8b4154642ee53fa92ccc8d9bc63a093b"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
-          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/Diagnostics/KeyboardDiagnosticsRecorder.swift"
-          git_blob: "5b06cb65f184556907e6ae44d093dc4fae536505"
-          role: "doc"
-      unresolved: []
-    - id: "branches-and-rules"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "accessibility-permission-missing-or-revoked"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-        - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-          role: "doc"
-      unresolved: []
-    - id: "keyboard-paused-emergency-pause"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "ignored-application"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-      unresolved: []
-    - id: "foreign-input-source-without-other-language-support"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "spotlight-window-active"
-      sources:
-        - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-      unresolved: []
-    - id: "chromium-address-bar"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-      unresolved: []
-    - id: "smart-switch-per-app-language-override"
-      sources:
-        - path: "EasyKeyApp/Coordination/WorkspaceObserver.swift"
-          git_blob: "43906864cb9efceb789b0d80709a50e62730b258"
-          role: "doc"
-        - path: "EasyKeyApp/Coordination/SmartSwitchController.swift"
-          git_blob: "ca7709b75a2c8edcd64f350642b0641a94adb1d3"
-          role: "doc"
-        - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-          role: "doc"
-      unresolved: []
-    - id: "language-toggle-and-restore-word-shortcuts"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-        - path: "EasyEngineCore/Engine/VietnameseEngine.swift"
-          git_blob: "35a0190749c2ea1c5c37e5bd2c3bfed96f69fc03"
-          role: "doc"
-      unresolved: []
-    - id: "failure-and-recovery"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-      unresolved: []
-    - id: "event-tap-install-failure"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "tap-disabled-by-system"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "sleep-and-wake"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-          git_blob: "afd7e07bf098c7400aaccab85a72e77fac8a936d"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-      unresolved: []
-    - id: "output-synthesis-failure"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "doc"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
-          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
-          role: "doc"
-      unresolved: []
-    - id: "outcome"
-      sources:
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "doc"
-        - path: "EasyKeyApp/Coordination/AppCoordinatorWiring.swift"
-          git_blob: "55243d0eff45f4f8e7ba97eabc8460771ab2c0be"
-          role: "doc"
-      unresolved: []
----
 # Keyboard typing transformation (Telex/VNI)
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
-EasyKey intercepts system-wide keystrokes and transforms them into Vietnamese text per the active input method (Telex, Simple Telex, or VNI) before they reach the frontmost app, and expands macro triggers while typing. The keyboard service, its health/pause states, and the Smart Switch per-app language override all hang off this flow. The exact Telex / Simple Telex rule set is authoritative in the archived Telex rule set; this page covers how the flow behaves end to end.
+EasyKey intercepts system-wide keystrokes and transforms them into Vietnamese text per the active input method (Telex, Simple Telex, or VNI) before they reach the frontmost app, and expands macro triggers while typing. The keyboard service, its health/pause states, and the Smart Switch per-app language override all hang off this flow. The exact Telex / Simple Telex rule set is authoritative in the hand-written Telex rule set (notes/telex.md); this page covers how the flow behaves end to end.
 
 ## Trigger and actors
 
@@ -306,7 +122,7 @@ Branches ordered by how often the trigger actually takes them.
 
 **Condition:** Smart Switch is enabled and the frontmost application changes (`NSWorkspace.didActivateApplicationNotification`).
 
-**Then:** `SmartSwitchController.handleApplicationActivation` resolves the remembered choice for the app identity — applying language (and encoding when `rememberEncoding`) — or records the current choice on first focus; the coordinator then pushes `input.language` through settings into the pipeline's engine configuration; ignored and self apps are exempt (`WorkspaceObserver.swift:11-53`; `SmartSwitchController.swift:60-126`; `AppCoordinatorWiring.swift:216-223`).
+**Then:** `SmartSwitchController.handleApplicationActivation` resolves the remembered choice for the app identity — applying language (and encoding when `rememberEncoding`) — or records the current choice on first focus; the applied language flows through `settingsStore.update` and the settings sink into `keyboardService.update`, which pushes `input.language` into the pipeline's engine configuration; ignored and self apps are exempt (`WorkspaceObserver.swift:11-53`; `SmartSwitchController.swift:72-143, 190-207`; `AppCoordinatorWiring.swift:148-159, 216-223`).
 
 **Rejoins at:** step 3 (new session for the activated app).
 
@@ -390,6 +206,6 @@ Ordered by blast radius, most severe first. Evidence is the health states and re
 
 **On safe failure:** when transformation cannot be applied, the original event is always delivered — the app never loses a keystroke, and self-posted output never loops back through the engine.
 
-**Deferred work:** diagnostics continue recording after each event; Smart Switch records remembered choices after the user manually switches language (`SmartSwitchController.swift:128-162`).
+**Deferred work:** diagnostics continue recording after each event; Smart Switch records remembered choices after the user manually switches language (`SmartSwitchController.swift:154-188`).
 
 > **Related:** [Flows index](README.md) tracks discovery status and priority for this flow.

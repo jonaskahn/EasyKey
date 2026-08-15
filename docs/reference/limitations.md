@@ -1,144 +1,3 @@
----
-id: "limitations"
-title: "Limitations"
-description: "Known bounds, trigger, impact, workaround, source evidence"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "limitations"
-  path: "docs/reference/limitations.md"
-  generated_at: "2026-08-13T11:10:54Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "limitations-and-known-issues"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-      unresolved: []
-    - id: "known-limitations"
-      sources:
-        - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
-          git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
-          git_blob: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
-          git_blob_normalized: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift"
-          git_blob: "d9d56d371db322150cd74a358258fe7243989bab"
-          git_blob_normalized: "d9d56d371db322150cd74a358258fe7243989bab"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-          git_blob: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          git_blob_normalized: "81a9d66e22797ea2b1b0632ecddfcaf73fd06757"
-          role: "code"
-        - path: "EasyEngineCore/Clipboard/ClipboardEntry.swift"
-          git_blob: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
-          git_blob_normalized: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
-          role: "code"
-        - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          role: "code"
-        - path: "EasyKeyApp/Info.plist"
-          git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
-          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
-          role: "config"
-        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-          git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-          role: "code"
-        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
-          git_blob: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
-          git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
-          role: "code"
-      unresolved: []
-    - id: "known-issues"
-      sources:
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          role: "code"
-      unresolved: []
-    - id: "not-supported"
-      sources:
-        - path: "README.md"
-          git_blob: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          git_blob_normalized: "8fc7891befa21173acaaaf1b19c8c30ad6bb3f97"
-          role: "doc"
-        - path: "EasyKey.xcodeproj/project.pbxproj"
-          git_blob: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          git_blob_normalized: "adead356c1e6f424159efb8e796d7682acb8bf4b"
-          role: "config"
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift"
-          git_blob: "8308409cb0bb907254e169b15dd74b9304399ed3"
-          git_blob_normalized: "8308409cb0bb907254e169b15dd74b9304399ed3"
-          role: "code"
-      unresolved: []
-    - id: "scale-and-performance-envelope"
-      sources:
-        - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
-          git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-          git_blob_normalized: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-          role: "code"
-        - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          role: "code"
-        - path: "EasyEngineCore/Macros/MacroStore.swift"
-          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          role: "code"
-        - path: "EasyEngineCore/Translation/TranslationOptions.swift"
-          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
-          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/KeyboardService.swift"
-          git_blob: "3246c7e678b841077f3006877c3b2ead836e912b"
-          git_blob_normalized: "3246c7e678b841077f3006877c3b2ead836e912b"
-          role: "code"
-      unresolved: []
-    - id: "deployment-specific-caveats"
-      sources:
-        - path: "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-          git_blob: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-          git_blob_normalized: "4f6f75d8aa093c688ec77d6722ba0cc62769b87d"
-          role: "code"
-        - path: "EasyEngineCore/Translation/TranslationPlatformCapability.swift"
-          git_blob: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
-          git_blob_normalized: "414733ed3284bccb04ed05bb1cd1b0d6bd09e99a"
-          role: "code"
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "EasyKeyKit/Keyboard/SpotlightWindowDetector.swift"
-          git_blob: "ab9966a65dc3f038110c81f2081fd81816599885"
-          git_blob_normalized: "ab9966a65dc3f038110c81f2081fd81816599885"
-          role: "code"
-        - path: "EasyKeyKit/Keyboard/Context/SpotlightContextResolver.swift"
-          git_blob: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
-          git_blob_normalized: "f6faaf5ca6054c9103b9eab8854e25699266de2f"
-          role: "code"
-      unresolved: []
----
 # Limitations and known issues
 
 _Last reviewed: 2026-08-15_
@@ -156,7 +15,7 @@ Design constraints and deliberate trade-offs — the shape of the system, not de
 
 | Area | Limitation | Impact | Workaround | Tracking |
 |---|---|---|---|---|
-| Spotlight typing | Typing Vietnamese into Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. Spotlight never activates as an `NSRunningApplication`, exposes no usable `AXUIElement` focus, and its autocomplete eats plain backspace, so EasyKey falls back to a selection-replacement workaround gated on a 0.3 s `CGWindowListCopyWindowInfo` detection cache. | Users who start typing immediately after invoking Spotlight see a moment of literal keystrokes or duplicated characters (`ttttuyền`). | Pause a beat before typing, or retype; restarting EasyKey helps if it persists. No API exists to fix it from outside Spotlight. | This page |
+| Spotlight typing | Typing Vietnamese into Spotlight (`⌘Space`) can look briefly broken right after opening it, then self-correct. Spotlight never activates as an application, so the only dependable signal that keystrokes are going to it is an on-screen window owned by the `Spotlight` process; EasyKey polls `CGWindowListCopyWindowInfo` for that window (0.3 s detection cache) and switches composition to a selection-replacement workaround instead of plain backspaces. | Users who start typing immediately after invoking Spotlight see a moment of literal keystrokes or duplicated characters before the detector catches up. | Pause a beat before typing, or retype; restarting EasyKey helps if it persists. No API exists to fix it from outside Spotlight. | This page |
 | Ignored-applications filtering | The ignored-application lists (typing and clipboard) are best-effort filters, not a security boundary: macOS cannot always identify the source application of a clipboard change or focus event. | Content copied in an ignored app can still be captured; typing rules can still apply where a filter missed the app. | Do not rely on these lists for confidentiality; disable capture entirely when it matters. | [product overview](../product/overview.md), `ClipboardSource` in `ClipboardEntry.swift` |
 | Clipboard source attribution | `ClipboardSource.applicationName` / `bundleIdentifier` are advisory: macOS exposes no pasteboard source, so attribution can be missing or wrong. | The clipboard panel may show no source or a misattributed one. | Treat source display as informational only. | `ClipboardEntry.swift` |
 | Accessory app windows | The app runs as an accessory (`LSUIElement`, activation policy `.accessory`), so its windows do not appear in the Dock or Cmd-Tab and cannot reliably become the key window in normal operation. | Users cannot switch to EasyKey like a regular app; paste-in-place and panel focus depend on panel subclasses overriding `canBecomeKey`. | Panels are presented from the menu bar; Settings opens from the menu. No workaround needed for normal use. | `AppDelegate.swift`, `Info.plist` |
@@ -169,7 +28,7 @@ Defects under investigation.
 
 | Issue | Symptom | Affected versions | Status |
 |---|---|---|---|
-| Headless CI hit-testing | Real-window click-then-verify-effect UI tests cannot reliably run on hosted macOS CI runners: the accessibility tree is queryable and `isHittable` reports true, but window activation never lands, so tests flake or fail. EasyKey therefore activates as a `.regular` app under `--uitesting`. | CI only; not a shipped-app behavior | Known; the affected test shard is executed but never blocks merge (see [Makefile](../../Makefile) shard filters and the AppDelegate comment). |
+| Headless CI hit-testing | Real-window click-then-verify-effect UI tests cannot reliably run on hosted macOS CI runners: the accessibility tree is queryable and `isHittable` reports true, but window activation never lands, so tests flake or fail. EasyKey therefore activates as a `.regular` app under `--uitesting`. | CI only; not a shipped-app behavior | Known; the affected test shard is executed but never blocks merge (the CI workflow's `ui-known-broken-on-hosted-runner` shard runs with `continue-on-error`; see the [Makefile](../../Makefile) shard filters and the AppDelegate comment). |
 | Parallel UI test shards | `make test-parallel` runs its shards serially on one Mac because every shard launches the same `EasyKey.app` bundle (`EasyKeyTests` is app-hosted via `TEST_HOST`), so concurrent shards would kill each other's app instances mid-test ("Lost connection to the application"). | Local runs of the sharded target | Known; `make test` (serial) is the reliable local default; CI runs each shard on its own runner and can parallelize. |
 | Spotlight startup detection race | The `CGWindowListCopyWindowInfo` poll does not see the Spotlight panel instantly; keystrokes in that gap bypass the workaround. | All macOS versions | Documented platform behavior, not fixable from outside Spotlight. |
 

@@ -1,34 +1,3 @@
----
-id: "flows_index"
-title: "Flows"
-description: "Every evidence-backed candidate, normalized entry reference, area, confidence, reach, priority, and main/deferred/placeholder/documented/skipped status"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "flows_index"
-  path: "docs/flows/README.md"
-  generated_at: "2026-08-03T08:35:56+00:00"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "orientation"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "flows"
-      sources:
-        - path: ".docforge/flow-index.json"
-          git_blob: "b6a06cc6d316c41d09d81abf18dd0c4dc86c5d49"
-          role: "manifest"
-      unresolved: []
-    - id: "how-to-read-this-index"
-      sources:
-        - path: ".docforge/flow-index.json"
-          git_blob: "b6a06cc6d316c41d09d81abf18dd0c4dc86c5d49"
-          role: "manifest"
-      unresolved: []
----
 # Flows
 
 _Last reviewed: 2026-08-03_

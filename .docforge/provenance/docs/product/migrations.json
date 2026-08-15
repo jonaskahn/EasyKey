@@ -1,0 +1,322 @@
+{
+  "schema": "1.0",
+  "folder": "docs/product/migrations",
+  "files": {
+    "README.md": {
+      "id": "library_migrations_index",
+      "title": "Migrations",
+      "description": "Migration documentation overview: what migrations are, scope, and the reader question each migration document answers",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "library_migrations_index",
+        "path": "docs/product/migrations/README.md",
+        "generated_at": "2026-08-15T06:34:10Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.16.0"
+        },
+        "tier": "spine",
+        "target_depth": "orientation",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "migrations",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "at-a-glance",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "scope-and-boundaries",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              },
+              {
+                "path": "docs/product/overview.md",
+                "role": "doc",
+                "git_blob": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e",
+                "git_blob_normalized": "a42392d69e40fdaf42e3fc5609f25febbfbdf28e"
+              },
+              {
+                "path": "docs/operations/README.md",
+                "role": "doc",
+                "git_blob": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402",
+                "git_blob_normalized": "1a79462e2d4e65ee8ff0b101662d7b9fe8dad402"
+              },
+              {
+                "path": "docs/reference/compatibility.md",
+                "role": "doc",
+                "git_blob": "e386cf6de34993b6751afdad4da09a62e416ae2f",
+                "git_blob_normalized": "e386cf6de34993b6751afdad4da09a62e416ae2f"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "start-here",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "detailed-documentation",
+            "sources": [
+              {
+                "path": "docs/product/migrations/settings.md",
+                "role": "doc",
+                "git_blob": "c6809fe1bf703c340a063c06ec2eb91a90406777",
+                "git_blob_normalized": "c6809fe1bf703c340a063c06ec2eb91a90406777"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "related-sections",
+            "sources": [
+              {
+                "path": "docs/product/README.md",
+                "role": "doc",
+                "git_blob": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4",
+                "git_blob_normalized": "2e50c68cfa53135170b1fef3cbbd668fd649d0e4"
+              },
+              {
+                "path": "docs/README.md",
+                "role": "doc",
+                "git_blob": "e75e8525820557a7e2ae779d2e99cf19f5838adf",
+                "git_blob_normalized": "e75e8525820557a7e2ae779d2e99cf19f5838adf"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    },
+    "settings.md": {
+      "id": "migration-settings",
+      "title": "Migration Settings",
+      "description": "Source/target versions, breaking changes, ordered changes, verification, rollback",
+      "provenance": {
+        "schema": "2.0",
+        "doc_id": "migration-settings",
+        "path": "docs/product/migrations/settings.md",
+        "generated_at": "2026-08-13T11:09:28Z",
+        "generator": {
+          "name": "docforge",
+          "version": "2.8.0"
+        },
+        "tier": "spine",
+        "target_depth": "deep-dive",
+        "graph": {
+          "provider": "codegraph",
+          "flow": "none"
+        },
+        "sections": [
+          {
+            "id": "breaking-changes-in-order",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsMigration.swift",
+                "git_blob": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "git_blob_normalized": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsMigration.swift",
+                "git_blob": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "git_blob_normalized": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "role": "history"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "schema-versioning-of-settingsjson",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsMigration.swift",
+                "git_blob": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "git_blob_normalized": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsMigration.swift",
+                "git_blob": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "git_blob_normalized": "af7254b39294eaa98de15693f9ccde1ae6c3a789",
+                "role": "history"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "missing-root-fields-decode-with-defaults",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "import-rejections",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "atomic-debounced-writes",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "settingsdelta-gating",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "verify",
+            "sources": [
+              {
+                "path": "EasyKeyTests/SettingsRepositoryMigrationTests.swift",
+                "git_blob": "3477d8842297e2c44c1090b16823480ca7d5ba77",
+                "git_blob_normalized": "3477d8842297e2c44c1090b16823480ca7d5ba77",
+                "role": "test"
+              },
+              {
+                "path": "EasyKeyTests/SettingsRepositoryEdgeCaseTests.swift",
+                "git_blob": "b70f7984b40249a493d789df7cd1494f5eb2cbdd",
+                "git_blob_normalized": "b70f7984b40249a493d789df7cd1494f5eb2cbdd",
+                "role": "test"
+              }
+            ],
+            "unresolved": []
+          },
+          {
+            "id": "rollback",
+            "sources": [
+              {
+                "path": "EasyEngineCore/Settings/SettingsRepository.swift",
+                "git_blob": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "git_blob_normalized": "8dbf2339135a67a57533869cca68d46cc6e8c991",
+                "role": "code"
+              },
+              {
+                "path": "EasyEngineCore/Settings/EasyKeySettings.swift",
+                "git_blob": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "git_blob_normalized": "aa8e22b824f59fd7a437d6af597ce6431ef10d57",
+                "role": "history"
+              }
+            ],
+            "unresolved": []
+          }
+        ]
+      }
+    }
+  }
+}

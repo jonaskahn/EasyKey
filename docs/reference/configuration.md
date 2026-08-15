@@ -1,175 +1,3 @@
----
-id: "configuration"
-title: "Configuration"
-description: "Every read setting, default, scope, sensitivity, validation"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "configuration"
-  path: "docs/reference/configuration.md"
-  generated_at: "2026-08-13T11:10:54Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "reference"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "configuration"
-      sources:
-        - path: "EasyEngineCore/Settings/EasyKeySettings.swift"
-          git_blob: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
-          git_blob_normalized: "aa8e22b824f59fd7a437d6af597ce6431ef10d57"
-          role: "code"
-        - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          role: "code"
-      unresolved: []
-    - id: "input-and-typing"
-      sources:
-        - path: "EasyEngineCore/Settings/InputSettings.swift"
-          git_blob: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
-          git_blob_normalized: "55a05f33b0b86e23f3fbce6c956f8a2c4921e6ab"
-          role: "code"
-        - path: "EasyEngineCore/Settings/TypingOptions.swift"
-          git_blob: "b7458b09ce8e75a249842da240922d814df3a291"
-          git_blob_normalized: "b7458b09ce8e75a249842da240922d814df3a291"
-          role: "code"
-        - path: "EasyEngineCore/Settings/Shortcut.swift"
-          git_blob: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
-          git_blob_normalized: "32d36fb49bcc848bb8817c1cffa2a00c3d7fb994"
-          role: "code"
-      unresolved: []
-    - id: "translation"
-      sources:
-        - path: "EasyEngineCore/Translation/TranslationOptions.swift"
-          git_blob: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
-          git_blob_normalized: "ac20f144cfffb6a896dfc2fe27c2b6651e48456c"
-          role: "code"
-        - path: "EasyEngineCore/Translation/TranslationProviderResolver.swift"
-          git_blob: "9fe5786ed549713c4631839352100124f86cba13"
-          git_blob_normalized: "9fe5786ed549713c4631839352100124f86cba13"
-          role: "code"
-        - path: "EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift"
-          git_blob: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
-          git_blob_normalized: "2c187abb9713d19e202f1ce0e6f132cfc5a48e69"
-          role: "code"
-      unresolved: []
-    - id: "clipboard"
-      sources:
-        - path: "EasyEngineCore/Clipboard/ClipboardOptions.swift"
-          git_blob: "f1409bbfebea82ad1d8e76ec6d75612f0b1b7a93"
-          role: "code"
-        - path: "EasyEngineCore/Clipboard/ClipboardEntry.swift"
-          git_blob: "2b6b2d0d1e12143a526f8aca275cee59a3a5b017"
-          role: "code"
-      unresolved: []
-    - id: "macros"
-      sources:
-        - path: "EasyEngineCore/Macros/MacroOptions.swift"
-          git_blob: "f441f099f9e38246440534312b3349b8948f240c"
-          git_blob_normalized: "f441f099f9e38246440534312b3349b8948f240c"
-          role: "code"
-        - path: "EasyEngineCore/Macros/MacroStore.swift"
-          git_blob: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          git_blob_normalized: "a5909fcd5e5e13b871c24d359a2e89f002ae239a"
-          role: "code"
-      unresolved: []
-    - id: "smart-switch"
-      sources:
-        - path: "EasyEngineCore/SmartSwitch/SmartSwitchOptions.swift"
-          git_blob: "651f4dde5a9df0f03466c3185d904aa63c72f1af"
-          role: "code"
-        - path: "EasyEngineCore/SmartSwitch/SmartSwitchStore.swift"
-          git_blob: "694b512e15a06e34e7df216ba74a4fc133e27f69"
-          role: "code"
-      unresolved: []
-    - id: "compatibility"
-      sources:
-        - path: "EasyEngineCore/Settings/CompatibilityOptions.swift"
-          git_blob: "51e22adaa9ea230bb9345d4b3f9f8eb099919f6e"
-          role: "code"
-      unresolved: []
-    - id: "system"
-      sources:
-        - path: "EasyEngineCore/Settings/SystemOptions.swift"
-          git_blob: "d38adf9b77b18314c8a9eec7b1ac60e7fed13981"
-          git_blob_normalized: "d38adf9b77b18314c8a9eec7b1ac60e7fed13981"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/LoginItemController.swift"
-          git_blob: "7833a6d82792ded3986386ac26e40b686feab12d"
-          git_blob_normalized: "7833a6d82792ded3986386ac26e40b686feab12d"
-          role: "code"
-      unresolved: []
-    - id: "converter"
-      sources:
-        - path: "EasyEngineCore/Converter/ConverterOptions.swift"
-          git_blob: "305ee275b13e3b9e3bef7fb31a1518a4dc8a4888"
-          role: "code"
-      unresolved: []
-    - id: "interface-language-and-onboarding"
-      sources:
-        - path: "EasyKeyApp/Localization/AppLanguage.swift"
-          git_blob: "2add0345da3e50e736e3f18c12f4db48f21b6793"
-          git_blob_normalized: "2add0345da3e50e736e3f18c12f4db48f21b6793"
-          role: "code"
-        - path: "EasyKeyApp/AppDelegate.swift"
-          git_blob: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          git_blob_normalized: "a0ba11e8c1cc4bd2a48d1cd346edfade871c67b8"
-          role: "code"
-      unresolved: []
-    - id: "panel-display-preferences"
-      sources:
-        - path: "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift"
-          git_blob: "8534225de880a5b203911ce6c594d927574545bf"
-          git_blob_normalized: "8534225de880a5b203911ce6c594d927574545bf"
-          role: "code"
-        - path: "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift"
-          git_blob: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
-          git_blob_normalized: "32e9a54687a6e55d4c30ecf4efb12318fd57f1e1"
-          role: "code"
-      unresolved: []
-    - id: "settings-document"
-      sources:
-        - path: "EasyEngineCore/Settings/SettingsRepository.swift"
-          git_blob: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          git_blob_normalized: "8dbf2339135a67a57533869cca68d46cc6e8c991"
-          role: "code"
-        - path: "EasyEngineCore/Settings/SettingsMigration.swift"
-          git_blob: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
-          git_blob_normalized: "af7254b39294eaa98de15693f9ccde1ae6c3a789"
-          role: "code"
-        - path: "EasyKeyApp/Settings/SettingsStore.swift"
-          git_blob: "65074f5684006b032e635e9bcf80ad7bf37f4929"
-          git_blob_normalized: "65074f5684006b032e635e9bcf80ad7bf37f4929"
-          role: "code"
-      unresolved: []
-    - id: "release-pipeline-environment"
-      sources:
-        - path: "EasyKeyApp/Info.plist"
-          git_blob: "f4603871fa675111bd6db1472dfb04936ff3f645"
-          git_blob_normalized: "f4603871fa675111bd6db1472dfb04936ff3f645"
-          role: "config"
-        - path: "Makefile"
-          git_blob: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          git_blob_normalized: "b0926ee99352f08ba3eb3475b4ef45bfc143fe65"
-          role: "config"
-        - path: "Scripts/notarize.sh"
-          git_blob: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
-          git_blob_normalized: "18256dcf44a32ce9c2cef44d2196ee44fef8fd63"
-          role: "code"
-        - path: "Scripts/generate-appcast.py"
-          git_blob: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
-          git_blob_normalized: "b11742e9715d352ad971f4ab8d5f3dabf5ef38d9"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/UpdateService.swift"
-          git_blob: "186960351c6c963cfee981caef34e7aa8a544457"
-          git_blob_normalized: "186960351c6c963cfee981caef34e7aa8a544457"
-          role: "code"
-      unresolved: []
----
 # Configuration
 
 _Last reviewed: 2026-08-15_
@@ -203,6 +31,8 @@ means disabled.
 | Spell check | `typing.spellCheck` | `true` | settings document | No |
 | Live confidence scoring | `typing.liveConfidenceScoring` | `false` | settings document | No |
 | Restore invalid words | `typing.restoreInvalidWord` | `true` | settings document | No |
+| Live confidence low threshold | `typing.liveConfidenceLowThreshold` | `0.35` | settings document | No |
+| Live confidence high threshold | `typing.liveConfidenceHighThreshold` | `0.80` | settings document | No |
 | iOS-UniKey-like mode | `typing.iosUniKeyLikeMode` | `true` | settings document | No |
 | Tone style | `typing.toneStyle` | `old` | settings document | No |
 | Quick Telex consonants | `typing.quickTelexConsonants` | `false` | settings document | No |
@@ -210,6 +40,7 @@ means disabled.
 | Bracket shortcuts (`[` `]` …) | `typing.bracketShortcuts` | `true` | settings document | No |
 | Restore-word shortcut | `typing.restoreWordShortcut` | `none` | settings document | No |
 | Literal technical tokens | `typing.literalTechnicalTokens` | `true` | settings document | No |
+| Ignore function keys | `typing.ignoreFunctionKeys` | `true` | settings document | No |
 | Uppercase first character | `typing.uppercaseFirstCharacter` | `false` | settings document | No |
 
 ## Translation

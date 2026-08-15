@@ -1,64 +1,6 @@
----
-id: "accessibility"
-title: "Accessibility"
-description: "Supported behavior, resources/semantics, fallback, verification, known limits"
-docforge_provenance:
-  schema: "2.0"
-  doc_id: "accessibility"
-  path: "docs/product/accessibility.md"
-  generated_at: "2026-08-13T11:09:28Z"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "deep-dive"
-  graph:
-    provider: "codegraph"
-    flow: "none"
-  sections:
-    - id: "verified-behavior-by-area"
-      sources:
-        - path: "docs/_archive/design.md"
-          git_blob: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
-          git_blob_normalized: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
-          role: "doc"
-        - path: "docs/_archive/rulebook.md"
-          git_blob: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          git_blob_normalized: "adbd3fec4e0f76f10542989e894a89e46dda4afd"
-          role: "doc"
-        - path: "EasyKeyApp/Features/Onboarding/OnboardingView.swift"
-          git_blob: "6607f26cd0e27f49ac6d0e77492557411063e170"
-          git_blob_normalized: "6607f26cd0e27f49ac6d0e77492557411063e170"
-          role: "code"
-        - path: "EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift"
-          git_blob: "26848c8e7b7745d4bf4955806cbb71fd179dfb43"
-          git_blob_normalized: "26848c8e7b7745d4bf4955806cbb71fd179dfb43"
-          role: "code"
-        - path: "EasyKeyApp/Coordination/MenuPopoverView.swift"
-          git_blob: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
-          git_blob_normalized: "2ef75b671feaa2052671f8b6ad178bfcc673a6d4"
-          role: "code"
-      unresolved: []
-    - id: "verification-method"
-      sources:
-        - path: "EasyKeyUITests/SettingsAccessibilityTests.swift"
-          git_blob: "976a883c7b3279992b082f5563c5e123e757bce9"
-          role: "test"
-      unresolved: []
-    - id: "known-gaps"
-      sources:
-        - path: "EasyKeyUITests/SettingsAccessibilityTests.swift"
-          git_blob: "976a883c7b3279992b082f5563c5e123e757bce9"
-          role: "test"
-        - path: "docs/_archive/design.md"
-          git_blob: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
-          git_blob_normalized: "9327d9508da1744a481b2dc7ee7f68e0078c61c7"
-          role: "doc"
-      unresolved: []
----
 # Accessibility
 
-_Last reviewed: 2026-08-13_
+_Last reviewed: 2026-08-15_
 
 **Target conformance:** The repository declares no formal WCAG conformance level and holds no external certification. The app's stated practice targets WCAG 2.2 Level AA behaviors — semantic labels, keyboard operability, and contrast carried by system colors — and the per-area coverage below is verified by the named method, not by a certification claim.
 
@@ -71,7 +13,7 @@ _Last reviewed: 2026-08-13_
 | Understandable | Every user-facing string resolves through the localization store, so labels render in the chosen interface language; the popover status is one composed label ("state + app name + Smart Switch status") instead of fragmented subviews | Manual audit + automated audit |
 | Robust | Stable accessibility identifiers are an enforced UI-test contract (onboarding steps, settings shell, translation settings); semantic roles and states come from native controls, not custom drawing | Automated audit + UI tests consuming the identifiers |
 
-Key implementations: onboarding uses explicit `.accessibilityLabel` plus stable identifiers such as `"OnboardingPrimary"` and `"Grant Accessibility Access"` (`EasyKeyApp/Features/Onboarding/OnboardingView.swift`); the shortcut recorder composes localized labels for record and clear (`EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift`); the menu popover combines its status children into one accessible element (`EasyKeyApp/Coordination/MenuPopoverView.swift`). The project rules mandate standard controls, semantic colors, system text styles, and accessibility labels, with controls working under keyboard navigation, VoiceOver, increased text size, and reduced motion (the archived engineering rulebook); materials are native-only with no custom material layers (the archived design document) — so Reduce Transparency, Reduce Motion, and Increase Contrast are honored by construction (the archived design document).
+Key implementations: onboarding uses explicit `.accessibilityLabel` plus stable identifiers such as `"OnboardingPrimary"` and `"Grant Accessibility Access"` (`EasyKeyApp/Features/Onboarding/OnboardingView.swift`); the shortcut recorder composes localized labels for record and clear (`EasyKeyApp/Features/Settings/Shared/ShortcutRecorder.swift`); the menu popover combines its status children into one accessible element (`EasyKeyApp/Coordination/MenuPopoverView.swift`). The project rules mandate standard controls, semantic colors, system text styles, and accessibility labels, with controls working under keyboard navigation, VoiceOver, increased text size, and reduced motion (the engineering rulebook, notes/rulebook.md); materials are native-only with no custom material layers (the design notes, notes/design.md) — so Reduce Transparency, Reduce Motion, and Increase Contrast are honored by construction (the design notes).
 
 ## Verification method
 
@@ -84,4 +26,4 @@ Automated: `EasyKeyUITests/SettingsAccessibilityTests.swift` runs XCUITest's `pe
 - **Translation settings and the clipboard/translation popovers are not in the automated per-section audit.** The audit covers eight settings sections; the translation settings section and the floating panels/popovers have identifiers and labels but no automated audit run.
 - **No recorded assistive-technology walkthrough.** There is no logged VoiceOver (or other AT) end-to-end test session; the stable identifiers exist so such tests can be written.
 - **Typing depends on the Accessibility permission.** Without it the app cannot transform keystrokes; the degraded experience is plain unmarked text, and permission can be revoked at any time.
-- **No Dynamic Type scaling on macOS.** macOS does not scale type the way iOS does; the app follows system text styles, which track system preferences (see the archived design document).
+- **No Dynamic Type scaling on macOS.** macOS does not scale type the way iOS does; the app follows system text styles, which track system preferences (see the design notes, notes/design.md).
