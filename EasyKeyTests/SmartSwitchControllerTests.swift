@@ -104,6 +104,17 @@ final class SmartSwitchControllerTests: XCTestCase {
         XCTAssertEqual(changeCount, 1)
     }
 
+    func testCurrentExternalApplicationBundleIdentifier_TracksExternalAppsOnly() throws {
+        XCTAssertNil(controller.currentExternalApplicationBundleIdentifier)
+
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+        XCTAssertEqual(controller.currentExternalApplicationBundleIdentifier, external.bundleIdentifier)
+
+        controller.handleApplicationActivation(.current)
+        XCTAssertEqual(controller.currentExternalApplicationBundleIdentifier, external.bundleIdentifier)
+    }
+
     func testHandleApplicationActivation_IgnoredApplication_DoesNotRecordPreference() throws {
         let application = try externalRunningApplication()
         let bundleIdentifier = try XCTUnwrap(application.bundleIdentifier)

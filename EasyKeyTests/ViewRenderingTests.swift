@@ -329,17 +329,25 @@ final class ViewRenderingTests: XCTestCase {
         XCTAssertEqual(footerEvents, ["clipboard", "settings", "quit"])
     }
 
-    func testMenuPopoverSmartSwitchBindingUpdatesSettings() {
-        coordinator.settingsStore.update { $0.smartSwitch.enabled = false }
+    func testMenuPopoverCurrentAppMonitoringBindingUpdatesIgnoredList() throws {
+        let bundleIdentifiers = ["com.apple.finder", "com.apple.dock", "com.apple.SystemUIServer"]
+        guard let external = bundleIdentifiers.lazy
+            .compactMap({ NSRunningApplication.runningApplications(withBundleIdentifier: $0).first })
+            .first,
+            let bundleIdentifier = external.bundleIdentifier
+        else {
+            throw XCTSkip("No stable system application is running")
+        }
+        coordinator.smartSwitchController.handleApplicationActivation(external)
         let view = MenuPopoverView(coordinator: coordinator)
 
-        view.smartSwitchBinding.wrappedValue = true
+        view.currentAppMonitoringBinding.wrappedValue = false
 
-        XCTAssertTrue(coordinator.settingsStore.settings.smartSwitch.enabled)
+        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier))
 
-        view.smartSwitchBinding.wrappedValue = false
+        view.currentAppMonitoringBinding.wrappedValue = true
 
-        XCTAssertFalse(coordinator.settingsStore.settings.smartSwitch.enabled)
+        XCTAssertFalse(coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier))
     }
 
     func testMenuPopoverUsesConfiguredWidth() {

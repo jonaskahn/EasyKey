@@ -377,4 +377,24 @@ final class AppCoordinator: ObservableObject {
             keyboardPaused: keyboardPaused
         )
     }
+
+    var currentExternalApplicationBundleIdentifier: String? {
+        smartSwitchController.currentExternalApplicationBundleIdentifier
+    }
+
+    var isCurrentAppMonitored: Bool {
+        guard let bundleIdentifier = currentExternalApplicationBundleIdentifier else { return true }
+        return !settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier)
+    }
+
+    func setCurrentAppMonitored(_ monitored: Bool) {
+        guard let bundleIdentifier = currentExternalApplicationBundleIdentifier else { return }
+        settingsStore.update { settings in
+            if monitored {
+                settings.compatibility.ignoredApplicationBundleIdentifiers.removeAll { $0 == bundleIdentifier }
+            } else if !settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier) {
+                settings.compatibility.ignoredApplicationBundleIdentifiers.append(bundleIdentifier)
+            }
+        }
+    }
 }

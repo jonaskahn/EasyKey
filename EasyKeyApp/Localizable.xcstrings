@@ -3819,6 +3819,23 @@
         }
       }
     },
+    "menu.monitorCurrentApp": {
+      "comment": "Popover toggle for monitoring the current app",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor this app"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theo dõi ứng dụng này"
+          }
+        }
+      }
+    },
     "menu.inputSection": {
       "comment": "Popover section heading",
       "localizations": {

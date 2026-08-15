@@ -170,15 +170,16 @@ struct MenuPopoverView: View {
             Spacer(minLength: 8)
 
             VStack(alignment: .trailing, spacing: 2) {
-                Text(localization.string(.smartSwitchPerApp))
+                Text(localization.string(.menuMonitorCurrentApp))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
-                Toggle("", isOn: smartSwitchBinding)
+                Toggle("", isOn: currentAppMonitoringBinding)
                     .labelsHidden()
                     .toggleStyle(.switch)
                     .controlSize(.small)
-                    .accessibilityLabel(localization.string(.smartSwitchRememberPerApp))
-                    .accessibilityIdentifier("SmartSwitchPopoverToggle")
+                    .accessibilityLabel(localization.string(.menuMonitorCurrentApp))
+                    .accessibilityIdentifier("CurrentAppMonitorToggle")
+                    .disabled(coordinator.currentExternalApplicationBundleIdentifier == nil)
             }
         }
         .padding(.horizontal, 10)
@@ -219,12 +220,10 @@ struct MenuPopoverView: View {
         )
     }
 
-    var smartSwitchBinding: Binding<Bool> {
+    var currentAppMonitoringBinding: Binding<Bool> {
         Binding(
-            get: { settingsStore.settings.smartSwitch.enabled },
-            set: { enabled in
-                settingsStore.update { $0.smartSwitch.enabled = enabled }
-            }
+            get: { coordinator.isCurrentAppMonitored },
+            set: { coordinator.setCurrentAppMonitored($0) }
         )
     }
 

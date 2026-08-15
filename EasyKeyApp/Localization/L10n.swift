@@ -209,6 +209,7 @@ enum L10nKey: String, CaseIterable, Sendable {
     case menuCurrentAppStatus = "menu.currentAppStatus"
     case menuMacros = "menu.macros"
     case menuMethod = "menu.method"
+    case menuMonitorCurrentApp = "menu.monitorCurrentApp"
     case menuPaste = "menu.paste"
     case menuPauseKeyboard = "menu.pauseKeyboard"
     case menuQuit = "menu.quit"

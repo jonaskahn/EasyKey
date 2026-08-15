@@ -27,6 +27,12 @@ final class SmartSwitchController {
 
     var onPublishedStateChange: (() -> Void)?
 
+    /// Bundle identifier of the app the user is currently monitoring, if any.
+    /// Used by the popover toggle to turn monitoring on/off per app.
+    var currentExternalApplicationBundleIdentifier: String? {
+        lastKnownExternalApplication?.bundleIdentifier
+    }
+
     init(
         smartSwitchStore: SmartSwitchStore,
         settingsStore: SettingsStore,
@@ -63,7 +69,7 @@ final class SmartSwitchController {
         }
     }
 
-    func handleApplicationActivation(_ application: NSRunningApplication?) {
+    func handleApplicationActivation(_ application: NSRunningApplication?, settingsOverride: EasyKeySettings? = nil) {
         guard let application else {
             currentApplicationName = localization.string(.smartSwitchNoActiveApp)
             currentAppSmartSwitchStatus = localization.string(.smartSwitchUnavailable)
@@ -77,16 +83,21 @@ final class SmartSwitchController {
         guard application.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
         lastKnownExternalApplication = application
 
+        // The override carries freshly-published settings: @Published emits
+        // during willSet, so re-reading the store here would see stale values
+        // when this runs from the settings-change sink.
+        let settings = settingsOverride ?? settingsStore.settings
+
         currentApplicationName = application.localizedName
             ?? application.bundleIdentifier
             ?? localization.string(.smartSwitchUnknownApp)
         if let bundleIdentifier = application.bundleIdentifier,
-           settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier) {
+           settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier) {
             currentAppSmartSwitchStatus = localization.string(.smartSwitchIgnored)
             onPublishedStateChange?()
             return
         }
-        guard settingsStore.settings.smartSwitch.enabled else {
+        guard settings.smartSwitch.enabled else {
             currentAppSmartSwitchStatus = localization.string(.smartSwitchOff)
             onPublishedStateChange?()
             return
@@ -97,7 +108,6 @@ final class SmartSwitchController {
             path: application.bundleURL?.path,
             name: application.localizedName
         )
-        let settings = settingsStore.settings
         let currentChoice = SmartSwitchChoice(
             language: settings.input.language,
             encoding: settings.smartSwitch.rememberEncoding ? settings.input.encoding : nil
@@ -135,9 +145,10 @@ final class SmartSwitchController {
     /// Re-evaluates the display against the last known external application.
     /// Used when settings change (Smart Switch toggle, ignored apps, language)
     /// while EasyKey itself is frontmost, where reading the frontmost app
-    /// would wrongly describe EasyKey.
-    func reevaluateCurrentApplication() {
-        handleApplicationActivation(lastKnownExternalApplication)
+    /// would wrongly describe EasyKey. Pass freshly-published settings when
+    /// called from the settings-change sink to avoid stale reads.
+    func reevaluateCurrentApplication(settings: EasyKeySettings? = nil) {
+        handleApplicationActivation(lastKnownExternalApplication, settingsOverride: settings)
     }
 
     func rememberChoiceIfNeeded(from settings: EasyKeySettings) {

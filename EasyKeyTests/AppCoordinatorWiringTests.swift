@@ -205,6 +205,43 @@ final class AppCoordinatorWiringTests: XCTestCase {
         )
     }
 
+    func testSetCurrentAppMonitored_AddsAndRemovesIgnoredBundle() throws {
+        let external = try externalRunningApplication()
+        let bundleIdentifier = try XCTUnwrap(external.bundleIdentifier)
+        coordinator.smartSwitchController.handleApplicationActivation(external)
+        XCTAssertTrue(coordinator.isCurrentAppMonitored)
+
+        coordinator.setCurrentAppMonitored(false)
+
+        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier))
+        XCTAssertFalse(coordinator.isCurrentAppMonitored)
+
+        coordinator.setCurrentAppMonitored(true)
+
+        XCTAssertFalse(coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier))
+        XCTAssertTrue(coordinator.isCurrentAppMonitored)
+    }
+
+    func testSetCurrentAppMonitored_NoCurrentApp_DoesNothing() {
+        coordinator.setCurrentAppMonitored(false)
+        XCTAssertTrue(coordinator.settingsStore.settings.compatibility.ignoredApplicationBundleIdentifiers.isEmpty)
+        XCTAssertTrue(coordinator.isCurrentAppMonitored)
+    }
+
+    func testObserveSettings_IgnoredAppsChange_ReevaluatesStatus() throws {
+        let external = try externalRunningApplication()
+        coordinator.smartSwitchController.handleApplicationActivation(external)
+        coordinator.observeSettings()
+
+        coordinator.setCurrentAppMonitored(false)
+
+        XCTAssertEqual(
+            coordinator.currentAppSmartSwitchStatus,
+            coordinator.smartSwitchController.currentAppSmartSwitchStatus
+        )
+        XCTAssertEqual(coordinator.currentAppSmartSwitchStatus, coordinator.localization.string(.smartSwitchIgnored))
+    }
+
     func testUpdateDockVisibility_TogglesActivationPolicy() {
         coordinator.updateDockVisibility(showDockIcon: true)
         coordinator.updateDockVisibility(showDockIcon: false)

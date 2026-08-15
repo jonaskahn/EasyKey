@@ -170,11 +170,11 @@ extension AppCoordinator {
             smartSwitchController.rememberChoiceIfNeeded(from: settings)
             if lastSmartSwitchEnabled != settings.smartSwitch.enabled {
                 lastSmartSwitchEnabled = settings.smartSwitch.enabled
-                smartSwitchController.reevaluateCurrentApplication()
+                smartSwitchController.reevaluateCurrentApplication(settings: settings)
             }
             if ignoredApplicationsSetting != settings.compatibility.ignoredApplicationBundleIdentifiers {
                 ignoredApplicationsSetting = settings.compatibility.ignoredApplicationBundleIdentifiers
-                smartSwitchController.reevaluateCurrentApplication()
+                smartSwitchController.reevaluateCurrentApplication(settings: settings)
             }
             if clipboardOptionsSetting != settings.clipboard {
                 clipboardOptionsSetting = settings.clipboard

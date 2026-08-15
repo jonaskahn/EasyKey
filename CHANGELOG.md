@@ -134,7 +134,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 **Added**
 
 - Selectable menu bar icon style: 12 styles with localized names in System settings; the default is "Inverted Solid Capsule (Dark Pill)" and the E/V letter still follows the active input language.
-- Smart Switch toggle in the menu bar popover status area, so per-app language memory can be turned on or off without opening Settings.
+- Monitoring toggle in the menu bar popover status area: turn EasyKey on or off for the current app without opening Settings.
 
 **Changed**
 
