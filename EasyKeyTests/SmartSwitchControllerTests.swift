@@ -327,6 +327,69 @@ final class SmartSwitchControllerTests: XCTestCase {
         controller.rememberChoiceIfNeeded(from: settingsStore.settings)
     }
 
+    func testResolveMonitoredApplication_FrontmostIsSelf_FallsBackToLastKnownExternalApp() throws {
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+        controller.handleApplicationActivation(.current)
+
+        let resolved = controller.resolveMonitoredApplication(frontmost: .current)
+
+        XCTAssertEqual(resolved?.bundleIdentifier, external.bundleIdentifier)
+    }
+
+    func testResolveMonitoredApplication_NilFrontmost_FallsBackToLastKnownExternalApp() throws {
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+
+        let resolved = controller.resolveMonitoredApplication(frontmost: nil)
+
+        XCTAssertEqual(resolved?.bundleIdentifier, external.bundleIdentifier)
+    }
+
+    func testResolveMonitoredApplication_NoLastKnownExternalApp_ReturnsNil() {
+        XCTAssertNil(controller.resolveMonitoredApplication(frontmost: .current))
+    }
+
+    func testResolveMonitoredApplication_FrontmostExternal_UsesFrontmost() throws {
+        let external = try externalRunningApplication()
+
+        let resolved = controller.resolveMonitoredApplication(frontmost: external)
+
+        XCTAssertEqual(resolved?.bundleIdentifier, external.bundleIdentifier)
+    }
+
+    func testRememberChoiceIfNeeded_SelfFrontmost_UpdatesLastKnownAppPreference() throws {
+        settingsStore.update { $0.smartSwitch.enabled = true }
+        let external = try externalRunningApplication()
+        controller.handleApplicationActivation(external)
+
+        let identity = identity(for: external)
+        XCTAssertEqual(try controller.store.choice(for: identity)?.language, .vietnamese)
+
+        controller.rememberChoiceIfNeeded(from: settingsStore.settings, frontmost: .current)
+        settingsStore.update { $0.input.language = .english }
+        controller.rememberChoiceIfNeeded(from: settingsStore.settings, frontmost: .current)
+
+        XCTAssertEqual(try controller.store.choice(for: identity)?.language, .english)
+        XCTAssertFalse(controller.currentAppSmartSwitchStatus.isEmpty)
+    }
+
+    func testRememberChoiceIfNeeded_FrontmostExternal_UpdatesFrontmostAppPreference() throws {
+        settingsStore.update { $0.smartSwitch.enabled = true }
+        let external = try externalRunningApplication()
+        let identity = identity(for: external)
+        _ = try smartSwitchStore.handleAppFocus(
+            identity,
+            currentChoice: SmartSwitchChoice(language: .vietnamese)
+        )
+
+        controller.rememberChoiceIfNeeded(from: settingsStore.settings, frontmost: external)
+        settingsStore.update { $0.input.language = .english }
+        controller.rememberChoiceIfNeeded(from: settingsStore.settings, frontmost: external)
+
+        XCTAssertEqual(try smartSwitchStore.choice(for: identity)?.language, .english)
+    }
+
     func testApplyLanguage_UpdatesSettings() {
         settingsStore.update { $0.input.language = .english }
         controller.applyLanguage(from: SmartSwitchChoice(language: .vietnamese))

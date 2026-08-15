@@ -151,7 +151,23 @@ final class SmartSwitchController {
         handleApplicationActivation(lastKnownExternalApplication, settingsOverride: settings)
     }
 
-    func rememberChoiceIfNeeded(from settings: EasyKeySettings) {
+    /// The app a language/encoding change should be recorded for. While EasyKey
+    /// itself is frontmost (popover or Settings window open), the frontmost app
+    /// is EasyKey — fall back to the last known external application the user
+    /// is monitoring so per-app tracking still updates.
+    func resolveMonitoredApplication(
+        frontmost: NSRunningApplication? = NSWorkspace.shared.frontmostApplication
+    ) -> NSRunningApplication? {
+        if let frontmost, frontmost.bundleIdentifier != Bundle.main.bundleIdentifier {
+            return frontmost
+        }
+        return lastKnownExternalApplication
+    }
+
+    func rememberChoiceIfNeeded(
+        from settings: EasyKeySettings,
+        frontmost: NSRunningApplication? = NSWorkspace.shared.frontmostApplication
+    ) {
         let choice = SmartSwitchChoice(
             language: settings.input.language,
             encoding: settings.smartSwitch.rememberEncoding ? settings.input.encoding : nil
@@ -161,9 +177,7 @@ final class SmartSwitchController {
         guard !isApplyingSmartSwitch else { return }
         guard settings.smartSwitch.enabled else { return }
         guard let previous = lastSmartSwitchSyncedChoice, previous != choice else { return }
-        guard let application = NSWorkspace.shared.frontmostApplication,
-              application.bundleIdentifier != Bundle.main.bundleIdentifier
-        else { return }
+        guard let application = resolveMonitoredApplication(frontmost: frontmost) else { return }
         if let bundleIdentifier = application.bundleIdentifier,
            settings.compatibility.ignoredApplicationBundleIdentifiers.contains(bundleIdentifier) {
             return
