@@ -1,22 +1,3 @@
----
-id: "root_readme"
-title: "Repository README"
-description: "Purpose, audience, verified quick start, links to setup/architecture/limitations"
-docforge_provenance:
-  schema: "2.1"
-  doc_id: "root_readme"
-  path: "README.md"
-  generated_at: "<GENERATED_AT>"
-  generator:
-    name: "docforge"
-    version: "2.8.0"
-  tier: "spine"
-  target_depth: "orientation"
-  graph:
-    provider: "<GRAPH_PROVIDER>"
-    flow: "<FLOW_CAPABILITY>"
-  sections: []
----
 <p align="center">
   <img src="docs/assets/logo.png" width="128" height="128" alt="EasyKey logo"><br>
   <strong>EasyKey</strong><br><br>
