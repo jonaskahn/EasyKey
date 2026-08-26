@@ -5,7 +5,7 @@ import XCTest
 final class AppCompatibilityTests: XCTestCase {
     func testRule_Chromium_HasExpectedWorkarounds() {
         let rule = AppCompatibility.rule(for: "com.google.Chrome")
-        XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium])
+        XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium])
     }
 
     func testRule_ConfiguredApplicationsHaveCompatibilityWorkarounds() {
@@ -21,7 +21,7 @@ final class AppCompatibilityTests: XCTestCase {
                 for: bundleIdentifier,
                 compatibilityModeApplicationBundleIdentifiers: bundleIdentifiers
             )
-            XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium], bundleIdentifier)
+            XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium], bundleIdentifier)
         }
     }
 
@@ -35,7 +35,7 @@ final class AppCompatibilityTests: XCTestCase {
             for: "dev.example.CustomBrowser",
             compatibilityModeApplicationBundleIdentifiers: ["dev.example.CustomBrowser"]
         )
-        XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium])
+        XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium])
     }
 
     func testRule_RemovedDefaultBrowserHasNoChromiumWorkaround() {

@@ -37,7 +37,7 @@ public enum AppCompatibility {
         if compatibilityModeApplicationBundleIdentifiers.contains(bundleIdentifier) {
             return AppCompatibilityRule(
                 bundleIdentifier: bundleIdentifier,
-                workarounds: [.emptyCharacterInsertion, .chromium]
+                workarounds: [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium]
             )
         }
         return nil

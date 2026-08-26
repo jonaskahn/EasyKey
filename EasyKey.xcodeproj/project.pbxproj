@@ -2080,7 +2080,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2093,7 +2093,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2138,7 +2138,7 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyApp/EasyKeyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				EASYKEY_PRIVACY_POLICY_URL = "";
 				EASYKEY_SUPPORT_URL = "https://github.com/jonaskahn/EasyKey";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -2147,7 +2147,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -2177,14 +2177,14 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = EasyKeyLoginHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2212,7 +2212,7 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyApp/EasyKeyApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				EASYKEY_PRIVACY_POLICY_URL = "";
 				EASYKEY_SUPPORT_URL = "https://github.com/jonaskahn/EasyKey";
 				GENERATE_INFOPLIST_FILE = NO;
@@ -2221,7 +2221,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey;
 				PRODUCT_NAME = EasyKey;
 				SPARKLE_FEED_URL = "https://jonaskahn.github.io/EasyKey/appcast.xml";
@@ -2235,7 +2235,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2248,7 +2248,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2264,14 +2264,14 @@
 				CODE_SIGN_ENTITLEMENTS = EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = EasyKeyLoginHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykey.LoginHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2283,7 +2283,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2296,7 +2296,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = one.ifelse.easykeyKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2324,7 +2324,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2337,7 +2337,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.easykey.EasyEngineCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

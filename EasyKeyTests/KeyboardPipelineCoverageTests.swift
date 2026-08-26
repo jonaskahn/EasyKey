@@ -38,7 +38,7 @@ final class KeyboardPipelineCoverageTests: XCTestCase {
         let rules: [(String, Set<AppCompatibilityRule.Workaround>)] = [
             ("com.apple.Safari", [.unicodeCombiningOutput]),
             ("com.apple.Spotlight", [.spotlightSelection]),
-            ("com.google.Chrome", [.emptyCharacterInsertion, .chromium]),
+            ("com.google.Chrome", [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium]),
         ]
         for (bundleID, workarounds) in rules {
             let rule = AppCompatibilityRule(bundleIdentifier: bundleID, workarounds: workarounds)
