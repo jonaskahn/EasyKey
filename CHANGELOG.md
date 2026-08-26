@@ -4,6 +4,12 @@ _Last reviewed: 2026-08-15_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
 
+## [0.0.12] - 2026-08-26
+
+**Fixed**
+
+- Pressing Return while a Vietnamese word is composing no longer needs a second press in Chrome and other apps: the commit now re-posts a physical Return (and Tab) key event instead of a unicode newline, and Chrome no longer receives a stray zero-width space after the committed word.
+
 ## [0.0.11] - 2026-08-15
 
 **Added**

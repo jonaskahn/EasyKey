@@ -26,12 +26,17 @@ final class KeyboardInputPipeline {
         spotlightVisibilityProvider: @escaping SpotlightVisibilityProvider = SpotlightWindowDetector.isSpotlightWindowVisible,
         chromiumAddressBarDetector: @escaping ChromiumAddressBarDetector = FocusedElementInspector.isChromiumAddressBar,
         eventFactory: KeySynthesizer.EventFactory? = nil,
+        eventPoster: KeySynthesizer.EventPoster? = nil,
         now: @escaping () -> CFAbsoluteTime = CFAbsoluteTimeGetCurrent
     ) {
         self.settings = settings
         chromiumResolver = ChromiumAddressBarContextResolver(detector: chromiumAddressBarDetector, now: now)
         spotlightResolver = SpotlightContextResolver(provider: spotlightVisibilityProvider, now: now)
-        synthesizer = KeySynthesizer(eventFactory: eventFactory)
+        if let eventPoster {
+            synthesizer = KeySynthesizer(eventFactory: eventFactory, eventPoster: eventPoster)
+        } else {
+            synthesizer = KeySynthesizer(eventFactory: eventFactory)
+        }
         engine = VietnameseEngine(configuration: Self.engineConfiguration(for: settings, rule: nil))
     }
 
@@ -230,7 +235,7 @@ final class KeyboardInputPipeline {
                 )
                 else { return false }
             case let .insert(text):
-                guard synthesizer.insert(proxy: proxy, text) else { return false }
+                guard applyInsert(proxy: proxy, text: text) else { return false }
             case let .replaceBackward(deleteCount, insert):
                 let replacementUnits = composedEncodedUnits ?? insert.map(String.init)
                 let strategy = applyReplaceBackward(
@@ -247,7 +252,12 @@ final class KeyboardInputPipeline {
             }
         }
 
-        if !inChromiumAddressBar {
+        // A word-boundary commit (Return/Tab/Space/punctuation) ends the live
+        // composition; posting the workaround empty character after it would
+        // leave a stray invisible character after the committed word. The
+        // committed text has already been flushed by the edits above, and
+        // Return/Tab are re-posted as physical key events below.
+        if output.sessionEffect != .resetSession, !inChromiumAddressBar {
             if rule?.workarounds.contains(.emptyCharacterInsertion) == true {
                 guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{200B}") else { return false }
             } else if rule?.workarounds.contains(.alternateEmptyCharacter) == true {
@@ -258,6 +268,21 @@ final class KeyboardInputPipeline {
             resetSession()
         }
         return true
+    }
+
+    /// Inserts committed text, re-posting Return and Tab as physical key events
+    /// so apps that distinguish a real Return/Tab press from a unicode text
+    /// insertion (Chrome omnibox, submit-on-Return fields) act on the first
+    /// press instead of requiring a second one.
+    private func applyInsert(proxy: CGEventTapProxy, text: String) -> Bool {
+        switch text {
+        case "\n":
+            return synthesizer.postPhysicalKey(proxy: proxy, keyCode: KeyboardKeyCode.returnOrEnter)
+        case "\t":
+            return synthesizer.postPhysicalKey(proxy: proxy, keyCode: KeyboardKeyCode.tab)
+        default:
+            return synthesizer.insert(proxy: proxy, text)
+        }
     }
 
     private func applyDeleteBackward(

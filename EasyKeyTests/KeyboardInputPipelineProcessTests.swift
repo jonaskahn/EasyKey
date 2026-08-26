@@ -21,6 +21,18 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         return event
     }
 
+    private func unicodeText(of event: CGEvent) -> String {
+        var length = 0
+        var buffer = [UniChar](repeating: 0, count: 8)
+        event.keyboardGetUnicodeString(
+            maxStringLength: buffer.count,
+            actualStringLength: &length,
+            unicodeString: &buffer
+        )
+        guard length > 0 else { return "" }
+        return String(utf16CodeUnits: buffer, count: length)
+    }
+
     func testProcess_TypingVietnameseWord_SuppressesAndProducesOutput() {
         let pipeline = KeyboardInputPipeline(settings: .defaults)
         let events: [(String, UInt16)] = [("a", 0), ("s", 1)]
@@ -492,5 +504,66 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
         XCTAssertEqual(result.disposition, .suppressed)
         wait(for: [expectation], timeout: 1.0)
+    }
+
+    func testProcess_ReturnCommit_PostsPhysicalReturn() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+
+        for (character, keyCode) in [("a", UInt16(0)), ("s", UInt16(1))] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        XCTAssertTrue(pipeline.isComposing)
+
+        let returnEvent = keyEvent(character: "\n", keyCode: 36)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: returnEvent, keyCode: 36)
+
+        XCTAssertTrue(result.suppressesOriginal)
+        XCTAssertEqual(result.disposition, .suppressed)
+        XCTAssertFalse(pipeline.isComposing, "Return commit should reset the composition")
+
+        let postedReturnDown = posted.contains { event in
+            event.type == .keyDown && event.getIntegerValueField(.keyboardEventKeycode) == 36
+        }
+        XCTAssertTrue(postedReturnDown, "Return commit should re-post a physical Return keyDown")
+    }
+
+    func testProcess_ReturnCommitInChromium_DoesNotPostStrayZeroWidthSpace() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        for (character, keyCode) in [("a", UInt16(0)), ("s", UInt16(1))] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+
+        let returnEvent = keyEvent(character: "\n", keyCode: 36)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: returnEvent, keyCode: 36)
+
+        let returnUpIndex = posted.lastIndex { event in
+            event.type == .keyUp && event.getIntegerValueField(.keyboardEventKeycode) == 36
+        }
+        guard let returnUpIndex else {
+            XCTFail("Expected a physical Return keyUp to be posted")
+            return
+        }
+        for event in posted[(returnUpIndex + 1)...] {
+            XCTAssertFalse(
+                unicodeText(of: event).contains("\u{200B}"),
+                "Stray zero-width space after Return commit"
+            )
+        }
     }
 }
