@@ -252,12 +252,16 @@ final class KeyboardInputPipeline {
             }
         }
 
-        // A word-boundary commit (Return/Tab/Space/punctuation) ends the live
-        // composition; posting the workaround empty character after it would
-        // leave a stray invisible character after the committed word. The
-        // committed text has already been flushed by the edits above, and
-        // Return/Tab are re-posted as physical key events below.
-        if output.sessionEffect != .resetSession, !inChromiumAddressBar {
+        // Return/Tab commits end the live composition and are re-posted as
+        // physical key events; posting the workaround empty character after
+        // them would leave a stray invisible character after the committed
+        // word. Space and punctuation commits still need the empty character
+        // so Chromium keeps treating the following word as a fresh IME
+        // session (otherwise the second word's Vietnamese letters are
+        // swallowed while typing).
+        let commitsPhysicalKey = output.edits.contains(.insert("\n"))
+            || output.edits.contains(.insert("\t"))
+        if !commitsPhysicalKey, !inChromiumAddressBar {
             if rule?.workarounds.contains(.emptyCharacterInsertion) == true {
                 guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{200B}") else { return false }
             } else if rule?.workarounds.contains(.alternateEmptyCharacter) == true {

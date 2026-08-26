@@ -104,6 +104,41 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
         XCTAssertFalse(tail[7].isKeyDown)
     }
 
+    func testReplaceBackward_CombiningWord_CountsGraphemesNotUTF16Units() {
+        // "tuyền" with combining output = t,u,y,ề(e+U+0302+U+0300),n —
+        // 5 grapheme clusters but 7 UTF-16 units. Backspaces delete grapheme
+        // clusters in the receiving app, so the word commit must post exactly
+        // 5 backspaces; UTF-16 counting posted 7 and ate the preceding space.
+        let synthesizer = makeSynthesizer()
+        synthesizer.trackEncodedUnits(["t", "u", "y", "ề", "n"])
+
+        let strategy = synthesizer.replaceBackward(
+            proxy: fakeProxy(),
+            deleteCount: 5,
+            insert: "tuyền",
+            encodedUnits: []
+        )
+        XCTAssertEqual(strategy, .physicalBackspace)
+
+        let backspaceKeyDowns = posted.filter { $0.keyCode == 51 && $0.isKeyDown }
+        XCTAssertEqual(backspaceKeyDowns.count, 5, "deleting 5 graphemes must post 5 backspaces, not 7")
+    }
+
+    func testReplaceBackward_SingleCombiningVowel_PostsOneBackspace() {
+        let synthesizer = makeSynthesizer()
+        synthesizer.trackEncodedUnits(["ề"])
+
+        _ = synthesizer.replaceBackward(
+            proxy: fakeProxy(),
+            deleteCount: 1,
+            insert: "e",
+            encodedUnits: ["e"]
+        )
+
+        let backspaceKeyDowns = posted.filter { $0.keyCode == 51 && $0.isKeyDown }
+        XCTAssertEqual(backspaceKeyDowns.count, 1, "one grapheme must post one backspace, not 3")
+    }
+
     func testPostMacroExpansion_SelectionReplacement_OrderIsSelectionThenInsertionThenDelimiter() {
         let synthesizer = makeSynthesizer()
         XCTAssertTrue(

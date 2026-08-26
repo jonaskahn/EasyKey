@@ -9,6 +9,7 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 **Fixed**
 
 - Pressing Return while a Vietnamese word is composing no longer needs a second press in Chrome and other apps: the commit now re-posts a physical Return (and Tab) key event instead of a unicode newline, and Chrome no longer receives a stray zero-width space after the committed word.
+- Typing a second Vietnamese word after a space in Chrome and Safari no longer deletes the space (or preceding characters): replacement backspaces are now counted per grapheme cluster instead of per UTF-16 unit, matching how apps delete text with combining-diacritic output.
 
 ## [0.0.11] - 2026-08-15
 

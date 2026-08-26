@@ -14,7 +14,6 @@ public final class KeySynthesizer {
     }
 
     private struct EncodedUnit {
-        let utf16Count: Int
         let graphemeCount: Int
     }
 
@@ -221,7 +220,7 @@ public final class KeySynthesizer {
             physicalCount += 1
             pendingEmptyCharacter = false
         }
-        physicalCount += removeEncodedUnits(deleteCount)
+        physicalCount += removeEncodedUnitGraphemes(deleteCount)
         return physicalCount
     }
 
@@ -238,7 +237,7 @@ public final class KeySynthesizer {
 
     func trackEncodedUnits(_ encodedUnits: [String]) {
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
+            EncodedUnit(graphemeCount: $0.count)
         })
     }
 
@@ -291,14 +290,18 @@ public final class KeySynthesizer {
         }
 
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
+            EncodedUnit(graphemeCount: $0.count)
         })
     }
 
     private func physicalDeleteCount(_ logicalCount: Int) -> Int {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.utf16Count }
+        // Physical backspace deletes one extended grapheme cluster in the
+        // receiving app, so count graphemes rather than UTF-16 units. With
+        // combining diacritic output (e.g. "ề" = e + U+0302 + U+0300) UTF-16
+        // counting over-deletes and eats the preceding character/space.
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemeCount }
     }
 
     private func selectionDeleteCount(_ logicalCount: Int) -> Int {
@@ -319,16 +322,6 @@ public final class KeySynthesizer {
             return logicalCount + (pendingEmptyCharacter ? 1 : 0)
         }
         return selectionDeleteCount(logicalCount)
-    }
-
-    private func removeEncodedUnits(_ logicalCount: Int) -> Int {
-        guard logicalCount > 0 else { return 0 }
-        var deletedUnits = 0
-        for _ in 0 ..< min(logicalCount, encodedUnitStack.count) {
-            let unit = encodedUnitStack.removeLast()
-            deletedUnits += unit.utf16Count
-        }
-        return deletedUnits
     }
 
     private func removeEncodedUnitGraphemes(_ logicalCount: Int) -> Int {

@@ -566,4 +566,95 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
             )
         }
     }
+
+    func testProcess_SpaceCommitInChromium_PostsZeroWidthSpace() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        for (character, keyCode) in [("x", UInt16(6)), ("i", 34), ("n", 45)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        XCTAssertTrue(pipeline.isComposing, "Should be composing after typing 'xin'")
+
+        let spaceEvent = keyEvent(character: " ", keyCode: 49)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: spaceEvent, keyCode: 49)
+
+        XCTAssertFalse(pipeline.isComposing, "Space commit should end composition")
+
+        let spaceInsertIndex = posted.lastIndex { event in
+            event.type == .keyDown && unicodeText(of: event) == " "
+        }
+        guard let spaceInsertIndex else {
+            XCTFail("Expected a Space character to be inserted")
+            return
+        }
+        var foundZWS = false
+        for event in posted[(spaceInsertIndex + 1)...] {
+            if unicodeText(of: event).contains("\u{200B}") {
+                foundZWS = true
+                break
+            }
+        }
+        XCTAssertTrue(
+            foundZWS,
+            "Zero-width space must be posted after Space commit in Chromium to maintain IME session"
+        )
+    }
+
+    func testProcess_TypingTwoWordsCombiningOutput_PreservesSpaceBetweenWords() {
+        // Regression: typing "tuyeenf nguyeenx" in Chrome (combining output)
+        // produced "tuyềnguyễn" — the space was deleted because replacement
+        // backspaces were counted in UTF-16 units (ề = 3) instead of grapheme
+        // clusters (ề = 1), over-deleting the preceding space.
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        let firstWord: [(String, UInt16)] = [
+            ("t", 17), ("u", 32), ("y", 16), ("e", 14), ("e", 14), ("n", 45), ("f", 3),
+        ]
+        for (character, keyCode) in firstWord {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let spaceEvent = keyEvent(character: " ", keyCode: 49)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: spaceEvent, keyCode: 49)
+        XCTAssertFalse(pipeline.isComposing, "Space commit should end composition")
+
+        let secondWord: [(String, UInt16)] = [
+            ("n", 45), ("g", 5), ("u", 32), ("y", 16), ("e", 14), ("e", 14), ("n", 45), ("x", 7),
+        ]
+        for (character, keyCode) in secondWord {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+
+        // Replay the posted events into a fake field: unicode keyDowns insert
+        // text, physical backspace (keyCode 51) deletes one grapheme cluster.
+        var field = ""
+        for event in posted where event.type == .keyDown {
+            if event.getIntegerValueField(.keyboardEventKeycode) == 51 {
+                if !field.isEmpty { field.removeLast() }
+            } else {
+                field += unicodeText(of: event)
+            }
+        }
+
+        let visible = field
+            .replacingOccurrences(of: "​", with: "")
+            .replacingOccurrences(of: " ", with: "")
+        XCTAssertEqual(visible, "tuyền nguyễn")
+    }
 }
