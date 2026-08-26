@@ -105,10 +105,23 @@ final class StatusItemController {
     private var statusPopover: NSPopover?
     private let popoverCloseObserver = PopoverCloseObserver()
     private var appAppearanceObservation: NSKeyValueObservation?
-    private var statusItemAppearanceObservation: NSKeyValueObservation?
     private var localClickRegistration: PopoverMonitorRegistration?
     private var globalClickRegistration: PopoverMonitorRegistration?
     private var externalPopoverCloseHandler: (() -> Void)?
+    private var lastIconKey: StatusIconKey?
+    private var lastIconImage: NSImage?
+
+    /// Inputs that determine the rendered status-bar icon. Used to skip
+    /// redundant redraws when nothing visible changed.
+    private struct StatusIconKey: Equatable {
+        var style: SystemOptions.MenuBarIconStyle
+        var language: InputLanguage
+        var health: KeyboardService.Health
+        var paused: Bool
+        var grayIcon: Bool
+        var scale: SystemOptions.MenuBarIconScale
+        var appearanceName: String
+    }
 
     /// Test seam: substitutes the popover close action so dismissal can be
     /// observed without a live popover window.
@@ -144,7 +157,9 @@ final class StatusItemController {
         item.button?.action = #selector(statusItemClicked(_:))
         item.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
         statusItem = item
-        observeStatusItemAppearance(button: item.button)
+        item.button?.imagePosition = .imageOnly
+        item.button?.title = ""
+        observeStatusItemAppearance()
 
         let popover = NSPopover()
         // Clipboard and translation panels explicitly close this popover before
@@ -284,6 +299,23 @@ final class StatusItemController {
         let scale = settings.system.menuBarIconScale.factor
 
         let appearance = button.effectiveAppearance
+        let iconKey = StatusIconKey(
+            style: settings.system.menuBarIconStyle,
+            language: language,
+            health: keyboardHealth,
+            paused: keyboardPaused,
+            grayIcon: grayIcon,
+            scale: settings.system.menuBarIconScale,
+            appearanceName: appearance.name.rawValue
+        )
+        if iconKey == lastIconKey {
+            if let cached = lastIconImage, button.image !== cached {
+                button.image = cached
+            }
+            return
+        }
+        lastIconKey = iconKey
+
         let image: NSImage?
         let tintColor: NSColor?
         if keyboardPaused {
@@ -311,8 +343,6 @@ final class StatusItemController {
         }
 
         button.image = image
-        button.imagePosition = .imageOnly
-        button.title = ""
         button.contentTintColor = tintColor
         button.setAccessibilityLabel(
             localization.format(.a11yMenuBarState, menuBarStateTitle(
@@ -321,6 +351,7 @@ final class StatusItemController {
                 keyboardPaused: keyboardPaused
             ))
         )
+        lastIconImage = image
     }
 
     func menuBarStateTitle(
@@ -348,8 +379,6 @@ final class StatusItemController {
     func teardown() {
         appAppearanceObservation?.invalidate()
         appAppearanceObservation = nil
-        statusItemAppearanceObservation?.invalidate()
-        statusItemAppearanceObservation = nil
         stopOutsideClickMonitoring()
         statusPopover?.performClose(nil)
         statusItem = nil
@@ -363,7 +392,7 @@ final class StatusItemController {
         ).localized()
     }
 
-    private func observeStatusItemAppearance(button: NSStatusBarButton?) {
+    private func observeStatusItemAppearance() {
         if appAppearanceObservation == nil {
             appAppearanceObservation = NSApp.observe(
                 \.effectiveAppearance,
@@ -372,16 +401,6 @@ final class StatusItemController {
                 Task { @MainActor [weak self] in
                     self?.onAppearanceChange?()
                 }
-            }
-        }
-
-        statusItemAppearanceObservation?.invalidate()
-        statusItemAppearanceObservation = button?.observe(
-            \.effectiveAppearance,
-            options: [.new]
-        ) { [weak self] _, _ in
-            Task { @MainActor [weak self] in
-                self?.onAppearanceChange?()
             }
         }
     }
