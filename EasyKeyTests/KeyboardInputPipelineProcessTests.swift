@@ -653,8 +653,94 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         }
 
         let visible = field
-            .replacingOccurrences(of: "​", with: "")
-            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "\u{200B}", with: "")
+            .replacingOccurrences(of: "\u{202F}", with: "")
         XCTAssertEqual(visible, "tuyền nguyễn")
+    }
+
+    func testProcess_SpotlightContext_DoesNotInheritPreviousAppChromiumWorkarounds() {
+        // Spotlight is an agent overlay that fires no activation event, so the
+        // pipeline must not apply the previous app's (Chrome) compatibility
+        // workarounds: no zero-width space after a space commit, no combining
+        // diacritic output.
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            spotlightVisibilityProvider: { true },
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        for (character, keyCode) in [("x", UInt16(6)), ("i", 34), ("n", 45)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let space = keyEvent(character: " ", keyCode: 49)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: space, keyCode: 49)
+
+        let inserted = posted.compactMap { event -> String? in
+            guard event.type == .keyDown else { return nil }
+            let text = unicodeText(of: event)
+            return text.isEmpty ? nil : text
+        }.joined()
+
+        XCTAssertFalse(inserted.contains("\u{200B}"), "Spotlight must not receive a zero-width space")
+    }
+
+    func testProcess_OpeningSpotlight_MidSession_ReconfiguresEngineAwayFromChromium() {
+        // After the context flips to Spotlight (no activation event), the
+        // engine configuration must be rebuilt with the Spotlight rule: typing
+        // must use precomposed output (no combining marks) and no zero-width
+        // space may follow a space commit.
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        var spotlightVisible = false
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            spotlightVisibilityProvider: { spotlightVisible },
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        // While Chrome is active (not Spotlight), typing commits with a
+        // zero-width space — the Chromium workaround applies.
+        for (character, keyCode) in [("x", UInt16(6)), ("i", 34), ("n", 45)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let space = keyEvent(character: " ", keyCode: 49)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: space, keyCode: 49)
+
+        // Spotlight opens: flip visibility and invalidate the cache with a
+        // mouse event (as the real tap does).
+        spotlightVisible = true
+        guard let mouse = CGEvent(source: nil) else {
+            XCTFail("Could not create event")
+            return
+        }
+        _ = pipeline.process(proxy: fakeProxy(), type: .leftMouseDown, event: mouse, keyCode: nil)
+
+        posted.removeAll()
+        for (character, keyCode) in [("t", UInt16(17)), ("u", 32), ("y", 16), ("e", 14), ("e", 14), ("n", 45), ("f", 3)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let secondSpace = keyEvent(character: " ", keyCode: 49)
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: secondSpace, keyCode: 49)
+
+        let inserted = posted.compactMap { event -> String? in
+            guard event.type == .keyDown else { return nil }
+            let text = unicodeText(of: event)
+            return text.isEmpty ? nil : text
+        }.joined()
+
+        XCTAssertFalse(inserted.contains("\u{200B}"), "Spotlight must not receive a zero-width space")
+        XCTAssertFalse(
+            inserted.unicodeScalars.contains(where: { $0.value == 0x0300 || $0.value == 0x0302 }),
+            "Spotlight typing must use precomposed output, not combining diacritics"
+        )
     }
 }

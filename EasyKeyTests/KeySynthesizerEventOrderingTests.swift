@@ -110,7 +110,7 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
         // clusters in the receiving app, so the word commit must post exactly
         // 5 backspaces; UTF-16 counting posted 7 and ate the preceding space.
         let synthesizer = makeSynthesizer()
-        synthesizer.trackEncodedUnits(["t", "u", "y", "ề", "n"])
+        synthesizer.trackEncodedUnits(["t", "u", "y", "e\u{0302}\u{0300}", "n"])
 
         let strategy = synthesizer.replaceBackward(
             proxy: fakeProxy(),
@@ -126,7 +126,7 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
 
     func testReplaceBackward_SingleCombiningVowel_PostsOneBackspace() {
         let synthesizer = makeSynthesizer()
-        synthesizer.trackEncodedUnits(["ề"])
+        synthesizer.trackEncodedUnits(["e\u{0302}\u{0300}"])
 
         _ = synthesizer.replaceBackward(
             proxy: fakeProxy(),

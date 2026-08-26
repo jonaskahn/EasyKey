@@ -14,6 +14,7 @@ final class KeyboardInputPipeline {
     private var macroExpander = MacroExpander()
     private var activeBundleIdentifier: String?
     private var usesForeignInputSource = false
+    private var lastAppliedRule: AppCompatibilityRule?
     private let chromiumResolver: ChromiumAddressBarContextResolver
     private let spotlightResolver: SpotlightContextResolver
     private let cmdCDoublePressDetector = CommandCDoublePressDetector()
@@ -41,13 +42,15 @@ final class KeyboardInputPipeline {
     }
 
     func update(settings: EasyKeySettings) {
+        let rule = currentCompatibilityRule()
         let oldConfig = engine.configuration
-        let newConfig = Self.engineConfiguration(for: settings, rule: currentCompatibilityRule())
+        let newConfig = Self.engineConfiguration(for: settings, rule: rule)
         self.settings = settings
         if oldConfig != newConfig {
             engine.configuration = newConfig
             resetSession()
         }
+        lastAppliedRule = rule
     }
 
     func update(macros: [Macro]) {
@@ -72,9 +75,11 @@ final class KeyboardInputPipeline {
 
     func setActiveApplication(_ bundleIdentifier: String?) {
         activeBundleIdentifier = bundleIdentifier
-        engine.configuration = Self.engineConfiguration(for: settings, rule: currentCompatibilityRule())
         invalidateAddressBarCache()
         invalidateSpotlightCache()
+        let rule = currentCompatibilityRule()
+        engine.configuration = Self.engineConfiguration(for: settings, rule: rule)
+        lastAppliedRule = rule
         resetSession()
     }
 
@@ -169,6 +174,18 @@ final class KeyboardInputPipeline {
             engine.reset()
             synthesizer.resetEncodedUnits()
             return .bypassed
+        }
+
+        // Spotlight is an agent overlay: opening it fires no activation event,
+        // so the previous app's compatibility rule would otherwise leak into
+        // Spotlight (zero-width spaces, combining output, autocomplete
+        // breaks). Re-derive the effective rule per event and rebuild the
+        // engine configuration when the context flips.
+        let effectiveRule = currentCompatibilityRule()
+        if effectiveRule != lastAppliedRule {
+            engine.configuration = Self.engineConfiguration(for: settings, rule: effectiveRule)
+            lastAppliedRule = effectiveRule
+            resetSession()
         }
 
         let normalized = Self.normalize(event: event, keyCode: keyCode)
@@ -349,7 +366,13 @@ final class KeyboardInputPipeline {
     }
 
     private func currentCompatibilityRule() -> AppCompatibilityRule? {
-        AppCompatibility.rule(
+        if isSpotlightContext() {
+            return AppCompatibility.rule(
+                for: "com.apple.Spotlight",
+                compatibilityModeApplicationBundleIdentifiers: settings.compatibility.compatibilityModeApplicationBundleIdentifiers
+            )
+        }
+        return AppCompatibility.rule(
             for: activeBundleIdentifier,
             compatibilityModeApplicationBundleIdentifiers: settings.compatibility.compatibilityModeApplicationBundleIdentifiers
         )
