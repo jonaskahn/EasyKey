@@ -102,7 +102,7 @@ EasyKey is a private-by-design macOS menu-bar utility. This page states the secu
 
 ## Supported scope
 
-The current release is **0.0.10**, matching `MARKETING_VERSION` in the Xcode project and the version badge in [README.md](README.md). There is no documented support window for older versions; treat the latest release as the supported one.
+The current release is **0.0.13**, matching `MARKETING_VERSION` in the Xcode project and the version badge in [README.md](README.md). There is no documented support window for older versions; treat the latest release as the supported one.
 
 In scope for security review and reports:
 
@@ -118,7 +118,7 @@ This repository publishes no issue template and no dedicated private reporting a
 
 What to include in a report:
 
-- Steps to reproduce, with the app version (for example 0.0.10) and macOS version.
+- Steps to reproduce, with the app version (for example 0.0.13) and macOS version.
 - What you believe the impact is, and which data or capability is affected.
 - Any configuration that matters (permissions granted, providers configured, persistence enabled).
 
