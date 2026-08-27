@@ -139,6 +139,36 @@ final class KeySynthesizerEventOrderingTests: XCTestCase {
         XCTAssertEqual(backspaceKeyDowns.count, 1, "one grapheme must post one backspace, not 3")
     }
 
+    func testReplaceBackward_CodePointUnit_PostsUtf16CountBackspaces() {
+        // Chrome/Blink web-page fields delete one UTF-16 code unit per
+        // backspace. "tuyền" with combining output is t,u,y,ề(e+U+0302+U+0300),n
+        // = 7 code units; posting only 5 backspaces under-deletes, leaving
+        // part of "ề" behind and producing the duplicated-character
+        // regression reported in Chrome ("ttututuyền").
+        let synthesizer = makeSynthesizer()
+        synthesizer.backspaceUnit = .codePoint
+        synthesizer.trackEncodedUnits(["t", "u", "y", "e\u{0302}\u{0300}", "n"])
+
+        let strategy = synthesizer.replaceBackward(
+            proxy: fakeProxy(),
+            deleteCount: 5,
+            insert: "tuyền",
+            encodedUnits: []
+        )
+        XCTAssertEqual(strategy, .physicalBackspace)
+
+        let backspaceKeyDowns = posted.filter { $0.keyCode == 51 && $0.isKeyDown }
+        XCTAssertEqual(backspaceKeyDowns.count, 7, "code-point semantics must post 7 backspaces for 7 UTF-16 units")
+    }
+
+    func testAutocompleteBreakCharacter_IsSingleConfiguredConstant() {
+        // The omnibox autocomplete-break character is a single named constant
+        // so the workaround can be flipped in one place (e.g. to U+200B or
+        // U+2060) if a future Chrome changes how it handles the character.
+        XCTAssertEqual(KeySynthesizer.autocompleteBreakCharacter.unicodeScalars.count, 1)
+        XCTAssertEqual(KeySynthesizer.autocompleteBreakCharacter, "\u{202F}")
+    }
+
     func testPostMacroExpansion_SelectionReplacement_OrderIsSelectionThenInsertionThenDelimiter() {
         let synthesizer = makeSynthesizer()
         XCTAssertTrue(

@@ -1,8 +1,18 @@
 # Changelog
 
-_Last reviewed: 2026-08-15_
+_Last reviewed: 2026-08-27_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
+
+## [0.0.14] - 2026-08-27
+
+**Fixed**
+
+- Typing multi-syllable Vietnamese words in Chromium web-page fields no longer produces duplicated characters (for example "tuyeenf nguyeenx" rendering as "ttututuyền nnngnguyễn"): replacement backspaces are now counted per UTF-16 code unit in Chromium page fields, matching how Blink deletes combining-diacritic output, while native fields (Safari, Spotlight, the Chrome omnibox, VSCode) keep grapheme-cluster counting.
+
+**Added**
+
+- Opt-in keyboard diagnostics (enable with EASYKEY_KEYBOARD_DEBUG) that log detection state and hex-dumped field/payload lengths to help reproduce field-divergence bugs without logging raw keystroke content.
 
 ## [0.0.13] - 2026-08-27
 

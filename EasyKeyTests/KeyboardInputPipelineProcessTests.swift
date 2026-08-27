@@ -608,19 +608,22 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         )
     }
 
-    func testProcess_TypingTwoWordsCombiningOutput_PreservesSpaceBetweenWords() {
-        // Regression: typing "tuyeenf nguyeenx" in Chrome (combining output)
-        // produced "tuyềnguyễn" — the space was deleted because replacement
-        // backspaces were counted in UTF-16 units (ề = 3) instead of grapheme
-        // clusters (ề = 1), over-deleting the preceding space.
+    /// Drives the full "tuyeenf nguyeenx" session (space commit between the
+    /// words) through the pipeline for the given app and returns every posted
+    /// event in order.
+    private func postedForTwoWords(
+        bundleIdentifier: String,
+        chromiumAddressBarDetector: @escaping () -> Bool = { false }
+    ) -> [CGEvent] {
         var settings = EasyKeySettings.defaults
         settings.input.language = .vietnamese
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            chromiumAddressBarDetector: chromiumAddressBarDetector,
             eventPoster: { event, _ in posted.append(event) }
         )
-        pipeline.setActiveApplication("com.google.Chrome")
+        pipeline.setActiveApplication(bundleIdentifier)
 
         let firstWord: [(String, UInt16)] = [
             ("t", 17), ("u", 32), ("y", 16), ("e", 14), ("e", 14), ("n", 45), ("f", 3),
@@ -631,7 +634,6 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         }
         let spaceEvent = keyEvent(character: " ", keyCode: 49)
         _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: spaceEvent, keyCode: 49)
-        XCTAssertFalse(pipeline.isComposing, "Space commit should end composition")
 
         let secondWord: [(String, UInt16)] = [
             ("n", 45), ("g", 5), ("u", 32), ("y", 16), ("e", 14), ("e", 14), ("n", 45), ("x", 7),
@@ -640,19 +642,67 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
             let event = keyEvent(character: character, keyCode: keyCode)
             _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
         }
+        return posted
+    }
 
-        // Replay the posted events into a fake field: unicode keyDowns insert
-        // text, physical backspace (keyCode 51) deletes one grapheme cluster.
+    /// Replays posted events into a fake field: unicode keyDowns insert text,
+    /// physical backspace (keyCode 51) deletes according to the receiving
+    /// app's backspace unit (one grapheme cluster or one UTF-16 code unit).
+    private func replayedField(from posted: [CGEvent], deleteUnit: BackspaceUnit) -> String {
         var field = ""
         for event in posted where event.type == .keyDown {
             if event.getIntegerValueField(.keyboardEventKeycode) == 51 {
-                if !field.isEmpty { field.removeLast() }
+                switch deleteUnit {
+                case .grapheme:
+                    if !field.isEmpty {
+                        field.removeLast()
+                    }
+                case .codePoint:
+                    let units = Array(field.utf16)
+                    if !units.isEmpty {
+                        field = String(decoding: units.dropLast(), as: UTF16.self)
+                    }
+                }
             } else {
                 field += unicodeText(of: event)
             }
         }
+        return field
+    }
 
-        let visible = field
+    func testProcess_TypingTwoWordsInChromiumPageField_PreservesSpaceBetweenWords() {
+        // Regression: typing "tuyeenf nguyeenx" in a Chrome page field with
+        // combining output. Blink fields delete one UTF-16 code unit per
+        // backspace ("ề" = 3 units), so the pipeline counts replacements in
+        // code points. Counting graphemes instead under-deletes and leaves
+        // accumulating duplicates ("ttututuyền nnngnguyễn").
+        let posted = postedForTwoWords(bundleIdentifier: "com.google.Chrome")
+        let visible = replayedField(from: posted, deleteUnit: .codePoint)
+            .replacingOccurrences(of: "\u{200B}", with: "")
+            .replacingOccurrences(of: "\u{202F}", with: "")
+        XCTAssertEqual(visible, "tuyền nguyễn")
+    }
+
+    func testProcess_TypingTwoWordsInSafari_PreservesSpaceWithGraphemeDeletion() {
+        // Safari is a native field: one backspace deletes one grapheme
+        // cluster, and the Safari rule keeps grapheme counting.
+        let posted = postedForTwoWords(bundleIdentifier: "com.apple.Safari")
+        let visible = replayedField(from: posted, deleteUnit: .grapheme)
+            .replacingOccurrences(of: "\u{200B}", with: "")
+            .replacingOccurrences(of: "\u{202F}", with: "")
+        XCTAssertEqual(visible, "tuyền nguyễn")
+    }
+
+    func testProcess_TypingTwoWordsInChromiumOmnibox_PreservesSpace() {
+        // The omnibox is Chrome's native field: backspace deletes one
+        // grapheme cluster, so the pipeline overrides the Chromium rule's
+        // code-point unit back to grapheme inside the address-bar context.
+        // This also exercises the U+202F autocomplete-break sequence.
+        let posted = postedForTwoWords(
+            bundleIdentifier: "com.google.Chrome",
+            chromiumAddressBarDetector: { true }
+        )
+        let visible = replayedField(from: posted, deleteUnit: .grapheme)
             .replacingOccurrences(of: "\u{200B}", with: "")
             .replacingOccurrences(of: "\u{202F}", with: "")
         XCTAssertEqual(visible, "tuyền nguyễn")

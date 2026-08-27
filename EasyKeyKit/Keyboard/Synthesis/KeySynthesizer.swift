@@ -14,6 +14,7 @@ public final class KeySynthesizer {
     }
 
     private struct EncodedUnit {
+        let utf16Count: Int
         let graphemeCount: Int
     }
 
@@ -25,10 +26,27 @@ public final class KeySynthesizer {
 
     private static let selfPostedEventMarker: Int64 = 0x45_4153_594B_4559
 
+    /// Character posted ahead of a replacement to break Chromium's inline
+    /// autocomplete so the following backspaces and insertion act on the
+    /// user's text instead of the suggestion. U+202F (narrow no-break space)
+    /// is a space separator: the omnibox treats it as a query boundary, which
+    /// is exactly why inserting it (then immediately deleting it) resets the
+    /// autocomplete session. Kept as a single named constant so the character
+    /// can be swapped in one place — e.g. U+200B (zero-width space, already
+    /// used for the non-omnibox Chromium workaround) or U+2060 (word joiner)
+    /// — if a future Chrome version stops accepting or deleting it.
+    static let autocompleteBreakCharacter = "\u{202F}"
+
     private let eventFactory: EventFactory
     private let eventPoster: EventPoster
     private var encodedUnitStack: [EncodedUnit] = []
     private var pendingEmptyCharacter = false
+
+    /// How the receiving app's backspace deletes text; drives backspace
+    /// counting for replacements. The pipeline sets this per app/context:
+    /// Chromium web-page fields use .codePoint, everything else (Safari,
+    /// Spotlight, the Chromium omnibox, VSCode) uses .grapheme.
+    var backspaceUnit: BackspaceUnit = .grapheme
 
     public init() {
         let eventSource = CGEventSource(stateID: .privateState)
@@ -111,7 +129,7 @@ public final class KeySynthesizer {
 
         let shouldBreakAutocomplete = breakAutocomplete
         guard let insertionEvents = makeUnicodeEvents(text),
-              let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? "\u{202F}" : ""),
+              let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? Self.autocompleteBreakCharacter : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
                   keyCode: KeyboardKeyCode.backspace,
                   modifiers: [],
@@ -195,7 +213,7 @@ public final class KeySynthesizer {
 
         let physicalCount = macroExpansionDeleteCount(backspaceCount)
         guard let insertionEvents = makeUnicodeEvents(text),
-              let breakEvents = makeUnicodeEvents(breakAutocomplete ? "\u{202F}" : ""),
+              let breakEvents = makeUnicodeEvents(breakAutocomplete ? Self.autocompleteBreakCharacter : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
                   keyCode: KeyboardKeyCode.backspace,
                   modifiers: [],
@@ -220,7 +238,7 @@ public final class KeySynthesizer {
             physicalCount += 1
             pendingEmptyCharacter = false
         }
-        physicalCount += removeEncodedUnitGraphemes(deleteCount)
+        physicalCount += removeEncodedUnits(deleteCount)
         return physicalCount
     }
 
@@ -231,13 +249,13 @@ public final class KeySynthesizer {
             selectionCount += 1
             pendingEmptyCharacter = false
         }
-        selectionCount += removeEncodedUnitGraphemes(deleteCount)
+        selectionCount += removeEncodedUnits(deleteCount)
         return selectionCount
     }
 
     func trackEncodedUnits(_ encodedUnits: [String]) {
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(graphemeCount: $0.count)
+            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
         })
     }
 
@@ -276,6 +294,10 @@ public final class KeySynthesizer {
     }
 
     private func post(_ events: [UnicodeEventPair], proxy: CGEventTapProxy, encodedUnits: [String]) {
+        if AppLog.isKeyboardDebugEnabled {
+            let payloads = events.map { AppLog.hexDump($0.chunk) }.joined(separator: " | ")
+            AppLog.keyboardDebug("post unicode payloads=[\(payloads)]")
+        }
         for event in events {
             let keyDown = event.keyDown
             let keyUp = event.keyUp
@@ -290,24 +312,34 @@ public final class KeySynthesizer {
         }
 
         encodedUnitStack.append(contentsOf: encodedUnits.map {
-            EncodedUnit(graphemeCount: $0.count)
+            EncodedUnit(utf16Count: $0.utf16.count, graphemeCount: $0.count)
         })
     }
 
     private func physicalDeleteCount(_ logicalCount: Int) -> Int {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
-        // Physical backspace deletes one extended grapheme cluster in the
-        // receiving app, so count graphemes rather than UTF-16 units. With
-        // combining diacritic output (e.g. "ề" = e + U+0302 + U+0300) UTF-16
-        // counting over-deletes and eats the preceding character/space.
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemeCount }
+        // The number of physical backspaces must match how the receiving app
+        // deletes: one grapheme cluster per backspace (Safari, Spotlight, the
+        // omnibox) or one UTF-16 code unit per backspace (Chromium web-page
+        // fields). Counting in the wrong unit under-deletes (leaving duplicate
+        // characters) or over-deletes (eating the preceding space).
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + unitLength($1) }
     }
 
     private func selectionDeleteCount(_ logicalCount: Int) -> Int {
         let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + $1.graphemeCount }
+        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + unitLength($1) }
+    }
+
+    private func unitLength(_ unit: EncodedUnit) -> Int {
+        switch backspaceUnit {
+        case .grapheme:
+            return unit.graphemeCount
+        case .codePoint:
+            return unit.utf16Count
+        }
     }
 
     private func macroExpansionDeleteCount(_ logicalCount: Int) -> Int {
@@ -324,14 +356,14 @@ public final class KeySynthesizer {
         return selectionDeleteCount(logicalCount)
     }
 
-    private func removeEncodedUnitGraphemes(_ logicalCount: Int) -> Int {
+    private func removeEncodedUnits(_ logicalCount: Int) -> Int {
         guard logicalCount > 0 else { return 0 }
-        var deletedGraphemes = 0
+        var deletedUnits = 0
         for _ in 0 ..< min(logicalCount, encodedUnitStack.count) {
             let unit = encodedUnitStack.removeLast()
-            deletedGraphemes += unit.graphemeCount
+            deletedUnits += unitLength(unit)
         }
-        return deletedGraphemes
+        return deletedUnits
     }
 
     private func makePhysicalKeyEvents(
@@ -356,6 +388,10 @@ public final class KeySynthesizer {
     }
 
     private func post(_ events: [(keyDown: CGEvent, keyUp: CGEvent)], proxy: CGEventTapProxy) {
+        if AppLog.isKeyboardDebugEnabled {
+            let keyCodes = events.map { "\($0.keyDown.getIntegerValueField(.keyboardEventKeycode))" }.joined(separator: " ")
+            AppLog.keyboardDebug("post physical keyCodes=[\(keyCodes)]")
+        }
         for event in events {
             eventPoster(event.keyDown, proxy)
             eventPoster(event.keyUp, proxy)

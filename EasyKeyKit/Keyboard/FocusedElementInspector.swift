@@ -21,6 +21,15 @@ enum FocusedElementInspector {
         return false
     }
 
+    /// Reads the focused element's current value (the Chrome omnibox's or a
+    /// web input's text). Used by the gated keyboard debug facility to verify
+    /// the field's content matches the pipeline's model after each posted
+    /// batch; never called on the production event path.
+    static func focusedElementValue() -> String? {
+        guard let element = focusedElement() else { return nil }
+        return stringAttribute(element, kAXValueAttribute as String)
+    }
+
     private static func focusedElement() -> AXUIElement? {
         let systemWide = AXUIElementCreateSystemWide()
         var focused: CFTypeRef?

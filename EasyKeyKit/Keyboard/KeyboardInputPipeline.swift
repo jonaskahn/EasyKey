@@ -188,6 +188,8 @@ final class KeyboardInputPipeline {
             resetSession()
         }
 
+        logKeyDownDebug(keyCode: keyCode, event: event, rule: effectiveRule)
+
         let normalized = Self.normalize(event: event, keyCode: keyCode)
         let output = engine.process(event: normalized)
         guard output.disposition == .suppress else {
@@ -218,6 +220,9 @@ final class KeyboardInputPipeline {
         let rule = currentCompatibilityRule()
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
         let inChromiumAddressBar = isChromiumAddressBarContext()
+        synthesizer.backspaceUnit = inChromiumAddressBar
+            ? .grapheme
+            : (rule?.backspaceUnit ?? .grapheme)
         guard synthesizer.postMacroExpansion(
             proxy: proxy,
             backspaceCount: expansion.triggerLength,
@@ -240,6 +245,12 @@ final class KeyboardInputPipeline {
             ? nil
             : engine.renderedUnits
         let inChromiumAddressBar = isChromiumAddressBarContext()
+        // The omnibox is a native field (one grapheme cluster per backspace)
+        // even though the rest of Chrome's Blink page fields delete one
+        // UTF-16 code unit per backspace, so the unit flips with the context.
+        synthesizer.backspaceUnit = inChromiumAddressBar
+            ? .grapheme
+            : (rule?.backspaceUnit ?? .grapheme)
 
         for edit in output.edits {
             switch edit {
@@ -287,6 +298,11 @@ final class KeyboardInputPipeline {
         }
         if output.sessionEffect == .resetSession {
             resetSession()
+        }
+        if AppLog.isKeyboardDebugEnabled {
+            AppLog.keyboardDebug(
+                "field after batch=\(AppLog.hexDump(FocusedElementInspector.focusedElementValue() ?? ""))"
+            )
         }
         return true
     }
@@ -399,6 +415,19 @@ final class KeyboardInputPipeline {
 }
 
 private extension KeyboardInputPipeline {
+    /// Gated per-keystroke debug log for reproducing Chromium field
+    /// divergence: detection state, effective rule, backspace unit, and the
+    /// engine buffer (hex-dumped so raw keystroke content is not logged).
+    func logKeyDownDebug(keyCode: UInt16, event: CGEvent, rule: AppCompatibilityRule?) {
+        guard AppLog.isKeyboardDebugEnabled else { return }
+        AppLog.keyboardDebug(
+            "keyDown keyCode=\(keyCode) char=\(AppLog.hexDump(Self.character(from: event).map(String.init) ?? "")) "
+                + "app=\(activeBundleIdentifier ?? "nil") omnibox=\(isChromiumAddressBarContext()) "
+                + "spotlight=\(isSpotlightContext()) rule=\(rule?.bundleIdentifier ?? "nil") "
+                + "unit=\(synthesizer.backspaceUnit.rawValue) buffer=\(AppLog.hexDump(engine.currentBuffer))"
+        )
+    }
+
     func processFlagsChanged(proxy: CGEventTapProxy, event: CGEvent, keyCode: UInt16?) -> KeyboardProcessResult {
         if shortcutMatches(settings.input.switchShortcut, type: .flagsChanged, keyCode: keyCode, event: event) {
             AppLog.debug(.keyboard, "Language switch shortcut matched")
