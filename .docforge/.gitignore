@@ -4,7 +4,7 @@ audits/
 scratch/
 backups/
 cache/
+obsolete/
 *.tmp
 *.log
 dashboard/
-obsolete/

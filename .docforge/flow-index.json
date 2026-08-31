@@ -1,305 +1,4250 @@
 {
-  "version": "1.1",
-  "generated_at": "2026-08-03T08:35:56+00:00",
+  "version": "1.3",
+  "generated_at": "2026-08-27T10:30:33+00:00",
   "project": "EasyKey",
   "sources": [
-    ".docforge/tmp/flow-graph.json (docforge-derived)"
+    ".docforge/tmp/gitnexus-flows.json"
   ],
   "providers": [
-    "codegraph"
+    "gitnexus"
   ],
   "summary": {
-    "total": 7,
-    "main": 3,
-    "deferred": 4,
+    "total": 93,
+    "main": 40,
+    "deferred": 53,
     "placeholder": 0,
-    "documented": 3,
-    "skipped": 0,
+    "documented": 6,
+    "written": 0,
+    "skipped": 34,
     "confirmed": 0
   },
   "flows": [
     {
-      "name": "Clipboard history capture, persistence, and restore",
-      "slug": "clipboard-history",
-      "id": "flow-clipboard-history",
-      "display_name": "Clipboard history capture, persistence, and restore",
+      "name": "AppCoordinator.configureStatusItemController#0",
       "entry_ref": {
-        "kind": "internal",
-        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
-        "symbol": "clipboard-history"
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.configureStatusItemController#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "symbol": "AppCoordinator.configureStatusItemController#0"
       },
+      "area": "comm_245, comm_253, comm_60, comm_64, comm_66, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.configureStatusItemController#0",
+          "processIds": [
+            "proc_105_configurestatusitemc",
+            "proc_106_configurestatusitemc",
+            "proc_11_configurestatusitemc"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.presentSettingsWindow#0",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.closePopover#0"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 3,
         "steps": 7,
-        "churn": 0
+        "boundaries": 5,
+        "churn": 14
       },
-      "rank": 100,
+      "rank": 883,
+      "slug": "appcoordinator-configurestatusitemcontroller-0",
+      "id": "flow-appcoordinator-configurestatusitemcontroller-0",
       "priority": "main",
-      "status": "documented",
+      "status": "skipped",
+      "display_name": "AppCoordinator.configureStatusItemController#0",
       "family": null,
       "composed_into": null,
-      "doc_role": "standalone",
-      "doc_path": "docs/flows/clipboard-history.md",
-      "evidence": [
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Clipboard/ClipboardPersistence.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Clipboard/PasteboardWriter.swift"
-        }
-      ],
-      "area": [
-        "clipboard"
-      ]
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
     },
     {
-      "name": "Translation via on-device or cloud providers",
-      "slug": "translation",
-      "id": "flow-translation",
-      "display_name": "Translation via on-device or cloud providers",
+      "name": "TranslationSettingsAccessibility.providerRow#1",
       "entry_ref": {
-        "kind": "internal",
-        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
-        "symbol": "translation"
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationSettingsAccessibility.providerRow#1",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift",
+        "symbol": "TranslationSettingsAccessibility.providerRow#1"
       },
+      "area": "comm_142, comm_152, comm_153, comm_217, comm_45, comm_67, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationSettingsAccessibility.providerRow#1",
+          "processIds": [
+            "proc_204_providerrow",
+            "proc_205_providerrow",
+            "proc_206_providerrow",
+            "proc_27_providerrow",
+            "proc_2_providerrow"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationSettingsAccessibility.providerDisclosure#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationSettingsAccessibility.providerSelection#1",
+            "Function:EasyKeyApp/Features/Translation/TranslationProviderIcon.swift:TranslationProviderIcon.badge#2",
+            "Struct:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:ProviderStatusBadge"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 3,
         "steps": 8,
-        "churn": 0
+        "boundaries": 6,
+        "churn": 14
       },
-      "rank": 100,
+      "rank": 738,
+      "slug": "translationsettingsaccessibility-providerrow-1",
+      "id": "flow-translationsettingsaccessibility-providerrow-1",
       "priority": "main",
-      "status": "documented",
+      "status": "skipped",
+      "display_name": "TranslationSettingsAccessibility.providerRow#1",
       "family": null,
       "composed_into": null,
-      "doc_role": "standalone",
-      "doc_path": "docs/flows/translation.md",
-      "evidence": [
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Translation/TranslationModel.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyEngineCore/Translation/TranslationProviderResolver.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Features/Translation/TranslationCredentialStore.swift"
-        }
-      ],
-      "area": [
-        "translation"
-      ]
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
     },
     {
-      "name": "Keyboard typing transformation (Telex/VNI)",
-      "slug": "keyboard-typing",
-      "id": "flow-keyboard-typing",
-      "display_name": "Keyboard typing transformation (Telex/VNI)",
+      "name": "Start app collaborators",
       "entry_ref": {
-        "kind": "internal",
-        "filePath": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
-        "symbol": "keyboard-typing"
+        "kind": "cli",
+        "signature": "Method:EasyKeyApp/Coordination/AppCoordinator.swift:ClipboardLifecycleManaging.start#1",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "ClipboardLifecycleManaging.start#1"
       },
+      "area": "comm_60, comm_7, comm_75, comm_83, comm_86, comm_91",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Method:EasyKeyApp/Coordination/AppCoordinator.swift:ClipboardLifecycleManaging.start#1",
+          "processIds": [
+            "proc_186_start",
+            "proc_187_start",
+            "proc_188_start",
+            "proc_189_start",
+            "proc_25_start",
+            "proc_26_start",
+            "proc_57_start",
+            "proc_58_start",
+            "proc_93_start"
+          ],
+          "terminalIds": [
+            "Enum:EasyEngineCore/Engine/InputMethod.swift:InputMethod",
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Coordination/StatusMenuActionTarget.swift:StatusMenuActionTarget.selectEnglish#1",
+            "Function:EasyKeyApp/Coordination/StatusMenuActionTarget.swift:StatusMenuActionTarget.selectVietnamese#1",
+            "Property:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.onAppearanceChange",
+            "Property:EasyKeyApp/Coordination/WorkspaceObserver.swift:WorkspaceObserver.onApplicationActivated",
+            "Property:EasyKeyApp/Coordination/WorkspaceObserver.swift:WorkspaceObserver.onResetSession",
+            "Property:EasyKeyApp/Coordination/WorkspaceObserver.swift:WorkspaceObserver.onWake",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 3,
         "steps": 6,
-        "churn": 0
+        "boundaries": 5,
+        "churn": 3
       },
-      "rank": 100,
+      "rank": 736,
+      "slug": "start-app-collaborators",
+      "id": "flow-clipboardlifecyclemanaging-start-1",
       "priority": "main",
       "status": "documented",
+      "display_name": "Start app collaborators",
       "family": null,
       "composed_into": null,
       "doc_role": "standalone",
-      "doc_path": "docs/flows/keyboard-typing.md",
-      "evidence": [
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyKit/Keyboard/KeyboardEventTap.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyKit/KeyboardService.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyKit/KeySynthesizer.swift"
-        }
-      ],
-      "area": [
-        "keyboard"
-      ]
+      "doc_path": "docs/flows/start-app-collaborators.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
     },
     {
-      "name": "Per-application language Smart Switch",
-      "slug": "smart-switch",
-      "id": "flow-smart-switch",
-      "display_name": "Per-application language Smart Switch",
+      "name": "TranslationProviderSettings.providerBody#1",
       "entry_ref": {
-        "kind": "internal",
-        "filePath": "EasyKeyApp/Coordination/WorkspaceObserver.swift",
-        "symbol": "smart-switch"
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationProviderSettings.providerBody#1",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift",
+        "symbol": "TranslationProviderSettings.providerBody#1"
       },
+      "area": "comm_131, comm_136, comm_142, comm_145, comm_149, comm_157, comm_162, comm_167",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:TranslationProviderSettings.providerBody#1",
+          "processIds": [
+            "proc_126_providerbody",
+            "proc_127_providerbody",
+            "proc_128_providerbody",
+            "proc_129_providerbody",
+            "proc_260_providerbody",
+            "proc_261_providerbody",
+            "proc_262_providerbody",
+            "proc_68_providerbody",
+            "proc_69_providerbody",
+            "proc_70_providerbody",
+            "proc_71_providerbody",
+            "proc_72_providerbody"
+          ],
+          "terminalIds": [
+            "Class:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:InMemoryTranslationCredentialStore",
+            "Function:EasyKeyApp/Features/Settings/Translation/LiveTranslationCredentialValidator.swift:LiveTranslationCredentialValidator.validateRequest#2",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:TranslationSettingsModel.canManageModels#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:TranslationSettingsModel.modelIdentifier#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsView.swift:AppleTranslationSettingsCard.openLanguageSettings#0",
+            "Function:EasyKeyTests/DeepLTranslationProviderTestSupport.swift:ThrowingCredentialStore.deleteCredential#1",
+            "Function:EasyKeyTests/TranslationModelCatalogTests.swift:RawInMemoryCredentialStore.deleteCredential#1",
+            "Function:EasyKeyTests/TranslationSettingsModelTests.swift:CredentialStoreSpy.deleteCredential#1",
+            "Function:EasyKeyTests/TranslationSettingsModelTests.swift:CredentialStoreSpy.save#2",
+            "Struct:EasyKeyApp/Features/Translation/DeepLTranslationProvider.swift:DeepLTranslationProvider",
+            "Struct:EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift:GoogleTranslationProvider",
+            "Struct:EasyKeyTests/TranslationSettingsModelTests.swift:Call"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 2,
-        "steps": 3,
-        "churn": 0
+        "steps": 5,
+        "boundaries": 7,
+        "churn": 14
       },
-      "rank": 100,
-      "priority": "deferred",
-      "status": "deferred",
+      "rank": 723,
+      "slug": "translationprovidersettings-providerbody-1",
+      "id": "flow-translationprovidersettings-providerbody-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationProviderSettings.providerBody#1",
       "family": null,
       "composed_into": null,
       "doc_role": "index_only",
       "doc_path": null,
-      "evidence": [
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Coordination/WorkspaceObserver.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Coordination/SmartSwitchController.swift"
-        }
-      ],
-      "area": [
-        "keyboard"
-      ]
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
     },
     {
-      "name": "Macro expansion from triggers",
-      "slug": "macro-expansion",
-      "id": "flow-macro-expansion",
-      "display_name": "Macro expansion from triggers",
+      "name": "ClipboardPanelView.row#1",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift:ClipboardPanelView.row#1",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift",
+        "symbol": "ClipboardPanelView.row#1"
+      },
+      "area": "comm_105, comm_106, comm_195, comm_75, comm_95",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift:ClipboardPanelView.row#1",
+          "processIds": [
+            "proc_109_row",
+            "proc_110_row",
+            "proc_111_row",
+            "proc_13_row",
+            "proc_247_row",
+            "proc_248_row",
+            "proc_249_row"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardRowPresenter.swift:ClipboardRowPresenter.formattedBytes#2",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardRowPresenter.swift:ClipboardRowPresenter.isUnavailable#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardRowPresenter.swift:ClipboardRowPresenter.normalizedTextPreview#2",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardRowPresenter.swift:ClipboardRowPresenter.relativeTime#3",
+            "Property:EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift:ClipboardPanelActions.copy",
+            "Property:EasyKeyApp/Features/Clipboard/ClipboardPanelView.swift:ClipboardPanelActions.primary",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 7,
+        "boundaries": 4,
+        "churn": 6
+      },
+      "rank": 667,
+      "slug": "clipboardpanelview-row-1",
+      "id": "flow-clipboardpanelview-row-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardPanelView.row#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ClipboardLifecycleManaging.stop#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Method:EasyKeyApp/Coordination/AppCoordinator.swift:ClipboardLifecycleManaging.stop#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "ClipboardLifecycleManaging.stop#0"
+      },
+      "area": "comm_245, comm_252, comm_60, comm_7, comm_83",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Method:EasyKeyApp/Coordination/AppCoordinator.swift:ClipboardLifecycleManaging.stop#0",
+          "processIds": [
+            "proc_256_stop",
+            "proc_67_stop"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.stopOutsideClickMonitoring#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 4,
+        "churn": 3
+      },
+      "rank": 651,
+      "slug": "clipboardlifecyclemanaging-stop-0",
+      "id": "flow-clipboardlifecyclemanaging-stop-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardLifecycleManaging.stop#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "StatusItemController.statusItemClicked#1",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.statusItemClicked#1",
+        "filePath": "EasyKeyApp/Coordination/StatusItemController.swift",
+        "symbol": "StatusItemController.statusItemClicked#1"
+      },
+      "area": "comm_75, comm_86, comm_88",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.statusItemClicked#1",
+          "processIds": [
+            "proc_38_statusitemclicked",
+            "proc_39_statusitemclicked"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Coordination/StatusMenuBuilder.swift:StatusMenuBuilder.systemImage#1",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 2,
+        "churn": 13
+      },
+      "rank": 636,
+      "slug": "statusitemcontroller-statusitemclicked-1",
+      "id": "flow-statusitemcontroller-statusitemclicked-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "StatusItemController.statusItemClicked#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Open clipboard history",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.showClipboardPanel#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.showClipboardPanel#0"
+      },
+      "area": "comm_100, comm_101, comm_63, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.showClipboardPanel#0",
+          "processIds": [
+            "proc_0_showclipboardpanel",
+            "proc_29_showclipboardpanel",
+            "proc_30_showclipboardpanel",
+            "proc_31_showclipboardpanel",
+            "proc_6_showclipboardpanel"
+          ],
+          "terminalIds": [
+            "Class:EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift:ClipboardPanel",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelGeometry.swift:clipboardPanelOrigin",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift:ClipboardPanelPresenter.removeGlobalClickMonitor#0",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift:ClipboardPanelPresenter.screenContaining#1",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 10,
+        "boundaries": 3,
+        "churn": 3
+      },
+      "rank": 596,
+      "slug": "open-clipboard-history",
+      "id": "flow-appcoordinator-showclipboardpanel-0",
+      "priority": "main",
+      "status": "documented",
+      "display_name": "Open clipboard history",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/open-clipboard-history.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
+    },
+    {
+      "name": "KeyboardInputPipeline.processFlagsChanged#3",
       "entry_ref": {
         "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.processFlagsChanged#3",
         "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
-        "symbol": "macro-expansion"
+        "symbol": "KeyboardInputPipeline.processFlagsChanged#3"
       },
+      "area": "comm_107, comm_20, comm_35, comm_7, comm_8, comm_9",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.processFlagsChanged#3",
+          "processIds": [
+            "proc_184_processflagschanged",
+            "proc_185_processflagschanged",
+            "proc_21_processflagschanged",
+            "proc_22_processflagschanged",
+            "proc_23_processflagschanged",
+            "proc_24_processflagschanged",
+            "proc_55_processflagschanged",
+            "proc_56_processflagschanged",
+            "proc_91_processflagschanged",
+            "proc_92_processflagschanged"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.hexDump#1",
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.endLiteralToken#0",
+            "Function:EasyKeyKit/Keyboard/Processing/KeyboardMacroExpander.swift:MacroExpander.reset#0",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.resetEncodedUnits#0",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.utf16Chunks#1",
+            "Property:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.onLanguageToggleRequested",
+            "Struct:EasyKeyKit/Keyboard/Processing/KeyboardProcessResult.swift:KeyboardProcessResult",
+            "Struct:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:EncodedUnit",
+            "Struct:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:UnicodeEventPair"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 2,
-        "steps": 3,
-        "churn": 0
+        "steps": 6,
+        "boundaries": 5,
+        "churn": 21
       },
-      "rank": 100,
-      "priority": "deferred",
-      "status": "deferred",
+      "rank": 570,
+      "slug": "keyboardinputpipeline-processflagschanged-3",
+      "id": "flow-keyboardinputpipeline-processflagschanged-3",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "KeyboardInputPipeline.processFlagsChanged#3",
       "family": null,
       "composed_into": null,
       "doc_role": "index_only",
       "doc_path": null,
-      "evidence": [
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyEngineCore/Settings/MacroStore.swift"
-        }
-      ],
-      "area": [
-        "keyboard"
-      ]
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
     },
     {
-      "name": "Launch-at-login helper registration and watchdog",
-      "slug": "login-helper",
-      "id": "flow-login-helper",
-      "display_name": "Launch-at-login helper registration and watchdog",
+      "name": "KeyboardInputPipeline.processMacro#3",
       "entry_ref": {
         "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.processMacro#3",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.processMacro#3"
+      },
+      "area": "comm_107, comm_20, comm_235, comm_257, comm_40, comm_7, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.processMacro#3",
+          "processIds": [
+            "proc_180_processmacro",
+            "proc_181_processmacro",
+            "proc_182_processmacro",
+            "proc_48_processmacro",
+            "proc_85_processmacro",
+            "proc_86_processmacro",
+            "proc_87_processmacro",
+            "proc_88_processmacro",
+            "proc_89_processmacro",
+            "proc_90_processmacro"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0",
+            "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.endLiteralToken#0",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.matchCapitalization#2",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.markAsSelfPosted#1",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.selectionDeleteCount#1",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.utf16Chunks#1",
+            "Struct:EasyKeyKit/Keyboard/Context/AppCompatibility.swift:AppCompatibilityRule",
+            "Struct:EasyKeyKit/Keyboard/Processing/KeyboardMacroExpander.swift:MacroExpansion",
+            "Struct:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:UnicodeEventPair"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 6,
+        "churn": 21
+      },
+      "rank": 565,
+      "slug": "keyboardinputpipeline-processmacro-3",
+      "id": "flow-keyboardinputpipeline-processmacro-3",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "KeyboardInputPipeline.processMacro#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "VietnameseEngine.processBackspace#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processBackspace#0",
+        "filePath": "EasyEngineCore/Engine/VietnameseEngine.swift",
+        "symbol": "VietnameseEngine.processBackspace#0"
+      },
+      "area": "comm_11, comm_19, comm_20, comm_24, comm_25, comm_28",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processBackspace#0",
+          "processIds": [
+            "proc_10_processbackspace",
+            "proc_32_processbackspace",
+            "proc_62_processbackspace",
+            "proc_8_processbackspace",
+            "proc_9_processbackspace"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.d#2",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.isVowel#1",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.vowel#4",
+            "Function:EasyEngineCore/Engine/VietnameseOrthography.swift:VietnameseOrthography.isCheckedFinal#1",
+            "Struct:EasyEngineCore/Engine/TelexComposer.swift:Profile"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 7,
+        "boundaries": 5,
+        "churn": 15
+      },
+      "rank": 565,
+      "slug": "vietnameseengine-processbackspace-0",
+      "id": "flow-vietnameseengine-processbackspace-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "VietnameseEngine.processBackspace#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "BehaviorSettingsView.applicationRegistry#4",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:BehaviorSettingsView.applicationRegistry#4",
+        "filePath": "EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift",
+        "symbol": "BehaviorSettingsView.applicationRegistry#4"
+      },
+      "area": "comm_116, comm_45, comm_67, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:BehaviorSettingsView.applicationRegistry#4",
+          "processIds": [
+            "proc_100_applicationregistry",
+            "proc_101_applicationregistry",
+            "proc_1_applicationregistry",
+            "proc_214_applicationregistry",
+            "proc_215_applicationregistry"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:ApplicationBundleSelection.bundleIdentifier#1",
+            "Function:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:BehaviorSettingsView.appendUnique#2",
+            "Function:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:BehaviorSettingsView.applicationLabel#1",
+            "Struct:EasyKeyApp/Features/Settings/Behavior/BehaviorSettingsView.swift:ApplicationInfo"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 9,
+        "boundaries": 3,
+        "churn": 4
+      },
+      "rank": 563,
+      "slug": "behaviorsettingsview-applicationregistry-4",
+      "id": "flow-behaviorsettingsview-applicationregistry-4",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "BehaviorSettingsView.applicationRegistry#4",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Launch the menu-bar app",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/AppDelegate.swift:AppDelegate.applicationDidFinishLaunching#1",
+        "filePath": "EasyKeyApp/AppDelegate.swift",
+        "symbol": "AppDelegate.applicationDidFinishLaunching#1"
+      },
+      "area": "comm_162, comm_58, comm_60, comm_61, comm_75, comm_79",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/AppDelegate.swift:AppDelegate.applicationDidFinishLaunching#1",
+          "processIds": [
+            "proc_171_applicationdidfinish",
+            "proc_172_applicationdidfinish",
+            "proc_173_applicationdidfinish",
+            "proc_18_applicationdidfinish"
+          ],
+          "terminalIds": [
+            "Class:EasyKeyApp/Features/Clipboard/ClipboardServices.swift:ClipboardServices",
+            "Class:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:InMemoryTranslationCredentialStore",
+            "Class:EasyKeyApp/Settings/SettingsStore.swift:SettingsStore",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 5,
+        "churn": 9
+      },
+      "rank": 548,
+      "slug": "launch-menu-bar-app",
+      "id": "flow-appdelegate-applicationdidfinishlaunching-1",
+      "priority": "main",
+      "status": "documented",
+      "display_name": "Launch the menu-bar app",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/launch-menu-bar-app.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
+    },
+    {
+      "name": "MacroSettingsView.addSamples#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift:MacroSettingsView.addSamples#1",
+        "filePath": "EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift",
+        "symbol": "MacroSettingsView.addSamples#1"
+      },
+      "area": "comm_10, comm_38, comm_39, comm_71",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift:MacroSettingsView.addSamples#1",
+          "processIds": [
+            "proc_152_addsamples",
+            "proc_292_addsamples",
+            "proc_73_addsamples"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/EncodingCodec.swift:EncodingCodec.encode#2",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.save#1",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.validateFields#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 3,
+        "churn": 6
+      },
+      "rank": 547,
+      "slug": "macrosettingsview-addsamples-1",
+      "id": "flow-macrosettingsview-addsamples-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "MacroSettingsView.addSamples#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "StatusItemController.startOutsideClickMonitoring#0",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.startOutsideClickMonitoring#0",
+        "filePath": "EasyKeyApp/Coordination/StatusItemController.swift",
+        "symbol": "StatusItemController.startOutsideClickMonitoring#0"
+      },
+      "area": "comm_84, comm_85",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.startOutsideClickMonitoring#0",
+          "processIds": [
+            "proc_201_startoutsideclickmon",
+            "proc_202_startoutsideclickmon",
+            "proc_96_startoutsideclickmon"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:PopoverMonitorRegistration.invalidate#0",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:PopoverOutsideClickDecision.shouldClose#4",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.dismissPopover#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 13
+      },
+      "rank": 546,
+      "slug": "statusitemcontroller-startoutsideclickmonitoring-0",
+      "id": "flow-statusitemcontroller-startoutsideclickmonitoring-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "StatusItemController.startOutsideClickMonitoring#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardService.handleSystemWake#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.handleSystemWake#0",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardService.swift",
+        "symbol": "KeyboardService.handleSystemWake#0"
+      },
+      "area": "comm_107, comm_20, comm_245, comm_250, comm_253, comm_7, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.handleSystemWake#0",
+          "processIds": [
+            "proc_12_handlesystemwake",
+            "proc_33_handlesystemwake",
+            "proc_63_handlesystemwake",
+            "proc_64_handlesystemwake",
+            "proc_65_handlesystemwake"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0",
+            "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.endLiteralToken#0",
+            "Function:EasyKeyKit/Keyboard/Processing/KeyboardMacroExpander.swift:MacroExpander.reset#0",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.resetEncodedUnits#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 7,
+        "boundaries": 6,
+        "churn": 3
+      },
+      "rank": 541,
+      "slug": "recover-typing-after-sleep",
+      "id": "flow-keyboardservice-handlesystemwake-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "Recover typing after sleep",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Apply translation runtime settings",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.apply#1",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.apply#1"
+      },
+      "area": "comm_144, comm_146, comm_150, comm_200, comm_221, comm_52",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.apply#1",
+          "processIds": [
+            "proc_158_apply",
+            "proc_159_apply",
+            "proc_160_apply",
+            "proc_161_apply",
+            "proc_162_apply",
+            "proc_163_apply",
+            "proc_164_apply",
+            "proc_165_apply"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelActiveInFlightTranslation#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.clearStaleResultIfNeeded#0",
+            "Function:EasyKeyTests/TestSupport.swift:TestTranslationHotKeyRegistrar.unregister#1",
+            "Function:EasyKeyTests/TranslationPanelViewTests.swift:PanelSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/TranslationSpeechControllerTests.swift:FakeTranslationSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/ViewRenderingCoverageTests.swift:CoverageSpeechEngine.stopSpeaking#0",
+            "Property:EasyKeyTests/TranslationHotKeyControllerTests.swift:Operation.unregister"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 5,
+        "churn": 9
+      },
+      "rank": 538,
+      "slug": "apply-translation-runtime",
+      "id": "flow-apptranslationruntime-apply-1",
+      "priority": "main",
+      "status": "documented",
+      "display_name": "Apply translation runtime settings",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/apply-translation-runtime.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
+    },
+    {
+      "name": "AppCoordinator.restartKeyboardService#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.restartKeyboardService#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.restartKeyboardService#0"
+      },
+      "area": "comm_245, comm_246, comm_251, comm_252, comm_69, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.restartKeyboardService#0",
+          "processIds": [
+            "proc_108_restartkeyboardservi",
+            "proc_66_restartkeyboardservi"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyKit/Keyboard/Lifecycle/KeyboardSleepWakeObserver.swift:KeyboardSleepWakeObserver.install#2"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 5,
+        "churn": 3
+      },
+      "rank": 531,
+      "slug": "appcoordinator-restartkeyboardservice-0",
+      "id": "flow-appcoordinator-restartkeyboardservice-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "AppCoordinator.restartKeyboardService#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationDisclosureController.presentPrompt#2",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationDisclosureController.swift:TranslationDisclosureController.presentPrompt#2",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationDisclosureController.swift",
+        "symbol": "TranslationDisclosureController.presentPrompt#2"
+      },
+      "area": "comm_195, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationDisclosureController.swift:TranslationDisclosureController.presentPrompt#2",
+          "processIds": [
+            "proc_102_presentprompt"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 1
+      },
+      "rank": 522,
+      "slug": "translationdisclosurecontroller-presentprompt-2",
+      "id": "flow-translationdisclosurecontroller-presentprompt-2",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationDisclosureController.presentPrompt#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Register launch-at-login",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Coordination/LoginItemController.swift:LoginItemController.configure#1",
         "filePath": "EasyKeyApp/Coordination/LoginItemController.swift",
-        "symbol": "login-helper"
+        "symbol": "LoginItemController.configure#1"
       },
-      "confidence": "candidate",
-      "reach": {
-        "boundaries": 2,
-        "steps": 2,
-        "churn": 0
-      },
-      "rank": 100,
-      "priority": "deferred",
-      "status": "deferred",
-      "family": null,
-      "composed_into": null,
-      "doc_role": "index_only",
-      "doc_path": null,
+      "area": "comm_7, comm_76",
       "evidence": [
         {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/Coordination/LoginItemController.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": "EasyKeyLoginHelper/main.swift"
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/LoginItemController.swift:LoginItemController.configure#1",
+          "processIds": [
+            "proc_290_configure"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
         }
       ],
-      "area": [
-        "system-integration"
-      ]
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 2
+      },
+      "rank": 519,
+      "slug": "register-launch-at-login",
+      "id": "flow-loginitemcontroller-configure-1",
+      "priority": "main",
+      "status": "documented",
+      "display_name": "Register launch-at-login",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/register-launch-at-login.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
     },
     {
-      "name": "Sparkle app updates",
-      "slug": "app-update",
-      "id": "flow-app-update",
-      "display_name": "Sparkle app updates",
+      "name": "TranslationHotKeyController.apply#1",
       "entry_ref": {
-        "kind": "internal",
-        "filePath": "EasyKeyApp/UpdateService.swift",
-        "symbol": "app-update"
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationHotKeyController.swift:TranslationHotKeyController.apply#1",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationHotKeyController.swift",
+        "symbol": "TranslationHotKeyController.apply#1"
       },
+      "area": "comm_144, comm_196",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationHotKeyController.swift:TranslationHotKeyController.apply#1",
+          "processIds": [
+            "proc_207_apply",
+            "proc_208_apply",
+            "proc_209_apply",
+            "proc_210_apply"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationHotKeyController.swift:CarbonTranslationHotKeyRegistrar.installEventHandlerIfNeeded#0",
+            "Function:EasyKeyTests/TestSupport.swift:TestTranslationHotKeyRegistrar.unregister#1",
+            "Property:EasyKeyTests/TranslationHotKeyControllerTests.swift:Operation.unregister",
+            "Struct:EasyKeyTests/TranslationHotKeyControllerTests.swift:Registration"
+          ]
+        }
+      ],
       "confidence": "candidate",
       "reach": {
-        "boundaries": 2,
         "steps": 3,
-        "churn": 0
+        "boundaries": 1,
+        "churn": 2
       },
-      "rank": 100,
-      "priority": "deferred",
-      "status": "deferred",
+      "rank": 519,
+      "slug": "translationhotkeycontroller-apply-1",
+      "id": "flow-translationhotkeycontroller-apply-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationHotKeyController.apply#1",
       "family": null,
       "composed_into": null,
       "doc_role": "index_only",
       "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ClipboardServices.configurePanelContent#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/ClipboardServices.swift:ClipboardServices.configurePanelContent#0",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "symbol": "ClipboardServices.configurePanelContent#0"
+      },
+      "area": "comm_103, comm_61, comm_93",
       "evidence": [
         {
-          "provider": "codegraph",
-          "path": "EasyKeyApp/UpdateService.swift"
-        },
-        {
-          "provider": "codegraph",
-          "path": ".github/workflows/publish-appcast.yml"
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/ClipboardServices.swift:ClipboardServices.configurePanelContent#0",
+          "processIds": [
+            "proc_20_configurepanelconten",
+            "proc_42_configurepanelconten",
+            "proc_43_configurepanelconten",
+            "proc_44_configurepanelconten",
+            "proc_80_configurepanelconten",
+            "proc_81_configurepanelconten",
+            "proc_82_configurepanelconten",
+            "proc_83_configurepanelconten"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardActionCoordinator.swift:ClipboardActionCoordinator.pasteIfFocused#0",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardActionCoordinator.swift:ClipboardActionCoordinator.write#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift:ClipboardHistoryModel.notifyRemoved#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift:ClipboardHistoryModel.referencedPayloads#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPayloadStore.swift:ClipboardPayloadStore.data#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPayloadStore.swift:ClipboardPayloadStore.remove#1",
+            "Method:EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift:ClipboardKeyProviding.existingKey#0",
+            "Struct:EasyEngineCore/Clipboard/ClipboardHistory.swift:ClipboardHistory"
+          ]
         }
       ],
-      "area": [
-        "system-integration"
-      ]
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 2,
+        "churn": 10
+      },
+      "rank": 510,
+      "slug": "clipboardservices-configurepanelcontent-0",
+      "id": "flow-clipboardservices-configurepanelcontent-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardServices.configurePanelContent#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ClipboardServices.stop#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/ClipboardServices.swift:ClipboardServices.stop#0",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardServices.swift",
+        "symbol": "ClipboardServices.stop#0"
+      },
+      "area": "comm_101, comm_94, comm_97",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/ClipboardServices.swift:ClipboardServices.stop#0",
+          "processIds": [
+            "proc_150_stop",
+            "proc_151_stop",
+            "proc_291_stop"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift:ClipboardPanelPresenter.removeGlobalClickMonitor#0",
+            "Function:EasyKeyTests/ClipboardHotKeyControllerTests.swift:FakeHotKeyRegistrar.shutdown#0",
+            "Function:EasyKeyTests/ClipboardHotKeyControllerTests.swift:FakeHotKeyRegistrar.unregister#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 10
+      },
+      "rank": 500,
+      "slug": "clipboardservices-stop-0",
+      "id": "flow-clipboardservices-stop-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardServices.stop#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardInputPipeline.update#1~EasyKeySettings",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.update#1~EasyKeySettings",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.update#1~EasyKeySettings"
+      },
+      "area": "comm_107, comm_20, comm_235, comm_7, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.update#1~EasyKeySettings",
+          "processIds": [
+            "proc_211_update",
+            "proc_212_update",
+            "proc_28_update",
+            "proc_60_update",
+            "proc_61_update",
+            "proc_98_update",
+            "proc_99_update"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0",
+            "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.endLiteralToken#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationProviderRegistry.swift:TranslationProviderRegistry.provider#1",
+            "Function:EasyKeyKit/Keyboard/Processing/KeyboardMacroExpander.swift:MacroExpander.reset#0",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.resetEncodedUnits#0",
+            "Struct:EasyKeyKit/Keyboard/Context/AppCompatibility.swift:AppCompatibilityRule"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 4,
+        "churn": 21
+      },
+      "rank": 490,
+      "slug": "keyboardinputpipeline-update-1-easykeysettings",
+      "id": "flow-keyboardinputpipeline-update-1-easykeysettings",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "KeyboardInputPipeline.update#1~EasyKeySettings",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Compose a Vietnamese character",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processCharacter#2",
+        "filePath": "EasyEngineCore/Engine/VietnameseEngine.swift",
+        "symbol": "VietnameseEngine.processCharacter#2"
+      },
+      "area": "comm_11, comm_20, comm_23, comm_25, comm_28",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processCharacter#2",
+          "processIds": [
+            "proc_45_processcharacter",
+            "proc_46_processcharacter",
+            "proc_47_processcharacter"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.d#2",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.isVowel#1",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.vowel#4"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 4,
+        "churn": 15
+      },
+      "rank": 475,
+      "slug": "compose-vietnamese-character",
+      "id": "flow-vietnameseengine-processcharacter-2",
+      "priority": "main",
+      "status": "documented",
+      "display_name": "Compose a Vietnamese character",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "standalone",
+      "doc_path": "docs/flows/compose-vietnamese-character.md",
+      "parent_flow": null,
+      "analysis_state": "ready"
+    },
+    {
+      "name": "TranslationPanelView.sourceSection#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationPanelView.swift:TranslationPanelView.sourceSection#1",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationPanelView.swift",
+        "symbol": "TranslationPanelView.sourceSection#1"
+      },
+      "area": "comm_195, comm_209, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationPanelView.swift:TranslationPanelView.sourceSection#1",
+          "processIds": [
+            "proc_103_sourcesection"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 12
+      },
+      "rank": 474,
+      "slug": "translationpanelview-sourcesection-1",
+      "id": "flow-translationpanelview-sourcesection-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationPanelView.sourceSection#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "MacroSettingsView.importMacros#0",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift:MacroSettingsView.importMacros#0",
+        "filePath": "EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift",
+        "symbol": "MacroSettingsView.importMacros#0"
+      },
+      "area": "comm_10, comm_38, comm_71",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Macros/MacroSettingsView.swift:MacroSettingsView.importMacros#0",
+          "processIds": [
+            "proc_153_importmacros",
+            "proc_293_importmacros",
+            "proc_294_importmacros",
+            "proc_74_importmacros",
+            "proc_75_importmacros"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/EncodingCodec.swift:EncodingCodec.encode#2",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.availableTrigger#3",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.save#1",
+            "Function:EasyEngineCore/Macros/MacroStore.swift:MacroStore.validateFields#1",
+            "Struct:EasyEngineCore/Macros/MacroStore.swift:Macro"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 2,
+        "churn": 6
+      },
+      "rank": 467,
+      "slug": "macrosettingsview-importmacros-0",
+      "id": "flow-macrosettingsview-importmacros-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "MacroSettingsView.importMacros#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationPanelPresenter.existingOrNewPanel#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift:TranslationPanelPresenter.existingOrNewPanel#0",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift",
+        "symbol": "TranslationPanelPresenter.existingOrNewPanel#0"
+      },
+      "area": "comm_159, comm_206, comm_210, comm_212, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift:TranslationPanelPresenter.existingOrNewPanel#0",
+          "processIds": [
+            "proc_240_existingornewpanel",
+            "proc_241_existingornewpanel",
+            "proc_242_existingornewpanel",
+            "proc_243_existingornewpanel",
+            "proc_244_existingornewpanel",
+            "proc_7_existingornewpanel"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationPanelEventMonitoring.swift:TranslationPanelMonitorRegistration.invalidate#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift:TranslationPanelPresenter.removeMonitors#0",
+            "Function:EasyKeyTests/AppLogicCoverageTests.swift:AppLogicNoopTranslationCanceller.cancelActiveTranslation#0",
+            "Function:EasyKeyTests/TranslationPanelPresenterTests.swift:FakeTranslationCancellation.cancelActiveTranslation#0",
+            "Method:EasyKeyApp/Features/Translation/TranslationPanelPresenter.swift:TranslationCancelling.cancelActiveTranslation#0",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 7,
+        "boundaries": 4,
+        "churn": 6
+      },
+      "rank": 467,
+      "slug": "translationpanelpresenter-existingornewpanel-0",
+      "id": "flow-translationpanelpresenter-existingornewpanel-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationPanelPresenter.existingOrNewPanel#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TelexComposer.processTelexKey#5",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processTelexKey#5",
+        "filePath": "EasyEngineCore/Engine/TelexComposer.swift",
+        "symbol": "TelexComposer.processTelexKey#5"
+      },
+      "area": "comm_11, comm_23, comm_24, comm_25, comm_28",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processTelexKey#5",
+          "processIds": [
+            "proc_49_processtelexkey",
+            "proc_50_processtelexkey",
+            "proc_51_processtelexkey"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.d#2",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.isVowel#1",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.vowel#4"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 4,
+        "churn": 7
+      },
+      "rank": 459,
+      "slug": "telexcomposer-processtelexkey-5",
+      "id": "flow-telexcomposer-processtelexkey-5",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TelexComposer.processTelexKey#5",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.wireCollaboratorCallbacks#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.wireCollaboratorCallbacks#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.wireCollaboratorCallbacks#0"
+      },
+      "area": "comm_248, comm_60, comm_62, comm_75, comm_83",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.wireCollaboratorCallbacks#0",
+          "processIds": [
+            "proc_174_wirecollaboratorcall",
+            "proc_175_wirecollaboratorcall",
+            "proc_19_wirecollaboratorcall",
+            "proc_79_wirecollaboratorcall"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.presentSettingsWindow#0",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.closePopover#0",
+            "Function:EasyKeyKit/Keyboard/Processing/CommandCDoublePressDetector.swift:CommandCDoublePressDetector.setHandler#2",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 4,
+        "churn": 3
+      },
+      "rank": 456,
+      "slug": "appcoordinator-wirecollaboratorcallbacks-0",
+      "id": "flow-appcoordinator-wirecollaboratorcallbacks-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "AppCoordinator.wireCollaboratorCallbacks#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "OpenAITranslationProvider.translate#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:OpenAITranslationProvider.translate#1",
+        "filePath": "EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift",
+        "symbol": "OpenAITranslationProvider.translate#1"
+      },
+      "area": "comm_139, comm_162, comm_191, comm_192, comm_30",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:OpenAITranslationProvider.translate#1",
+          "processIds": [
+            "proc_145_translate",
+            "proc_146_translate",
+            "proc_147_translate",
+            "proc_148_translate",
+            "proc_284_translate",
+            "proc_285_translate",
+            "proc_286_translate",
+            "proc_287_translate"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:OpenAITranslationProvider.map#1",
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/DeepLTranslationProviderTestSupport.swift:ThrowingCredentialStore.credential#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationModelCatalogTests.swift:RawInMemoryCredentialStore.credential#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1",
+            "Property:EasyKeyTests/TranslationSettingsModelTests.swift:Call.credential"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 4,
+        "churn": 5
+      },
+      "rank": 450,
+      "slug": "openaitranslationprovider-translate-1",
+      "id": "flow-openaitranslationprovider-translate-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "OpenAITranslationProvider.translate#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ClipboardHotKeyController.apply#1",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift:ClipboardHotKeyController.apply#1",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift",
+        "symbol": "ClipboardHotKeyController.apply#1"
+      },
+      "area": "comm_97",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift:ClipboardHotKeyController.apply#1",
+          "processIds": [
+            "proc_178_apply",
+            "proc_179_apply"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHotKeyController.swift:CarbonHotKeyRegistrar.installEventHandlerIfNeeded#0",
+            "Function:EasyKeyTests/ClipboardHotKeyControllerTests.swift:FakeHotKeyRegistrar.unregister#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 6
+      },
+      "rank": 447,
+      "slug": "clipboardhotkeycontroller-apply-1",
+      "id": "flow-clipboardhotkeycontroller-apply-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardHotKeyController.apply#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "CloudTranslationSettingsCard.saveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.saveCredential#0",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift",
+        "symbol": "CloudTranslationSettingsCard.saveCredential#0"
+      },
+      "area": "comm_133, comm_138, comm_145, comm_167, comm_423",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.saveCredential#0",
+          "processIds": [
+            "proc_154_savecredential",
+            "proc_155_savecredential",
+            "proc_156_savecredential",
+            "proc_157_savecredential",
+            "proc_297_savecredential",
+            "proc_298_savecredential",
+            "proc_299_savecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyTests/DeepLTranslationProviderTestSupport.swift:ThrowingCredentialStore.save#2",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.update#2",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.update#2",
+            "Function:EasyKeyTests/TranslationModelCatalogTests.swift:RawInMemoryCredentialStore.save#2",
+            "Function:EasyKeyTests/TranslationSettingsModelTests.swift:CredentialStoreSpy.save#2",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.add#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.update#2"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 4,
+        "churn": 3
+      },
+      "rank": 446,
+      "slug": "cloudtranslationsettingscard-savecredential-0",
+      "id": "flow-cloudtranslationsettingscard-savecredential-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "CloudTranslationSettingsCard.saveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "Status.localizedTitle#1",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Function:EasyKeyApp/Coordination/LoginItemController.swift:Status.localizedTitle#1",
+        "filePath": "EasyKeyApp/Coordination/LoginItemController.swift",
+        "symbol": "Status.localizedTitle#1"
+      },
+      "area": "comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/LoginItemController.swift:Status.localizedTitle#1",
+          "processIds": [
+            "proc_196_localizedtitle"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 2
+      },
+      "rank": 439,
+      "slug": "status-localizedtitle-1",
+      "id": "flow-status-localizedtitle-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "Status.localizedTitle#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationSpeechEngine.speak#3",
+      "entry_ref": {
+        "kind": "http",
+        "signature": "Method:EasyKeyApp/Features/Translation/TranslationSpeechController.swift:TranslationSpeechEngine.speak#3",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationSpeechController.swift",
+        "symbol": "TranslationSpeechEngine.speak#3"
+      },
+      "area": "comm_221",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Method:EasyKeyApp/Features/Translation/TranslationSpeechController.swift:TranslationSpeechEngine.speak#3",
+          "processIds": [
+            "proc_198_speak",
+            "proc_199_speak",
+            "proc_200_speak"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyTests/TranslationPanelViewTests.swift:PanelSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/TranslationSpeechControllerTests.swift:FakeTranslationSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/ViewRenderingCoverageTests.swift:CoverageSpeechEngine.stopSpeaking#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 1
+      },
+      "rank": 437,
+      "slug": "translationspeechengine-speak-3",
+      "id": "flow-translationspeechengine-speak-3",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationSpeechEngine.speak#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.clipboardClearUnpinned#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.clipboardClearUnpinned#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.clipboardClearUnpinned#0"
+      },
+      "area": "comm_103, comm_61",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.clipboardClearUnpinned#0",
+          "processIds": [
+            "proc_141_clipboardclearunpinn",
+            "proc_142_clipboardclearunpinn",
+            "proc_14_clipboardclearunpinn",
+            "proc_15_clipboardclearunpinn",
+            "proc_16_clipboardclearunpinn",
+            "proc_17_clipboardclearunpinn",
+            "proc_35_clipboardclearunpinn",
+            "proc_36_clipboardclearunpinn",
+            "proc_37_clipboardclearunpinn"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift:ClipboardHistoryModel.notifyRemoved#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift:ClipboardHistoryModel.referencedPayloads#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPayloadStore.swift:ClipboardPayloadStore.data#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPayloadStore.swift:ClipboardPayloadStore.remove#1",
+            "Function:EasyKeyTests/AppLogicCoverageTests.swift:ThrowingDeleteKeyStore.createKey#0",
+            "Function:EasyKeyTests/AppLogicCoverageTests.swift:ThrowingDeleteKeyStore.existingKey#0",
+            "Method:EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift:ClipboardKeyProviding.createKey#0",
+            "Method:EasyKeyApp/Features/Clipboard/ClipboardKeyStore.swift:ClipboardKeyProviding.existingKey#0",
+            "Struct:EasyEngineCore/Clipboard/ClipboardHistory.swift:ClipboardHistory"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 7,
+        "boundaries": 1,
+        "churn": 3
+      },
+      "rank": 421,
+      "slug": "appcoordinator-clipboardclearunpinned-0",
+      "id": "flow-appcoordinator-clipboardclearunpinned-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "AppCoordinator.clipboardClearUnpinned#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.configureKeyboardService#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.configureKeyboardService#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "symbol": "AppCoordinator.configureKeyboardService#0"
+      },
+      "area": "comm_45, comm_66, comm_67, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.configureKeyboardService#0",
+          "processIds": [
+            "proc_3_configurekeyboardser"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 8,
+        "boundaries": 3,
+        "churn": 14
+      },
+      "rank": 408,
+      "slug": "install-typing-event-tap",
+      "id": "flow-appcoordinator-configurekeyboardservice-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "Install the typing event tap",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.clipboardClearAll#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.clipboardClearAll#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.clipboardClearAll#0"
+      },
+      "area": "comm_3, comm_61",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.clipboardClearAll#0",
+          "processIds": [
+            "proc_274_clipboardclearall",
+            "proc_275_clipboardclearall",
+            "proc_276_clipboardclearall"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Clipboard/ClipboardHistory.swift:ClipboardHistory.clear#0",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardHistoryModel.swift:ClipboardHistoryModel.notifyRemoved#1",
+            "Function:EasyKeyApp/Features/Clipboard/ClipboardPayloadStore.swift:ClipboardPayloadStore.clear#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 3
+      },
+      "rank": 401,
+      "slug": "appcoordinator-clipboardclearall-0",
+      "id": "flow-appcoordinator-clipboardclearall-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "AppCoordinator.clipboardClearAll#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ClipboardMonitor.poll#0",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift:ClipboardMonitor.poll#0",
+        "filePath": "EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift",
+        "symbol": "ClipboardMonitor.poll#0"
+      },
+      "area": "comm_113, comm_99",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/ClipboardMonitor.swift:ClipboardMonitor.poll#0",
+          "processIds": [
+            "proc_282_poll",
+            "proc_283_poll"
+          ],
+          "terminalIds": [
+            "Struct:EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift:PasteboardDescriptor",
+            "Struct:EasyKeyApp/Features/Clipboard/PasteboardSnapshot.swift:PasteboardItemDescriptor"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 3
+      },
+      "rank": 401,
+      "slug": "clipboardmonitor-poll-0",
+      "id": "flow-clipboardmonitor-poll-0",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "ClipboardMonitor.poll#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationPanelView.resultSection#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationPanelView.swift:TranslationPanelView.resultSection#1",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationPanelView.swift",
+        "symbol": "TranslationPanelView.resultSection#1"
+      },
+      "area": "comm_209, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationPanelView.swift:TranslationPanelView.resultSection#1",
+          "processIds": [
+            "proc_194_resultsection"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 12
+      },
+      "rank": 389,
+      "slug": "translationpanelview-resultsection-1",
+      "id": "flow-translationpanelview-resultsection-1",
+      "priority": "main",
+      "status": "skipped",
+      "display_name": "TranslationPanelView.resultSection#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "MenuPopoverTranslationView.errorMessage#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Translation/MenuPopoverTranslationView.swift:MenuPopoverTranslationView.errorMessage#1",
+        "filePath": "EasyKeyApp/Features/Translation/MenuPopoverTranslationView.swift",
+        "symbol": "MenuPopoverTranslationView.errorMessage#1"
+      },
+      "area": "comm_195, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/MenuPopoverTranslationView.swift:MenuPopoverTranslationView.errorMessage#1",
+          "processIds": [
+            "proc_84_errormessage"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 9
+      },
+      "rank": 388,
+      "slug": "menupopovertranslationview-errormessage-1",
+      "id": "flow-menupopovertranslationview-errormessage-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "MenuPopoverTranslationView.errorMessage#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "CloudTranslationSettingsCard.saveEndpoint#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.saveEndpoint#0",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift",
+        "symbol": "CloudTranslationSettingsCard.saveEndpoint#0"
+      },
+      "area": "comm_132, comm_45, comm_67, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.saveEndpoint#0",
+          "processIds": [
+            "proc_4_saveendpoint"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 8,
+        "boundaries": 3,
+        "churn": 3
+      },
+      "rank": 386,
+      "slug": "cloudtranslationsettingscard-saveendpoint-0",
+      "id": "flow-cloudtranslationsettingscard-saveendpoint-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "CloudTranslationSettingsCard.saveEndpoint#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "CloudTranslationSettingsCard.selectModelEntry#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.selectModelEntry#1",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift",
+        "symbol": "CloudTranslationSettingsCard.selectModelEntry#1"
+      },
+      "area": "comm_131, comm_45, comm_67, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/CloudTranslationSettingsCard.swift:CloudTranslationSettingsCard.selectModelEntry#1",
+          "processIds": [
+            "proc_258_selectmodelentry",
+            "proc_259_selectmodelentry",
+            "proc_5_selectmodelentry"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:TranslationSettingsModel.canManageModels#1",
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:TranslationSettingsModel.isValidModelIdentifier#2"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 8,
+        "boundaries": 3,
+        "churn": 3
+      },
+      "rank": 386,
+      "slug": "cloudtranslationsettingscard-selectmodelentry-1",
+      "id": "flow-cloudtranslationsettingscard-selectmodelentry-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "CloudTranslationSettingsCard.selectModelEntry#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.refreshProviders#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.refreshProviders#0",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.refreshProviders#0"
+      },
+      "area": "comm_150, comm_200, comm_52, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.refreshProviders#0",
+          "processIds": [
+            "proc_120_refreshproviders",
+            "proc_121_refreshproviders",
+            "proc_122_refreshproviders"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelActiveInFlightTranslation#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 3,
+        "churn": 9
+      },
+      "rank": 378,
+      "slug": "apptranslationruntime-refreshproviders-0",
+      "id": "flow-apptranslationruntime-refreshproviders-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.refreshProviders#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TelexComposer.normalizeVietnameseNucleus#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.normalizeVietnameseNucleus#2",
+        "filePath": "EasyEngineCore/Engine/TelexComposer.swift",
+        "symbol": "TelexComposer.normalizeVietnameseNucleus#2"
+      },
+      "area": "comm_11, comm_19, comm_25, comm_28",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.normalizeVietnameseNucleus#2",
+          "processIds": [
+            "proc_123_normalizevietnamesen",
+            "proc_124_normalizevietnamesen",
+            "proc_125_normalizevietnamesen"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.d#2",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.isVowel#1",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.vowel#4"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 3,
+        "churn": 7
+      },
+      "rank": 374,
+      "slug": "telexcomposer-normalizevietnamesenucleus-2",
+      "id": "flow-telexcomposer-normalizevietnamesenucleus-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TelexComposer.normalizeVietnameseNucleus#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AnthropicTranslationProvider.translate#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:AnthropicTranslationProvider.translate#1",
+        "filePath": "EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift",
+        "symbol": "AnthropicTranslationProvider.translate#1"
+      },
+      "area": "comm_139, comm_162, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:AnthropicTranslationProvider.translate#1",
+          "processIds": [
+            "proc_137_translate",
+            "proc_138_translate",
+            "proc_139_translate",
+            "proc_140_translate",
+            "proc_270_translate",
+            "proc_271_translate",
+            "proc_272_translate",
+            "proc_273_translate"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:AnthropicTranslationProvider.map#1",
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/DeepLTranslationProviderTestSupport.swift:ThrowingCredentialStore.credential#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationModelCatalogTests.swift:RawInMemoryCredentialStore.credential#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1",
+            "Property:EasyKeyTests/TranslationSettingsModelTests.swift:Call.credential"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 3,
+        "churn": 5
+      },
+      "rank": 370,
+      "slug": "anthropictranslationprovider-translate-1",
+      "id": "flow-anthropictranslationprovider-translate-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AnthropicTranslationProvider.translate#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardInputPipeline.apply#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.apply#2",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.apply#2"
+      },
+      "area": "comm_107, comm_7, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.apply#2",
+          "processIds": [
+            "proc_59_apply"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 2,
+        "churn": 21
+      },
+      "rank": 325,
+      "slug": "keyboardinputpipeline-apply-2",
+      "id": "flow-keyboardinputpipeline-apply-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardInputPipeline.apply#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "PasteboardClassifier.classifyItem#1",
+      "entry_ref": {
+        "kind": "cli",
+        "signature": "Function:EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift:PasteboardClassifier.classifyItem#1",
+        "filePath": "EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift",
+        "symbol": "PasteboardClassifier.classifyItem#1"
+      },
+      "area": "comm_111",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift:PasteboardClassifier.classifyItem#1",
+          "processIds": [
+            "proc_191_classifyitem",
+            "proc_192_classifyitem"
+          ],
+          "terminalIds": [
+            "Struct:EasyEngineCore/Clipboard/ClipboardEntry.swift:ClipboardItemPreview",
+            "Struct:EasyKeyApp/Features/Clipboard/PasteboardClassifier.swift:ClassifiedItem"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 4
+      },
+      "rank": 323,
+      "slug": "pasteboardclassifier-classifyitem-1",
+      "id": "flow-pasteboardclassifier-classifyitem-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "PasteboardClassifier.classifyItem#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardInputPipeline.resetComposition#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.resetComposition#0",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.resetComposition#0"
+      },
+      "area": "comm_20, comm_35, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.resetComposition#0",
+          "processIds": [
+            "proc_131_resetcomposition"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 21
+      },
+      "rank": 320,
+      "slug": "keyboardinputpipeline-resetcomposition-0",
+      "id": "flow-keyboardinputpipeline-resetcomposition-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardInputPipeline.resetComposition#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.observeSettings#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.observeSettings#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "symbol": "AppCoordinator.observeSettings#0"
+      },
+      "area": "comm_42, comm_60, comm_64",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.observeSettings#0",
+          "processIds": [
+            "proc_190_observesettings",
+            "proc_94_observesettings",
+            "proc_95_observesettings"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.presentSettingsWindow#0",
+            "Function:EasyKeyApp/Coordination/StatusItemController.swift:StatusItemController.closePopover#0",
+            "Struct:EasyEngineCore/Settings/EasyKeySettings.swift:SettingsDelta"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 14
+      },
+      "rank": 308,
+      "slug": "appcoordinator-observesettings-0",
+      "id": "flow-appcoordinator-observesettings-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppCoordinator.observeSettings#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.refreshLocalizedChrome#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.refreshLocalizedChrome#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "symbol": "AppCoordinator.refreshLocalizedChrome#0"
+      },
+      "area": "comm_66, comm_73, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.refreshLocalizedChrome#0",
+          "processIds": [
+            "proc_149_refreshlocalizedchro"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 14
+      },
+      "rank": 308,
+      "slug": "appcoordinator-refreshlocalizedchrome-0",
+      "id": "flow-appcoordinator-refreshlocalizedchrome-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppCoordinator.refreshLocalizedChrome#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.makeAppleComponents#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.makeAppleComponents#1",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.makeAppleComponents#1"
+      },
+      "area": "comm_168",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.makeAppleComponents#1",
+          "processIds": [
+            "proc_264_makeapplecomponents"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/AppleTranslationSessionBridge.swift:SessionSlot.attach#3"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 9
+      },
+      "rank": 303,
+      "slug": "apptranslationruntime-makeapplecomponents-1",
+      "id": "flow-apptranslationruntime-makeapplecomponents-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.makeAppleComponents#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "LocalizationStore.macroErrorMessage#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Localization/LocalizationStore.swift:LocalizationStore.macroErrorMessage#1",
+        "filePath": "EasyKeyApp/Localization/LocalizationStore.swift",
+        "symbol": "LocalizationStore.macroErrorMessage#1"
+      },
+      "area": "comm_195, comm_231, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Localization/LocalizationStore.swift:LocalizationStore.macroErrorMessage#1",
+          "processIds": [
+            "proc_169_macroerrormessage"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 11
+      },
+      "rank": 302,
+      "slug": "localizationstore-macroerrormessage-1",
+      "id": "flow-localizationstore-macroerrormessage-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "LocalizationStore.macroErrorMessage#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TelexComposer.processWKey#3",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processWKey#3",
+        "filePath": "EasyEngineCore/Engine/TelexComposer.swift",
+        "symbol": "TelexComposer.processWKey#3"
+      },
+      "area": "comm_11, comm_25, comm_28",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processWKey#3",
+          "processIds": [
+            "proc_52_processwkey",
+            "proc_53_processwkey",
+            "proc_54_processwkey"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.d#2",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.isVowel#1",
+            "Function:EasyEngineCore/Engine/VietnameseCharacters.swift:VietnameseCharacters.vowel#4"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 2,
+        "churn": 7
+      },
+      "rank": 299,
+      "slug": "telexcomposer-processwkey-3",
+      "id": "flow-telexcomposer-processwkey-3",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TelexComposer.processWKey#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.activate#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.activate#0",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.activate#0"
+      },
+      "area": "comm_166, comm_200, comm_52",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.activate#0",
+          "processIds": [
+            "proc_118_activate",
+            "proc_119_activate",
+            "proc_254_activate"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelActiveInFlightTranslation#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.clearStaleResultIfNeeded#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 9
+      },
+      "rank": 298,
+      "slug": "apptranslationruntime-activate-0",
+      "id": "flow-apptranslationruntime-activate-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.activate#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.applyActivationSettings#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.applyActivationSettings#1",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.applyActivationSettings#1"
+      },
+      "area": "comm_144, comm_200, comm_221",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.applyActivationSettings#1",
+          "processIds": [
+            "proc_112_applyactivationsetti",
+            "proc_113_applyactivationsetti",
+            "proc_114_applyactivationsetti",
+            "proc_115_applyactivationsetti",
+            "proc_116_applyactivationsetti",
+            "proc_117_applyactivationsetti",
+            "proc_252_applyactivationsetti",
+            "proc_253_applyactivationsetti"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Settings/Translation/TranslationSettingsModel.swift:TranslationSettingsModel.publishRegistrationState#1",
+            "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.setDoubleCmdCEnabled#2",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0",
+            "Function:EasyKeyTests/TestSupport.swift:TestTranslationHotKeyRegistrar.unregister#1",
+            "Function:EasyKeyTests/TranslationPanelViewTests.swift:PanelSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/TranslationSpeechControllerTests.swift:FakeTranslationSpeechEngine.stopSpeaking#0",
+            "Function:EasyKeyTests/ViewRenderingCoverageTests.swift:CoverageSpeechEngine.stopSpeaking#0",
+            "Property:EasyKeyTests/TranslationHotKeyControllerTests.swift:Operation.unregister"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 9
+      },
+      "rank": 298,
+      "slug": "apptranslationruntime-applyactivationsettings-1",
+      "id": "flow-apptranslationruntime-applyactivationsettings-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.applyActivationSettings#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.panelContent#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.panelContent#0",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.panelContent#0"
+      },
+      "area": "comm_163, comm_209, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.panelContent#0",
+          "processIds": [
+            "proc_130_panelcontent",
+            "proc_263_panelcontent"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyApp/Features/Translation/TranslationPanelView.swift:TranslationPanelActions.announceResult",
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 9
+      },
+      "rank": 298,
+      "slug": "apptranslationruntime-panelcontent-0",
+      "id": "flow-apptranslationruntime-panelcontent-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.panelContent#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardService.recoverTapAfterDisable#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.recoverTapAfterDisable#0",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardService.swift",
+        "symbol": "KeyboardService.recoverTapAfterDisable#0"
+      },
+      "area": "comm_245, comm_253, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.recoverTapAfterDisable#0",
+          "processIds": [
+            "proc_34_recovertapafterdisab"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 2,
+        "churn": 3
+      },
+      "rank": 296,
+      "slug": "keyboardservice-recovertapafterdisable-0",
+      "id": "flow-keyboardservice-recovertapafterdisable-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardService.recoverTapAfterDisable#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyCaptureView.viewDidMoveToWindow#0",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift:KeyCaptureView.viewDidMoveToWindow#0",
+        "filePath": "EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift",
+        "symbol": "KeyCaptureView.viewDidMoveToWindow#0"
+      },
+      "area": "comm_127",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift:KeyCaptureView.viewDidMoveToWindow#0",
+          "processIds": [
+            "proc_296_viewdidmovetowindow"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift:KeyCaptureView.handleDeactivation#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 295,
+      "slug": "keycaptureview-viewdidmovetowindow-0",
+      "id": "flow-keycaptureview-viewdidmovetowindow-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyCaptureView.viewDidMoveToWindow#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "ShortcutKeyCapture.makeNSView#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift:ShortcutKeyCapture.makeNSView#1",
+        "filePath": "EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift",
+        "symbol": "ShortcutKeyCapture.makeNSView#1"
+      },
+      "area": "comm_124",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Shared/ShortcutKeyCapture.swift:ShortcutKeyCapture.makeNSView#1",
+          "processIds": [
+            "proc_295_makensview"
+          ],
+          "terminalIds": [
+            "Struct:EasyEngineCore/Settings/Shortcut.swift:Shortcut"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 295,
+      "slug": "shortcutkeycapture-makensview-1",
+      "id": "flow-shortcutkeycapture-makensview-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "ShortcutKeyCapture.makeNSView#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.configuredCloudProviders#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.configuredCloudProviders#1",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.configuredCloudProviders#1"
+      },
+      "area": "comm_167, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.configuredCloudProviders#1",
+          "processIds": [
+            "proc_278_configuredcloudprovi",
+            "proc_279_configuredcloudprovi",
+            "proc_280_configuredcloudprovi",
+            "proc_281_configuredcloudprovi"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 9
+      },
+      "rank": 293,
+      "slug": "apptranslationruntime-configuredcloudproviders-1",
+      "id": "flow-apptranslationruntime-configuredcloudproviders-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.configuredCloudProviders#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "OpenAICompatibleTranslationProvider.resolveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift:OpenAICompatibleTranslationProvider.resolveCredential#0",
+        "filePath": "EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift",
+        "symbol": "OpenAICompatibleTranslationProvider.resolveCredential#0"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/OpenAICompatibleTranslationProvider.swift:OpenAICompatibleTranslationProvider.resolveCredential#0",
+          "processIds": [
+            "proc_236_resolvecredential",
+            "proc_237_resolvecredential",
+            "proc_238_resolvecredential",
+            "proc_239_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 7
+      },
+      "rank": 289,
+      "slug": "openaicompatibletranslationprovider-resolvecredential-0",
+      "id": "flow-openaicompatibletranslationprovider-resolvecredential-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "OpenAICompatibleTranslationProvider.resolveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "GoogleTranslationProvider.resolveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift:GoogleTranslationProvider.resolveCredential#0",
+        "filePath": "EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift",
+        "symbol": "GoogleTranslationProvider.resolveCredential#0"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/GoogleTranslationProvider.swift:GoogleTranslationProvider.resolveCredential#0",
+          "processIds": [
+            "proc_232_resolvecredential",
+            "proc_233_resolvecredential",
+            "proc_234_resolvecredential",
+            "proc_235_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 6
+      },
+      "rank": 287,
+      "slug": "googletranslationprovider-resolvecredential-0",
+      "id": "flow-googletranslationprovider-resolvecredential-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "GoogleTranslationProvider.resolveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "PasteableSecureField.makeNSView#1",
+      "entry_ref": {
+        "kind": "ui",
+        "signature": "Function:EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift:PasteableSecureField.makeNSView#1",
+        "filePath": "EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift",
+        "symbol": "PasteableSecureField.makeNSView#1"
+      },
+      "area": "comm_122",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift:PasteableSecureField.makeNSView#1",
+          "processIds": [
+            "proc_203_makensview"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyApp/Features/Settings/Shared/PasteableSecureField.swift:PasteableSecureField.onSubmit"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 1
+      },
+      "rank": 287,
+      "slug": "pasteablesecurefield-makensview-1",
+      "id": "flow-pasteablesecurefield-makensview-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "PasteableSecureField.makeNSView#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardService.handleSystemSleep#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.handleSystemSleep#0",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardService.swift",
+        "symbol": "KeyboardService.handleSystemSleep#0"
+      },
+      "area": "comm_245, comm_253, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardService.swift:KeyboardService.handleSystemSleep#0",
+          "processIds": [
+            "proc_107_handlesystemsleep"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 3
+      },
+      "rank": 286,
+      "slug": "keyboardservice-handlesystemsleep-0",
+      "id": "flow-keyboardservice-handlesystemsleep-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardService.handleSystemSleep#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "StatusMenuBuilder.addKeyboardControlItems#5",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/StatusMenuBuilder.swift:StatusMenuBuilder.addKeyboardControlItems#5",
+        "filePath": "EasyKeyApp/Coordination/StatusMenuBuilder.swift",
+        "symbol": "StatusMenuBuilder.addKeyboardControlItems#5"
+      },
+      "area": "comm_195, comm_75, comm_88",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/StatusMenuBuilder.swift:StatusMenuBuilder.addKeyboardControlItems#5",
+          "processIds": [
+            "proc_97_addkeyboardcontrolit"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 2,
+        "churn": 2
+      },
+      "rank": 284,
+      "slug": "statusmenubuilder-addkeyboardcontrolitems-5",
+      "id": "flow-statusmenubuilder-addkeyboardcontrolitems-5",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "StatusMenuBuilder.addKeyboardControlItems#5",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AnthropicCompatibleTranslationProvider.resolveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift:AnthropicCompatibleTranslationProvider.resolveCredential#0",
+        "filePath": "EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift",
+        "symbol": "AnthropicCompatibleTranslationProvider.resolveCredential#0"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift:AnthropicCompatibleTranslationProvider.resolveCredential#0",
+          "processIds": [
+            "proc_220_resolvecredential",
+            "proc_221_resolvecredential",
+            "proc_222_resolvecredential",
+            "proc_223_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 4
+      },
+      "rank": 283,
+      "slug": "anthropiccompatibletranslationprovider-resolvecredential-0",
+      "id": "flow-anthropiccompatibletranslationprovider-resolvecredential-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AnthropicCompatibleTranslationProvider.resolveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "DeepLTranslationProvider.resolveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/DeepLTranslationProvider.swift:DeepLTranslationProvider.resolveCredential#0",
+        "filePath": "EasyKeyApp/Features/Translation/DeepLTranslationProvider.swift",
+        "symbol": "DeepLTranslationProvider.resolveCredential#0"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/DeepLTranslationProvider.swift:DeepLTranslationProvider.resolveCredential#0",
+          "processIds": [
+            "proc_224_resolvecredential",
+            "proc_225_resolvecredential",
+            "proc_226_resolvecredential",
+            "proc_227_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 4
+      },
+      "rank": 283,
+      "slug": "deepltranslationprovider-resolvecredential-0",
+      "id": "flow-deepltranslationprovider-resolvecredential-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "DeepLTranslationProvider.resolveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "GeminiTranslationProvider.resolveCredential#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/GeminiTranslationProvider.swift:GeminiTranslationProvider.resolveCredential#0",
+        "filePath": "EasyKeyApp/Features/Translation/GeminiTranslationProvider.swift",
+        "symbol": "GeminiTranslationProvider.resolveCredential#0"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/GeminiTranslationProvider.swift:GeminiTranslationProvider.resolveCredential#0",
+          "processIds": [
+            "proc_228_resolvecredential",
+            "proc_229_resolvecredential",
+            "proc_230_resolvecredential",
+            "proc_231_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 3
+      },
+      "rank": 281,
+      "slug": "geminitranslationprovider-resolvecredential-0",
+      "id": "flow-geminitranslationprovider-resolvecredential-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "GeminiTranslationProvider.resolveCredential#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "LiveTranslationModelCatalog.resolveCredential#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Settings/Translation/TranslationModelCatalog.swift:LiveTranslationModelCatalog.resolveCredential#1",
+        "filePath": "EasyKeyApp/Features/Settings/Translation/TranslationModelCatalog.swift",
+        "symbol": "LiveTranslationModelCatalog.resolveCredential#1"
+      },
+      "area": "comm_139, comm_191, comm_192",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Settings/Translation/TranslationModelCatalog.swift:LiveTranslationModelCatalog.resolveCredential#1",
+          "processIds": [
+            "proc_216_resolvecredential",
+            "proc_217_resolvecredential",
+            "proc_218_resolvecredential",
+            "proc_219_resolvecredential"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:KeychainTranslationCredentialStore.baseQuery#1",
+            "Function:EasyKeyTests/KeychainAccessibilityMigrationTests.swift:RecordingSecItemAccess.copyMatching#1",
+            "Function:EasyKeyTests/TranslationCredentialStoreTests.swift:FakeSecItemAccess.copyMatching#1",
+            "Method:EasyKeyApp/Features/Translation/TranslationCredentialStore.swift:SecItemAccessing.copyMatching#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 2,
+        "churn": 3
+      },
+      "rank": 281,
+      "slug": "livetranslationmodelcatalog-resolvecredential-1",
+      "id": "flow-livetranslationmodelcatalog-resolvecredential-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "LiveTranslationModelCatalog.resolveCredential#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardInputPipeline.applyInsert#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.applyInsert#2",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.applyInsert#2"
+      },
+      "area": "comm_107, comm_9",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.applyInsert#2",
+          "processIds": [
+            "proc_132_applyinsert",
+            "proc_133_applyinsert",
+            "proc_134_applyinsert",
+            "proc_135_applyinsert",
+            "proc_136_applyinsert"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.hexDump#1",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.markAsSelfPosted#1",
+            "Function:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:KeySynthesizer.utf16Chunks#1",
+            "Struct:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:EncodedUnit",
+            "Struct:EasyKeyKit/Keyboard/Synthesis/KeySynthesizer.swift:UnicodeEventPair"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 21
+      },
+      "rank": 240,
+      "slug": "keyboardinputpipeline-applyinsert-2",
+      "id": "flow-keyboardinputpipeline-applyinsert-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardInputPipeline.applyInsert#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "KeyboardInputPipeline.logKeyDownDebug#3",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.logKeyDownDebug#3",
+        "filePath": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+        "symbol": "KeyboardInputPipeline.logKeyDownDebug#3"
+      },
+      "area": "comm_7, comm_8",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/KeyboardInputPipeline.swift:KeyboardInputPipeline.logKeyDownDebug#3",
+          "processIds": [
+            "proc_104_logkeydowndebug",
+            "proc_245_logkeydowndebug"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Property:EasyKeyKit/Keyboard/Context/ChromiumAddressBarContextResolver.swift:ChromiumAddressBarContextResolver.now"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 21
+      },
+      "rank": 240,
+      "slug": "keyboardinputpipeline-logkeydowndebug-3",
+      "id": "flow-keyboardinputpipeline-logkeydowndebug-3",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "KeyboardInputPipeline.logKeyDownDebug#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationModel.selectSourceLanguage#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.selectSourceLanguage#1",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationModel.swift",
+        "symbol": "TranslationModel.selectSourceLanguage#1"
+      },
+      "area": "comm_200, comm_52",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.selectSourceLanguage#1",
+          "processIds": [
+            "proc_166_selectsourcelanguage",
+            "proc_167_selectsourcelanguage",
+            "proc_40_selectsourcelanguage",
+            "proc_76_selectsourcelanguage"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelActiveInFlightTranslation#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.normalize#2",
+            "Property:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.requestsDisclosure"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 1,
+        "churn": 8
+      },
+      "rank": 226,
+      "slug": "translationmodel-selectsourcelanguage-1",
+      "id": "flow-translationmodel-selectsourcelanguage-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TranslationModel.selectSourceLanguage#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationModel.swapLanguages#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.swapLanguages#0",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationModel.swift",
+        "symbol": "TranslationModel.swapLanguages#0"
+      },
+      "area": "comm_200, comm_52",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.swapLanguages#0",
+          "processIds": [
+            "proc_168_swaplanguages",
+            "proc_41_swaplanguages",
+            "proc_77_swaplanguages"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.cancelScheduledAutoTranslate#0",
+            "Function:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.normalize#2",
+            "Property:EasyKeyApp/Features/Translation/TranslationModel.swift:TranslationModel.requestsDisclosure"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 6,
+        "boundaries": 1,
+        "churn": 8
+      },
+      "rank": 226,
+      "slug": "translationmodel-swaplanguages-0",
+      "id": "flow-translationmodel-swaplanguages-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TranslationModel.swapLanguages#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TranslationProviderPickerButton.row#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/TranslationProviderIcon.swift:TranslationProviderPickerButton.row#2",
+        "filePath": "EasyKeyApp/Features/Translation/TranslationProviderIcon.swift",
+        "symbol": "TranslationProviderPickerButton.row#2"
+      },
+      "area": "comm_215, comm_217",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/TranslationProviderIcon.swift:TranslationProviderPickerButton.row#2",
+          "processIds": [
+            "proc_78_row"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/TranslationProviderIcon.swift:TranslationProviderIcon.badge#2"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 5,
+        "boundaries": 1,
+        "churn": 8
+      },
+      "rank": 221,
+      "slug": "translationproviderpickerbutton-row-2",
+      "id": "flow-translationproviderpickerbutton-row-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TranslationProviderPickerButton.row#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppTranslationRuntime.makeCloudProviders#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.makeCloudProviders#2",
+        "filePath": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+        "symbol": "AppTranslationRuntime.makeCloudProviders#2"
+      },
+      "area": "comm_136, comm_150",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AppTranslationRuntime.swift:AppTranslationRuntime.makeCloudProviders#2",
+          "processIds": [
+            "proc_213_makecloudproviders"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyApp/Features/Translation/ValidatedTranslationEndpoint.swift:validatedURL"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 9
+      },
+      "rank": 213,
+      "slug": "apptranslationruntime-makecloudproviders-2",
+      "id": "flow-apptranslationruntime-makecloudproviders-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppTranslationRuntime.makeCloudProviders#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.showLogs#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.showLogs#0",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinator.swift",
+        "symbol": "AppCoordinator.showLogs#0"
+      },
+      "area": "comm_7, comm_74",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinator.swift:AppCoordinator.showLogs#0",
+          "processIds": [
+            "proc_143_showlogs",
+            "proc_144_showlogs",
+            "proc_277_showlogs"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1",
+            "Function:EasyKeyApp/Coordination/LogExporter.swift:LogExporter.redact#1",
+            "Function:EasyKeyUITests/XCUITestHelpers.swift:XCUIApplication.reveal#2"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 3
+      },
+      "rank": 206,
+      "slug": "appcoordinator-showlogs-0",
+      "id": "flow-appcoordinator-showlogs-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppCoordinator.showLogs#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "FocusedElementInspector.focusedElementValue#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/FocusedElementInspector.swift:FocusedElementInspector.focusedElementValue#0",
+        "filePath": "EasyKeyKit/Keyboard/FocusedElementInspector.swift",
+        "symbol": "FocusedElementInspector.focusedElementValue#0"
+      },
+      "area": "comm_244, comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/FocusedElementInspector.swift:FocusedElementInspector.focusedElementValue#0",
+          "processIds": [
+            "proc_170_focusedelementvalue"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 4,
+        "boundaries": 1,
+        "churn": 3
+      },
+      "rank": 206,
+      "slug": "focusedelementinspector-focusedelementvalue-0",
+      "id": "flow-focusedelementinspector-focusedelementvalue-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "FocusedElementInspector.focusedElementValue#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppMainMenuInstaller.updateLocalizedTitles#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppMainMenuInstaller.swift:AppMainMenuInstaller.updateLocalizedTitles#2",
+        "filePath": "EasyKeyApp/Coordination/AppMainMenuInstaller.swift",
+        "symbol": "AppMainMenuInstaller.updateLocalizedTitles#2"
+      },
+      "area": "comm_73, comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppMainMenuInstaller.swift:AppMainMenuInstaller.updateLocalizedTitles#2",
+          "processIds": [
+            "proc_183_updatelocalizedtitle"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 1,
+        "churn": 2
+      },
+      "rank": 199,
+      "slug": "appmainmenuinstaller-updatelocalizedtitles-2",
+      "id": "flow-appmainmenuinstaller-updatelocalizedtitles-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppMainMenuInstaller.updateLocalizedTitles#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "SettingsRepository.`import`#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Settings/SettingsRepository.swift:SettingsRepository.`import`#1",
+        "filePath": "EasyEngineCore/Settings/SettingsRepository.swift",
+        "symbol": "SettingsRepository.`import`#1"
+      },
+      "area": "comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Settings/SettingsRepository.swift:SettingsRepository.`import`#1",
+          "processIds": [
+            "proc_176__import_"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 15
+      },
+      "rank": 145,
+      "slug": "settingsrepository-import-1",
+      "id": "flow-settingsrepository-import-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "SettingsRepository.`import`#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "VietnameseEngine.processReset#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processReset#0",
+        "filePath": "EasyEngineCore/Engine/VietnameseEngine.swift",
+        "symbol": "VietnameseEngine.processReset#0"
+      },
+      "area": "comm_20",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processReset#0",
+          "processIds": [
+            "proc_257_processreset"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 15
+      },
+      "rank": 145,
+      "slug": "vietnameseengine-processreset-0",
+      "id": "flow-vietnameseengine-processreset-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "VietnameseEngine.processReset#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "VietnameseEngine.processWordBoundary#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processWordBoundary#1",
+        "filePath": "EasyEngineCore/Engine/VietnameseEngine.swift",
+        "symbol": "VietnameseEngine.processWordBoundary#1"
+      },
+      "area": "comm_20",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/VietnameseEngine.swift:VietnameseEngine.processWordBoundary#1",
+          "processIds": [
+            "proc_246_processwordboundary"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/SessionState.swift:SessionState.reset#0"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 15
+      },
+      "rank": 145,
+      "slug": "vietnameseengine-processwordboundary-1",
+      "id": "flow-vietnameseengine-processwordboundary-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "VietnameseEngine.processWordBoundary#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AppCoordinator.handleApplicationActivation#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.handleApplicationActivation#1",
+        "filePath": "EasyKeyApp/Coordination/AppCoordinatorWiring.swift",
+        "symbol": "AppCoordinator.handleApplicationActivation#1"
+      },
+      "area": "comm_7",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/AppCoordinatorWiring.swift:AppCoordinator.handleApplicationActivation#1",
+          "processIds": [
+            "proc_289_handleapplicationact"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Diagnostics/AppLog.swift:AppLog.logger#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 14
+      },
+      "rank": 143,
+      "slug": "appcoordinator-handleapplicationactivation-1",
+      "id": "flow-appcoordinator-handleapplicationactivation-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AppCoordinator.handleApplicationActivation#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "LocalizationStore.loadCatalog#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Localization/LocalizationStore.swift:LocalizationStore.loadCatalog#1",
+        "filePath": "EasyKeyApp/Localization/LocalizationStore.swift",
+        "symbol": "LocalizationStore.loadCatalog#1"
+      },
+      "area": "comm_232",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Localization/LocalizationStore.swift:LocalizationStore.loadCatalog#1",
+          "processIds": [
+            "proc_265_loadcatalog",
+            "proc_266_loadcatalog",
+            "proc_267_loadcatalog",
+            "proc_268_loadcatalog"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog",
+            "Struct:EasyEngineCore/Clipboard/ClipboardEntry.swift:ClipboardEntry",
+            "Struct:EasyEngineCore/Clipboard/ClipboardEntry.swift:ClipboardItem",
+            "Struct:EasyEngineCore/Clipboard/ClipboardEntry.swift:ClipboardItemPreview"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 11
+      },
+      "rank": 137,
+      "slug": "localizationstore-loadcatalog-1",
+      "id": "flow-localizationstore-loadcatalog-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "LocalizationStore.loadCatalog#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TelexComposer.processVNIKey#3",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processVNIKey#3",
+        "filePath": "EasyEngineCore/Engine/TelexComposer.swift",
+        "symbol": "TelexComposer.processVNIKey#3"
+      },
+      "area": "comm_24",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.processVNIKey#3",
+          "processIds": [
+            "proc_177_processvnikey"
+          ],
+          "terminalIds": [
+            "Function:EasyEngineCore/Engine/VietnameseOrthography.swift:VietnameseOrthography.isCheckedFinal#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 7
+      },
+      "rank": 129,
+      "slug": "telexcomposer-processvnikey-3",
+      "id": "flow-telexcomposer-processvnikey-3",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TelexComposer.processVNIKey#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "TelexComposer.usesBracketShortcuts#1",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.usesBracketShortcuts#1",
+        "filePath": "EasyEngineCore/Engine/TelexComposer.swift",
+        "symbol": "TelexComposer.usesBracketShortcuts#1"
+      },
+      "area": "comm_19",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyEngineCore/Engine/TelexComposer.swift:TelexComposer.usesBracketShortcuts#1",
+          "processIds": [
+            "proc_288_usesbracketshortcuts"
+          ],
+          "terminalIds": [
+            "Struct:EasyEngineCore/Engine/TelexComposer.swift:Profile"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 7
+      },
+      "rank": 129,
+      "slug": "telexcomposer-usesbracketshortcuts-1",
+      "id": "flow-telexcomposer-usesbracketshortcuts-1",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "TelexComposer.usesBracketShortcuts#1",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AnthropicTranslationProvider.makeRequest#3",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:AnthropicTranslationProvider.makeRequest#3",
+        "filePath": "EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift",
+        "symbol": "AnthropicTranslationProvider.makeRequest#3"
+      },
+      "area": "comm_162",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:AnthropicTranslationProvider.makeRequest#3",
+          "processIds": [
+            "proc_251_makerequest"
+          ],
+          "terminalIds": [
+            "Struct:EasyKeyApp/Features/Translation/AnthropicTranslationProvider.swift:ThinkingDisabled"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 125,
+      "slug": "anthropictranslationprovider-makerequest-3",
+      "id": "flow-anthropictranslationprovider-makerequest-3",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AnthropicTranslationProvider.makeRequest#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "LogExporter.presentExportFailure#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Coordination/LogExporter.swift:LogExporter.presentExportFailure#0",
+        "filePath": "EasyKeyApp/Coordination/LogExporter.swift",
+        "symbol": "LogExporter.presentExportFailure#0"
+      },
+      "area": "comm_75",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Coordination/LogExporter.swift:LogExporter.presentExportFailure#0",
+          "processIds": [
+            "proc_255_presentexportfailure"
+          ],
+          "terminalIds": [
+            "Property:EasyKeyTests/LocalizationTests.swift:catalog"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 125,
+      "slug": "logexporter-presentexportfailure-0",
+      "id": "flow-logexporter-presentexportfailure-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "LogExporter.presentExportFailure#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "OpenAITranslationProvider.makeRequest#3",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:OpenAITranslationProvider.makeRequest#3",
+        "filePath": "EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift",
+        "symbol": "OpenAITranslationProvider.makeRequest#3"
+      },
+      "area": "comm_162",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:OpenAITranslationProvider.makeRequest#3",
+          "processIds": [
+            "proc_197_makerequest"
+          ],
+          "terminalIds": [
+            "Struct:EasyKeyApp/Features/Translation/OpenAITranslationProvider.swift:ReasoningDisabled"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 125,
+      "slug": "openaitranslationprovider-makerequest-3",
+      "id": "flow-openaitranslationprovider-makerequest-3",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "OpenAITranslationProvider.makeRequest#3",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "SelectedTextReading.readSelectedText#0",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Method:EasyKeyApp/Features/Translation/SelectedTextCapture.swift:SelectedTextReading.readSelectedText#0",
+        "filePath": "EasyKeyApp/Features/Translation/SelectedTextCapture.swift",
+        "symbol": "SelectedTextReading.readSelectedText#0"
+      },
+      "area": "comm_184",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Method:EasyKeyApp/Features/Translation/SelectedTextCapture.swift:SelectedTextReading.readSelectedText#0",
+          "processIds": [
+            "proc_193_readselectedtext"
+          ],
+          "terminalIds": [
+            "Struct:EasyKeyApp/Features/Translation/SelectedTextCapture.swift:AccessibilityElementReference"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 5
+      },
+      "rank": 125,
+      "slug": "selectedtextreading-readselectedtext-0",
+      "id": "flow-selectedtextreading-readselectedtext-0",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "SelectedTextReading.readSelectedText#0",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "AnthropicCompatibleTranslationProvider.makeRequest#4",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift:AnthropicCompatibleTranslationProvider.makeRequest#4",
+        "filePath": "EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift",
+        "symbol": "AnthropicCompatibleTranslationProvider.makeRequest#4"
+      },
+      "area": "comm_161",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift:AnthropicCompatibleTranslationProvider.makeRequest#4",
+          "processIds": [
+            "proc_250_makerequest"
+          ],
+          "terminalIds": [
+            "Struct:EasyKeyApp/Features/Translation/AnthropicCompatibleTranslationProvider.swift:ThinkingDisabled"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 4
+      },
+      "rank": 123,
+      "slug": "anthropiccompatibletranslationprovider-makerequest-4",
+      "id": "flow-anthropiccompatibletranslationprovider-makerequest-4",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "AnthropicCompatibleTranslationProvider.makeRequest#4",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "main",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:Scripts/generate-appcast.py:main",
+        "filePath": "Scripts/generate-appcast.py",
+        "symbol": "main"
+      },
+      "area": "comm_469",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:Scripts/generate-appcast.py:main",
+          "processIds": [
+            "proc_195_main"
+          ],
+          "terminalIds": [
+            "Function:Scripts/generate-appcast.py:sparkle_tag"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 2
+      },
+      "rank": 119,
+      "slug": "main",
+      "id": "flow-main",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "main",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
+    },
+    {
+      "name": "CGKeyboardEventAdapter.normalize#2",
+      "entry_ref": {
+        "kind": "internal",
+        "signature": "Function:EasyKeyKit/Keyboard/Events/CGKeyboardEventAdapter.swift:CGKeyboardEventAdapter.normalize#2",
+        "filePath": "EasyKeyKit/Keyboard/Events/CGKeyboardEventAdapter.swift",
+        "symbol": "CGKeyboardEventAdapter.normalize#2"
+      },
+      "area": "comm_241",
+      "evidence": [
+        {
+          "provider": "gitnexus",
+          "artifact": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/tmp/gitnexus-flows.json",
+          "nodeId": "Function:EasyKeyKit/Keyboard/Events/CGKeyboardEventAdapter.swift:CGKeyboardEventAdapter.normalize#2",
+          "processIds": [
+            "proc_269_normalize"
+          ],
+          "terminalIds": [
+            "Function:EasyKeyKit/Keyboard/Events/CGKeyboardEventAdapter.swift:CGKeyboardEventAdapter.character#1"
+          ]
+        }
+      ],
+      "confidence": "candidate",
+      "reach": {
+        "steps": 3,
+        "boundaries": 0,
+        "churn": 1
+      },
+      "rank": 117,
+      "slug": "cgkeyboardeventadapter-normalize-2",
+      "id": "flow-cgkeyboardeventadapter-normalize-2",
+      "priority": "deferred",
+      "status": "deferred",
+      "display_name": "CGKeyboardEventAdapter.normalize#2",
+      "family": null,
+      "composed_into": null,
+      "doc_role": "index_only",
+      "doc_path": null,
+      "parent_flow": null,
+      "analysis_state": "not-analyzed"
     }
   ]
 }

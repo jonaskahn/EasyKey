@@ -1,0 +1,649 @@
+{
+  "schemaVersion": 3,
+  "source": "gitnexus",
+  "generated_at": "2026-08-27T10:52:51Z",
+  "research_policy": "off",
+  "workers": {
+    "evidence": 8,
+    "proposals": 4
+  },
+  "audit": {
+    "status": "passed",
+    "verdict": "PASS",
+    "report": "/Volumes/WS/Projects/Personal/EasyKey/.docforge/audits/flow-pack.md"
+  },
+  "flows": [
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "recovery",
+          "evidence": "see failures"
+        }
+      ],
+      "failures": [
+        {
+          "category": "decision-rejected",
+          "name": "duplicate instance",
+          "file": "EasyKeyApp/AppDelegate.swift",
+          "line": 10,
+          "immediate_response": "terminate",
+          "residual_state": "existing instance continues",
+          "recovery": "use running instance"
+        }
+      ],
+      "evidence_gaps": [],
+      "conflicts": [],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-appdelegate-applicationdidfinishlaunching-1",
+      "name": "Launch the menu-bar app",
+      "reader_question": "What happens from process start until the coordinator is running or the duplicate instance exits?",
+      "characteristics": [
+        "lifecycle-stateful"
+      ],
+      "trigger": {
+        "kind": "ui",
+        "signature": "NSApplicationDelegate.applicationDidFinishLaunching",
+        "preconditions": "Not a unit-test host (no XCTestConfigurationFilePath)."
+      },
+      "guarantee": "At most one production instance starts AppCoordinator; UI tests may bypass the single-instance guard.",
+      "terminal_outcomes": [
+        {
+          "condition": "XCTest host",
+          "outcome": "Launch body returns without a coordinator."
+        },
+        {
+          "condition": "Second instance (non-UI-test)",
+          "outcome": "NSApp.terminate; no coordinator."
+        },
+        {
+          "condition": "First instance",
+          "outcome": "makeDefault, start collaborators, accessory policy unless UI-testing."
+        }
+      ],
+      "actors": {
+        "initiator": "end-user or login helper",
+        "visible": [
+          "status item after start"
+        ],
+        "hidden": [
+          "AppDelegate",
+          "AppCoordinator"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "SwiftUI @main attaches AppDelegate",
+          "actor": "EasyKeyAppMain",
+          "file": "EasyKeyApp/EasyKeyApp.swift",
+          "line": 5,
+          "symbol": "EasyKeyAppMain",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": null,
+          "inputs": null,
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "applicationDidFinishLaunching guards and starts coordinator",
+          "actor": "AppDelegate",
+          "file": "EasyKeyApp/AppDelegate.swift",
+          "line": 8,
+          "symbol": "applicationDidFinishLaunching",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": "coordinator owned",
+          "inputs": null,
+          "outputs": null
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "Trigger",
+          "Happy path",
+          "Failures"
+        ],
+        "diagrams": [
+          {
+            "form": "sequenceDiagram",
+            "section": "Happy path",
+            "question": "Who calls start()?"
+          }
+        ]
+      }
+    },
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "recovery",
+          "evidence": "see failures"
+        }
+      ],
+      "failures": [],
+      "evidence_gaps": [],
+      "conflicts": [],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-clipboardlifecyclemanaging-start-1",
+      "name": "Start app collaborators",
+      "reader_question": "In what order does AppCoordinator.start wire status item, keyboard, translation, clipboard, and updates?",
+      "characteristics": [
+        "lifecycle-stateful",
+        "fan-out-orchestration"
+      ],
+      "trigger": {
+        "kind": "internal",
+        "signature": "AppCoordinator.start()",
+        "preconditions": "coordinator constructed; settingsObserver is nil or start is no-op."
+      },
+      "guarantee": "Collaborators start on the main actor; clipboard start/stop is serialized on Tasks; Sparkle is skipped under --uitesting.",
+      "terminal_outcomes": [
+        {
+          "condition": "already started",
+          "outcome": "no-op while settingsObserver != nil."
+        },
+        {
+          "condition": "fresh start",
+          "outcome": "status item installed; keyboard/translation started; clipboard start awaited."
+        }
+      ],
+      "actors": {
+        "initiator": "AppDelegate",
+        "visible": [
+          "menu bar status item"
+        ],
+        "hidden": [
+          "KeyboardService",
+          "ClipboardServices",
+          "UpdateService"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "start() binds menus and installs status item",
+          "actor": "AppCoordinator",
+          "file": "EasyKeyApp/Coordination/AppCoordinator.swift",
+          "line": 206,
+          "symbol": "start",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": "observers installed",
+          "inputs": null,
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "async clipboardLifecycle.start",
+          "actor": "ClipboardLifecycleManaging",
+          "file": "EasyKeyApp/Coordination/AppCoordinator.swift",
+          "line": 224,
+          "symbol": "clipboardLifecycle.start",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": true,
+          "state_change": "clipboard running",
+          "inputs": "loadPersisted from settings",
+          "outputs": null
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "Order",
+          "Idempotency",
+          "Shutdown pairing"
+        ],
+        "diagrams": [
+          {
+            "form": "flowchart",
+            "section": "Order",
+            "question": "What starts before clipboard?"
+          }
+        ]
+      }
+    },
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "security",
+          "evidence": "Accessibility TCC gates tap install"
+        },
+        {
+          "name": "recovery",
+          "evidence": "tap disable tears down and refreshPermission"
+        }
+      ],
+      "failures": [
+        {
+          "category": "interruption",
+          "name": "tap disabled by timeout",
+          "file": "EasyKeyKit/Keyboard/KeyboardService.swift",
+          "line": 238,
+          "immediate_response": "health degraded",
+          "residual_state": "tap down",
+          "recovery": "recoverTapAfterDisable / wake"
+        }
+      ],
+      "evidence_gaps": [],
+      "conflicts": [],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-vietnameseengine-processcharacter-2",
+      "name": "Compose a Vietnamese character",
+      "reader_question": "How does a keyDown become composed Vietnamese text in the frontmost app?",
+      "characteristics": [
+        "event-message",
+        "streaming-interactive"
+      ],
+      "trigger": {
+        "kind": "ui",
+        "signature": "CGEvent keyDown via session tap",
+        "preconditions": "AXIsProcessTrusted; tap installed; input language Vietnamese; not ignored app."
+      },
+      "guarantee": "Original key is suppressed when the engine produces replacement edits; self-posted synthesis is ignored by the tap.",
+      "terminal_outcomes": [
+        {
+          "condition": "engine processes key",
+          "outcome": "backspaces + unicode posted via KeySynthesizer."
+        },
+        {
+          "condition": "bypass (English, ignored app, foreign layout)",
+          "outcome": "original event passes through."
+        }
+      ],
+      "actors": {
+        "initiator": "user keystrokes",
+        "visible": [
+          "frontmost app text field"
+        ],
+        "hidden": [
+          "KeyboardEventTap",
+          "KeyboardInputPipeline",
+          "VietnameseEngine"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "tap callback on main thread",
+          "actor": "KeyboardEventTap",
+          "file": "EasyKeyKit/Keyboard/KeyboardEventTap.swift",
+          "line": 32,
+          "symbol": "tapCreate",
+          "evidence": "source",
+          "boundary_crossing": true,
+          "async_handoff": false,
+          "state_change": null,
+          "inputs": "CGEvent",
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "pipeline calls VietnameseEngine.process",
+          "actor": "KeyboardInputPipeline",
+          "file": "EasyKeyKit/Keyboard/KeyboardInputPipeline.swift",
+          "line": 193,
+          "symbol": "process",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": "composition buffer",
+          "inputs": "KeyEvent",
+          "outputs": "EngineOutput"
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "Tap",
+          "Engine",
+          "Synthesis"
+        ],
+        "diagrams": [
+          {
+            "form": "sequenceDiagram",
+            "section": "Tap",
+            "question": "Where is the original key suppressed?"
+          }
+        ]
+      }
+    },
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "recovery",
+          "evidence": "see failures"
+        }
+      ],
+      "failures": [],
+      "evidence_gaps": [],
+      "conflicts": [],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-appcoordinator-showclipboardpanel-0",
+      "name": "Open clipboard history",
+      "reader_question": "What happens when the user opens the clipboard panel, and how does paste-back reach another app?",
+      "characteristics": [
+        "request-command",
+        "resource-lifecycle"
+      ],
+      "trigger": {
+        "kind": "ui",
+        "signature": "AppCoordinator.showClipboardPanel / hotkey",
+        "preconditions": "Clipboard capture may be off; panel can still show empty history."
+      },
+      "guarantee": "Presenter shows a nonactivating floating panel; selection writes pasteboard then optional synthesized Cmd-V if AX trusted.",
+      "terminal_outcomes": [
+        {
+          "condition": "show",
+          "outcome": "NSPanel beside pointer; previousApplication captured."
+        },
+        {
+          "condition": "select + AX denied",
+          "outcome": "pasteboard written; user must paste manually."
+        }
+      ],
+      "actors": {
+        "initiator": "user",
+        "visible": [
+          "clipboard panel"
+        ],
+        "hidden": [
+          "ClipboardPanelPresenter",
+          "ClipboardActionCoordinator"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "showClipboardPanel",
+          "actor": "AppCoordinator",
+          "file": "EasyKeyApp/Coordination/AppCoordinator.swift",
+          "line": null,
+          "symbol": "showClipboardPanel",
+          "evidence": "graph",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": null,
+          "inputs": null,
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "presenter shows NSPanel",
+          "actor": "ClipboardPanelPresenter",
+          "file": "EasyKeyApp/Features/Clipboard/ClipboardPanelPresenter.swift",
+          "line": 12,
+          "symbol": "show",
+          "evidence": "source",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": "panel visible",
+          "inputs": null,
+          "outputs": null
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "Open",
+          "Select",
+          "Paste"
+        ],
+        "diagrams": [
+          {
+            "form": "flowchart",
+            "section": "Paste",
+            "question": "When is Cmd-V synthesized?"
+          }
+        ]
+      }
+    },
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "security",
+          "evidence": "secrets stay in Keychain; options have no API keys"
+        }
+      ],
+      "failures": [],
+      "evidence_gaps": [],
+      "conflicts": [],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-apptranslationruntime-apply-1",
+      "name": "Apply translation runtime settings",
+      "reader_question": "How do settings changes rebuild providers, hotkeys, and in-flight translation without stopping keyboard or clipboard?",
+      "characteristics": [
+        "lifecycle-stateful"
+      ],
+      "trigger": {
+        "kind": "internal",
+        "signature": "AppTranslationRuntime.apply",
+        "preconditions": "runtime already started from AppCoordinator.start."
+      },
+      "guarantee": "Apply refreshes adapters from Keychain + options; missing cloud credentials do not stop keyboard/clipboard.",
+      "terminal_outcomes": [
+        {
+          "condition": "apply with enabled translation",
+          "outcome": "registry replaced; hotkey/double-cmd-c updated; in-flight cancelled."
+        },
+        {
+          "condition": "no credentials for preferred cloud",
+          "outcome": "availability missingCredentials / setupRequired; typing continues."
+        }
+      ],
+      "actors": {
+        "initiator": "SettingsStore observer",
+        "visible": [
+          "translation panel / popover chrome"
+        ],
+        "hidden": [
+          "TranslationProviderRegistry",
+          "Keychain"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "apply options and activation",
+          "actor": "AppTranslationRuntime",
+          "file": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+          "line": null,
+          "symbol": "apply",
+          "evidence": "graph",
+          "boundary_crossing": false,
+          "async_handoff": false,
+          "state_change": "providers refreshed",
+          "inputs": "TranslationOptions",
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "makeCloudProviders from Keychain",
+          "actor": "AppTranslationRuntime",
+          "file": "EasyKeyApp/Features/Translation/AppTranslationRuntime.swift",
+          "line": 345,
+          "symbol": "makeCloudProviders",
+          "evidence": "source",
+          "boundary_crossing": true,
+          "async_handoff": false,
+          "state_change": null,
+          "inputs": null,
+          "outputs": "adapters"
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "Settings fan-in",
+          "Providers",
+          "Isolation"
+        ],
+        "diagrams": [
+          {
+            "form": "flowchart",
+            "section": "Providers",
+            "question": "Apple vs cloud after apply?"
+          }
+        ]
+      }
+    },
+    {
+      "parent_flow": null,
+      "analysis_state": "audited",
+      "decision": "selected",
+      "flow_patterns": {
+        "decisions": [],
+        "event_waits": [],
+        "loops": [],
+        "parallel_work": [],
+        "joins": []
+      },
+      "modules": [
+        {
+          "name": "recovery",
+          "evidence": "see failures"
+        }
+      ],
+      "failures": [],
+      "evidence_gaps": [],
+      "conflicts": [
+        "Release helper TEAMID12345 check may abort a real Team ID."
+      ],
+      "external_research_questions": [],
+      "decomposition_proposals": [],
+      "id": "flow-loginitemcontroller-configure-1",
+      "name": "Register launch-at-login",
+      "reader_question": "How does the launch-at-login setting register or unregister the nested helper, and what does the helper do at login?",
+      "characteristics": [
+        "lifecycle-stateful"
+      ],
+      "trigger": {
+        "kind": "internal",
+        "signature": "LoginItemController.configure",
+        "preconditions": "settings.system.launchAtLogin changed via observeSettings."
+      },
+      "guarantee": "SMAppService loginItem targets one.ifelse.easykey.LoginHelper; helper only opens host bundle one.ifelse.easykey.",
+      "terminal_outcomes": [
+        {
+          "condition": "enable",
+          "outcome": "register; status enabled or failed/unsupported."
+        },
+        {
+          "condition": "disable",
+          "outcome": "unregister."
+        },
+        {
+          "condition": "helper at login",
+          "outcome": "open host hidden or exit if already running / identity mismatch."
+        }
+      ],
+      "actors": {
+        "initiator": "user toggle",
+        "visible": [
+          "System settings login items"
+        ],
+        "hidden": [
+          "SMAppService",
+          "EasyKeyLoginHelper"
+        ]
+      },
+      "steps": [
+        {
+          "order": 1,
+          "name": "configure register/unregister",
+          "actor": "LoginItemController",
+          "file": "EasyKeyApp/Coordination/LoginItemController.swift",
+          "line": 29,
+          "symbol": "configure",
+          "evidence": "source",
+          "boundary_crossing": true,
+          "async_handoff": false,
+          "state_change": "SMAppService status",
+          "inputs": "Bool",
+          "outputs": null
+        },
+        {
+          "order": 2,
+          "name": "helper path-walks to EasyKey.app",
+          "actor": "EasyKeyLoginHelper",
+          "file": "EasyKeyLoginHelper/main.swift",
+          "line": 1,
+          "symbol": "main",
+          "evidence": "source",
+          "boundary_crossing": true,
+          "async_handoff": false,
+          "state_change": null,
+          "inputs": null,
+          "outputs": null
+        }
+      ],
+      "document_design": {
+        "section_order": [
+          "SMAppService",
+          "Helper process"
+        ],
+        "diagrams": [
+          {
+            "form": "sequenceDiagram",
+            "section": "Helper process",
+            "question": "When does the helper exit without launching?"
+          }
+        ]
+      }
+    }
+  ]
+}

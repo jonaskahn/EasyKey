@@ -2,7 +2,11 @@
 
 _Last reviewed: 2026-08-27_
 
-Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; see [platform compatibility](docs/reference/platform-compatibility.md) for the tested minimums.
+Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; tested OS and Mac minimums are owned by [platform compatibility](docs/reference.md#platform-compatibility) in the compact reference. Supported report scope for a given version is in [SECURITY.md](SECURITY.md). How a version is built and published is in [CONTRIBUTING.md](CONTRIBUTING.md) and [engineering](docs/engineering.md#release).
+
+## [Unreleased]
+
+Nothing recorded in this window.
 
 ## [0.0.14] - 2026-08-27
 
@@ -149,8 +153,8 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [0.0.1] - 2026-07-18
 
-Initial public release of the EasyKey Vietnamese typing utility. The current capability set is described in [product](docs/product.md).
+Initial public release of the EasyKey Vietnamese typing utility. The current capability set is owned by [product](docs/product.md).
 
 ## Release history
 
-The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 and 0.0.9 (both tagged 2026-08-14) are summarized from the commits since `v0.0.7` and the `v0.0.8`/`v0.0.9` tag history. The Unreleased section covers changes not yet in a tagged release. The full commit history is in git.
+The entries through 0.0.7 are summarized from tag-to-tag commit subjects and the tag dates; 0.0.8 and 0.0.9 (both tagged 2026-08-14) are summarized from the commits since `v0.0.7` and the `v0.0.8`/`v0.0.9` tag history. Unreleased is empty until the next tagged release. The full commit history is in git.

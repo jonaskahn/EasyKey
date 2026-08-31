@@ -1,0 +1,421 @@
+{
+  "schema": "1.0",
+  "project": {
+    "scale": "large",
+    "layout": "compact",
+    "tier": "diligence",
+    "profiles": {
+      "shapes": [
+        "desktop-app",
+        "library-sdk"
+      ],
+      "platforms": [
+        "macos"
+      ],
+      "frameworks": [
+        "swiftui",
+        "appkit"
+      ],
+      "concerns": [
+        "localization",
+        "secure-storage",
+        "persistence",
+        "ai-ml",
+        "auto-update",
+        "login-helper"
+      ],
+      "audiences": [
+        "engineers",
+        "beginners"
+      ],
+      "vendors": []
+    },
+    "graph_lock": {
+      "provider": "gitnexus",
+      "flow": "native"
+    }
+  },
+  "system": {
+    "capability": "Menu-bar macOS app that composes Vietnamese in any application via a session CGEvent tap, with optional clipboard history, macros, and translation (on-device Apple Translation or opt-in cloud APIs).",
+    "drivers": [
+      "Private-by-design / local-first typing with no analytics SDK",
+      "System-wide input requires unsandboxed Accessibility + CGEvent tap",
+      "Opt-in clipboard persistence and cloud translation only",
+      "Authentic Sparkle updates over HTTPS + EdDSA"
+    ],
+    "actors": [
+      "end-user",
+      "macos-tcc",
+      "github-actions"
+    ],
+    "external_systems": [
+      "macos-keychain",
+      "apple-translation-framework",
+      "cloud-translation-https",
+      "github-releases-dmg",
+      "github-pages-appcast"
+    ],
+    "deployable_blocks": [
+      {
+        "id": "blk_xcodeproj",
+        "name": "EasyKey.xcodeproj",
+        "technology": "Xcode 15+ / Swift 5 / macOS 14+",
+        "parent": null
+      },
+      {
+        "id": "blk_easykeyapp",
+        "name": "EasyKey.app",
+        "technology": "macOS application (LSUIElement)",
+        "parent": "blk_xcodeproj"
+      },
+      {
+        "id": "blk_easyenginecore",
+        "name": "EasyEngineCore",
+        "technology": "in-repo Foundation framework",
+        "parent": "blk_easykeyapp"
+      },
+      {
+        "id": "blk_easykeykit",
+        "name": "EasyKeyKit",
+        "technology": "in-repo AppKit-capable framework",
+        "parent": "blk_easykeyapp"
+      },
+      {
+        "id": "blk_loginhelper",
+        "name": "EasyKeyLoginHelper.app",
+        "technology": "sandboxed nested login item",
+        "parent": "blk_easykeyapp"
+      },
+      {
+        "id": "blk_sparkle",
+        "name": "Sparkle 2.9.4",
+        "technology": "SPM updater",
+        "parent": "blk_easykeyapp"
+      },
+      {
+        "id": "blk_easykeytests",
+        "name": "EasyKeyTests",
+        "technology": "XCTest TEST_HOST EasyKey.app",
+        "parent": "blk_xcodeproj"
+      },
+      {
+        "id": "blk_easykeyuitests",
+        "name": "EasyKeyUITests",
+        "technology": "XCTest UI bundle",
+        "parent": "blk_xcodeproj"
+      }
+    ],
+    "subsystem_candidates": [
+      {
+        "id": "subsys_keyboard_event_tap",
+        "name": "Keyboard event tap and Vietnamese engine",
+        "parent": "blk_easykeykit",
+        "evidence": "KeyboardEventTap, KeyboardService, VietnameseEngine, TelexComposer; GitNexus RecoverTapAfterDisable / HandleSystemWake",
+        "confidence": "high"
+      },
+      {
+        "id": "subsys_clipboard_persistence",
+        "name": "Clipboard history and AES-GCM persistence",
+        "parent": "blk_easykeyapp",
+        "evidence": "ClipboardPersistence, KeychainClipboardKeyStore, ClipboardHistoryModel",
+        "confidence": "high"
+      },
+      {
+        "id": "subsys_translation_cloud_trust",
+        "name": "Translation Apple vs cloud trust",
+        "parent": "blk_easykeyapp",
+        "evidence": "AppTranslationRuntime, TranslationCredentialStore, HostSafety, ValidatedTranslationEndpoint",
+        "confidence": "high"
+      }
+    ],
+    "deployment_nodes": [
+      "developer-mac-xcodebuild",
+      "github-actions-macos-15-ci",
+      "github-actions-tag-local-dmg",
+      "github-pages-appcast",
+      "github-releases-dmg",
+      "end-user-mac-sonoma-plus"
+    ],
+    "relationships": [
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "blk_easyenginecore",
+        "action": "embeds and imports",
+        "protocol": "Xcode framework / Swift import",
+        "evidence": "EasyKey.xcodeproj Embed Frameworks; StatusItemController.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "blk_easykeykit",
+        "action": "embeds and imports",
+        "protocol": "Xcode framework / Swift import",
+        "evidence": "EasyKey.xcodeproj; KeyboardService used from AppCoordinator"
+      },
+      {
+        "origin": "blk_easykeykit",
+        "destination": "blk_easyenginecore",
+        "action": "links",
+        "protocol": "Xcode target / Swift import",
+        "evidence": "KeyboardService.swift import EasyEngineCore; ArchitectureFitnessTests"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "blk_loginhelper",
+        "action": "embeds as login item",
+        "protocol": "Contents/Library/LoginItems + SMAppService",
+        "evidence": "project.pbxproj Embed Login Helper; LoginItemController.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "blk_sparkle",
+        "action": "links updater",
+        "protocol": "SPM Sparkle / SPUStandardUpdaterController",
+        "evidence": "UpdateService.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "github-pages-appcast",
+        "action": "checks for updates",
+        "protocol": "HTTPS Sparkle appcast + EdDSA",
+        "evidence": "Info.plist SUFeedURL; UpdateService.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "macos-keychain",
+        "action": "stores secrets",
+        "protocol": "Security SecItem generic password",
+        "evidence": "TranslationCredentialStore.swift; ClipboardKeyStore.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "apple-translation-framework",
+        "action": "translates on-device when available",
+        "protocol": "Translation.framework macOS 15+",
+        "evidence": "AppleTranslationProvider.swift"
+      },
+      {
+        "origin": "blk_easykeyapp",
+        "destination": "cloud-translation-https",
+        "action": "sends opt-in cloud translation",
+        "protocol": "HTTPS URLSession ephemeral",
+        "evidence": "AppTranslationRuntime.makeCloudProviders"
+      },
+      {
+        "origin": "blk_sparkle",
+        "destination": "github-releases-dmg",
+        "action": "downloads enclosure",
+        "protocol": "HTTPS DMG from GitHub Releases",
+        "evidence": "publish-appcast.yml"
+      },
+      {
+        "origin": "blk_easykeytests",
+        "destination": "blk_easykeyapp",
+        "action": "hosts tests",
+        "protocol": "TEST_HOST EasyKey.app",
+        "evidence": "project.pbxproj"
+      }
+    ],
+    "invariants": [
+      "App → Kit → Core import direction; EasyEngineCore remains Foundation-only",
+      "Event tap installs only when AXIsProcessTrusted",
+      "At most one production EasyKey instance per user (UI tests excepted)",
+      "Clipboard capture and cloud translation default off",
+      "Keychain items for translation and clipboard are this-device-only and not iCloud-sync",
+      "Sparkle live updater is never created in XCTest or --uitesting"
+    ],
+    "trust_boundaries": [
+      "TCC Accessibility grant vs session keystroke stream and AX reads",
+      "Unsandboxed EasyKey.app vs sandboxed EasyKeyLoginHelper",
+      "Process memory clipboard vs AES-GCM files + Keychain key",
+      "On-device Apple Translation vs opt-in cloud HTTPS after disclosure",
+      "Sparkle HTTPS appcast + EdDSA vs GitHub Releases DMG"
+    ],
+    "failure_domains": [
+      {
+        "element": "Accessibility / CGEvent tap",
+        "blast_radius": "Vietnamese typing, selected-text capture, synthesized paste",
+        "degradation": "requestingPermission / tap down; rest of app continues",
+        "recovery_owner": "KeyboardService.refreshPermission"
+      },
+      {
+        "element": "Clipboard persistence",
+        "blast_radius": "encrypted history load/save; RAM capture continues",
+        "degradation": "persistenceError banner; fail-closed load",
+        "recovery_owner": "ClipboardHistoryModel"
+      },
+      {
+        "element": "Cloud translation",
+        "blast_radius": "panel translate only; keyboard/clipboard keep running",
+        "degradation": "missing credentials / network errors",
+        "recovery_owner": "AppTranslationRuntime"
+      },
+      {
+        "element": "Sparkle",
+        "blast_radius": "background updates; not on AppCoordinator.stop",
+        "degradation": "updater absent if feed/key missing",
+        "recovery_owner": "UpdateService"
+      },
+      {
+        "element": "Login helper",
+        "blast_radius": "launch-at-login",
+        "degradation": "status failed/unsupported; TEAMID12345 Release check may abort signed helper",
+        "recovery_owner": "LoginItemController / EasyKeyLoginHelper"
+      }
+    ],
+    "quality_constraints": [
+      "90% line coverage excluding EasyKeyLoginHelper.app",
+      "ArchitectureFitnessTests encode layering and no-secret-in-logs/settings",
+      "macOS 14 deployment target; Apple Translation weak/macOS 15+",
+      "Hosted GitHub CI cannot complete some AX/TranslationSession tests (known-broken shard)",
+      "CI tag workflow currently uses unsigned local-dmg; notarized make dmg is operator-local"
+    ],
+    "conflicts": [
+      "README 'everything on your Mac' vs Sparkle and opt-in cloud translation (SECURITY.md qualifies)",
+      "SystemOptions.checkForUpdates UI is not wired to Sparkle automatic checks",
+      "Login helper TEAMID12345 vs real Developer ID team",
+      "SECURITY.md / README still link to a missing docs/ tree",
+      "GitNexus often labels production symbols as EasyKeyTests — not ownership"
+    ]
+  },
+  "documents": [
+    {
+      "id": "architecture_compact",
+      "path": "docs/architecture.md",
+      "reader_question": "How is EasyKey.app built (App→Kit→Core plus login helper), and where do the event tap, clipboard/Keychain, translation trust, and Sparkle meet that structure?",
+      "fact_owner": "architecture_compact",
+      "parent_blocks": [
+        "blk_easykeyapp",
+        "blk_easyenginecore",
+        "blk_easykeykit",
+        "blk_loginhelper"
+      ],
+      "evidence_questions": [
+        "What are the Xcode targets and permitted import direction?",
+        "How does AppCoordinator start and stop collaborators?",
+        "How does the CGEvent tap and Vietnamese engine work, including Accessibility?",
+        "How do clipboard RAM vs encrypted persistence and Keychain interact?",
+        "When is translation on-device vs cloud, and what does Keychain protect?",
+        "How do SMAppService + Sparkle attach to the host process?"
+      ],
+      "required_capabilities": [
+        "code_graph"
+      ],
+      "external_research_questions": [
+        "CGEvent session tap and Accessibility TCC semantics (Apple)",
+        "Sparkle EdDSA/appcast trust model (Sparkle official docs)",
+        "Whether Apple TranslationSession sends source text off-device after language packs are installed (Apple)"
+      ],
+      "dependencies": [],
+      "batch": 1,
+      "rationale": "Compact layout: one merged architecture.md. Adjudicators agreed not to add separate subsystem files; keyboard, clipboard, and translation whiteboxes fold as sections (depth loss vs standard layout).",
+      "state": "selected"
+    }
+  ],
+  "research": {
+    "policy": "off",
+    "authorized": false,
+    "questions": [
+      {
+        "question": "What does Apple document for CGEvent.tapCreate(.cgSessionEventTap) when Accessibility is denied or the tap is disabled by the system?",
+        "documents": [
+          "architecture_compact"
+        ],
+        "expected_sources": [
+          "official-doc"
+        ],
+        "why_repo_cannot_answer": "Repo comments and AXIsProcessTrusted gates behavior but do not quote OS guarantees for tap disable/timeout."
+      },
+      {
+        "question": "What is Sparkle's official EdDSA / appcast trust model for HTTPS enclosures?",
+        "documents": [
+          "architecture_compact"
+        ],
+        "expected_sources": [
+          "official-doc"
+        ],
+        "why_repo_cannot_answer": "UpdateService and generate-appcast.py implement checks; they do not restate Sparkle's security model."
+      },
+      {
+        "question": "Does Apple's TranslationSession / LanguageAvailability send user source text off-device after packs are installed?",
+        "documents": [
+          "architecture_compact"
+        ],
+        "expected_sources": [
+          "official-doc"
+        ],
+        "why_repo_cannot_answer": "EasyKey treats Apple as non-cloud for disclosure; that is a code stance, not an Apple privacy specification."
+      }
+    ],
+    "sources": []
+  },
+  "adjudication": {
+    "proposals": [
+      {
+        "agent": "coverage-architect",
+        "documents": [
+          "architecture_compact",
+          "keyboard-input",
+          "translation-trust"
+        ]
+      },
+      {
+        "agent": "decomposition-architect",
+        "documents": [
+          "architecture_compact",
+          "architecture_subsystem_keyboard_event_tap",
+          "architecture_subsystem_clipboard_persistence",
+          "architecture_subsystem_translation_cloud_trust"
+        ]
+      },
+      {
+        "agent": "runtime-quality-architect",
+        "documents": [
+          "architecture_compact"
+        ]
+      },
+      {
+        "agent": "skeptical-reviewer",
+        "documents": [
+          "architecture_compact"
+        ]
+      }
+    ],
+    "adjudicator": "orchestrator",
+    "merged": [
+      "architecture_compact hosts folded keyboard, clipboard, and translation whitebox sections"
+    ],
+    "omitted": [
+      {
+        "id": "architecture_subsystem_keyboard_event_tap",
+        "rationale": "Compact budget: fold as ## section of docs/architecture.md, not a separate file."
+      },
+      {
+        "id": "architecture_subsystem_clipboard_persistence",
+        "rationale": "Fold into compact architecture; security_compact owns crypto policy detail."
+      },
+      {
+        "id": "architecture_subsystem_translation_cloud_trust",
+        "rationale": "Fold into compact architecture; security_compact owns data-handling/threats."
+      },
+      {
+        "id": "library_sdk_architecture",
+        "rationale": "In-repo frameworks, not a shipped SDK."
+      },
+      {
+        "id": "architecture_misc",
+        "rationale": "No fact owner."
+      },
+      {
+        "id": "infra_environments",
+        "rationale": "Not an infrastructure-platform shape; CI vs DMG belongs in operations plus constraints."
+      }
+    ],
+    "expansions": []
+  },
+  "audit": {
+    "status": "passed",
+    "verdict": "PASS",
+    "report": ".docforge/audits/architecture-pack.md"
+  },
+  "generated_at": "2026-08-27T10:52:31Z"
+}
