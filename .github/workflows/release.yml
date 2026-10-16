@@ -34,20 +34,51 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      # TODO: re-enable Developer ID signing + notarization once Apple cert is available.
-      # Was: "Import Developer ID certificate" step + `make dmg` (signed/notarized) below.
-      - name: Build ${{ matrix.target.name }} DMG
+      - name: Import Developer ID certificate
+        env:
+          APPLE_SIGN_P12_BASE64: ${{ secrets.APPLE_SIGN_P12_BASE64 }}
+          APPLE_SIGN_P12_PASSWORD: ${{ secrets.APPLE_SIGN_P12_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -z "$APPLE_SIGN_P12_BASE64" ]; then
+            echo "APPLE_SIGN_P12_BASE64 is not set; run 'make update-secrets' first" >&2
+            exit 1
+          fi
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          security create-keychain -p actions "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p actions "$keychain"
+          printf '%s' "$APPLE_SIGN_P12_BASE64" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$keychain" -P "$APPLE_SIGN_P12_PASSWORD" -T /usr/bin/codesign
+          rm -f "$RUNNER_TEMP/cert.p12"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -k actions "$keychain"
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          identity=$(security find-identity -v -p codesigning "$keychain" | grep "Developer ID Application" | head -n 1 | sed 's/.*) \([A-F0-9]*\) .*/\1/')
+          [ -n "$identity" ] || { echo "no Developer ID identity in the imported certificate" >&2; exit 1; }
+          {
+            echo "DEVELOPER_ID_APPLICATION=$identity"
+            echo "DEVELOPMENT_TEAM=$APPLE_TEAM_ID"
+          } >> "$GITHUB_ENV"
+          echo "imported Developer ID identity $identity"
+
+      - name: Build, sign, and notarize ${{ matrix.target.name }} DMG
         env:
           SPARKLE_FEED_URL: ${{ vars.SPARKLE_FEED_URL }}
           SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
           EASYKEY_SUPPORT_URL: ${{ vars.EASYKEY_SUPPORT_URL }}
           EASYKEY_PRIVACY_POLICY_URL: ${{ vars.EASYKEY_PRIVACY_POLICY_URL }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          # REQUIRED_ARCHS is read from the environment by Scripts/verify-arch.sh
+          # inside `make dmg`; it is not passed on the make command line. Do not
+          # drop it from this block.
           ARCHS: ${{ matrix.target.archs }}
           REQUIRED_ARCHS: ${{ matrix.target.required_archs }}
           TARGET_NAME: ${{ matrix.target.name }}
           TAG_NAME: ${{ github.ref_name }}
         run: |
-          make local-dmg
+          make dmg
           built_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' build/export/EasyKey.app/Contents/Info.plist)
           [[ "$TAG_NAME" == "v$built_version" ]] || {
             printf 'Tag %s does not match built version %s.\n' "$TAG_NAME" "$built_version" >&2

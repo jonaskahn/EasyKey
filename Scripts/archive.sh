@@ -2,6 +2,13 @@
 set -euo pipefail
 
 project_root="${0:A:h:h}"
+
+# Local release defaults from .env.local (see .env.example). A variable already
+# exported in the shell wins, so CI and one-off command lines are unaffected.
+release_env_root="$project_root"
+# shellcheck source=release-env.sh
+source "$project_root/Scripts/release-env.sh"
+
 archive_path="${ARCHIVE_PATH:-$project_root/build/archives/EasyKey.xcarchive}"
 # Universal binary for Apple Silicon and Intel distribution (choice A).
 archs="${ARCHS:-arm64 x86_64}"
@@ -32,10 +39,17 @@ if [[ "$release_local" == "1" ]]; then
     done
 
     print "Archiving local Release build for $archs (ad-hoc sign, no Developer ID)."
+    # No hardened runtime here: it enables dyld library validation, which
+    # requires the process and its frameworks to share a Team ID. An ad-hoc
+    # signature has none, so the app would exit at launch failing to load
+    # EasyEngineCore.framework. The hardened runtime is a notarization
+    # requirement (set on the Developer ID path below); local builds skip
+    # notarization entirely (see verify-release.sh).
     xcodebuild "${common_args[@]}" \
         CODE_SIGN_STYLE=Automatic \
         CODE_SIGN_IDENTITY="-" \
         DEVELOPMENT_TEAM="" \
+        ENABLE_HARDENED_RUNTIME=NO \
         "SPARKLE_FEED_URL=$SPARKLE_FEED_URL" \
         "SPARKLE_PUBLIC_ED_KEY=$SPARKLE_PUBLIC_ED_KEY" \
         "EASYKEY_SUPPORT_URL=$EASYKEY_SUPPORT_URL" \
@@ -55,10 +69,16 @@ for url in "$SPARKLE_FEED_URL" "$EASYKEY_SUPPORT_URL" "$EASYKEY_PRIVACY_POLICY_U
     [[ "$url" == https://* ]] || { print -u2 "Release URLs must use HTTPS: $url"; exit 1; }
 done
 
+# Apple refuses to notarize a Developer ID binary without the hardened
+# runtime. Set here rather than in the Xcode project so Debug builds and
+# tests keep their current behavior and the pbxproj stays free of
+# release-only policy. Applies to every target in the scheme, so nested
+# code (LoginHelper, EasyKeyKit, EasyEngineCore, Sparkle) is covered too.
 xcodebuild "${common_args[@]}" \
     CODE_SIGN_STYLE=Manual \
     CODE_SIGN_IDENTITY="$DEVELOPER_ID_APPLICATION" \
     DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" \
+    ENABLE_HARDENED_RUNTIME=YES \
     "SPARKLE_FEED_URL=$SPARKLE_FEED_URL" \
     "SPARKLE_PUBLIC_ED_KEY=$SPARKLE_PUBLIC_ED_KEY" \
     "EASYKEY_SUPPORT_URL=$EASYKEY_SUPPORT_URL" \

@@ -35,8 +35,11 @@ node_modules/
 dSYM/
 *.dSYM/
 
-# Local secrets (Sparkle signing keys, etc.)
+# Local secrets (Sparkle signing keys, Developer ID exports, etc.)
 keys/
 *.key
 *.pem
+*.p12
+*.p12.b64
+.env.local
 .nodeterm/

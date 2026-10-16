@@ -1,15 +1,25 @@
 # Changelog
 
-_Last reviewed: 2026-08-27_
+_Last reviewed: 2026-10-16_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; tested OS and Mac minimums are owned by [platform compatibility](docs/reference.md#platform-compatibility) in the compact reference. Supported report scope for a given version is in [SECURITY.md](SECURITY.md). How a version is built and published is in [CONTRIBUTING.md](CONTRIBUTING.md) and [engineering](docs/engineering.md#release).
 
 ## [Unreleased]
 
+## [0.0.15] - 2026-10-16
+
+**Security**
+
+- Release DMGs are now signed with a Developer ID certificate and notarized by Apple, so Gatekeeper opens them without the Control-click workaround. The archived app, its login helper and Sparkle are all signed with the hardened runtime, which notarization requires and which `make verify-release` now asserts.
+
 **Fixed**
 
 - Vietnamese text typed into Chromium/Electron web-page fields and Safari is now precomposed (NFC) again: these apps had been forced to combining-diacritic output, which rendered correctly but broke website search and find-in-page because sites compare precomposed text. All Unicode-class typing output is now canonically composed at the emission point (legacy TCVN3/VNI Windows/CP1258 output is unchanged), and the user's typing-encoding setting is honored in every app.
 - The Chromium zero-width-space (and VSCode word-joiner) workaround is now transient — inserted and immediately deleted — instead of being left in the field until the next edit. A leftover invisible character used to travel inside search queries (live filtering while typing, and submits after "query + space + Enter") so site search never matched.
+
+**Added**
+
+- `make update-secrets` stages the signing, notarization and Sparkle credentials in GitHub for the Release workflow. The Developer ID `.p12` is exported from the keychain rather than pasted, and the Sparkle keypair is read from it instead of regenerated, so a published update-trust key is never rotated by accident.
 
 ## [0.0.14] - 2026-08-27
 
