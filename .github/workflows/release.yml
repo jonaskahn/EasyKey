@@ -90,6 +90,15 @@ jobs:
             done
           fi
 
+      - name: Upload notarization diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: EasyKey-${{ matrix.target.name }}-notarization
+          path: build/notarization/*.json
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Upload DMG artifact
         uses: actions/upload-artifact@v5
         with:

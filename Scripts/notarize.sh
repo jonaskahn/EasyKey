@@ -29,4 +29,29 @@ else
     )
 fi
 
-xcrun notarytool submit "$submission_path" "${credentials[@]}" --wait
+log_directory="$project_root/build/notarization"
+mkdir -p "$log_directory"
+submission_result="$log_directory/${artifact_path:t}.submission.json"
+notary_log="$log_directory/${artifact_path:t}.log.json"
+rm -f "$notary_log"
+
+submit_exit=0
+xcrun notarytool submit "$submission_path" "${credentials[@]}" \
+    --wait --output-format json > "$submission_result" || submit_exit=$?
+cat "$submission_result"
+
+# notarytool can exit successfully even when Apple's final status is Invalid.
+# Only Accepted submissions have a ticket that stapler can attach.
+submission_id="$(plutil -extract id raw -o - "$submission_result" 2>/dev/null || true)"
+notary_status="$(plutil -extract status raw -o - "$submission_result" 2>/dev/null || true)"
+if [[ "$submit_exit" != "0" || "$notary_status" != "Accepted" ]]; then
+    print -u2 "Notarization failed for $artifact_path (status: ${notary_status:-unknown}, exit: $submit_exit)."
+    if [[ -n "$submission_id" ]]; then
+        if xcrun notarytool log "$submission_id" "$notary_log" "${credentials[@]}"; then
+            cat "$notary_log"
+        else
+            print -u2 "Could not retrieve notarization log for submission $submission_id."
+        fi
+    fi
+    exit 1
+fi

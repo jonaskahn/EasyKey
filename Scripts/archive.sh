@@ -69,16 +69,18 @@ for url in "$SPARKLE_FEED_URL" "$EASYKEY_SUPPORT_URL" "$EASYKEY_PRIVACY_POLICY_U
     [[ "$url" == https://* ]] || { print -u2 "Release URLs must use HTTPS: $url"; exit 1; }
 done
 
-# Apple refuses to notarize a Developer ID binary without the hardened
-# runtime. Set here rather than in the Xcode project so Debug builds and
+# Apple requires the hardened runtime and a secure signing timestamp for
+# notarization. Set here rather than in the Xcode project so Debug builds and
 # tests keep their current behavior and the pbxproj stays free of
 # release-only policy. Applies to every target in the scheme, so nested
-# code (LoginHelper, EasyKeyKit, EasyEngineCore, Sparkle) is covered too.
+# code (LoginHelper, EasyKeyKit, EasyEngineCore, Sparkle.framework) is covered
+# too. Sparkle's prebuilt nested helpers are signed separately in export.sh.
 xcodebuild "${common_args[@]}" \
     CODE_SIGN_STYLE=Manual \
     CODE_SIGN_IDENTITY="$DEVELOPER_ID_APPLICATION" \
     DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" \
     ENABLE_HARDENED_RUNTIME=YES \
+    "OTHER_CODE_SIGN_FLAGS=--timestamp" \
     "SPARKLE_FEED_URL=$SPARKLE_FEED_URL" \
     "SPARKLE_PUBLIC_ED_KEY=$SPARKLE_PUBLIC_ED_KEY" \
     "EASYKEY_SUPPORT_URL=$EASYKEY_SUPPORT_URL" \
