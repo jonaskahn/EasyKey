@@ -286,12 +286,12 @@ final class KitCoverageGapTests: XCTestCase {
         XCTAssertFalse(KeyboardInputPipeline.shouldBreakAutocomplete(inChromiumAddressBar: false, isSpotlight: false, deleteCount: 5))
     }
 
-    func testEngineConfiguration_UnicodeCombiningRuleOverridesEncoding() {
-        let rule = AppCompatibilityRule(bundleIdentifier: "com.apple.Safari", workarounds: [.unicodeCombiningOutput])
+    func testEngineConfiguration_CompatibilityRuleNeverOverridesEncoding() {
+        let rule = AppCompatibilityRule(bundleIdentifier: "com.google.Chrome", workarounds: [.emptyCharacterInsertion, .chromium])
         var settings = EasyKeySettings.defaults
         settings.input.encoding = .unicode
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: rule)
-        XCTAssertEqual(config.outputEncoding, .unicodeCombining)
+        XCTAssertEqual(config.outputEncoding, .unicode)
     }
 
     func testIsCurrentInputSourceForeign_DoesNotCrash() {

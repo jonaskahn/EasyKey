@@ -5,7 +5,7 @@ import XCTest
 final class AppCompatibilityTests: XCTestCase {
     func testRule_Chromium_HasExpectedWorkarounds() {
         let rule = AppCompatibility.rule(for: "com.google.Chrome")
-        XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium])
+        XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium])
     }
 
     func testRule_ConfiguredApplicationsHaveCompatibilityWorkarounds() {
@@ -21,13 +21,14 @@ final class AppCompatibilityTests: XCTestCase {
                 for: bundleIdentifier,
                 compatibilityModeApplicationBundleIdentifiers: bundleIdentifiers
             )
-            XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium], bundleIdentifier)
+            XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium], bundleIdentifier)
         }
     }
 
-    func testRule_Safari_UsesUnicodeCombiningOutput() {
-        let rule = AppCompatibility.rule(for: "com.apple.Safari")
-        XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput])
+    func testRule_Safari_HasNoRule() {
+        // Safari types precomposed NFC like every other app; the former
+        // unicodeCombiningOutput workaround made its text unsearchable.
+        XCTAssertNil(AppCompatibility.rule(for: "com.apple.Safari"))
     }
 
     func testRule_CustomChromiumBrowserUsesConfiguredWorkarounds() {
@@ -35,7 +36,7 @@ final class AppCompatibilityTests: XCTestCase {
             for: "dev.example.CustomBrowser",
             compatibilityModeApplicationBundleIdentifiers: ["dev.example.CustomBrowser"]
         )
-        XCTAssertEqual(rule?.workarounds, [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium])
+        XCTAssertEqual(rule?.workarounds, [.emptyCharacterInsertion, .chromium])
     }
 
     func testRule_RemovedDefaultBrowserHasNoChromiumWorkaround() {
@@ -52,8 +53,8 @@ final class AppCompatibilityTests: XCTestCase {
 
     func testRule_Chromium_UsesCodePointBackspaceUnit() {
         // Blink web-page fields delete one UTF-16 code unit per backspace;
-        // the Chromium rule must count replacements in code units so combining
-        // output ("ề" = 3 code units) is fully deleted before re-insertion.
+        // the Chromium rule must count replacements in code units so any
+        // multi-unit text is fully deleted before re-insertion.
         let rule = AppCompatibility.rule(for: "com.google.Chrome")
         XCTAssertEqual(rule?.backspaceUnit, .codePoint)
     }
@@ -70,10 +71,11 @@ final class AppCompatibilityTests: XCTestCase {
     }
 
     func testRule_NativeFields_UseGraphemeBackspaceUnit() {
-        // Safari, Spotlight, and VSCode are native fields: one backspace
-        // deletes one grapheme cluster, so they keep grapheme counting even
-        // though Chromium switched to code-point counting.
-        XCTAssertEqual(AppCompatibility.rule(for: "com.apple.Safari")?.backspaceUnit, .grapheme)
+        // Spotlight and VSCode are native fields: one backspace deletes one
+        // grapheme cluster, so they keep grapheme counting even though
+        // Chromium uses code-point counting. Safari has no rule at all
+        // (defaults to grapheme at the pipeline).
+        XCTAssertEqual(AppCompatibility.rule(for: "com.apple.Safari"), nil)
         XCTAssertEqual(AppCompatibility.rule(for: "com.apple.Spotlight")?.backspaceUnit, .grapheme)
         XCTAssertEqual(AppCompatibility.rule(for: "com.microsoft.VSCode")?.backspaceUnit, .grapheme)
     }

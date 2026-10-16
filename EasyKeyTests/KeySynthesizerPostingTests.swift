@@ -69,13 +69,9 @@ final class KeySynthesizerPostingTests: XCTestCase {
         synthesizer.postShiftLeft(proxy: fakeProxy(), count: 2)
     }
 
-    func testInsert_ClearsPendingEmptyCharacterFirst() {
+    func testInsert_PostsWithoutLeadingBackspace() {
         let synthesizer = KeySynthesizer()
-        synthesizer.insertEmptyCharacter(proxy: fakeProxy(), "\u{200B}")
-        XCTAssertTrue(synthesizer.hasPendingEmptyCharacter)
-
         synthesizer.insert(proxy: fakeProxy(), "a")
-        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
         XCTAssertEqual(synthesizer.encodedUnitCount, 1)
     }
 
@@ -85,10 +81,9 @@ final class KeySynthesizerPostingTests: XCTestCase {
         XCTAssertEqual(synthesizer.encodedUnitCount, 2)
     }
 
-    func testInsertEmptyCharacter_MarksPending() {
+    func testPostEmptyCharacterBreak_NeverTracksUnits() {
         let synthesizer = KeySynthesizer()
-        synthesizer.insertEmptyCharacter(proxy: fakeProxy(), "\u{2060}")
-        XCTAssertTrue(synthesizer.hasPendingEmptyCharacter)
+        XCTAssertTrue(synthesizer.postEmptyCharacterBreak(proxy: fakeProxy(), "\u{2060}"))
         XCTAssertEqual(synthesizer.encodedUnitCount, 0)
     }
 
@@ -213,10 +208,9 @@ final class KeySynthesizerPostingTests: XCTestCase {
         XCTAssertEqual(synthesizer.encodedUnitCount, 0)
     }
 
-    func testPostMacroExpansion_WithPendingEmptyCharacter_AccountsForItInDeletion() {
+    func testPostMacroExpansion_DeletionCountsMatchTriggerUnitsOnly() {
         let synthesizer = KeySynthesizer()
         synthesizer.trackEncodedUnits(["s", "i", "g"])
-        synthesizer.insertEmptyCharacter(proxy: fakeProxy(), "\u{200B}")
 
         let posted = synthesizer.postMacroExpansion(
             proxy: fakeProxy(),
@@ -228,7 +222,6 @@ final class KeySynthesizerPostingTests: XCTestCase {
         )
 
         XCTAssertTrue(posted)
-        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
         XCTAssertEqual(synthesizer.encodedUnitCount, 3)
     }
 

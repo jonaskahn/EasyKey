@@ -40,13 +40,19 @@ public final class KeySynthesizer {
     private let eventFactory: EventFactory
     private let eventPoster: EventPoster
     private var encodedUnitStack: [EncodedUnit] = []
-    private var pendingEmptyCharacter = false
 
     /// How the receiving app's backspace deletes text; drives backspace
     /// counting for replacements. The pipeline sets this per app/context:
     /// Chromium web-page fields use .codePoint, everything else (Safari,
     /// Spotlight, the Chromium omnibox, VSCode) uses .grapheme.
     var backspaceUnit: BackspaceUnit = .grapheme
+
+    /// Whether unicode text is canonically composed (NFC) before it is posted.
+    /// The pipeline sets this per batch from the active output encoding:
+    /// Unicode-class encodings normalize so receiving apps' search inputs can
+    /// match the typed text; legacy code-page outputs (CP1258 is deliberately
+    /// combining-based) pass through untouched.
+    var normalizesUnicodeOutput = true
 
     public init() {
         let eventSource = CGEventSource(stateID: .privateState)
@@ -113,22 +119,23 @@ public final class KeySynthesizer {
         useSelectionReplacement: Bool = false,
         breakAutocomplete: Bool = false
     ) -> ReplacementStrategy {
+        let (normalizedText, normalizedUnits) = precomposed(text, encodedUnits)
         if useSelectionReplacement {
             let selectionCount = selectionDeleteCount(deleteCount)
             guard let selectionEvents = makePhysicalKeyEvents(
                 keyCode: KeyboardKeyCode.leftArrow,
                 modifiers: .maskShift,
                 count: selectionCount
-            ), let insertionEvents = makeUnicodeEvents(text)
+            ), let insertionEvents = makeUnicodeEvents(normalizedText)
             else { return .failed }
             _ = prepareDeleteForSelection(deleteCount: deleteCount)
             post(selectionEvents, proxy: proxy)
-            post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
+            post(insertionEvents, proxy: proxy, encodedUnits: normalizedUnits)
             return .selectionReplacement
         }
 
         let shouldBreakAutocomplete = breakAutocomplete
-        guard let insertionEvents = makeUnicodeEvents(text),
+        guard let insertionEvents = makeUnicodeEvents(normalizedText),
               let breakEvents = makeUnicodeEvents(shouldBreakAutocomplete ? Self.autocompleteBreakCharacter : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
                   keyCode: KeyboardKeyCode.backspace,
@@ -146,28 +153,36 @@ public final class KeySynthesizer {
         let removedUnits = prepareDelete(deleteCount: deleteCount)
         assert(removedUnits == deletionEvents.count)
         post(deletionEvents, proxy: proxy)
-        post(insertionEvents, proxy: proxy, encodedUnits: encodedUnits)
+        post(insertionEvents, proxy: proxy, encodedUnits: normalizedUnits)
         return shouldBreakAutocomplete ? .breakAutocompleteAndBackspace : .physicalBackspace
     }
 
     @discardableResult
     func insert(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]? = nil) -> Bool {
-        guard let events = makeUnicodeEvents(text), clearPendingEmptyCharacter(proxy: proxy) else { return false }
-        post(events, proxy: proxy, encodedUnits: encodedUnits ?? text.map(String.init))
+        let (normalizedText, normalizedUnits) = precomposed(text, encodedUnits ?? text.map(String.init))
+        guard let events = makeUnicodeEvents(normalizedText) else { return false }
+        post(events, proxy: proxy, encodedUnits: normalizedUnits)
         return true
     }
 
+    /// Posts the empty-character workaround as a transient insert + immediate
+    /// backspace pair (the autocomplete-break pattern): the insert event is
+    /// what breaks Blink's IME session so the next word's letters aren't
+    /// swallowed, and the immediate backspace keeps the invisible character
+    /// from resting in the field — a leftover U+200B/U+2060 poisons website
+    /// search queries.
     @discardableResult
-    func insertEmptyCharacter(proxy: CGEventTapProxy, _ text: String) -> Bool {
-        guard let events = makeUnicodeEvents(text), clearPendingEmptyCharacter(proxy: proxy) else { return false }
+    func postEmptyCharacterBreak(proxy: CGEventTapProxy, _ text: String) -> Bool {
+        guard let events = makeUnicodeEvents(text),
+              let backspaceEvents = makePhysicalKeyEvents(keyCode: KeyboardKeyCode.backspace, modifiers: [], count: 1)
+        else { return false }
         post(events, proxy: proxy, encodedUnits: [])
-        pendingEmptyCharacter = true
+        post(backspaceEvents, proxy: proxy)
         return true
     }
 
     func resetEncodedUnits() {
         encodedUnitStack.removeAll(keepingCapacity: true)
-        pendingEmptyCharacter = false
     }
 
     public static func isSelfPosted(_ event: CGEvent) -> Bool {
@@ -181,10 +196,6 @@ public final class KeySynthesizer {
         encodedUnitStack.count
     }
 
-    var hasPendingEmptyCharacter: Bool {
-        pendingEmptyCharacter
-    }
-
     func postMacroExpansion(
         proxy: CGEventTapProxy,
         backspaceCount: Int,
@@ -193,7 +204,7 @@ public final class KeySynthesizer {
         useSelectionReplacement: Bool,
         breakAutocomplete: Bool
     ) -> Bool {
-        let encodedUnits = text.map(String.init)
+        let (normalizedText, encodedUnits) = precomposed(text, text.map(String.init))
 
         if useSelectionReplacement {
             let selectionCount = macroExpansionSelectionCount(backspaceCount)
@@ -201,7 +212,7 @@ public final class KeySynthesizer {
                 keyCode: KeyboardKeyCode.leftArrow,
                 modifiers: .maskShift,
                 count: selectionCount
-            ), let insertionEvents = makeUnicodeEvents(text),
+            ), let insertionEvents = makeUnicodeEvents(normalizedText),
             let delimiterEvents = makePhysicalKeyEvents(keyCode: physicalKeyCode, modifiers: [], count: 1)
             else { return false }
             _ = prepareDeleteForSelection(deleteCount: backspaceCount)
@@ -212,7 +223,7 @@ public final class KeySynthesizer {
         }
 
         let physicalCount = macroExpansionDeleteCount(backspaceCount)
-        guard let insertionEvents = makeUnicodeEvents(text),
+        guard let insertionEvents = makeUnicodeEvents(normalizedText),
               let breakEvents = makeUnicodeEvents(breakAutocomplete ? Self.autocompleteBreakCharacter : ""),
               let breakBackspaceEvents = makePhysicalKeyEvents(
                   keyCode: KeyboardKeyCode.backspace,
@@ -233,24 +244,12 @@ public final class KeySynthesizer {
 
     @discardableResult
     func prepareDelete(deleteCount: Int) -> Int {
-        var physicalCount = 0
-        if pendingEmptyCharacter {
-            physicalCount += 1
-            pendingEmptyCharacter = false
-        }
-        physicalCount += removeEncodedUnits(deleteCount)
-        return physicalCount
+        removeEncodedUnits(deleteCount)
     }
 
     @discardableResult
     func prepareDeleteForSelection(deleteCount: Int) -> Int {
-        var selectionCount = 0
-        if pendingEmptyCharacter {
-            selectionCount += 1
-            pendingEmptyCharacter = false
-        }
-        selectionCount += removeEncodedUnits(deleteCount)
-        return selectionCount
+        removeEncodedUnits(deleteCount)
     }
 
     func trackEncodedUnits(_ encodedUnits: [String]) {
@@ -259,21 +258,23 @@ public final class KeySynthesizer {
         })
     }
 
-    func markPendingEmptyCharacter() {
-        pendingEmptyCharacter = true
-    }
-
-    private func clearPendingEmptyCharacter(proxy: CGEventTapProxy) -> Bool {
-        guard pendingEmptyCharacter else { return true }
-        guard postBackspace(proxy: proxy, count: 1) else { return false }
-        pendingEmptyCharacter = false
-        return true
+    /// Canonical composition applied to text and its per-atom units together,
+    /// so the deletion bookkeeping always describes the bytes that reach the
+    /// wire. Per-unit normalization is safe because no unit ever splits a
+    /// combining sequence (encoders emit base+marks+tone per atom).
+    private func precomposed(_ text: String, _ units: [String]) -> (text: String, units: [String]) {
+        guard normalizesUnicodeOutput else { return (text, units) }
+        return (
+            text.precomposedStringWithCanonicalMapping,
+            units.map { $0.precomposedStringWithCanonicalMapping }
+        )
     }
 
     @discardableResult
     private func postUnicodeText(proxy: CGEventTapProxy, _ text: String, encodedUnits: [String]) -> Bool {
-        guard let events = makeUnicodeEvents(text) else { return false }
-        post(events, proxy: proxy, encodedUnits: encodedUnits)
+        let (normalizedText, normalizedUnits) = precomposed(text, encodedUnits)
+        guard let events = makeUnicodeEvents(normalizedText) else { return false }
+        post(events, proxy: proxy, encodedUnits: normalizedUnits)
         return true
     }
 
@@ -317,20 +318,17 @@ public final class KeySynthesizer {
     }
 
     private func physicalDeleteCount(_ logicalCount: Int) -> Int {
-        let pendingCount = pendingEmptyCharacter ? 1 : 0
         let count = min(max(0, logicalCount), encodedUnitStack.count)
         // The number of physical backspaces must match how the receiving app
         // deletes: one grapheme cluster per backspace (Safari, Spotlight, the
         // omnibox) or one UTF-16 code unit per backspace (Chromium web-page
         // fields). Counting in the wrong unit under-deletes (leaving duplicate
         // characters) or over-deletes (eating the preceding space).
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + unitLength($1) }
+        return encodedUnitStack.suffix(count).reduce(0) { $0 + unitLength($1) }
     }
 
     private func selectionDeleteCount(_ logicalCount: Int) -> Int {
-        let pendingCount = pendingEmptyCharacter ? 1 : 0
-        let count = min(max(0, logicalCount), encodedUnitStack.count)
-        return pendingCount + encodedUnitStack.suffix(count).reduce(0) { $0 + unitLength($1) }
+        physicalDeleteCount(logicalCount)
     }
 
     private func unitLength(_ unit: EncodedUnit) -> Int {
@@ -344,14 +342,14 @@ public final class KeySynthesizer {
 
     private func macroExpansionDeleteCount(_ logicalCount: Int) -> Int {
         guard encodedUnitStack.count >= logicalCount else {
-            return logicalCount + (pendingEmptyCharacter ? 1 : 0)
+            return logicalCount
         }
         return physicalDeleteCount(logicalCount)
     }
 
     private func macroExpansionSelectionCount(_ logicalCount: Int) -> Int {
         guard encodedUnitStack.count >= logicalCount else {
-            return logicalCount + (pendingEmptyCharacter ? 1 : 0)
+            return logicalCount
         }
         return selectionDeleteCount(logicalCount)
     }

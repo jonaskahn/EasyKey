@@ -59,12 +59,12 @@ final class KeyboardInputPipelineStaticTests: XCTestCase {
     func testEngineConfigurationWithRule() {
         let settings = EasyKeySettings.defaults
         let rule = AppCompatibilityRule(
-            bundleIdentifier: "com.apple.Safari",
-            workarounds: [.unicodeCombiningOutput]
+            bundleIdentifier: "com.google.Chrome",
+            workarounds: [.emptyCharacterInsertion, .chromium]
         )
 
         let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: rule)
-        XCTAssertEqual(config.outputEncoding, .unicodeCombining)
+        XCTAssertEqual(config.outputEncoding, settings.input.encoding)
     }
 
     func testEngineConfigurationTypingOptions() {

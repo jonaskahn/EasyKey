@@ -35,18 +35,21 @@ final class KeyboardPipelineCoverageTests: XCTestCase {
     }
 
     func testEngineConfigurationWithCompatibilityRule() {
+        // Compatibility rules never rewrite the output encoding: typed text
+        // is normalized to NFC at the synthesis boundary instead, so the
+        // user's encoding setting is honored in every app.
         let rules: [(String, Set<AppCompatibilityRule.Workaround>)] = [
-            ("com.apple.Safari", [.unicodeCombiningOutput]),
             ("com.apple.Spotlight", [.spotlightSelection]),
-            ("com.google.Chrome", [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium]),
+            ("com.google.Chrome", [.emptyCharacterInsertion, .chromium]),
+            ("com.microsoft.VSCode", [.alternateEmptyCharacter]),
         ]
         for (bundleID, workarounds) in rules {
             let rule = AppCompatibilityRule(bundleIdentifier: bundleID, workarounds: workarounds)
-            var settings = EasyKeySettings.defaults
-            settings.input.encoding = .unicode
-            let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: rule)
-            if workarounds.contains(.unicodeCombiningOutput) {
-                XCTAssertEqual(config.outputEncoding, .unicodeCombining, bundleID)
+            for encoding in [EncodingTable.unicode, .unicodeCombining, .cp1258] {
+                var settings = EasyKeySettings.defaults
+                settings.input.encoding = encoding
+                let config = KeyboardInputPipeline.engineConfiguration(for: settings, rule: rule)
+                XCTAssertEqual(config.outputEncoding, encoding, bundleID)
             }
         }
     }
