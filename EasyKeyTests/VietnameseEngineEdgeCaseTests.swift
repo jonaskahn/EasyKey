@@ -637,10 +637,13 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         typeKeys(&engine, "tuyeenf")
         let units = engine.renderedUnits
         let text = engine.currentBuffer
-        XCTAssertNotEqual(text, text.precomposedStringWithCanonicalMapping, "sample must actually be decomposed")
+        XCTAssertTrue(
+            text.unicodeScalars.contains { (0x0300 ... 0x036F).contains($0.value) },
+            "sample must actually be decomposed"
+        )
         XCTAssertEqual(
-            units.map { $0.precomposedStringWithCanonicalMapping }.joined(),
-            text.precomposedStringWithCanonicalMapping
+            units.map { $0.precomposedStringWithCanonicalMapping }.joined().unicodeScalars.map(\.value),
+            text.precomposedStringWithCanonicalMapping.unicodeScalars.map(\.value)
         )
     }
 

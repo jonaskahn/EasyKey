@@ -512,6 +512,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             eventPoster: { event, _ in posted.append(event) }
         )
 
@@ -540,6 +541,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             eventPoster: { event, _ in posted.append(event) }
         )
         pipeline.setActiveApplication("com.google.Chrome")
@@ -573,6 +575,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             eventPoster: { event, _ in posted.append(event) }
         )
         pipeline.setActiveApplication("com.google.Chrome")
@@ -626,6 +629,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             chromiumAddressBarDetector: chromiumAddressBarDetector,
             eventPoster: { event, _ in posted.append(event) }
         )
@@ -717,8 +721,8 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         for event in posted where event.type == .keyDown {
             let text = unicodeText(of: event)
             XCTAssertEqual(
-                text,
-                text.precomposedStringWithCanonicalMapping,
+                text.unicodeScalars.map(\.value),
+                text.precomposedStringWithCanonicalMapping.unicodeScalars.map(\.value),
                 "wire text must be precomposed NFC, got \(text.unicodeScalars.map { String(format: "U+%04X", $0.value) })"
             )
         }
@@ -748,6 +752,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             eventPoster: { event, _ in posted.append(event) }
         )
         pipeline.setActiveApplication("com.google.Chrome")
@@ -758,7 +763,11 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         }
         for event in posted where event.type == .keyDown {
             let text = unicodeText(of: event)
-            XCTAssertEqual(text, text.precomposedStringWithCanonicalMapping, "explicit combining mode still types NFC")
+            XCTAssertEqual(
+                text.unicodeScalars.map(\.value),
+                text.precomposedStringWithCanonicalMapping.unicodeScalars.map(\.value),
+                "explicit combining mode still types NFC"
+            )
         }
     }
 
@@ -771,6 +780,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         var posted: [CGEvent] = []
         let pipeline = KeyboardInputPipeline(
             settings: settings,
+            spotlightVisibilityProvider: { false },
             eventPoster: { event, _ in posted.append(event) }
         )
         pipeline.setActiveApplication("com.google.Chrome")
