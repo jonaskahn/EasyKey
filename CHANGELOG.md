@@ -6,7 +6,10 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [Unreleased]
 
-Nothing recorded in this window.
+**Fixed**
+
+- Vietnamese text typed into Chromium/Electron web-page fields and Safari is now precomposed (NFC) again: these apps had been forced to combining-diacritic output, which rendered correctly but broke website search and find-in-page because sites compare precomposed text. All Unicode-class typing output is now canonically composed at the emission point (legacy TCVN3/VNI Windows/CP1258 output is unchanged), and the user's typing-encoding setting is honored in every app.
+- The Chromium zero-width-space (and VSCode word-joiner) workaround is now transient — inserted and immediately deleted — instead of being left in the field until the next edit. A leftover invisible character used to travel inside search queries (live filtering while typing, and submits after "query + space + Enter") so site search never matched.
 
 ## [0.0.14] - 2026-08-27
 

@@ -567,7 +567,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         }
     }
 
-    func testProcess_SpaceCommitInChromium_PostsZeroWidthSpace() {
+    func testProcess_SpaceCommitInChromium_PostsTransientZeroWidthSpaceBreak() {
         var settings = EasyKeySettings.defaults
         settings.input.language = .vietnamese
         var posted: [CGEvent] = []
@@ -595,16 +595,22 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
             XCTFail("Expected a Space character to be inserted")
             return
         }
-        var foundZWS = false
-        for event in posted[(spaceInsertIndex + 1)...] {
+        var zwspIndex: Int?
+        for (offset, event) in posted[(spaceInsertIndex + 1)...].enumerated() {
             if unicodeText(of: event).contains("\u{200B}") {
-                foundZWS = true
+                zwspIndex = spaceInsertIndex + 1 + offset
                 break
             }
         }
-        XCTAssertTrue(
-            foundZWS,
-            "Zero-width space must be posted after Space commit in Chromium to maintain IME session"
+        guard let zwspIndex else {
+            XCTFail("Zero-width space must be posted after Space commit in Chromium to maintain IME session")
+            return
+        }
+        let followUpKeyDown = posted[(zwspIndex + 1)...].first { $0.type == .keyDown }
+        XCTAssertEqual(
+            followUpKeyDown?.getIntegerValueField(.keyboardEventKeycode),
+            51,
+            "the zero-width space must be transient: immediately deleted so it never rests in the field"
         )
     }
 
@@ -671,25 +677,23 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
     }
 
     func testProcess_TypingTwoWordsInChromiumPageField_PreservesSpaceBetweenWords() {
-        // Regression: typing "tuyeenf nguyeenx" in a Chrome page field with
-        // combining output. Blink fields delete one UTF-16 code unit per
-        // backspace ("ề" = 3 units), so the pipeline counts replacements in
-        // code points. Counting graphemes instead under-deletes and leaves
-        // accumulating duplicates ("ttututuyền nnngnguyễn").
+        // Regression: typing "tuyeenf nguyeenx" in a Chrome page field.
+        // Blink fields delete one UTF-16 code unit per backspace, so the
+        // pipeline counts replacements in code points. Counting in the wrong
+        // unit under-deletes and leaves accumulating duplicates
+        // ("ttututuyền nnngnguyễn"). Workaround characters (U+200B, U+202F)
+        // are transient insert+backspace pairs that must net to zero here.
         let posted = postedForTwoWords(bundleIdentifier: "com.google.Chrome")
         let visible = replayedField(from: posted, deleteUnit: .codePoint)
-            .replacingOccurrences(of: "\u{200B}", with: "")
-            .replacingOccurrences(of: "\u{202F}", with: "")
         XCTAssertEqual(visible, "tuyền nguyễn")
     }
 
     func testProcess_TypingTwoWordsInSafari_PreservesSpaceWithGraphemeDeletion() {
         // Safari is a native field: one backspace deletes one grapheme
-        // cluster, and the Safari rule keeps grapheme counting.
+        // cluster, and with no Safari rule the pipeline keeps grapheme
+        // counting.
         let posted = postedForTwoWords(bundleIdentifier: "com.apple.Safari")
         let visible = replayedField(from: posted, deleteUnit: .grapheme)
-            .replacingOccurrences(of: "\u{200B}", with: "")
-            .replacingOccurrences(of: "\u{202F}", with: "")
         XCTAssertEqual(visible, "tuyền nguyễn")
     }
 
@@ -703,9 +707,83 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
             chromiumAddressBarDetector: { true }
         )
         let visible = replayedField(from: posted, deleteUnit: .grapheme)
-            .replacingOccurrences(of: "\u{200B}", with: "")
-            .replacingOccurrences(of: "\u{202F}", with: "")
         XCTAssertEqual(visible, "tuyền nguyễn")
+    }
+
+    func testProcess_TypingInChromium_WireTextIsPrecomposedNFC() {
+        // Regression: decomposed (NFD) output renders fine but breaks website
+        // search — Blink stores the combining scalars while sites compare NFC.
+        let posted = postedForTwoWords(bundleIdentifier: "com.google.Chrome")
+        for event in posted where event.type == .keyDown {
+            let text = unicodeText(of: event)
+            XCTAssertEqual(
+                text,
+                text.precomposedStringWithCanonicalMapping,
+                "wire text must be precomposed NFC, got \(text.unicodeScalars.map { String(format: "U+%04X", $0.value) })"
+            )
+        }
+    }
+
+    func testProcess_TypingLeavesNoInvisibleCharacters_AtRest() {
+        // Regression: a leftover U+200B/U+2060 in the field poisons website
+        // search queries (instant search mid-typing; "query + space + Enter").
+        for (bundleIdentifier, deleteUnit) in [
+            ("com.google.Chrome", BackspaceUnit.codePoint),
+            ("com.microsoft.VSCode", BackspaceUnit.grapheme),
+        ] {
+            let posted = postedForTwoWords(bundleIdentifier: bundleIdentifier)
+            let field = replayedField(from: posted, deleteUnit: deleteUnit)
+            XCTAssertFalse(field.contains("\u{200B}"), "\(bundleIdentifier): leftover zero-width space")
+            XCTAssertFalse(field.contains("\u{2060}"), "\(bundleIdentifier): leftover word joiner")
+            XCTAssertEqual(field, "tuyền nguyễn", bundleIdentifier)
+        }
+    }
+
+    func testProcess_UserSelectedUnicodeCombining_WireIsStillNFC() {
+        // All Unicode-class typing output is normalized at the emission
+        // point: even the explicit "Unicode Combining" encoding types NFC.
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        settings.input.encoding = .unicodeCombining
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        for (character, keyCode) in [("v", UInt16(9)), ("i", 34), ("s", 1)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        for event in posted where event.type == .keyDown {
+            let text = unicodeText(of: event)
+            XCTAssertEqual(text, text.precomposedStringWithCanonicalMapping, "explicit combining mode still types NFC")
+        }
+    }
+
+    func testProcess_CP1258Mode_PreservesCombiningWireText() {
+        // Legacy code-page output is exempt from normalization: CP1258 is
+        // deliberately combining-based.
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .vietnamese
+        settings.input.encoding = .cp1258
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.setActiveApplication("com.google.Chrome")
+
+        for (character, keyCode) in [("v", UInt16(9)), ("i", 34), ("s", 1)] {
+            let event = keyEvent(character: character, keyCode: keyCode)
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown, event: event, keyCode: keyCode)
+        }
+        let wire = posted.filter { $0.type == .keyDown }.map(unicodeText(of:)).joined()
+        XCTAssertTrue(
+            wire.unicodeScalars.contains { $0.value == 0x0301 },
+            "CP1258 output keeps combining scalars, got \(wire.unicodeScalars.map { String(format: "U+%04X", $0.value) })"
+        )
     }
 
     func testProcess_SpotlightContext_DoesNotInheritPreviousAppChromiumWorkarounds() {

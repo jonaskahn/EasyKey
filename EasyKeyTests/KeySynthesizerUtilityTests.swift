@@ -20,23 +20,13 @@ final class KeySynthesizerUtilityTests: XCTestCase {
         XCTAssertEqual(synthesizer.encodedUnitCount, 0)
     }
 
-    func testMarkPendingEmptyCharacter() {
-        let synthesizer = KeySynthesizer()
-        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
-        synthesizer.markPendingEmptyCharacter()
-        XCTAssertTrue(synthesizer.hasPendingEmptyCharacter)
-    }
-
     func testResetEncodedUnits() {
         let synthesizer = KeySynthesizer()
         synthesizer.trackEncodedUnits(["a", "b"])
-        synthesizer.markPendingEmptyCharacter()
         XCTAssertEqual(synthesizer.encodedUnitCount, 2)
-        XCTAssertTrue(synthesizer.hasPendingEmptyCharacter)
 
         synthesizer.resetEncodedUnits()
         XCTAssertEqual(synthesizer.encodedUnitCount, 0)
-        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
     }
 
     func testPrepareDeleteNoPending() {
@@ -78,12 +68,10 @@ final class KeySynthesizerUtilityTests: XCTestCase {
     func testMultipleOperations() {
         let synthesizer = KeySynthesizer()
         synthesizer.trackEncodedUnits(["h", "o"])
-        synthesizer.markPendingEmptyCharacter()
 
         let physical = synthesizer.prepareDelete(deleteCount: 2)
-        XCTAssertEqual(physical, 3)
+        XCTAssertEqual(physical, 2)
         XCTAssertEqual(synthesizer.encodedUnitCount, 0)
-        XCTAssertFalse(synthesizer.hasPendingEmptyCharacter)
 
         synthesizer.trackEncodedUnits(["n", "e", "w"])
         XCTAssertEqual(synthesizer.encodedUnitCount, 3)

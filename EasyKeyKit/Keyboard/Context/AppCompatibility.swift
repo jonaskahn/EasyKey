@@ -16,7 +16,6 @@ public enum BackspaceUnit: String, Equatable, Sendable {
 
 public struct AppCompatibilityRule: Equatable, Sendable {
     public enum Workaround: String, CaseIterable, Hashable, Sendable {
-        case unicodeCombiningOutput
         case spotlightSelection
         case emptyCharacterInsertion
         case alternateEmptyCharacter
@@ -40,7 +39,6 @@ public struct AppCompatibilityRule: Equatable, Sendable {
 
 public enum AppCompatibility {
     public static let rules: [AppCompatibilityRule] = [
-        .init(bundleIdentifier: "com.apple.Safari", workarounds: [.unicodeCombiningOutput]),
         .init(bundleIdentifier: "com.apple.Spotlight", workarounds: [.spotlightSelection]),
         .init(bundleIdentifier: "com.microsoft.VSCode", workarounds: [.alternateEmptyCharacter]),
     ]
@@ -56,7 +54,7 @@ public enum AppCompatibility {
         if compatibilityModeApplicationBundleIdentifiers.contains(bundleIdentifier) {
             return AppCompatibilityRule(
                 bundleIdentifier: bundleIdentifier,
-                workarounds: [.unicodeCombiningOutput, .emptyCharacterInsertion, .chromium],
+                workarounds: [.emptyCharacterInsertion, .chromium],
                 // Chromium compatibility-mode apps are Blink web-page fields,
                 // whose backspace deletes one UTF-16 code unit. The omnibox
                 // (a native field) overrides back to .grapheme in the

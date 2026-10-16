@@ -178,9 +178,9 @@ final class KeyboardInputPipeline {
 
         // Spotlight is an agent overlay: opening it fires no activation event,
         // so the previous app's compatibility rule would otherwise leak into
-        // Spotlight (zero-width spaces, combining output, autocomplete
-        // breaks). Re-derive the effective rule per event and rebuild the
-        // engine configuration when the context flips.
+        // Spotlight (zero-width-space breaks, autocomplete breaks). Re-derive
+        // the effective rule per event and rebuild the engine configuration
+        // when the context flips.
         let effectiveRule = currentCompatibilityRule()
         if effectiveRule != lastAppliedRule {
             engine.configuration = Self.engineConfiguration(for: settings, rule: effectiveRule)
@@ -223,6 +223,7 @@ final class KeyboardInputPipeline {
         synthesizer.backspaceUnit = inChromiumAddressBar
             ? .grapheme
             : (rule?.backspaceUnit ?? .grapheme)
+        synthesizer.normalizesUnicodeOutput = engine.configuration.outputEncoding.isUnicodeTypingOutput
         guard synthesizer.postMacroExpansion(
             proxy: proxy,
             backspaceCount: expansion.triggerLength,
@@ -251,6 +252,7 @@ final class KeyboardInputPipeline {
         synthesizer.backspaceUnit = inChromiumAddressBar
             ? .grapheme
             : (rule?.backspaceUnit ?? .grapheme)
+        synthesizer.normalizesUnicodeOutput = engine.configuration.outputEncoding.isUnicodeTypingOutput
 
         for edit in output.edits {
             switch edit {
@@ -291,9 +293,9 @@ final class KeyboardInputPipeline {
             || output.edits.contains(.insert("\t"))
         if !commitsPhysicalKey, !inChromiumAddressBar {
             if rule?.workarounds.contains(.emptyCharacterInsertion) == true {
-                guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{200B}") else { return false }
+                guard synthesizer.postEmptyCharacterBreak(proxy: proxy, "\u{200B}") else { return false }
             } else if rule?.workarounds.contains(.alternateEmptyCharacter) == true {
-                guard synthesizer.insertEmptyCharacter(proxy: proxy, "\u{2060}") else { return false }
+                guard synthesizer.postEmptyCharacterBreak(proxy: proxy, "\u{2060}") else { return false }
             }
         }
         if output.sessionEffect == .resetSession {

@@ -1,17 +1,15 @@
 import EasyEngineCore
 import Foundation
 
-/// Applies the active app's compatibility rule on top of the core
-/// settings→configuration mapping.
+/// Builds the engine configuration from the core settings→configuration
+/// mapping. Compatibility rules no longer rewrite the output encoding:
+/// typed output is normalized to NFC at the synthesis boundary instead, so
+/// the user's encoding setting is honored in every app.
 enum KeyboardEngineConfigurationFactory {
     static func make(
         for settings: EasyKeySettings,
-        rule: AppCompatibilityRule?
+        rule _: AppCompatibilityRule?
     ) -> EngineConfiguration {
-        var configuration = EngineConfiguration(settings: settings)
-        if rule?.workarounds.contains(.unicodeCombiningOutput) == true {
-            configuration.outputEncoding = .unicodeCombining
-        }
-        return configuration
+        EngineConfiguration(settings: settings)
     }
 }

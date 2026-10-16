@@ -628,6 +628,22 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         XCTAssertEqual(units.reduce(0) { $0 + $1.utf16.count }, engine.currentBuffer.utf16.count)
     }
 
+    func testRenderedUnits_CombiningEncoding_PerUnitNFCMatchesWholeTextNFC() {
+        // The synthesis layer normalizes wire text and per-atom units
+        // together; that is only sound if per-unit NFC equals whole-text NFC
+        // for everything the combining encoder renders (no unit ever splits a
+        // base from its combining marks).
+        var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .unicodeCombining))
+        typeKeys(&engine, "tuyeenf")
+        let units = engine.renderedUnits
+        let text = engine.currentBuffer
+        XCTAssertNotEqual(text, text.precomposedStringWithCanonicalMapping, "sample must actually be decomposed")
+        XCTAssertEqual(
+            units.map { $0.precomposedStringWithCanonicalMapping }.joined(),
+            text.precomposedStringWithCanonicalMapping
+        )
+    }
+
     func testRenderedUnits_LegacyEncodingConcatMatchesWholeBuffer() {
         var engine = VietnameseEngine(configuration: EngineConfiguration(outputEncoding: .cp1258))
         typeKeys(&engine, "aas")
