@@ -134,11 +134,10 @@ archive:
 export:
 	Scripts/export.sh
 
+# Fail early with an actionable message when release configuration is missing.
+# Values come from the environment or .env.local (cp .env.example .env.local).
 release-config-check:
-	@if [ -z "$$SPARKLE_PUBLIC_ED_KEY" ]; then \
-		echo "Error: SPARKLE_PUBLIC_ED_KEY environment variable is not set." >&2; \
-		exit 1; \
-	fi
+	@Scripts/check-release-config.sh
 
 verify-arch:
 	Scripts/verify-arch.sh

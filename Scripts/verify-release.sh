@@ -11,6 +11,26 @@ release_local="${RELEASE_LOCAL:-0}"
 "$project_root/Scripts/verify-arch.sh" "$app_path"
 "$project_root/Scripts/verify-macos-compatibility.sh" "$app_path"
 
+# Ad-hoc signed code cannot use the hardened runtime: it enables dyld library
+# validation, which requires the process and its frameworks to share a Team ID,
+# and an ad-hoc signature has none. The app then dies at launch failing to load
+# its own EasyEngineCore.framework. Catch it here rather than on double-click.
+main_binary="$app_path/Contents/MacOS/EasyKey"
+if [[ -f "$main_binary" ]]; then
+    main_sig="$(codesign -d --verbose=2 "$main_binary" 2>&1)"
+    # Match the hardened runtime in the CodeDirectory flags. The flag group is
+    # "(runtime)" under a real signing identity but "(adhoc,runtime)" when
+    # ad-hoc, so match the token rather than the whole parenthesised group.
+    if print -- "$main_sig" | grep -qE 'flags=0x[0-9a-f]+\([a-z,]*runtime' \
+        && print -- "$main_sig" | grep -q 'TeamIdentifier=not set'; then
+        print -u2 "App is ad-hoc signed but enables the hardened runtime; it will not launch."
+        print -u2 "Ad-hoc signatures carry no Team ID, so dyld library validation rejects the"
+        print -u2 "app's own embedded frameworks. Disable the hardened runtime for local"
+        print -u2 "builds (see Scripts/archive.sh)."
+        exit 1
+    fi
+fi
+
 if [[ "$release_local" == "1" ]]; then
     print "Local release: skipping Developer ID codesign/spctl assessment."
 else

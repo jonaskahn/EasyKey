@@ -41,4 +41,5 @@ keys/
 *.pem
 *.p12
 *.p12.b64
+.env.local
 .nodeterm/
