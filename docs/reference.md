@@ -1,6 +1,6 @@
 # Reference
 
-_Last reviewed: 2026-08-27_
+_Last reviewed: 2026-10-16_
 
 Lookup for EasyKey settings, known limits, declared stack, and compatibility. Engineers use it to see what a preference actually reads; beginners use it to see defaults and why a change can do nothing. Typing, launch, and threat detail live in sibling sections, not here.
 
@@ -84,7 +84,7 @@ Precedence (first match wins): (1) in-memory store after a Settings change; (2) 
 | Menu-bar icon scale | 130% | system JSON | public | 100–150 step 10 |
 | Interface language | Vietnamese if unset | UserDefaults | public | system \| en \| vi; catalogs `en` and `vi` |
 | Onboarding completed | unset until finished | UserDefaults | public | bool key `hasCompletedOnboarding` |
-| Marketing version | 0.0.14 | bundle | public | `CFBundleShortVersionString` |
+| Marketing version | 0.0.15 | bundle | public | `CFBundleShortVersionString` |
 | Minimum OS | 14.0 | bundle | public | `LSMinimumSystemVersion` |
 | Menu-bar accessory | on | bundle | public | `LSUIElement` |
 | Sparkle feed | `the HTTPS appcast URL in the bundle | bundle | public URL | HTTPS; live updater also needs EdDSA key |

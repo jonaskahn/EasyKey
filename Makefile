@@ -8,7 +8,7 @@ XCODEBUILD = xcodebuild -project "$(PROJECT)" -scheme "$(SCHEME)" -destination "
 
 .DEFAULT_GOAL := help
 
-.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-derived clean-all qa archive export verify-arch verify-compatibility verify-release dmg local-dmg help
+.PHONY: all build release run test test-parallel coverage coverage-parallel coverage-gate build-for-testing lint format clean clean-local clean-derived clean-all qa archive export verify-arch verify-compatibility verify-release dmg local-dmg update-secrets update-secret help
 
 # `make` with no args prints grouped help. `make all` still builds.
 all: build
@@ -173,6 +173,19 @@ local-dmg: release-config-check
 	RELEASE_LOCAL=1 Scripts/verify-release.sh
 	Scripts/create-dmg.sh "$(BUILD_DIR)/export/EasyKey.app"
 
+# Prompt for release secrets and store them with gh. The Developer ID .p12 is
+# exported from the keychain and the Sparkle keypair is read from it; nothing
+# is pasted by hand. Empty input at any prompt keeps the existing value.
+#   ALL=1     re-ask everything
+#   ARGS=...  e.g. ARGS="--list" to audit names without writing anything
+update-secrets:
+	@if [ "$(ALL)" = "1" ]; then Scripts/update-secrets.sh --all $(ARGS); else Scripts/update-secrets.sh $(ARGS); fi
+
+# Alias — `update-secrets` (plural) is the canonical name, matching the
+# reference implementation; the singular spelling is kept because it is the
+# one people type first.
+update-secret: update-secrets
+
 # ---------------------------------------------------------------------------
 # Help — grouped by usage. Run `make` (no args) or `make help`.
 # ---------------------------------------------------------------------------
@@ -206,6 +219,7 @@ help:
 	@echo "    make local-dmg      Universal ad-hoc DMG (no Developer ID, no notarization)"
 	@echo ""
 	@echo "  Release (signed / distributed)"
+	@echo "    make update-secrets Upload signing/notarization/Sparkle secrets to GitHub (gh)"
 	@echo "    make archive        Create signed archive (needs Developer ID env)"
 	@echo "    make export         Export .app from archive"
 	@echo "    make verify-arch    Confirm arm64 + x86_64 in exported app"

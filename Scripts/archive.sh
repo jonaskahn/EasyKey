@@ -19,6 +19,12 @@ common_args=(
     archive
     ARCHS="$archs"
     ONLY_ACTIVE_ARCH="$only_active_arch"
+    # Apple refuses to notarize a Developer ID binary without the hardened
+    # runtime. Set here rather than in the Xcode project so Debug builds and
+    # tests keep their current behavior and the pbxproj stays free of
+    # release-only policy. Applies to every target in the scheme, so nested
+    # code (LoginHelper, EasyKeyKit, EasyEngineCore, Sparkle) is covered too.
+    ENABLE_HARDENED_RUNTIME=YES
 )
 
 if [[ "$release_local" == "1" ]]; then

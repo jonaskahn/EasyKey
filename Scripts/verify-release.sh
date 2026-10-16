@@ -15,6 +15,12 @@ if [[ "$release_local" == "1" ]]; then
     print "Local release: skipping Developer ID codesign/spctl assessment."
 else
     codesign --verify --deep --strict --verbose=2 "$app_path"
+    # Notarization requires the hardened runtime; a build that loses it would
+    # still pass codesign --verify but be rejected by Apple and by Gatekeeper.
+    if ! codesign -d --verbose=2 "$app_path" 2>&1 | grep -q '(runtime)'; then
+        print -u2 "App is not signed with the hardened runtime; notarization would fail."
+        exit 1
+    fi
     spctl --assess --type execute --verbose=4 "$app_path"
     if [[ -n "$dmg_path" ]]; then
         [[ -f "$dmg_path" ]] || { print -u2 "DMG not found: $dmg_path"; exit 1; }

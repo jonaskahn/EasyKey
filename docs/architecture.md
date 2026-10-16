@@ -1,6 +1,6 @@
 # Architecture
 
-_Last reviewed: 2026-08-27_
+_Last reviewed: 2026-10-16_
 
 **In one sentence:** EasyKey composes Vietnamese in other macOS apps through a session CGEvent tap, and optionally keeps clipboard history, macros, and translation (on-device Apple Translation or opt-in cloud HTTPS).
 
@@ -66,14 +66,14 @@ flowchart LR
 
 **Failure domains** (multi-process: host, helper, Sparkle, remote feeds): Accessibility/tap down degrades typing and selected-text capture; Clipboard persistence errors fail closed on load while RAM capture can continue; cloud translation errors stay in the panel; Sparkle absence skips background updates; login helper failure affects launch-at-login only.
 
-**Deployment.** Execution spans a developer Mac, the CI pipeline (`macos-15` and tag `local-dmg`), the HTTPS appcast host, the release DMG host, and the end-user Mac (deployment target macOS 14). Omitted: container orchestration — this is a desktop app, not a multi-node service mesh.
+**Deployment.** Execution spans a developer Mac, the CI pipeline (`macos-15` and tag `dmg`), the HTTPS appcast host, the release DMG host, and the end-user Mac (deployment target macOS 14). Omitted: container orchestration — this is a desktop app, not a multi-node service mesh.
 
 ```mermaid
 flowchart LR
   accTitle: Where EasyKey binaries run
   accDescr: Developers and the CI pipeline produce artifacts; the appcast and release archive feed Sparkle on the user's Mac.
   Dev["Developer Mac"] -->|"xcodebuild / make"| CI["the CI pipeline"]
-  CI -->|"unsigned local-dmg on tag"| Rel["the release archive host"]
+  CI -->|"signed + notarized dmg on tag"| Rel["the release archive host"]
   CI -->|"appcast"| Pages["the appcast host"]
   UserMac["User Mac EasyKey.app"] -->|"Sparkle HTTPS"| Pages
   UserMac -->|"download DMG"| Rel
@@ -234,7 +234,7 @@ Build/tooling (Xcode, Swift 5, the CI pipeline, make) is summarized: CI cannot c
 |---|---|---|---|
 | Login helper Team ID sentinel | Release helper compares team to `TEAMID12345` | Signed helper with a real Team ID can terminate at launch | Replace sentinel with the shipping Team ID or drop the check |
 | `system.checkForUpdates` unused by Sparkle | Toggle persists but UpdateService always starts the updater when configured | Users who switch the toggle off still get Sparkle start; button still checks | Wire automatic checks to the setting or remove the toggle |
-| CI tag uses `make local-dmg` | Unsigned CI artifact vs local notarized `make dmg` | Testers may install a different trust path than production | Align workflows or document as the only supported channel |
+| CI tag signing secrets | Signing depends on GitHub secrets staged by `make update-secrets` | A tag pushed without them fails at the import step, before any artifact | Fail fast is intended; stage secrets before cutting a release |
 | GitNexus labels many app symbols EasyKeyTests | Indexer module names follow TEST_HOST | Impact analysis mis-attributes ownership | Treat path as source of truth |
 
-Fowler framing: Team ID and unused toggle are inadvertent/reckless relative to the intended product; CI unsigned DMG is deliberate/prudent for hosted runners that cannot notarize. User-visible “everything on your Mac” wording versus Sparkle/cloud is a documentation limitation owned by [product.md](product.md) and [security.md](security.md), not a code shortcut.
+Fowler framing: Team ID and unused toggle are inadvertent/reckless relative to the intended product. User-visible “everything on your Mac” wording versus Sparkle/cloud is a documentation limitation owned by [product.md](product.md) and [security.md](security.md), not a code shortcut.
