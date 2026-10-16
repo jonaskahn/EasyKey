@@ -17,12 +17,12 @@ release_local="${RELEASE_LOCAL:-0}"
 # its own EasyEngineCore.framework. Catch it here rather than on double-click.
 main_binary="$app_path/Contents/MacOS/EasyKey"
 if [[ -f "$main_binary" ]]; then
-    main_sig="$(codesign -d --verbose=2 "$main_binary" 2>&1)"
+    main_sig="$(codesign -d --verbose=4 "$main_binary" 2>&1)"
     # Match the hardened runtime in the CodeDirectory flags. The flag group is
     # "(runtime)" under a real signing identity but "(adhoc,runtime)" when
     # ad-hoc, so match the token rather than the whole parenthesised group.
-    if print -- "$main_sig" | grep -qE 'flags=0x[0-9a-f]+\([a-z,]*runtime' \
-        && print -- "$main_sig" | grep -q 'TeamIdentifier=not set'; then
+    if grep -qE 'flags=0x[[:xdigit:]]+\(([^,()]+,)*runtime([,)])' <<< "$main_sig" \
+        && grep -q 'TeamIdentifier=not set' <<< "$main_sig"; then
         print -u2 "App is ad-hoc signed but enables the hardened runtime; it will not launch."
         print -u2 "Ad-hoc signatures carry no Team ID, so dyld library validation rejects the"
         print -u2 "app's own embedded frameworks. Disable the hardened runtime for local"
@@ -37,7 +37,12 @@ else
     codesign --verify --deep --strict --verbose=2 "$app_path"
     # Notarization requires the hardened runtime; a build that loses it would
     # still pass codesign --verify but be rejected by Apple and by Gatekeeper.
-    if ! codesign -d --verbose=2 "$app_path" 2>&1 | grep -q '(runtime)'; then
+    # Capture the complete output before matching: grep -q can close a pipe
+    # early, making codesign fail with SIGPIPE under pipefail. Verbosity 4
+    # includes the CodeDirectory flags used by this check.
+    app_signature="$(codesign -d --verbose=4 "$app_path" 2>&1)"
+    if ! grep -qE 'flags=0x[[:xdigit:]]+\(([^,()]+,)*runtime([,)])' <<< "$app_signature"; then
+        print -u2 -- "$app_signature"
         print -u2 "App is not signed with the hardened runtime; notarization would fail."
         exit 1
     fi
