@@ -10,9 +10,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: publish-appcast
+  cancel-in-progress: false
+
 jobs:
   publish-appcast:
     runs-on: macos-15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -54,15 +59,17 @@ jobs:
             printf 'Tag %s does not match built version %s.\n' "$TAG_NAME" "$version" >&2
             exit 1
           }
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "build=$build" >> "$GITHUB_OUTPUT"
-          echo "minimum-system-version=$minimum_system_version" >> "$GITHUB_OUTPUT"
+          {
+            echo "version=$version"
+            echo "build=$build"
+            echo "minimum-system-version=$minimum_system_version"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Download Sparkle tools
         # Pin Sparkle 2.9.4 tarball SHA256 checksum to prevent untrusted execution
         run: |
           expected_sha256="ce89daf967db1e1893ed3ebd67575ed82d3902563e3191ca92aaec9164fbdef9"
-          curl -fsSL -o /tmp/sparkle.tar.xz \
+          curl -fsSL --retry 3 -o /tmp/sparkle.tar.xz \
             "https://github.com/sparkle-project/Sparkle/releases/download/2.9.4/Sparkle-2.9.4.tar.xz"
           echo "${expected_sha256}  /tmp/sparkle.tar.xz" | shasum -a 256 -c -
           mkdir -p /tmp/sparkle-tools
@@ -72,7 +79,9 @@ jobs:
         id: sign
         env:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_ED_KEY }}
+          DMG_PATH: ${{ steps.dmg.outputs.path }}
         run: |
+          : "${SPARKLE_PRIVATE_KEY:?SPARKLE_PRIVATE_ED_KEY is not configured}"
           key_file=$(mktemp)
           trap 'rm -f "$key_file"' EXIT
           chmod 600 "$key_file"
@@ -81,7 +90,7 @@ jobs:
             echo "Signing $dmg..."
             /tmp/sparkle-tools/bin/sign_update "$dmg" --ed-key-file "$key_file"
           done
-          signature=$(/tmp/sparkle-tools/bin/sign_update "${{ steps.dmg.outputs.path }}" --ed-key-file "$key_file" -p)
+          signature=$(/tmp/sparkle-tools/bin/sign_update "$DMG_PATH" --ed-key-file "$key_file" -p)
           echo "signature=$signature" >> "$GITHUB_OUTPUT"
 
       - name: Checkout gh-pages
@@ -118,5 +127,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add appcast.xml
+          if git diff --cached --quiet; then
+            echo "Appcast already contains this release."
+            exit 0
+          fi
           git commit -m "chore: publish appcast for $TAG_NAME"
           git push

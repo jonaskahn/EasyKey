@@ -63,15 +63,27 @@ def load_or_create_channel(appcast_path):
     return ET.ElementTree(root), channels[0]
 
 
-def ensure_release_is_new(channel, build, dmg_url):
+def ensure_release_is_new(channel, arguments):
+    matching_release = False
     for item in channel.findall("item"):
         existing_build = item.findtext(sparkle_tag("version"))
         enclosure = item.find("enclosure")
         existing_url = enclosure.get("url") if enclosure is not None else None
-        if existing_build == build:
-            raise ValueError(f"Appcast already contains build {build}.")
-        if existing_url == dmg_url:
-            raise ValueError(f"Appcast already contains enclosure URL {dmg_url}.")
+        if existing_build == arguments.build or existing_url == arguments.dmg_url:
+            expected_enclosure = build_item(arguments).find("enclosure")
+            if (
+                existing_build == arguments.build
+                and item.findtext(sparkle_tag("shortVersionString")) == arguments.version
+                and item.findtext(sparkle_tag("minimumSystemVersion")) == arguments.minimum_system_version
+                and enclosure is not None
+                and enclosure.attrib == expected_enclosure.attrib
+            ):
+                matching_release = True
+                continue
+            raise ValueError(
+                f"Appcast contains conflicting metadata for build {arguments.build} or URL {arguments.dmg_url}."
+            )
+    return not matching_release
 
 
 def build_item(arguments):
@@ -119,7 +131,9 @@ def write_atomically(tree, appcast_path):
 def main():
     arguments = parse_arguments()
     tree, channel = load_or_create_channel(arguments.appcast_path)
-    ensure_release_is_new(channel, arguments.build, arguments.dmg_url)
+    if not ensure_release_is_new(channel, arguments):
+        print(f"Appcast already contains build {arguments.build} with identical metadata.")
+        return
     existing_items = channel.findall("item")
     insert_index = list(channel).index(existing_items[0]) if existing_items else len(channel)
     channel.insert(insert_index, build_item(arguments))
