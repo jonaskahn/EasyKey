@@ -122,12 +122,12 @@ public struct VietnameseEngine {
         guard !state.isEmpty, !state.forceRaw else {
             return .passThrough
         }
-        let previousText = lastRenderedText
+        let previousCount = lastRenderedText.count
         state.forceRaw = true
         lastRenderedText = state.rawText
         return EngineOutput(
             disposition: .suppress,
-            edits: minimalEdit(previous: previousText, current: state.rawText),
+            edits: [.replaceBackward(deleteCount: previousCount, insert: state.rawText)],
             sessionEffect: .continueSession
         )
     }
@@ -253,7 +253,7 @@ public struct VietnameseEngine {
 
         return EngineOutput(
             disposition: .suppress,
-            edits: minimalEdit(previous: previousText, current: currentBuffer),
+            edits: [.replaceBackward(deleteCount: previousText.count, insert: currentBuffer)],
             sessionEffect: .continueSession
         )
     }
@@ -278,9 +278,13 @@ public struct VietnameseEngine {
         let finalText = resolvedBoundaryText()
         clearComposition()
 
+        // Preserve the exact boundary replacement contract expected by clients:
+        // when the final text differs from the live buffer, replace the full
+        // displayed buffer with the final text. Minimal suffix edits are only
+        // used for live keystrokes, not for boundary commit.
         return EngineOutput(
             disposition: .suppress,
-            edits: minimalEdit(previous: previousText, current: finalText) + [.insert(trailingChar)],
+            edits: [.replaceBackward(deleteCount: previousText.count, insert: finalText), .insert(trailingChar)],
             sessionEffect: .resetSession
         )
     }
