@@ -1,24 +1,25 @@
 # Changelog
 
-_Last reviewed: 2026-10-16_
+_Last reviewed: 2026-10-19_
 
 Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows Semantic Versioning. EasyKey requires macOS 14.0 or later; tested OS and Mac minimums are owned by [platform compatibility](docs/reference.md#platform-compatibility) in the compact reference. Supported report scope for a given version is in [SECURITY.md](SECURITY.md). How a version is built and published is in [CONTRIBUTING.md](CONTRIBUTING.md) and [engineering](docs/engineering.md#release).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-19
+
 **Fixed**
 
 - Macro expansion deletes the rendered trigger rather than its raw Telex key count, accepts Shift, handles backspace, and clears stale triggers after navigation or app changes.
 - Safari and Terminal have native compatibility rules and appear in the default compatibility list.
-
-**Added**
-
-- System settings include live verbose keyboard diagnostics and log export. Diagnostics record decisions and counts without typed text; exports retain the newest entries.
-
 - `Huaan`, `tuaanf`, `thuaatj`, `Huees`, `thuees`, `hoawcj`, `xoawn`, and `ngoawnf` no longer revert to raw keys at a word boundary.
 - `Onw`, `onw`, `anw`, and `Anw` now become `Ơn`, `ơn`, `ăn`, and `Ăn`.
 - Vietnamese composition now emits only the changed suffix instead of replacing the whole word on every keystroke, which removes the visible flash.
 - Chromium and VSCode no longer post an invisible workaround character after every keystroke.
+
+**Added**
+
+- System settings include live verbose keyboard diagnostics and log export. Diagnostics record decisions and counts without typed text; exports retain the newest entries.
 
 ## [0.0.15] - 2026-10-16
 

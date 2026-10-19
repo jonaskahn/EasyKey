@@ -213,7 +213,7 @@ class AppcastTests(unittest.TestCase):
     def generate(self, *, success=True, build="14", signature="test-signature", url=None):
         result = subprocess.run([
             sys.executable, str(ROOT / "Scripts/generate-appcast.py"), str(self.path),
-            "0.0.15", build, url or "https://example.com/EasyKey-0.0.15.dmg", "100", signature,
+            "0.1.0", build, url or "https://example.com/EasyKey-0.1.0.dmg", "100", signature,
             "14.0", "Mon, 19 Oct 2026 00:00:00 +0000",
         ], capture_output=True, text=True)
         self.assertEqual(result.returncode == 0, success, result.stdout + result.stderr)

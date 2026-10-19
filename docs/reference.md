@@ -84,7 +84,7 @@ Precedence (first match wins): (1) in-memory store after a Settings change; (2) 
 | Menu-bar icon scale | 130% | system JSON | public | 100–150 step 10 |
 | Interface language | Vietnamese if unset | UserDefaults | public | system \| en \| vi; catalogs `en` and `vi` |
 | Onboarding completed | unset until finished | UserDefaults | public | bool key `hasCompletedOnboarding` |
-| Marketing version | 0.0.15 | bundle | public | `CFBundleShortVersionString` |
+| Marketing version | 0.1.0 | bundle | public | `CFBundleShortVersionString` |
 | Minimum OS | 14.0 | bundle | public | `LSMinimumSystemVersion` |
 | Menu-bar accessory | on | bundle | public | `LSUIElement` |
 | Sparkle feed | `the HTTPS appcast URL in the bundle | bundle | public URL | HTTPS; live updater also needs EdDSA key |

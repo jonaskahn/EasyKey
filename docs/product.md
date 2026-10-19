@@ -2,7 +2,7 @@
 
 _Last reviewed: 2026-10-16_
 
-EasyKey 0.0.15 is a macOS 14+ menu-bar app for people who type Vietnamese in other apps and want clipboard history, macros, and translation without switching to a system Input Method. This file answers what ships, who it is for, what it will not do, how to get a first result, and which interface locales exist. Engineers and first-time users both start here; architecture, runtime sequences, and lookup tables live next door.
+EasyKey 0.1.0 is a macOS 14+ menu-bar app for people who type Vietnamese in other apps and want clipboard history, macros, and translation without switching to a system Input Method. This file answers what ships, who it is for, what it will not do, how to get a first result, and which interface locales exist. Engineers and first-time users both start here; architecture, runtime sequences, and lookup tables live next door.
 
 ## At a glance
 

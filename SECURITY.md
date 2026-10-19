@@ -2,7 +2,7 @@
 
 _Last reviewed: 2026-10-16_
 
-**0.0.15** is the only version in scope for security reports. Report through this repository’s issue tracker, marked as a security report. There is no published private contact, no `security.txt`, and no published safe-harbor commitment.
+**0.1.0** is the only version in scope for security reports. Report through this repository’s issue tracker, marked as a security report. There is no published private contact, no `security.txt`, and no published safe-harbor commitment.
 
 Technical posture (threat model, data classes, permissions) is owned by compact [security](docs/security.md). Sparkle HTTPS appcast and EdDSA-signed update archives are owned by compact [engineering](docs/engineering.md).
 
@@ -10,8 +10,8 @@ Technical posture (threat model, data classes, permissions) is owned by compact 
 
 | Version | Supported |
 |---|---|
-| 0.0.15 | yes — current marketing version and the README version badge |
-| Older tagged releases | no documented support window; treat only 0.0.15 as in scope |
+| 0.1.0 | yes — current marketing version and the README version badge |
+| Older tagged releases | no documented support window; treat only 0.1.0 as in scope |
 
 In scope for reports:
 
@@ -33,7 +33,7 @@ This repository publishes no issue template and no dedicated private reporting a
 
 What to include:
 
-- Reproduction steps, app version (for example 0.0.15), and macOS version
+- Reproduction steps, app version (for example 0.1.0), and macOS version
 - Believed impact, and which data or capability is affected
 - Configuration that matters (permissions granted, providers configured, persistence enabled)
 
