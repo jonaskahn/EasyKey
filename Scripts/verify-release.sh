@@ -49,6 +49,7 @@ else
     spctl --assess --type execute --verbose=4 "$app_path"
     if [[ -n "$dmg_path" ]]; then
         [[ -f "$dmg_path" ]] || { print -u2 "DMG not found: $dmg_path"; exit 1; }
+        codesign --verify --strict --verbose=2 "$dmg_path"
         xcrun stapler validate "$dmg_path"
         spctl --assess --type open --context context:primary-signature --verbose=4 "$dmg_path"
     fi

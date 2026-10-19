@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Loads .env.local into the environment for release builds. Sourced by
-# archive.sh, export.sh and check-release-config.sh — not a standalone entry point.
+# release scripts — not a standalone entry point.
 #
 # A variable already set in the shell is never overwritten, so CI and one-off
 # command lines keep working exactly as before.

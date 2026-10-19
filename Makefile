@@ -150,8 +150,11 @@ verify-compatibility:
 verify-release:
 	Scripts/verify-release.sh
 
-# Signed and notarized distribution path.
-dmg: release-config-check archive export
+# Signed and notarized distribution path. The DMG needs its own Developer ID
+# signature before notarization for Gatekeeper's primary-signature assessment.
+dmg: release-config-check
+	@$(MAKE) --no-print-directory archive
+	@$(MAKE) --no-print-directory export
 	@set -e; \
 	app="$(BUILD_DIR)/export/EasyKey.app"; \
 	version=$$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$$app/Contents/Info.plist"); \
@@ -160,7 +163,7 @@ dmg: release-config-check archive export
 	codesign --verify --deep --strict --verbose=2 "$$app"; \
 	Scripts/notarize.sh "$$app"; \
 	Scripts/staple.sh "$$app"; \
-	DMG_PATH="$$dmg" Scripts/create-dmg.sh "$$app"; \
+	SIGN_DMG=1 DMG_PATH="$$dmg" Scripts/create-dmg.sh "$$app"; \
 	Scripts/notarize.sh "$$dmg"; \
 	Scripts/staple.sh "$$dmg"; \
 	Scripts/verify-release.sh "$$app" "$$dmg"

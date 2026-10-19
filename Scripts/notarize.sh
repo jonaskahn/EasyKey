@@ -2,6 +2,9 @@
 set -euo pipefail
 
 project_root="${0:A:h:h}"
+release_env_root="$project_root"
+# shellcheck source=release-env.sh
+source "$project_root/Scripts/release-env.sh"
 artifact_path="${1:-${ARTIFACT_PATH:-$project_root/build/export/EasyKey.app}}"
 submission_path="$artifact_path"
 temporary_directory=""
