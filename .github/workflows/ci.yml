@@ -16,6 +16,7 @@ concurrency:
 jobs:
   lint:
     runs-on: macos-15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -26,7 +27,10 @@ jobs:
           xcode-version: latest-stable
 
       - name: Install static-analysis tools
-        run: brew install swiftformat swiftlint
+        run: brew install swiftformat swiftlint actionlint shellcheck
+
+      - name: Validate workflows and embedded shell scripts
+        run: actionlint
 
       - name: Check formatting
         run: swiftformat --lint .
@@ -36,6 +40,7 @@ jobs:
 
   structure:
     runs-on: macos-15
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -50,6 +55,18 @@ jobs:
         # Sources phase; a dropped test file would otherwise make CI shards
         # silently execute fewer tests.
         run: Scripts/check-test-registration.sh
+
+      - name: Check CI shard assignments and script syntax
+        run: python3 Scripts/check-ci-config.py
+
+      - name: Check release configuration and tooling pins
+        run: |
+          Scripts/test-release-config.sh
+          Scripts/check-sparkle-pin.sh
+          Scripts/verify-qa-artifacts.sh
+
+      - name: Test release automation
+        run: python3 Scripts/test-ci-release.py
 
       - name: Build EasyEngineCore standalone
         run: |
@@ -92,6 +109,7 @@ jobs:
               -only-testing:EasyKeyTests/EngineCoreCoverageTests
               -only-testing:EasyKeyTests/KeySynthesizerPostingTests
               -only-testing:EasyKeyTests/MacroExpanderCoverageTests
+              -only-testing:EasyKeyTests/MacroSamplesTests
               -only-testing:EasyKeyTests/TranslationModelTests
               -only-testing:EasyKeyTests/AppTranslationRuntimeTests
               -only-testing:EasyKeyTests/AppCoordinatorWiringTests
@@ -135,7 +153,6 @@ jobs:
               -only-testing:EasyKeyTests/TranslationOptionsTests
               -only-testing:EasyKeyTests/ClipboardHistoryTests
               -only-testing:EasyKeyTests/TranslationSpeechControllerTests
-              -only-testing:EasyKeyTests/FocusedElementInspectorExtendedTests
               -only-testing:EasyKeyTests/GeminiTranslationProviderTests
               -only-testing:EasyKeyTests/PasteboardClassifierTests
               -only-testing:EasyKeyTests/MacroStoreTests
@@ -182,6 +199,7 @@ jobs:
               -only-testing:EasyKeyTests/SmartSwitchControllerTests
               -only-testing:EasyKeyTests/ConverterEdgeCaseTests
               -only-testing:EasyKeyTests/KeyboardServiceStateTests
+              -only-testing:EasyKeyTests/KeyboardServiceSleepWakeTests
               -only-testing:EasyKeyTests/SessionStateTests
               -only-testing:EasyKeyTests/ClipboardHistoryModelTests
               -only-testing:EasyKeyTests/VietnameseCharactersTests
@@ -208,6 +226,7 @@ jobs:
               -only-testing:EasyKeyTests/VietnameseEngineEdgeCaseTests
               -only-testing:EasyKeyTests/ViewRenderingTests
               -only-testing:EasyKeyTests/VietnameseEngineTests
+              -only-testing:EasyKeyTests/VietnameseEngineLiteralTokenTests
               -only-testing:EasyKeyTests/TranslationSettingsModelTests
               -only-testing:EasyKeyTests/MacroStoreEdgeCaseTests
               -only-testing:EasyKeyTests/AccessibilitySelectedTextReaderTests
@@ -311,6 +330,9 @@ jobs:
           xcodebuild \
             -project EasyKey.xcodeproj \
             -scheme EasyKeyApp \
+            -derivedDataPath build \
+            -clonedSourcePackagesDirPath build/SourcePackages \
+            -onlyUsePackageVersionsFromResolvedFile \
             -resolvePackageDependencies
 
       - name: Run tests with coverage
@@ -328,6 +350,7 @@ jobs:
             -destination "platform=macOS" \
             -derivedDataPath build \
             -clonedSourcePackagesDirPath build/SourcePackages \
+            -onlyUsePackageVersionsFromResolvedFile \
             -resultBundlePath build/TestResults.xcresult \
             -enableCodeCoverage YES \
             -test-timeouts-enabled YES \
@@ -349,6 +372,7 @@ jobs:
         with:
           name: xcresult-${{ matrix.shard }}
           path: build/TestResults.xcresult
+          if-no-files-found: ${{ matrix.shard == 'ui-known-broken-on-hosted-runner' && 'warn' || 'error' }}
           retention-days: 14
 
   coverage:
@@ -378,10 +402,20 @@ jobs:
           # so each shard dir *is* the bundle content, not a TestResults.xcresult child.
           # xcresulttool requires the .xcresult extension to recognize the bundle, so
           # rename each shard dir before merging.
-          for dir in shards/*/; do
-            mv "$dir" "${dir%/}.xcresult"
+          # Require all nine blocking shards. The experimental hosted-runner
+          # shard may crash and leave a damaged bundle; its optional artifact
+          # must not break the required coverage job.
+          bundles=()
+          for shard in unit-{1..4} ui-{1..5}; do
+            dir="shards/xcresult-$shard"
+            [[ -d "$dir" ]] || {
+              printf 'Missing required result bundle: %s\n' "$dir" >&2
+              exit 1
+            }
+            mv "$dir" "$dir.xcresult"
+            bundles+=("$dir.xcresult")
           done
-          xcrun xcresulttool merge shards/*.xcresult \
+          xcrun xcresulttool merge "${bundles[@]}" \
             --output-path merged.xcresult
 
       - name: Enforce coverage gate
