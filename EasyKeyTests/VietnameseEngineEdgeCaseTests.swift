@@ -310,10 +310,12 @@ final class VietnameseEngineEdgeCaseTests: XCTestCase {
         XCTAssertEqual(engine.currentBuffer, "quơ")
     }
 
-    func testWTransformDoesNotReachAcrossConsonantToEarlierVowel() {
+    func testWTransformAppliesAfterFinalConsonant() {
+        // Telex allows the shape key after a final consonant: "anw" is the
+        // shorthand for "ăn", matching UniKey's end-of-syllable shape keys.
         var engine = VietnameseEngine()
         typeKeys(&engine, "anw")
-        XCTAssertEqual(engine.currentBuffer, "anw")
+        XCTAssertEqual(engine.currentBuffer, "ăn")
     }
 
     func testUnicodeCombiningEncodingOutput() throws {
