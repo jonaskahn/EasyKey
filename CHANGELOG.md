@@ -6,6 +6,13 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 ## [Unreleased]
 
+**Fixed**
+
+- `Huaan`, `tuaanf`, `thuaatj`, `Huees`, `thuees`, `hoawcj`, `xoawn`, and `ngoawnf` no longer revert to raw keys at a word boundary.
+- `Onw`, `onw`, `anw`, and `Anw` now become `Ơn`, `ơn`, `ăn`, and `Ăn`.
+- Vietnamese composition now emits only the changed suffix instead of replacing the whole word on every keystroke, which removes the visible flash.
+- Chromium and VSCode no longer post an invisible workaround character after every keystroke.
+
 ## [0.0.15] - 2026-10-16
 
 **Security**
