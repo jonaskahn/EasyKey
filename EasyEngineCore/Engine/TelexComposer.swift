@@ -305,13 +305,37 @@ public enum TelexComposer {
         profile: Profile,
         atoms: inout [BufferAtom]
     ) -> (key: Character, undo: PendingUndo)? {
-        if let lastIndex = atoms.indices.last, VietnameseCharacters.isVowel(atoms[lastIndex].base) {
-            if let pair = lastPlainUOPair(in: atoms, endingAt: lastIndex) {
+        let final = trailingFinalConsonants(atoms)
+        let hasValidFinal = !final.isEmpty
+        let vowelStart = atoms.count - final.count - (hasValidFinal ? 1 : 0)
+        let lastVowelIndex = atoms.indices.reversed().first { index in
+            index >= 0 && index < atoms.count && VietnameseCharacters.isVowel(atoms[index].base)
+        }
+        if let lastVowelIndex {
+            // uo remains a pair even when a valid final follows.
+            if hasValidFinal {
+                let oIndex = atoms.count - final.count - 1
+                let uIndex = oIndex - 1
+                if oIndex > 0,
+                   uIndex >= 0,
+                   atoms[oIndex].hasBase("o"),
+                   atoms[oIndex].mark == .none,
+                   atoms[uIndex].hasBase("u"),
+                   atoms[uIndex].mark == .none,
+                   !isQuGlide(atoms: atoms, uIndex: uIndex) {
+                    atoms[uIndex].mark = .horn
+                    atoms[oIndex].mark = .horn
+                    return ("w", .doubleMark(first: uIndex, second: oIndex))
+                }
+            } else if let pair = lastPlainUOPair(in: atoms, endingAt: lastVowelIndex) {
                 atoms[pair.u].mark = .horn
                 atoms[pair.o].mark = .horn
                 return ("w", .doubleMark(first: pair.u, second: pair.o))
             }
-            for index in stride(from: lastIndex, through: 0, by: -1) {
+
+            let nucleusStart = hasValidFinal ? atoms.count - final.count - 1 : lastVowelIndex
+            for index in stride(from: nucleusStart, through: 0, by: -1) {
+                guard index >= 0, index < atoms.count else { break }
                 guard VietnameseCharacters.isVowel(atoms[index].base) else { break }
                 switch atoms[index].base {
                 case "a" where atoms[index].mark == .none:
@@ -323,21 +347,6 @@ public enum TelexComposer {
                 default:
                     continue
                 }
-            }
-            appendLiteral(key, to: &atoms)
-            return nil
-        }
-
-        let final = trailingFinalConsonants(atoms)
-        if !final.isEmpty, atoms.count > final.count + 1 {
-            let oIndex = atoms.count - final.count - 1
-            let uIndex = oIndex - 1
-            if uIndex >= 0, atoms[oIndex].hasBase("o"), atoms[oIndex].mark == .none,
-               atoms[uIndex].hasBase("u"), atoms[uIndex].mark == .none,
-               !isQuGlide(atoms: atoms, uIndex: uIndex) {
-                atoms[uIndex].mark = .horn
-                atoms[oIndex].mark = .horn
-                return ("w", .doubleMark(first: uIndex, second: oIndex))
             }
         }
 

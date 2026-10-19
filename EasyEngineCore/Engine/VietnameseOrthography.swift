@@ -43,10 +43,11 @@ enum VietnameseOrthography {
     ]
 
     /// Nuclei that only exist with a mark applied (keyed by marked form).
+    /// Includes glide-plus-marked-vowel nuclei such as uâ, uê, and oă.
     static let markedNuclei: Set<String> = [
         "â", "ă", "ê", "ô", "ơ", "ư",
         "âu", "ây", "êu", "ôi", "ơi", "ưa", "ưi", "ưu", "uơ", "ươ",
-        "iê", "uô", "yê",
+        "iê", "uô", "uâ", "uê", "oă", "yê",
         "iêu", "yêu", "uôi", "ươi", "ươu", "uây", "uyê",
     ]
 

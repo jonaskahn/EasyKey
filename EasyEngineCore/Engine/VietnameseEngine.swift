@@ -18,7 +18,7 @@ public struct VietnameseEngine {
     public internal(set) var state: SessionState
     public var configuration: EngineConfiguration
     private var atSentenceStart = true
-    private var lastRenderedCount = 0
+    private var lastRenderedText = ""
     /// True when the next character begins a fresh token (start of input or
     /// right after a word boundary), so a leading technical prefix can be
     /// recognized before any Vietnamese composition begins.
@@ -122,12 +122,12 @@ public struct VietnameseEngine {
         guard !state.isEmpty, !state.forceRaw else {
             return .passThrough
         }
-        let previousCount = lastRenderedCount
+        let previousText = lastRenderedText
         state.forceRaw = true
-        lastRenderedCount = state.rawText.count
+        lastRenderedText = state.rawText
         return EngineOutput(
             disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousCount, insert: state.rawText)],
+            edits: minimalEdit(previous: previousText, current: state.rawText),
             sessionEffect: .continueSession
         )
     }
@@ -180,7 +180,7 @@ public struct VietnameseEngine {
             atSentenceStart = false
         }
 
-        let previousCount = lastRenderedCount
+        let previousText = lastRenderedText
         if configuration.inputMethod == .vni,
            let newTone = VietnameseCharacters.toneNumberKeys[character],
            state.atoms.contains(where: { VietnameseCharacters.isVowel($0.base) }) {
@@ -199,7 +199,7 @@ public struct VietnameseEngine {
 
         return EngineOutput(
             disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousCount, insert: currentBuffer)],
+            edits: minimalEdit(previous: previousText, current: currentBuffer),
             sessionEffect: .continueSession
         )
     }
@@ -209,7 +209,7 @@ public struct VietnameseEngine {
         state.atoms = composition.atoms
         state.tone = composition.tone
         state.isEscaped = composition.isEscaped
-        lastRenderedCount = currentBuffer.count
+        lastRenderedText = currentBuffer
     }
 
     private func isWordBreakCharacter(_ character: Character) -> Bool {
@@ -244,7 +244,7 @@ public struct VietnameseEngine {
             return .passThrough
         }
 
-        let previousCount = lastRenderedCount
+        let previousText = lastRenderedText
         state.rawKeys.removeLast()
         if state.rawKeys.isEmpty {
             atSentenceStart = false
@@ -253,7 +253,7 @@ public struct VietnameseEngine {
 
         return EngineOutput(
             disposition: .suppress,
-            edits: [.replaceBackward(deleteCount: previousCount, insert: currentBuffer)],
+            edits: minimalEdit(previous: previousText, current: currentBuffer),
             sessionEffect: .continueSession
         )
     }
@@ -274,16 +274,13 @@ public struct VietnameseEngine {
             return .passThrough
         }
 
-        let previousCount = lastRenderedCount
+        let previousText = lastRenderedText
         let finalText = resolvedBoundaryText()
         clearComposition()
 
         return EngineOutput(
             disposition: .suppress,
-            edits: [
-                .replaceBackward(deleteCount: previousCount, insert: finalText),
-                .insert(trailingChar),
-            ],
+            edits: minimalEdit(previous: previousText, current: finalText) + [.insert(trailingChar)],
             sessionEffect: .resetSession
         )
     }
@@ -312,7 +309,7 @@ public struct VietnameseEngine {
 
     private mutating func clearComposition() {
         state.reset()
-        lastRenderedCount = 0
+        lastRenderedText = ""
     }
 
     private mutating func endLiteralToken() {
@@ -323,5 +320,28 @@ public struct VietnameseEngine {
         literalTokenCharacters = []
         isLiteralToken = false
         atTokenStart = true
+    }
+
+    private func minimalEdit(previous: String, current: String) -> [EngineOutput.Edit] {
+        if previous == current {
+            return []
+        }
+        var shared = 0
+        let previousUnits = Array(previous)
+        let currentUnits = Array(current)
+        while shared < previousUnits.count,
+              shared < currentUnits.count,
+              previousUnits[shared] == currentUnits[shared] {
+            shared += 1
+        }
+        let deleteCount = previousUnits.count - shared
+        let insert = String(currentUnits[shared...])
+        if deleteCount == 0 {
+            return insert.isEmpty ? [] : [.insert(insert)]
+        }
+        if insert.isEmpty {
+            return [.deleteBackward(deleteCount)]
+        }
+        return [.replaceBackward(deleteCount: deleteCount, insert: insert)]
     }
 }
