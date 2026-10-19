@@ -4,24 +4,11 @@ import XCTest
 
 final class LoginHelperHardeningTests: XCTestCase {
     func testLoginHelperEntitlements_HasSandboxEnabled() throws {
-        let bundle = Bundle(for: type(of: self))
-        // Navigate up to find EasyKeyLoginHelper.entitlements in project source
-        var dirURL = bundle.bundleURL
-        var entitlementsURL: URL? = nil
-
-        for _ in 0 ..< 10 {
-            let candidate = dirURL.appendingPathComponent("EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements")
-            if FileManager.default.fileExists(atPath: candidate.path) {
-                entitlementsURL = candidate
-                break
-            }
-            dirURL = dirURL.deletingLastPathComponent()
-        }
-
-        guard let url = entitlementsURL else {
-            XCTFail("Could not locate EasyKeyLoginHelper.entitlements")
-            return
-        }
+        // Anchor to source so DerivedData may live outside the checkout.
+        let projectRoot = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        let url = projectRoot.appendingPathComponent("EasyKeyLoginHelper/EasyKeyLoginHelper.entitlements")
 
         let data = try Data(contentsOf: url)
         let propertyList = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any]

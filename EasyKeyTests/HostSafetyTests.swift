@@ -70,7 +70,8 @@ final class HostSafetyTests: XCTestCase {
     }
 
     func testValidate_UnresolvableHost_IsRejected() {
-        XCTAssertFalse(validate("999.999.999.999"))
+        let unresolved = HostResolver { _ in [] }
+        XCTAssertFalse(HostSafety.validate(host: "unresolvable.example.com", resolver: unresolved))
     }
 
     func testValidate_EdgeOfPrivateRanges_AreAccepted() {
