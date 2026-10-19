@@ -10,24 +10,19 @@ report_path="${1:?Usage: check-shard-tests.sh <xcresult-path>}"
 
 [[ -e "$report_path" ]] || { print -u2 "Result bundle not found: $report_path"; exit 1; }
 
-count="$(xcrun xcresulttool get test-results tests \
-    --path "$report_path" --format json \
+count="$(xcrun xcresulttool get test-results summary \
+    --path "$report_path" \
     | python3 -c '
 import json
 import sys
 
 data = json.load(sys.stdin)
-count = 0
-
-def walk(nodes):
-    global count
-    for node in nodes:
-        if node.get("nodeType") == "Test Case":
-            count += 1
-        walk(node.get("children", []))
-
-walk(data.get("testNodes", []))
-print(count)
+# Skipped tests were discovered but never executed. Require known summary
+# fields so a schema change fails instead of silently reporting success.
+counts = [data[key] for key in ("passedTests", "failedTests", "expectedFailures")]
+if any(type(value) is not int or value < 0 for value in counts):
+    raise ValueError("Invalid test counts in xcresult summary")
+print(sum(counts))
 ')"
 
 if [[ "$count" -eq 0 ]]; then
