@@ -41,6 +41,12 @@ public enum AppCompatibility {
     public static let rules: [AppCompatibilityRule] = [
         .init(bundleIdentifier: "com.apple.Spotlight", workarounds: [.spotlightSelection]),
         .init(bundleIdentifier: "com.microsoft.VSCode", workarounds: [.alternateEmptyCharacter]),
+        // Safari and Terminal are native text systems: they insert precomposed
+        // text and delete one grapheme per backspace. They may be listed in
+        // compatibility mode, but Blink's workarounds (empty-character break,
+        // UTF-16 backspace counting) must never apply to them.
+        .init(bundleIdentifier: "com.apple.Safari", workarounds: []),
+        .init(bundleIdentifier: "com.apple.Terminal", workarounds: []),
     ]
 
     public static func rule(

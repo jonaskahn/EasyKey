@@ -4,6 +4,8 @@ public struct CompatibilityOptions: Codable, Equatable, Sendable {
     public static let defaultCompatibilityModeApplicationBundleIdentifiers = [
         "com.google.Chrome",
         "org.chromium.Chromium",
+        "com.apple.Safari",
+        "com.apple.Terminal",
     ]
 
     public var otherLanguageSupport: Bool

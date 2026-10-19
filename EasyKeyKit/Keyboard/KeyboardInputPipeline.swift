@@ -376,11 +376,10 @@ final class KeyboardInputPipeline {
     }
 
     private func isChromiumAddressBarContext() -> Bool {
-        guard let bundle = activeBundleIdentifier,
-              settings.compatibility.compatibilityModeApplicationBundleIdentifiers.contains(bundle)
-        else {
-            return false
-        }
+        // Only Blink-family rules opt into omnibox detection. Safari and
+        // Terminal are compatibility-mode apps too, but their address/search
+        // fields are native and must not run Chromium's autocomplete break.
+        guard currentCompatibilityRule()?.workarounds.contains(.chromium) == true else { return false }
         return chromiumResolver.resolve()
     }
 

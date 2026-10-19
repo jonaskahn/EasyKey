@@ -18,7 +18,7 @@ final class SettingsStoreTests: XCTestCase {
         XCTAssertEqual(settings.system.menuBarIconScale, .percent130)
         XCTAssertEqual(
             settings.compatibility.compatibilityModeApplicationBundleIdentifiers,
-            ["com.google.Chrome", "org.chromium.Chromium"]
+            ["com.google.Chrome", "org.chromium.Chromium", "com.apple.Safari", "com.apple.Terminal"]
         )
         XCTAssertTrue(settings.compatibility.ignoredApplicationBundleIdentifiers.isEmpty)
     }
