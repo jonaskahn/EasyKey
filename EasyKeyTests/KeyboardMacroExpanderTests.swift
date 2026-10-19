@@ -20,11 +20,21 @@ final class MacroExpanderCoverageTests: XCTestCase {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
         for character in "SIG" {
-            _ = expander.consume(character: character, keyCode: 0, modifiers: [.shift],
-                                 options: MacroOptions(enabled: true), language: .english)
+            _ = expander.consume(
+                character: character,
+                keyCode: 0,
+                modifiers: [.shift],
+                options: MacroOptions(enabled: true),
+                language: .english
+            )
         }
-        let result = expander.consume(character: " ", keyCode: 49, modifiers: [],
-                                      options: MacroOptions(enabled: true), language: .english)
+        let result = expander.consume(
+            character: " ",
+            keyCode: 49,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .english
+        )
         XCTAssertEqual(result?.text, "expanded")
     }
 
@@ -32,15 +42,35 @@ final class MacroExpanderCoverageTests: XCTestCase {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
         for character in "six" {
-            _ = expander.consume(character: character, keyCode: 0, modifiers: [],
-                                 options: MacroOptions(enabled: true), language: .english)
+            _ = expander.consume(
+                character: character,
+                keyCode: 0,
+                modifiers: [],
+                options: MacroOptions(enabled: true),
+                language: .english
+            )
         }
-        _ = expander.consume(character: "x", keyCode: 51, modifiers: [],
-                             options: MacroOptions(enabled: true), language: .english)
-        _ = expander.consume(character: "g", keyCode: 5, modifiers: [],
-                             options: MacroOptions(enabled: true), language: .english)
-        let result = expander.consume(character: " ", keyCode: 49, modifiers: [],
-                                      options: MacroOptions(enabled: true), language: .english)
+        _ = expander.consume(
+            character: "x",
+            keyCode: 51,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .english
+        )
+        _ = expander.consume(
+            character: "g",
+            keyCode: 5,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .english
+        )
+        let result = expander.consume(
+            character: " ",
+            keyCode: 49,
+            modifiers: [],
+            options: MacroOptions(enabled: true),
+            language: .english
+        )
         XCTAssertEqual(result?.text, "expanded")
     }
 

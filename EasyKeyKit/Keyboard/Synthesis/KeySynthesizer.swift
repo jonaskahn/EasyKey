@@ -296,8 +296,8 @@ public final class KeySynthesizer {
 
     private func post(_ events: [UnicodeEventPair], proxy: CGEventTapProxy, encodedUnits: [String]) {
         if AppLog.isKeyboardDebugEnabled {
-            let payloads = events.map { AppLog.hexDump($0.chunk) }.joined(separator: " | ")
-            AppLog.keyboardDebug("post unicode payloads=[\(payloads)]")
+            let payloads = events.map { String($0.chunk.utf16.count) }.joined(separator: " ")
+            AppLog.keyboardDebug("post unicode utf16Lengths=[\(payloads)]")
         }
         for event in events {
             let keyDown = event.keyDown
@@ -387,8 +387,7 @@ public final class KeySynthesizer {
 
     private func post(_ events: [(keyDown: CGEvent, keyUp: CGEvent)], proxy: CGEventTapProxy) {
         if AppLog.isKeyboardDebugEnabled {
-            let keyCodes = events.map { "\($0.keyDown.getIntegerValueField(.keyboardEventKeycode))" }.joined(separator: " ")
-            AppLog.keyboardDebug("post physical keyCodes=[\(keyCodes)]")
+            AppLog.keyboardDebug("post physical eventPairs=\(events.count)")
         }
         for event in events {
             eventPoster(event.keyDown, proxy)

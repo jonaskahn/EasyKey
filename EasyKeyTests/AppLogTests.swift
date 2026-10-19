@@ -54,11 +54,7 @@ extension AppLogTests {
     }
 
     func testKeyboardDebug_IsNoOpWhenDisabled() {
-        // isKeyboardDebugEnabled is a let bound to ProcessInfo/UserDefaults
-        // at static load; the production test environment does not set
-        // EASYKEY_KEYBOARD_DEBUG, so the default-off path runs here. The
-        // call must not throw, must not crash, and must not produce a
-        // message observable to this test.
+        // Calling the diagnostic helper must not change its preference.
         let previous = AppLog.isKeyboardDebugEnabled
         AppLog.keyboardDebug("test probe message")
         XCTAssertEqual(AppLog.isKeyboardDebugEnabled, previous)

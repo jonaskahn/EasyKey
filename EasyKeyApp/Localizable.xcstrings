@@ -2427,6 +2427,70 @@
         }
       }
     },
+    "system.diagnostics" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chẩn đoán"
+          }
+        }
+      }
+    },
+    "system.verboseKeyboardLogs" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbose keyboard logs"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhật ký bàn phím chi tiết"
+          }
+        }
+      }
+    },
+    "system.verboseKeyboardLogs.description" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record macro decisions, reset reasons, app context and event counts locally. Typed text and macro contents are excluded. Changes apply immediately."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ghi cục bộ quyết định macro, lý do đặt lại, ứng dụng và số lượng sự kiện. Không ghi nội dung đã gõ hoặc macro. Áp dụng ngay."
+          }
+        }
+      }
+    },
+    "system.exportLogs" : {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export recent logs"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xuất nhật ký gần đây"
+          }
+        }
+      }
+    },
     "system.health": {
       "comment": "Section",
       "localizations": {

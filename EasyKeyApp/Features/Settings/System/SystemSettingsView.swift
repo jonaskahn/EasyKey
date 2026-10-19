@@ -7,6 +7,7 @@ struct SystemSettingsView: View {
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject private var localization = LocalizationStore.shared
     @State private var confirmReset = false
+    @AppStorage("EASYKEY_KEYBOARD_DEBUG") private var verboseKeyboardLogs = false
 
     var body: some View {
         Form {
@@ -68,6 +69,16 @@ struct SystemSettingsView: View {
                 InterfaceLanguagePicker()
             } header: {
                 Text(localization.string(.aboutInterface))
+            }
+
+            Section(localization.string(.systemDiagnostics)) {
+                Toggle(localization.string(.systemVerboseKeyboardLogs), isOn: $verboseKeyboardLogs)
+                    .toggleStyle(.switch)
+                Text(localization.string(.systemVerboseKeyboardLogsDescription))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Button(localization.string(.systemExportLogs)) { coordinator.showLogs() }
+                    .buttonStyle(.bordered)
             }
 
             Section {

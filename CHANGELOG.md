@@ -8,6 +8,13 @@ Notable changes to EasyKey. Format follows Keep a Changelog; versioning follows 
 
 **Fixed**
 
+- Macro expansion deletes the rendered trigger rather than its raw Telex key count, accepts Shift, handles backspace, and clears stale triggers after navigation or app changes.
+- Safari and Terminal have native compatibility rules and appear in the default compatibility list.
+
+**Added**
+
+- System settings include live verbose keyboard diagnostics and log export. Diagnostics record decisions and counts without typed text; exports retain the newest entries.
+
 - `Huaan`, `tuaanf`, `thuaatj`, `Huees`, `thuees`, `hoawcj`, `xoawn`, and `ngoawnf` no longer revert to raw keys at a word boundary.
 - `Onw`, `onw`, `anw`, and `Anw` now become `Ơn`, `ơn`, `ăn`, and `Ăn`.
 - Vietnamese composition now emits only the changed suffix instead of replacing the whole word on every keystroke, which removes the visible flash.

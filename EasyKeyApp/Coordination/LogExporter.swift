@@ -81,6 +81,8 @@ enum LogExporter {
             "lookbackSeconds=\(Int(lookbackInterval))",
             "---",
         ]
+        lines.append("verboseKeyboardLogs=\(AppLog.isKeyboardDebugEnabled)")
+        var recentLines: [String] = []
         var count = 0
         for entry in entries {
             guard let logEntry = entry as? OSLogEntryLog else { continue }
@@ -89,12 +91,13 @@ enum LogExporter {
 
             let timestamp = ISO8601DateFormatter().string(from: logEntry.date)
             let sanitizedMessage = redact(logEntry.composedMessage)
-            lines.append("[\(timestamp)] [\(logEntry.category)] \(sanitizedMessage)")
+            recentLines.append("[\(timestamp)] [\(logEntry.category)] \(sanitizedMessage)")
             count += 1
-            if count >= maxEntries {
-                break
+            if recentLines.count > maxEntries {
+                recentLines.removeFirst()
             }
         }
+        lines.append(contentsOf: recentLines)
         if count == 0 {
             lines.append("(no log entries in lookback window)")
         }
