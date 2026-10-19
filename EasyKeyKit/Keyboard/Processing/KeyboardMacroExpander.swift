@@ -3,7 +3,10 @@ import Foundation
 
 struct MacroExpansion {
     let trigger: String
-    var triggerLength: Int { trigger.count }
+    var triggerLength: Int {
+        trigger.count
+    }
+
     let text: String
 }
 
@@ -46,7 +49,9 @@ struct MacroExpander {
         }
 
         if keyCode == KeyboardKeyCode.backspace {
-            if !trigger.isEmpty { trigger.removeLast() }
+            if !trigger.isEmpty {
+                trigger.removeLast()
+            }
             return nil
         }
 

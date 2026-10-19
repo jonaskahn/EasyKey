@@ -208,7 +208,8 @@ final class KeyboardInputPipeline {
     }
 
     private func processMacro(proxy: CGEventTapProxy, keyCode: UInt16, event: CGEvent) -> KeyboardProcessResult? {
-        switch Self.normalize(event: event, keyCode: keyCode).kind {
+        let kind = Self.normalize(event: event, keyCode: keyCode).kind
+        switch kind {
         case .character, .space, .return, .tab, .backspace:
             break
         default:
@@ -229,15 +230,21 @@ final class KeyboardInputPipeline {
         let rawSuffix = engine.state.rawText
         var triggerUnits = expansion.trigger.map(String.init)
         if !rawSuffix.isEmpty, expansion.trigger.hasSuffix(rawSuffix) {
-            triggerUnits = expansion.trigger.dropLast(rawSuffix.count).map(String.init)
-                + (engine.displaysRawKeystrokes ? rawSuffix.map(String.init) : engine.renderedUnits)
+            let prefix = expansion.trigger.dropLast(rawSuffix.count)
+            let rendered = engine.displaysRawKeystrokes
+                ? rawSuffix.map(String.init)
+                : engine.renderedUnits
+            triggerUnits = prefix.map(String.init) + rendered
         }
         if engine.configuration.outputEncoding.isUnicodeTypingOutput {
             triggerUnits = triggerUnits.map { $0.precomposedStringWithCanonicalMapping }
         }
         synthesizer.resetEncodedUnits()
         synthesizer.trackEncodedUnits(triggerUnits)
-        AppLog.keyboardDebug("macro matched rawCount=\(expansion.triggerLength) renderedUnits=\(triggerUnits.count) expansionLength=\(expansion.text.count)")
+        let debugMessage = "macro matched rawCount=" + String(expansion.triggerLength)
+            + " renderedUnits=" + String(triggerUnits.count)
+            + " expansionLength=" + String(expansion.text.count)
+        AppLog.keyboardDebug(debugMessage)
         engine.reset()
         let rule = currentCompatibilityRule()
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
@@ -449,13 +456,15 @@ final class KeyboardInputPipeline {
 
 private extension KeyboardInputPipeline {
     /// Logs routing and lengths without recording typed text.
-    func logKeyDownDebug(keyCode: UInt16, event: CGEvent, rule: AppCompatibilityRule?) {
+    func logKeyDownDebug(keyCode _: UInt16, event _: CGEvent, rule: AppCompatibilityRule?) {
         guard AppLog.isKeyboardDebugEnabled else { return }
-        AppLog.keyboardDebug(
-            "input app=\(activeBundleIdentifier ?? "nil") rule=\(rule?.bundleIdentifier ?? "nil") "
-                + "language=\(settings.input.language) method=\(settings.input.inputMethod) "
-                + "rawCount=\(engine.state.rawKeys.count) renderedLength=\(engine.currentBuffer.count)"
-        )
+        let message = "input app=" + (activeBundleIdentifier ?? "nil")
+            + " rule=" + (rule?.bundleIdentifier ?? "nil")
+            + " language=" + String(describing: settings.input.language)
+            + " method=" + String(describing: settings.input.inputMethod)
+            + " rawCount=" + String(engine.state.rawKeys.count)
+            + " renderedLength=" + String(engine.currentBuffer.count)
+        AppLog.keyboardDebug(message)
     }
 
     func processFlagsChanged(proxy: CGEventTapProxy, event: CGEvent, keyCode: UInt16?) -> KeyboardProcessResult {
