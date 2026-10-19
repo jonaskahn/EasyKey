@@ -267,7 +267,19 @@ final class KeyboardInputPipeline {
             case let .insert(text):
                 guard applyInsert(proxy: proxy, text: text) else { return false }
             case let .replaceBackward(deleteCount, insert):
-                let replacementUnits = composedEncodedUnits ?? insert.map(String.init)
+                let replacementUnits: [String]
+                if engine.displaysRawKeystrokes {
+                    replacementUnits = insert.map(String.init)
+                } else if let units = composedEncodedUnits {
+                    let suffixCount = insert.count
+                    if suffixCount > 0 && suffixCount <= units.count {
+                        replacementUnits = Array(units.suffix(suffixCount))
+                    } else {
+                        replacementUnits = insert.map(String.init)
+                    }
+                } else {
+                    replacementUnits = insert.map(String.init)
+                }
                 let strategy = applyReplaceBackward(
                     proxy: proxy,
                     deleteCount: deleteCount,
@@ -291,7 +303,8 @@ final class KeyboardInputPipeline {
         // swallowed while typing).
         let commitsPhysicalKey = output.edits.contains(.insert("\n"))
             || output.edits.contains(.insert("\t"))
-        if !commitsPhysicalKey, !inChromiumAddressBar {
+        let commitsWordBoundary = output.sessionEffect == .resetSession
+        if commitsWordBoundary, !commitsPhysicalKey, !inChromiumAddressBar {
             if rule?.workarounds.contains(.emptyCharacterInsertion) == true {
                 guard synthesizer.postEmptyCharacterBreak(proxy: proxy, "\u{200B}") else { return false }
             } else if rule?.workarounds.contains(.alternateEmptyCharacter) == true {
