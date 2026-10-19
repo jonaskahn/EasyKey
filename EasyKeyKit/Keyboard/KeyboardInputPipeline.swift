@@ -405,7 +405,13 @@ final class KeyboardInputPipeline {
         // Only Blink-family rules opt into omnibox detection. Safari and
         // Terminal are compatibility-mode apps too, but their address/search
         // fields are native and must not run Chromium's autocomplete break.
-        guard currentCompatibilityRule()?.workarounds.contains(.chromium) == true else { return false }
+        // Derive the rule from the active bundle so Spotlight visibility
+        // cannot change the answer.
+        guard let rule = AppCompatibility.rule(
+            for: activeBundleIdentifier,
+            compatibilityModeApplicationBundleIdentifiers: settings.compatibility.compatibilityModeApplicationBundleIdentifiers
+        ), rule.workarounds.contains(.chromium)
+        else { return false }
         return chromiumResolver.resolve()
     }
 
