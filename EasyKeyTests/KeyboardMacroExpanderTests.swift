@@ -16,6 +16,34 @@ final class MacroExpanderCoverageTests: XCTestCase {
         XCTAssertNil(result)
     }
 
+    func testShiftedCharactersMatchCaseInsensitiveTrigger() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
+        for character in "SIG" {
+            _ = expander.consume(character: character, keyCode: 0, modifiers: [.shift],
+                                 options: MacroOptions(enabled: true), language: .english)
+        }
+        let result = expander.consume(character: " ", keyCode: 49, modifiers: [],
+                                      options: MacroOptions(enabled: true), language: .english)
+        XCTAssertEqual(result?.text, "expanded")
+    }
+
+    func testBackspaceEditsTriggerBeforeMatching() {
+        var expander = MacroExpander()
+        expander.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
+        for character in "six" {
+            _ = expander.consume(character: character, keyCode: 0, modifiers: [],
+                                 options: MacroOptions(enabled: true), language: .english)
+        }
+        _ = expander.consume(character: "x", keyCode: 51, modifiers: [],
+                             options: MacroOptions(enabled: true), language: .english)
+        _ = expander.consume(character: "g", keyCode: 5, modifiers: [],
+                             options: MacroOptions(enabled: true), language: .english)
+        let result = expander.consume(character: " ", keyCode: 49, modifiers: [],
+                                      options: MacroOptions(enabled: true), language: .english)
+        XCTAssertEqual(result?.text, "expanded")
+    }
+
     func testWhitespaceCharacter_ResetsTrigger() {
         var expander = MacroExpander()
         expander.update(macros: [Macro(trigger: "btw", expansion: "by the way")])
@@ -30,7 +58,7 @@ final class MacroExpanderCoverageTests: XCTestCase {
         XCTAssertNil(result)
     }
 
-    func testTriggerExceedsMaxLength_Trims() {
+    func testTriggerExceedsMaxLength_DoesNotMatchSuffix() {
         var expander = MacroExpander()
         let longTrigger = String(repeating: "x", count: MacroStore.maximumTriggerLength + 10)
         expander.update(macros: [Macro(trigger: longTrigger, expansion: "test")])

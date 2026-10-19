@@ -70,6 +70,65 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
         XCTAssertEqual(result.disposition, .suppressed)
     }
 
+    func testProcess_MacroDeletesRenderedTelexTriggerOnly() {
+        var settings = EasyKeySettings.defaults
+        settings.macro.enabled = true
+        settings.typing.liveConfidenceScoring = false
+        var posted: [CGEvent] = []
+        let pipeline = KeyboardInputPipeline(
+            settings: settings,
+            spotlightVisibilityProvider: { false },
+            eventPoster: { event, _ in posted.append(event) }
+        )
+        pipeline.update(macros: [Macro(trigger: "aas", expansion: "expanded")])
+        for (character, keyCode) in [("a", UInt16(0)), ("a", 0), ("s", 1)] {
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                 event: keyEvent(character: character, keyCode: keyCode), keyCode: keyCode)
+        }
+        XCTAssertEqual(pipeline.composedTextForTesting, "ấ")
+        posted.removeAll()
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                      event: keyEvent(character: " ", keyCode: 49), keyCode: 49)
+        XCTAssertTrue(result.suppressesOriginal)
+        XCTAssertEqual(posted.filter {
+            $0.type == .keyDown && $0.getIntegerValueField(.keyboardEventKeycode) == 51
+        }.count, 1)
+        XCTAssertEqual(pipeline.encodedUnitCountForTesting, 0)
+        XCTAssertFalse(pipeline.isComposing)
+    }
+
+    func testProcess_ShiftedMacroExpandsInEnglish() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.macro.enabled = true
+        let pipeline = KeyboardInputPipeline(settings: settings, spotlightVisibilityProvider: { false }, eventPoster: { _, _ in })
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
+        for character in "SIG" {
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                 event: keyEvent(character: String(character), keyCode: 0, flags: .maskShift), keyCode: 0)
+        }
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                      event: keyEvent(character: " ", keyCode: 49), keyCode: 49)
+        XCTAssertTrue(result.suppressesOriginal)
+    }
+
+    func testProcess_NavigationClearsEnglishMacroTrigger() {
+        var settings = EasyKeySettings.defaults
+        settings.input.language = .english
+        settings.macro.enabled = true
+        let pipeline = KeyboardInputPipeline(settings: settings, spotlightVisibilityProvider: { false }, eventPoster: { _, _ in })
+        pipeline.update(macros: [Macro(trigger: "sig", expansion: "expanded")])
+        for character in "sig" {
+            _ = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                 event: keyEvent(character: String(character), keyCode: 0), keyCode: 0)
+        }
+        _ = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                             event: keyEvent(character: "", keyCode: 123), keyCode: 123)
+        let result = pipeline.process(proxy: fakeProxy(), type: .keyDown,
+                                      event: keyEvent(character: " ", keyCode: 49), keyCode: 49)
+        XCTAssertFalse(result.suppressesOriginal)
+    }
+
     func testProcess_VietnameseCategoryMacroDoesNotExpandInEnglish() {
         var settings = EasyKeySettings.defaults
         settings.input.language = .english
@@ -694,7 +753,7 @@ final class KeyboardInputPipelineProcessTests: XCTestCase {
 
     func testProcess_TypingTwoWordsInSafari_PreservesSpaceWithGraphemeDeletion() {
         // Safari is a native field: one backspace deletes one grapheme
-        // cluster, and with no Safari rule the pipeline keeps grapheme
+        // cluster, and Safari's fixed compatibility rule keeps grapheme
         // counting.
         let posted = postedForTwoWords(bundleIdentifier: "com.apple.Safari")
         let visible = replayedField(from: posted, deleteUnit: .grapheme)

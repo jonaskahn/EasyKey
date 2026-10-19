@@ -42,10 +42,10 @@ final class KeyboardInputPipeline {
     }
 
     func update(settings: EasyKeySettings) {
+        self.settings = settings
         let rule = currentCompatibilityRule()
         let oldConfig = engine.configuration
         let newConfig = Self.engineConfiguration(for: settings, rule: rule)
-        self.settings = settings
         if oldConfig != newConfig {
             engine.configuration = newConfig
             resetSession()
@@ -74,6 +74,7 @@ final class KeyboardInputPipeline {
     }
 
     func setActiveApplication(_ bundleIdentifier: String?) {
+        AppLog.keyboardDebug("context app=\(bundleIdentifier ?? "nil") composing=\(isComposing)")
         activeBundleIdentifier = bundleIdentifier
         invalidateAddressBarCache()
         invalidateSpotlightCache()
@@ -136,6 +137,7 @@ final class KeyboardInputPipeline {
         if Self.isMouseEvent(type) {
             invalidateAddressBarCache()
             invalidateSpotlightCache()
+            macroExpander.reset(reason: "mouse")
             resetComposition()
             return .passed
         }
@@ -156,9 +158,20 @@ final class KeyboardInputPipeline {
         }
 
         if settings.typing.ignoreFunctionKeys, KeyboardKeyCode.isFunctionKey(keyCode) {
-            engine.reset()
-            synthesizer.resetEncodedUnits()
+            resetSession()
             return .bypassed
+        }
+
+        // Spotlight is an agent overlay: opening it fires no activation event,
+        // so the previous app's compatibility rule would otherwise leak into
+        // Spotlight (zero-width-space breaks, autocomplete breaks). Re-derive
+        // the effective rule per event and rebuild the engine configuration
+        // when the context flips.
+        let effectiveRule = currentCompatibilityRule()
+        if effectiveRule != lastAppliedRule {
+            engine.configuration = Self.engineConfiguration(for: settings, rule: effectiveRule)
+            lastAppliedRule = effectiveRule
+            resetSession()
         }
 
         if let macroResult = processMacro(proxy: proxy, keyCode: keyCode, event: event) {
@@ -174,18 +187,6 @@ final class KeyboardInputPipeline {
             engine.reset()
             synthesizer.resetEncodedUnits()
             return .bypassed
-        }
-
-        // Spotlight is an agent overlay: opening it fires no activation event,
-        // so the previous app's compatibility rule would otherwise leak into
-        // Spotlight (zero-width-space breaks, autocomplete breaks). Re-derive
-        // the effective rule per event and rebuild the engine configuration
-        // when the context flips.
-        let effectiveRule = currentCompatibilityRule()
-        if effectiveRule != lastAppliedRule {
-            engine.configuration = Self.engineConfiguration(for: settings, rule: effectiveRule)
-            lastAppliedRule = effectiveRule
-            resetSession()
         }
 
         logKeyDownDebug(keyCode: keyCode, event: event, rule: effectiveRule)
@@ -207,7 +208,14 @@ final class KeyboardInputPipeline {
     }
 
     private func processMacro(proxy: CGEventTapProxy, keyCode: UInt16, event: CGEvent) -> KeyboardProcessResult? {
-        guard let character = Self.character(from: event),
+        switch Self.normalize(event: event, keyCode: keyCode).kind {
+        case .character, .space, .return, .tab, .backspace:
+            break
+        default:
+            macroExpander.reset(reason: "navigation-or-control")
+            return nil
+        }
+        guard let character = Self.character(from: event) ?? (keyCode == KeyboardKeyCode.backspace ? Character("\u{8}") : nil),
               let expansion = macroExpander.consume(
                   character: character,
                   keyCode: keyCode,
@@ -216,6 +224,20 @@ final class KeyboardInputPipeline {
                   language: settings.input.language
               )
         else { return nil }
+        // Telex modifier keys can collapse several raw keys into one visible
+        // character. Delete the rendered suffix plus any literal prefix.
+        let rawSuffix = engine.state.rawText
+        var triggerUnits = expansion.trigger.map(String.init)
+        if !rawSuffix.isEmpty, expansion.trigger.hasSuffix(rawSuffix) {
+            triggerUnits = expansion.trigger.dropLast(rawSuffix.count).map(String.init)
+                + (engine.displaysRawKeystrokes ? rawSuffix.map(String.init) : engine.renderedUnits)
+        }
+        if engine.configuration.outputEncoding.isUnicodeTypingOutput {
+            triggerUnits = triggerUnits.map { $0.precomposedStringWithCanonicalMapping }
+        }
+        synthesizer.resetEncodedUnits()
+        synthesizer.trackEncodedUnits(triggerUnits)
+        AppLog.keyboardDebug("macro matched rawCount=\(expansion.triggerLength) renderedUnits=\(triggerUnits.count) expansionLength=\(expansion.text.count)")
         engine.reset()
         let rule = currentCompatibilityRule()
         let isSpotlight = rule?.workarounds.contains(.spotlightSelection) == true || isSpotlightContext()
@@ -226,7 +248,7 @@ final class KeyboardInputPipeline {
         synthesizer.normalizesUnicodeOutput = engine.configuration.outputEncoding.isUnicodeTypingOutput
         guard synthesizer.postMacroExpansion(
             proxy: proxy,
-            backspaceCount: expansion.triggerLength,
+            backspaceCount: triggerUnits.count,
             text: expansion.text,
             physicalKeyCode: keyCode,
             useSelectionReplacement: isSpotlight,
@@ -236,6 +258,8 @@ final class KeyboardInputPipeline {
             resetSession()
             return .passed
         }
+        resetSession()
+        AppLog.keyboardDebug("macro posted delimiter=\(keyCode)")
         return KeyboardProcessResult(suppressesOriginal: true, outputCount: 2, disposition: .suppressed)
     }
 
@@ -313,11 +337,6 @@ final class KeyboardInputPipeline {
         }
         if output.sessionEffect == .resetSession {
             resetSession()
-        }
-        if AppLog.isKeyboardDebugEnabled {
-            AppLog.keyboardDebug(
-                "field after batch=\(AppLog.hexDump(FocusedElementInspector.focusedElementValue() ?? ""))"
-            )
         }
         return true
     }
@@ -429,16 +448,13 @@ final class KeyboardInputPipeline {
 }
 
 private extension KeyboardInputPipeline {
-    /// Gated per-keystroke debug log for reproducing Chromium field
-    /// divergence: detection state, effective rule, backspace unit, and the
-    /// engine buffer (hex-dumped so raw keystroke content is not logged).
+    /// Logs routing and lengths without recording typed text.
     func logKeyDownDebug(keyCode: UInt16, event: CGEvent, rule: AppCompatibilityRule?) {
         guard AppLog.isKeyboardDebugEnabled else { return }
         AppLog.keyboardDebug(
-            "keyDown keyCode=\(keyCode) char=\(AppLog.hexDump(Self.character(from: event).map(String.init) ?? "")) "
-                + "app=\(activeBundleIdentifier ?? "nil") omnibox=\(isChromiumAddressBarContext()) "
-                + "spotlight=\(isSpotlightContext()) rule=\(rule?.bundleIdentifier ?? "nil") "
-                + "unit=\(synthesizer.backspaceUnit.rawValue) buffer=\(AppLog.hexDump(engine.currentBuffer))"
+            "input app=\(activeBundleIdentifier ?? "nil") rule=\(rule?.bundleIdentifier ?? "nil") "
+                + "language=\(settings.input.language) method=\(settings.input.inputMethod) "
+                + "rawCount=\(engine.state.rawKeys.count) renderedLength=\(engine.currentBuffer.count)"
         )
     }
 
@@ -454,6 +470,9 @@ private extension KeyboardInputPipeline {
         }
         invalidateSpotlightCache()
         if !Self.isShiftFlagsChange(keyCode: keyCode, modifiers: Self.modifiers(from: event)) {
+            if !Self.modifiers(from: event).isEmpty {
+                macroExpander.reset(reason: "modifier-shortcut")
+            }
             resetCompositionPreservingMacroTrigger()
         }
         return .passed
